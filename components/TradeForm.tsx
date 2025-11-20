@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
-import { Loader2, ArrowUpRight, ArrowDownRight } from "lucide-react"
+import { Loader2, ArrowUpRight, ArrowDownRight, Zap } from "lucide-react"
 
 import { useTrading } from "@/context/TradingContext"
 import { placeOrder } from "@/lib/hyperliquid"
@@ -133,22 +133,25 @@ export function TradeForm() {
     }
 
     return (
-        <Card className="bg-slate-900 border-slate-800 h-full">
+        <Card className="bg-gradient-to-br from-slate-900 to-slate-800 border-slate-700 h-full hover-lift">
             <CardHeader>
-                <CardTitle className="text-lg font-bold text-blue-400">Manual Execution</CardTitle>
+                <CardTitle className="text-lg font-bold text-blue-400 flex items-center gap-2">
+                    <Zap className="h-5 w-5" />
+                    Manual Execution
+                </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                     <Button
                         variant={formData.isBuy ? "default" : "outline"}
-                        className={formData.isBuy ? "bg-green-600 hover:bg-green-700" : "border-slate-700 text-slate-400"}
+                        className={`transition-all ${formData.isBuy ? 'bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 shadow-lg shadow-green-500/20' : 'border-slate-700 text-slate-400 hover:bg-slate-800'}`}
                         onClick={() => setFormData({ ...formData, isBuy: true })}
                     >
                         <ArrowUpRight className="mr-2 h-4 w-4" /> Long
                     </Button>
                     <Button
                         variant={!formData.isBuy ? "default" : "outline"}
-                        className={!formData.isBuy ? "bg-red-600 hover:bg-red-700" : "border-slate-700 text-slate-400"}
+                        className={`transition-all ${!formData.isBuy ? 'bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 shadow-lg shadow-red-500/20' : 'border-slate-700 text-slate-400 hover:bg-slate-800'}`}
                         onClick={() => setFormData({ ...formData, isBuy: false })}
                     >
                         <ArrowDownRight className="mr-2 h-4 w-4" /> Short
@@ -172,7 +175,7 @@ export function TradeForm() {
                     <Input
                         id="price"
                         type="number"
-                        className="bg-slate-950 border-slate-800 text-slate-200"
+                        className="bg-slate-950 border-slate-700 text-slate-200 focus:border-blue-500 transition-colors"
                         value={formData.price}
                         onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
                     />
@@ -192,7 +195,7 @@ export function TradeForm() {
                             id="size"
                             type="number"
                             step="0.001"
-                            className="bg-slate-950 border-slate-800 text-slate-200"
+                            className="bg-slate-950 border-slate-700 text-slate-200 focus:border-blue-500 transition-colors"
                             value={formData.size}
                             onChange={(e) => setFormData({ ...formData, size: parseFloat(e.target.value) })}
                         />
@@ -203,7 +206,7 @@ export function TradeForm() {
                             id="leverage"
                             type="number"
                             max="20"
-                            className="bg-slate-950 border-slate-800 text-slate-200"
+                            className="bg-slate-950 border-slate-700 text-slate-200 focus:border-blue-500 transition-colors"
                             value={formData.leverage}
                             onChange={(e) => setFormData({ ...formData, leverage: parseInt(e.target.value) })}
                         />
@@ -219,8 +222,13 @@ export function TradeForm() {
                         Switch to {isTestnet ? "Arbitrum Sepolia" : "Arbitrum One"}
                     </Button>
                 ) : (
-                    <Button className="w-full bg-blue-600 hover:bg-blue-700" onClick={executeTrade} disabled={loading}>
+                    <Button
+                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg shadow-blue-500/20 transition-all"
+                        onClick={executeTrade}
+                        disabled={loading}
+                    >
                         {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                        <Zap className="mr-2 h-4 w-4" />
                         Execute Order
                     </Button>
                 )}

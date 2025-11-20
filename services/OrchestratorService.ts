@@ -31,13 +31,21 @@ export class OrchestratorService {
         // For this demo, we'll expose a method to trigger analysis manually or via cron
     }
 
-    public async analyzeMarket(snapshot: MarketSnapshot): Promise<TradeDecision> {
+    public async analyzeMarket(snapshot: MarketSnapshot & { sentiment?: number, orderbookPressure?: string }): Promise<TradeDecision> {
         try {
+            const sentimentContext = snapshot.sentiment !== undefined
+                ? `\nMarket Sentiment: ${snapshot.sentiment.toFixed(4)} (${snapshot.sentiment > 0.05 ? 'Bullish' : snapshot.sentiment < -0.05 ? 'Bearish' : 'Neutral'})`
+                : '';
+
+            const orderbookContext = snapshot.orderbookPressure
+                ? `\nOrderbook Pressure: ${snapshot.orderbookPressure}`
+                : '';
+
             const prompt = `
-        You are a crypto scalping bot. Analyze the following order book pressure for ${snapshot.coin}.
+        You are a crypto scalping bot. Analyze the following market data for ${snapshot.coin}.
         Current Price: ${snapshot.mid}
         Top 5 Bids: ${JSON.stringify(snapshot.bids.slice(0, 5))}
-        Top 5 Asks: ${JSON.stringify(snapshot.asks.slice(0, 5))}
+        Top 5 Asks: ${JSON.stringify(snapshot.asks.slice(0, 5))}${sentimentContext}${orderbookContext}
         
         Decide LONG, SHORT, or HOLD. 
         Provide confidence score (0-100) and brief reasoning.
