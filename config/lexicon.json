@@ -1,38 +1,199 @@
 {
   "positive": [
-    { "term": "bullish", "weight": 1.0 },
-    { "term": "undervalued", "weight": 0.8 },
-    { "term": "strong", "weight": 0.6 },
-    { "term": "moon", "weight": 0.9 },
-    { "term": "pump", "weight": 0.7 },
-    { "term": "breakout", "weight": 0.8 },
-    { "term": "rally", "weight": 0.7 },
-    { "term": "surge", "weight": 0.7 },
-    { "term": "support", "weight": 0.4 },
-    { "term": "uptrend", "weight": 0.6 }
+    {
+      "term": "bullish",
+      "weight": 1.0
+    },
+    {
+      "term": "undervalued",
+      "weight": 0.8
+    },
+    {
+      "term": "strong",
+      "weight": 0.6
+    },
+    {
+      "term": "moon",
+      "weight": 0.9
+    },
+    {
+      "term": "pump",
+      "weight": 0.7
+    },
+    {
+      "term": "breakout",
+      "weight": 0.8
+    },
+    {
+      "term": "rally",
+      "weight": 0.7
+    },
+    {
+      "term": "rallies",
+      "weight": 0.7
+    },
+    {
+      "term": "surge",
+      "weight": 0.7
+    },
+    {
+      "term": "surges",
+      "weight": 0.7
+    },
+    {
+      "term": "skyrocket",
+      "weight": 0.9
+    },
+    {
+      "term": "skyrockets",
+      "weight": 0.9
+    },
+    {
+      "term": "rebound",
+      "weight": 0.6
+    },
+    {
+      "term": "rebounds",
+      "weight": 0.6
+    },
+    {
+      "term": "soar",
+      "weight": 0.7
+    },
+    {
+      "term": "soars",
+      "weight": 0.7
+    },
+    {
+      "term": "support",
+      "weight": 0.4
+    },
+    {
+      "term": "uptrend",
+      "weight": 0.6
+    }
   ],
   "negative": [
-    { "term": "bearish", "weight": -1.0 },
-    { "term": "overvalued", "weight": -0.8 },
-    { "term": "weak", "weight": -0.6 },
-    { "term": "dump", "weight": -0.9 },
-    { "term": "crash", "weight": -1.0 },
-    { "term": "rug", "weight": -1.0 },
-    { "term": "scam", "weight": -0.9 },
-    { "term": "lawsuit", "weight": -0.7 },
-    { "term": "ban", "weight": -0.7 },
-    { "term": "outage", "weight": -0.6 },
-    { "term": "halt", "weight": -0.6 }
+    {
+      "term": "bearish",
+      "weight": -1.0
+    },
+    {
+      "term": "overvalued",
+      "weight": -0.8
+    },
+    {
+      "term": "weak",
+      "weight": -0.6
+    },
+    {
+      "term": "dump",
+      "weight": -0.9
+    },
+    {
+      "term": "crash",
+      "weight": -1.0
+    },
+    {
+      "term": "rug",
+      "weight": -1.0
+    },
+    {
+      "term": "scam",
+      "weight": -0.9
+    },
+    {
+      "term": "lawsuit",
+      "weight": -0.7
+    },
+    {
+      "term": "ban",
+      "weight": -0.7
+    },
+    {
+      "term": "outage",
+      "weight": -0.6
+    },
+    {
+      "term": "halt",
+      "weight": -0.6
+    },
+    {
+      "term": "plunge",
+      "weight": -0.8
+    },
+    {
+      "term": "plunges",
+      "weight": -0.8
+    },
+    {
+      "term": "dive",
+      "weight": -0.6
+    },
+    {
+      "term": "dives",
+      "weight": -0.6
+    },
+    {
+      "term": "slump",
+      "weight": -0.6
+    },
+    {
+      "term": "slumps",
+      "weight": -0.6
+    },
+    {
+      "term": "bleed",
+      "weight": -0.7
+    },
+    {
+      "term": "bleeds",
+      "weight": -0.7
+    },
+    {
+      "term": "outflows",
+      "weight": -0.6
+    },
+    {
+      "term": "liquidations",
+      "weight": -0.7
+    },
+    {
+      "term": "falls",
+      "weight": -0.5
+    }
   ],
   "boost_phrases": [
-    { "phrase": "to the moon", "weight": 1.0 },
-    { "phrase": "massive rally", "weight": 0.9 },
-    { "phrase": "price discovery", "weight": 0.8 }
+    {
+      "phrase": "to the moon",
+      "weight": 1.0
+    },
+    {
+      "phrase": "massive rally",
+      "weight": 0.9
+    },
+    {
+      "phrase": "price discovery",
+      "weight": 0.8
+    }
   ],
   "dampen_phrases": [
-    { "phrase": "going to zero", "weight": -1.0 },
-    { "phrase": "rug pull", "weight": -1.0 },
-    { "phrase": "sell the news", "weight": -0.6 }
+    {
+      "phrase": "going to zero",
+      "weight": -1.0
+    },
+    {
+      "phrase": "rug pull",
+      "weight": -1.0
+    },
+    {
+      "phrase": "sell the news",
+      "weight": -0.6
+    },
+    {
+      "phrase": "sell-off",
+      "weight": -0.8
+    }
   ],
   "normalizer": 3.0
 }

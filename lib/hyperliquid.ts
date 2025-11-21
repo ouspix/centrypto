@@ -286,7 +286,7 @@ export async function getMetaAndAssetCtxs(isTestnet: boolean = false): Promise<M
     }
 }
 
-export async function getOHLCV(coin: string, interval: string, isTestnet: boolean = false) {
+export async function getOHLCV(coin: string, interval: string, isTestnet: boolean = false, startTime?: number) {
     const apiUrl = isTestnet
         ? "https://api.hyperliquid-testnet.xyz/info"
         : "https://api.hyperliquid.xyz/info";
@@ -294,6 +294,8 @@ export async function getOHLCV(coin: string, interval: string, isTestnet: boolea
     try {
         // Get candles for the last 24 hours (approx) to calculate returns
         // Hyperliquid candleSnapshot returns the last N candles
+        const start = startTime || (Date.now() - (1000 * 60 * 60 * 24));
+
         const res = await fetch(apiUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -302,7 +304,7 @@ export async function getOHLCV(coin: string, interval: string, isTestnet: boolea
                 req: {
                     coin: coin,
                     interval: interval,
-                    startTime: Date.now() - (1000 * 60 * 60 * 24)
+                    startTime: start
                 }
             }),
         });
@@ -315,5 +317,31 @@ export async function getOHLCV(coin: string, interval: string, isTestnet: boolea
     } catch (error) {
         console.error("Error fetching OHLCV:", error);
         return [];
+    }
+}
+
+export async function getL2Book(coin: string, isTestnet: boolean = false) {
+    const apiUrl = isTestnet
+        ? "https://api.hyperliquid-testnet.xyz/info"
+        : "https://api.hyperliquid.xyz/info";
+
+    try {
+        const res = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                type: "l2Book",
+                coin: coin
+            }),
+        });
+
+        if (!res.ok) {
+            throw new Error(`Failed to fetch L2 Book: ${res.statusText}`);
+        }
+
+        return await res.json();
+    } catch (error) {
+        console.error("Error fetching L2 Book:", error);
+        return null;
     }
 }

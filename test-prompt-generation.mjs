@@ -229,6 +229,17 @@ async function testSnapshotGeneration(address) {
         console.log(`  Timestamp: ${new Date(data.snapshot.timestamp * 1000).toISOString()}`);
         console.log(`  Account Equity: $${data.snapshot.account.equity_usd.toFixed(2)}`);
         console.log(`  Markets: ${Object.keys(data.snapshot.markets).join(', ')}`);
+
+        // Show details for first market
+        const firstMarket = Object.values(data.snapshot.markets)[0];
+        console.log(`\n  First Market (${Object.keys(data.snapshot.markets)[0]}) Details:`);
+        console.log(`    Price: $${firstMarket.price}`);
+        console.log(`    Spread: ${firstMarket.spread_bps.toFixed(2)} bps`);
+        console.log(`    Depth (1%): Bid=$${(firstMarket.depth_usd.bid_1pct / 1000).toFixed(0)}k, Ask=$${(firstMarket.depth_usd.ask_1pct / 1000).toFixed(0)}k`);
+        console.log(`    Returns: m1=${(firstMarket.returns.m1 * 100).toFixed(4)}%, m5=${(firstMarket.returns.m5 * 100).toFixed(4)}%`);
+        console.log(`    Vol Z-Scores: Vol=${firstMarket.vol_zscores.vol_5m_vs_1h.toFixed(2)}, Ret=${firstMarket.vol_zscores.ret_5m_vs_1h.toFixed(2)}`);
+        console.log(`    Regime Tags: ${firstMarket.regime_tags.join(', ') || 'none'}`);
+
         console.log(`  Constraints: Max Leverage=${data.snapshot.constraints.max_leverage}x`);
 
         console.log(`\nDecision:`);
@@ -263,12 +274,13 @@ async function runTests() {
     console.log('║                   TraderAgent Prompt Generation Test Suite                  ║');
     console.log('╚═══════════════════════════════════════════════════════════════════════════════╝' + colors.reset);
 
+    const TEST_ADDRESS = '0x7e27565356dbdd81b942893152c26fd2ade6b22f';
     const results = {
         hyperliquidMeta: await testHyperliquidMeta(),
         ohlcv: await testOHLCV(),
         sentiment: await testSentiment(),
-        accountState: await testAccountState(process.argv[2]), // Optional: pass address as CLI arg
-        snapshot: await testSnapshotGeneration(process.argv[2])
+        accountState: await testAccountState(TEST_ADDRESS),
+        snapshot: await testSnapshotGeneration(TEST_ADDRESS)
     };
 
     // Summary

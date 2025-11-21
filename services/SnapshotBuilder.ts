@@ -1,5 +1,6 @@
 import { getClearinghouseState, getMetaAndAssetCtxs, getOHLCV } from "@/lib/hyperliquid";
 import { SentimentService, SentimentSnapshot } from "./SentimentService";
+import { MarketAnalysisService } from "./MarketAnalysisService";
 
 // Types matching the prompt's JSON structure
 export type StateSnapshot = {
@@ -40,6 +41,7 @@ type MarketData = {
         bid_1pct: number;
         ask_1pct: number;
     };
+    imbalance: number; // Added imbalance
     returns: {
         m1: number;
         m5: number;
@@ -48,9 +50,15 @@ type MarketData = {
         h4: number;
     };
     realized_vol: {
+        m1: number;
+        m5: number;
         m15: number;
         h1: number;
         h4: number;
+    };
+    vol_zscores: {
+        vol_5m_vs_1h: number;
+        ret_5m_vs_1h: number;
     };
     funding: {
         current_8h: number;
@@ -67,9 +75,11 @@ type MarketData = {
 
 export class SnapshotBuilder {
     private sentimentService: SentimentService;
+    private marketAnalysisService: MarketAnalysisService;
 
     constructor() {
         this.sentimentService = new SentimentService();
+        this.marketAnalysisService = new MarketAnalysisService();
     }
 
     public async buildSnapshot(userAddress: string | null, isTestnet: boolean): Promise<StateSnapshot> {
@@ -140,38 +150,23 @@ export class SnapshotBuilder {
                 const funding = parseFloat(ctx.funding);
                 const openInterest = parseFloat(ctx.openInterest);
 
-                // Fetch OHLCV for returns/vol calculation
-                // This is expensive to do for many coins sequentially. 
-                // In production, cache this or run in parallel.
-                const ohlcv = await getOHLCV(symbol, "1h", isTestnet);
+                // Fetch Market Analysis (Returns & Volatility & Z-Scores)
+                const metrics = await this.marketAnalysisService.getMetricsForSymbol(symbol, isTestnet);
 
-                // Calculate returns/vol (simplified)
-                const returns = {
-                    m1: 0, m5: 0, m15: 0, h1: 0, h4: 0
-                };
-                const realized_vol = {
-                    m15: 0, h1: 0, h4: 0
-                };
-
-                if (ohlcv && ohlcv.length > 0) {
-                    const close = ohlcv[ohlcv.length - 1].c;
-                    const open1h = ohlcv[ohlcv.length - 1].o;
-                    returns.h1 = (close - open1h) / open1h;
-                    // More complex calcs omitted for brevity
-                }
+                // Fetch Order Book Metrics (Spread, Depth)
+                const bookMetrics = await this.marketAnalysisService.getOrderBookMetrics(symbol, isTestnet);
 
                 // Fetch Sentiment
                 const sentiment = await this.sentimentService.getSentimentForCoin(symbol);
 
                 markets[`${symbol}-PERP`] = {
                     price,
-                    spread_bps: 1.0, // Mock/Estimate
-                    depth_usd: {
-                        bid_1pct: 1000000, // Mock
-                        ask_1pct: 1000000
-                    },
-                    returns,
-                    realized_vol,
+                    spread_bps: bookMetrics.spread_bps,
+                    depth_usd: bookMetrics.depth_usd,
+                    imbalance: bookMetrics.imbalance,
+                    returns: metrics.returns,
+                    realized_vol: metrics.realized_vol,
+                    vol_zscores: metrics.vol_zscores,
                     funding: {
                         current_8h: funding,
                         prev_8h: funding // Mock
@@ -182,7 +177,7 @@ export class SnapshotBuilder {
                         change_24h: 0
                     },
                     sentiment,
-                    regime_tags: []
+                    regime_tags: metrics.regime_tags
                 };
 
                 console.log(`✅ Added ${symbol}-PERP to markets (price: $${price})`);

@@ -1,0 +1,123 @@
+[36m
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                   TraderAgent Prompt Generation Test Suite                  ║
+╚═══════════════════════════════════════════════════════════════════════════════╝[0m
+
+[36m================================================================================
+TEST 1: Hyperliquid Meta & Asset Contexts
+================================================================================[0m
+
+[32m✅ Fetched 199 assets from Hyperliquid Testnet[0m
+
+Major Assets:
+  SOL: Price=$125.83, Funding=0.000052, OI=$556161
+  BTC: Price=$83254.00, Funding=0.000206, OI=$4095099
+  ETH: Price=$2711.60, Funding=0.000026, OI=$826799
+  ARB: Price=$0.20, Funding=0.000013, OI=$130432
+
+[36m================================================================================
+TEST 2: OHLCV Data Fetching
+================================================================================[0m
+
+[32m✅ Fetched 25 candles for BTC[0m
+
+Latest BTC Candle:
+  Open: $83253.0
+  High: $83281.0
+  Low: $83118.0
+  Close: $83281.0
+  Volume: 0.0881
+  1h Return: 0.03%
+
+[36m================================================================================
+TEST 3: Sentiment Analysis
+================================================================================[0m
+
+[32m✅ Sentiment service responded[0m
+
+BTC Sentiment:
+  Score: -0.163
+  Mentions: 19
+  Attention vs baseline: 3.80x
+  Tags: dump
+
+[36m================================================================================
+TEST 4: Account State
+================================================================================[0m
+
+[32m✅ Fetched account state for 0x7e275653...[0m
+
+Account Summary:
+  Account Value: $881.34
+  Total Raw USD: $682.83
+  Open Positions: 3
+
+[36m================================================================================
+TEST 5: Full Snapshot Generation (via API)
+================================================================================[0m
+
+[32m✅ Successfully generated full snapshot and prompt[0m
+
+Snapshot Summary:
+  Timestamp: 2025-11-21T16:01:25.000Z
+  Account Equity: $881.34
+  Markets: SOL-PERP, BTC-PERP, ETH-PERP, ARB-PERP
+
+  First Market (SOL-PERP) Details:
+    Price: $125.76
+    Spread: 4.77 bps
+    Depth (1%): Bid=$52k, Ask=$30k
+    Returns: m1=0.0000%, m5=-0.2145%
+    Vol Z-Scores: Vol=0.69, Ret=-1.09
+    Regime Tags: none
+  Constraints: Max Leverage=5x
+
+Decision:
+  Action: OPEN_POSITION
+  Confidence: 80%
+  Reason: bullish_sentiment
+  Notes: Positive sentiment and upward price momentum suggest a long position in SOL-PERP.
+
+Prompt Stats:
+  Length: 9350 characters
+  Lines: 305
+  Contains snapshot: Yes
+  Contains guidelines: Yes
+
+Prompt Preview (first 500 chars):
+[34m────────────────────────────────────────────────────────────────────────────────
+You are a TraderAgent AI for crypto perpetual futures trading. Analyze the market snapshot and output a trading decision as JSON.
+
+MARKET SNAPSHOT:
+{
+  "timestamp": 1763740885,
+  "account": {
+    "equity_usd": 881.335352,
+    "daily_realized_pnl": 0,
+    "max_daily_loss": 500,
+    "open_positions": [
+      {
+        "symbol": "SOL",
+        "side": "long",
+        "size_usd": 45.884190000000004,
+        "entry_price": 134.9535,
+        "unrealized_pnl": -3.1258,
+        "leverage": 10
+      },
+ ...
+────────────────────────────────────────────────────────────────────────────────[0m
+
+[36m================================================================================
+TEST SUMMARY
+================================================================================[0m
+
+[32m✅ Hyperliquid Meta & Asset Contexts: PASSED[0m
+[32m✅ OHLCV Data Fetching: PASSED[0m
+[32m✅ Sentiment Analysis: PASSED[0m
+[32m✅ Account State: PASSED[0m
+[32m✅ Full Snapshot Generation: PASSED[0m
+
+[36mResults: [32m5 passed[0m, [31m0 failed[0m, [33m0 skipped[0m
+
+[32m✨ All critical tests passed! The prompt generation system is working correctly.[0m
+
