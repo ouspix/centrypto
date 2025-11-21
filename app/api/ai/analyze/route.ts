@@ -9,11 +9,12 @@ export async function POST(request: Request) {
         const {
             userAddress, // Optional
             autoTrading = false,
-            model = "deepseek-r1:14b" // Default
+            model = "deepseek-r1:14b", // Default
+            isTestnet = true
         } = body;
 
         // Call Orchestrator
-        const result = await orchestrator.analyzeMarket(userAddress, autoTrading, model);
+        const result = await orchestrator.analyzeMarket(userAddress, autoTrading, model, isTestnet);
 
         return NextResponse.json(result);
 

@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Loader2, BrainCircuit, TrendingUp, Activity, Newspaper, ShieldAlert, Play, Pause, AlertOctagon } from "lucide-react"
 import { useTrading } from "@/context/TradingContext"
+import { useAccount } from "wagmi"
 
 type TradeDecision = {
     action: "OPEN_POSITION" | "CLOSE_POSITION" | "REDUCE_POSITION" | "ADJUST_STOPS" | "DO_NOTHING";
@@ -34,10 +35,12 @@ type AnalysisResult = {
     decision: TradeDecision;
     riskAssessment: RiskAssessment;
     snapshot: any;
+    prompt: string;
 };
 
 export function AIAdvisor() {
-    const { selectedPair } = useTrading()
+    const { isTestnet } = useTrading()
+    const { address } = useAccount()
     const [loading, setLoading] = useState(false)
     const [result, setResult] = useState<AnalysisResult | null>(null)
 
@@ -71,9 +74,10 @@ export function AIAdvisor() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    userAddress: "0xMOCK_ADDRESS", // Replace with real wallet if available
+                    userAddress: address || null,
                     autoTrading: autoTrading,
-                    model: selectedModel
+                    model: selectedModel,
+                    isTestnet
                 })
             })
 
@@ -108,7 +112,7 @@ export function AIAdvisor() {
         return () => {
             if (timerRef.current) clearInterval(timerRef.current);
         }
-    }, [autoTrading, frequency, killSwitch, selectedModel])
+    }, [autoTrading, frequency, killSwitch, selectedModel, address, isTestnet])
 
     const handleKillSwitch = () => {
         setKillSwitch(true);
@@ -292,10 +296,24 @@ export function AIAdvisor() {
 
             {/* Manual Analyze Button (Only visible if we have a result, to allow re-analysis) */}
             {result && !autoTrading && (
-                <div className="p-3 border-t border-slate-800/50">
-                    <Button onClick={analyzeMarket} variant="outline" className="w-full border-slate-700 text-slate-300 hover:bg-slate-800 text-xs h-8">
-                        <Play className="h-3 w-3 mr-2" />
+                <div className="p-3 border-t border-slate-800/50 space-y-2">
+                    <Button
+                        onClick={analyzeMarket}
+                        variant="outline"
+                        className="w-full h-10 text-xs border border-sky-400/60 bg-gradient-to-r from-sky-600 to-blue-700 text-white hover:from-sky-500 hover:to-blue-600 shadow-lg shadow-sky-900/50"
+                    >
+                        <Play className="h-3 w-3 mr-2 text-white" />
                         Re-Analyze Market
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            navigator.clipboard.writeText(result.prompt);
+                        }}
+                        variant="outline"
+                        className="w-full h-10 text-xs border border-slate-500/80 bg-[#111b2d] text-slate-50 hover:bg-[#18243c] hover:border-slate-300 shadow-md shadow-slate-900/40"
+                    >
+                        <span className="mr-2">📋</span>
+                        Copy Prompt
                     </Button>
                 </div>
             )}

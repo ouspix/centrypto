@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Message {
+  id             Int      @id @default(autoincrement())
+  externalId     String
+  source         String
+  symbol         String
+  text           String
+  ts             DateTime
+  likeCount      Int?
+  retweetCount   Int?
+  replyCount     Int?
+  sentimentScore Float?
+  sentimentConf  Float?
+  tagsJson       String?
+
+  @@unique([externalId, source, symbol])
+  @@index([symbol, ts])
+}
+
+model SymbolBaseline {
+  id             Int      @id @default(autoincrement())
+  symbol         String   @unique
+  avgMentions24h Float
+  updatedAt      DateTime @updatedAt
+}
+
+model SymbolSentimentSnapshot {
+  id                 Int      @id @default(autoincrement())
+  symbol             String
+  windowMinutes      Int
+  score              Float
+  change2h           Float
+  mentions           Int
+  mentionsVsBaseline Float
+  disagreement       Float
+  sourceMixJson      String
+  tagsJson           String
+  updatedAt          DateTime @default(now())
+
+  @@index([symbol, updatedAt])
+  @@index([symbol, windowMinutes, updatedAt])
+}

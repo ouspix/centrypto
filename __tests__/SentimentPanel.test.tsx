@@ -18,9 +18,15 @@ describe('SentimentPanel', () => {
     it('fetches and displays sentiment data on mount', async () => {
         (global.fetch as any).mockResolvedValue({
             json: async () => ({
-                success: true,
-                sentiment_index: 0.75,
-                details: [{ title: 'Good News', score: 0.9 }],
+                symbol: 'SOL',
+                score: 0.75,
+                disagreement: 0.2,
+                mentions: 12,
+                mentions_vs_baseline: 2.4,
+                change_2h: 0.1,
+                source_mix: { news: 0.5, twitter: 0.5 },
+                tags: ['etf', 'upgrade'],
+                notes: 'bullish mood, attention spike, consensus; change2h +0.10. Tags: etf, upgrade.',
                 trend: 'improving'
             })
         })
@@ -31,18 +37,22 @@ describe('SentimentPanel', () => {
         expect(screen.getByText('Analyzing market sentiment...')).toBeDefined()
 
         await waitFor(() => {
-            expect(screen.getByText('0.7500')).toBeDefined()
+            expect(screen.getByText('0.750')).toBeDefined()
             expect(screen.getByText('BULLISH')).toBeDefined()
-            expect(screen.getByText('Good News')).toBeDefined()
+            expect(screen.getByText('Notes')).toBeDefined()
         })
     })
 
     it('handles fetch error', async () => {
         (global.fetch as any).mockRejectedValue(new Error('Network Error'))
+        const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
 
         render(<SentimentPanel />)
 
         // Should stay in loading or show error (component currently just logs error and stays loading/empty)
         expect(screen.getByText('Analyzing market sentiment...')).toBeDefined()
+        await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1))
+
+        consoleSpy.mockRestore()
     })
 })

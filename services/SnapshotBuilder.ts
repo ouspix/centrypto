@@ -1,5 +1,5 @@
 import { getClearinghouseState, getMetaAndAssetCtxs, getOHLCV } from "@/lib/hyperliquid";
-import { SentimentService } from "./SentimentService";
+import { SentimentService, SentimentSnapshot } from "./SentimentService";
 
 // Types matching the prompt's JSON structure
 export type StateSnapshot = {
@@ -61,12 +61,7 @@ type MarketData = {
         change_1h: number;
         change_24h: number;
     };
-    sentiment: {
-        score: number;
-        change_2h: number;
-        mentions_vs_baseline: number;
-        disagreement: number;
-    };
+    sentiment: SentimentSnapshot;
     regime_tags: string[];
 };
 
@@ -77,7 +72,7 @@ export class SnapshotBuilder {
         this.sentimentService = new SentimentService();
     }
 
-    public async buildSnapshot(userAddress: string | null): Promise<StateSnapshot> {
+    public async buildSnapshot(userAddress: string | null, isTestnet: boolean): Promise<StateSnapshot> {
         const timestamp = Math.floor(Date.now() / 1000);
 
         // 1. Fetch Account Data
@@ -89,7 +84,7 @@ export class SnapshotBuilder {
         };
 
         if (userAddress) {
-            const clearinghouseState = await getClearinghouseState(userAddress, true); // Assuming Testnet for now
+            const clearinghouseState = await getClearinghouseState(userAddress, isTestnet);
             if (clearinghouseState) {
                 const marginSummary = clearinghouseState.marginSummary;
                 const positions = clearinghouseState.assetPositions;
@@ -106,14 +101,9 @@ export class SnapshotBuilder {
                         const side = size > 0 ? "long" : "short";
                         const unrealizedPnl = parseFloat(p.position.unrealizedPnl);
                         const leverage = parseFloat(p.position.leverage.value);
-                        // Note: Hyperliquid returns leverage in a specific way, might need adjustment based on cross/isolated
-                        // For cross, leverage is effective leverage = position value / equity.
-                        // The API might return max leverage or isolated leverage. 
-                        // Let's calculate effective leverage:
-                        // const effectiveLeverage = (Math.abs(size) * entryPrice) / accountData.equity_usd;
 
                         return {
-                            symbol: "UNKNOWN", // Need to map asset index to symbol
+                            symbol: p.position.coin || "UNKNOWN",
                             side,
                             size_usd: Math.abs(size) * entryPrice,
                             entry_price: entryPrice,
@@ -125,11 +115,13 @@ export class SnapshotBuilder {
         }
 
         // 2. Fetch Market Data (Meta & Asset Contexts)
-        const metaAndCtxs = await getMetaAndAssetCtxs(true); // Testnet
+        console.log("📊 Fetching market data from Hyperliquid...");
+        const metaAndCtxs = await getMetaAndAssetCtxs(isTestnet);
         const markets: Record<string, MarketData> = {};
 
         if (metaAndCtxs) {
-            const [universe, assetCtxs] = metaAndCtxs;
+            const { universe, assetCtxs } = metaAndCtxs;
+            console.log(`✅ Fetched ${universe.length} assets from Hyperliquid`);
 
             // Process top assets (e.g., BTC, ETH, SOL)
             // We need to map asset index to symbol from 'universe'
@@ -142,6 +134,8 @@ export class SnapshotBuilder {
                 // Filter for major coins to save time/tokens
                 if (!["BTC", "ETH", "SOL", "ARB"].includes(symbol)) continue;
 
+                console.log(`📈 Processing ${symbol}...`);
+
                 const price = parseFloat(ctx.markPx);
                 const funding = parseFloat(ctx.funding);
                 const openInterest = parseFloat(ctx.openInterest);
@@ -149,7 +143,7 @@ export class SnapshotBuilder {
                 // Fetch OHLCV for returns/vol calculation
                 // This is expensive to do for many coins sequentially. 
                 // In production, cache this or run in parallel.
-                const ohlcv = await getOHLCV(symbol, "1h", true);
+                const ohlcv = await getOHLCV(symbol, "1h", isTestnet);
 
                 // Calculate returns/vol (simplified)
                 const returns = {
@@ -191,25 +185,13 @@ export class SnapshotBuilder {
                     regime_tags: []
                 };
 
-                // Map symbol to position if exists
-                const posIndex = accountData.open_positions.findIndex(p => p.symbol === "UNKNOWN"); // Logic needs fixing to match index
-                // Actually, we should map positions using the asset index 'i'
-                // Let's fix the position mapping above or here.
-                // Better: Map positions after we have the universe.
+                console.log(`✅ Added ${symbol}-PERP to markets (price: $${price})`);
+
             }
 
-            // Fix Position Symbols
-            if (accountData.open_positions.length > 0) {
-                // We need to re-fetch or pass the universe to the account parsing logic.
-                // For now, let's just iterate positions and match by index if we had it, 
-                // but clearinghouseState returns asset index? No, it returns positions by asset index.
-                // "assetPositions": [{"position": {"coin": "BTC", ...}}] ? 
-                // Actually clearinghouseState usually has "assetPositions" array where each item has an index?
-                // Let's assume we can match by coin name if available or index.
-                // Hyperliquid API usually returns positions with asset index.
-
-                // Re-mapping logic would go here.
-            }
+            console.log(`📊 Total markets added: ${Object.keys(markets).length}`);
+        } else {
+            console.error("❌ Failed to fetch market data from Hyperliquid");
         }
 
         return {

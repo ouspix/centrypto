@@ -1,0 +1,6 @@
+{
+  "BTC": ["bitcoin", "btc", "BTC"],
+  "ETH": ["ethereum", "eth", "ETH"],
+  "SOL": ["solana", "sol", "SOL"],
+  "ARB": ["arbitrum", "arb", "ARB"]
+}

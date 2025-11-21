@@ -1,0 +1,18 @@
+[
+  {
+    "name": "coindesk",
+    "url": "https://www.coindesk.com/arc/outboundfeeds/rss/?outputType=xml"
+  },
+  {
+    "name": "cointelegraph",
+    "url": "https://cointelegraph.com/rss"
+  },
+  {
+    "name": "decrypt",
+    "url": "https://decrypt.co/feed"
+  },
+  {
+    "name": "cryptoslate",
+    "url": "https://cryptoslate.com/feed/"
+  }
+]

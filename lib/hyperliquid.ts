@@ -231,7 +231,12 @@ export async function getClearinghouseState(userAddress: string, isTestnet: bool
     }
 }
 
-export async function getMetaAndAssetCtxs(isTestnet: boolean = false) {
+export type MetaAndAssetCtxs = {
+    universe: any[];
+    assetCtxs: any[];
+};
+
+export async function getMetaAndAssetCtxs(isTestnet: boolean = false): Promise<MetaAndAssetCtxs | null> {
     const apiUrl = isTestnet
         ? "https://api.hyperliquid-testnet.xyz/info"
         : "https://api.hyperliquid.xyz/info";
@@ -247,7 +252,34 @@ export async function getMetaAndAssetCtxs(isTestnet: boolean = false) {
             throw new Error(`Failed to fetch meta and asset contexts: ${res.statusText}`);
         }
 
-        return await res.json();
+        const data = await res.json();
+
+        let universe: any[] | undefined;
+        let assetCtxs: any[] | undefined;
+
+        if (Array.isArray(data)) {
+            // Newer API shape: [ { universe, marginTables, collateralToken }, assetCtxs ]
+            if (data.length >= 2 && data[0]?.universe && Array.isArray(data[1])) {
+                universe = data[0].universe;
+                assetCtxs = data[1];
+            }
+            // Legacy shape: [ universeArray, assetCtxsArray ]
+            else if (data.length >= 2 && Array.isArray(data[0]) && Array.isArray(data[1])) {
+                universe = data[0];
+                assetCtxs = data[1];
+            }
+        } else if (data?.universe && data?.assetCtxs) {
+            // Alt shape: { universe, assetCtxs }
+            universe = data.universe;
+            assetCtxs = data.assetCtxs;
+        }
+
+        if (!universe || !assetCtxs) {
+            console.error("Unexpected metaAndAssetCtxs response shape:", data);
+            return null;
+        }
+
+        return { universe, assetCtxs };
     } catch (error) {
         console.error("Error fetching meta and asset contexts:", error);
         return null;

@@ -1,0 +1,9 @@
+{
+  "windowMinutes": 120,
+  "baselineDays": 30,
+  "maxStdForDisagreement": 0.7,
+  "sourceWeights": {
+    "news": 1.2,
+    "twitter": 1.0
+  }
+}

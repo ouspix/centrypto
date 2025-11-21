@@ -1,0 +1,38 @@
+{
+  "positive": [
+    { "term": "bullish", "weight": 1.0 },
+    { "term": "undervalued", "weight": 0.8 },
+    { "term": "strong", "weight": 0.6 },
+    { "term": "moon", "weight": 0.9 },
+    { "term": "pump", "weight": 0.7 },
+    { "term": "breakout", "weight": 0.8 },
+    { "term": "rally", "weight": 0.7 },
+    { "term": "surge", "weight": 0.7 },
+    { "term": "support", "weight": 0.4 },
+    { "term": "uptrend", "weight": 0.6 }
+  ],
+  "negative": [
+    { "term": "bearish", "weight": -1.0 },
+    { "term": "overvalued", "weight": -0.8 },
+    { "term": "weak", "weight": -0.6 },
+    { "term": "dump", "weight": -0.9 },
+    { "term": "crash", "weight": -1.0 },
+    { "term": "rug", "weight": -1.0 },
+    { "term": "scam", "weight": -0.9 },
+    { "term": "lawsuit", "weight": -0.7 },
+    { "term": "ban", "weight": -0.7 },
+    { "term": "outage", "weight": -0.6 },
+    { "term": "halt", "weight": -0.6 }
+  ],
+  "boost_phrases": [
+    { "phrase": "to the moon", "weight": 1.0 },
+    { "phrase": "massive rally", "weight": 0.9 },
+    { "phrase": "price discovery", "weight": 0.8 }
+  ],
+  "dampen_phrases": [
+    { "phrase": "going to zero", "weight": -1.0 },
+    { "phrase": "rug pull", "weight": -1.0 },
+    { "phrase": "sell the news", "weight": -0.6 }
+  ],
+  "normalizer": 3.0
+}

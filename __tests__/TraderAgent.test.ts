@@ -63,7 +63,7 @@ describe('OrchestratorService', () => {
             json: async () => ({ response: JSON.stringify(mockDecision) })
         });
 
-        const result = await orchestrator.analyzeMarket("0xUser", true, "model-v1");
+        const result = await orchestrator.analyzeMarket("0xUser", true, "model-v1", true);
 
         expect(result).toBeDefined();
         expect(result.decision).toEqual(mockDecision);
@@ -83,7 +83,7 @@ describe('OrchestratorService', () => {
             ok: false
         });
 
-        const result = await orchestrator.analyzeMarket("0xUser", false, "model-v1");
+        const result = await orchestrator.analyzeMarket("0xUser", false, "model-v1", true);
 
         expect(result.decision.action).toBe("DO_NOTHING");
         expect(result.decision.reason_code).toBe("error_fallback");

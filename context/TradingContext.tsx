@@ -18,15 +18,32 @@ const TradingContext = createContext<TradingContextType | undefined>(undefined)
 export function TradingProvider({ children }: { children: ReactNode }) {
     const [selectedPair, setSelectedPair] = useState<string>("BTC")
     const [marketState, setMarketState] = useState<{ pair: string, price: number }>({ pair: "BTC", price: 0 })
-    const [isTestnet, setIsTestnet] = useState<boolean>(false)
+    const [isTestnet, setIsTestnetState] = useState<boolean>(false)
+    const [isNetworkPreferenceReady, setIsNetworkPreferenceReady] = useState(false)
     const [assetMetadata, setAssetMetadata] = useState<Record<string, AssetMeta & { index: number }>>({})
     const [metadataCache, setMetadataCache] = useState<{ mainnet: AssetMeta[] | null, testnet: AssetMeta[] | null }>({
         mainnet: null,
         testnet: null
     })
 
+    useEffect(() => {
+        if (typeof window === 'undefined') return
+        const storedPreference = localStorage.getItem('isTestnet')
+        if (storedPreference !== null) {
+            setIsTestnetState(storedPreference === 'true')
+        }
+        setIsNetworkPreferenceReady(true)
+    }, [])
+
+    useEffect(() => {
+        if (typeof window === 'undefined' || !isNetworkPreferenceReady) return
+        localStorage.setItem('isTestnet', String(isTestnet))
+    }, [isTestnet, isNetworkPreferenceReady])
+
     // Fetch metadata on mount and when network changes
-    React.useEffect(() => {
+    useEffect(() => {
+        if (!isNetworkPreferenceReady) return
+
         const fetchMetadata = async () => {
             const cacheKey = isTestnet ? 'testnet' : 'mainnet'
 
@@ -57,10 +74,22 @@ export function TradingProvider({ children }: { children: ReactNode }) {
         }
 
         fetchMetadata()
-    }, [isTestnet]) // Depend on isTestnet to refetch/switch cache
+    }, [isTestnet, metadataCache, isNetworkPreferenceReady]) // Depend on isTestnet to refetch/switch cache
+
+    if (!isNetworkPreferenceReady) {
+        return null
+    }
 
     return (
-        <TradingContext.Provider value={{ selectedPair, setSelectedPair, marketState, setMarketState, isTestnet, setIsTestnet, assetMetadata }}>
+        <TradingContext.Provider value={{
+            selectedPair,
+            setSelectedPair,
+            marketState,
+            setMarketState,
+            isTestnet,
+            setIsTestnet: setIsTestnetState,
+            assetMetadata
+        }}>
             {children}
         </TradingContext.Provider>
     )
