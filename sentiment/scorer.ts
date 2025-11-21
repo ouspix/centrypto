@@ -11,10 +11,10 @@ type WeightedLexicon = {
   normalizer: number;
 };
 
-let weightedCache: WeightedLexicon | null = null;
+let weightedCache: Partial<Record<'en' | 'zh', WeightedLexicon>> = {};
 
-function buildLexicon(): WeightedLexicon {
-  const lexicon = getLexiconConfig();
+function buildLexicon(lang: 'en' | 'zh'): WeightedLexicon {
+  const lexicon = getLexiconConfig(lang);
   const tokenWeights = new Map<string, number>();
   lexicon.positive.forEach((item) => tokenWeights.set(item.term.toLowerCase(), item.weight));
   lexicon.negative.forEach((item) => tokenWeights.set(item.term.toLowerCase(), item.weight));
@@ -29,17 +29,17 @@ function buildLexicon(): WeightedLexicon {
   };
 }
 
-function getLexicon(): WeightedLexicon {
-  if (!weightedCache) {
-    weightedCache = buildLexicon();
+function getLexicon(lang: 'en' | 'zh'): WeightedLexicon {
+  if (!weightedCache[lang]) {
+    weightedCache[lang] = buildLexicon(lang);
   }
-  return weightedCache;
+  return weightedCache[lang];
 }
 
 function tokenize(text: string): string[] {
   return text
     .toLowerCase()
-    .match(/[a-z0-9]+/g)
+    .match(/[\p{L}\p{N}]+/gu)
     ?.filter(Boolean) ?? [];
 }
 
@@ -47,22 +47,40 @@ function clamp(score: number) {
   return Math.max(-1, Math.min(1, score));
 }
 
-export function scoreMessage(text: string, metadata?: { source?: string }): ScoreResult {
+function detectLanguage(text: string, explicit?: string): 'zh' | 'en' {
+  if (explicit === 'zh' || explicit === 'en') return explicit;
+  const cjkMatches = text.match(/[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uff00-\uff9f]/g);
+  const cjkRatio = cjkMatches ? cjkMatches.length / Math.max(text.length, 1) : 0;
+  return cjkRatio > 0.1 ? 'zh' : 'en';
+}
+
+export function scoreMessage(text: string, metadata?: { source?: string; language?: string }): ScoreResult {
   if (!text || !text.trim()) {
     return { score: 0, confidence: 0.1 };
   }
 
-  const { tokenWeights, phraseWeights, normalizer } = getLexicon();
+  const lang = detectLanguage(text, metadata?.language);
+  const { tokenWeights, phraseWeights, normalizer } = getLexicon(lang);
   const tokens = tokenize(text);
 
   let rawScore = 0;
   let tokenHits = 0;
 
-  for (const token of tokens) {
-    const weight = tokenWeights.get(token);
-    if (typeof weight === 'number') {
-      rawScore += weight;
-      tokenHits += 1;
+  if (lang === 'zh') {
+    // For CJK text, do substring matching against lexicon terms.
+    for (const [term, weight] of tokenWeights.entries()) {
+      if (text.includes(term)) {
+        rawScore += weight;
+        tokenHits += 1;
+      }
+    }
+  } else {
+    for (const token of tokens) {
+      const weight = tokenWeights.get(token);
+      if (typeof weight === 'number') {
+        rawScore += weight;
+        tokenHits += 1;
+      }
     }
   }
 

@@ -1,4 +1,4 @@
-const TAG_RULES: { tag: string; patterns: RegExp[] }[] = [
+const TAG_RULES_EN: { tag: string; patterns: RegExp[] }[] = [
   { tag: 'etf', patterns: [/etf/i] },
   { tag: 'listing', patterns: [/list(ing)?/i, /listing/i] },
   { tag: 'upgrade', patterns: [/upgrade/i, /fork/i, /hard fork/i] },
@@ -17,12 +17,25 @@ const TAG_RULES: { tag: string; patterns: RegExp[] }[] = [
   { tag: 'dump', patterns: [/dump/i, /selloff/i] },
 ];
 
-export function tagMessage(text: string): string[] {
+const TAG_RULES_ZH: { tag: string; patterns: RegExp[] }[] = [
+  { tag: 'hack', patterns: [/黑客|被盗|攻擊|攻击|漏洞|安全事件/] },
+  { tag: 'regulation', patterns: [/监管|监管机构|罚款|处罚|合规|禁令|禁止|整改/] },
+  { tag: 'listing', patterns: [/上线交易所|上线|上架|新上线/] },
+  { tag: 'airdrop', patterns: [/空投|发币|糖果/] },
+  { tag: 'pump', patterns: [/拉盘|拉升|暴涨|大涨/] },
+  { tag: 'dump', patterns: [/砸盘|抛售|暴跌|大跌/] },
+  { tag: 'scam', patterns: [/跑路|骗局|诈骗|庞氏/] },
+  { tag: 'outage', patterns: [/宕机|停机|中断|故障/] },
+];
+
+export function tagMessage(text: string, language: 'en' | 'zh' = 'en'): string[] {
   if (!text || !text.trim()) return [];
   const lower = text.toLowerCase();
   const tags = new Set<string>();
 
-  for (const rule of TAG_RULES) {
+  const rules = language === 'zh' ? TAG_RULES_ZH : TAG_RULES_EN;
+
+  for (const rule of rules) {
     if (rule.patterns.some((pattern) => pattern.test(lower))) {
       tags.add(rule.tag);
     }

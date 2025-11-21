@@ -37,6 +37,7 @@ export type SentimentSnapshot = {
     change_2h: number | null;
     source_mix: Record<string, number>;
     tags: string[];
+    sentiment_confidence?: number;
     notes: string;
 };
 
@@ -120,6 +121,7 @@ export class SentimentService {
             change_2h: row.change2h,
             source_mix,
             tags,
+            sentiment_confidence: this.buildConfidence(row.mentions),
             notes: this.buildNotes(row.score, row.mentionsVsBaseline, row.disagreement, row.change2h, tags)
         };
     }
@@ -134,6 +136,10 @@ export class SentimentService {
         const disagreementText = disagreement > 0.5 ? 'polarized' : 'consensus';
         const changeText = `change2h ${change_2h >= 0 ? '+' : ''}${change_2h.toFixed(2)}`;
         return `${mood} mood, ${attentionText}, ${disagreementText}; ${changeText}. Tags: ${tags.length ? tags.join(', ') : 'none'}.`;
+    }
+
+    private buildConfidence(mentions: number) {
+        return mentions < 10 ? Math.max(0.2, mentions / 10) : 1;
     }
 
     /**

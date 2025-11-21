@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { getSymbolConfig } from '@/sentiment/config';
+import { SentimentService } from '@/services/SentimentService';
 
 export type SnapshotRow = {
   symbol: string;
@@ -29,6 +30,8 @@ export function formatSnapshot(row: SnapshotRow) {
     tags = [];
   }
 
+  const sentimentConfidence = row.mentions < 10 ? Math.max(0.2, row.mentions / 10) : 1;
+
   return {
     symbol: row.symbol,
     score: row.score,
@@ -38,23 +41,19 @@ export function formatSnapshot(row: SnapshotRow) {
     disagreement: row.disagreement,
     source_mix: sourceMix,
     tags,
+    sentiment_confidence: parseFloat(sentimentConfidence.toFixed(3)),
     updated_at: row.updatedAt.toISOString(),
   };
 }
 
 export async function GET() {
   const symbols = Object.keys(getSymbolConfig());
-  const snapshots = await prisma.symbolSentimentSnapshot.findMany({
-    where: { symbol: { in: symbols } },
-    orderBy: { updatedAt: 'desc' },
-  });
-
-  const latest: Record<string, ReturnType<typeof formatSnapshot>> = {};
-  snapshots.forEach((row) => {
-    if (!latest[row.symbol]) {
-      latest[row.symbol] = formatSnapshot(row as SnapshotRow);
-    }
-  });
-
-  return NextResponse.json(Object.values(latest));
+  const service = new SentimentService();
+  const results = [];
+  // Refresh per symbol using the service (will ingest/score/aggregate if stale)
+  for (const symbol of symbols) {
+    const snapshot = await service.getSentimentForCoin(symbol);
+    results.push(snapshot);
+  }
+  return NextResponse.json(results);
 }

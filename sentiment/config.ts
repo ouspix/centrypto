@@ -6,6 +6,8 @@ export type SymbolConfig = Record<string, string[]>;
 export type FeedConfig = {
   name: string;
   url: string;
+  sourceKey?: string;
+  language?: string;
 }[];
 
 export type LexiconEntry = {
@@ -92,7 +94,7 @@ const defaults = {
 };
 
 let symbolCache: SymbolConfig | null = null;
-let lexiconCache: LexiconConfig | null = null;
+let lexiconCache: Record<string, LexiconConfig> = {};
 let feedsCache: FeedConfig | null = null;
 let aggregationConfigCache: AggregationConfig | null = null;
 
@@ -122,20 +124,61 @@ export function getFeedConfig(): FeedConfig {
       console.warn('Falling back to empty feed config', err);
       feedsCache = [];
     }
+    // Append CN feeds (RSSHub + official RSS)
+    const rsshubBase = process.env.RSSHUB_BASE || 'https://rsshub.app';
+    const cnFeeds: FeedConfig = [
+      {
+        name: 'cn_jinse_all',
+        url: `${rsshubBase}/jinse/lives`,
+        sourceKey: 'cn_jinse',
+        language: 'zh',
+      },
+      {
+        name: 'cn_jinse_policy',
+        url: `${rsshubBase}/jinse/lives/2`,
+        sourceKey: 'cn_jinse_policy',
+        language: 'zh',
+      },
+      {
+        name: 'cn_odaily_newsflash',
+        url: 'https://rss.odaily.news/rss/newsflash',
+        sourceKey: 'cn_odaily_newsflash',
+        language: 'zh',
+      },
+      {
+        name: 'cn_odaily_articles',
+        url: 'https://rss.odaily.news/rss/post',
+        sourceKey: 'cn_odaily_article',
+        language: 'zh',
+      },
+      {
+        name: 'cn_blockbeats_newsflash',
+        url: 'https://api.theblockbeats.news/v2/rss/newsflash',
+        sourceKey: 'cn_blockbeats_flash',
+        language: 'zh',
+      },
+      {
+        name: 'cn_blockbeats_article',
+        url: 'https://api.theblockbeats.news/v2/rss/article',
+        sourceKey: 'cn_blockbeats_article',
+        language: 'zh',
+      },
+    ];
+    feedsCache = [...feedsCache, ...cnFeeds];
   }
   return feedsCache;
 }
 
-export function getLexiconConfig(): LexiconConfig {
-  if (!lexiconCache) {
+export function getLexiconConfig(lang: 'en' | 'zh' = 'en'): LexiconConfig {
+  if (!lexiconCache[lang]) {
     try {
-      lexiconCache = loadJsonFile<LexiconConfig>('lexicon.json');
+      lexiconCache[lang] = loadJsonFile<LexiconConfig>(lang === 'zh' ? 'lexicon_zh.json' : 'lexicon.json');
     } catch (err) {
-      console.warn('Falling back to default lexicon config', err);
-      lexiconCache = defaults.lexicon;
+      console.warn(`Falling back to default ${lang} lexicon config`, err);
+      lexiconCache[lang] = defaults.lexicon;
     }
   }
-  return lexiconCache;
+  return lexiconCache[lang];
 }
 
 export function getAggregationConfig(): AggregationConfig {

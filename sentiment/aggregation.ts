@@ -36,7 +36,10 @@ function engagementWeight(message: AggregateMessage) {
 }
 
 function sourceWeight(source: string, weights: Record<string, number>) {
-  return weights[source] ?? 1;
+  const base = weights[source] ?? 1;
+  // Down-weight long-form articles relative to flashes/tweets
+  if (source.includes('article')) return base * 0.5;
+  return base;
 }
 
 export function aggregateMessages(messages: AggregateMessage[], options: AggregationOptions): AggregationResult {
@@ -48,19 +51,28 @@ export function aggregateMessages(messages: AggregateMessage[], options: Aggrega
 
   const mentions = scored.length;
   const expected = options.avgMentions24h > 0 ? (options.avgMentions24h * options.windowMinutes) / 1440 : 0;
-  const mentionsVsBaseline = expected > 0 ? mentions / expected : 1;
+  const expectedClamped = Math.max(expected, 5); // prevent explosive ratios when history is sparse
+  const mentionsVsBaseline = mentions / expectedClamped;
 
   let weightedSum = 0;
   let totalWeight = 0;
   const scores: number[] = [];
   const sourceCounts: Record<string, number> = {};
 
+  const normalizeSource = (s: string) => {
+    if (s.startsWith('cn_')) return 'cn_news';
+    if (s.startsWith('en_')) return 'en_news';
+    if (s.includes('news')) return 'en_news';
+    return s;
+  };
+
   for (const msg of scored) {
     const weight = engagementWeight(msg) * sourceWeight(msg.source, options.config.sourceWeights);
     weightedSum += msg.sentimentScore * weight;
     totalWeight += weight;
     scores.push(msg.sentimentScore);
-    sourceCounts[msg.source] = (sourceCounts[msg.source] || 0) + 1;
+    const key = normalizeSource(msg.source);
+    sourceCounts[key] = (sourceCounts[key] || 0) + 1;
   }
 
   const score = totalWeight > 0 ? weightedSum / totalWeight : 0;

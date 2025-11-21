@@ -17,6 +17,7 @@ model Message {
   likeCount      Int?
   retweetCount   Int?
   replyCount     Int?
+  language       String?
   sentimentScore Float?
   sentimentConf  Float?
   tagsJson       String?

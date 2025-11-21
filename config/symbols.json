@@ -1,6 +1,6 @@
 {
-  "BTC": ["bitcoin", "btc", "BTC"],
-  "ETH": ["ethereum", "eth", "ETH"],
-  "SOL": ["solana", "sol", "SOL"],
-  "ARB": ["arbitrum", "arb", "ARB"]
+  "BTC": ["bitcoin", "btc", "BTC", "比特币", "比特幣", "btc现货"],
+  "ETH": ["ethereum", "eth", "ETH", "以太坊", "以太"],
+  "SOL": ["solana", "sol", "SOL", "索拉纳", "索拉納"],
+  "ARB": ["arbitrum", "arb", "ARB", "阿比特rum", "阿比特"]
 }

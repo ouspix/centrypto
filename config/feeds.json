@@ -1,18 +1,26 @@
 [
   {
     "name": "coindesk",
-    "url": "https://www.coindesk.com/arc/outboundfeeds/rss/?outputType=xml"
+    "sourceKey": "en_coindesk",
+    "url": "https://www.coindesk.com/arc/outboundfeeds/rss/?outputType=xml",
+    "language": "en"
   },
   {
     "name": "cointelegraph",
-    "url": "https://cointelegraph.com/rss"
+    "sourceKey": "en_cointelegraph",
+    "url": "https://cointelegraph.com/rss",
+    "language": "en"
   },
   {
     "name": "decrypt",
-    "url": "https://decrypt.co/feed"
+    "sourceKey": "en_decrypt",
+    "url": "https://decrypt.co/feed",
+    "language": "en"
   },
   {
     "name": "cryptoslate",
-    "url": "https://cryptoslate.com/feed/"
+    "sourceKey": "en_cryptoslate",
+    "url": "https://cryptoslate.com/feed/",
+    "language": "en"
   }
 ]

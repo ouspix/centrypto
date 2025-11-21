@@ -1,0 +1,28 @@
+{
+  "positive": [
+    { "term": "利好", "weight": 2.0 },
+    { "term": "看涨", "weight": 2.0 },
+    { "term": "上涨", "weight": 1.0 },
+    { "term": "大涨", "weight": 2.0 },
+    { "term": "暴涨", "weight": 3.0 },
+    { "term": "突破", "weight": 1.0 },
+    { "term": "创新高", "weight": 2.0 },
+    { "term": "拉升", "weight": 1.0 }
+  ],
+  "negative": [
+    { "term": "利空", "weight": -2.0 },
+    { "term": "下跌", "weight": -1.0 },
+    { "term": "大跌", "weight": -2.0 },
+    { "term": "暴跌", "weight": -3.0 },
+    { "term": "崩盘", "weight": -3.0 },
+    { "term": "砸盘", "weight": -2.0 },
+    { "term": "清算", "weight": -2.0 },
+    { "term": "破产", "weight": -3.0 },
+    { "term": "黑客攻击", "weight": -3.0 },
+    { "term": "攻击", "weight": -1.0 },
+    { "term": "漏洞", "weight": -2.0 }
+  ],
+  "boost_phrases": [],
+  "dampen_phrases": [],
+  "normalizer": 5.0
+}

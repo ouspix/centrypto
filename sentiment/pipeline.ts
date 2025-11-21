@@ -10,6 +10,7 @@ import { mapTextToSymbols } from './symbolMapper';
 import { aggregateMessages } from './aggregation';
 import { scoreMessage } from './scorer';
 import { tagMessage } from './tagger';
+import type ParserType from 'rss-parser';
 
 type IngestOptions = {
   symbols?: string[];
@@ -73,15 +74,17 @@ export async function ingestRss(options: IngestOptions = {}): Promise<number> {
   }
 
   const allowed = options.symbols?.length ? new Set(options.symbols) : null;
-  const parser = new Parser();
   let inserted = 0;
 
   for (const feed of feeds) {
     try {
       console.log(`[RSS] fetching ${feed.name} (${feed.url})`);
+      const parser = createParserForFeed(feed.url);
       const result = await parser.parseURL(feed.url);
       let rows = dedupeMessages(
-        result.items?.flatMap((item) => toMessages(item as any, feed.name || 'news', allowed)) ?? []
+        result.items?.flatMap((item) =>
+          toMessages(item as any, feed.sourceKey || feed.name || 'news', allowed, feed.language)
+        ) ?? []
       );
       rows = await filterExisting(rows);
       console.log(`[RSS] parsed ${rows.length} new rows (post-dedupe) for ${feed.name}`);
@@ -122,8 +125,9 @@ export async function scorePendingMessages(options: ScoreOptions = {}): Promise<
     const updates = messages.map((message) => {
       const { score, confidence } = scoreMessage(message.text, {
         source: message.source,
+        language: (message as any).language as 'en' | 'zh' | undefined,
       });
-      const tags = tagMessage(message.text);
+      const tags = tagMessage(message.text, ((message as any).language as 'en' | 'zh') ?? 'en');
       return prisma.message.update({
         where: { id: message.id },
         data: {
@@ -193,6 +197,7 @@ function mapTweetToMessages(tweet: TweetV2) {
     likeCount: metrics.like_count ?? null,
     retweetCount: metrics.retweet_count ?? null,
     replyCount: metrics.reply_count ?? null,
+    language: 'en',
   }));
 }
 
@@ -207,7 +212,8 @@ function toMessages(
     pubDate?: string;
   },
   source: string,
-  allowedSymbols: Set<string> | null
+  allowedSymbols: Set<string> | null,
+  language?: string
 ) {
   const text = `${item.title ?? ''} ${item.contentSnippet ?? item.content ?? ''}`.trim();
   const symbols = mapTextToSymbols(text);
@@ -228,6 +234,7 @@ function toMessages(
     likeCount: null,
     retweetCount: null,
     replyCount: null,
+    language: language || (source.startsWith('cn_') ? 'zh' : 'en'),
   }));
 }
 
@@ -241,6 +248,7 @@ function dedupeMessages(
     likeCount: number | null;
     retweetCount: number | null;
     replyCount: number | null;
+    language?: string;
   }[]
 ) {
   const map = new Map<string, (typeof rows)[number]>();
@@ -263,6 +271,7 @@ async function filterExisting(
     likeCount: number | null;
     retweetCount: number | null;
     replyCount: number | null;
+    language?: string;
   }[]
 ) {
   if (!rows.length) return rows;
@@ -369,4 +378,26 @@ async function getPreviousSnapshotScore(symbol: string, windowMinutes: number, n
     orderBy: { updatedAt: 'desc' },
   });
   return previous?.score ?? null;
+}
+function createParserForFeed(url: string) {
+  // Default parser with UA
+  const baseOptions: ParserType.Options = {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+    },
+  };
+
+  // BlockBeats needs specific headers
+  if (url.includes('api.theblockbeats.news')) {
+    baseOptions.requestOptions = {
+      headers: {
+        language: 'cn',
+        Accept: 'application/rss+xml, application/xml;q=0.9, */*;q=0.8',
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+      },
+    };
+  }
+
+  return new Parser(baseOptions);
 }
