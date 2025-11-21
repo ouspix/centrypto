@@ -16,25 +16,28 @@ import { placeOrder } from "@/lib/hyperliquid"
 export function TradeForm() {
     const [loading, setLoading] = useState(false)
     const [result, setResult] = useState<any>(null)
-    const { selectedPair, marketState, isTestnet } = useTrading()
+    const { selectedPair, marketState, isTestnet, assetMetadata } = useTrading()
     const [formData, setFormData] = useState({
-        asset: 0, // This should map from selectedPair
+        asset: 0,
         isBuy: true,
         price: 0,
         size: 0.01,
         leverage: 5
     })
 
-    // Reset price when pair changes
+    // Get metadata for selected pair
+    const currentMeta = assetMetadata[selectedPair]
+
+    // Reset price and update asset when pair changes
     useEffect(() => {
-        // Testnet asset IDs (different from mainnet!)
-        const assetMap: Record<string, number> = { "SOL": 0, "BTC": 3, "ETH": 4 }
-        setFormData(prev => ({
-            ...prev,
-            asset: assetMap[selectedPair] ?? 0,
-            price: 0 // Reset to 0 to indicate loading/unset
-        }))
-    }, [selectedPair])
+        if (currentMeta) {
+            setFormData(prev => ({
+                ...prev,
+                asset: currentMeta.index,
+                price: 0 // Reset to 0 to indicate loading/unset
+            }))
+        }
+    }, [selectedPair, currentMeta])
 
     // Auto-fill price when it becomes available (if currently 0) AND matches selected pair
     useEffect(() => {
@@ -55,6 +58,21 @@ export function TradeForm() {
     const executeTrade = async () => {
         if (!walletClient || !address) {
             setResult({ success: false, error: "Please connect wallet first" })
+            return
+        }
+
+        if (!currentMeta) {
+            setResult({ success: false, error: "Market data not loaded. Please wait." })
+            return
+        }
+
+        // Minimum order value check
+        const totalValue = formData.size * formData.price
+        if (totalValue < 10) {
+            setResult({
+                success: false,
+                error: `Order value must be at least $10. Current value: $${totalValue.toFixed(2)}`
+            })
             return
         }
 
@@ -88,9 +106,12 @@ export function TradeForm() {
                     })
                 } else {
                     // Order succeeded
+                    // Status can be { resting: { oid: ... } } or { filled: { oid: ... } }
+                    const oid = orderStatus.resting?.oid || orderStatus.filled?.oid || orderStatus.oid
+
                     setResult({
                         success: true,
-                        orderId: orderStatus.oid,
+                        orderId: oid,
                         txHash: "Signed & Sent to API"
                     })
                 }
@@ -132,6 +153,10 @@ export function TradeForm() {
         }
     }
 
+    // Calculate step based on decimals (e.g. 3 decimals -> 0.001)
+    const sizeStep = currentMeta ? Math.pow(10, -currentMeta.szDecimals).toFixed(currentMeta.szDecimals) : "0.01"
+    const minSize = currentMeta ? currentMeta.minSz : 0
+
     return (
         <Card className="bg-gradient-to-br from-slate-900 to-slate-800 border-slate-700 h-full hover-lift">
             <CardHeader>
@@ -141,6 +166,11 @@ export function TradeForm() {
                 </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
+                {!currentMeta && (
+                    <div className="bg-yellow-900/20 border border-yellow-700 text-yellow-400 text-xs p-2 rounded mb-2">
+                        Loading market data...
+                    </div>
+                )}
                 <div className="grid grid-cols-2 gap-4">
                     <Button
                         variant={formData.isBuy ? "default" : "outline"}
@@ -190,15 +220,21 @@ export function TradeForm() {
 
                 <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <Label htmlFor="size" className="text-slate-400">Size</Label>
+                        <Label htmlFor="size" className="text-slate-400">Size ({selectedPair})</Label>
                         <Input
                             id="size"
                             type="number"
-                            step="0.001"
+                            step={sizeStep}
+                            min={minSize}
                             className="bg-slate-950 border-slate-700 text-slate-200 focus:border-blue-500 transition-colors"
                             value={formData.size}
                             onChange={(e) => setFormData({ ...formData, size: parseFloat(e.target.value) })}
                         />
+                        {currentMeta && (
+                            <div className="text-[10px] text-slate-500 text-right">
+                                Min: {currentMeta.minSz}
+                            </div>
+                        )}
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="leverage" className="text-slate-400">Leverage</Label>

@@ -1,0 +1,3 @@
+#!/bin/bash
+# Wrapper to force Chrome to run with flags required for WSL
+exec /usr/bin/google-chrome --no-sandbox --disable-gpu "$@"

@@ -1,0 +1,114 @@
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { TradeForm } from '@/components/TradeForm'
+import { vi, describe, it, expect, beforeEach } from 'vitest'
+
+// Mock wagmi hooks
+const mockUseAccount = vi.fn()
+const mockUseWalletClient = vi.fn()
+const mockUseSwitchChain = vi.fn()
+
+vi.mock('wagmi', async () => {
+    const actual = await vi.importActual('wagmi')
+    return {
+        ...actual,
+        useAccount: () => mockUseAccount(),
+        useWalletClient: () => mockUseWalletClient(),
+        useSwitchChain: () => mockUseSwitchChain(),
+    }
+})
+
+// Mock TradingContext
+const mockUseTrading = vi.fn()
+
+vi.mock('@/context/TradingContext', () => ({
+    useTrading: () => mockUseTrading(),
+}))
+
+// Mock placeOrder
+const mockPlaceOrder = vi.fn()
+vi.mock('@/lib/hyperliquid', () => ({
+    placeOrder: (...args: any[]) => mockPlaceOrder(...args),
+}))
+
+describe('TradeForm', () => {
+    beforeEach(() => {
+        vi.clearAllMocks()
+
+        // Default mocks
+        mockUseAccount.mockReturnValue({ address: '0x123', chain: { id: 421614 } }) // Testnet ID
+        mockUseWalletClient.mockReturnValue({ data: {} })
+        mockUseSwitchChain.mockReturnValue({ switchChainAsync: vi.fn() })
+        mockUseTrading.mockReturnValue({
+            selectedPair: 'SOL',
+            marketState: { pair: 'SOL', price: 100 },
+            isTestnet: true
+        })
+    })
+
+    it('renders form fields', () => {
+        render(<TradeForm />)
+        expect(screen.getByLabelText('Size')).toBeDefined()
+        expect(screen.getByLabelText('Price (USDC)')).toBeDefined()
+        expect(screen.getByLabelText('Leverage')).toBeDefined()
+        expect(screen.getByText('Long')).toBeDefined()
+        expect(screen.getByText('Short')).toBeDefined()
+    })
+
+    it('updates form state on input', () => {
+        render(<TradeForm />)
+
+        const sizeInput = screen.getByLabelText('Size')
+        fireEvent.change(sizeInput, { target: { value: '1.5' } })
+        expect((sizeInput as HTMLInputElement).value).toBe('1.5')
+
+        const priceInput = screen.getByLabelText('Price (USDC)')
+        fireEvent.change(priceInput, { target: { value: '150' } })
+        expect((priceInput as HTMLInputElement).value).toBe('150')
+    })
+
+    it('calls placeOrder when Execute Order is clicked', async () => {
+        mockPlaceOrder.mockResolvedValue({
+            status: 'ok',
+            response: { data: { statuses: [{ oid: 123 }] } }
+        })
+
+        render(<TradeForm />)
+
+        const executeBtn = screen.getByText('Execute Order')
+        fireEvent.click(executeBtn)
+
+        await waitFor(() => {
+            expect(mockPlaceOrder).toHaveBeenCalled()
+        })
+
+        expect(screen.getByText('Order Submitted!')).toBeDefined()
+    })
+
+    it('displays error when wallet is not connected', async () => {
+        mockUseAccount.mockReturnValue({ address: undefined, chain: { id: 421614 } })
+        mockUseWalletClient.mockReturnValue({ data: undefined })
+
+        render(<TradeForm />)
+
+        const executeBtn = screen.getByText('Execute Order')
+        fireEvent.click(executeBtn)
+
+        expect(screen.getByText('Error: Please connect wallet first')).toBeDefined()
+    })
+
+    it('displays error when placeOrder fails', async () => {
+        mockPlaceOrder.mockResolvedValue({
+            status: 'err',
+            response: { data: { statuses: [{ error: 'Insufficient funds' }] } }
+        })
+
+        render(<TradeForm />)
+
+        const executeBtn = screen.getByText('Execute Order')
+        fireEvent.click(executeBtn)
+
+        await waitFor(() => {
+            expect(screen.getByText('Error: Insufficient funds')).toBeDefined()
+        })
+    })
+})

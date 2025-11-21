@@ -12,19 +12,43 @@ function normalizeNumber(x: number): string {
 }
 
 // Fetch asset metadata (tick size) from Hyperliquid
-async function getAssetMeta(asset: number, isTestnet: boolean) {
+export type AssetMeta = {
+    name: string;
+    szDecimals: number;
+    maxLeverage: number;
+    onlyIsolated: boolean;
+    isPerp: boolean;
+    minSz: number; // Added minSz
+}
+
+export async function getMeta(isTestnet: boolean): Promise<AssetMeta[]> {
     const apiUrl = isTestnet
         ? "https://api.hyperliquid-testnet.xyz/info"
         : "https://api.hyperliquid.xyz/info";
 
-    const res = await fetch(apiUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "meta" }),
-    });
+    try {
+        const res = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ type: "meta" }),
+        });
 
-    const data = await res.json();
-    return data.universe[asset];
+        if (!res.ok) {
+            throw new Error(`Failed to fetch metadata: ${res.statusText}`);
+        }
+
+        const data = await res.json();
+        return data.universe;
+    } catch (error) {
+        console.error("Error fetching metadata:", error);
+        return [];
+    }
+}
+
+// Helper to get single asset meta (deprecated in favor of bulk fetch, but kept for compatibility if needed)
+async function getAssetMeta(asset: number, isTestnet: boolean) {
+    const universe = await getMeta(isTestnet);
+    return universe[asset];
 }
 
 // Round price according to Hyperliquid rules:
@@ -132,4 +156,132 @@ export async function placeOrder(
     }
 
     return res.json();
+}
+
+export async function cancelOrder(
+    privateKey: string,
+    cancelRequest: {
+        asset: number;
+        oid: number;
+    },
+    isTestnet = false,
+) {
+    const nonce = Date.now();
+
+    const rawAction = {
+        type: "cancel" as const,
+        cancels: [
+            {
+                a: cancelRequest.asset,
+                o: cancelRequest.oid,
+            },
+        ],
+        grouping: "na" as const,
+    };
+
+    const action = parser(OrderRequest.entries.action)(rawAction);
+    const wallet = privateKeyToAccount(privateKey as Hex);
+
+    console.log("🚫 Cancelling order:", cancelRequest.oid);
+
+    const signature = await signL1Action({ wallet, action, nonce, isTestnet });
+    const payload = { action, nonce, signature };
+
+    const apiUrl = isTestnet
+        ? "https://api.hyperliquid-testnet.xyz/exchange"
+        : "https://api.hyperliquid.xyz/exchange";
+
+    const res = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`API Error: ${text}`);
+    }
+
+    return res.json();
+}
+
+export async function getClearinghouseState(userAddress: string, isTestnet: boolean = false) {
+    const apiUrl = isTestnet
+        ? "https://api.hyperliquid-testnet.xyz/info"
+        : "https://api.hyperliquid.xyz/info";
+
+    try {
+        const res = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                type: "clearinghouseState",
+                user: userAddress
+            }),
+        });
+
+        if (!res.ok) {
+            throw new Error(`Failed to fetch clearinghouse state: ${res.statusText}`);
+        }
+
+        return await res.json();
+    } catch (error) {
+        console.error("Error fetching clearinghouse state:", error);
+        return null;
+    }
+}
+
+export async function getMetaAndAssetCtxs(isTestnet: boolean = false) {
+    const apiUrl = isTestnet
+        ? "https://api.hyperliquid-testnet.xyz/info"
+        : "https://api.hyperliquid.xyz/info";
+
+    try {
+        const res = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ type: "metaAndAssetCtxs" }),
+        });
+
+        if (!res.ok) {
+            throw new Error(`Failed to fetch meta and asset contexts: ${res.statusText}`);
+        }
+
+        return await res.json();
+    } catch (error) {
+        console.error("Error fetching meta and asset contexts:", error);
+        return null;
+    }
+}
+
+export async function getOHLCV(coin: string, interval: string, isTestnet: boolean = false) {
+    const apiUrl = isTestnet
+        ? "https://api.hyperliquid-testnet.xyz/info"
+        : "https://api.hyperliquid.xyz/info";
+
+    try {
+        // Get candles for the last 24 hours (approx) to calculate returns
+        // Hyperliquid candleSnapshot returns the last N candles
+        const res = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                type: "candleSnapshot",
+                req: {
+                    coin: coin,
+                    interval: interval,
+                    startTime: Date.now() - (1000 * 60 * 60 * 24)
+                }
+            }),
+        });
+
+        if (!res.ok) {
+            throw new Error(`Failed to fetch OHLCV: ${res.statusText}`);
+        }
+
+        return await res.json();
+    } catch (error) {
+        console.error("Error fetching OHLCV:", error);
+        return [];
+    }
 }

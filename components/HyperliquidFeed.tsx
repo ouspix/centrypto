@@ -120,7 +120,7 @@ export function HyperliquidFeed() {
     }, [selectedPair, setMarketState, isTestnet])
 
     return (
-        <Card className="w-full max-w-md bg-slate-900 text-slate-100 border-slate-800">
+        <Card className="bg-slate-900 text-slate-100 border-slate-800">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-lg font-bold text-blue-400">Market Feed</CardTitle>
                 <div className="flex gap-2">

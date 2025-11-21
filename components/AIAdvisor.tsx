@@ -1,172 +1,304 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Loader2, BrainCircuit, TrendingUp, Activity, Newspaper } from "lucide-react"
+import { Switch } from "@/components/ui/switch"
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Loader2, BrainCircuit, TrendingUp, Activity, Newspaper, ShieldAlert, Play, Pause, AlertOctagon } from "lucide-react"
 import { useTrading } from "@/context/TradingContext"
 
+type TradeDecision = {
+    action: "OPEN_POSITION" | "CLOSE_POSITION" | "REDUCE_POSITION" | "ADJUST_STOPS" | "DO_NOTHING";
+    symbol: string | null;
+    side: "long" | "short" | null;
+    size_fraction_of_equity: number | null;
+    risk_plan: {
+        stop_loss_pct: number;
+        take_profit_pct_primary: number;
+    } | null;
+    playbook: string;
+    confidence: number;
+    reason_code: string;
+    notes: string;
+};
+
+type RiskAssessment = {
+    approved: boolean;
+    reason: string;
+};
+
 type AnalysisResult = {
-    action: "LONG" | "SHORT" | "HOLD"
-    confidence: number
-    reasoning: string
-    dataSources?: {
-        sentiment?: number
-        orderbookPressure?: string
-        volume?: number
-    }
-}
+    decision: TradeDecision;
+    riskAssessment: RiskAssessment;
+    snapshot: any;
+};
 
 export function AIAdvisor() {
     const { selectedPair } = useTrading()
     const [loading, setLoading] = useState(false)
-    const [analysis, setAnalysis] = useState<AnalysisResult | null>(null)
+    const [result, setResult] = useState<AnalysisResult | null>(null)
+
+    // Controls
+    const [autoTrading, setAutoTrading] = useState(false)
+    const [frequency, setFrequency] = useState(60) // seconds
+    const [selectedModel, setSelectedModel] = useState("deepseek-r1:14b")
+    const [availableModels, setAvailableModels] = useState<string[]>([])
+    const [killSwitch, setKillSwitch] = useState(false)
+
+    const timerRef = useRef<NodeJS.Timeout | null>(null)
+
+    // Fetch Models
+    useEffect(() => {
+        fetch('/api/ai/models')
+            .then(res => res.json())
+            .then(data => {
+                if (data.models) {
+                    setAvailableModels(data.models.map((m: any) => m.name));
+                }
+            })
+            .catch(err => console.error("Failed to fetch models", err));
+    }, [])
 
     const analyzeMarket = async () => {
+        if (killSwitch) return;
+
         setLoading(true)
         try {
             const response = await fetch('/api/ai/analyze', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ coin: selectedPair })
+                body: JSON.stringify({
+                    userAddress: "0xMOCK_ADDRESS", // Replace with real wallet if available
+                    autoTrading: autoTrading,
+                    model: selectedModel
+                })
             })
 
             if (!response.ok) {
                 throw new Error('Analysis failed')
             }
 
-            const result = await response.json()
-            setAnalysis(result)
+            const data = await response.json()
+            setResult(data)
         } catch (error) {
             console.error("Analysis failed", error)
-            // Fallback for demo if Ollama is not running
-            setAnalysis({
-                action: "HOLD",
-                confidence: 50,
-                reasoning: "Insufficient data to determine market direction due to lack of bid and ask information.",
-                dataSources: {
-                    sentiment: 0.05,
-                    orderbookPressure: "Neutral",
-                    volume: 0
-                }
-            })
         } finally {
             setLoading(false)
         }
     }
 
+    // Auto Trading Loop
     useEffect(() => {
-        setAnalysis(null)
-    }, [selectedPair])
+        if (autoTrading && !killSwitch) {
+            // Initial call
+            analyzeMarket();
 
-    const getSentimentColor = (sentiment?: number) => {
-        if (!sentiment) return 'text-slate-500'
-        if (sentiment > 0.05) return 'text-green-400'
-        if (sentiment < -0.05) return 'text-red-400'
-        return 'text-yellow-400'
-    }
+            // Interval
+            timerRef.current = setInterval(analyzeMarket, frequency * 1000);
+        } else {
+            if (timerRef.current) {
+                clearInterval(timerRef.current);
+                timerRef.current = null;
+            }
+        }
 
-    const getSentimentLabel = (sentiment?: number) => {
-        if (!sentiment) return 'Unknown'
-        if (sentiment > 0.05) return 'Bullish'
-        if (sentiment < -0.05) return 'Bearish'
-        return 'Neutral'
+        return () => {
+            if (timerRef.current) clearInterval(timerRef.current);
+        }
+    }, [autoTrading, frequency, killSwitch, selectedModel])
+
+    const handleKillSwitch = () => {
+        setKillSwitch(true);
+        setAutoTrading(false);
+        // Ideally call backend to cancel all orders here
+        console.log("KILL SWITCH ACTIVATED");
     }
 
     return (
-        <Card className="bg-slate-900 border-slate-800 h-full hover-lift">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-lg font-bold text-purple-400 flex items-center gap-2">
-                    <BrainCircuit className="h-5 w-5" />
-                    AI Advisor
-                </CardTitle>
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={analyzeMarket}
-                    disabled={loading}
-                    className="border-purple-500/50 text-purple-400 hover:bg-purple-900/20 hover:border-purple-400"
-                >
-                    {loading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-                    Analyze {selectedPair}
-                </Button>
-            </CardHeader>
-            <CardContent>
-                {!analysis ? (
-                    <div className="text-center text-slate-500 py-8">
-                        Ask AI to analyze current market conditions for {selectedPair}
+        <Card className="bg-slate-900 border-slate-800 h-full hover-lift flex flex-col">
+            <CardHeader className="pb-3 border-b border-slate-800/50 space-y-3">
+                <div className="flex items-center justify-between">
+                    <CardTitle className="text-base font-bold text-purple-400 flex items-center gap-2">
+                        <BrainCircuit className="h-4 w-4" />
+                        AI Trader Agent
+                    </CardTitle>
+                    <div className="flex items-center gap-2">
+                        <Badge variant={autoTrading ? "default" : "outline"} className={autoTrading ? "bg-green-500/20 text-green-400 border-green-500/50 text-xs" : "text-slate-500 text-xs"}>
+                            {autoTrading ? <Play className="h-3 w-3 mr-1" /> : <Pause className="h-3 w-3 mr-1" />}
+                            {autoTrading ? "Active" : "Paused"}
+                        </Badge>
                     </div>
-                ) : (
-                    <div className="space-y-4 animate-fade-in">
-                        <div className="flex items-center justify-between p-4 bg-gradient-to-br from-slate-950 to-slate-900 rounded-lg border border-slate-800 shadow-lg">
+                </div>
+
+                {/* Kill Switch - Always Visible & Accessible */}
+                <Button
+                    variant={killSwitch ? "outline" : "destructive"}
+                    size="sm"
+                    className={`w-full font-bold tracking-wider text-xs h-8 ${killSwitch ? "border-red-500 text-red-500 hover:bg-red-950" : "bg-red-600 hover:bg-red-700"}`}
+                    onClick={handleKillSwitch}
+                    disabled={killSwitch}
+                >
+                    <AlertOctagon className="h-3 w-3 mr-2" />
+                    {killSwitch ? "SYSTEM HALTED" : "EMERGENCY STOP"}
+                </Button>
+
+                {/* Controls */}
+                <div className="grid grid-cols-1 gap-2.5 bg-slate-950/50 p-2.5 rounded-lg border border-slate-800">
+                    <div className="flex items-center justify-between">
+                        <span className="text-xs text-slate-400 font-medium">Auto Trading</span>
+                        <Switch
+                            checked={autoTrading}
+                            onCheckedChange={setAutoTrading}
+                            disabled={killSwitch}
+                            className="data-[state=checked]:bg-green-500"
+                        />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                        <span className="text-xs text-slate-400 font-medium">Frequency</span>
+                        <div className="flex items-center gap-2">
+                            <Input
+                                type="number"
+                                value={frequency}
+                                onChange={(e) => setFrequency(Number(e.target.value))}
+                                className="w-16 h-7 text-xs text-right bg-slate-900 border-slate-700 focus-visible:ring-purple-500"
+                            />
+                            <span className="text-xs text-slate-500">sec</span>
+                        </div>
+                    </div>
+
+                    <div className="space-y-1">
+                        <span className="text-xs text-slate-400 font-medium block">Model</span>
+                        <Select value={selectedModel} onValueChange={setSelectedModel}>
+                            <SelectTrigger className="w-full h-8 text-xs bg-slate-900 border-slate-700 text-slate-200 focus:ring-purple-500">
+                                <SelectValue placeholder="Select Model" />
+                            </SelectTrigger>
+                            <SelectContent className="bg-slate-900 border-slate-700 text-slate-200">
+                                {availableModels.map(m => (
+                                    <SelectItem key={m} value={m} className="focus:bg-slate-800 focus:text-purple-400 text-xs">{m}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </div>
+            </CardHeader>
+
+            <CardContent className="flex-1 overflow-y-auto p-3 space-y-3">
+                {loading && !result && (
+                    <div className="flex flex-col items-center justify-center h-32 text-slate-500 gap-2">
+                        <Loader2 className="h-6 w-6 animate-spin text-purple-500" />
+                        <span className="text-xs animate-pulse">Analyzing Market Structure...</span>
+                    </div>
+                )}
+
+                {!result && !loading && (
+                    <div className="flex flex-col items-center justify-center h-full py-6 text-center space-y-3">
+                        <div className="p-3 rounded-full bg-slate-950 border border-slate-800">
+                            <BrainCircuit className="h-6 w-6 text-slate-600" />
+                        </div>
+                        <div className="space-y-1">
+                            <p className="text-sm text-slate-300 font-medium">Ready to Analyze</p>
+                            <p className="text-xs text-slate-500 max-w-[200px] mx-auto">
+                                Enable Auto Trading or run a manual analysis to generate trading signals.
+                            </p>
+                        </div>
+                        <Button onClick={analyzeMarket} className="w-full bg-purple-600 hover:bg-purple-700 text-white text-xs h-8">
+                            <Play className="h-3 w-3 mr-2" />
+                            Run Manual Analysis
+                        </Button>
+                    </div>
+                )}
+
+                {result && (
+                    <div className="space-y-3 animate-fade-in">
+                        {/* Decision Header */}
+                        <div className="flex items-center justify-between p-3 bg-gradient-to-br from-slate-950 to-slate-900 rounded-lg border border-slate-800 shadow-lg">
                             <div className="flex flex-col">
-                                <span className="text-sm text-slate-400">Recommendation</span>
-                                <span className={`text-2xl font-bold ${analysis.action === 'LONG' ? 'text-green-400' :
-                                        analysis.action === 'SHORT' ? 'text-red-400' :
-                                            'text-yellow-400'
+                                <span className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Action</span>
+                                <span className={`text-base font-bold ${result.decision.action === 'OPEN_POSITION' ? (result.decision.side === 'long' ? 'text-green-400' : 'text-red-400') :
+                                    result.decision.action === 'CLOSE_POSITION' ? 'text-orange-400' :
+                                        'text-slate-300'
                                     }`}>
-                                    {analysis.action}
+                                    {result.decision.action.replace('_', ' ')}
                                 </span>
+                                {result.decision.symbol && (
+                                    <span className="text-[10px] text-slate-500 mt-0.5 font-mono">
+                                        {result.decision.side?.toUpperCase()} {result.decision.symbol}
+                                    </span>
+                                )}
                             </div>
                             <div className="flex flex-col items-end">
-                                <span className="text-sm text-slate-400">Confidence</span>
+                                <span className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Confidence</span>
                                 <Badge
                                     variant="outline"
-                                    className={`text-lg px-3 py-1 ${analysis.confidence > 80 ? 'border-green-500 text-green-400 bg-green-500/10' :
-                                            analysis.confidence > 50 ? 'border-yellow-500 text-yellow-400 bg-yellow-500/10' :
-                                                'border-red-500 text-red-400 bg-red-500/10'
+                                    className={`text-sm px-2 py-0.5 mt-1 ${result.decision.confidence > 0.8 ? 'border-green-500 text-green-400 bg-green-500/10' :
+                                        result.decision.confidence > 0.5 ? 'border-yellow-500 text-yellow-400 bg-yellow-500/10' :
+                                            'border-slate-500 text-slate-400 bg-slate-500/10'
                                         }`}
                                 >
-                                    {analysis.confidence}%
+                                    {(result.decision.confidence * 100).toFixed(0)}%
                                 </Badge>
                             </div>
                         </div>
 
-                        {analysis.dataSources && (
-                            <div className="grid grid-cols-3 gap-2">
-                                <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <Newspaper className="h-3 w-3 text-slate-500" />
-                                        <span className="text-xs text-slate-500">Sentiment</span>
-                                    </div>
-                                    <p className={`text-sm font-bold ${getSentimentColor(analysis.dataSources.sentiment)}`}>
-                                        {getSentimentLabel(analysis.dataSources.sentiment)}
-                                    </p>
+                        {/* Risk Assessment */}
+                        <div className={`p-2.5 rounded-lg border flex items-start gap-2 ${result.riskAssessment.approved
+                            ? 'bg-green-950/10 border-green-900/30'
+                            : 'bg-red-950/10 border-red-900/30'
+                            }`}>
+                            <ShieldAlert className={`h-4 w-4 shrink-0 mt-0.5 ${result.riskAssessment.approved ? 'text-green-500' : 'text-red-500'}`} />
+                            <div className="flex flex-col">
+                                <span className={`text-xs font-bold ${result.riskAssessment.approved ? 'text-green-400' : 'text-red-400'}`}>
+                                    Risk: {result.riskAssessment.approved ? 'PASSED' : 'FAILED'}
+                                </span>
+                                <span className="text-[11px] text-slate-400 mt-0.5 leading-relaxed">{result.riskAssessment.reason}</span>
+                            </div>
+                        </div>
+
+                        {/* Reasoning */}
+                        <div className="p-3 bg-slate-950/50 rounded-lg border border-slate-800">
+                            <h4 className="text-[10px] font-semibold text-purple-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                                <BrainCircuit className="h-3 w-3" />
+                                AI Reasoning ({result.decision.reason_code})
+                            </h4>
+                            <p className="text-xs text-slate-300 leading-relaxed">
+                                {result.decision.notes}
+                            </p>
+                        </div>
+
+                        {/* Risk Plan Details */}
+                        {result.decision.risk_plan && (
+                            <div className="grid grid-cols-2 gap-2">
+                                <div className="p-2.5 bg-slate-950 rounded border border-slate-800">
+                                    <span className="text-[10px] text-slate-500 block mb-0.5">Stop Loss</span>
+                                    <span className="text-xs font-mono text-red-400 font-bold">
+                                        {(result.decision.risk_plan.stop_loss_pct * 100).toFixed(2)}%
+                                    </span>
                                 </div>
-                                <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <TrendingUp className="h-3 w-3 text-slate-500" />
-                                        <span className="text-xs text-slate-500">Orderbook</span>
-                                    </div>
-                                    <p className="text-sm font-bold text-slate-300">
-                                        {analysis.dataSources.orderbookPressure || 'N/A'}
-                                    </p>
-                                </div>
-                                <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <Activity className="h-3 w-3 text-slate-500" />
-                                        <span className="text-xs text-slate-500">Volume</span>
-                                    </div>
-                                    <p className="text-sm font-bold text-slate-300">
-                                        {analysis.dataSources.volume ? `$${(analysis.dataSources.volume / 1000000).toFixed(1)}M` : 'N/A'}
-                                    </p>
+                                <div className="p-2.5 bg-slate-950 rounded border border-slate-800">
+                                    <span className="text-[10px] text-slate-500 block mb-0.5">Take Profit</span>
+                                    <span className="text-xs font-mono text-green-400 font-bold">
+                                        {(result.decision.risk_plan.take_profit_pct_primary * 100).toFixed(2)}%
+                                    </span>
                                 </div>
                             </div>
                         )}
-
-                        <div className="p-4 bg-purple-900/10 rounded-lg border border-purple-900/20">
-                            <h4 className="text-xs font-semibold text-purple-400 uppercase tracking-wider mb-2 flex items-center gap-2">
-                                <BrainCircuit className="h-3 w-3" />
-                                Reasoning
-                            </h4>
-                            <p className="text-sm text-slate-300 leading-relaxed">
-                                {analysis.reasoning}
-                            </p>
-                        </div>
                     </div>
                 )}
             </CardContent>
+
+            {/* Manual Analyze Button (Only visible if we have a result, to allow re-analysis) */}
+            {result && !autoTrading && (
+                <div className="p-3 border-t border-slate-800/50">
+                    <Button onClick={analyzeMarket} variant="outline" className="w-full border-slate-700 text-slate-300 hover:bg-slate-800 text-xs h-8">
+                        <Play className="h-3 w-3 mr-2" />
+                        Re-Analyze Market
+                    </Button>
+                </div>
+            )}
         </Card>
     )
 }

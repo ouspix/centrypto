@@ -1,119 +1,128 @@
-import { ethers } from 'ethers';
-
-// Types
-type MarketSnapshot = {
-    coin: string;
-    mid: number;
-    bids: [number, number][];
-    asks: [number, number][];
-};
-
-type TradeDecision = {
-    action: "LONG" | "SHORT" | "HOLD";
-    confidence: number;
-    reasoning: string;
-};
+import { SnapshotBuilder, StateSnapshot } from "./SnapshotBuilder";
+import { RiskCheckModule, TradeDecision, RiskAssessment } from "@/lib/risk/RiskCheckModule";
+import { ExecutionEngine } from "@/lib/hyperliquidExecution";
+import { TradingLogger } from "@/lib/log/tradingLogger";
 
 export class OrchestratorService {
     private ollamaUrl: string;
-    private isRunning: boolean = false;
+    private snapshotBuilder: SnapshotBuilder;
+    private riskModule: RiskCheckModule;
+    private executionEngine: ExecutionEngine;
+    private logger: TradingLogger;
 
     constructor() {
         this.ollamaUrl = process.env.OLLAMA_BASE_URL || "http://localhost:11434";
+        this.snapshotBuilder = new SnapshotBuilder();
+        this.riskModule = new RiskCheckModule();
+        // Note: Private key should be securely managed. For this demo, using env var.
+        this.executionEngine = new ExecutionEngine(process.env.HYPERLIQUID_PRIVATE_KEY || "", true);
+        this.logger = new TradingLogger();
     }
 
-    public async start() {
-        if (this.isRunning) return;
-        this.isRunning = true;
-        console.log("Orchestrator Service Started");
+    public async analyzeMarket(
+        userAddress: string | null,
+        autoTrading: boolean,
+        model: string
+    ): Promise<{ decision: TradeDecision, riskAssessment: RiskAssessment, snapshot: StateSnapshot }> {
 
-        // In a real service, this would be a loop or event-driven
-        // For this demo, we'll expose a method to trigger analysis manually or via cron
+        // 1. Build Snapshot
+        const snapshot = await this.snapshotBuilder.buildSnapshot(userAddress);
+
+        // 2. Call LLM
+        const decision = await this.getLLMDecision(snapshot, model);
+
+        // 3. Risk Check
+        const riskAssessment = this.riskModule.assess(decision, snapshot);
+
+        // 4. Execution (if Auto-Trading)
+        let executionResult = null;
+        if (autoTrading && riskAssessment.approved && riskAssessment.modifiedOrder) {
+            console.log("🚀 Auto-Trading: Executing Order...");
+            // Need asset index for execution. 
+            // In a real app, we'd have a map. For now, finding it from snapshot or defaulting.
+            // Assuming BTC-PERP is asset 0 for demo.
+            const assetIndex = 0; // TODO: Dynamic mapping
+            const currentPrice = snapshot.markets[decision.symbol!]?.price || 0;
+
+            executionResult = await this.executionEngine.placeOrder(
+                riskAssessment.modifiedOrder,
+                currentPrice,
+                assetIndex
+            );
+        }
+
+        // 5. Log
+        await this.logger.logDecision({
+            timestamp: new Date().toISOString(),
+            snapshot: "SNAPSHOT_HASH", // Optimize logging
+            decision,
+            riskAssessment,
+            executionResult
+        });
+
+        return { decision, riskAssessment, snapshot };
     }
 
-    public async analyzeMarket(snapshot: MarketSnapshot & { sentiment?: number, orderbookPressure?: string }): Promise<TradeDecision> {
+    private async getLLMDecision(snapshot: StateSnapshot, model: string): Promise<TradeDecision> {
+        const systemPrompt = `
+You are the TraderAgent in an automated crypto trading system.
+Your job: Read the current state snapshot and decide whether to open, reduce, or close a position, adjust stops, or do nothing.
+You NEVER talk to exchanges directly. You NEVER break constraints.
+Output EXACTLY ONE JSON object.
+
+INPUT FORMAT:
+${JSON.stringify(snapshot, null, 2)}
+
+OUTPUT FORMAT:
+{
+  "action": "OPEN_POSITION" | "CLOSE_POSITION" | "REDUCE_POSITION" | "ADJUST_STOPS" | "DO_NOTHING",
+  "symbol": "BTC-PERP" | "ETH-PERP" | null,
+  "side": "long" | "short" | null,
+  "size_fraction_of_equity": 0.0,
+  "risk_plan": { "stop_loss_pct": -0.02, "take_profit_pct_primary": 0.05, ... } | null,
+  "playbook": "trend_follow_pullback" | "mean_reversion" | "breakout" | "hedge" | "liquidity_exit" | "none",
+  "confidence": 0.0,
+  "reason_code": "trend_follow" | "fade_extreme_sentiment" | "no_trade" | ...,
+  "notes": "short explanation"
+}
+`;
+
         try {
-            const sentimentContext = snapshot.sentiment !== undefined
-                ? `\nMarket Sentiment: ${snapshot.sentiment.toFixed(4)} (${snapshot.sentiment > 0.05 ? 'Bullish' : snapshot.sentiment < -0.05 ? 'Bearish' : 'Neutral'})`
-                : '';
-
-            const orderbookContext = snapshot.orderbookPressure
-                ? `\nOrderbook Pressure: ${snapshot.orderbookPressure}`
-                : '';
-
-            const prompt = `
-        You are a crypto scalping bot. Analyze the following market data for ${snapshot.coin}.
-        Current Price: ${snapshot.mid}
-        Top 5 Bids: ${JSON.stringify(snapshot.bids.slice(0, 5))}
-        Top 5 Asks: ${JSON.stringify(snapshot.asks.slice(0, 5))}${sentimentContext}${orderbookContext}
-        
-        Decide LONG, SHORT, or HOLD. 
-        Provide confidence score (0-100) and brief reasoning.
-        Format: JSON { "action": "...", "confidence": ..., "reasoning": "..." }
-      `;
-
-            // Call Ollama
             const response = await fetch(`${this.ollamaUrl}/api/generate`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    model: "deepseek-r1:14b",
-                    prompt: prompt,
+                    model: model,
+                    prompt: systemPrompt,
                     stream: false,
                     format: "json"
                 })
             });
 
-            if (!response.ok) {
-                throw new Error(`Ollama API Error: ${response.statusText}`);
-            }
+            if (!response.ok) throw new Error("Ollama API Error");
 
             const data = await response.json();
-            const decision: TradeDecision = JSON.parse(data.response);
+            const parsed = JSON.parse(data.response);
 
-            console.log(`[Orchestrator] Decision: ${decision.action} (${decision.confidence}%) - ${decision.reasoning}`);
+            // Basic Validation
+            if (!parsed.action) throw new Error("Missing action field");
 
-            // Execute Trade if High Confidence
-            if (decision.confidence > 80 && decision.action !== "HOLD") {
-                await this.executeTrade(decision, snapshot);
-            }
-
-            return decision;
+            return parsed as TradeDecision;
 
         } catch (error) {
-            console.error("Orchestrator Analysis Failed:", error);
-            return { action: "HOLD", confidence: 0, reasoning: "Error during analysis" };
-        }
-    }
-
-    private async executeTrade(decision: TradeDecision, snapshot: MarketSnapshot) {
-        console.log("Executing High Confidence Trade...");
-
-        // Call our own API route to execute safely
-        // In a real backend service, we might call the exchange directly or via an internal method
-        // Here we simulate a fetch to our Next.js API route
-
-        try {
-            const tradePayload = {
-                asset: 0, // Assuming BTC is 0 for this demo
-                isBuy: decision.action === "LONG",
-                price: snapshot.mid, // Market/Limit at mid
-                size: 0.001, // Fixed size for demo
-                leverage: 5
+            console.error("LLM Decision Error:", error);
+            // Fallback
+            return {
+                action: "DO_NOTHING",
+                symbol: null,
+                side: null,
+                size_fraction_of_equity: null,
+                risk_plan: null,
+                playbook: "none",
+                confidence: 0,
+                reason_code: "error_fallback",
+                notes: "Error obtaining valid decision from LLM."
             };
-
-            // Note: In a server-side context, we might need the full URL
-            const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-            await fetch(`${baseUrl}/api/trade/execute`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(tradePayload)
-            });
-
-            console.log("Trade Execution Request Sent");
-
-        } catch (error) {
-            console.error("Trade Execution Failed:", error);
         }
     }
 }
