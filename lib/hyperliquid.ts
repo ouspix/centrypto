@@ -97,7 +97,7 @@ export async function placeOrder(
 
     // Fetch asset metadata to get tick size
     const assetMeta = await getAssetMeta(order.asset, isTestnet);
-    console.log("📋 Asset metadata:", assetMeta);
+    // console.log("📋 Asset metadata:", assetMeta);
     const szDecimals = assetMeta.szDecimals;
 
     // Round price to tick size
@@ -137,8 +137,8 @@ export async function placeOrder(
 
     const payload = { action, nonce, signature };
 
-    console.log("📤 Sending payload to Hyperliquid:");
-    console.log(JSON.stringify(payload, null, 2));
+    // console.log("📤 Sending payload to Hyperliquid:");
+    // console.log(JSON.stringify(payload, null, 2));
 
     const apiUrl = isTestnet
         ? "https://api.hyperliquid-testnet.xyz/exchange"
@@ -291,33 +291,49 @@ export async function getOHLCV(coin: string, interval: string, isTestnet: boolea
         ? "https://api.hyperliquid-testnet.xyz/info"
         : "https://api.hyperliquid.xyz/info";
 
-    try {
-        // Get candles for the last 24 hours (approx) to calculate returns
-        // Hyperliquid candleSnapshot returns the last N candles
-        const start = startTime || (Date.now() - (1000 * 60 * 60 * 24));
+    const maxRetries = 3;
+    let attempt = 0;
 
-        const res = await fetch(apiUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                type: "candleSnapshot",
-                req: {
-                    coin: coin,
-                    interval: interval,
-                    startTime: start
-                }
-            }),
-        });
+    while (attempt < maxRetries) {
+        try {
+            // Get candles for the last 24 hours (approx) to calculate returns
+            // Hyperliquid candleSnapshot returns the last N candles
+            const start = startTime || (Date.now() - (1000 * 60 * 60 * 24));
 
-        if (!res.ok) {
-            throw new Error(`Failed to fetch OHLCV: ${res.statusText}`);
+            const res = await fetch(apiUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    type: "candleSnapshot",
+                    req: {
+                        coin: coin,
+                        interval: interval,
+                        startTime: start
+                    }
+                }),
+            });
+
+            if (res.status === 429) {
+                const waitTime = Math.pow(2, attempt) * 1000; // 1s, 2s, 4s
+                console.warn(`[Hyperliquid] Rate limited (429) for ${coin}. Retrying in ${waitTime}ms...`);
+                await new Promise(resolve => setTimeout(resolve, waitTime));
+                attempt++;
+                continue;
+            }
+
+            if (!res.ok) {
+                throw new Error(`Failed to fetch OHLCV: ${res.statusText}`);
+            }
+
+            return await res.json();
+        } catch (error: any) {
+            console.error(`Error fetching OHLCV (attempt ${attempt + 1}/${maxRetries}):`, error.message);
+            if (attempt === maxRetries - 1) return []; // Return empty on final failure
+            attempt++;
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Basic wait for other errors
         }
-
-        return await res.json();
-    } catch (error) {
-        console.error("Error fetching OHLCV:", error);
-        return [];
     }
+    return [];
 }
 
 export async function getL2Book(coin: string, isTestnet: boolean = false) {

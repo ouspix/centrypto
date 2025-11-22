@@ -1,6 +1,7 @@
 import { getClearinghouseState, getMetaAndAssetCtxs, getOHLCV } from "@/lib/hyperliquid";
 import { SentimentService, SentimentSnapshot } from "./SentimentService";
 import { MarketAnalysisService } from "./MarketAnalysisService";
+import { ScreenerService } from "./ScreenerService";
 
 // Types matching the prompt's JSON structure
 export type StateSnapshot = {
@@ -76,13 +77,19 @@ type MarketData = {
 export class SnapshotBuilder {
     private sentimentService: SentimentService;
     private marketAnalysisService: MarketAnalysisService;
+    private screenerService: ScreenerService;
 
     constructor() {
         this.sentimentService = new SentimentService();
         this.marketAnalysisService = new MarketAnalysisService();
+        this.screenerService = new ScreenerService();
     }
 
-    public async buildSnapshot(userAddress: string | null, isTestnet: boolean): Promise<StateSnapshot> {
+    public async buildSnapshot(
+        userAddress: string | null,
+        isTestnet: boolean,
+        screeningConfig?: any
+    ): Promise<StateSnapshot> {
         const timestamp = Math.floor(Date.now() / 1000);
 
         // 1. Fetch Account Data
@@ -92,6 +99,8 @@ export class SnapshotBuilder {
             max_daily_loss: 500.0,
             open_positions: [] as Position[]
         };
+
+        const heldSymbols: string[] = [];
 
         if (userAddress) {
             const clearinghouseState = await getClearinghouseState(userAddress, isTestnet);
@@ -111,9 +120,12 @@ export class SnapshotBuilder {
                         const side = size > 0 ? "long" : "short";
                         const unrealizedPnl = parseFloat(p.position.unrealizedPnl);
                         const leverage = parseFloat(p.position.leverage.value);
+                        const symbol = p.position.coin || "UNKNOWN";
+
+                        heldSymbols.push(symbol);
 
                         return {
-                            symbol: p.position.coin || "UNKNOWN",
+                            symbol,
                             side,
                             size_usd: Math.abs(size) * entryPrice,
                             entry_price: entryPrice,
@@ -124,70 +136,40 @@ export class SnapshotBuilder {
             }
         }
 
-        // 2. Fetch Market Data (Meta & Asset Contexts)
-        console.log("📊 Fetching market data from Hyperliquid...");
-        const metaAndCtxs = await getMetaAndAssetCtxs(isTestnet);
+        // 2. Fetch Screened Market Data
+        console.log("📊 Fetching Screened Market Data...");
+
+        // ScreenerService now uses cached MarketStateSnapshot internally for fast on-demand screening
+        const screenedSymbols = await this.screenerService.getScreenedSymbols(isTestnet, heldSymbols, screeningConfig);
+        console.log(`✅ Loaded ${screenedSymbols.length} symbols from screener.`);
         const markets: Record<string, MarketData> = {};
 
-        if (metaAndCtxs) {
-            const { universe, assetCtxs } = metaAndCtxs;
-            console.log(`✅ Fetched ${universe.length} assets from Hyperliquid`);
+        for (const symbolData of screenedSymbols) {
+            const { symbol, price, metrics, bookMetrics, funding, openInterest, sentiment } = symbolData;
 
-            // Process top assets (e.g., BTC, ETH, SOL)
-            // We need to map asset index to symbol from 'universe'
-
-            for (let i = 0; i < universe.length; i++) {
-                const assetMeta = universe[i];
-                const ctx = assetCtxs[i];
-                const symbol = assetMeta.name; // e.g., "BTC"
-
-                // Filter for major coins to save time/tokens
-                if (!["BTC", "ETH", "SOL", "ARB"].includes(symbol)) continue;
-
-                console.log(`📈 Processing ${symbol}...`);
-
-                const price = parseFloat(ctx.markPx);
-                const funding = parseFloat(ctx.funding);
-                const openInterest = parseFloat(ctx.openInterest);
-
-                // Fetch Market Analysis (Returns & Volatility & Z-Scores)
-                const metrics = await this.marketAnalysisService.getMetricsForSymbol(symbol, isTestnet);
-
-                // Fetch Order Book Metrics (Spread, Depth)
-                const bookMetrics = await this.marketAnalysisService.getOrderBookMetrics(symbol, isTestnet);
-
-                // Fetch Sentiment
-                const sentiment = await this.sentimentService.getSentimentForCoin(symbol);
-
-                markets[`${symbol}-PERP`] = {
-                    price,
-                    spread_bps: bookMetrics.spread_bps,
-                    depth_usd: bookMetrics.depth_usd,
-                    imbalance: bookMetrics.imbalance,
-                    returns: metrics.returns,
-                    realized_vol: metrics.realized_vol,
-                    vol_zscores: metrics.vol_zscores,
-                    funding: {
-                        current_8h: funding,
-                        prev_8h: funding // Mock
-                    },
-                    open_interest: {
-                        current: openInterest * price, // Convert to USD
-                        change_1h: 0,
-                        change_24h: 0
-                    },
-                    sentiment,
-                    regime_tags: metrics.regime_tags
-                };
-
-                console.log(`✅ Added ${symbol}-PERP to markets (price: $${price})`);
-
-            }
-
-            console.log(`📊 Total markets added: ${Object.keys(markets).length}`);
-        } else {
-            console.error("❌ Failed to fetch market data from Hyperliquid");
+            markets[`${symbol}-PERP`] = {
+                price,
+                spread_bps: bookMetrics.spread_bps,
+                depth_usd: bookMetrics.depth_usd,
+                imbalance: bookMetrics.imbalance,
+                returns: metrics.returns,
+                realized_vol: metrics.realized_vol,
+                vol_zscores: metrics.vol_zscores,
+                funding: {
+                    current_8h: funding,
+                    prev_8h: funding // Mock
+                },
+                open_interest: {
+                    current: openInterest,
+                    change_1h: 0,
+                    change_24h: 0
+                },
+                sentiment,
+                regime_tags: metrics.regime_tags
+            };
         }
+
+        console.log(`📊 Total markets included in snapshot: ${Object.keys(markets).length}`);
 
         return {
             timestamp,
@@ -208,7 +190,7 @@ export class SnapshotBuilder {
                 "DO_NOTHING"
             ],
             meta: {
-                note: "Generated by SnapshotBuilder"
+                note: "Generated by SnapshotBuilder with Screener"
             }
         };
     }

@@ -1,4 +1,5 @@
 import { getOHLCV, getL2Book } from "@/lib/hyperliquid";
+import { prisma } from "@/lib/db";
 
 export type MarketMetrics = {
     returns: {
@@ -181,73 +182,84 @@ export class MarketAnalysisService {
     }
 
     private async fetchCandlesWithCache(symbol: string, isTestnet: boolean): Promise<Candle[]> {
-        // Check cache
-        const cached = this.candleCache[symbol] || [];
+        // 1. Get latest candle from DB
+        const latestCandle = await prisma.candle.findFirst({
+            where: { symbol, interval: "1m" },
+            orderBy: { t: 'desc' }
+        });
 
-        // Determine start time
-        // If no cache, fetch last 24h (1440 mins)
-        // If cache, fetch from last candle time
-        let startTime = Date.now() - 24 * 60 * 60 * 1000;
-        if (cached.length > 0) {
-            startTime = cached[cached.length - 1].t + 1; // Start after last candle
+        // 2. Determine start time
+        // If no data, fetch last 4.5 hours (approx 270 mins)
+        // If data, fetch from last candle time + 1ms
+        let startTime = Date.now() - (4.5 * 60 * 60 * 1000);
+        if (latestCandle) {
+            startTime = Number(latestCandle.t) + 1;
         }
 
-        // Fetch new candles (1m interval)
-        // Note: getOHLCV in lib/hyperliquid.ts might need adjustment if it hardcodes 24h
-        // But looking at lib/hyperliquid.ts, it accepts startTime in the body if we modify it, 
-        // OR we can just call it and it defaults to 24h.
-        // The current getOHLCV implementation calculates startTime = Date.now() - 24h.
-        // We need to modify getOHLCV to accept startTime or handle it here.
-        // Since I cannot modify getOHLCV signature easily without breaking other things, 
-        // I will assume getOHLCV returns the last 24h and I will merge/dedupe manually for now,
-        // OR I should have updated getOHLCV to accept startTime.
-        // Let's look at getOHLCV again. It takes (coin, interval, isTestnet).
-        // It calculates startTime inside.
-        // So it always fetches 24h.
-        // Optimization: If we have cache, we can't tell getOHLCV to fetch less.
-        // So we still fetch 24h every time with the current getOHLCV.
-        // To implement TRUE optimization, I need to update getOHLCV to accept startTime.
-        // However, for this task, I will just use the 24h fetch and update the cache.
-        // It's not "delta network fetch" but it is "delta processing".
-        // Wait, the user specifically asked for "only the first load should be big. next is just deltas."
-        // So I MUST update getOHLCV to support custom startTime.
-
-        // I will use a cast or assume I updated it. 
-        // Actually, I should update getOHLCV first or overload it.
-        // Let's update getOHLCV in the next step if needed, or just pass the arg if I can.
-        // The current getOHLCV signature is: getOHLCV(coin, interval, isTestnet)
-        // I will modify it to getOHLCV(coin, interval, isTestnet, startTime?)
-
-        // For now, let's assume I will update getOHLCV in the next step or use a local version.
-        // I'll use a local helper here to avoid breaking the contract immediately, 
-        // or better, I'll update getOHLCV in the same file if I could, but it's imported.
-
-        // Let's assume getOHLCV is updated. I will update it in the next step.
-        const newCandles = await getOHLCV(symbol, "1m", isTestnet, startTime);
-
-        if (!newCandles || newCandles.length === 0) return cached;
-
-        // Merge
-        // If cache was empty, just use new
-        if (cached.length === 0) {
-            this.candleCache[symbol] = newCandles;
-            return newCandles;
+        // 3. Fetch new candles from API (with retry logic handled in getOHLCV)
+        let newCandles: Candle[] = [];
+        try {
+            newCandles = await getOHLCV(symbol, "1m", isTestnet, startTime);
+        } catch (err) {
+            console.error(`[MarketAnalysis] Failed to fetch new candles for ${symbol}, using cached only.`);
         }
 
-        // Append new candles that are newer than last cached
-        const lastTime = cached[cached.length - 1].t;
-        const newer = newCandles.filter((c: Candle) => c.t > lastTime);
+        // 4. Save new candles to DB
+        if (newCandles && newCandles.length > 0) {
+            // console.log(`[MarketAnalysis] Saving ${newCandles.length} new candles for ${symbol}`);
 
-        if (newer.length > 0) {
-            console.log(`[MarketAnalysis] Merged ${newer.length} new candles for ${symbol}`);
-            this.candleCache[symbol] = [...cached, ...newer];
+            // Filter out any that might overlap or be invalid
+            const validCandles = newCandles.filter(c => c.t > (latestCandle ? Number(latestCandle.t) : 0));
 
-            // Prune to keep only last 24h (approx 1440 candles) to save memory
-            if (this.candleCache[symbol].length > 2000) {
-                this.candleCache[symbol] = this.candleCache[symbol].slice(-1500);
+            if (validCandles.length > 0) {
+                // SQLite doesn't support skipDuplicates in createMany.
+                // We use a transaction of upserts to handle duplicates safely.
+                await prisma.$transaction(
+                    validCandles.map((c: Candle) =>
+                        prisma.candle.upsert({
+                            where: {
+                                symbol_interval_t: {
+                                    symbol: symbol,
+                                    interval: "1m",
+                                    t: BigInt(c.t)
+                                }
+                            },
+                            update: {}, // No-op if exists
+                            create: {
+                                symbol,
+                                interval: "1m",
+                                t: BigInt(c.t),
+                                o: parseFloat(c.o),
+                                h: parseFloat(c.h),
+                                l: parseFloat(c.l),
+                                c: parseFloat(c.c),
+                                v: parseFloat(c.v)
+                            }
+                        })
+                    )
+                );
             }
         }
 
-        return this.candleCache[symbol];
+        // 5. Return combined data (last 4.5h is enough for metrics)
+        // We query the DB for the last 4.5h to ensure we have a consistent view
+        const lookbackWindow = Date.now() - (4.5 * 60 * 60 * 1000);
+        const dbCandles = await prisma.candle.findMany({
+            where: {
+                symbol,
+                interval: "1m",
+                t: { gte: lookbackWindow }
+            },
+            orderBy: { t: 'asc' }
+        });
+
+        return dbCandles.map(c => ({
+            t: Number(c.t),
+            o: c.o.toString(),
+            h: c.h.toString(),
+            l: c.l.toString(),
+            c: c.c.toString(),
+            v: c.v.toString()
+        }));
     }
 }

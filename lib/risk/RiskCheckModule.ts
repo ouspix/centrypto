@@ -2,10 +2,12 @@ import { ApprovedOrder } from "@/lib/hyperliquidExecution";
 import { StateSnapshot } from "@/services/SnapshotBuilder";
 
 export type TradeDecision = {
-    action: "OPEN_POSITION" | "CLOSE_POSITION" | "REDUCE_POSITION" | "ADJUST_STOPS" | "DO_NOTHING";
+    action: "OPEN_POSITION" | "CLOSE_POSITION" | "REDUCE_POSITION" | "ADJUST_STOPS" | "DO_NOTHING" | "HOLD" | "INCREASE_POSITION";
     symbol: string | null;
     side: "long" | "short" | null;
-    size_fraction_of_equity: number | null;
+    target_side: "long" | "short" | "flat" | null;
+    target_size_fraction_of_equity: number | null;
+    size_fraction_of_equity: number | null; // Deprecated, keeping for compatibility if needed, but prompt uses target_size_fraction_of_equity
     risk_plan: {
         stop_loss_pct: number;
         take_profit_pct_primary: number;
@@ -35,15 +37,15 @@ export class RiskCheckModule {
             return { approved: false, reason: "Max Daily Loss Exceeded" };
         }
 
-        if (decision.action === "DO_NOTHING") {
+        if (decision.action === "DO_NOTHING" || decision.action === "HOLD") {
             return { approved: true, reason: "No Trade Proposed" };
         }
 
-        if (decision.action === "OPEN_POSITION") {
+        if (decision.action === "OPEN_POSITION" || decision.action === "INCREASE_POSITION") {
             return this.assessOpenPosition(decision, snapshot);
         }
 
-        if (decision.action === "CLOSE_POSITION") {
+        if (decision.action === "CLOSE_POSITION" || decision.action === "REDUCE_POSITION") {
             // Always allow closing (unless some specific rule)
             return this.assessClosePosition(decision, snapshot);
         }
@@ -52,12 +54,15 @@ export class RiskCheckModule {
     }
 
     private assessOpenPosition(decision: TradeDecision, snapshot: StateSnapshot): RiskAssessment {
-        if (!decision.symbol || !decision.side || !decision.size_fraction_of_equity) {
+        // Use target_size_fraction_of_equity (new field) or fall back to deprecated size_fraction_of_equity
+        const sizeFraction = decision.target_size_fraction_of_equity ?? decision.size_fraction_of_equity;
+
+        if (!decision.symbol || !decision.target_side || sizeFraction === null || sizeFraction === undefined) {
             return { approved: false, reason: "Missing trade details" };
         }
 
         const equity = snapshot.account.equity_usd;
-        const proposedSizeUsd = equity * decision.size_fraction_of_equity;
+        const proposedSizeUsd = equity * sizeFraction;
 
         // 3. Check Max Position Size
         const maxPerSymbol = equity * snapshot.constraints.max_position_pct_equity_per_symbol;
@@ -81,9 +86,10 @@ export class RiskCheckModule {
         }
 
         // Construct ApprovedOrder
+        const orderSide = (decision.target_side ?? decision.side) === "long" ? "buy" : "sell";
         const approvedOrder: ApprovedOrder = {
             symbol: decision.symbol,
-            side: decision.side === "long" ? "buy" : "sell",
+            side: orderSide,
             sizeUsd: proposedSizeUsd,
             clientTag: "AI_TRADER",
             // Calculate TP/SL prices
@@ -93,7 +99,9 @@ export class RiskCheckModule {
         const market = snapshot.markets[decision.symbol];
         if (market && decision.risk_plan) {
             const entryPx = market.price;
-            if (decision.side === "long") {
+            const isLong = (decision.target_side ?? decision.side) === "long";
+
+            if (isLong) {
                 approvedOrder.stopLossPrice = entryPx * (1 + decision.risk_plan.stop_loss_pct);
                 approvedOrder.takeProfitPrice = entryPx * (1 + decision.risk_plan.take_profit_pct_primary);
             } else {

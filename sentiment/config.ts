@@ -43,6 +43,19 @@ const defaults = {
     ETH: ['ethereum', 'eth', 'ETH'],
     SOL: ['solana', 'sol', 'SOL'],
     ARB: ['arbitrum', 'arb', 'ARB'],
+    BNB: ['binance', 'bnb', 'BNB'],
+    DOGE: ['dogecoin', 'doge', 'DOGE'],
+    AVAX: ['avalanche', 'avax', 'AVAX'],
+    AAVE: ['aave', 'AAVE'],
+    MATIC: ['polygon', 'matic', 'MATIC'],
+    LINK: ['chainlink', 'link', 'LINK'],
+    UNI: ['uniswap', 'uni', 'UNI'],
+    XRP: ['ripple', 'xrp', 'XRP'],
+    ADA: ['cardano', 'ada', 'ADA'],
+    DOT: ['polkadot', 'dot', 'DOT'],
+    ATOM: ['cosmos', 'atom', 'ATOM'],
+    LTC: ['litecoin', 'ltc', 'LTC'],
+    // Add more as needed - unknown symbols will gracefully fall back to neutral sentiment
   } satisfies SymbolConfig,
   lexicon: {
     positive: [

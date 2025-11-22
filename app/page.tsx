@@ -7,6 +7,7 @@ import { AIAdvisor } from "@/components/AIAdvisor";
 import { OpenPositions } from "@/components/OpenPositions";
 import { Backtester } from "@/components/Backtester";
 import { WalletConnect } from "@/components/WalletConnect";
+import { ScreeningParameters } from "@/components/ScreeningParameters";
 
 export default function Home() {
   return (
@@ -28,8 +29,9 @@ export default function Home() {
         <main className="flex-1">
           <section className="grid auto-rows-min grid-cols-1 gap-5 lg:grid-cols-12">
             {/* ROW 1 */}
-            {/* Market feed */}
-            <div className="lg:col-span-4">
+            {/* Left Column: Screening + Market feed */}
+            <div className="space-y-5 lg:col-span-4">
+              <ScreeningParameters />
               <HyperliquidFeed />
             </div>
 

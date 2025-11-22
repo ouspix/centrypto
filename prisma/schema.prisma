@@ -49,3 +49,30 @@ model SymbolSentimentSnapshot {
   @@index([symbol, updatedAt])
   @@index([symbol, windowMinutes, updatedAt])
 }
+
+model Candle {
+  id        Int      @id @default(autoincrement())
+  symbol    String
+  interval  String
+  t         BigInt   // Timestamp (ms)
+  o         Float
+  h         Float
+  l         Float
+  c         Float
+  v         Float
+  
+  @@unique([symbol, interval, t])
+  @@index([symbol, interval, t])
+}
+
+model ScreeningSnapshot {
+  id        Int      @id @default(autoincrement())
+  data      String   // JSON string of ScreenedSymbol[]
+  createdAt DateTime @default(now())
+}
+
+model MarketStateSnapshot {
+  id        Int      @id @default(autoincrement())
+  data      String   // JSON string of EnrichedMarketData[] (ALL symbols)
+  createdAt DateTime @default(now())
+}

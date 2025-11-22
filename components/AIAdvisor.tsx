@@ -12,9 +12,11 @@ import { useTrading } from "@/context/TradingContext"
 import { useAccount } from "wagmi"
 
 type TradeDecision = {
-    action: "OPEN_POSITION" | "CLOSE_POSITION" | "REDUCE_POSITION" | "ADJUST_STOPS" | "DO_NOTHING";
+    action: "OPEN_POSITION" | "CLOSE_POSITION" | "REDUCE_POSITION" | "ADJUST_STOPS" | "DO_NOTHING" | "HOLD" | "INCREASE_POSITION";
     symbol: string | null;
     side: "long" | "short" | null;
+    target_side: "long" | "short" | "flat" | null;
+    target_size_fraction_of_equity: number | null;
     size_fraction_of_equity: number | null;
     risk_plan: {
         stop_loss_pct: number;
@@ -32,10 +34,11 @@ type RiskAssessment = {
 };
 
 type AnalysisResult = {
-    decision: TradeDecision;
+    decisions: TradeDecision[];
     riskAssessment: RiskAssessment;
     snapshot: any;
     prompt: string;
+    rawOutput: string;
 };
 
 export function AIAdvisor() {
@@ -70,6 +73,20 @@ export function AIAdvisor() {
 
         setLoading(true)
         try {
+            // Read screening config from localStorage
+            let screeningConfig = null;
+            try {
+                const saved = localStorage.getItem('screeningConfig');
+                if (saved) {
+                    screeningConfig = JSON.parse(saved);
+                    console.log('📋 Screening config from localStorage:', screeningConfig);
+                } else {
+                    console.log('📋 No screening config in localStorage');
+                }
+            } catch (e) {
+                console.error('Failed to read screening config', e);
+            }
+
             const response = await fetch('/api/ai/analyze', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -77,7 +94,8 @@ export function AIAdvisor() {
                     userAddress: address || null,
                     autoTrading: autoTrading,
                     model: selectedModel,
-                    isTestnet
+                    isTestnet,
+                    screeningConfig
                 })
             })
 
@@ -218,34 +236,65 @@ export function AIAdvisor() {
 
                 {result && (
                     <div className="space-y-3 animate-fade-in">
-                        {/* Decision Header */}
-                        <div className="flex items-center justify-between p-3 bg-gradient-to-br from-slate-950 to-slate-900 rounded-lg border border-slate-800 shadow-lg">
-                            <div className="flex flex-col">
-                                <span className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Action</span>
-                                <span className={`text-base font-bold ${result.decision.action === 'OPEN_POSITION' ? (result.decision.side === 'long' ? 'text-green-400' : 'text-red-400') :
-                                    result.decision.action === 'CLOSE_POSITION' ? 'text-orange-400' :
-                                        'text-slate-300'
-                                    }`}>
-                                    {result.decision.action.replace('_', ' ')}
-                                </span>
-                                {result.decision.symbol && (
-                                    <span className="text-[10px] text-slate-500 mt-0.5 font-mono">
-                                        {result.decision.side?.toUpperCase()} {result.decision.symbol}
-                                    </span>
-                                )}
-                            </div>
-                            <div className="flex flex-col items-end">
-                                <span className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Confidence</span>
-                                <Badge
-                                    variant="outline"
-                                    className={`text-sm px-2 py-0.5 mt-1 ${result.decision.confidence > 0.8 ? 'border-green-500 text-green-400 bg-green-500/10' :
-                                        result.decision.confidence > 0.5 ? 'border-yellow-500 text-yellow-400 bg-yellow-500/10' :
-                                            'border-slate-500 text-slate-400 bg-slate-500/10'
-                                        }`}
-                                >
-                                    {(result.decision.confidence * 100).toFixed(0)}%
+                        {/* Portfolio Plan Header */}
+                        <div className="p-3 bg-gradient-to-br from-slate-950 to-slate-900 rounded-lg border border-slate-800 shadow-lg">
+                            <div className="flex items-center justify-between mb-2">
+                                <span className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Portfolio Plan</span>
+                                <Badge variant="outline" className="text-[9px] border-purple-500/30 text-purple-400 bg-purple-500/5">
+                                    {result.decisions.length} Decision{result.decisions.length !== 1 ? 's' : ''}
                                 </Badge>
                             </div>
+                        </div>
+
+                        {/* Decisions List */}
+                        <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1">
+                            {result.decisions.map((decision, idx) => (
+                                <div key={idx} className="p-2.5 bg-slate-950/50 rounded-lg border border-slate-800 hover:border-slate-700 transition-colors">
+                                    <div className="flex items-center justify-between mb-1.5">
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-xs font-mono font-bold text-slate-200">{decision.symbol || 'N/A'}</span>
+                                            {decision.target_side && decision.target_side !== 'flat' && (
+                                                <Badge variant="outline" className={`text-[9px] px-1.5 py-0 ${decision.target_side === 'long'
+                                                    ? 'border-green-500/50 text-green-400 bg-green-500/10'
+                                                    : 'border-red-500/50 text-red-400 bg-red-500/10'
+                                                    }`}>
+                                                    {decision.target_side.toUpperCase()}
+                                                </Badge>
+                                            )}
+                                        </div>
+                                        <Badge variant="outline" className={`text-[9px] px-1.5 py-0 ${decision.confidence > 0.7 ? 'border-green-500/30 text-green-400 bg-green-500/5' :
+                                            decision.confidence > 0.5 ? 'border-yellow-500/30 text-yellow-400 bg-yellow-500/5' :
+                                                'border-slate-500/30 text-slate-400 bg-slate-500/5'
+                                            }`}>
+                                            {(decision.confidence * 100).toFixed(0)}%
+                                        </Badge>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-[10px] text-slate-500">Action</span>
+                                            <span className={`text-[10px] font-semibold ${decision.action === 'OPEN_POSITION' || decision.action === 'INCREASE_POSITION' ? 'text-green-400' :
+                                                decision.action === 'CLOSE_POSITION' || decision.action === 'REDUCE_POSITION' ? 'text-orange-400' :
+                                                    'text-slate-400'
+                                                }`}>
+                                                {decision.action.replace(/_/g, ' ')}
+                                            </span>
+                                        </div>
+                                        {decision.target_size_fraction_of_equity !== null && decision.target_size_fraction_of_equity !== undefined && (
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-[10px] text-slate-500">Target Size</span>
+                                                <span className="text-[10px] font-mono text-cyan-400">
+                                                    {(decision.target_size_fraction_of_equity * 100).toFixed(1)}% equity
+                                                </span>
+                                            </div>
+                                        )}
+                                        <div className="pt-1 border-t border-slate-800/50">
+                                            <p className="text-[10px] text-slate-400 leading-relaxed">
+                                                {decision.notes}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
 
                         {/* Risk Assessment */}
@@ -261,35 +310,6 @@ export function AIAdvisor() {
                                 <span className="text-[11px] text-slate-400 mt-0.5 leading-relaxed">{result.riskAssessment.reason}</span>
                             </div>
                         </div>
-
-                        {/* Reasoning */}
-                        <div className="p-3 bg-slate-950/50 rounded-lg border border-slate-800">
-                            <h4 className="text-[10px] font-semibold text-purple-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                                <BrainCircuit className="h-3 w-3" />
-                                AI Reasoning ({result.decision.reason_code})
-                            </h4>
-                            <p className="text-xs text-slate-300 leading-relaxed">
-                                {result.decision.notes}
-                            </p>
-                        </div>
-
-                        {/* Risk Plan Details */}
-                        {result.decision.risk_plan && (
-                            <div className="grid grid-cols-2 gap-2">
-                                <div className="p-2.5 bg-slate-950 rounded border border-slate-800">
-                                    <span className="text-[10px] text-slate-500 block mb-0.5">Stop Loss</span>
-                                    <span className="text-xs font-mono text-red-400 font-bold">
-                                        {(result.decision.risk_plan.stop_loss_pct * 100).toFixed(2)}%
-                                    </span>
-                                </div>
-                                <div className="p-2.5 bg-slate-950 rounded border border-slate-800">
-                                    <span className="text-[10px] text-slate-500 block mb-0.5">Take Profit</span>
-                                    <span className="text-xs font-mono text-green-400 font-bold">
-                                        {(result.decision.risk_plan.take_profit_pct_primary * 100).toFixed(2)}%
-                                    </span>
-                                </div>
-                            </div>
-                        )}
                     </div>
                 )}
             </CardContent>
@@ -305,16 +325,28 @@ export function AIAdvisor() {
                         <Play className="h-3 w-3 mr-2 text-white" />
                         Re-Analyze Market
                     </Button>
-                    <Button
-                        onClick={() => {
-                            navigator.clipboard.writeText(result.prompt);
-                        }}
-                        variant="outline"
-                        className="w-full h-10 text-xs border border-slate-500/80 bg-[#111b2d] text-slate-50 hover:bg-[#18243c] hover:border-slate-300 shadow-md shadow-slate-900/40"
-                    >
-                        <span className="mr-2">📋</span>
-                        Copy Prompt
-                    </Button>
+                    <div className="grid grid-cols-2 gap-2">
+                        <Button
+                            onClick={() => {
+                                navigator.clipboard.writeText(result.prompt);
+                            }}
+                            variant="outline"
+                            className="w-full h-10 text-xs border border-slate-500/80 bg-[#111b2d] text-slate-50 hover:bg-[#18243c] hover:border-slate-300 shadow-md shadow-slate-900/40"
+                        >
+                            <span className="mr-2">📋</span>
+                            Copy Prompt
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                navigator.clipboard.writeText(result.rawOutput || "No raw output available");
+                            }}
+                            variant="outline"
+                            className="w-full h-10 text-xs border border-slate-500/80 bg-[#111b2d] text-slate-50 hover:bg-[#18243c] hover:border-slate-300 shadow-md shadow-slate-900/40"
+                        >
+                            <span className="mr-2">🤖</span>
+                            Copy Raw
+                        </Button>
+                    </div>
                 </div>
             )}
         </Card>

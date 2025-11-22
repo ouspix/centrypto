@@ -1,28 +1,98 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, useMemo } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { useTrading } from "@/context/TradingContext"
 import { cn } from "@/lib/utils"
+import { TrendingUp, TrendingDown } from "lucide-react"
 
 type Ticker = {
     coin: string
     mid: number
-}
-
-type L2Book = {
-    coin: string
-    levels: [number, number][] // [price, size]
-    time: number
+    volume24h?: number
+    spreadBps?: number
+    depthUsd?: number
+    volZscore?: number
+    retZscore?: number
+    change24h?: number
+    funding?: number
+    openInterest?: number
 }
 
 export function HyperliquidFeed() {
-    const [tickers, setTickers] = useState<Ticker[]>([])
+    const [allTickers, setAllTickers] = useState<Ticker[]>([]) // Raw data from WS
+    const [tickers, setTickers] = useState<Ticker[]>([]) // Filtered data
     const [status, setStatus] = useState<"connected" | "disconnected" | "connecting">("disconnected")
+    const enrichedDataRef = useRef<Record<string, any>>({})
+    const [screeningConfig, setScreeningConfig] = useState<any>(null)
     const wsRef = useRef<WebSocket | null>(null)
     const pingIntervalRef = useRef<NodeJS.Timeout | null>(null)
     const { selectedPair, setSelectedPair, setMarketState, isTestnet } = useTrading()
+
+    // Load screening config from localStorage
+    useEffect(() => {
+        const loadConfig = () => {
+            try {
+                const saved = localStorage.getItem('screeningConfig')
+                if (saved) {
+                    setScreeningConfig(JSON.parse(saved))
+                }
+            } catch (e) {
+                console.error('Failed to load screening config', e)
+            }
+        }
+
+        loadConfig()
+
+        // Listen for config changes
+        const handleConfigChange = (e: any) => {
+            setScreeningConfig(e.detail)
+        }
+
+        window.addEventListener('screeningConfigChanged', handleConfigChange)
+        return () => window.removeEventListener('screeningConfigChanged', handleConfigChange)
+    }, [])
+
+    // Fetch enriched market data (screening metrics)
+    useEffect(() => {
+        const fetchEnrichedData = async () => {
+            try {
+                const apiUrl = isTestnet
+                    ? "https://api.hyperliquid-testnet.xyz/info"
+                    : "https://api.hyperliquid.xyz/info"
+
+                const response = await fetch(apiUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ type: "metaAndAssetCtxs" })
+                })
+
+                if (!response.ok) return
+
+                const data = await response.json()
+                const enriched: Record<string, any> = {}
+
+                data[0].universe.forEach((asset: any, idx: number) => {
+                    const ctx = data[1][idx]
+                    enriched[asset.name] = {
+                        volume24h: parseFloat(ctx.dayNtlVlm),
+                        funding: parseFloat(ctx.funding),
+                        openInterest: parseFloat(ctx.openInterest),
+                        prevDayPx: parseFloat(ctx.prevDayPx)
+                    }
+                })
+
+                enrichedDataRef.current = enriched
+            } catch (error) {
+                console.error("Failed to fetch enriched data", error)
+            }
+        }
+
+        fetchEnrichedData()
+        const interval = setInterval(fetchEnrichedData, 30000) // Refresh every 30s
+        return () => clearInterval(interval)
+    }, [isTestnet])
 
     useEffect(() => {
         const connect = () => {
@@ -55,23 +125,26 @@ export function HyperliquidFeed() {
                 const data = JSON.parse(event.data)
 
                 if (data.channel === "allMids") {
-                    // data.data.mids is an object { "BTC": "65000.5", ... }
                     const mids = data.data.mids
-                    const tickerList = Object.entries(mids).map(([coin, mid]) => ({
-                        coin,
-                        mid: parseFloat(mid as string)
-                    }))
-                    // Sort by coin name or priority (e.g., BTC, ETH first)
-                    tickerList.sort((a, b) => {
-                        const priority = ["BTC", "ETH", "SOL", "ARB", "SUI"]
-                        const idxA = priority.indexOf(a.coin)
-                        const idxB = priority.indexOf(b.coin)
-                        if (idxA !== -1 && idxB !== -1) return idxA - idxB
-                        if (idxA !== -1) return -1
-                        if (idxB !== -1) return 1
-                        return a.coin.localeCompare(b.coin)
+                    const tickerList = Object.entries(mids).map(([coin, mid]) => {
+                        const enrichment = enrichedDataRef.current[coin] || {}
+                        const currentPrice = parseFloat(mid as string)
+                        const prevPrice = enrichment.prevDayPx || currentPrice
+                        const change24h = ((currentPrice - prevPrice) / prevPrice) * 100
+
+                        return {
+                            coin,
+                            mid: currentPrice,
+                            volume24h: enrichment.volume24h,
+                            change24h,
+                            funding: enrichment.funding,
+                            openInterest: enrichment.openInterest
+                        }
                     })
-                    setTickers(tickerList.slice(0, 10)) // Show top 10 for now
+
+                    // Sort by volume (highest first)
+                    tickerList.sort((a, b) => (b.volume24h || 0) - (a.volume24h || 0))
+                    setAllTickers(tickerList) // Store raw WS data
 
                     // Update current price in context if selected pair is found
                     const currentTicker = tickerList.find(t => t.coin === selectedPair)
@@ -87,7 +160,6 @@ export function HyperliquidFeed() {
                 setStatus("disconnected")
                 console.log("Disconnected from Hyperliquid WS")
                 if (pingIntervalRef.current) clearInterval(pingIntervalRef.current)
-                // Only auto-reconnect if we didn't intentionally close (e.g., not during cleanup)
                 if (wsRef.current === ws) {
                     console.log("Auto-reconnecting in 5s...")
                     setTimeout(connect, 5000)
@@ -105,7 +177,6 @@ export function HyperliquidFeed() {
 
         return () => {
             console.log("Cleaning up WebSocket connection for network switch...")
-            // Clear the ref first to prevent auto-reconnect
             const currentWs = wsRef.current
             wsRef.current = null
 
@@ -117,48 +188,126 @@ export function HyperliquidFeed() {
                 pingIntervalRef.current = null
             }
         }
-    }, [selectedPair, setMarketState, isTestnet])
+    }, [selectedPair, setMarketState, isTestnet, screeningConfig]) // Added screeningConfig to dependencies to re-evaluate WS connection if config changes
+
+    // Fetch screened symbols from the screener API (applies all layers)
+    useEffect(() => {
+        if (!screeningConfig) {
+            // If no config, show all tickers
+            setTickers(allTickers);
+            return;
+        }
+
+        if (allTickers.length === 0) {
+            // No data yet
+            return;
+        }
+
+        const fetchScreenedSymbols = async () => {
+            try {
+                const response = await fetch('/api/screener', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        isTestnet,
+                        screeningConfig
+                    })
+                });
+
+                if (!response.ok) {
+                    console.error('Failed to fetch screened symbols:', response.statusText);
+                    // Fallback to showing all tickers if API call fails
+                    setTickers(allTickers);
+                    return;
+                }
+
+                const data = await response.json();
+                const screenedSymbols = new Set(data.symbols.map((s: any) => s.symbol));
+
+                // Filter tickers to only show screened symbols, maintaining WS price updates
+                setTickers(allTickers.filter(t => screenedSymbols.has(t.coin)));
+            } catch (error) {
+                console.error('Failed to fetch screened symbols', error);
+                // Fallback to showing all tickers if error occurs
+                setTickers(allTickers);
+            }
+        };
+
+        fetchScreenedSymbols();
+        const interval = setInterval(fetchScreenedSymbols, 60000); // Refresh every minute
+        return () => clearInterval(interval);
+    }, [screeningConfig, isTestnet]); // Only re-run when config or network changes, not on every ticker update
+
+    // No need for client-side filtering anymore - the screener API handles it
+    const filteredTickers = tickers;
 
     return (
-        <Card className="bg-slate-900 text-slate-100 border-slate-800">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-lg font-bold text-blue-400">Market Feed</CardTitle>
+        <Card className="bg-slate-900 text-slate-100 border-slate-800 flex flex-col" style={{ maxHeight: '80vh' }}>
+            <CardHeader className="flex flex-row items-center justify-between pb-3 border-b border-slate-800/50 shrink-0">
+                <div className="flex items-center gap-2">
+                    <CardTitle className="text-xl font-bold text-blue-400">Market Feed</CardTitle>
+                    {screeningConfig && filteredTickers.length < allTickers.length && (
+                        <Badge variant="outline" className="text-xs border-cyan-500/30 text-cyan-400 bg-cyan-500/5">
+                            {filteredTickers.length} / {allTickers.length}
+                        </Badge>
+                    )}
+                </div>
                 <div className="flex gap-2">
-                    <Badge variant={isTestnet ? "outline" : "default"} className={isTestnet ? "border-orange-500 text-orange-400" : "border-blue-500 text-blue-400"}>
+                    <Badge variant={isTestnet ? "outline" : "default"} className={isTestnet ? "border-orange-500 text-orange-400 text-sm" : "border-blue-500 text-blue-400 text-sm"}>
                         {isTestnet ? "Testnet" : "Mainnet"}
                     </Badge>
-                    <Badge variant={status === "connected" ? "default" : "destructive"} className={status === "connected" ? "bg-green-600" : "bg-red-600"}>
+                    <Badge variant={status === "connected" ? "default" : "destructive"} className={status === "connected" ? "bg-green-600 text-sm" : "bg-red-600 text-sm"}>
                         {status}
                     </Badge>
                 </div>
             </CardHeader>
-            <CardContent>
-                <div className="space-y-2">
-                    <div className="grid grid-cols-2 text-sm font-medium text-slate-400 mb-2">
-                        <span>Asset</span>
-                        <span className="text-right">Price (USDC)</span>
+            <CardContent className="flex-1 overflow-y-auto p-3 min-h-0">
+                <div className="space-y-1">
+                    {/* Header */}
+                    <div className="grid grid-cols-12 gap-2 text-sm font-semibold text-slate-400 mb-2 px-2 sticky top-0 bg-slate-900 pb-2 z-10">
+                        <span className="col-span-2">Asset</span>
+                        <span className="col-span-2 text-right">Price</span>
+                        <span className="col-span-2 text-right">24h %</span>
+                        <span className="col-span-3 text-right">Volume 24h</span>
+                        <span className="col-span-3 text-right">OI</span>
                     </div>
-                    {tickers.map((ticker) => (
+
+                    {/* Ticker Rows */}
+                    {filteredTickers.map((ticker) => (
                         <div
                             key={ticker.coin}
                             className={cn(
-                                "grid grid-cols-2 text-sm items-center border-b border-slate-800 py-2 px-2 last:border-0 cursor-pointer hover:bg-slate-800 rounded transition-colors",
+                                "grid grid-cols-12 gap-2 text-sm items-center border-b border-slate-800/50 py-2.5 px-2 last:border-0 cursor-pointer hover:bg-slate-800/50 rounded transition-colors",
                                 selectedPair === ticker.coin && "bg-slate-800 border-l-4 border-l-blue-500"
                             )}
                             onClick={() => setSelectedPair(ticker.coin)}
                         >
-                            <span className="font-bold text-slate-200">{ticker.coin}</span>
-                            <span className="text-right font-mono text-blue-300">
-                                {ticker.mid.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 })}
+                            <span className="col-span-2 font-bold text-slate-200 text-base">{ticker.coin}</span>
+                            <span className="col-span-2 text-right font-mono text-blue-300 text-base">
+                                ${ticker.mid.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </span>
+                            <span className={cn(
+                                "col-span-2 text-right font-semibold flex items-center justify-end gap-1 text-sm",
+                                ticker.change24h && ticker.change24h > 0 ? "text-green-400" : "text-red-400"
+                            )}>
+                                {ticker.change24h && ticker.change24h > 0 ? <TrendingUp className="h-4 w-4" /> : <TrendingDown className="h-4 w-4" />}
+                                {ticker.change24h ? `${ticker.change24h > 0 ? '+' : ''}${ticker.change24h.toFixed(2)}%` : 'N/A'}
+                            </span>
+                            <span className="col-span-3 text-right font-mono text-slate-300 text-sm">
+                                {ticker.volume24h ? `$${(ticker.volume24h / 1_000_000).toFixed(1)}M` : 'N/A'}
+                            </span>
+                            <span className="col-span-3 text-right font-mono text-slate-400 text-sm">
+                                {ticker.openInterest ? `$${(ticker.openInterest / 1_000_000).toFixed(1)}M` : 'N/A'}
                             </span>
                         </div>
                     ))}
-                    {tickers.length === 0 && status === "connected" && (
-                        <div className="text-center text-sm text-slate-500 py-4">Waiting for data...</div>
+                    {filteredTickers.length === 0 && status === "connected" && (
+                        <div className="text-center text-base text-slate-500 py-4">
+                            {tickers.length > 0 ? 'No markets match screening criteria' : 'Waiting for data...'}
+                        </div>
                     )}
                 </div>
             </CardContent>
         </Card>
     )
 }
-

@@ -1,6 +1,914 @@
 {
-  "BTC": ["bitcoin", "btc", "BTC", "比特币", "比特幣", "btc现货"],
-  "ETH": ["ethereum", "eth", "ETH", "以太坊", "以太"],
-  "SOL": ["solana", "sol", "SOL", "索拉纳", "索拉納"],
-  "ARB": ["arbitrum", "arb", "ARB", "阿比特rum", "阿比特"]
+  "BTC": [
+    "bitcoin",
+    "btc",
+    "BTC",
+    "比特币",
+    "比特幣",
+    "btc现货"
+  ],
+  "ETH": [
+    "ethereum",
+    "eth",
+    "ETH",
+    "以太坊",
+    "以太"
+  ],
+  "SOL": [
+    "solana",
+    "sol",
+    "SOL",
+    "索拉纳",
+    "索拉納"
+  ],
+  "ARB": [
+    "arbitrum",
+    "arb",
+    "ARB",
+    "阿比特rum",
+    "阿比特"
+  ],
+  "VVV": [
+    "VVV",
+    "vvv"
+  ],
+  "FARTCOIN": [
+    "FARTCOIN",
+    "fartcoin",
+    "fart coin"
+  ],
+  "ZEN": [
+    "ZEN",
+    "zen",
+    "Horizen"
+  ],
+  "PUMP": [
+    "PUMP",
+    "pump"
+  ],
+  "AAVE": [
+    "AAVE",
+    "aave"
+  ],
+  "XPL": [
+    "XPL",
+    "xpl"
+  ],
+  "AVAX": [
+    "AVAX",
+    "avax",
+    "Avalanche"
+  ],
+  "PENDLE": [
+    "PENDLE",
+    "pendle"
+  ],
+  "ADA": [
+    "ADA",
+    "ada",
+    "Cardano"
+  ],
+  "FET": [
+    "FET",
+    "fet",
+    "Fetch.ai",
+    "Artificial Superintelligence"
+  ],
+  "COMP": [
+    "COMP",
+    "comp",
+    "Compound"
+  ],
+  "PROMPT": [
+    "PROMPT",
+    "prompt"
+  ],
+  "TRUMP": [
+    "TRUMP",
+    "trump",
+    "MAGA"
+  ],
+  "VIRTUAL": [
+    "VIRTUAL",
+    "virtual",
+    "Virtual Protocol"
+  ],
+  "SUI": [
+    "SUI",
+    "sui"
+  ],
+  "MEME": [
+    "MEME",
+    "meme",
+    "Memecoin"
+  ],
+  "JUP": [
+    "JUP",
+    "jup",
+    "Jupiter"
+  ],
+  "MORPHO": [
+    "MORPHO",
+    "morpho"
+  ],
+  "PENGU": [
+    "PENGU",
+    "pengu",
+    "Pudgy Penguins"
+  ],
+  "ATOM": [
+    "ATOM",
+    "atom",
+    "Cosmos"
+  ],
+  "NEAR": [
+    "NEAR",
+    "near",
+    "NEAR Protocol"
+  ],
+  "BSV": [
+    "BSV",
+    "bsv",
+    "Bitcoin SV"
+  ],
+  "LINEA": [
+    "LINEA",
+    "linea"
+  ],
+  "MATIC": [
+    "MATIC",
+    "matic"
+  ],
+  "DYDX": [
+    "DYDX",
+    "dydx"
+  ],
+  "BNB": [
+    "BNB",
+    "bnb"
+  ],
+  "APE": [
+    "APE",
+    "ape"
+  ],
+  "OP": [
+    "OP",
+    "op"
+  ],
+  "LTC": [
+    "LTC",
+    "ltc"
+  ],
+  "DOGE": [
+    "DOGE",
+    "doge"
+  ],
+  "INJ": [
+    "INJ",
+    "inj"
+  ],
+  "KPEPE": [
+    "kPEPE",
+    "kpepe"
+  ],
+  "CRV": [
+    "CRV",
+    "crv"
+  ],
+  "LDO": [
+    "LDO",
+    "ldo"
+  ],
+  "LINK": [
+    "LINK",
+    "link"
+  ],
+  "STX": [
+    "STX",
+    "stx"
+  ],
+  "RNDR": [
+    "RNDR",
+    "rndr"
+  ],
+  "CFX": [
+    "CFX",
+    "cfx"
+  ],
+  "FTM": [
+    "FTM",
+    "ftm"
+  ],
+  "GMX": [
+    "GMX",
+    "gmx"
+  ],
+  "SNX": [
+    "SNX",
+    "snx"
+  ],
+  "XRP": [
+    "XRP",
+    "xrp"
+  ],
+  "BCH": [
+    "BCH",
+    "bch"
+  ],
+  "APT": [
+    "APT",
+    "apt"
+  ],
+  "MKR": [
+    "MKR",
+    "mkr"
+  ],
+  "WLD": [
+    "WLD",
+    "wld"
+  ],
+  "FXS": [
+    "FXS",
+    "fxs"
+  ],
+  "HPOS": [
+    "HPOS",
+    "hpos"
+  ],
+  "RLB": [
+    "RLB",
+    "rlb"
+  ],
+  "UNIBOT": [
+    "UNIBOT",
+    "unibot"
+  ],
+  "YGG": [
+    "YGG",
+    "ygg"
+  ],
+  "TRX": [
+    "TRX",
+    "trx"
+  ],
+  "KSHIB": [
+    "kSHIB",
+    "kshib"
+  ],
+  "UNI": [
+    "UNI",
+    "uni"
+  ],
+  "SEI": [
+    "SEI",
+    "sei"
+  ],
+  "RUNE": [
+    "RUNE",
+    "rune"
+  ],
+  "OX": [
+    "OX",
+    "ox"
+  ],
+  "FRIEND": [
+    "FRIEND",
+    "friend"
+  ],
+  "SHIA": [
+    "SHIA",
+    "shia"
+  ],
+  "CYBER": [
+    "CYBER",
+    "cyber"
+  ],
+  "ZRO": [
+    "ZRO",
+    "zro"
+  ],
+  "BLZ": [
+    "BLZ",
+    "blz"
+  ],
+  "DOT": [
+    "DOT",
+    "dot"
+  ],
+  "BANANA": [
+    "BANANA",
+    "banana"
+  ],
+  "TRB": [
+    "TRB",
+    "trb"
+  ],
+  "FTT": [
+    "FTT",
+    "ftt"
+  ],
+  "LOOM": [
+    "LOOM",
+    "loom"
+  ],
+  "OGN": [
+    "OGN",
+    "ogn"
+  ],
+  "RDNT": [
+    "RDNT",
+    "rdnt"
+  ],
+  "ARK": [
+    "ARK",
+    "ark"
+  ],
+  "BNT": [
+    "BNT",
+    "bnt"
+  ],
+  "CANTO": [
+    "CANTO",
+    "canto"
+  ],
+  "REQ": [
+    "REQ",
+    "req"
+  ],
+  "BIGTIME": [
+    "BIGTIME",
+    "bigtime"
+  ],
+  "KAS": [
+    "KAS",
+    "kas"
+  ],
+  "ORBS": [
+    "ORBS",
+    "orbs"
+  ],
+  "BLUR": [
+    "BLUR",
+    "blur"
+  ],
+  "TIA": [
+    "TIA",
+    "tia"
+  ],
+  "TON": [
+    "TON",
+    "ton"
+  ],
+  "MINA": [
+    "MINA",
+    "mina"
+  ],
+  "POLYX": [
+    "POLYX",
+    "polyx"
+  ],
+  "GAS": [
+    "GAS",
+    "gas"
+  ],
+  "STG": [
+    "STG",
+    "stg"
+  ],
+  "STRAX": [
+    "STRAX",
+    "strax"
+  ],
+  "ORDI": [
+    "ORDI",
+    "ordi"
+  ],
+  "BADGER": [
+    "BADGER",
+    "badger"
+  ],
+  "NEO": [
+    "NEO",
+    "neo"
+  ],
+  "FIL": [
+    "FIL",
+    "fil"
+  ],
+  "PYTH": [
+    "PYTH",
+    "pyth"
+  ],
+  "SUSHI": [
+    "SUSHI",
+    "sushi"
+  ],
+  "ILV": [
+    "ILV",
+    "ilv"
+  ],
+  "IMX": [
+    "IMX",
+    "imx"
+  ],
+  "KBONK": [
+    "kBONK",
+    "kbonk"
+  ],
+  "GMT": [
+    "GMT",
+    "gmt"
+  ],
+  "SUPER": [
+    "SUPER",
+    "super"
+  ],
+  "USTC": [
+    "USTC",
+    "ustc"
+  ],
+  "NFTI": [
+    "NFTI",
+    "nfti"
+  ],
+  "KLUNC": [
+    "kLUNC",
+    "klunc"
+  ],
+  "RSR": [
+    "RSR",
+    "rsr"
+  ],
+  "GALA": [
+    "GALA",
+    "gala"
+  ],
+  "JTO": [
+    "JTO",
+    "jto"
+  ],
+  "NTRN": [
+    "NTRN",
+    "ntrn"
+  ],
+  "ACE": [
+    "ACE",
+    "ace"
+  ],
+  "MAV": [
+    "MAV",
+    "mav"
+  ],
+  "WIF": [
+    "WIF",
+    "wif"
+  ],
+  "CAKE": [
+    "CAKE",
+    "cake"
+  ],
+  "PEOPLE": [
+    "PEOPLE",
+    "people"
+  ],
+  "ENS": [
+    "ENS",
+    "ens"
+  ],
+  "ETC": [
+    "ETC",
+    "etc"
+  ],
+  "XAI": [
+    "XAI",
+    "xai"
+  ],
+  "MANTA": [
+    "MANTA",
+    "manta"
+  ],
+  "UMA": [
+    "UMA",
+    "uma"
+  ],
+  "ONDO": [
+    "ONDO",
+    "ondo"
+  ],
+  "ALT": [
+    "ALT",
+    "alt"
+  ],
+  "ZETA": [
+    "ZETA",
+    "zeta"
+  ],
+  "DYM": [
+    "DYM",
+    "dym"
+  ],
+  "MAVIA": [
+    "MAVIA",
+    "mavia"
+  ],
+  "W": [
+    "W",
+    "w"
+  ],
+  "PANDORA": [
+    "PANDORA",
+    "pandora"
+  ],
+  "STRK": [
+    "STRK",
+    "strk"
+  ],
+  "PIXEL": [
+    "PIXEL",
+    "pixel"
+  ],
+  "AI": [
+    "AI",
+    "ai"
+  ],
+  "TAO": [
+    "TAO",
+    "tao"
+  ],
+  "AR": [
+    "AR",
+    "ar"
+  ],
+  "MYRO": [
+    "MYRO",
+    "myro"
+  ],
+  "KFLOKI": [
+    "kFLOKI",
+    "kfloki"
+  ],
+  "BOME": [
+    "BOME",
+    "bome"
+  ],
+  "ETHFI": [
+    "ETHFI",
+    "ethfi"
+  ],
+  "ENA": [
+    "ENA",
+    "ena"
+  ],
+  "MNT": [
+    "MNT",
+    "mnt"
+  ],
+  "TNSR": [
+    "TNSR",
+    "tnsr"
+  ],
+  "SAGA": [
+    "SAGA",
+    "saga"
+  ],
+  "MERL": [
+    "MERL",
+    "merl"
+  ],
+  "HBAR": [
+    "HBAR",
+    "hbar"
+  ],
+  "POPCAT": [
+    "POPCAT",
+    "popcat"
+  ],
+  "OMNI": [
+    "OMNI",
+    "omni"
+  ],
+  "EIGEN": [
+    "EIGEN",
+    "eigen"
+  ],
+  "REZ": [
+    "REZ",
+    "rez"
+  ],
+  "NOT": [
+    "NOT",
+    "not"
+  ],
+  "TURBO": [
+    "TURBO",
+    "turbo"
+  ],
+  "BRETT": [
+    "BRETT",
+    "brett"
+  ],
+  "IO": [
+    "IO",
+    "io"
+  ],
+  "ZK": [
+    "ZK",
+    "zk"
+  ],
+  "BLAST": [
+    "BLAST",
+    "blast"
+  ],
+  "LISTA": [
+    "LISTA",
+    "lista"
+  ],
+  "MEW": [
+    "MEW",
+    "mew"
+  ],
+  "RENDER": [
+    "RENDER",
+    "render"
+  ],
+  "KDOGS": [
+    "kDOGS",
+    "kdogs"
+  ],
+  "POL": [
+    "POL",
+    "pol"
+  ],
+  "CATI": [
+    "CATI",
+    "cati"
+  ],
+  "CELO": [
+    "CELO",
+    "celo"
+  ],
+  "HMSTR": [
+    "HMSTR",
+    "hmstr"
+  ],
+  "SCR": [
+    "SCR",
+    "scr"
+  ],
+  "NEIROETH": [
+    "NEIROETH",
+    "neiroeth"
+  ],
+  "KNEIRO": [
+    "kNEIRO",
+    "kneiro"
+  ],
+  "GOAT": [
+    "GOAT",
+    "goat"
+  ],
+  "MOODENG": [
+    "MOODENG",
+    "moodeng"
+  ],
+  "GRASS": [
+    "GRASS",
+    "grass"
+  ],
+  "PURR": [
+    "PURR",
+    "purr"
+  ],
+  "PNUT": [
+    "PNUT",
+    "pnut"
+  ],
+  "XLM": [
+    "XLM",
+    "xlm"
+  ],
+  "CHILLGUY": [
+    "CHILLGUY",
+    "chillguy"
+  ],
+  "SAND": [
+    "SAND",
+    "sand"
+  ],
+  "IOTA": [
+    "IOTA",
+    "iota"
+  ],
+  "ALGO": [
+    "ALGO",
+    "algo"
+  ],
+  "HYPE": [
+    "HYPE",
+    "hype"
+  ],
+  "ME": [
+    "ME",
+    "me"
+  ],
+  "MOVE": [
+    "MOVE",
+    "move"
+  ],
+  "USUAL": [
+    "USUAL",
+    "usual"
+  ],
+  "AI16Z": [
+    "AI16Z",
+    "ai16z"
+  ],
+  "AIXBT": [
+    "AIXBT",
+    "aixbt"
+  ],
+  "ZEREBRO": [
+    "ZEREBRO",
+    "zerebro"
+  ],
+  "BIO": [
+    "BIO",
+    "bio"
+  ],
+  "GRIFFAIN": [
+    "GRIFFAIN",
+    "griffain"
+  ],
+  "SPX": [
+    "SPX",
+    "spx"
+  ],
+  "S": [
+    "S",
+    "s"
+  ],
+  "MELANIA": [
+    "MELANIA",
+    "melania"
+  ],
+  "ANIME": [
+    "ANIME",
+    "anime"
+  ],
+  "VINE": [
+    "VINE",
+    "vine"
+  ],
+  "JELLY": [
+    "JELLY",
+    "jelly"
+  ],
+  "BERA": [
+    "BERA",
+    "bera"
+  ],
+  "TST": [
+    "TST",
+    "tst"
+  ],
+  "LAYER": [
+    "LAYER",
+    "layer"
+  ],
+  "IP": [
+    "IP",
+    "ip"
+  ],
+  "OM": [
+    "OM",
+    "om"
+  ],
+  "KAITO": [
+    "KAITO",
+    "kaito"
+  ],
+  "NIL": [
+    "NIL",
+    "nil"
+  ],
+  "PAXG": [
+    "PAXG",
+    "paxg"
+  ],
+  "BABY": [
+    "BABY",
+    "baby"
+  ],
+  "WCT": [
+    "WCT",
+    "wct"
+  ],
+  "HYPER": [
+    "HYPER",
+    "hyper"
+  ],
+  "ZORA": [
+    "ZORA",
+    "zora"
+  ],
+  "INIT": [
+    "INIT",
+    "init"
+  ],
+  "DOOD": [
+    "DOOD",
+    "dood"
+  ],
+  "LAUNCHCOIN": [
+    "LAUNCHCOIN",
+    "launchcoin"
+  ],
+  "NXPC": [
+    "NXPC",
+    "nxpc"
+  ],
+  "SOPH": [
+    "SOPH",
+    "soph"
+  ],
+  "RESOLV": [
+    "RESOLV",
+    "resolv"
+  ],
+  "SYRUP": [
+    "SYRUP",
+    "syrup"
+  ],
+  "PROVE": [
+    "PROVE",
+    "prove"
+  ],
+  "YZY": [
+    "YZY",
+    "yzy"
+  ],
+  "WLFI": [
+    "WLFI",
+    "wlfi"
+  ],
+  "SKY": [
+    "SKY",
+    "sky"
+  ],
+  "ASTER": [
+    "ASTER",
+    "aster"
+  ],
+  "AVNT": [
+    "AVNT",
+    "avnt"
+  ],
+  "STBL": [
+    "STBL",
+    "stbl"
+  ],
+  "0G": [
+    "0G",
+    "0g"
+  ],
+  "HEMI": [
+    "HEMI",
+    "hemi"
+  ],
+  "APEX": [
+    "APEX",
+    "apex"
+  ],
+  "2Z": [
+    "2Z",
+    "2z"
+  ],
+  "ZEC": [
+    "ZEC",
+    "zec"
+  ],
+  "MON": [
+    "MON",
+    "mon"
+  ],
+  "MET": [
+    "MET",
+    "met"
+  ],
+  "MEGA": [
+    "MEGA",
+    "mega"
+  ],
+  "CC": [
+    "CC",
+    "cc"
+  ],
+  "ICP": [
+    "ICP",
+    "icp"
+  ],
+  "AERO": [
+    "AERO",
+    "aero"
+  ]
 }

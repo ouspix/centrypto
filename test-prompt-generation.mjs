@@ -229,30 +229,43 @@ async function testSnapshotGeneration(address) {
         console.log(`  Timestamp: ${new Date(data.snapshot.timestamp * 1000).toISOString()}`);
         console.log(`  Account Equity: $${data.snapshot.account.equity_usd.toFixed(2)}`);
         console.log(`  Markets: ${Object.keys(data.snapshot.markets).join(', ')}`);
+        console.log(`  Total Markets: ${Object.keys(data.snapshot.markets).length}`);
 
         // Show details for first market
-        const firstMarket = Object.values(data.snapshot.markets)[0];
-        console.log(`\n  First Market (${Object.keys(data.snapshot.markets)[0]}) Details:`);
-        console.log(`    Price: $${firstMarket.price}`);
-        console.log(`    Spread: ${firstMarket.spread_bps.toFixed(2)} bps`);
-        console.log(`    Depth (1%): Bid=$${(firstMarket.depth_usd.bid_1pct / 1000).toFixed(0)}k, Ask=$${(firstMarket.depth_usd.ask_1pct / 1000).toFixed(0)}k`);
-        console.log(`    Returns: m1=${(firstMarket.returns.m1 * 100).toFixed(4)}%, m5=${(firstMarket.returns.m5 * 100).toFixed(4)}%`);
-        console.log(`    Vol Z-Scores: Vol=${firstMarket.vol_zscores.vol_5m_vs_1h.toFixed(2)}, Ret=${firstMarket.vol_zscores.ret_5m_vs_1h.toFixed(2)}`);
-        console.log(`    Regime Tags: ${firstMarket.regime_tags.join(', ') || 'none'}`);
+        if (Object.keys(data.snapshot.markets).length > 0) {
+            const firstMarket = Object.values(data.snapshot.markets)[0];
+            console.log(`\n  First Market (${Object.keys(data.snapshot.markets)[0]}) Details:`);
+            console.log(`    Price: $${firstMarket.price}`);
+            console.log(`    Spread: ${firstMarket.spread_bps.toFixed(2)} bps`);
+            console.log(`    Depth (1%): Bid=$${(firstMarket.depth_usd.bid_1pct / 1000).toFixed(0)}k, Ask=$${(firstMarket.depth_usd.ask_1pct / 1000).toFixed(0)}k`);
+            console.log(`    Returns: m1=${(firstMarket.returns.m1 * 100).toFixed(4)}%, m5=${(firstMarket.returns.m5 * 100).toFixed(4)}%`);
+            console.log(`    Vol Z-Scores: Vol=${firstMarket.vol_zscores.vol_5m_vs_1h.toFixed(2)}, Ret=${firstMarket.vol_zscores.ret_5m_vs_1h.toFixed(2)}`);
+            console.log(`    Regime Tags: ${firstMarket.regime_tags.join(', ') || 'none'}`);
+        }
 
         console.log(`  Constraints: Max Leverage=${data.snapshot.constraints.max_leverage}x`);
 
-        console.log(`\nDecision:`);
-        console.log(`  Action: ${data.decision.action}`);
-        console.log(`  Confidence: ${(data.decision.confidence * 100).toFixed(0)}%`);
-        console.log(`  Reason: ${data.decision.reason_code}`);
-        console.log(`  Notes: ${data.decision.notes}`);
+        console.log(`\nDecisions (Portfolio Plan):`);
+        if (data.decisions && Array.isArray(data.decisions)) {
+            console.log(`  Total Decisions: ${data.decisions.length}`);
+            data.decisions.forEach((decision, i) => {
+                console.log(`  [${i + 1}] ${decision.symbol || 'N/A'}:`);
+                console.log(`      Action: ${decision.action}`);
+                console.log(`      Target Side: ${decision.target_side || 'N/A'}`);
+                console.log(`      Target Size: ${((decision.target_size_fraction_of_equity || 0) * 100).toFixed(1)}% of equity`);
+                console.log(`      Confidence: ${(decision.confidence * 100).toFixed(0)}%`);
+                console.log(`      Reason: ${decision.reason_code}`);
+                console.log(`      Notes: ${decision.notes}`);
+            });
+        } else {
+            log(colors.yellow, '⚠️', 'No decisions array found (old format?)');
+        }
 
         console.log(`\nPrompt Stats:`);
         console.log(`  Length: ${data.prompt.length} characters`);
         console.log(`  Lines: ${data.prompt.split('\n').length}`);
         console.log(`  Contains snapshot: ${data.prompt.includes('MARKET SNAPSHOT') ? 'Yes' : 'No'}`);
-        console.log(`  Contains guidelines: ${data.prompt.includes('ANALYSIS GUIDELINES') ? 'Yes' : 'No'}`);
+        console.log(`  Contains portfolio objective: ${data.prompt.includes('PORTFOLIO-LEVEL OBJECTIVE') ? 'Yes' : 'No'}`);
 
         // Show first 500 chars of prompt
         console.log(`\nPrompt Preview (first 500 chars):`);
