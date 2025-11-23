@@ -175,11 +175,10 @@ describe('OrchestratorService Integration', () => {
 
         // Check if LLM was called with correct prompt containing screened values AND existing positions
         // Verify Result Prompt (Concatenation of System + User)
-        expect(result.prompt).toContain('You are a TraderAgent AI'); // System Prompt start
+        expect(result.prompt).toContain('ROLE: Crypto Volatility Scalper AI'); // System Prompt start
         expect(result.prompt).toContain('MARKET SNAPSHOT:'); // User Prompt start
         expect(result.prompt).toContain('BTC');
         expect(result.prompt).toContain('150'); // Entry Price
-        expect(result.prompt).toContain('open_positions');
 
         // Check if result matches LLM decision for ALL symbols
         expect(result.decisions).toHaveLength(3);

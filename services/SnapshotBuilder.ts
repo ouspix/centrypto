@@ -145,8 +145,7 @@ export class SnapshotBuilder {
                     current_8h: funding
                 },
                 open_interest: {
-                    current: openInterest,
-                    change_1h: 0 // Placeholder as we don't have history here yet
+                    current: openInterest
                 },
                 sentiment: {
                     score: sentiment.score,

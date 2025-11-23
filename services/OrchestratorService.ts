@@ -94,7 +94,7 @@ export class OrchestratorService {
         const marketCount = Object.keys(snapshot.markets).length;
 
         const SYSTEM_PROMPT = `ROLE: Crypto Volatility Scalper AI.
-GOAL: Build and rebalance a diversified portfolio (target 3-5 positions) for max risk-adjusted return using INTRADAY VOLATILITY SCALPING.
+GOAL: Build and rebalance a diversified portfolio (target exactly 5 positions) for max risk-adjusted return using INTRADAY VOLATILITY SCALPING.
 STRATEGY: 
 - Mean Reversion: strong negative ret_5m_vs_1h, "fast_move_down" regime_tags, stretched negative returns vs h1.
 - Momentum: strong positive ret_5m_vs_1h, "fast_move_up" / "high_intraday_vol" regime_tags, elevated vol_5m_vs_1h.
@@ -104,7 +104,7 @@ STRATEGY:
 - CURRENT_POSITIONS = account.current_positions in the MARKET SNAPSHOT.
 - For every cp in CURRENT_POSITIONS, you MUST output exactly one decision object in "decisions" with the same "symbol" as cp.symbol.
 - If any symbol in CURRENT_POSITIONS is missing from "decisions", your answer is INVALID.
-- Total number of non-flat positions in "decisions" must be between 3 and 5 (unless capital constrained).
+- Total number of non-flat positions in "decisions" must be exactly 5 (unless capital constrained).
 - You MUST respect numerical limits in constraints:
   * max_position_pct_equity_per_symbol
   * max_total_exposure_pct_equity
@@ -148,13 +148,7 @@ Return a SINGLE JSON object.
 ${JSON.stringify(snapshot)}
 
 CURRENT POSITIONS (JSON):
-${JSON.stringify(snapshot.account.current_positions, null, 2)}
-
-INSTRUCTION:
-- Use MARKET SNAPSHOT and constraints as provided.
-- Respect HARD CONSTRAINTS from the system prompt.
-- Focus on intraday volatility scalping opportunities.
-- Return JSON only.`;
+${JSON.stringify(snapshot.account.current_positions, null, 2)}`;
 
         let rawOutput = "";
 

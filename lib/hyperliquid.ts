@@ -286,6 +286,45 @@ export async function getMetaAndAssetCtxs(isTestnet: boolean = false): Promise<M
     }
 }
 
+// Rate Limiter to prevent 429s
+class RateLimiter {
+    private queue: Array<() => void> = [];
+    private processing = false;
+    private lastRequestTime = 0;
+    private minDelay = 100; // 10 requests per second max
+
+    async wait(): Promise<void> {
+        return new Promise((resolve) => {
+            this.queue.push(resolve);
+            this.processQueue();
+        });
+    }
+
+    private async processQueue() {
+        if (this.processing) return;
+        this.processing = true;
+
+        while (this.queue.length > 0) {
+            const now = Date.now();
+            const timeSinceLast = now - this.lastRequestTime;
+
+            if (timeSinceLast < this.minDelay) {
+                await new Promise(r => setTimeout(r, this.minDelay - timeSinceLast));
+            }
+
+            const resolve = this.queue.shift();
+            if (resolve) {
+                this.lastRequestTime = Date.now();
+                resolve();
+            }
+        }
+
+        this.processing = false;
+    }
+}
+
+const limiter = new RateLimiter();
+
 export async function getOHLCV(coin: string, interval: string, isTestnet: boolean = false, startTime?: number) {
     const apiUrl = isTestnet
         ? "https://api.hyperliquid-testnet.xyz/info"
@@ -296,6 +335,8 @@ export async function getOHLCV(coin: string, interval: string, isTestnet: boolea
 
     while (attempt < maxRetries) {
         try {
+            await limiter.wait(); // Wait for rate limiter
+
             // Get candles for the last 24 hours (approx) to calculate returns
             // Hyperliquid candleSnapshot returns the last N candles
             const start = startTime || (Date.now() - (1000 * 60 * 60 * 24));
@@ -342,6 +383,8 @@ export async function getL2Book(coin: string, isTestnet: boolean = false) {
         : "https://api.hyperliquid.xyz/info";
 
     try {
+        await limiter.wait(); // Wait for rate limiter
+
         const res = await fetch(apiUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },

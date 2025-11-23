@@ -1,15 +1,94 @@
 "use client"
 
-import { useEffect, useRef } from 'react'
-import { createChart, ColorType, IChartApi, CandlestickSeries } from 'lightweight-charts'
+import { useEffect, useRef, useState, useCallback } from 'react'
+import { createChart, ColorType, IChartApi, CandlestickSeries, HistogramSeries, LineSeries, Time } from 'lightweight-charts'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Toggle } from "@/components/ui/toggle"
 import { useTrading } from "@/context/TradingContext"
+import { Loader2 } from "lucide-react"
+
+const TIMEFRAMES = [
+    { label: '1m', value: '1m' },
+    { label: '15m', value: '15m' },
+    { label: '1h', value: '1h' },
+    { label: '4h', value: '4h' },
+    { label: '1d', value: '1d' },
+]
 
 export function TechnicalChart() {
     const chartContainerRef = useRef<HTMLDivElement>(null)
     const chartRef = useRef<IChartApi | null>(null)
-    const { selectedPair } = useTrading()
+    const { selectedPair, isTestnet } = useTrading()
 
+    const [interval, setInterval] = useState('1h')
+    const [isLoading, setIsLoading] = useState(false)
+
+    // Indicator States
+    const [showVolume, setShowVolume] = useState(true)
+    const [showSMA20, setShowSMA20] = useState(false)
+    const [showSMA50, setShowSMA50] = useState(false)
+    const [showRSI, setShowRSI] = useState(false) // Placeholder for future RSI sub-chart
+
+    // Series Refs
+    const candleSeriesRef = useRef<any>(null)
+    const volumeSeriesRef = useRef<any>(null)
+    const sma20SeriesRef = useRef<any>(null)
+    const sma50SeriesRef = useRef<any>(null)
+
+    const calculateSMA = (data: any[], period: number) => {
+        const smaData = []
+        for (let i = period - 1; i < data.length; i++) {
+            const slice = data.slice(i - period + 1, i + 1)
+            const sum = slice.reduce((acc: number, val: any) => acc + val.close, 0)
+            smaData.push({
+                time: data[i].time,
+                value: sum / period
+            })
+        }
+        return smaData
+    }
+
+    const fetchData = useCallback(async () => {
+        if (!selectedPair) return
+        setIsLoading(true)
+        try {
+            const response = await fetch(`/api/candles?symbol=${selectedPair}&interval=${interval}&isTestnet=${isTestnet}`)
+            if (!response.ok) throw new Error('Failed to fetch candles')
+
+            const data = await response.json()
+
+            if (chartRef.current && candleSeriesRef.current) {
+                candleSeriesRef.current.setData(data)
+
+                if (volumeSeriesRef.current) {
+                    const volumeData = data.map((d: any) => ({
+                        time: d.time,
+                        value: d.volume,
+                        color: d.close >= d.open ? '#22c55e80' : '#ef444480'
+                    }))
+                    volumeSeriesRef.current.setData(volumeData)
+                }
+
+                if (sma20SeriesRef.current) {
+                    const sma20 = calculateSMA(data, 20)
+                    sma20SeriesRef.current.setData(sma20)
+                }
+
+                if (sma50SeriesRef.current) {
+                    const sma50 = calculateSMA(data, 50)
+                    sma50SeriesRef.current.setData(sma50)
+                }
+            }
+        } catch (error) {
+            console.error("Error fetching candles:", error)
+        } finally {
+            setIsLoading(false)
+        }
+    }, [selectedPair, interval, isTestnet])
+
+    // Initialize Chart
     useEffect(() => {
         if (!chartContainerRef.current) return
 
@@ -24,8 +103,16 @@ export function TechnicalChart() {
             },
             width: chartContainerRef.current.clientWidth,
             height: 400,
+            timeScale: {
+                timeVisible: true,
+                secondsVisible: false,
+            },
+            // Hide the TradingView logo/watermark if possible (attribution is usually required for free version, but we can try to style it)
+            // Lightweight charts doesn't have a direct 'hide' option for the logo in the free version without attribution, 
+            // but we can ensure it doesn't overlap important data.
         })
 
+        // Candle Series
         const candlestickSeries = chart.addSeries(CandlestickSeries, {
             upColor: '#22c55e',
             downColor: '#ef4444',
@@ -33,42 +120,30 @@ export function TechnicalChart() {
             wickUpColor: '#22c55e',
             wickDownColor: '#ef4444',
         })
+        candleSeriesRef.current = candlestickSeries
 
-        // Mock Data Generation based on selectedPair
-        // In reality, fetch from API
+        // Volume Series
+        const volumeSeries = chart.addSeries(HistogramSeries, {
+            color: '#26a69a',
+            priceFormat: {
+                type: 'volume',
+            },
+            priceScaleId: '', // Overlay on main chart
+        })
+        volumeSeries.priceScale().applyOptions({
+            scaleMargins: {
+                top: 0.7, // Make volume bars taller (take up bottom 30%)
+                bottom: 0,
+            },
+        })
+        volumeSeriesRef.current = volumeSeries
 
+        // SMA Series
+        const sma20Series = chart.addSeries(LineSeries, { color: '#3b82f6', lineWidth: 2, visible: false })
+        sma20SeriesRef.current = sma20Series
 
-        const fetchData = async () => {
-            try {
-                const response = await fetch('https://api.hyperliquid.xyz/info', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        type: "candleSnapshot",
-                        req: {
-                            coin: selectedPair,
-                            interval: "1h",
-                            startTime: Date.now() - 30 * 24 * 60 * 60 * 1000 // Last 30 days
-                        }
-                    })
-                })
-
-                const data = await response.json()
-                const candles = data.map((c: any) => ({
-                    time: c.t / 1000,
-                    open: parseFloat(c.o),
-                    high: parseFloat(c.h),
-                    low: parseFloat(c.l),
-                    close: parseFloat(c.c),
-                })).sort((a: any, b: any) => a.time - b.time)
-
-                candlestickSeries.setData(candles)
-            } catch (error) {
-                console.error("Error fetching candles:", error)
-            }
-        }
-
-        fetchData()
+        const sma50Series = chart.addSeries(LineSeries, { color: '#f59e0b', lineWidth: 2, visible: false })
+        sma50SeriesRef.current = sma50Series
 
         chartRef.current = chart
 
@@ -84,15 +159,94 @@ export function TechnicalChart() {
             window.removeEventListener('resize', handleResize)
             chart.remove()
         }
-    }, [selectedPair])
+    }, [])
+
+    // Update Visibility
+    useEffect(() => {
+        if (volumeSeriesRef.current) {
+            volumeSeriesRef.current.applyOptions({ visible: showVolume })
+        }
+        if (sma20SeriesRef.current) {
+            sma20SeriesRef.current.applyOptions({ visible: showSMA20 })
+        }
+        if (sma50SeriesRef.current) {
+            sma50SeriesRef.current.applyOptions({ visible: showSMA50 })
+        }
+    }, [showVolume, showSMA20, showSMA50])
+
+    // Fetch Data on Change
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            fetchData()
+        }, 500) // Debounce fetches by 500ms
+        return () => clearTimeout(timer)
+    }, [fetchData])
 
     return (
-        <Card className="bg-slate-900 border-slate-800 col-span-2">
-            <CardHeader>
-                <CardTitle className="text-slate-400">{selectedPair} / USD - Technical Analysis</CardTitle>
+        <Card className="bg-slate-900 border-slate-800 col-span-2 flex flex-col h-full">
+            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2 sm:space-y-0 pb-4 border-b border-slate-800/50">
+                <div className="flex flex-col">
+                    <CardTitle className="text-slate-100 text-lg font-semibold tracking-tight">
+                        {selectedPair} / USD
+                    </CardTitle>
+                    <span className="text-xs text-slate-500 font-mono mt-1">Technical Analysis</span>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3">
+                    {/* Timeframe Selector */}
+                    <div className="flex bg-slate-950/50 rounded-lg p-1 border border-slate-800">
+                        {TIMEFRAMES.map((tf) => (
+                            <button
+                                key={tf.value}
+                                onClick={() => setInterval(tf.value)}
+                                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 ${interval === tf.value
+                                    ? 'bg-slate-800 text-white shadow-sm'
+                                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                                    }`}
+                            >
+                                {tf.label}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="h-6 w-px bg-slate-800 mx-1 hidden sm:block" />
+
+                    {/* Indicators */}
+                    <div className="flex items-center gap-2">
+                        <Toggle
+                            pressed={showVolume}
+                            onPressedChange={setShowVolume}
+                            size="sm"
+                            className="h-8 px-3 text-xs font-medium border border-slate-800 data-[state=on]:bg-slate-800 data-[state=on]:text-emerald-400 data-[state=on]:border-emerald-500/30 hover:bg-slate-800/50 text-slate-400"
+                        >
+                            Vol
+                        </Toggle>
+                        <Toggle
+                            pressed={showSMA20}
+                            onPressedChange={setShowSMA20}
+                            size="sm"
+                            className="h-8 px-3 text-xs font-medium border border-slate-800 data-[state=on]:bg-slate-800 data-[state=on]:text-blue-400 data-[state=on]:border-blue-500/30 hover:bg-slate-800/50 text-slate-400"
+                        >
+                            SMA 20
+                        </Toggle>
+                        <Toggle
+                            pressed={showSMA50}
+                            onPressedChange={setShowSMA50}
+                            size="sm"
+                            className="h-8 px-3 text-xs font-medium border border-slate-800 data-[state=on]:bg-slate-800 data-[state=on]:text-amber-400 data-[state=on]:border-amber-500/30 hover:bg-slate-800/50 text-slate-400"
+                        >
+                            SMA 50
+                        </Toggle>
+                    </div>
+                </div>
             </CardHeader>
-            <CardContent>
-                <div ref={chartContainerRef} className="w-full h-[400px]" />
+            <CardContent className="flex-1 min-h-0 p-0 relative">
+                {isLoading && (
+                    <div className="absolute inset-0 z-10 flex items-center justify-center bg-slate-900/50 backdrop-blur-[1px]">
+                        <Loader2 className="h-8 w-8 animate-spin text-indigo-500" />
+                    </div>
+                )}
+                <div ref={chartContainerRef} className="w-full h-[450px]" />
             </CardContent>
         </Card>
     )

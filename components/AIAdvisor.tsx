@@ -320,10 +320,20 @@ export function AIAdvisor() {
                     <Button
                         onClick={analyzeMarket}
                         variant="outline"
-                        className="w-full h-10 text-xs border border-sky-400/60 bg-gradient-to-r from-sky-600 to-blue-700 text-white hover:from-sky-500 hover:to-blue-600 shadow-lg shadow-sky-900/50"
+                        disabled={loading}
+                        className="w-full h-10 text-xs border border-sky-400/60 bg-gradient-to-r from-sky-600 to-blue-700 text-white hover:from-sky-500 hover:to-blue-600 shadow-lg shadow-sky-900/50 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        <Play className="h-3 w-3 mr-2 text-white" />
-                        Re-Analyze Market
+                        {loading ? (
+                            <>
+                                <Loader2 className="h-3 w-3 mr-2 text-white animate-spin" />
+                                Analyzing...
+                            </>
+                        ) : (
+                            <>
+                                <Play className="h-3 w-3 mr-2 text-white" />
+                                Re-Analyze Market
+                            </>
+                        )}
                     </Button>
                     <div className="grid grid-cols-2 gap-2">
                         <Button

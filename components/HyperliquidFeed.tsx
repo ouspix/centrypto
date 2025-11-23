@@ -266,11 +266,10 @@ export function HyperliquidFeed() {
                 <div className="space-y-1">
                     {/* Header */}
                     <div className="grid grid-cols-12 gap-2 text-sm font-semibold text-slate-400 mb-2 px-2 sticky top-0 bg-slate-900 pb-2 z-10">
-                        <span className="col-span-2">Asset</span>
-                        <span className="col-span-2 text-right">Price</span>
-                        <span className="col-span-2 text-right">24h %</span>
+                        <span className="col-span-3">Asset</span>
+                        <span className="col-span-3 text-right">Price</span>
+                        <span className="col-span-3 text-right">24h %</span>
                         <span className="col-span-3 text-right">Volume 24h</span>
-                        <span className="col-span-3 text-right">OI</span>
                     </div>
 
                     {/* Ticker Rows */}
@@ -283,12 +282,12 @@ export function HyperliquidFeed() {
                             )}
                             onClick={() => setSelectedPair(ticker.coin)}
                         >
-                            <span className="col-span-2 font-bold text-slate-200 text-base">{ticker.coin}</span>
-                            <span className="col-span-2 text-right font-mono text-blue-300 text-base">
+                            <span className="col-span-3 font-bold text-slate-200 text-base">{ticker.coin}</span>
+                            <span className="col-span-3 text-right font-mono text-blue-300 text-base">
                                 ${ticker.mid.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                             </span>
                             <span className={cn(
-                                "col-span-2 text-right font-semibold flex items-center justify-end gap-1 text-sm",
+                                "col-span-3 text-right font-semibold flex items-center justify-end gap-1 text-sm",
                                 ticker.change24h && ticker.change24h > 0 ? "text-green-400" : "text-red-400"
                             )}>
                                 {ticker.change24h && ticker.change24h > 0 ? <TrendingUp className="h-4 w-4" /> : <TrendingDown className="h-4 w-4" />}
@@ -296,9 +295,6 @@ export function HyperliquidFeed() {
                             </span>
                             <span className="col-span-3 text-right font-mono text-slate-300 text-sm">
                                 {ticker.volume24h ? `$${(ticker.volume24h / 1_000_000).toFixed(1)}M` : 'N/A'}
-                            </span>
-                            <span className="col-span-3 text-right font-mono text-slate-400 text-sm">
-                                {ticker.openInterest ? `$${(ticker.openInterest / 1_000_000).toFixed(1)}M` : 'N/A'}
                             </span>
                         </div>
                     ))}
