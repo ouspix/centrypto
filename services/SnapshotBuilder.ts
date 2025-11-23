@@ -10,9 +10,9 @@ export type StateSnapshot = {
         equity_usd: number;
         daily_realized_pnl: number;
         max_daily_loss: number;
-        open_positions: Position[];
+        current_positions: Position[];
     };
-    markets: Record<string, MarketData>;
+    markets: Record<string, any>; // Relaxed type for flexibility with trimmed data
     constraints: {
         max_leverage: number;
         max_position_pct_equity_per_symbol: number;
@@ -30,48 +30,10 @@ type Position = {
     symbol: string;
     side: "long" | "short";
     size_usd: number;
+    fraction_of_equity: number;
     entry_price: number;
     unrealized_pnl: number;
     leverage: number;
-};
-
-type MarketData = {
-    price: number;
-    spread_bps: number;
-    depth_usd: {
-        bid_1pct: number;
-        ask_1pct: number;
-    };
-    imbalance: number; // Added imbalance
-    returns: {
-        m1: number;
-        m5: number;
-        m15: number;
-        h1: number;
-        h4: number;
-    };
-    realized_vol: {
-        m1: number;
-        m5: number;
-        m15: number;
-        h1: number;
-        h4: number;
-    };
-    vol_zscores: {
-        vol_5m_vs_1h: number;
-        ret_5m_vs_1h: number;
-    };
-    funding: {
-        current_8h: number;
-        prev_8h: number;
-    };
-    open_interest: {
-        current: number;
-        change_1h: number;
-        change_24h: number;
-    };
-    sentiment: SentimentSnapshot;
-    regime_tags: string[];
 };
 
 export class SnapshotBuilder {
@@ -93,16 +55,17 @@ export class SnapshotBuilder {
         const timestamp = Math.floor(Date.now() / 1000);
 
         // 1. Fetch Account Data
-        let accountData = {
+        let accountData: any = {
             equity_usd: 10000.0, // Default/Mock
             daily_realized_pnl: 0.0,
             max_daily_loss: 500.0,
-            open_positions: [] as Position[]
+            current_positions: []
         };
 
         const heldSymbols: string[] = [];
 
         if (userAddress) {
+            console.log(`🔍 Fetching clearinghouse state for ${userAddress}...`);
             const clearinghouseState = await getClearinghouseState(userAddress, isTestnet);
             if (clearinghouseState) {
                 const marginSummary = clearinghouseState.marginSummary;
@@ -110,9 +73,9 @@ export class SnapshotBuilder {
 
                 accountData.equity_usd = parseFloat(marginSummary.accountValue);
                 // Note: daily_realized_pnl is not directly in clearinghouseState, needs tracking. 
-                // For now, we'll default to 0 or try to estimate if possible, but usually requires dedicated tracking.
+                // For now, we'll default to 0 or try to estimate if possible.
 
-                accountData.open_positions = positions
+                accountData.current_positions = positions
                     .filter((p: any) => parseFloat(p.position.szi) !== 0)
                     .map((p: any) => {
                         const size = parseFloat(p.position.szi);
@@ -121,19 +84,26 @@ export class SnapshotBuilder {
                         const unrealizedPnl = parseFloat(p.position.unrealizedPnl);
                         const leverage = parseFloat(p.position.leverage.value);
                         const symbol = p.position.coin || "UNKNOWN";
+                        const sizeUsd = Math.abs(size) * entryPrice;
 
                         heldSymbols.push(symbol);
 
                         return {
-                            symbol,
+                            symbol: `${symbol}-PERP`, // Ensure consistency with market keys
                             side,
-                            size_usd: Math.abs(size) * entryPrice,
+                            size_usd: sizeUsd,
+                            fraction_of_equity: accountData.equity_usd > 0 ? sizeUsd / accountData.equity_usd : 0,
                             entry_price: entryPrice,
                             unrealized_pnl: unrealizedPnl,
-                            leverage: leverage // Placeholder, refine later
+                            leverage: leverage
                         };
                     });
+                console.log(`✅ Found ${accountData.current_positions.length} open positions:`, accountData.current_positions.map((p: any) => p.symbol).join(", "));
+            } else {
+                console.warn("⚠️ Failed to fetch clearinghouse state or it was null.");
             }
+        } else {
+            console.log("ℹ️ No user address provided, skipping account data fetch.");
         }
 
         // 2. Fetch Screened Market Data
@@ -142,29 +112,47 @@ export class SnapshotBuilder {
         // ScreenerService now uses cached MarketStateSnapshot internally for fast on-demand screening
         const screenedSymbols = await this.screenerService.getScreenedSymbols(isTestnet, heldSymbols, screeningConfig);
         console.log(`✅ Loaded ${screenedSymbols.length} symbols from screener.`);
-        const markets: Record<string, MarketData> = {};
+        const markets: Record<string, any> = {};
 
         for (const symbolData of screenedSymbols) {
             const { symbol, price, metrics, bookMetrics, funding, openInterest, sentiment } = symbolData;
 
+            // Calculate Book Pressure
+            const bid = bookMetrics.depth_usd.bid_1pct || 0;
+            const ask = bookMetrics.depth_usd.ask_1pct || 0;
+            const denom = bid + ask;
+            let bookPressure = 0;
+            if (denom > 0) {
+                const raw = bid / denom; // 0..1
+                bookPressure = 2 * raw - 1; // -1..1
+            }
+
             markets[`${symbol}-PERP`] = {
                 price,
                 spread_bps: bookMetrics.spread_bps,
-                depth_usd: bookMetrics.depth_usd,
-                imbalance: bookMetrics.imbalance,
-                returns: metrics.returns,
-                realized_vol: metrics.realized_vol,
+                orderbook: {
+                    book_pressure: parseFloat(bookPressure.toFixed(2)),
+                    bid_liquidity_usd: bid,
+                    ask_liquidity_usd: ask
+                },
+                returns: {
+                    m5: metrics.returns.m5,
+                    m15: metrics.returns.m15,
+                    h1: metrics.returns.h1
+                },
                 vol_zscores: metrics.vol_zscores,
                 funding: {
-                    current_8h: funding,
-                    prev_8h: funding // Mock
+                    current_8h: funding
                 },
                 open_interest: {
                     current: openInterest,
-                    change_1h: 0,
-                    change_24h: 0
+                    change_1h: 0 // Placeholder as we don't have history here yet
                 },
-                sentiment,
+                sentiment: {
+                    score: sentiment.score,
+                    tags: sentiment.tags,
+                    source_mix: sentiment.source_mix
+                },
                 regime_tags: metrics.regime_tags
             };
         }
@@ -177,17 +165,17 @@ export class SnapshotBuilder {
             markets,
             constraints: {
                 max_leverage: 5.0,
-                max_position_pct_equity_per_symbol: 0.25,
-                max_total_exposure_pct_equity: 0.7,
+                max_position_pct_equity_per_symbol: 0.2,
+                max_total_exposure_pct_equity: 1.0,
                 min_trade_notional_usd: 10.0,
                 kill_switch: false
             },
             allowed_actions: [
                 "OPEN_POSITION",
-                "CLOSE_POSITION",
+                "INCREASE_POSITION",
                 "REDUCE_POSITION",
-                "ADJUST_STOPS",
-                "DO_NOTHING"
+                "CLOSE_POSITION",
+                "HOLD_POSITION"
             ],
             meta: {
                 note: "Generated by SnapshotBuilder with Screener"

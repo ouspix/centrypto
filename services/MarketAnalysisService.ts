@@ -20,6 +20,15 @@ export type MarketMetrics = {
         vol_5m_vs_1h: number;
         ret_5m_vs_1h: number;
     };
+    rsi: {
+        m1: number;
+        m5: number;
+        m15: number;
+    };
+    bbands: {
+        m1: { upper: number; middle: number; lower: number; width: number };
+        m5: { upper: number; middle: number; lower: number; width: number };
+    };
     regime_tags: string[];
 };
 
@@ -54,6 +63,11 @@ export class MarketAnalysisService {
             returns: { m1: 0, m5: 0, m15: 0, h1: 0, h4: 0 },
             realized_vol: { m1: 0, m5: 0, m15: 0, h1: 0, h4: 0 },
             vol_zscores: { vol_5m_vs_1h: 0, ret_5m_vs_1h: 0 },
+            rsi: { m1: 50, m5: 50, m15: 50 },
+            bbands: {
+                m1: { upper: 0, middle: 0, lower: 0, width: 0 },
+                m5: { upper: 0, middle: 0, lower: 0, width: 0 }
+            },
             regime_tags: []
         };
 
@@ -63,28 +77,20 @@ export class MarketAnalysisService {
         const close = parseFloat(current.c);
 
         // 2. Calculate Returns (using 1m candles)
-        // Helper to get return over N minutes
         const getReturn = (minutes: number) => {
             if (candles.length <= minutes) return 0;
-            const past = parseFloat(candles[candles.length - 1 - minutes].c); // Use close-to-close for simplicity or open of N mins ago
-            // Standard is close - open of N mins ago, or close - close of N mins ago. 
-            // Let's use (Current Close - Close N mins ago) / Close N mins ago
             const pastClose = parseFloat(candles[candles.length - 1 - minutes].c);
             return (close - pastClose) / pastClose;
         };
 
-        // Special case for m1: use current candle's open vs close (intraday) or last closed candle?
-        // If we want "current market state", we use latest candle.
         const open1m = parseFloat(current.o);
-        metrics.returns.m1 = (close - open1m) / open1m; // Current minute return
-
+        metrics.returns.m1 = (close - open1m) / open1m;
         metrics.returns.m5 = getReturn(5);
         metrics.returns.m15 = getReturn(15);
         metrics.returns.h1 = getReturn(60);
         metrics.returns.h4 = getReturn(240);
 
-        // 3. Calculate Realized Volatility (Std Dev of 1m log returns over window)
-        // We need log returns array first
+        // 3. Calculate Realized Volatility
         const logReturns: number[] = [];
         for (let i = 1; i < candles.length; i++) {
             const p1 = parseFloat(candles[i].c);
@@ -100,32 +106,87 @@ export class MarketAnalysisService {
             return Math.sqrt(variance);
         };
 
-        metrics.realized_vol.m1 = calcVol(5);   // 5 min window
-        metrics.realized_vol.m5 = calcVol(15);  // 15 min window
-        metrics.realized_vol.m15 = calcVol(30); // 30 min window
-        metrics.realized_vol.h1 = calcVol(60);  // 1h window
-        metrics.realized_vol.h4 = calcVol(240); // 4h window
+        metrics.realized_vol.m1 = calcVol(5);
+        metrics.realized_vol.m5 = calcVol(15);
+        metrics.realized_vol.m15 = calcVol(30);
+        metrics.realized_vol.h1 = calcVol(60);
+        metrics.realized_vol.h4 = calcVol(240);
 
         // 4. Calculate Z-Scores
-        // ret_5m_z = ret_5m / realized_vol_1h
-        // vol_5m_z = realized_vol_5m / realized_vol_1h
-
-        // Avoid division by zero
         const vol1h = metrics.realized_vol.h1 || 0.001;
-
         metrics.vol_zscores.ret_5m_vs_1h = metrics.returns.m5 / vol1h;
+        metrics.vol_zscores.vol_5m_vs_1h = metrics.realized_vol.m1 / vol1h;
 
-        // For vol z-score, we compare current 5m vol (short window) vs 1h vol (long window)
-        // User said: vol_5m_z = realized_vol_5m / realized_vol_1h
-        // Here realized_vol_5m is likely "volatility calculated over 5m window"
-        metrics.vol_zscores.vol_5m_vs_1h = metrics.realized_vol.m1 / vol1h; // Using 5m window vol (m1 metric above) vs 1h window
+        // 5. Calculate RSI (14 periods)
+        const calcRSI = (window: number, stride: number = 1) => {
+            // Need at least window + 1 candles
+            if (candles.length < (window * stride) + 1) return 50;
 
-        // 5. Regime Tags
+            let gains = 0;
+            let losses = 0;
+
+            // Simple RSI calculation (SMA method for simplicity, or Wilder's?)
+            // Using simple average for robustness on short history
+            for (let i = 0; i < window; i++) {
+                const idx = candles.length - 1 - (i * stride);
+                const prevIdx = idx - stride;
+                if (prevIdx < 0) break;
+
+                const currC = parseFloat(candles[idx].c);
+                const prevC = parseFloat(candles[prevIdx].c);
+                const change = currC - prevC;
+
+                if (change > 0) gains += change;
+                else losses -= change;
+            }
+
+            if (losses === 0) return 100;
+            const rs = gains / losses;
+            return 100 - (100 / (1 + rs));
+        };
+
+        metrics.rsi.m1 = calcRSI(14, 1); // 1m candles
+        metrics.rsi.m5 = calcRSI(14, 5); // 5m approximation (every 5th candle)
+        metrics.rsi.m15 = calcRSI(14, 15); // 15m approximation
+
+        // 6. Calculate Bollinger Bands (20 periods, 2 std dev)
+        const calcBB = (window: number, stride: number = 1) => {
+            if (candles.length < (window * stride)) return { upper: 0, middle: 0, lower: 0, width: 0 };
+
+            const prices: number[] = [];
+            for (let i = 0; i < window; i++) {
+                const idx = candles.length - 1 - (i * stride);
+                if (idx < 0) break;
+                prices.push(parseFloat(candles[idx].c));
+            }
+
+            const mean = prices.reduce((a, b) => a + b, 0) / prices.length;
+            const variance = prices.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / prices.length;
+            const stdDev = Math.sqrt(variance);
+
+            return {
+                upper: mean + (2 * stdDev),
+                middle: mean,
+                lower: mean - (2 * stdDev),
+                width: (4 * stdDev) / mean // Bandwidth
+            };
+        };
+
+        metrics.bbands.m1 = calcBB(20, 1);
+        metrics.bbands.m5 = calcBB(20, 5);
+
+        // 7. Regime Tags
         if (metrics.vol_zscores.vol_5m_vs_1h > 2.0) metrics.regime_tags.push("high_intraday_vol");
         if (metrics.vol_zscores.vol_5m_vs_1h < 0.5) metrics.regime_tags.push("low_vol_compression");
 
         if (metrics.vol_zscores.ret_5m_vs_1h > 2.0) metrics.regime_tags.push("fast_move_up");
         if (metrics.vol_zscores.ret_5m_vs_1h < -2.0) metrics.regime_tags.push("fast_move_down");
+
+        if (metrics.rsi.m5 > 70) metrics.regime_tags.push("overbought_m5");
+        if (metrics.rsi.m5 < 30) metrics.regime_tags.push("oversold_m5");
+
+        if (metrics.bbands.m5.width > 0.02) metrics.regime_tags.push("bb_expansion"); // >2% width
+        if (metrics.bbands.m5.width < 0.005) metrics.regime_tags.push("bb_squeeze"); // <0.5% width
 
         return metrics;
     }

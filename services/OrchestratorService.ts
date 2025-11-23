@@ -93,36 +93,42 @@ export class OrchestratorService {
     private async getLLMDecision(snapshot: StateSnapshot, model: string): Promise<{ decisions: TradeDecision[], prompt: string, rawOutput: string }> {
         const marketCount = Object.keys(snapshot.markets).length;
 
-        const SYSTEM_PROMPT = `You are a TraderAgent AI for crypto perpetual futures trading, specialized in **intraday volatility scalping**.
-Your goal is to rebalance the **whole portfolio** based on the provided MARKET SNAPSHOT and your trading strategy.
+        const SYSTEM_PROMPT = `ROLE: Crypto Volatility Scalper AI.
+GOAL: Build and rebalance a diversified portfolio (target 3-5 positions) for max risk-adjusted return using INTRADAY VOLATILITY SCALPING.
+STRATEGY: 
+- Mean Reversion: strong negative ret_5m_vs_1h, "fast_move_down" regime_tags, stretched negative returns vs h1.
+- Momentum: strong positive ret_5m_vs_1h, "fast_move_up" / "high_intraday_vol" regime_tags, elevated vol_5m_vs_1h.
+- Use book_pressure to confirm or reject entries (longs prefer positive book_pressure, shorts prefer negative).
 
-### INVARIANT RULES & CONSTRAINTS
-1.  **Portfolio Concentration**: You must build a concentrated book. At most **5 symbols** in your final decisions may have a "target_side" different from "flat". All others must be "flat".
-2.  **Open Positions**: You MUST output a decision object for **EVERY** symbol currently in 'account.open_positions'. You cannot ignore existing positions.
-3.  **New Positions**: Besides existing positions, you may add decisions for any other symbols in the market that you consider promising, subject to the max 5 limit.
-4.  **Sizing Constraints**:
-    *   For any non-flat target_side, ensure 'target_size_fraction_of_equity' <= max_position_pct_equity_per_symbol (assume ~0.2 if not specified).
-    *   Ensure sum of absolute 'target_size_fraction_of_equity' <= max_total_exposure_pct_equity (assume ~1.0 if not specified).
-    *   Ignore or downsize positions where equity * target_size < min_trade_notional (assume $10).
-5.  **Risk Management**:
-    *   If 'kill_switch' is true or 'daily_realized_pnl' <= -max_daily_loss, DO NOT increase risk. Only REDUCE, CLOSE, or HOLD.
+### HARD CONSTRAINTS (NON-NEGOTIABLE)
+- CURRENT_POSITIONS = account.current_positions in the MARKET SNAPSHOT.
+- For every cp in CURRENT_POSITIONS, you MUST output exactly one decision object in "decisions" with the same "symbol" as cp.symbol.
+- If any symbol in CURRENT_POSITIONS is missing from "decisions", your answer is INVALID.
+- Total number of non-flat positions in "decisions" must be between 3 and 5 (unless capital constrained).
+- You MUST respect numerical limits in constraints:
+  * max_position_pct_equity_per_symbol
+  * max_total_exposure_pct_equity
+  * min_trade_notional_usd
 
-### ACTION SEMANTICS
-Interpret "action" strictly as follows:
-*   **"OPEN_POSITION"**: Symbol currently flat (no open position), target_side ≠ "flat".
-*   **"INCREASE_POSITION"**: Same side as current, and target_size_fraction_of_equity > current fraction.
-*   **"REDUCE_POSITION"**: Same side as current, and 0 < target_size_fraction_of_equity < current fraction.
-*   **"CLOSE_POSITION"**: There is an open position, and target_side = "flat" (or target_size ≈ 0).
-*   **"HOLD"**: There is an open position, and target_side equals current side with target_size ≈ current fraction (no meaningful change).
+### ACTIONS
+Valid "action" values (string, required):
+- "OPEN_POSITION"
+- "INCREASE_POSITION"
+- "REDUCE_POSITION"
+- "CLOSE_POSITION"
+- "HOLD_POSITION"
 
-*Current fraction ≈ position_value_usd / account.equity_usd*
+### STRATEGIC SYNTHESIS (REQUIRED)
+In "reasoning", briefly (max 200 words) follow this structure:
+1) Brief market regime.
+2) What you do with each CURRENT_POSITION (explicitly list them).
+3) Why you picked each new symbol (vol_zscores, returns, book_pressure, sentiment).
+4) Final exposure and risk rationale.
 
-### OUTPUT FORMAT (STRICT JSON)
-Return **ONLY** a single JSON object. No markdown, no explanations.
-The "decisions" array must include every open position (converted to *-PERP) and any new symbols you want to trade.
-
-Example:
+### OUTPUT FORMAT (JSON ONLY)
+Return a SINGLE JSON object.
 {
+  "reasoning": "1) Market is low vol... 2) ETH-PERP: HOLD, SOL-PERP: REDUCE... 3) New: BTC-PERP Short due to...",
   "decisions": [
     {
       "symbol": "ETH-PERP",
@@ -130,29 +136,25 @@ Example:
       "target_size_fraction_of_equity": 0.15,
       "action": "OPEN_POSITION",
       "risk_plan": { "stop_loss_pct": -0.01, "take_profit_pct_primary": 0.03 },
-      "playbook": "mean_reversion_spike",
+      "playbook": "mean_reversion_rsi_div",
       "confidence": 0.85,
-      "reason_code": "vol_spike_resistance",
-      "notes": "ETH spiked 2% in 5m, hitting resistance with bearish divergence."
+      "reason_code": "high_vol_zscore_neg_pressure",
+      "notes": "High vol z-score with negative book pressure."
     }
-  ],
-  "meta": {
-    "equity_usd": 881.5,
-    "max_active_symbols": 5,
-    "reason_code": "bearish_vol_spike",
-    "notes": "Market is overextended."
-  }
+  ]
 }`;
 
         const USER_PROMPT = `MARKET SNAPSHOT:
-${JSON.stringify(snapshot, null, 2)}
+${JSON.stringify(snapshot)}
+
+CURRENT POSITIONS (JSON):
+${JSON.stringify(snapshot.account.current_positions, null, 2)}
 
 INSTRUCTION:
-Rebalance the portfolio according to the rules defined in the system prompt.
-Remember:
-1. Decide for ALL open positions.
-2. Max 5 active symbols.
-3. Output JSON only.`;
+- Use MARKET SNAPSHOT and constraints as provided.
+- Respect HARD CONSTRAINTS from the system prompt.
+- Focus on intraday volatility scalping opportunities.
+- Return JSON only.`;
 
         let rawOutput = "";
 
@@ -167,11 +169,11 @@ Remember:
                     system: SYSTEM_PROMPT,
                     prompt: USER_PROMPT,
                     stream: false,
-                    // format: "json",  // Temporarily disabled - DeepSeek-R1 may not work well with this
+                    // format: "json",  // Temporarily disabled
                     options: {
                         temperature: 0.3,
                         top_p: 0.9,
-                        num_ctx: 20000 // Increased context window for larger snapshots
+                        num_ctx: 15000 // Reduced context window
                     }
                 })
             });

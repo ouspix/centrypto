@@ -212,7 +212,7 @@ export function AIAdvisor() {
                 {loading && !result && (
                     <div className="flex flex-col items-center justify-center h-32 text-slate-500 gap-2">
                         <Loader2 className="h-6 w-6 animate-spin text-purple-500" />
-                        <span className="text-xs animate-pulse">Analyzing Market Structure...</span>
+                        <span className="text-xs animate-pulse">Calling LLM with model: {selectedModel}</span>
                     </div>
                 )}
 

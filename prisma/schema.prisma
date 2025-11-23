@@ -76,3 +76,41 @@ model MarketStateSnapshot {
   data      String   // JSON string of EnrichedMarketData[] (ALL symbols)
   createdAt DateTime @default(now())
 }
+
+model PriceAlert {
+  id            String   @id @default(uuid())
+  symbol        String
+  condition     String   // 'above' | 'below' | 'percent_change_up' | 'percent_change_down'
+  targetPrice   Float
+  percentChange Float?
+  isActive      Boolean  @default(true)
+  triggered     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  triggeredAt   DateTime?
+  userAddress   String
+
+  @@index([userAddress, isActive, triggered])
+  @@index([symbol, isActive])
+}
+
+model Trade {
+  id              String   @id @default(uuid())
+  symbol          String
+  side            String   // 'long' | 'short'
+  entryPrice      Float
+  exitPrice       Float?
+  size            Float
+  leverage        Float    @default(1)
+  realizedPnl     Float?
+  fees            Float    @default(0)
+  status          String   @default("open") // 'open' | 'closed'
+  openedAt        DateTime @default(now())
+  closedAt        DateTime?
+  userAddress     String
+  strategyName    String?  // Optional: which strategy/AI decision led to this
+
+  @@index([userAddress, status])
+  @@index([symbol, userAddress])
+  @@index([openedAt])
+}
+

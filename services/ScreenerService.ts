@@ -85,7 +85,7 @@ export class ScreenerService {
         console.log(`Layer 2: ${layer2.length} passed hard filters.`);
 
         // Layer 3: Action Filters
-        const layer3 = cfg.layer3Enabled
+        let layer3 = cfg.layer3Enabled
             ? layer2.filter(d => {
                 if (heldSymbols.includes(d.symbol)) return true;
                 const volSpike = d.metrics.vol_zscores.vol_5m_vs_1h > cfg.minVolZscore;
@@ -95,6 +95,18 @@ export class ScreenerService {
                 return volSpike || moveSpike || (minVol && significantMove);
             })
             : layer2;
+
+        // FALLBACK: If too few candidates, relax filters
+        if (layer3.length < 3 && cfg.layer3Enabled) {
+            console.log("⚠️ Layer 3 filtered too many symbols. Relaxing filters...");
+            // Relaxed logic: just check for minimum volatility, ignore z-scores
+            layer3 = layer2.filter(d => {
+                if (heldSymbols.includes(d.symbol)) return true;
+                return d.metrics.realized_vol.m5 > (cfg.minRealizedVol * 0.5); // 50% lower vol threshold
+            });
+            console.log(`⚠️ Relaxed Layer 3: ${layer3.length} symbols passed.`);
+        }
+
         console.log(`Layer 3: ${layer3.length} passed action filters.`);
 
         // Layer 4: Scoring & Ranking
@@ -135,6 +147,19 @@ export class ScreenerService {
             if (heldSet.has(c.symbol) && !topCandidates.includes(c)) {
                 topCandidates.push(c);
                 heldAdded++;
+            }
+        }
+
+        // If still < 3, grab from layer2 (hard filters only) to ensure we have something
+        if (topCandidates.length < 3 && layer2.length > topCandidates.length) {
+            console.log("⚠️ Still too few candidates. Filling with Layer 2 symbols...");
+            for (const c of layer2) {
+                if (topCandidates.length >= 3) break;
+                if (!topCandidates.find(tc => tc.symbol === c.symbol)) {
+                    // Need to score them or just add with default score
+                    // Re-using score logic would be better but for fallback just add
+                    topCandidates.push({ ...c, score: 0, sentiment: { symbol: c.symbol, score: 0, disagreement: 0, mentions: 0, mentions_vs_baseline: 0, change_2h: 0, source_mix: {}, tags: [], sentiment_confidence: 0, notes: "Fallback" } });
+                }
             }
         }
 

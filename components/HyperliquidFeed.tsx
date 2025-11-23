@@ -191,16 +191,13 @@ export function HyperliquidFeed() {
     }, [selectedPair, setMarketState, isTestnet, screeningConfig]) // Added screeningConfig to dependencies to re-evaluate WS connection if config changes
 
     // Fetch screened symbols from the screener API (applies all layers)
+    const [allowedSymbols, setAllowedSymbols] = useState<Set<string> | null>(null)
+
+    // Fetch screened symbols from the screener API
     useEffect(() => {
         if (!screeningConfig) {
-            // If no config, show all tickers
-            setTickers(allTickers);
-            return;
-        }
-
-        if (allTickers.length === 0) {
-            // No data yet
-            return;
+            setAllowedSymbols(null)
+            return
         }
 
         const fetchScreenedSymbols = async () => {
@@ -212,31 +209,35 @@ export function HyperliquidFeed() {
                         isTestnet,
                         screeningConfig
                     })
-                });
+                })
 
                 if (!response.ok) {
-                    console.error('Failed to fetch screened symbols:', response.statusText);
-                    // Fallback to showing all tickers if API call fails
-                    setTickers(allTickers);
-                    return;
+                    console.error('Failed to fetch screened symbols:', response.statusText)
+                    setAllowedSymbols(null)
+                    return
                 }
 
-                const data = await response.json();
-                const screenedSymbols = new Set(data.symbols.map((s: any) => s.symbol));
-
-                // Filter tickers to only show screened symbols, maintaining WS price updates
-                setTickers(allTickers.filter(t => screenedSymbols.has(t.coin)));
+                const data = await response.json()
+                setAllowedSymbols(new Set(data.symbols.map((s: any) => s.symbol)))
             } catch (error) {
-                console.error('Failed to fetch screened symbols', error);
-                // Fallback to showing all tickers if error occurs
-                setTickers(allTickers);
+                console.error('Failed to fetch screened symbols', error)
+                setAllowedSymbols(null)
             }
-        };
+        }
 
-        fetchScreenedSymbols();
-        const interval = setInterval(fetchScreenedSymbols, 60000); // Refresh every minute
-        return () => clearInterval(interval);
-    }, [screeningConfig, isTestnet]); // Only re-run when config or network changes, not on every ticker update
+        fetchScreenedSymbols()
+        const interval = setInterval(fetchScreenedSymbols, 60000) // Refresh every minute
+        return () => clearInterval(interval)
+    }, [screeningConfig, isTestnet])
+
+    // Filter tickers whenever raw data or allowed symbols change
+    useEffect(() => {
+        if (!allowedSymbols) {
+            setTickers(allTickers)
+        } else {
+            setTickers(allTickers.filter(t => allowedSymbols.has(t.coin)))
+        }
+    }, [allTickers, allowedSymbols])
 
     // No need for client-side filtering anymore - the screener API handles it
     const filteredTickers = tickers;

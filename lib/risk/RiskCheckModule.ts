@@ -73,7 +73,7 @@ export class RiskCheckModule {
         }
 
         // 4. Check Max Total Exposure
-        const currentExposure = snapshot.account.open_positions.reduce((sum, p) => sum + p.size_usd, 0);
+        const currentExposure = snapshot.account.current_positions.reduce((sum, p) => sum + p.size_usd, 0);
         const maxTotal = equity * snapshot.constraints.max_total_exposure_pct_equity;
 
         if (currentExposure + proposedSizeUsd > maxTotal) {
@@ -123,7 +123,7 @@ export class RiskCheckModule {
 
     private assessClosePosition(decision: TradeDecision, snapshot: StateSnapshot): RiskAssessment {
         // Find position
-        const position = snapshot.account.open_positions.find(p => p.symbol === decision.symbol);
+        const position = snapshot.account.current_positions.find(p => p.symbol === decision.symbol);
         if (!position) {
             return { approved: false, reason: "No open position to close" };
         }

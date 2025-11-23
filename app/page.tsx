@@ -8,6 +8,9 @@ import { OpenPositions } from "@/components/OpenPositions";
 import { Backtester } from "@/components/Backtester";
 import { WalletConnect } from "@/components/WalletConnect";
 import { ScreeningParameters } from "@/components/ScreeningParameters";
+import { AdvancedIndicators } from "@/components/AdvancedIndicators";
+import { PriceAlerts } from "@/components/PriceAlerts";
+import { TradeHistory } from "@/components/TradeHistory";
 
 export default function Home() {
   return (
@@ -46,11 +49,22 @@ export default function Home() {
             </div>
 
             {/* ROW 2 */}
-            {/* Sentiment */}
+            {/* Advanced Indicators */}
             <div className="lg:col-span-4">
+              <AdvancedIndicators />
+            </div>
+
+            {/* Sentiment */}
+            <div className="lg:col-span-5">
               <SentimentPanel />
             </div>
 
+            {/* Price Alerts */}
+            <div className="lg:col-span-3">
+              <PriceAlerts />
+            </div>
+
+            {/* ROW 3 */}
             {/* Account + trade tools */}
             <div className="space-y-5 lg:col-span-5">
               <Dashboard />
@@ -61,8 +75,13 @@ export default function Home() {
             </div>
 
             {/* Portfolio / open positions */}
-            <div className="lg:col-span-3">
+            <div className="lg:col-span-4">
               <OpenPositions />
+            </div>
+
+            {/* Trade History */}
+            <div className="lg:col-span-3">
+              <TradeHistory />
             </div>
           </section>
         </main>
