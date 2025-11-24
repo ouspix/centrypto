@@ -30,60 +30,50 @@ export default function Home() {
 
         {/* Main content */}
         <main className="flex-1">
-          <section className="grid auto-rows-min grid-cols-1 gap-5 lg:grid-cols-12">
-            {/* ROW 1 */}
-            {/* Left Column: Screening + Market feed */}
-            <div className="space-y-5 lg:col-span-4">
-              <ScreeningParameters />
-              <HyperliquidFeed />
-            </div>
+          <div className="flex flex-col lg:flex-row gap-5">
+            {/* LEFT COLUMN: Main Content (Screening, Charts, etc.) */}
+            <div className="w-full lg:w-3/4">
+              <div className="grid grid-cols-1 gap-5 lg:grid-cols-9">
+                {/* ROW 1 */}
+                <div className="space-y-5 lg:col-span-4">
+                  <ScreeningParameters />
+                  <HyperliquidFeed />
+                </div>
+                <div className="lg:col-span-5">
+                  <TechnicalChart />
+                </div>
 
-            {/* Technical chart */}
-            <div className="lg:col-span-5">
-              <TechnicalChart />
-            </div>
+                {/* ROW 2 */}
+                <div className="lg:col-span-4">
+                  <AdvancedIndicators />
+                </div>
+                <div className="lg:col-span-5">
+                  <SentimentPanel />
+                </div>
 
-            {/* AI trader agent */}
-            <div className="lg:col-span-3">
-              <AIAdvisor />
-            </div>
-
-            {/* ROW 2 */}
-            {/* Advanced Indicators */}
-            <div className="lg:col-span-4">
-              <AdvancedIndicators />
-            </div>
-
-            {/* Sentiment */}
-            <div className="lg:col-span-5">
-              <SentimentPanel />
-            </div>
-
-            {/* Price Alerts */}
-            <div className="lg:col-span-3">
-              <PriceAlerts />
-            </div>
-
-            {/* ROW 3 */}
-            {/* Account + trade tools */}
-            <div className="space-y-5 lg:col-span-5">
-              <Dashboard />
-              <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-                <TradeForm />
-                <Backtester />
+                {/* ROW 3 */}
+                <div className="space-y-5 lg:col-span-5">
+                  <Dashboard />
+                  <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                    <TradeForm />
+                    <Backtester />
+                  </div>
+                </div>
+                <div className="lg:col-span-4">
+                  <OpenPositions />
+                </div>
               </div>
             </div>
 
-            {/* Portfolio / open positions */}
-            <div className="lg:col-span-4">
-              <OpenPositions />
+            {/* RIGHT COLUMN: Sticky Sidebar (AI, Alerts, History) */}
+            <div className="w-full lg:w-1/4">
+              <div className="sticky top-4 flex flex-col gap-5 h-[calc(100vh-2rem)] overflow-y-auto pr-1 pb-4 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent">
+                <AIAdvisor />
+                <PriceAlerts />
+                <TradeHistory />
+              </div>
             </div>
-
-            {/* Trade History */}
-            <div className="lg:col-span-3">
-              <TradeHistory />
-            </div>
-          </section>
+          </div>
         </main>
       </div>
     </div>

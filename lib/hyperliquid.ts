@@ -1,8 +1,9 @@
+
 import { signL1Action } from "@nktkas/hyperliquid/signing";
-import { OrderRequest, parser } from "@nktkas/hyperliquid/api/exchange";
+import { OrderRequest, CancelRequest, parser } from "@nktkas/hyperliquid/api/exchange";
 import { privateKeyToAccount } from "viem/accounts";
 
-type Hex = `0x${string}`;
+type Hex = `0x${string} `;
 
 // Helper to normalize numbers (strip trailing zeros)
 function normalizeNumber(x: number): string {
@@ -34,7 +35,7 @@ export async function getMeta(isTestnet: boolean): Promise<AssetMeta[]> {
         });
 
         if (!res.ok) {
-            throw new Error(`Failed to fetch metadata: ${res.statusText}`);
+            throw new Error(`Failed to fetch metadata: ${res.statusText} `);
         }
 
         const data = await res.json();
@@ -152,10 +153,13 @@ export async function placeOrder(
 
     if (!res.ok) {
         const text = await res.text();
-        throw new Error(`API Error: ${text}`);
+        console.error(`❌ API Error(${res.status}): `, text);
+        throw new Error(`API Error: ${text} `);
     }
 
-    return res.json();
+    const data = await res.json();
+    console.log("✅ API Response:", JSON.stringify(data, null, 2));
+    return data;
 }
 
 export async function cancelOrder(
@@ -179,7 +183,7 @@ export async function cancelOrder(
         grouping: "na" as const,
     };
 
-    const action = parser(OrderRequest.entries.action)(rawAction);
+    const action = parser(CancelRequest.entries.action)(rawAction);
     const wallet = privateKeyToAccount(privateKey as Hex);
 
     console.log("🚫 Cancelling order:", cancelRequest.oid);
@@ -199,7 +203,7 @@ export async function cancelOrder(
 
     if (!res.ok) {
         const text = await res.text();
-        throw new Error(`API Error: ${text}`);
+        throw new Error(`API Error: ${text} `);
     }
 
     return res.json();
@@ -221,7 +225,7 @@ export async function getClearinghouseState(userAddress: string, isTestnet: bool
         });
 
         if (!res.ok) {
-            throw new Error(`Failed to fetch clearinghouse state: ${res.statusText}`);
+            throw new Error(`Failed to fetch clearinghouse state: ${res.statusText} `);
         }
 
         return await res.json();
@@ -249,7 +253,7 @@ export async function getMetaAndAssetCtxs(isTestnet: boolean = false): Promise<M
         });
 
         if (!res.ok) {
-            throw new Error(`Failed to fetch meta and asset contexts: ${res.statusText}`);
+            throw new Error(`Failed to fetch meta and asset contexts: ${res.statusText} `);
         }
 
         const data = await res.json();
@@ -356,19 +360,19 @@ export async function getOHLCV(coin: string, interval: string, isTestnet: boolea
 
             if (res.status === 429) {
                 const waitTime = Math.pow(2, attempt) * 1000; // 1s, 2s, 4s
-                console.warn(`[Hyperliquid] Rate limited (429) for ${coin}. Retrying in ${waitTime}ms...`);
+                console.warn(`[Hyperliquid] Rate limited(429) for ${coin}.Retrying in ${waitTime}ms...`);
                 await new Promise(resolve => setTimeout(resolve, waitTime));
                 attempt++;
                 continue;
             }
 
             if (!res.ok) {
-                throw new Error(`Failed to fetch OHLCV: ${res.statusText}`);
+                throw new Error(`Failed to fetch OHLCV: ${res.statusText} `);
             }
 
             return await res.json();
         } catch (error: any) {
-            console.error(`Error fetching OHLCV (attempt ${attempt + 1}/${maxRetries}):`, error.message);
+            console.error(`Error fetching OHLCV(attempt ${attempt + 1}/${maxRetries}): `, error.message);
             if (attempt === maxRetries - 1) return []; // Return empty on final failure
             attempt++;
             await new Promise(resolve => setTimeout(resolve, 1000)); // Basic wait for other errors
@@ -395,7 +399,7 @@ export async function getL2Book(coin: string, isTestnet: boolean = false) {
         });
 
         if (!res.ok) {
-            throw new Error(`Failed to fetch L2 Book: ${res.statusText}`);
+            throw new Error(`Failed to fetch L2 Book: ${res.statusText} `);
         }
 
         return await res.json();

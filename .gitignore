@@ -45,3 +45,4 @@ next-env.d.ts
 sentiment/venv/
 *.pyc
 __pycache__/
+logs/trading/trade_log_2025-11-24.jsonl

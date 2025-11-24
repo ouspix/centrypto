@@ -122,7 +122,7 @@ export function OpenPositions() {
         }
     }, [address, isConnected, isTestnet])
 
-    const handleClosePosition = async (coin: string, size: string) => {
+    const handleClosePosition = async (coin: string, size: string, entryPrice: number) => {
         if (!assetMetadata[coin]) {
             console.error("Metadata missing for", coin)
             return
@@ -134,10 +134,14 @@ export function OpenPositions() {
 
         // Market Close: Place a reduce-only order in the opposite direction
         // For Buy (Long), we Sell. For Sell (Short), we Buy.
-        // We use a very aggressive price to ensure market execution.
-        // Long -> Sell at 0. Short -> Buy at 1,000,000 (or very high).
+        // We use a very aggressive price to ensure market execution (10% slippage).
 
-        const aggressivePrice = isLong ? 0 : 1000000 // Simple market close logic
+        const currentPrice = currentPrices[coin] || entryPrice
+        const aggressivePrice = isLong
+            ? currentPrice * 0.9  // Sell 10% below
+            : currentPrice * 1.1  // Buy 10% above
+
+        console.log(`Closing ${coin}: Size ${size}, Current ${currentPrice}, Limit ${aggressivePrice}`)
 
         setActionLoading(`close-${coin}`)
         try {
@@ -276,7 +280,7 @@ export function OpenPositions() {
                                                 variant="ghost"
                                                 size="sm"
                                                 className="h-7 px-3 text-xs hover:bg-red-500/20 hover:text-red-400 text-slate-500"
-                                                onClick={() => handleClosePosition(position.coin, position.szi)}
+                                                onClick={() => handleClosePosition(position.coin, position.szi, parseFloat(position.entryPx))}
                                                 disabled={!!actionLoading}
                                             >
                                                 {isClosing ? <Loader2 className="h-3 w-3 animate-spin" /> : "Close"}

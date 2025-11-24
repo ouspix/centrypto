@@ -9,6 +9,36 @@
                 "cwd": "${workspaceFolder}/rsshub-selfhost"
             },
             "problemMatcher": []
+        },
+        {
+            "label": "Run Sentiment Service",
+            "type": "shell",
+            "command": "npx tsx -r dotenv/config scripts/run_sentiment.ts",
+            "options": {
+                "env": {
+                    "DOTENV_CONFIG_PATH": ".env.local"
+                }
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Market Collector",
+            "type": "shell",
+            "command": "npx tsx -r dotenv/config scripts/run_market_collector.ts",
+            "options": {
+                "env": {
+                    "DOTENV_CONFIG_PATH": ".env.local"
+                }
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Background Services",
+            "dependsOn": [
+                "Run Sentiment Service",
+                "Run Market Collector"
+            ],
+            "problemMatcher": []
         }
     ]
 }
