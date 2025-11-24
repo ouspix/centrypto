@@ -168,7 +168,7 @@ export function AIAdvisor() {
     }
 
     return (
-        <Card className="bg-slate-900 border-slate-800 h-full hover-lift flex flex-col">
+        <Card className="bg-slate-900 border-slate-800 hover-lift flex flex-col">
             <CardHeader className="pb-3 border-b border-slate-800/50 space-y-3">
                 <div className="flex items-center justify-between">
                     <CardTitle className="text-base font-bold text-purple-400 flex items-center gap-2">
@@ -253,7 +253,7 @@ export function AIAdvisor() {
                 )}
 
                 {!result && !loading && (
-                    <div className="flex flex-col items-center justify-center h-full py-6 text-center space-y-3">
+                    <div className="flex flex-col items-center justify-center py-6 text-center space-y-3">
                         <div className="p-3 rounded-full bg-slate-950 border border-slate-800">
                             <BrainCircuit className="h-6 w-6 text-slate-600" />
                         </div>

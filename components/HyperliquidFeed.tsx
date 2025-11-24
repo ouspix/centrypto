@@ -47,6 +47,7 @@ export function HyperliquidFeed() {
 
         // Listen for config changes
         const handleConfigChange = (e: any) => {
+            console.log('[HyperliquidFeed] Config change event received', e.detail)
             setScreeningConfig(e.detail)
         }
 
@@ -188,19 +189,26 @@ export function HyperliquidFeed() {
                 pingIntervalRef.current = null
             }
         }
-    }, [selectedPair, setMarketState, isTestnet, screeningConfig]) // Added screeningConfig to dependencies to re-evaluate WS connection if config changes
+    }, [selectedPair, setMarketState, isTestnet]) // WebSocket only needs to reconnect on network or pair change, NOT config
 
     // Fetch screened symbols from the screener API (applies all layers)
     const [allowedSymbols, setAllowedSymbols] = useState<Set<string> | null>(null)
 
     // Fetch screened symbols from the screener API
     useEffect(() => {
+        console.log('[HyperliquidFeed] Screener effect triggered', {
+            hasConfig: !!screeningConfig,
+            isTestnet,
+            configKeys: screeningConfig ? Object.keys(screeningConfig) : []
+        })
+
         if (!screeningConfig) {
             setAllowedSymbols(null)
             return
         }
 
         const fetchScreenedSymbols = async () => {
+            console.log('[HyperliquidFeed] Fetching screened symbols...', { isTestnet })
             try {
                 const response = await fetch('/api/screener', {
                     method: 'POST',
@@ -218,6 +226,7 @@ export function HyperliquidFeed() {
                 }
 
                 const data = await response.json()
+                console.log('[HyperliquidFeed] Screened symbols fetched:', data.symbols.length)
                 setAllowedSymbols(new Set(data.symbols.map((s: any) => s.symbol)))
             } catch (error) {
                 console.error('Failed to fetch screened symbols', error)
@@ -225,9 +234,14 @@ export function HyperliquidFeed() {
             }
         }
 
-        fetchScreenedSymbols()
+        // Debounce config changes only, fetch immediately on network change
+        const timeout = setTimeout(fetchScreenedSymbols, 500)
         const interval = setInterval(fetchScreenedSymbols, 60000) // Refresh every minute
-        return () => clearInterval(interval)
+
+        return () => {
+            clearTimeout(timeout)
+            clearInterval(interval)
+        }
     }, [screeningConfig, isTestnet])
 
     // Filter tickers whenever raw data or allowed symbols change

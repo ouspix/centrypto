@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
@@ -42,6 +42,7 @@ const DEFAULT_CONFIG: ScreeningConfig = {
 export function ScreeningParameters() {
     const [config, setConfig] = useState<ScreeningConfig>(DEFAULT_CONFIG)
     const [expanded, setExpanded] = useState(true)
+    const isInitialMount = useRef(true)
 
     // Load from localStorage on mount
     useEffect(() => {
@@ -53,10 +54,17 @@ export function ScreeningParameters() {
                 console.error('Failed to load screening config', e)
             }
         }
+        // Mark that initial mount is complete
+        isInitialMount.current = false
     }, [])
 
-    // Save to localStorage on change
+    // Save to localStorage on change (but skip initial mount)
     useEffect(() => {
+        // Skip firing event on initial mount to prevent unnecessary refetches
+        if (isInitialMount.current) {
+            return
+        }
+
         localStorage.setItem('screeningConfig', JSON.stringify(config))
         // Also emit event for other components to listen
         window.dispatchEvent(new CustomEvent('screeningConfigChanged', { detail: config }))
