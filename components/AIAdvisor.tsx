@@ -49,12 +49,14 @@ export function AIAdvisor() {
 
     // Controls
     const [autoTrading, setAutoTrading] = useState(false)
-    const [frequency, setFrequency] = useState(60) // seconds
-    const [selectedModel, setSelectedModel] = useState("deepseek-r1:14b")
+    const DEFAULT_TRADING_INTERVAL = 600; // 10 minutes
+    const [frequency, setFrequency] = useState(DEFAULT_TRADING_INTERVAL) // seconds
+    const [selectedModel, setSelectedModel] = useState("deepseek/deepseek-v3.2-exp")
     const [availableModels, setAvailableModels] = useState<string[]>([])
     const [killSwitch, setKillSwitch] = useState(false)
 
     const timerRef = useRef<NodeJS.Timeout | null>(null)
+    const abortControllerRef = useRef<AbortController | null>(null)
 
     // Fetch Models
     useEffect(() => {
@@ -72,6 +74,10 @@ export function AIAdvisor() {
         if (killSwitch) return;
 
         setLoading(true)
+
+        // Create new AbortController for this request
+        abortControllerRef.current = new AbortController();
+
         try {
             // Read screening config from localStorage
             let screeningConfig = null;
@@ -96,7 +102,8 @@ export function AIAdvisor() {
                     model: selectedModel,
                     isTestnet,
                     screeningConfig
-                })
+                }),
+                signal: abortControllerRef.current.signal
             })
 
             if (!response.ok) {
@@ -106,9 +113,30 @@ export function AIAdvisor() {
             const data = await response.json()
             setResult(data)
         } catch (error) {
-            console.error("Analysis failed", error)
+            if (error instanceof Error && error.name === 'AbortError') {
+                console.log("Analysis cancelled by user")
+            } else {
+                console.error("Analysis failed", error)
+            }
         } finally {
             setLoading(false)
+            abortControllerRef.current = null;
+        }
+    }
+
+    const cancelAnalysis = async () => {
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+            abortControllerRef.current = null;
+            setLoading(false);
+        }
+
+        // Also call the backend cancel endpoint
+        try {
+            await fetch('/api/ai/cancel', { method: 'POST' });
+            console.log('✅ Backend cancellation requested');
+        } catch (error) {
+            console.error('Failed to cancel backend request:', error);
         }
     }
 
@@ -210,9 +238,17 @@ export function AIAdvisor() {
 
             <CardContent className="flex-1 overflow-y-auto p-3 space-y-3">
                 {loading && !result && (
-                    <div className="flex flex-col items-center justify-center h-32 text-slate-500 gap-2">
+                    <div className="flex flex-col items-center justify-center h-32 text-slate-500 gap-3">
                         <Loader2 className="h-6 w-6 animate-spin text-purple-500" />
                         <span className="text-xs animate-pulse">Calling LLM with model: {selectedModel}</span>
+                        <Button
+                            onClick={cancelAnalysis}
+                            variant="outline"
+                            size="sm"
+                            className="h-7 text-xs border-red-500/50 text-red-400 hover:bg-red-950/30 hover:border-red-500"
+                        >
+                            Cancel
+                        </Button>
                     </div>
                 )}
 

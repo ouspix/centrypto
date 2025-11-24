@@ -15,19 +15,12 @@ async function verify() {
     console.log("Sentiment Result:", sentiment.score, sentiment.notes);
 
     // 2. Run Screener Runner (simulated)
-    console.log("\n--- Step 2: Running Screener & Saving Snapshot ---");
+    console.log("\n--- Step 2: Running Screener ---");
     // We'll run the actual script logic here to verify it works
     const screener = new ScreenerService();
     const isTestnet = true;
     const symbols = await screener.getScreenedSymbols(isTestnet, []);
     console.log(`Screener found ${symbols.length} symbols.`);
-
-    if (symbols.length > 0) {
-        await screener.saveSnapshot(symbols);
-        console.log("Saved snapshot to DB.");
-    } else {
-        console.warn("Skipping save (no symbols).");
-    }
 
     // 3. Verify SnapshotBuilder consumes it
     console.log("\n--- Step 3: Verifying SnapshotBuilder Consumption ---");

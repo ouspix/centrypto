@@ -40,3 +40,8 @@ prisma/dev.db
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# python
+sentiment/venv/
+*.pyc
+__pycache__/

@@ -6,6 +6,7 @@ import {
   getFeedConfig,
   getSymbolConfig,
 } from './config';
+import { MarketDataService } from '../services/MarketDataService';
 import { mapTextToSymbols } from './symbolMapper';
 import { aggregateMessages } from './aggregation';
 import { scoreMessage } from './scorer';
@@ -37,19 +38,39 @@ export async function ingestTwitter(options: IngestOptions = {}): Promise<number
 
   const client = new TwitterApi(bearer);
   const symbolConfig = getSymbolConfig();
-  const targets = options.symbols?.length
+  // Use generous default to approach Twitter's ~1k query cap; still adjustable via env.
+  const maxQueryLen = parseInt(process.env.TWITTER_MAX_QUERY_LEN || '1000', 10);
+  const candidates = options.symbols?.length
     ? options.symbols.filter((s) => symbolConfig[s])
-    : Object.keys(symbolConfig);
+    : await pickSymbolsByVolume(symbolConfig);
+
+  const targets = candidates.length ? candidates : [];
 
   const aliases = targets.flatMap((sym) => [sym, `$${sym}`, ...(symbolConfig[sym] || [])]);
   const uniqueAliases = Array.from(new Set(aliases));
+  const queries = buildQueries(uniqueAliases, maxQueryLen);
+
+  if (!queries.length) {
+    console.warn('Twitter ingestion skipped: no aliases available after filtering.');
+    return 0;
+  }
 
   let tweets: TweetV2[] = [];
   try {
-    tweets = await fetchTweetsForSymbols(client, uniqueAliases);
+    // Twitter search is rate-limited (~1 query/15m). Rotate chunks to cover all symbols across runs.
+    const slot = Math.floor(Date.now() / (15 * 60 * 1000));
+    const idx = slot % queries.length;
+    tweets = await fetchTweetsForSymbols(client, queries[idx]);
+    if (queries.length > 1) {
+      console.warn(`Twitter queries chunked (${queries.length} chunks). Using chunk ${idx + 1}/${queries.length} this run.`);
+    }
   } catch (err: any) {
     if (err?.code === 429) {
       console.error('Twitter rate limited, skipping this run', err?.rateLimit);
+      return 0;
+    }
+    if (String(err).includes('431')) {
+      console.error('Twitter query too large (431). Reduce alias set or TWITTER_MAX_QUERY_LEN.');
       return 0;
     }
     console.error('Twitter ingestion failed', err);
@@ -122,21 +143,27 @@ export async function scorePendingMessages(options: ScoreOptions = {}): Promise<
 
     if (!messages.length) break;
 
-    const updates = messages.map((message) => {
-      const { score, confidence } = scoreMessage(message.text, {
+    // 1. Score all messages in parallel
+    const scored = await Promise.all(messages.map(async (message) => {
+      const { score, confidence } = await scoreMessage(message.text, {
         source: message.source,
         language: (message as any).language as 'en' | 'zh' | undefined,
       });
       const tags = tagMessage(message.text, ((message as any).language as 'en' | 'zh') ?? 'en');
-      return prisma.message.update({
-        where: { id: message.id },
+      return { id: message.id, score, confidence, tags };
+    }));
+
+    // 2. Create update promises
+    const updates = scored.map(({ id, score, confidence, tags }) =>
+      prisma.message.update({
+        where: { id },
         data: {
           sentimentScore: score,
           sentimentConf: confidence,
           tagsJson: JSON.stringify(tags),
         },
-      });
-    });
+      })
+    );
 
     await prisma.$transaction(updates);
     total += messages.length;
@@ -182,6 +209,55 @@ async function fetchTweetsForSymbols(client: TwitterApi, aliases: string[]) {
     'tweet.fields': ['created_at', 'public_metrics', 'lang'],
   });
   return response.tweets;
+}
+
+function buildQueries(aliases: string[], maxLen: number): string[][] {
+  const chunks: string[][] = [];
+  let current: string[] = [];
+  let currLen = 0;
+  for (const alias of aliases) {
+    const term = `"${alias}"`;
+    const addLen = term.length + (current.length > 0 ? 4 : 0); // ' OR '
+    if (currLen + addLen > maxLen && current.length) {
+      chunks.push(current);
+      current = [alias];
+      currLen = term.length;
+    } else {
+      current.push(alias);
+      currLen += addLen;
+    }
+  }
+  if (current.length) chunks.push(current);
+  return chunks;
+}
+
+function shuffleArray<T>(arr: T[]): T[] {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+async function pickSymbolsByVolume(symbolConfig: Record<string, string[]>): Promise<string[]> {
+  const mds = new MarketDataService();
+  try {
+    const snapshot = await mds.getLatestSnapshot(false); // mainnet by default
+    if (snapshot && snapshot.length) {
+      const set = new Set(Object.keys(symbolConfig));
+      const sorted = snapshot
+        .filter(s => set.has(s.symbol))
+        .sort((a, b) => b.volume24h - a.volume24h)
+        .map(s => s.symbol);
+      if (sorted.length) {
+        return sorted;
+      }
+    }
+  } catch (err) {
+    console.warn('Twitter symbol volume sort failed, falling back to shuffle', err);
+  }
+  return shuffleArray(Object.keys(symbolConfig));
 }
 
 function mapTweetToMessages(tweet: TweetV2) {

@@ -3,20 +3,57 @@ import { RiskCheckModule, TradeDecision, RiskAssessment } from "@/lib/risk/RiskC
 import { ExecutionEngine } from "@/lib/hyperliquidExecution";
 import { TradingLogger } from "@/lib/log/tradingLogger";
 
+import OpenAI from "openai";
+
+import { TRADER_AGENT_SYSTEM_PROMPT } from "@/prompts/TraderAgent";
+
 export class OrchestratorService {
+    private static instance: OrchestratorService;
     private ollamaUrl: string;
+    private openRouterClient: OpenAI | null = null;
     private snapshotBuilder: SnapshotBuilder;
     private riskModule: RiskCheckModule;
     private executionEngine: ExecutionEngine;
     private logger: TradingLogger;
+    private currentAbortController: AbortController | null = null;
 
-    constructor() {
+    private constructor() {
         this.ollamaUrl = process.env.OLLAMA_BASE_URL || "http://localhost:11434";
+
+        const openRouterKey = process.env.OPENROUTER_API_KEY;
+        if (openRouterKey) {
+            this.openRouterClient = new OpenAI({
+                baseURL: "https://openrouter.ai/api/v1",
+                apiKey: openRouterKey,
+                defaultHeaders: {
+                    "HTTP-Referer": "http://localhost:3000",
+                    "X-Title": "Centrypto Node App",
+                },
+            });
+        }
+
         this.snapshotBuilder = new SnapshotBuilder();
         this.riskModule = new RiskCheckModule();
         // Note: Private key should be securely managed. For this demo, using env var.
         this.executionEngine = new ExecutionEngine(process.env.HYPERLIQUID_PRIVATE_KEY || "", true);
         this.logger = new TradingLogger();
+    }
+
+    public static getInstance(): OrchestratorService {
+        if (!OrchestratorService.instance) {
+            OrchestratorService.instance = new OrchestratorService();
+        }
+        return OrchestratorService.instance;
+    }
+
+    public cancelCurrentRequest(): void {
+        if (this.currentAbortController) {
+            console.log("🚫 Aborting current LLM request (client-side only)");
+            this.currentAbortController.abort();
+            this.currentAbortController = null;
+        } else {
+            console.log("⚠️ No active request to cancel");
+        }
     }
 
     public async analyzeMarket(
@@ -30,8 +67,21 @@ export class OrchestratorService {
         // 1. Build Snapshot
         const snapshot = await this.snapshotBuilder.buildSnapshot(userAddress, isTestnet, screeningConfig);
 
-        // 2. Call LLM
-        const { decisions, prompt, rawOutput } = await this.getLLMDecision(snapshot, model);
+        // 2. Call LLM with abort controller
+        this.currentAbortController = new AbortController();
+        let decisions: TradeDecision[];
+        let prompt: string;
+        let rawOutput: string;
+
+        try {
+            const result = await this.getLLMDecision(snapshot, model, this.currentAbortController.signal);
+            decisions = result.decisions;
+            prompt = result.prompt;
+            rawOutput = result.rawOutput;
+        } finally {
+            // Always clean up abort controller, even on error
+            this.currentAbortController = null;
+        }
 
         // 3. Risk Check & Execution Loop
         // We need to assess risk for EACH decision.
@@ -90,60 +140,10 @@ export class OrchestratorService {
         return { decisions, riskAssessment: lastRiskAssessment, snapshot, prompt, rawOutput };
     }
 
-    private async getLLMDecision(snapshot: StateSnapshot, model: string): Promise<{ decisions: TradeDecision[], prompt: string, rawOutput: string }> {
+    private async getLLMDecision(snapshot: StateSnapshot, model: string, signal?: AbortSignal): Promise<{ decisions: TradeDecision[], prompt: string, rawOutput: string }> {
         const marketCount = Object.keys(snapshot.markets).length;
 
-        const SYSTEM_PROMPT = `ROLE: Crypto Volatility Scalper AI.
-GOAL: Build and rebalance a diversified portfolio (target exactly 5 positions) for max risk-adjusted return using INTRADAY VOLATILITY SCALPING.
-STRATEGY: 
-- Mean Reversion: strong negative ret_5m_vs_1h, "fast_move_down" regime_tags, stretched negative returns vs h1.
-- Momentum: strong positive ret_5m_vs_1h, "fast_move_up" / "high_intraday_vol" regime_tags, elevated vol_5m_vs_1h.
-- Use book_pressure to confirm or reject entries (longs prefer positive book_pressure, shorts prefer negative).
-
-### HARD CONSTRAINTS (NON-NEGOTIABLE)
-- CURRENT_POSITIONS = account.current_positions in the MARKET SNAPSHOT.
-- For every cp in CURRENT_POSITIONS, you MUST output exactly one decision object in "decisions" with the same "symbol" as cp.symbol.
-- If any symbol in CURRENT_POSITIONS is missing from "decisions", your answer is INVALID.
-- Total number of non-flat positions in "decisions" must be exactly 5 (unless capital constrained).
-- You MUST respect numerical limits in constraints:
-  * max_position_pct_equity_per_symbol
-  * max_total_exposure_pct_equity
-  * min_trade_notional_usd
-
-### ACTIONS
-Valid "action" values (string, required):
-- "OPEN_POSITION"
-- "INCREASE_POSITION"
-- "REDUCE_POSITION"
-- "CLOSE_POSITION"
-- "HOLD_POSITION"
-
-### STRATEGIC SYNTHESIS (REQUIRED)
-In "reasoning", briefly (max 200 words) follow this structure:
-1) Brief market regime.
-2) What you do with each CURRENT_POSITION (explicitly list them).
-3) Why you picked each new symbol (vol_zscores, returns, book_pressure, sentiment).
-4) Final exposure and risk rationale.
-
-### OUTPUT FORMAT (JSON ONLY)
-Return a SINGLE JSON object.
-{
-  "reasoning": "1) Market is low vol... 2) ETH-PERP: HOLD, SOL-PERP: REDUCE... 3) New: BTC-PERP Short due to...",
-  "decisions": [
-    {
-      "symbol": "ETH-PERP",
-      "target_side": "short",
-      "target_size_fraction_of_equity": 0.15,
-      "action": "OPEN_POSITION",
-      "risk_plan": { "stop_loss_pct": -0.01, "take_profit_pct_primary": 0.03 },
-      "playbook": "mean_reversion_rsi_div",
-      "confidence": 0.85,
-      "reason_code": "high_vol_zscore_neg_pressure",
-      "notes": "High vol z-score with negative book pressure."
-    }
-  ]
-}`;
-
+        const SYSTEM_PROMPT = TRADER_AGENT_SYSTEM_PROMPT;
         const USER_PROMPT = `MARKET SNAPSHOT:
 ${JSON.stringify(snapshot)}
 
@@ -155,34 +155,86 @@ ${JSON.stringify(snapshot.account.current_positions, null, 2)}`;
         try {
             console.log(`🤖 Calling LLM with model: ${model}`);
 
-            const response = await fetch(`${this.ollamaUrl}/api/generate`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    model: model,
-                    system: SYSTEM_PROMPT,
-                    prompt: USER_PROMPT,
-                    stream: false,
-                    // format: "json",  // Temporarily disabled
-                    options: {
-                        temperature: 0.3,
-                        top_p: 0.9,
-                        num_ctx: 15000 // Reduced context window
-                    }
-                })
-            });
+            // Check if we should use OpenRouter
+            // If the model string contains "deepseek" or "gpt" or "claude" and we have a client, use it.
+            // Or if the user specifically requested an OpenRouter model.
+            // For now, let's assume if the model name contains "/" it's likely an OpenRouter model ID (e.g. "deepseek/deepseek-chat-v3-0324:free")
+            // OR if we have the client and the model is not a standard local one.
 
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error("❌ Ollama API Error:", response.status, errorText);
-                throw new Error(`Ollama API Error: ${response.status} - ${errorText}`);
+            if (this.openRouterClient && (model.includes("/") || model.startsWith("gpt") || model.startsWith("anthropic"))) {
+                console.log("✨ Using OpenRouter via OpenAI SDK");
+                const completion = await this.openRouterClient.chat.completions.create({
+                    model: model,
+                    messages: [
+                        { role: "system", content: SYSTEM_PROMPT },
+                        { role: "user", content: USER_PROMPT }
+                    ],
+                    temperature: 0.3,
+                    top_p: 0.9,
+                    // @ts-ignore - signal is supported in newer openai versions but types might lag
+                    signal: signal
+                });
+
+                rawOutput = completion.choices[0].message.content || "";
+
+            } else {
+                // Fallback to Ollama
+                const response = await fetch(`${this.ollamaUrl}/api/generate`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        model: model,
+                        system: SYSTEM_PROMPT,
+                        prompt: USER_PROMPT,
+                        stream: true, // Enable streaming for better cancellation
+                        // format: "json",  // Temporarily disabled
+                        options: {
+                            temperature: 0.3,
+                            top_p: 0.9,
+                            num_ctx: 15000 // Reduced context window
+                        }
+                    }),
+                    signal: signal // Pass the abort signal
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error("❌ Ollama API Error:", response.status, errorText);
+                    throw new Error(`Ollama API Error: ${response.status} - ${errorText}`);
+                }
+
+                // Handle streaming response
+                const reader = response.body?.getReader();
+                if (!reader) throw new Error("Failed to get response reader");
+
+                const decoder = new TextDecoder();
+                rawOutput = "";
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value, { stream: true });
+                    const lines = chunk.split('\n');
+
+                    for (const line of lines) {
+                        if (!line.trim()) continue;
+                        try {
+                            const json = JSON.parse(line);
+                            if (json.response) {
+                                rawOutput += json.response;
+                            }
+                            if (json.done) {
+                                break;
+                            }
+                        } catch (e) {
+                            // Ignore parse errors for partial chunks
+                        }
+                    }
+                }
             }
 
-            const data = await response.json();
-            rawOutput = data.response || "";
-
             console.log("📦 Raw LLM Response (first 300 chars):", rawOutput.substring(0, 300));
-            console.log("🔍 Debug: data keys:", Object.keys(data));
             console.log("🔍 Debug: rawOutput length:", rawOutput.length);
 
             // Robust JSON Extraction

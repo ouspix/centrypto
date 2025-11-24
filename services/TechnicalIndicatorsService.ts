@@ -1,4 +1,3 @@
-import { getOHLCV } from "@/lib/hyperliquid";
 import { prisma } from "@/lib/db";
 
 type Candle = {
@@ -233,18 +232,8 @@ export class TechnicalIndicatorsService {
             v: c.v.toString()
         }));
 
-        if (candles.length < 200) {
-            console.log(`[TechnicalIndicators] Not enough candle data for ${symbol}, fetching from API...`);
-            try {
-                const apiCandles = await getOHLCV(symbol, "1m", isTestnet, lookbackWindow);
-                candles = apiCandles || candles;
-            } catch (err) {
-                console.error(`[TechnicalIndicators] Failed to fetch candles for ${symbol}`);
-            }
-        }
-
         if (candles.length === 0) {
-            // Return neutral indicators
+            // Return neutral indicators when cache is empty; ingestion is handled separately.
             return this.getNeutralIndicators();
         }
 

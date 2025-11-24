@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { getOHLCV } from '@/lib/hyperliquid';
 
 export async function GET(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url);
         const symbol = searchParams.get('symbol');
         const interval = searchParams.get('interval') || '1h';
-        const isTestnet = searchParams.get('isTestnet') === 'true';
+        // Kept for signature parity; data comes from DB only
+        const _isTestnet = searchParams.get('isTestnet') === 'true';
 
         if (!symbol) {
             return NextResponse.json({ error: 'Symbol is required' }, { status: 400 });
@@ -37,82 +37,7 @@ export async function GET(request: NextRequest) {
             orderBy: { t: 'asc' }
         });
 
-        // 3. Check if we need to backfill 1m data
-        // If we have no data, or the latest data is stale, fetch 1m from API
-        const latestCandle = dbCandles[dbCandles.length - 1];
-        let needsFetch = false;
-        let fetchStartTime = startTime;
-
-        if (!latestCandle) {
-            needsFetch = true;
-        } else {
-            const latestTime = Number(latestCandle.t);
-            // If latest 1m candle is older than 2 minutes, we need updates
-            if (Date.now() - latestTime > 2 * 60 * 1000) {
-                needsFetch = true;
-                fetchStartTime = latestTime + 1;
-            }
-            // Also check if we have a gap at the start (e.g. user requests 30 days but we only have 4.5h)
-            const firstTime = Number(dbCandles[0].t);
-            if (firstTime > startTime + (60 * 60 * 1000)) { // Allow 1h tolerance
-                // We need to backfill history. 
-                // Note: Hyperliquid might limit how far back we can go with 1m candles in one shot.
-                // For now, let's try to fetch what we can.
-                needsFetch = true;
-                fetchStartTime = startTime;
-                // If we are backfilling history, we should be careful not to overwrite existing recent data blindly,
-                // but upsert handles that.
-            }
-        }
-
-        if (needsFetch) {
-            try {
-                // console.log(`[API] Backfilling 1m candles for ${symbol} from ${new Date(fetchStartTime).toISOString()}`);
-                const newCandles = await getOHLCV(symbol, "1m", isTestnet, fetchStartTime);
-
-                if (newCandles && newCandles.length > 0) {
-                    // Save 1m candles to DB
-                    await prisma.$transaction(
-                        newCandles.map((c: any) =>
-                            prisma.candle.upsert({
-                                where: {
-                                    symbol_interval_t: {
-                                        symbol,
-                                        interval: "1m",
-                                        t: BigInt(c.t)
-                                    }
-                                },
-                                update: {},
-                                create: {
-                                    symbol,
-                                    interval: "1m",
-                                    t: BigInt(c.t),
-                                    o: parseFloat(c.o),
-                                    h: parseFloat(c.h),
-                                    l: parseFloat(c.l),
-                                    c: parseFloat(c.c),
-                                    v: parseFloat(c.v)
-                                }
-                            })
-                        )
-                    );
-
-                    // Refresh DB candles after update
-                    dbCandles = await prisma.candle.findMany({
-                        where: {
-                            symbol,
-                            interval: "1m",
-                            t: { gte: startTime }
-                        },
-                        orderBy: { t: 'asc' }
-                    });
-                }
-            } catch (error) {
-                console.error(`[API] Failed to fetch 1m candles:`, error);
-            }
-        }
-
-        // 4. Aggregate candles if needed
+        // 3. Aggregate candles if needed (DB only; ingestion happens in standalone script)
         let resultCandles = [];
 
         if (interval === '1m') {

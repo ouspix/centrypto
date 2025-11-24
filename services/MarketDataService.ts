@@ -65,8 +65,8 @@ export class MarketDataService {
                 try {
                     // Fetch Metrics, Book, and Sentiment in parallel
                     const [metrics, bookMetrics, sentiment] = await Promise.all([
-                        this.marketAnalysis.getMetricsForSymbol(candidate.symbol, isTestnet),
-                        this.marketAnalysis.getOrderBookMetrics(candidate.symbol, isTestnet),
+                        this.marketAnalysis.getMetricsForSymbol(candidate.symbol, isTestnet, true),
+                        this.marketAnalysis.getOrderBookMetrics(candidate.symbol, isTestnet, true),
                         this.sentimentService.getSentimentForCoin(candidate.symbol)
                     ]);
 
@@ -109,13 +109,6 @@ export class MarketDataService {
             });
 
             if (!snapshot) return null;
-
-            // Check age (e.g. 5 mins)
-            const age = Date.now() - snapshot.createdAt.getTime();
-            if (age > 5 * 60 * 1000) {
-                console.warn(`⚠️ MarketStateSnapshot is stale (${(age / 1000).toFixed(0)}s old).`);
-                return null;
-            }
 
             const allData = JSON.parse(snapshot.data) as EnrichedMarketData[];
 

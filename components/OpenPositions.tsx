@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Loader2, TrendingUp, TrendingDown, X, RefreshCw, Clock, AlertCircle } from "lucide-react"
 import { useTrading } from "@/context/TradingContext"
-import { placeOrder, cancelOrder } from "@/lib/hyperliquid"
+import { placeOrderAction, cancelOrderAction } from "@/app/actions/trade"
 
 type Position = {
     coin: string
@@ -141,8 +141,6 @@ export function OpenPositions() {
 
         setActionLoading(`close-${coin}`)
         try {
-            const privateKey = "0x7d3bd07fe2159b4ec2af4a7828409f97c8b59070b4e63a1d99c269570d9f03fe" // Using same key as TradeForm
-
             const order = {
                 asset: assetIndex,
                 isBuy: !isLong, // Opposite side
@@ -151,12 +149,14 @@ export function OpenPositions() {
                 reduceOnly: true
             }
 
-            const res = await placeOrder(privateKey, order, isTestnet)
+            const res = await placeOrderAction(order, isTestnet)
             console.log("Close Position Response:", res)
 
-            if (res.status === "ok") {
+            if (res.success) {
                 // Refresh immediately
                 setTimeout(fetchData, 1000)
+            } else {
+                console.error("Close Position Failed:", res.error)
             }
         } catch (error) {
             console.error("Failed to close position:", error)
@@ -170,14 +170,15 @@ export function OpenPositions() {
 
         setActionLoading(`cancel-${oid}`)
         try {
-            const privateKey = "0x7d3bd07fe2159b4ec2af4a7828409f97c8b59070b4e63a1d99c269570d9f03fe"
             const assetIndex = assetMetadata[coin].index
 
-            const res = await cancelOrder(privateKey, { asset: assetIndex, oid }, isTestnet)
+            const res = await cancelOrderAction({ asset: assetIndex, oid }, isTestnet)
             console.log("Cancel Order Response:", res)
 
-            if (res.status === "ok") {
+            if (res.success) {
                 setTimeout(fetchData, 1000)
+            } else {
+                console.error("Cancel Order Failed:", res.error)
             }
         } catch (error) {
             console.error("Failed to cancel order:", error)

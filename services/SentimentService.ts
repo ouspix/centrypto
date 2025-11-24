@@ -2,7 +2,6 @@ import Vader from 'vader-sentiment';
 import type { SymbolSentimentSnapshot } from '@prisma/client';
 import { prisma } from '../lib/db';
 import { getSymbolConfig } from '../sentiment/config';
-import { runFullPipeline } from '../sentiment/pipeline';
 
 export type SentimentMessage = {
     id: string;
@@ -43,17 +42,17 @@ export type SentimentSnapshot = {
 
 const DEFAULT_AVG_MENTIONS_24H = 48;
 const DEFAULT_WINDOW_MINUTES = 120;
-const SNAPSHOT_MAX_AGE_MS = 5 * 60 * 1000;
 
 export class SentimentService {
     /**
      * Public entry-point used across the app. It reads the latest snapshot from
-     * the DB and triggers ingestion/scoring/aggregation if data is stale.
+     * the DB without triggering any fresh downloads. Ingestion is handled by the
+     * standalone sentiment script.
      */
     public async getSentimentForCoin(coin: string, previousScore: number | null = null): Promise<SentimentSnapshot> {
         const symbol = coin.toUpperCase();
         try {
-            const snapshot = await this.ensureFreshSnapshot(symbol);
+            const snapshot = await this.fetchLatestSnapshot(symbol);
             if (snapshot) {
                 return this.mapRowToSnapshot(snapshot);
             }
@@ -73,29 +72,16 @@ export class SentimentService {
         };
     }
 
-    private async ensureFreshSnapshot(symbol: string): Promise<SymbolSentimentSnapshot | null> {
-        const latest = await this.fetchLatestSnapshot(symbol);
-        if (latest && !this.isStale(latest.updatedAt)) return latest;
-
+    private async fetchLatestSnapshot(symbol: string) {
         const known = Object.keys(getSymbolConfig());
         if (!known.includes(symbol)) {
-            console.warn(`Unknown symbol for sentiment pipeline: ${symbol}`);
-            return latest;
+            console.warn(`Unknown symbol for sentiment lookup: ${symbol}`);
+            return null;
         }
-
-        await runFullPipeline([symbol]);
-        return this.fetchLatestSnapshot(symbol);
-    }
-
-    private async fetchLatestSnapshot(symbol: string) {
         return prisma.symbolSentimentSnapshot.findFirst({
             where: { symbol },
             orderBy: { updatedAt: 'desc' }
         });
-    }
-
-    private isStale(updatedAt: Date) {
-        return Date.now() - updatedAt.getTime() > SNAPSHOT_MAX_AGE_MS;
     }
 
     private mapRowToSnapshot(row: SymbolSentimentSnapshot): SentimentSnapshot {

@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge"
 import { Loader2, ArrowUpRight, ArrowDownRight, Zap } from "lucide-react"
 
 import { useTrading } from "@/context/TradingContext"
-import { placeOrder } from "@/lib/hyperliquid"
+import { placeOrderAction } from "@/app/actions/trade"
 
 export function TradeForm() {
     const [loading, setLoading] = useState(false)
@@ -88,51 +88,58 @@ export function TradeForm() {
                 reduceOnly: false
             }
 
-            const privateKey = "0x7d3bd07fe2159b4ec2af4a7828409f97c8b59070b4e63a1d99c269570d9f03fe"
-            const response = await placeOrder(privateKey, order, isTestnet)
+            const actionResponse = await placeOrderAction(order, isTestnet)
+            console.log("Server Action Response:", actionResponse)
 
-            console.log("API Response:", response)
+            if (actionResponse.success) {
+                const response = actionResponse.data
 
-            if (response.status === "ok") {
-                // Check if the individual order succeeded
-                const orderStatus = response.response.data.statuses[0]
+                if (response.status === "ok") {
+                    // Check if the individual order succeeded
+                    const orderStatus = response.response.data.statuses[0]
 
-                if (orderStatus.error) {
-                    // Order was rejected
-                    console.error("Order Rejected:", orderStatus.error)
+                    if (orderStatus.error) {
+                        // Order was rejected
+                        console.error("Order Rejected:", orderStatus.error)
+                        setResult({
+                            success: false,
+                            error: orderStatus.error
+                        })
+                    } else {
+                        // Order succeeded
+                        // Status can be { resting: { oid: ... } } or { filled: { oid: ... } }
+                        const oid = orderStatus.resting?.oid || orderStatus.filled?.oid || orderStatus.oid
+
+                        setResult({
+                            success: true,
+                            orderId: oid,
+                            txHash: "Signed & Sent to API"
+                        })
+                    }
+                } else {
+                    console.error("Order Failed:", response)
+                    // Try to extract error, otherwise dump the whole response for debugging
+                    let errorMessage = response.response?.data?.statuses?.[0]?.error
+
+                    if (!errorMessage) {
+                        // Check for other common error locations
+                        errorMessage = "Raw Response: " + JSON.stringify(response, null, 2)
+                    }
+
+                    // Handle specific "User does not exist" error
+                    if (typeof errorMessage === 'string' && errorMessage.includes("User") && errorMessage.includes("does not exist")) {
+                        errorMessage = "Account not found on Testnet. Please deposit USDC on Hyperliquid Testnet to initialize your account."
+                    }
+
                     setResult({
                         success: false,
-                        error: orderStatus.error
-                    })
-                } else {
-                    // Order succeeded
-                    // Status can be { resting: { oid: ... } } or { filled: { oid: ... } }
-                    const oid = orderStatus.resting?.oid || orderStatus.filled?.oid || orderStatus.oid
-
-                    setResult({
-                        success: true,
-                        orderId: oid,
-                        txHash: "Signed & Sent to API"
+                        error: errorMessage
                     })
                 }
             } else {
-                console.error("Order Failed:", response)
-                // Try to extract error, otherwise dump the whole response for debugging
-                let errorMessage = response.response?.data?.statuses?.[0]?.error
-
-                if (!errorMessage) {
-                    // Check for other common error locations
-                    errorMessage = "Raw Response: " + JSON.stringify(response, null, 2)
-                }
-
-                // Handle specific "User does not exist" error
-                if (typeof errorMessage === 'string' && errorMessage.includes("User") && errorMessage.includes("does not exist")) {
-                    errorMessage = "Account not found on Testnet. Please deposit USDC on Hyperliquid Testnet to initialize your account."
-                }
-
                 setResult({
                     success: false,
-                    error: errorMessage
+                    error: actionResponse.error
                 })
             }
 

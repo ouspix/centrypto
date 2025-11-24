@@ -1,106 +1,128 @@
 import { getLexiconConfig } from './config';
 
-export type ScoreResult = {
+interface ScoreResult {
   score: number;
   confidence: number;
-};
-
-type WeightedLexicon = {
-  tokenWeights: Map<string, number>;
-  phraseWeights: { phrase: string; weight: number }[];
-  normalizer: number;
-};
-
-let weightedCache: Partial<Record<'en' | 'zh', WeightedLexicon>> = {};
-
-function buildLexicon(lang: 'en' | 'zh'): WeightedLexicon {
-  const lexicon = getLexiconConfig(lang);
-  const tokenWeights = new Map<string, number>();
-  lexicon.positive.forEach((item) => tokenWeights.set(item.term.toLowerCase(), item.weight));
-  lexicon.negative.forEach((item) => tokenWeights.set(item.term.toLowerCase(), item.weight));
-
-  return {
-    tokenWeights,
-    phraseWeights: [...lexicon.boost_phrases, ...lexicon.dampen_phrases].map((entry) => ({
-      phrase: entry.phrase.toLowerCase(),
-      weight: entry.weight,
-    })),
-    normalizer: lexicon.normalizer || 3,
-  };
+  model?: string;
 }
 
-function getLexicon(lang: 'en' | 'zh'): WeightedLexicon {
-  if (!weightedCache[lang]) {
-    weightedCache[lang] = buildLexicon(lang);
-  }
-  return weightedCache[lang];
-}
+const PYTHON_SERVICE_URL = process.env.SENTIMENT_SERVICE_URL || 'http://localhost:8000';
 
 function tokenize(text: string): string[] {
-  return text
-    .toLowerCase()
-    .match(/[\p{L}\p{N}]+/gu)
-    ?.filter(Boolean) ?? [];
+  return text.toLowerCase().split(/[\s,.!?;:"'()]+/);
 }
 
-function clamp(score: number) {
-  return Math.max(-1, Math.min(1, score));
+function clamp(val: number, min: number = -1, max: number = 1): number {
+  return Math.min(max, Math.max(min, val));
 }
 
-function detectLanguage(text: string, explicit?: string): 'zh' | 'en' {
-  if (explicit === 'zh' || explicit === 'en') return explicit;
-  const cjkMatches = text.match(/[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uff00-\uff9f]/g);
-  const cjkRatio = cjkMatches ? cjkMatches.length / Math.max(text.length, 1) : 0;
-  return cjkRatio > 0.1 ? 'zh' : 'en';
-}
-
-export function scoreMessage(text: string, metadata?: { source?: string; language?: string }): ScoreResult {
-  if (!text || !text.trim()) {
-    return { score: 0, confidence: 0.1 };
-  }
-
-  const lang = detectLanguage(text, metadata?.language);
-  const { tokenWeights, phraseWeights, normalizer } = getLexicon(lang);
+function scoreWithLexicon(text: string, lang: 'en' | 'zh' = 'en', source?: string): ScoreResult {
+  const config = getLexiconConfig(lang);
   const tokens = tokenize(text);
+  const lowerText = text.toLowerCase();
 
   let rawScore = 0;
-  let tokenHits = 0;
+  let hits = 0;
+
+  // 1. Token matching
+  const tokenMap = new Map<string, number>();
+  [...config.positive, ...config.negative].forEach(entry => tokenMap.set(entry.term, entry.weight));
 
   if (lang === 'zh') {
-    // For CJK text, do substring matching against lexicon terms.
-    for (const [term, weight] of tokenWeights.entries()) {
+    // For Chinese, simple inclusion check since tokenization is hard without a library
+    for (const [term, weight] of tokenMap.entries()) {
       if (text.includes(term)) {
         rawScore += weight;
-        tokenHits += 1;
+        hits++;
       }
     }
   } else {
+    // For English, exact token match
     for (const token of tokens) {
-      const weight = tokenWeights.get(token);
-      if (typeof weight === 'number') {
-        rawScore += weight;
-        tokenHits += 1;
+      if (tokenMap.has(token)) {
+        rawScore += tokenMap.get(token)!;
+        hits++;
       }
     }
   }
 
-  let phraseHits = 0;
-  const lower = text.toLowerCase();
-  for (const entry of phraseWeights) {
-    if (lower.includes(entry.phrase)) {
-      rawScore += entry.weight;
-      phraseHits += 1;
+  // 2. Phrase matching (Boost/Dampen)
+  // Note: config might not have boost_phrases if loading failed or old format, so check existence
+  const boosts = config.boost_phrases || [];
+  const dampens = config.dampen_phrases || [];
+
+  for (const { phrase, weight } of boosts) {
+    if (lowerText.includes(phrase)) {
+      rawScore += weight;
+      hits++;
     }
   }
 
-  // Slightly penalize neutral/no-hit texts from noisy sources.
-  if (tokenHits === 0 && !phraseHits && metadata?.source === 'twitter') {
-    rawScore *= 0.8;
+  // Dampen phrases usually reduce the score or flip it, here we just add weight (assuming negative weight for dampeners if that's the logic, 
+  // or maybe they are multipliers? The type says 'weight', let's assume additive for now based on previous logic)
+  for (const { phrase, weight } of dampens) {
+    if (lowerText.includes(phrase)) {
+      rawScore += weight;
+      hits++;
+    }
   }
 
-  const normalized = clamp(rawScore / normalizer);
-  const confidenceBase = tokenHits > 0 ? 0.4 + tokenHits * 0.15 + phraseHits * 0.1 : 0.2 + phraseHits * 0.1;
-  const confidence = Math.min(1, Math.max(0.05, confidenceBase));
+  // 3. Normalization
+  const normalized = clamp(rawScore / (config.normalizer || 5.0));
 
-  return { score: normalized, confidence: parseFloat(confidence.toFixed(3)) };
+  // 4. Confidence
+  // Simple heuristic: more hits = higher confidence
+  let confidence = 0.2 + (hits * 0.1);
+  confidence = clamp(confidence, 0.1, 0.9);
+
+  return {
+    score: normalized,
+    confidence,
+    model: 'lexicon'
+  };
+}
+
+export async function scoreMessage(text: string, metadata?: { source?: string; language?: string }): Promise<ScoreResult> {
+  try {
+    const response = await fetch(`${PYTHON_SERVICE_URL}/score`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text,
+        source: metadata?.source || 'unknown'
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Service returned ${response.status}`);
+    }
+
+    const data = await response.json();
+    return {
+      score: data.score,
+      confidence: data.confidence,
+      model: `python-${data.label}`
+    };
+
+  } catch (error) {
+    // Only log if it's not a connection refused (common during startup/dev) to avoid spam
+    // console.warn(`[Sentiment] Python service failed: ${error}`);
+
+    // Fallback to lexicon
+    const lang = (metadata?.language === 'zh') ? 'zh' : 'en';
+    const lexiconResult = scoreWithLexicon(text, lang, metadata?.source);
+    return {
+      ...lexiconResult,
+      model: 'lexicon-fallback'
+    };
+  }
+}
+
+// Compatibility wrappers
+export async function scoreWithFinbert(text: string): Promise<ScoreResult> {
+  return scoreMessage(text, { source: 'news' });
+}
+
+export async function scoreWithRoberta(text: string): Promise<ScoreResult> {
+  return scoreMessage(text, { source: 'twitter' });
 }

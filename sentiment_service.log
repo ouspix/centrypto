@@ -1,0 +1,1588 @@
+nohup: ignoring input
+Creating Python virtual environment...
+Installing dependencies...
+Collecting fastapi (from -r sentiment/requirements.txt (line 1))
+  Downloading fastapi-0.121.3-py3-none-any.whl.metadata (30 kB)
+Collecting uvicorn (from -r sentiment/requirements.txt (line 2))
+  Using cached uvicorn-0.38.0-py3-none-any.whl.metadata (6.8 kB)
+Collecting torch (from -r sentiment/requirements.txt (line 3))
+  Downloading torch-2.9.1-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (30 kB)
+Collecting transformers (from -r sentiment/requirements.txt (line 4))
+  Using cached transformers-4.57.1-py3-none-any.whl.metadata (43 kB)
+Collecting langdetect (from -r sentiment/requirements.txt (line 5))
+  Downloading langdetect-1.0.9.tar.gz (981 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 981.5/981.5 kB 37.0 MB/s eta 0:00:00
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Collecting sentencepiece (from -r sentiment/requirements.txt (line 6))
+  Downloading sentencepiece-0.2.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (10 kB)
+Collecting sacremoses (from -r sentiment/requirements.txt (line 7))
+  Downloading sacremoses-0.1.1-py3-none-any.whl.metadata (8.3 kB)
+Collecting starlette<0.51.0,>=0.40.0 (from fastapi->-r sentiment/requirements.txt (line 1))
+  Downloading starlette-0.50.0-py3-none-any.whl.metadata (6.3 kB)
+Collecting pydantic!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0,>=1.7.4 (from fastapi->-r sentiment/requirements.txt (line 1))
+  Downloading pydantic-2.12.4-py3-none-any.whl.metadata (89 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 89.9/89.9 kB 11.7 MB/s eta 0:00:00
+Collecting typing-extensions>=4.8.0 (from fastapi->-r sentiment/requirements.txt (line 1))
+  Using cached typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting annotated-doc>=0.0.2 (from fastapi->-r sentiment/requirements.txt (line 1))
+  Downloading annotated_doc-0.0.4-py3-none-any.whl.metadata (6.6 kB)
+Collecting click>=7.0 (from uvicorn->-r sentiment/requirements.txt (line 2))
+  Downloading click-8.3.1-py3-none-any.whl.metadata (2.6 kB)
+Collecting h11>=0.8 (from uvicorn->-r sentiment/requirements.txt (line 2))
+  Using cached h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+Collecting filelock (from torch->-r sentiment/requirements.txt (line 3))
+  Using cached filelock-3.20.0-py3-none-any.whl.metadata (2.1 kB)
+Collecting setuptools (from torch->-r sentiment/requirements.txt (line 3))
+  Using cached setuptools-80.9.0-py3-none-any.whl.metadata (6.6 kB)
+Collecting sympy>=1.13.3 (from torch->-r sentiment/requirements.txt (line 3))
+  Using cached sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+Collecting networkx>=2.5.1 (from torch->-r sentiment/requirements.txt (line 3))
+  Using cached networkx-3.5-py3-none-any.whl.metadata (6.3 kB)
+Collecting jinja2 (from torch->-r sentiment/requirements.txt (line 3))
+  Using cached jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting fsspec>=0.8.5 (from torch->-r sentiment/requirements.txt (line 3))
+  Downloading fsspec-2025.10.0-py3-none-any.whl.metadata (10 kB)
+Collecting nvidia-cuda-nvrtc-cu12==12.8.93 (from torch->-r sentiment/requirements.txt (line 3))
+  Using cached nvidia_cuda_nvrtc_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cuda-runtime-cu12==12.8.90 (from torch->-r sentiment/requirements.txt (line 3))
+  Using cached nvidia_cuda_runtime_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cuda-cupti-cu12==12.8.90 (from torch->-r sentiment/requirements.txt (line 3))
+  Using cached nvidia_cuda_cupti_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cudnn-cu12==9.10.2.21 (from torch->-r sentiment/requirements.txt (line 3))
+  Using cached nvidia_cudnn_cu12-9.10.2.21-py3-none-manylinux_2_27_x86_64.whl.metadata (1.8 kB)
+Collecting nvidia-cublas-cu12==12.8.4.1 (from torch->-r sentiment/requirements.txt (line 3))
+  Using cached nvidia_cublas_cu12-12.8.4.1-py3-none-manylinux_2_27_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cufft-cu12==11.3.3.83 (from torch->-r sentiment/requirements.txt (line 3))
+  Using cached nvidia_cufft_cu12-11.3.3.83-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-curand-cu12==10.3.9.90 (from torch->-r sentiment/requirements.txt (line 3))
+  Using cached nvidia_curand_cu12-10.3.9.90-py3-none-manylinux_2_27_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cusolver-cu12==11.7.3.90 (from torch->-r sentiment/requirements.txt (line 3))
+  Using cached nvidia_cusolver_cu12-11.7.3.90-py3-none-manylinux_2_27_x86_64.whl.metadata (1.8 kB)
+Collecting nvidia-cusparse-cu12==12.5.8.93 (from torch->-r sentiment/requirements.txt (line 3))
+  Using cached nvidia_cusparse_cu12-12.5.8.93-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.8 kB)
+Collecting nvidia-cusparselt-cu12==0.7.1 (from torch->-r sentiment/requirements.txt (line 3))
+  Using cached nvidia_cusparselt_cu12-0.7.1-py3-none-manylinux2014_x86_64.whl.metadata (7.0 kB)
+Collecting nvidia-nccl-cu12==2.27.5 (from torch->-r sentiment/requirements.txt (line 3))
+  Using cached nvidia_nccl_cu12-2.27.5-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.0 kB)
+Collecting nvidia-nvshmem-cu12==3.3.20 (from torch->-r sentiment/requirements.txt (line 3))
+  Using cached nvidia_nvshmem_cu12-3.3.20-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.1 kB)
+Collecting nvidia-nvtx-cu12==12.8.90 (from torch->-r sentiment/requirements.txt (line 3))
+  Using cached nvidia_nvtx_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.8 kB)
+Collecting nvidia-nvjitlink-cu12==12.8.93 (from torch->-r sentiment/requirements.txt (line 3))
+  Using cached nvidia_nvjitlink_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl.metadata (1.7 kB)
+Collecting nvidia-cufile-cu12==1.13.1.3 (from torch->-r sentiment/requirements.txt (line 3))
+  Using cached nvidia_cufile_cu12-1.13.1.3-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (1.7 kB)
+Collecting triton==3.5.1 (from torch->-r sentiment/requirements.txt (line 3))
+  Downloading triton-3.5.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (1.7 kB)
+Collecting huggingface-hub<1.0,>=0.34.0 (from transformers->-r sentiment/requirements.txt (line 4))
+  Using cached huggingface_hub-0.36.0-py3-none-any.whl.metadata (14 kB)
+Collecting numpy>=1.17 (from transformers->-r sentiment/requirements.txt (line 4))
+  Downloading numpy-2.3.5-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.1/62.1 kB 7.7 MB/s eta 0:00:00
+Collecting packaging>=20.0 (from transformers->-r sentiment/requirements.txt (line 4))
+  Using cached packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting pyyaml>=5.1 (from transformers->-r sentiment/requirements.txt (line 4))
+  Using cached pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+Collecting regex!=2019.12.17 (from transformers->-r sentiment/requirements.txt (line 4))
+  Downloading regex-2025.11.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 40.5/40.5 kB 2.0 MB/s eta 0:00:00
+Collecting requests (from transformers->-r sentiment/requirements.txt (line 4))
+  Using cached requests-2.32.5-py3-none-any.whl.metadata (4.9 kB)
+Collecting tokenizers<=0.23.0,>=0.22.0 (from transformers->-r sentiment/requirements.txt (line 4))
+  Using cached tokenizers-0.22.1-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.8 kB)
+Collecting safetensors>=0.4.3 (from transformers->-r sentiment/requirements.txt (line 4))
+  Downloading safetensors-0.7.0-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+Collecting tqdm>=4.27 (from transformers->-r sentiment/requirements.txt (line 4))
+  Using cached tqdm-4.67.1-py3-none-any.whl.metadata (57 kB)
+Collecting six (from langdetect->-r sentiment/requirements.txt (line 5))
+  Using cached six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+Collecting joblib (from sacremoses->-r sentiment/requirements.txt (line 7))
+  Using cached joblib-1.5.2-py3-none-any.whl.metadata (5.6 kB)
+Collecting hf-xet<2.0.0,>=1.1.3 (from huggingface-hub<1.0,>=0.34.0->transformers->-r sentiment/requirements.txt (line 4))
+  Downloading hf_xet-1.2.0-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+Collecting annotated-types>=0.6.0 (from pydantic!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0,>=1.7.4->fastapi->-r sentiment/requirements.txt (line 1))
+  Using cached annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+Collecting pydantic-core==2.41.5 (from pydantic!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0,>=1.7.4->fastapi->-r sentiment/requirements.txt (line 1))
+  Downloading pydantic_core-2.41.5-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (7.3 kB)
+Collecting typing-inspection>=0.4.2 (from pydantic!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0,>=1.7.4->fastapi->-r sentiment/requirements.txt (line 1))
+  Using cached typing_inspection-0.4.2-py3-none-any.whl.metadata (2.6 kB)
+Collecting anyio<5,>=3.6.2 (from starlette<0.51.0,>=0.40.0->fastapi->-r sentiment/requirements.txt (line 1))
+  Using cached anyio-4.11.0-py3-none-any.whl.metadata (4.1 kB)
+Collecting mpmath<1.4,>=1.1.0 (from sympy>=1.13.3->torch->-r sentiment/requirements.txt (line 3))
+  Using cached mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+Collecting MarkupSafe>=2.0 (from jinja2->torch->-r sentiment/requirements.txt (line 3))
+  Using cached markupsafe-3.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+Collecting charset_normalizer<4,>=2 (from requests->transformers->-r sentiment/requirements.txt (line 4))
+  Using cached charset_normalizer-3.4.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (37 kB)
+Collecting idna<4,>=2.5 (from requests->transformers->-r sentiment/requirements.txt (line 4))
+  Using cached idna-3.11-py3-none-any.whl.metadata (8.4 kB)
+Collecting urllib3<3,>=1.21.1 (from requests->transformers->-r sentiment/requirements.txt (line 4))
+  Using cached urllib3-2.5.0-py3-none-any.whl.metadata (6.5 kB)
+Collecting certifi>=2017.4.17 (from requests->transformers->-r sentiment/requirements.txt (line 4))
+  Downloading certifi-2025.11.12-py3-none-any.whl.metadata (2.5 kB)
+Collecting sniffio>=1.1 (from anyio<5,>=3.6.2->starlette<0.51.0,>=0.40.0->fastapi->-r sentiment/requirements.txt (line 1))
+  Using cached sniffio-1.3.1-py3-none-any.whl.metadata (3.9 kB)
+Downloading fastapi-0.121.3-py3-none-any.whl (109 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 109.8/109.8 kB 15.9 MB/s eta 0:00:00
+Using cached uvicorn-0.38.0-py3-none-any.whl (68 kB)
+Downloading torch-2.9.1-cp312-cp312-manylinux_2_28_x86_64.whl (899.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 899.7/899.7 MB 967.3 kB/s eta 0:00:00
+Using cached nvidia_cublas_cu12-12.8.4.1-py3-none-manylinux_2_27_x86_64.whl (594.3 MB)
+Using cached nvidia_cuda_cupti_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (10.2 MB)
+Using cached nvidia_cuda_nvrtc_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (88.0 MB)
+Using cached nvidia_cuda_runtime_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (954 kB)
+Using cached nvidia_cudnn_cu12-9.10.2.21-py3-none-manylinux_2_27_x86_64.whl (706.8 MB)
+Using cached nvidia_cufft_cu12-11.3.3.83-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (193.1 MB)
+Using cached nvidia_cufile_cu12-1.13.1.3-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.2 MB)
+Using cached nvidia_curand_cu12-10.3.9.90-py3-none-manylinux_2_27_x86_64.whl (63.6 MB)
+Using cached nvidia_cusolver_cu12-11.7.3.90-py3-none-manylinux_2_27_x86_64.whl (267.5 MB)
+Using cached nvidia_cusparse_cu12-12.5.8.93-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (288.2 MB)
+Using cached nvidia_cusparselt_cu12-0.7.1-py3-none-manylinux2014_x86_64.whl (287.2 MB)
+Using cached nvidia_nccl_cu12-2.27.5-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (322.3 MB)
+Using cached nvidia_nvjitlink_cu12-12.8.93-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (39.3 MB)
+Using cached nvidia_nvshmem_cu12-3.3.20-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (124.7 MB)
+Using cached nvidia_nvtx_cu12-12.8.90-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (89 kB)
+Downloading triton-3.5.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (170.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 170.5/170.5 MB 4.1 MB/s eta 0:00:00
+Using cached transformers-4.57.1-py3-none-any.whl (12.0 MB)
+Downloading sentencepiece-0.2.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (1.4 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.4/1.4 MB 28.8 MB/s eta 0:00:00
+Downloading sacremoses-0.1.1-py3-none-any.whl (897 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 897.5/897.5 kB 32.9 MB/s eta 0:00:00
+Downloading annotated_doc-0.0.4-py3-none-any.whl (5.3 kB)
+Downloading click-8.3.1-py3-none-any.whl (108 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 108.3/108.3 kB 7.5 MB/s eta 0:00:00
+Downloading fsspec-2025.10.0-py3-none-any.whl (200 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 201.0/201.0 kB 13.5 MB/s eta 0:00:00
+Using cached h11-0.16.0-py3-none-any.whl (37 kB)
+Using cached huggingface_hub-0.36.0-py3-none-any.whl (566 kB)
+Using cached networkx-3.5-py3-none-any.whl (2.0 MB)
+Downloading numpy-2.3.5-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.6/16.6 MB 69.9 MB/s eta 0:00:00
+Using cached packaging-25.0-py3-none-any.whl (66 kB)
+Downloading pydantic-2.12.4-py3-none-any.whl (463 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 463.4/463.4 kB 25.5 MB/s eta 0:00:00
+Downloading pydantic_core-2.41.5-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 54.5 MB/s eta 0:00:00
+Using cached pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (807 kB)
+Downloading regex-2025.11.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (803 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 803.5/803.5 kB 32.2 MB/s eta 0:00:00
+Downloading safetensors-0.7.0-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (507 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 507.2/507.2 kB 20.0 MB/s eta 0:00:00
+Downloading starlette-0.50.0-py3-none-any.whl (74 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 74.0/74.0 kB 5.1 MB/s eta 0:00:00
+Using cached sympy-1.14.0-py3-none-any.whl (6.3 MB)
+Using cached tokenizers-0.22.1-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.3 MB)
+Using cached tqdm-4.67.1-py3-none-any.whl (78 kB)
+Using cached typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+Using cached filelock-3.20.0-py3-none-any.whl (16 kB)
+Using cached jinja2-3.1.6-py3-none-any.whl (134 kB)
+Using cached joblib-1.5.2-py3-none-any.whl (308 kB)
+Using cached requests-2.32.5-py3-none-any.whl (64 kB)
+Using cached setuptools-80.9.0-py3-none-any.whl (1.2 MB)
+Using cached six-1.17.0-py2.py3-none-any.whl (11 kB)
+Using cached annotated_types-0.7.0-py3-none-any.whl (13 kB)
+Using cached anyio-4.11.0-py3-none-any.whl (109 kB)
+Downloading certifi-2025.11.12-py3-none-any.whl (159 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 159.4/159.4 kB 10.7 MB/s eta 0:00:00
+Using cached charset_normalizer-3.4.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (153 kB)
+Downloading hf_xet-1.2.0-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.3/3.3 MB 60.7 MB/s eta 0:00:00
+Using cached idna-3.11-py3-none-any.whl (71 kB)
+Using cached markupsafe-3.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+Using cached mpmath-1.3.0-py3-none-any.whl (536 kB)
+Using cached typing_inspection-0.4.2-py3-none-any.whl (14 kB)
+Using cached urllib3-2.5.0-py3-none-any.whl (129 kB)
+Using cached sniffio-1.3.1-py3-none-any.whl (10 kB)
+Building wheels for collected packages: langdetect
+  Building wheel for langdetect (pyproject.toml): started
+  Building wheel for langdetect (pyproject.toml): finished with status 'done'
+  Created wheel for langdetect: filename=langdetect-1.0.9-py3-none-any.whl size=993332 sha256=c4a233b36393a5748fc9c7cc3ca54e2d58c773895ca22b7136899ac06a5b685c
+  Stored in directory: /home/mellinien/.cache/pip/wheels/c1/67/88/e844b5b022812e15a52e4eaa38a1e709e99f06f6639d7e3ba7
+Successfully built langdetect
+Installing collected packages: nvidia-cusparselt-cu12, mpmath, urllib3, typing-extensions, triton, tqdm, sympy, sniffio, six, setuptools, sentencepiece, safetensors, regex, pyyaml, packaging, nvidia-nvtx-cu12, nvidia-nvshmem-cu12, nvidia-nvjitlink-cu12, nvidia-nccl-cu12, nvidia-curand-cu12, nvidia-cufile-cu12, nvidia-cuda-runtime-cu12, nvidia-cuda-nvrtc-cu12, nvidia-cuda-cupti-cu12, nvidia-cublas-cu12, numpy, networkx, MarkupSafe, joblib, idna, hf-xet, h11, fsspec, filelock, click, charset_normalizer, certifi, annotated-types, annotated-doc, uvicorn, typing-inspection, sacremoses, requests, pydantic-core, nvidia-cusparse-cu12, nvidia-cufft-cu12, nvidia-cudnn-cu12, langdetect, jinja2, anyio, starlette, pydantic, nvidia-cusolver-cu12, huggingface-hub, torch, tokenizers, fastapi, transformers
+Successfully installed MarkupSafe-3.0.3 annotated-doc-0.0.4 annotated-types-0.7.0 anyio-4.11.0 certifi-2025.11.12 charset_normalizer-3.4.4 click-8.3.1 fastapi-0.121.3 filelock-3.20.0 fsspec-2025.10.0 h11-0.16.0 hf-xet-1.2.0 huggingface-hub-0.36.0 idna-3.11 jinja2-3.1.6 joblib-1.5.2 langdetect-1.0.9 mpmath-1.3.0 networkx-3.5 numpy-2.3.5 nvidia-cublas-cu12-12.8.4.1 nvidia-cuda-cupti-cu12-12.8.90 nvidia-cuda-nvrtc-cu12-12.8.93 nvidia-cuda-runtime-cu12-12.8.90 nvidia-cudnn-cu12-9.10.2.21 nvidia-cufft-cu12-11.3.3.83 nvidia-cufile-cu12-1.13.1.3 nvidia-curand-cu12-10.3.9.90 nvidia-cusolver-cu12-11.7.3.90 nvidia-cusparse-cu12-12.5.8.93 nvidia-cusparselt-cu12-0.7.1 nvidia-nccl-cu12-2.27.5 nvidia-nvjitlink-cu12-12.8.93 nvidia-nvshmem-cu12-3.3.20 nvidia-nvtx-cu12-12.8.90 packaging-25.0 pydantic-2.12.4 pydantic-core-2.41.5 pyyaml-6.0.3 regex-2025.11.3 requests-2.32.5 sacremoses-0.1.1 safetensors-0.7.0 sentencepiece-0.2.1 setuptools-80.9.0 six-1.17.0 sniffio-1.3.1 starlette-0.50.0 sympy-1.14.0 tokenizers-0.22.1 torch-2.9.1 tqdm-4.67.1 transformers-4.57.1 triton-3.5.1 typing-extensions-4.15.0 typing-inspection-0.4.2 urllib3-2.5.0 uvicorn-0.38.0
+Starting Sentiment Service...
+INFO:     Will watch for changes in these directories: ['/home/mellinien/projects/centrypto']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [6521] using StatReload
+2025-11-23 18:55:25,343 - INFO - ⏳ Loading models... This may take a while on first run.
+Device set to use cuda:0
+/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/text_classification.py:111: UserWarning: `return_all_scores` is now deprecated,  if want a similar functionality use `top_k=None` instead of `return_all_scores=True` or `top_k=1` instead of `return_all_scores=False`.
+  warnings.warn(
+2025-11-23 18:55:34,087 - INFO - ✅ News model loaded: burakutf/finetuned-finbert-crypto
+Device set to use cuda:0
+2025-11-23 18:55:41,689 - INFO - ✅ Social model loaded: StephanAkkerman/FinTwitBERT-sentiment
+2025-11-23 18:55:49,967 - INFO - ✅ Translator loaded: Helsinki-NLP/opus-mt-zh-en
+2025-11-23 18:55:49,967 - INFO - 🚀 Models ready!
+INFO:     Started server process [6523]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+2025-11-23 18:56:17,523 - INFO - Scored 'Bitcoin ETF approval is immine...' (news) -> -1.00 (317ms)
+INFO:     127.0.0.1:35706 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 18:56:17,549 - INFO - Scored 'SOL is going to the moon! 🚀🚀🚀...' (social) -> 1.00 (16ms)
+INFO:     127.0.0.1:35716 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 18:56:17,570 - INFO - Scored 'Just a random comment about no...' (social) -> -0.77 (17ms)
+INFO:     127.0.0.1:35706 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 18:56:17,632 - INFO - Scored 'Market is crashing hard....' (news) -> 0.00 (17ms)
+INFO:     127.0.0.1:35716 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:33:49,608 - INFO - Scored 'Bitcoin ETF approval is immine...' (news) -> -1.00 (40ms)
+INFO:     127.0.0.1:60372 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:33:49,655 - INFO - Scored 'SOL is going to the moon! 🚀🚀🚀...' (social) -> 1.00 (39ms)
+INFO:     127.0.0.1:60376 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:33:49,690 - INFO - Scored 'Just a random comment about no...' (social) -> -0.77 (32ms)
+INFO:     127.0.0.1:60372 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:33:49,741 - INFO - Scored 'Market is crashing hard....' (news) -> 0.00 (48ms)
+INFO:     127.0.0.1:60376 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:33:49,946 - INFO - Translated (zh->en): 比特币今日暴涨，突破历史新高！... -> Bitcoin surged today...
+2025-11-23 21:33:49,959 - INFO - Scored 'Bitcoin surged today. Breaking...' (news) -> -1.00 (216ms)
+INFO:     127.0.0.1:60372 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:33:50,184 - INFO - Translated (zh->en): 这个项目简直是垃圾，完全是骗局。... -> This project is crap...
+2025-11-23 21:33:50,204 - INFO - Scored 'This project is crap. It's a t...' (social) -> -1.00 (240ms)
+INFO:     127.0.0.1:60376 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:33:50,390 - INFO - Translated (zh->en): 市场情绪低迷，恐慌指数上升。... -> Market moods are low...
+2025-11-23 21:33:50,407 - INFO - Scored 'Market moods are low and panic...' (social) -> -1.00 (200ms)
+INFO:     127.0.0.1:60372 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:38:47,281 - INFO - Scored 'Satoshi Nakamoto's Bitcoin Wea...' (social) -> -1.00 (11ms)
+INFO:     127.0.0.1:37332 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:38:48,315 - INFO - Translated (zh->en): AAVE突破170美元 【AAVE突破1... -> The AAVE breakthroug...
+2025-11-23 21:38:48,330 - INFO - Scored 'The AAVE breakthrough of $170 ...' (social) -> 0.94 (929ms)
+INFO:     127.0.0.1:37340 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:38:48,351 - INFO - Scored '加密律师Khurram Dara：纽约州比特币牌照BitLi...' (social) -> 0.85 (20ms)
+INFO:     127.0.0.1:37356 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:38:48,367 - INFO - Scored 'State of Crypto: What Congress...' (news) -> 0.80 (16ms)
+INFO:     127.0.0.1:37366 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:38:48,385 - INFO - Scored 'Bitcoin volatility surge may s...' (news) -> -0.99 (17ms)
+INFO:     127.0.0.1:37368 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:38:48,403 - INFO - Scored 'What Is a Layer-1 Blockchain? ...' (social) -> 0.91 (16ms)
+INFO:     127.0.0.1:37372 - "POST /score HTTP/1.1" 200 OK
+You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
+2025-11-23 21:38:48,418 - INFO - Scored 'What Is a Layer-1 Blockchain? ...' (social) -> 0.91 (15ms)
+INFO:     127.0.0.1:37376 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:38:48,434 - INFO - Scored 'What Is a Layer-1 Blockchain? ...' (social) -> 0.91 (15ms)
+INFO:     127.0.0.1:37384 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:38:49,598 - INFO - Translated (zh->en): Linea主网已桥接转入超120万枚ET... -> The Lina main networ...
+2025-11-23 21:38:49,613 - INFO - Scored 'The Lina main network has been...' (social) -> 0.00 (1179ms)
+INFO:     127.0.0.1:37392 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:38:50,776 - INFO - Translated (zh->en): Linea主网已桥接转入超120万枚ET... -> The Lina main networ...
+2025-11-23 21:38:50,805 - INFO - Scored 'The Lina main network has been...' (social) -> 0.00 (1191ms)
+INFO:     127.0.0.1:37402 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:38:53,579 - INFO - Translated (zh->en): 某鲸鱼地址抛售32,195枚SOL，亏损... -> A whale address sold...
+2025-11-23 21:38:53,619 - INFO - Scored 'A whale address sold 32,195 SO...' (social) -> -0.96 (2813ms)
+INFO:     127.0.0.1:37418 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:38:54,608 - INFO - Translated (zh->en): ETH跌破2800 USDT，24H涨幅... -> ETH fell down 2,800 ...
+2025-11-23 21:38:54,638 - INFO - Scored 'ETH fell down 2,800 USDDT, 24H...' (news) -> 0.00 (1019ms)
+INFO:     127.0.0.1:37422 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:38:55,628 - INFO - Translated (zh->en): ETH跌破2800 USDT，24H涨幅... -> ETH fell down 2,800 ...
+2025-11-23 21:38:55,660 - INFO - Scored 'ETH fell down 2,800 USDDT, 24H...' (news) -> 0.00 (1022ms)
+INFO:     127.0.0.1:37430 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:38:57,604 - INFO - Translated (zh->en): 数据：以太坊质押率已达28.84%，Li... -> According to data fr...
+2025-11-23 21:38:57,649 - INFO - Scored 'According to data from Dune An...' (social) -> 0.00 (1988ms)
+INFO:     127.0.0.1:37442 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:01,173 - INFO - Translated (zh->en): 「冷静开单王」减仓ZEC空单，整体空单浮... -> The "Cool Dealer" ha...
+2025-11-23 21:39:01,207 - INFO - Scored 'The "Cool Dealer" has reduced ...' (social) -> 0.00 (3558ms)
+INFO:     127.0.0.1:37458 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:04,849 - INFO - Translated (zh->en): 「冷静开单王」减仓ZEC空单，整体空单浮... -> The "Cool Dealer" ha...
+2025-11-23 21:39:04,890 - INFO - Scored 'The "Cool Dealer" has reduced ...' (social) -> 0.00 (3682ms)
+INFO:     127.0.0.1:37468 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:08,323 - INFO - Translated (zh->en): 「冷静开单王」减仓ZEC空单，整体空单浮... -> The "Cool Dealer" ha...
+2025-11-23 21:39:08,368 - INFO - Scored 'The "Cool Dealer" has reduced ...' (social) -> 0.00 (3478ms)
+INFO:     127.0.0.1:37478 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:12,031 - INFO - Translated (zh->en): 「冷静开单王」减仓ZEC空单，整体空单浮... -> The "Cool Dealer" ha...
+2025-11-23 21:39:12,072 - INFO - Scored 'The "Cool Dealer" has reduced ...' (social) -> 0.00 (3703ms)
+INFO:     127.0.0.1:37494 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:12,896 - INFO - Translated (zh->en): BNB突破850美元 【BNB突破850... -> BNB has made a break...
+2025-11-23 21:39:12,931 - INFO - Scored 'BNB has made a breakthrough of...' (social) -> 0.97 (858ms)
+INFO:     127.0.0.1:37508 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:13,918 - INFO - Translated (zh->en): 以太坊过去7日净供应量增加18,019枚... -> According to Ultraso...
+2025-11-23 21:39:13,949 - INFO - Scored 'According to Ultrasound.Money,...' (social) -> 0.00 (1018ms)
+INFO:     127.0.0.1:37510 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:14,002 - INFO - Scored 'Wormhole Labs推出“Sunrise”网关，将MO...' (social) -> 0.77 (52ms)
+INFO:     127.0.0.1:37524 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:14,055 - INFO - Scored 'Wormhole Labs推出“Sunrise”网关，将MO...' (social) -> 0.77 (53ms)
+INFO:     127.0.0.1:37528 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:14,087 - INFO - Scored 'Wormhole Labs推出“Sunrise”网关，将MO...' (social) -> 0.77 (31ms)
+INFO:     127.0.0.1:37530 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:14,114 - INFO - Scored 'Wormhole Labs推出Sunrise，为外部资产进入...' (social) -> 0.89 (27ms)
+INFO:     127.0.0.1:37534 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:14,141 - INFO - Scored 'Wormhole Labs推出Sunrise，为外部资产进入...' (social) -> 0.89 (26ms)
+INFO:     127.0.0.1:37548 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:14,156 - INFO - Scored 'More Ready Than Bitcoin? How Z...' (social) -> -0.80 (15ms)
+INFO:     127.0.0.1:37554 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:14,172 - INFO - Scored 'More Ready Than Bitcoin? How Z...' (social) -> -0.80 (15ms)
+INFO:     127.0.0.1:37558 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:14,189 - INFO - Scored 'Sunrise Debut Streamlines Sola...' (news) -> 0.91 (16ms)
+INFO:     127.0.0.1:37570 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:14,205 - INFO - Scored 'Sunrise Debut Streamlines Sola...' (news) -> 0.91 (16ms)
+INFO:     127.0.0.1:37580 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:14,227 - INFO - Scored 'Michael Saylor发文“不会屈服”，但未发布比特币...' (social) -> 0.94 (20ms)
+INFO:     127.0.0.1:37592 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:15,077 - INFO - Translated (zh->en): 若以太坊突破2900美元，主流CEX累计... -> According to Coingla...
+2025-11-23 21:39:15,089 - INFO - Scored 'According to Coinglass, if we ...' (social) -> 0.69 (862ms)
+INFO:     127.0.0.1:37602 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:15,105 - INFO - Scored 'Bitcoin Rebounds From 'Extreme...' (news) -> -1.00 (15ms)
+INFO:     127.0.0.1:37618 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:15,122 - INFO - Scored 'Bitcoin Rebounds From 'Extreme...' (news) -> -1.00 (16ms)
+INFO:     127.0.0.1:37620 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:15,139 - INFO - Scored 'Bitcoin Rebounds From 'Extreme...' (news) -> -1.00 (16ms)
+INFO:     127.0.0.1:37632 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:17,531 - INFO - Translated (zh->en): 山寨币回暖，PIPPIN 24 小时涨超... -> PIPPIN 24 hours up b...
+2025-11-23 21:39:17,568 - INFO - Scored 'PIPPIN 24 hours up by 148 per ...' (social) -> 0.90 (2429ms)
+INFO:     127.0.0.1:37640 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:19,964 - INFO - Translated (zh->en): 山寨币回暖，PIPPIN 24 小时涨超... -> PIPPIN 24 hours up b...
+2025-11-23 21:39:20,001 - INFO - Scored 'PIPPIN 24 hours up by 148 per ...' (social) -> 0.90 (2432ms)
+INFO:     127.0.0.1:37656 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:22,361 - INFO - Translated (zh->en): 山寨币回暖，PIPPIN 24 小时涨超... -> PIPPIN 24 hours up b...
+2025-11-23 21:39:22,402 - INFO - Scored 'PIPPIN 24 hours up by 148 per ...' (social) -> 0.90 (2400ms)
+INFO:     127.0.0.1:37668 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:24,780 - INFO - Translated (zh->en): 山寨币回暖，PIPPIN 24 小时涨超... -> PIPPIN 24 hours up b...
+2025-11-23 21:39:24,815 - INFO - Scored 'PIPPIN 24 hours up by 148 per ...' (social) -> 0.90 (2412ms)
+INFO:     127.0.0.1:37678 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:27,256 - INFO - Translated (zh->en): 山寨币回暖，PIPPIN 24 小时涨超... -> PIPPIN 24 hours up b...
+2025-11-23 21:39:27,292 - INFO - Scored 'PIPPIN 24 hours up by 148 per ...' (social) -> 0.90 (2475ms)
+INFO:     127.0.0.1:37688 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:27,325 - INFO - Scored 'Michael Saylor发文或暗示将继续增持比特币 Od...' (news) -> -0.69 (33ms)
+INFO:     127.0.0.1:37698 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:28,124 - INFO - Translated (zh->en): BTC突破87000美元 【BTC突破8... -> BTC's breaking $87,0...
+2025-11-23 21:39:28,163 - INFO - Scored 'BTC's breaking $87,000 [BTC br...' (social) -> 0.61 (837ms)
+INFO:     127.0.0.1:37704 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:28,730 - INFO - Translated (zh->en): 比特币突破87,000美元 BlockB... -> Bitcoinexceeds $87,0...
+2025-11-23 21:39:28,762 - INFO - Scored 'Bitcoinexceeds $87,000 BlockBe...' (social) -> 0.56 (598ms)
+INFO:     127.0.0.1:37710 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:28,798 - INFO - Scored 'Michael Saylor“本周是否HODL”投票结束：未...' (news) -> -0.60 (36ms)
+INFO:     127.0.0.1:37724 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:29,624 - INFO - Translated (zh->en): BTC突破87000 USDT，24H涨... -> BTC passed 87,000 US...
+2025-11-23 21:39:29,655 - INFO - Scored 'BTC passed 87,000 USDDT, 24H b...' (news) -> -0.99 (856ms)
+INFO:     127.0.0.1:37738 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:30,485 - INFO - Translated (zh->en): BTC突破87000 USDT，24H涨... -> BTC passed 87,000 US...
+2025-11-23 21:39:30,520 - INFO - Scored 'BTC passed 87,000 USDDT, 24H b...' (news) -> -0.99 (864ms)
+INFO:     127.0.0.1:37750 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:30,557 - INFO - Scored 'Could Stablecoins Spark a New ...' (news) -> 0.00 (36ms)
+INFO:     127.0.0.1:37764 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:30,591 - INFO - Scored 'Michael Saylor发起“本周是否HODL”投票结束...' (social) -> 0.93 (34ms)
+INFO:     127.0.0.1:37778 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:32,729 - INFO - Translated (zh->en): 中信证券：全球风险资产的波动本质是风险资... -> The essence of globa...
+2025-11-23 21:39:32,769 - INFO - Scored 'The essence of global risk ass...' (social) -> -0.76 (2177ms)
+INFO:     127.0.0.1:37794 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:36,927 - INFO - Translated (zh->en): 甲骨文公司股价暴跌，埃里森跌至富豪榜第三... -> The stock price of O...
+2025-11-23 21:39:36,963 - INFO - Scored 'The stock price of Oracle fell...' (social) -> -0.73 (4193ms)
+INFO:     127.0.0.1:37798 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:39,348 - INFO - Translated (zh->en): 贝莱德比特币 ETF 单日成交突破 80... -> Beledbitcoin ETF mad...
+2025-11-23 21:39:39,388 - INFO - Scored 'Beledbitcoin ETF made a single...' (social) -> 0.87 (2425ms)
+INFO:     127.0.0.1:37802 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:43,496 - INFO - Translated (zh->en): 中信证券：当下风险提前释放给了年末重新增... -> Sino-Custodial Secur...
+2025-11-23 21:39:43,534 - INFO - Scored 'Sino-Custodial Securities: Ear...' (social) -> -0.91 (4120ms)
+INFO:     127.0.0.1:37798 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:45,968 - INFO - Translated (zh->en): Bitwise CIO：ETH或将引领加... -> Bitwise CIO: ETH: or...
+2025-11-23 21:39:46,003 - INFO - Scored 'Bitwise CIO: ETH: or will lead...' (social) -> 0.98 (2468ms)
+INFO:     127.0.0.1:37802 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:47,227 - INFO - Translated (zh->en): SOL现货ETF总流入量已达5.1亿美元... -> SOL's current ETF in...
+2025-11-23 21:39:47,255 - INFO - Scored 'SOL's current ETF inflows have...' (social) -> 0.86 (1248ms)
+INFO:     127.0.0.1:47232 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:47,289 - INFO - Scored 'SOL现货ETF连续19个交易日录得净流入，总流入量已达5....' (social) -> 0.96 (33ms)
+INFO:     127.0.0.1:47246 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:47,332 - INFO - Scored '金色晚报 | 11月23日晚间重要动态一览 【金色晚报 | ...' (social) -> 0.85 (42ms)
+INFO:     127.0.0.1:47262 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:47,374 - INFO - Scored '金色晚报 | 11月23日晚间重要动态一览 【金色晚报 | ...' (social) -> 0.85 (41ms)
+INFO:     127.0.0.1:47274 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:47,418 - INFO - Scored '金色晚报 | 11月23日晚间重要动态一览 【金色晚报 | ...' (social) -> 0.85 (43ms)
+INFO:     127.0.0.1:47282 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:48,188 - INFO - Translated (zh->en): 持有至少1万枚BTC的地址数量达90个，... -> The number of addres...
+2025-11-23 21:39:48,195 - INFO - Scored 'The number of addresses holdin...' (news) -> -1.00 (776ms)
+INFO:     127.0.0.1:47294 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:48,210 - INFO - Scored '过去24小时CEX净流出25.31万枚ETH BlockBe...' (social) -> 0.90 (15ms)
+INFO:     127.0.0.1:47308 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:49,150 - INFO - Translated (zh->en): TNSR 24小时涨超80%，暂报0.1... -> TNSR increased by ov...
+2025-11-23 21:39:49,159 - INFO - Scored 'TNSR increased by over 80 per ...' (social) -> 0.81 (948ms)
+INFO:     127.0.0.1:47312 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:49,168 - INFO - Scored '过去24小时CEX净流出5938.19枚BTC 【过去24小...' (social) -> 0.87 (8ms)
+INFO:     127.0.0.1:47316 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:49,175 - INFO - Scored 'Cardano Temporarily Splits Int...' (news) -> 0.00 (7ms)
+INFO:     127.0.0.1:47326 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:49,183 - INFO - Scored 'Cardano Temporarily Splits Int...' (news) -> 0.00 (7ms)
+INFO:     127.0.0.1:47338 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:49,978 - INFO - Translated (zh->en): TNSR回升突破0.15 USDT，24... -> The TNSR rebounded f...
+2025-11-23 21:39:49,990 - INFO - Scored 'The TNSR rebounded from 0.15 U...' (news) -> -1.00 (807ms)
+INFO:     127.0.0.1:47340 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:50,013 - INFO - Scored '比特币提币延续，过去24小时CEX净流出5938.19枚BT...' (social) -> 0.85 (22ms)
+INFO:     127.0.0.1:47342 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:51,409 - INFO - Translated (zh->en): 分析师：比特币RSI进入极度超卖区 【分... -> Analysiser: BitcoinR...
+2025-11-23 21:39:51,440 - INFO - Scored 'Analysiser: BitcoinRSI entered...' (social) -> 0.72 (1426ms)
+INFO:     127.0.0.1:47354 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:53,799 - INFO - Translated (zh->en): 比特币今年11月回报率暂报-21.28%... -> Bitcoin reported a p...
+2025-11-23 21:39:53,836 - INFO - Scored 'Bitcoin reported a provisional...' (social) -> 0.50 (2396ms)
+INFO:     127.0.0.1:47362 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:53,873 - INFO - Scored 'Grayscale calls Chainlink the ...' (news) -> -0.66 (36ms)
+INFO:     127.0.0.1:47376 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:53,915 - INFO - Scored '某巨鲸向HyperLiquid存入200万枚USDC并以2倍...' (news) -> -0.55 (42ms)
+INFO:     127.0.0.1:47392 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:39:57,785 - INFO - Translated (zh->en): 星球晚讯 1. Bitwise CEO：... -> 1. Bitwise CEO: The ...
+2025-11-23 21:39:57,821 - INFO - Scored '1. Bitwise CEO: The price of $...' (news) -> 0.00 (3905ms)
+INFO:     127.0.0.1:47400 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:01,655 - INFO - Translated (zh->en): 星球晚讯 1. Bitwise CEO：... -> 1. Bitwise CEO: The ...
+2025-11-23 21:40:01,689 - INFO - Scored '1. Bitwise CEO: The price of $...' (news) -> 0.00 (3867ms)
+INFO:     127.0.0.1:47412 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:05,701 - INFO - Translated (zh->en): 星球晚讯 1. Bitwise CEO：... -> 1. Bitwise CEO: The ...
+2025-11-23 21:40:05,734 - INFO - Scored '1. Bitwise CEO: The price of $...' (news) -> 0.00 (4045ms)
+INFO:     127.0.0.1:47420 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:09,463 - INFO - Translated (zh->en): ZEC 暴涨背后的集体焦虑：在“可验证计... -> In the same week of ...
+2025-11-23 21:40:09,496 - INFO - Scored 'In the same week of ZEC, Vital...' (social) -> -0.73 (3761ms)
+INFO:     127.0.0.1:47434 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:13,422 - INFO - Translated (zh->en): ZEC 暴涨背后的集体焦虑：在“可验证计... -> In the same week of ...
+2025-11-23 21:40:13,457 - INFO - Scored 'In the same week of ZEC, Vital...' (social) -> -0.73 (3960ms)
+INFO:     127.0.0.1:47450 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:17,396 - INFO - Translated (zh->en): ZEC 暴涨背后的集体焦虑：在“可验证计... -> In the same week of ...
+2025-11-23 21:40:17,431 - INFO - Scored 'In the same week of ZEC, Vital...' (social) -> -0.73 (3973ms)
+INFO:     127.0.0.1:47460 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:21,239 - INFO - Translated (zh->en): ZEC 暴涨背后的集体焦虑：在“可验证计... -> In the same week of ...
+2025-11-23 21:40:21,270 - INFO - Scored 'In the same week of ZEC, Vital...' (social) -> -0.73 (3838ms)
+INFO:     127.0.0.1:47466 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:21,307 - INFO - Scored 'Uniswap社区通过「Uniswap启动手续费开关」温度检...' (social) -> 0.85 (36ms)
+INFO:     127.0.0.1:47474 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:21,350 - INFO - Scored 'Uniswap社区通过「Uniswap启动手续费开关」温度检...' (social) -> 0.85 (42ms)
+INFO:     127.0.0.1:47478 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:23,288 - INFO - Translated (zh->en): 某鲸鱼2倍杠杆做多1425枚ETH，仓位... -> A whale has two time...
+2025-11-23 21:40:23,320 - INFO - Scored 'A whale has two times leverage...' (social) -> 0.75 (1970ms)
+INFO:     127.0.0.1:47494 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:24,670 - INFO - Translated (zh->en): 分析师：比特币RSI进入极度超卖区，过去... -> Analyst: BitcoinRSI ...
+2025-11-23 21:40:24,701 - INFO - Scored 'Analyst: BitcoinRSI entered th...' (social) -> 0.89 (1380ms)
+INFO:     127.0.0.1:47504 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:24,735 - INFO - Scored 'VanEck CEO Concerned About Bit...' (news) -> -0.99 (33ms)
+INFO:     127.0.0.1:47514 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:24,768 - INFO - Scored 'VanEck CEO Concerned About Bit...' (news) -> -0.99 (32ms)
+INFO:     127.0.0.1:47516 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:24,805 - INFO - Scored '某鲸鱼2倍杠杆做多1425枚ETH，仓位价值400万美元 B...' (social) -> 0.89 (36ms)
+INFO:     127.0.0.1:47530 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:26,327 - INFO - Translated (zh->en): Coinbase：MON代币销售已完成，... -> Coinbase: MON token ...
+2025-11-23 21:40:26,341 - INFO - Scored 'Coinbase: MON token sales have...' (news) -> -0.46 (1535ms)
+INFO:     127.0.0.1:47532 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:27,935 - INFO - Translated (zh->en): HALLU将于今晚开启IDO，聚焦AI与... -> HALLU will launch th...
+2025-11-23 21:40:27,971 - INFO - Scored 'HALLU will launch the IDO toni...' (news) -> -0.98 (1629ms)
+INFO:     127.0.0.1:47534 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:29,567 - INFO - Translated (zh->en): HALLU将于今晚开启IDO，聚焦AI与... -> HALLU will launch th...
+2025-11-23 21:40:29,605 - INFO - Scored 'HALLU will launch the IDO toni...' (news) -> -0.98 (1633ms)
+INFO:     127.0.0.1:47536 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:30,646 - INFO - Translated (zh->en): Coinbase：MON代币分配即将开始... -> Coinbase: MON token ...
+2025-11-23 21:40:30,674 - INFO - Scored 'Coinbase: MON token distributi...' (social) -> 0.00 (1068ms)
+INFO:     127.0.0.1:47542 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:33,209 - INFO - Translated (zh->en): Coinbase：MON公售已经完成，分... -> Coinbase: Mon public...
+2025-11-23 21:40:33,238 - INFO - Scored 'Coinbase: Mon public sales hav...' (social) -> 0.00 (2563ms)
+INFO:     127.0.0.1:47556 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:33,272 - INFO - Scored 'Polymarket上预测「比特币11月跌破8万美元」概率暂...' (social) -> 0.84 (33ms)
+INFO:     127.0.0.1:47570 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:33,305 - INFO - Scored 'Binance：本次Kyuzo's Friends (KO)...' (social) -> 0.87 (32ms)
+INFO:     127.0.0.1:47584 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:33,337 - INFO - Scored 'Zcash risks ‘splitting the vot...' (news) -> 0.00 (31ms)
+INFO:     127.0.0.1:47590 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:33,371 - INFO - Scored 'Zcash risks ‘splitting the vot...' (news) -> 0.00 (34ms)
+INFO:     127.0.0.1:47600 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:33,407 - INFO - Scored 'Zcash risks ‘splitting the vot...' (news) -> 0.00 (35ms)
+INFO:     127.0.0.1:47606 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:33,431 - INFO - Scored 'Binance：本次Kyuzo's Friends(KO)空...' (social) -> 0.91 (23ms)
+INFO:     127.0.0.1:47618 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:35,333 - INFO - Translated (zh->en): 币安：Kyuzo's Friends (... -> Currency: Kyuzo's Fr...
+2025-11-23 21:40:35,341 - INFO - Scored 'Currency: Kyuzo's Friends (KO)...' (news) -> 0.00 (1910ms)
+INFO:     127.0.0.1:47634 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:35,351 - INFO - Scored 'Bybit将上线MON现货交易 BlockBeats 消息，...' (social) -> 0.96 (9ms)
+INFO:     127.0.0.1:47650 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:36,339 - INFO - Translated (zh->en): 比特币市值回升突破1.7万亿美元 【比特... -> Bitcoin’s market val...
+2025-11-23 21:40:36,347 - INFO - Scored 'Bitcoin’s market value rebound...' (social) -> 0.00 (996ms)
+INFO:     127.0.0.1:47654 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:37,508 - INFO - Translated (zh->en): 比特币市值回升突破1.7万亿美元，全球资... -> Bitcoin’s market val...
+2025-11-23 21:40:37,522 - INFO - Scored 'Bitcoin’s market value rebound...' (social) -> 0.00 (1174ms)
+INFO:     127.0.0.1:47666 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:39,715 - INFO - Translated (zh->en): PlanB：仍坚持比特币将于2028年涨... -> PlanB: Still insisti...
+2025-11-23 21:40:39,749 - INFO - Scored 'PlanB: Still insisting that Bi...' (social) -> 0.92 (2226ms)
+INFO:     127.0.0.1:47672 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:39,790 - INFO - Scored 'Bitwise CEO：已在8.5万美元再次加仓比特币 Bl...' (social) -> 0.84 (40ms)
+INFO:     127.0.0.1:47688 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:41,757 - INFO - Translated (zh->en): 易理华：已在2700美元左右满仓ETH，... -> IREVA: The warehouse...
+2025-11-23 21:40:41,788 - INFO - Scored 'IREVA: The warehouse is full o...' (news) -> -0.68 (1975ms)
+INFO:     127.0.0.1:47654 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:43,695 - INFO - Translated (zh->en): 易理华：已在2700美元左右满仓ETH，... -> IREVA: The warehouse...
+2025-11-23 21:40:43,728 - INFO - Scored 'IREVA: The warehouse is full o...' (news) -> -0.68 (1940ms)
+INFO:     127.0.0.1:47666 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:45,594 - INFO - Translated (zh->en): 易理华：已在2700美元左右满仓ETH，... -> IREVA: The warehouse...
+2025-11-23 21:40:45,628 - INFO - Scored 'IREVA: The warehouse is full o...' (news) -> -0.68 (1899ms)
+INFO:     127.0.0.1:47672 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:47,472 - INFO - Translated (zh->en): 易理华：已在2700美元左右满仓ETH，... -> IREVA: The warehouse...
+2025-11-23 21:40:47,503 - INFO - Scored 'IREVA: The warehouse is full o...' (news) -> -0.68 (1875ms)
+INFO:     127.0.0.1:47688 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:50,055 - INFO - Translated (zh->en): Bitwise CIO：ETH或将引领加... -> Bitwise CIO: ETH: or...
+2025-11-23 21:40:50,087 - INFO - Scored 'Bitwise CIO: ETH: or will lead...' (social) -> 0.98 (2579ms)
+INFO:     127.0.0.1:42156 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:52,550 - INFO - Translated (zh->en): Bitwise CIO：ETH或将引领加... -> Bitwise CIO: ETH: or...
+2025-11-23 21:40:52,671 - INFO - Scored 'Bitwise CIO: ETH: or will lead...' (social) -> 0.98 (2583ms)
+INFO:     127.0.0.1:42158 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:56,010 - INFO - Translated (zh->en): 「冷静开单王」多转空，当前空单浮亏231... -> In November 23, Bloc...
+2025-11-23 21:40:56,026 - INFO - Scored 'In November 23, BlockBeats rep...' (social) -> 0.00 (3354ms)
+INFO:     127.0.0.1:42166 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:40:59,282 - INFO - Translated (zh->en): 「冷静开单王」多转空，当前空单浮亏231... -> In November 23, Bloc...
+2025-11-23 21:40:59,299 - INFO - Scored 'In November 23, BlockBeats rep...' (social) -> 0.00 (3272ms)
+INFO:     127.0.0.1:42178 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:41:01,820 - INFO - Translated (zh->en): 「冷静开单王」多转空，当前空单浮亏231... -> In November 23, Bloc...
+2025-11-23 21:41:01,837 - INFO - Scored 'In November 23, BlockBeats rep...' (social) -> 0.00 (2537ms)
+INFO:     127.0.0.1:42184 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:41:04,420 - INFO - Translated (zh->en): 「冷静开单王」多转空，当前空单浮亏231... -> In November 23, Bloc...
+2025-11-23 21:41:04,452 - INFO - Scored 'In November 23, BlockBeats rep...' (social) -> 0.00 (2615ms)
+INFO:     127.0.0.1:42190 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:41:04,479 - INFO - Scored 'Binance Alpha上线KO 【Binance Alp...' (social) -> 0.87 (27ms)
+INFO:     127.0.0.1:42198 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:41:06,766 - INFO - Translated (zh->en): 彭博：比特币下跌预示风险资产年底表现疲软... -> The decline in Bitco...
+2025-11-23 21:41:06,785 - INFO - Scored 'The decline in Bitcoin augurs ...' (news) -> 0.00 (2305ms)
+INFO:     127.0.0.1:42200 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:41:06,803 - INFO - Scored 'Binance Alpha上线KO BlockBeats 消...' (social) -> 0.63 (17ms)
+INFO:     127.0.0.1:42208 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:41:08,375 - INFO - Translated (zh->en): Coinbase比特币溢价指数已连续24... -> According to Coingla...
+2025-11-23 21:41:08,393 - INFO - Scored 'According to Coinglass, Coinba...' (social) -> -0.82 (1589ms)
+INFO:     127.0.0.1:42216 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:41:08,414 - INFO - Scored 'Bitwise CEO：在8.5万美元价位再次增持比特币 O...' (news) -> 0.70 (21ms)
+INFO:     127.0.0.1:42228 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:41:10,897 - INFO - Translated (zh->en): 山寨币季节指数跌至25 BlockBea... -> In November 23, acco...
+2025-11-23 21:41:10,923 - INFO - Scored 'In November 23, according to C...' (social) -> 0.00 (2508ms)
+INFO:     127.0.0.1:42240 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:41:10,945 - INFO - Scored 'DWF Labs合伙人：已买入比特币，当前价格不错 【DWF...' (social) -> 0.98 (20ms)
+INFO:     127.0.0.1:42248 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:41:10,965 - INFO - Scored 'DWF Labs合伙人：已买入比特币，当前价格不错 Bloc...' (social) -> 0.98 (20ms)
+INFO:     127.0.0.1:42260 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:41:10,990 - INFO - Scored '约25万枚COMP转入Coinbase Prime，价值约7...' (social) -> 0.92 (24ms)
+INFO:     127.0.0.1:42262 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:41:12,370 - INFO - Translated (zh->en): 若比特币跌破8.4万美元，主流CEX累计... -> If Bitcoin breaks do...
+2025-11-23 21:41:12,393 - INFO - Scored 'If Bitcoin breaks down by $84,...' (social) -> 0.00 (1403ms)
+INFO:     127.0.0.1:42266 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:41:13,208 - INFO - Translated (zh->en): BTC突破86000美元 【BTC突破8... -> BTC has passed $86,0...
+2025-11-23 21:41:13,226 - INFO - Scored 'BTC has passed $86,000 [BTC ex...' (social) -> 0.86 (831ms)
+INFO:     127.0.0.1:42282 - "POST /score HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42286 - "POST /score HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/uvicorn/protocols/http/h11_impl.py", line 403, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/applications.py", line 1134, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 125, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 111, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 391, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 290, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/service.py", line 145, in score_text
+    raw_results = social_pipeline(text)[0] # type: ignore
+                  ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/text_classification.py", line 168, in __call__
+    result = super().__call__(*inputs, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1467, in __call__
+    return self.run_single(inputs, preprocess_params, forward_params, postprocess_params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1474, in run_single
+    model_outputs = self.forward(model_inputs, **forward_params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1374, in forward
+    model_outputs = self._forward(model_inputs, **forward_params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/text_classification.py", line 199, in _forward
+    return self.model(**model_inputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 1482, in forward
+    outputs = self.bert(
+              ^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 936, in forward
+    embedding_output = self.embeddings(
+                       ^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 185, in forward
+    embeddings += position_embeddings
+RuntimeError: The size of tensor a (2596) must match the size of tensor b (512) at non-singleton dimension 1
+INFO:     127.0.0.1:42302 - "POST /score HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/uvicorn/protocols/http/h11_impl.py", line 403, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/applications.py", line 1134, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 125, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 111, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 391, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 290, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/service.py", line 145, in score_text
+    raw_results = social_pipeline(text)[0] # type: ignore
+                  ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/text_classification.py", line 168, in __call__
+    result = super().__call__(*inputs, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1467, in __call__
+    return self.run_single(inputs, preprocess_params, forward_params, postprocess_params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1474, in run_single
+    model_outputs = self.forward(model_inputs, **forward_params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1374, in forward
+    model_outputs = self._forward(model_inputs, **forward_params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/text_classification.py", line 199, in _forward
+    return self.model(**model_inputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 1482, in forward
+    outputs = self.bert(
+              ^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 936, in forward
+    embedding_output = self.embeddings(
+                       ^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 185, in forward
+    embeddings += position_embeddings
+RuntimeError: The size of tensor a (2596) must match the size of tensor b (512) at non-singleton dimension 1
+INFO:     127.0.0.1:42310 - "POST /score HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/uvicorn/protocols/http/h11_impl.py", line 403, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/applications.py", line 1134, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 125, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 111, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 391, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 290, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/service.py", line 145, in score_text
+    raw_results = social_pipeline(text)[0] # type: ignore
+                  ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/text_classification.py", line 168, in __call__
+    result = super().__call__(*inputs, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1467, in __call__
+    return self.run_single(inputs, preprocess_params, forward_params, postprocess_params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1474, in run_single
+    model_outputs = self.forward(model_inputs, **forward_params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1374, in forward
+    model_outputs = self._forward(model_inputs, **forward_params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/text_classification.py", line 199, in _forward
+    return self.model(**model_inputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 1482, in forward
+    outputs = self.bert(
+              ^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 936, in forward
+    embedding_output = self.embeddings(
+                       ^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 185, in forward
+    embeddings += position_embeddings
+RuntimeError: The size of tensor a (2596) must match the size of tensor b (512) at non-singleton dimension 1
+INFO:     127.0.0.1:42316 - "POST /score HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/uvicorn/protocols/http/h11_impl.py", line 403, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/applications.py", line 1134, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 125, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 111, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 391, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 290, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/service.py", line 145, in score_text
+    raw_results = social_pipeline(text)[0] # type: ignore
+                  ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/text_classification.py", line 168, in __call__
+    result = super().__call__(*inputs, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1467, in __call__
+    return self.run_single(inputs, preprocess_params, forward_params, postprocess_params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1474, in run_single
+    model_outputs = self.forward(model_inputs, **forward_params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1374, in forward
+    model_outputs = self._forward(model_inputs, **forward_params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/text_classification.py", line 199, in _forward
+    return self.model(**model_inputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 1482, in forward
+    outputs = self.bert(
+              ^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 936, in forward
+    embedding_output = self.embeddings(
+                       ^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 185, in forward
+    embeddings += position_embeddings
+RuntimeError: The size of tensor a (2596) must match the size of tensor b (512) at non-singleton dimension 1
+INFO:     127.0.0.1:42320 - "POST /score HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/uvicorn/protocols/http/h11_impl.py", line 403, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/applications.py", line 1134, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 125, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 111, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 391, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 290, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/service.py", line 145, in score_text
+    raw_results = social_pipeline(text)[0] # type: ignore
+                  ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/text_classification.py", line 168, in __call__
+    result = super().__call__(*inputs, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1467, in __call__
+    return self.run_single(inputs, preprocess_params, forward_params, postprocess_params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1474, in run_single
+    model_outputs = self.forward(model_inputs, **forward_params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1374, in forward
+    model_outputs = self._forward(model_inputs, **forward_params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/text_classification.py", line 199, in _forward
+    return self.model(**model_inputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 1482, in forward
+    outputs = self.bert(
+              ^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 936, in forward
+    embedding_output = self.embeddings(
+                       ^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 185, in forward
+    embeddings += position_embeddings
+RuntimeError: The size of tensor a (2596) must match the size of tensor b (512) at non-singleton dimension 1
+INFO:     127.0.0.1:42322 - "POST /score HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/uvicorn/protocols/http/h11_impl.py", line 403, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/applications.py", line 1134, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 125, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 111, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 391, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 290, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/service.py", line 145, in score_text
+    raw_results = social_pipeline(text)[0] # type: ignore
+                  ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/text_classification.py", line 168, in __call__
+    result = super().__call__(*inputs, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1467, in __call__
+    return self.run_single(inputs, preprocess_params, forward_params, postprocess_params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1474, in run_single
+    model_outputs = self.forward(model_inputs, **forward_params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1374, in forward
+    model_outputs = self._forward(model_inputs, **forward_params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/text_classification.py", line 199, in _forward
+    return self.model(**model_inputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 1482, in forward
+    outputs = self.bert(
+              ^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 936, in forward
+    embedding_output = self.embeddings(
+                       ^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 185, in forward
+    embeddings += position_embeddings
+RuntimeError: The size of tensor a (2596) must match the size of tensor b (512) at non-singleton dimension 1
+2025-11-23 21:41:13,370 - INFO - Scored 'Binance：至少拥有256分的用户可申领640枚KO代币...' (social) -> 0.92 (28ms)
+INFO:     127.0.0.1:42324 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:41:13,387 - INFO - Scored 'Bitcoin ATM firm explores $100...' (news) -> 0.63 (17ms)
+INFO:     127.0.0.1:42334 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:41:13,406 - INFO - Scored 'Bitcoin ATM firm explores $100...' (news) -> 0.63 (18ms)
+INFO:     127.0.0.1:42350 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:41:19,330 - INFO - Translated (zh->en): 华尔街正指望靠比特币的高波动率发年终奖 ... -> ET - World Street ex...
+2025-11-23 21:41:19,347 - INFO - Scored 'ET - World Street expects the ...' (social) -> -0.99 (5940ms)
+INFO:     127.0.0.1:42354 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:41:25,534 - INFO - Translated (zh->en): 华尔街正指望靠比特币的高波动率发年终奖 ... -> ET - World Street ex...
+2025-11-23 21:41:25,552 - INFO - Scored 'ET - World Street expects the ...' (social) -> -0.99 (6204ms)
+INFO:     127.0.0.1:42356 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:41:31,760 - INFO - Translated (zh->en): 下周必关注｜Monad拟于11月24日T... -> Next Tuesday, 25 Nov...
+2025-11-23 21:41:31,782 - INFO - Scored 'Next Tuesday, 25 November, the...' (social) -> 0.58 (6230ms)
+INFO:     127.0.0.1:42368 - "POST /score HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42382 - "POST /score HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/uvicorn/protocols/http/h11_impl.py", line 403, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/applications.py", line 1134, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 125, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 111, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 391, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 290, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/service.py", line 145, in score_text
+    raw_results = social_pipeline(text)[0] # type: ignore
+                  ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/text_classification.py", line 168, in __call__
+    result = super().__call__(*inputs, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1467, in __call__
+    return self.run_single(inputs, preprocess_params, forward_params, postprocess_params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1474, in run_single
+    model_outputs = self.forward(model_inputs, **forward_params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1374, in forward
+    model_outputs = self._forward(model_inputs, **forward_params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/text_classification.py", line 199, in _forward
+    return self.model(**model_inputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 1482, in forward
+    outputs = self.bert(
+              ^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 936, in forward
+    embedding_output = self.embeddings(
+                       ^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 185, in forward
+    embeddings += position_embeddings
+RuntimeError: The size of tensor a (1912) must match the size of tensor b (512) at non-singleton dimension 1
+2025-11-23 21:41:37,903 - INFO - Translated (zh->en): 下周必关注｜Monad拟于11月24日T... -> Next Tuesday, 25 Nov...
+2025-11-23 21:41:37,924 - INFO - Scored 'Next Tuesday, 25 November, the...' (social) -> 0.58 (6128ms)
+INFO:     127.0.0.1:42394 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:41:43,930 - INFO - Translated (zh->en): 下周必关注｜Monad拟于11月24日T... -> Next Tuesday, 25 Nov...
+2025-11-23 21:41:43,952 - INFO - Scored 'Next Tuesday, 25 November, the...' (social) -> 0.58 (6027ms)
+INFO:     127.0.0.1:42408 - "POST /score HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42412 - "POST /score HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/uvicorn/protocols/http/h11_impl.py", line 403, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/applications.py", line 1134, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 125, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 111, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 391, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 290, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/service.py", line 145, in score_text
+    raw_results = social_pipeline(text)[0] # type: ignore
+                  ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/text_classification.py", line 168, in __call__
+    result = super().__call__(*inputs, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1467, in __call__
+    return self.run_single(inputs, preprocess_params, forward_params, postprocess_params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1474, in run_single
+    model_outputs = self.forward(model_inputs, **forward_params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1374, in forward
+    model_outputs = self._forward(model_inputs, **forward_params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/text_classification.py", line 199, in _forward
+    return self.model(**model_inputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 1482, in forward
+    outputs = self.bert(
+              ^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 936, in forward
+    embedding_output = self.embeddings(
+                       ^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 185, in forward
+    embeddings += position_embeddings
+RuntimeError: The size of tensor a (1912) must match the size of tensor b (512) at non-singleton dimension 1
+2025-11-23 21:41:49,980 - INFO - Translated (zh->en): 下周必关注｜Monad拟于11月24日T... -> Next Tuesday, 25 Nov...
+2025-11-23 21:41:50,002 - INFO - Scored 'Next Tuesday, 25 November, the...' (social) -> 0.58 (6037ms)
+INFO:     127.0.0.1:42422 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:41:56,049 - INFO - Translated (zh->en): 下周必关注｜Monad拟于11月24日T... -> Next Tuesday, 25 Nov...
+2025-11-23 21:41:56,082 - INFO - Scored 'Next Tuesday, 25 November, the...' (social) -> 0.58 (6079ms)
+INFO:     127.0.0.1:42430 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:42:02,269 - INFO - Translated (zh->en): 下周必关注｜Monad拟于11月24日T... -> Next Tuesday, 25 Nov...
+2025-11-23 21:42:02,289 - INFO - Scored 'Next Tuesday, 25 November, the...' (social) -> 0.58 (6206ms)
+INFO:     127.0.0.1:42444 - "POST /score HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42452 - "POST /score HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/uvicorn/protocols/http/h11_impl.py", line 403, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/applications.py", line 1134, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 125, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 111, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 391, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/fastapi/routing.py", line 290, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/service.py", line 145, in score_text
+    raw_results = social_pipeline(text)[0] # type: ignore
+                  ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/text_classification.py", line 168, in __call__
+    result = super().__call__(*inputs, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1467, in __call__
+    return self.run_single(inputs, preprocess_params, forward_params, postprocess_params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1474, in run_single
+    model_outputs = self.forward(model_inputs, **forward_params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/base.py", line 1374, in forward
+    model_outputs = self._forward(model_inputs, **forward_params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/pipelines/text_classification.py", line 199, in _forward
+    return self.model(**model_inputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 1482, in forward
+    outputs = self.bert(
+              ^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 936, in forward
+    embedding_output = self.embeddings(
+                       ^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1775, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1786, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mellinien/projects/centrypto/sentiment/venv/lib/python3.12/site-packages/transformers/models/bert/modeling_bert.py", line 185, in forward
+    embeddings += position_embeddings
+RuntimeError: The size of tensor a (1912) must match the size of tensor b (512) at non-singleton dimension 1
+2025-11-23 21:42:04,956 - INFO - Translated (zh->en): 易理华：已于ETH 2700美元左右满仓... -> In November 23, Liqu...
+2025-11-23 21:42:04,974 - INFO - Scored 'In November 23, Liquid Capital...' (social) -> 0.00 (2672ms)
+INFO:     127.0.0.1:42462 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:42:07,623 - INFO - Translated (zh->en): 易理华：已于ETH 2700美元左右满仓... -> In November 23, Liqu...
+2025-11-23 21:42:07,642 - INFO - Scored 'In November 23, Liquid Capital...' (social) -> 0.00 (2668ms)
+INFO:     127.0.0.1:42476 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:42:10,298 - INFO - Translated (zh->en): 易理华：已于ETH 2700美元左右满仓... -> In November 23, Liqu...
+2025-11-23 21:42:10,318 - INFO - Scored 'In November 23, Liquid Capital...' (social) -> 0.00 (2676ms)
+INFO:     127.0.0.1:42478 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:42:13,048 - INFO - Translated (zh->en): 易理华：已于ETH 2700美元左右满仓... -> In November 23, Liqu...
+2025-11-23 21:42:13,068 - INFO - Scored 'In November 23, Liquid Capital...' (social) -> 0.00 (2749ms)
+INFO:     127.0.0.1:42484 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:42:15,699 - INFO - Translated (zh->en): 易理华：已于ETH 2700美元左右满仓... -> In November 23, Liqu...
+2025-11-23 21:42:15,717 - INFO - Scored 'In November 23, Liquid Capital...' (social) -> 0.00 (2649ms)
+INFO:     127.0.0.1:42488 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:42:18,558 - INFO - Translated (zh->en): 易理华：已于ETH 2700美元左右满仓... -> In November 23, Liqu...
+2025-11-23 21:42:18,577 - INFO - Scored 'In November 23, Liquid Capital...' (social) -> 0.00 (2859ms)
+INFO:     127.0.0.1:42502 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:42:20,508 - INFO - Translated (zh->en): 易理华：已在2700美元左右满仓ETH，... -> IREVA: The warehouse...
+2025-11-23 21:42:20,527 - INFO - Scored 'IREVA: The warehouse is full o...' (news) -> -0.68 (1949ms)
+INFO:     127.0.0.1:42506 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:42:22,655 - INFO - Translated (zh->en): 易理华：已在2700美元左右满仓ETH，... -> IREVA: The warehouse...
+2025-11-23 21:42:22,673 - INFO - Scored 'IREVA: The warehouse is full o...' (news) -> -0.68 (2145ms)
+INFO:     127.0.0.1:42512 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:42:25,773 - INFO - Translated (zh->en): 观点：加密市场未达“狂热水平”，不太可能... -> According to Cointel...
+2025-11-23 21:42:25,793 - INFO - Scored 'According to Cointelegraph, th...' (news) -> 0.00 (3120ms)
+INFO:     127.0.0.1:42526 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:42:28,018 - INFO - Translated (zh->en): OKX将上线Zcash(ZEC)现货交易... -> On 23 November, acco...
+2025-11-23 21:42:28,036 - INFO - Scored 'On 23 November, according to o...' (social) -> 0.79 (2222ms)
+INFO:     127.0.0.1:55598 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:42:31,455 - INFO - Translated (zh->en): 星球午讯 1. Michael Sayl... -> 1. Michael Saylor: V...
+2025-11-23 21:42:31,474 - INFO - Scored '1. Michael Saylor: Volatility ...' (news) -> 0.00 (3437ms)
+INFO:     127.0.0.1:55614 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:42:34,606 - INFO - Translated (zh->en): 星球午讯 1. Michael Sayl... -> 1. Michael Saylor: V...
+2025-11-23 21:42:34,625 - INFO - Scored '1. Michael Saylor: Volatility ...' (news) -> 0.00 (3150ms)
+INFO:     127.0.0.1:55622 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:42:37,778 - INFO - Translated (zh->en): 星球午讯 1. Michael Sayl... -> 1. Michael Saylor: V...
+2025-11-23 21:42:37,799 - INFO - Scored '1. Michael Saylor: Volatility ...' (news) -> 0.00 (3173ms)
+INFO:     127.0.0.1:55628 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:42:38,801 - INFO - Translated (zh->en): Michael Saylor：波动性是中... -> Michael Saylor: Vola...
+2025-11-23 21:42:38,818 - INFO - Scored 'Michael Saylor: Volatility is ...' (news) -> -0.99 (1018ms)
+INFO:     127.0.0.1:55644 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:42:43,787 - INFO - Translated (zh->en): Pantera合伙人：隐私复兴时代，这些... -> Pantera Partner: Sin...
+2025-11-23 21:42:43,807 - INFO - Scored 'Pantera Partner: Since the bir...' (social) -> 0.92 (4988ms)
+INFO:     127.0.0.1:55660 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:42:48,736 - INFO - Translated (zh->en): Pantera合伙人：隐私复兴时代，这些... -> Pantera Partner: Sin...
+2025-11-23 21:42:48,755 - INFO - Scored 'Pantera Partner: Since the bir...' (social) -> 0.92 (4947ms)
+INFO:     127.0.0.1:55666 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:42:53,668 - INFO - Translated (zh->en): Pantera合伙人：隐私复兴时代，这些... -> Pantera Partner: Sin...
+2025-11-23 21:42:53,682 - INFO - Scored 'Pantera Partner: Since the bir...' (social) -> 0.92 (4927ms)
+INFO:     127.0.0.1:55682 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:42:58,790 - INFO - Translated (zh->en): Pantera合伙人：隐私复兴时代，这些... -> Pantera Partner: Sin...
+2025-11-23 21:42:58,809 - INFO - Scored 'Pantera Partner: Since the bir...' (social) -> 0.92 (5124ms)
+INFO:     127.0.0.1:55694 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:42:58,835 - INFO - Scored 'Bitwise CEO增持比特币，买入价约85,000美元 ...' (social) -> 0.93 (25ms)
+INFO:     127.0.0.1:55700 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:43:01,529 - INFO - Translated (zh->en): 昨日亏损84.6万美元清仓ZEC多头的地... -> Yesterday, after a l...
+2025-11-23 21:43:01,550 - INFO - Scored 'Yesterday, after a loss of $84...' (social) -> -0.55 (2715ms)
+INFO:     127.0.0.1:55716 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:43:04,227 - INFO - Translated (zh->en): 昨日亏损84.6万美元清仓ZEC多头的地... -> Yesterday, after a l...
+2025-11-23 21:43:04,249 - INFO - Scored 'Yesterday, after a loss of $84...' (social) -> -0.55 (2697ms)
+INFO:     127.0.0.1:55728 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:43:07,032 - INFO - Translated (zh->en): 持仓两年地址向币安充值8920枚ETH，... -> Two-year storage add...
+2025-11-23 21:43:07,053 - INFO - Scored 'Two-year storage addresses for...' (social) -> 0.00 (2804ms)
+INFO:     127.0.0.1:55734 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:43:09,798 - INFO - Translated (zh->en): 持仓两年地址向币安充值8920枚ETH，... -> Two-year storage add...
+2025-11-23 21:43:09,817 - INFO - Scored 'Two-year storage addresses for...' (social) -> 0.00 (2764ms)
+INFO:     127.0.0.1:55738 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:43:15,380 - INFO - Translated (zh->en): 一周代币解锁：HYPE解锁近千万枚，价值... -> One week ' s currenc...
+2025-11-23 21:43:15,402 - INFO - Scored 'One week ' s currency unlockat...' (social) -> 0.00 (5584ms)
+INFO:     127.0.0.1:55746 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:43:20,886 - INFO - Translated (zh->en): 一周代币解锁：HYPE解锁近千万枚，价值... -> One week ' s currenc...
+2025-11-23 21:43:20,906 - INFO - Scored 'One week ' s currency unlockat...' (social) -> 0.00 (5503ms)
+INFO:     127.0.0.1:55750 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:43:26,300 - INFO - Translated (zh->en): 一周代币解锁：HYPE解锁近千万枚，价值... -> One week ' s currenc...
+2025-11-23 21:43:26,319 - INFO - Scored 'One week ' s currency unlockat...' (social) -> 0.00 (5413ms)
+INFO:     127.0.0.1:55756 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:43:31,992 - INFO - Translated (zh->en): 一周代币解锁：HYPE解锁近千万枚，价值... -> One week ' s currenc...
+2025-11-23 21:43:32,011 - INFO - Scored 'One week ' s currency unlockat...' (social) -> 0.00 (5691ms)
+INFO:     127.0.0.1:55764 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:43:37,640 - INFO - Translated (zh->en): 一周代币解锁：HYPE解锁近千万枚，价值... -> One week ' s currenc...
+2025-11-23 21:43:37,649 - INFO - Scored 'One week ' s currency unlockat...' (social) -> 0.00 (5637ms)
+INFO:     127.0.0.1:55774 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:43:43,067 - INFO - Translated (zh->en): 一周代币解锁：HYPE解锁近千万枚，价值... -> One week ' s currenc...
+2025-11-23 21:43:43,087 - INFO - Scored 'One week ' s currency unlockat...' (social) -> 0.00 (5437ms)
+INFO:     127.0.0.1:55782 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:43:48,488 - INFO - Translated (zh->en): 一周代币解锁：HYPE解锁近千万枚，价值... -> One week ' s currenc...
+2025-11-23 21:43:48,494 - INFO - Scored 'One week ' s currency unlockat...' (social) -> 0.00 (5406ms)
+INFO:     127.0.0.1:55794 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:43:48,503 - INFO - Scored '疑似BitMine地址于8小时前从FalconX处接收21,...' (social) -> 0.87 (8ms)
+INFO:     127.0.0.1:55810 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:43:54,497 - INFO - Translated (zh->en): 60%空投被薅走，aPriori从明星项... -> 1. This Friday, the ...
+2025-11-23 21:43:54,504 - INFO - Scored '1. This Friday, the Monad Ecol...' (social) -> 0.00 (6000ms)
+INFO:     127.0.0.1:55824 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:43:54,512 - INFO - Scored 'BlackRock’s Bitcoin clients ar...' (news) -> -0.99 (8ms)
+INFO:     127.0.0.1:55834 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:43:54,521 - INFO - Scored 'BlackRock’s Bitcoin clients ar...' (news) -> -0.99 (7ms)
+INFO:     127.0.0.1:55842 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:43:56,202 - INFO - Translated (zh->en): 观点：BTC日线成交量近期最大，或为短期... -> On November 21, BTC’...
+2025-11-23 21:43:56,218 - INFO - Scored 'On November 21, BTC’s spot tur...' (news) -> -1.00 (1696ms)
+INFO:     127.0.0.1:55858 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:43:57,914 - INFO - Translated (zh->en): 观点：BTC日线成交量近期最大，或为短期... -> On November 21, BTC’...
+2025-11-23 21:43:57,933 - INFO - Scored 'On November 21, BTC’s spot tur...' (news) -> -1.00 (1714ms)
+INFO:     127.0.0.1:55868 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:44:00,566 - INFO - Translated (zh->en): CoinKarma：BTC出现「大量换手... -> CoinKarma: The BTC’s...
+2025-11-23 21:44:00,572 - INFO - Scored 'CoinKarma: The BTC’s emergence...' (social) -> -0.86 (2639ms)
+INFO:     127.0.0.1:55878 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:44:04,231 - INFO - Translated (zh->en): Bitcoin长期持有者向“纸手”抛售将... -> According to Cointel...
+2025-11-23 21:44:04,247 - INFO - Scored 'According to Cointelegraph, go...' (news) -> -0.99 (3674ms)
+INFO:     127.0.0.1:55894 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:44:04,272 - INFO - Scored 'Placeholder VC合伙人：市场或已做好反弹准备 B...' (social) -> 0.90 (24ms)
+INFO:     127.0.0.1:55896 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:44:05,008 - INFO - Translated (zh->en): 比特币于今晨回升突破85,000美元 B... -> Bitcoin rebounded by...
+2025-11-23 21:44:05,026 - INFO - Scored 'Bitcoin rebounded by $85,000 t...' (social) -> 0.00 (753ms)
+INFO:     127.0.0.1:55900 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:44:07,715 - INFO - Translated (zh->en): 分析师：PORT3黑客获利16.6万美元... -> Analyst: PORT3 hacke...
+2025-11-23 21:44:07,722 - INFO - Scored 'Analyst: PORT3 hackers earned ...' (news) -> 0.00 (2695ms)
+INFO:     127.0.0.1:55908 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:44:07,729 - INFO - Scored '某巨鲸向Hyperliquid存入650万美元USDC用于购...' (news) -> -0.56 (7ms)
+INFO:     127.0.0.1:55910 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:44:07,742 - INFO - Scored 'Tom Lee：Strategy股票是首选的加密货币对冲工具...' (news) -> -0.52 (12ms)
+INFO:     127.0.0.1:55926 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:44:07,755 - INFO - Scored 'Tom Lee：Strategy股票是首选的加密货币对冲工具...' (news) -> -0.52 (13ms)
+INFO:     127.0.0.1:55934 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:44:07,763 - INFO - Scored 'Chainlink Is ‘Essential Infras...' (news) -> -1.00 (6ms)
+INFO:     127.0.0.1:55944 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:44:08,751 - INFO - Translated (zh->en): BTC突破85000 USDT，24H涨... -> BTC passed 85000 USD...
+2025-11-23 21:44:08,768 - INFO - Scored 'BTC passed 85000 USDDT, 24H by...' (news) -> -0.96 (1004ms)
+INFO:     127.0.0.1:55948 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:44:09,763 - INFO - Translated (zh->en): BTC突破85000 USDT，24H涨... -> BTC passed 85000 USD...
+2025-11-23 21:44:09,770 - INFO - Scored 'BTC passed 85000 USDDT, 24H by...' (news) -> -0.96 (1002ms)
+INFO:     127.0.0.1:55952 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:44:09,780 - INFO - Scored 'Bitcoin OG's selling to 'weak'...' (news) -> 0.00 (9ms)
+INFO:     127.0.0.1:55960 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:44:09,790 - INFO - Scored 'Bitcoin OG's selling to 'weak'...' (news) -> 0.00 (8ms)
+INFO:     127.0.0.1:55966 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:44:09,799 - INFO - Scored 'Bitcoin ATM Firm Weighing $100...' (social) -> -0.96 (9ms)
+INFO:     127.0.0.1:55980 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:44:09,808 - INFO - Scored 'Bitcoin ATM Firm Weighing $100...' (social) -> -0.96 (8ms)
+INFO:     127.0.0.1:55984 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:44:09,817 - INFO - Scored 'Bitcoin's Plunge Brings Strate...' (news) -> -0.94 (9ms)
+INFO:     127.0.0.1:56000 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:44:09,826 - INFO - Scored 'Bitcoin's Plunge Brings Strate...' (news) -> -0.94 (8ms)
+INFO:     127.0.0.1:56002 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:44:09,837 - INFO - Scored 'Bitcoin's Plunge Brings Strate...' (news) -> -0.94 (11ms)
+INFO:     127.0.0.1:56008 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 21:44:09,846 - INFO - Scored 'Cardano suffers temporary chai...' (news) -> 0.00 (8ms)
+INFO:     127.0.0.1:56016 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 22:04:13,786 - INFO - Scored 'ETF Outflows, Stablecoin Flows...' (news) -> 0.00 (21ms)
+INFO:     127.0.0.1:44212 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 22:05:26,023 - INFO - Scored 'Strategy and Bitcoin supporter...' (news) -> 0.00 (18ms)
+INFO:     127.0.0.1:46804 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 22:20:43,734 - INFO - Translated (zh->en): NYDIG：ETF 流出、稳定币资金变化... -> NYDIG: ETS outflows,...
+2025-11-23 22:20:43,766 - INFO - Scored 'NYDIG: ETS outflows, currency-...' (social) -> -0.49 (4667ms)
+INFO:     127.0.0.1:33948 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 22:20:49,034 - INFO - Translated (zh->en): NYDIG：ETF 流出、稳定币资金变化... -> NYDIG: ETS outflows,...
+2025-11-23 22:20:49,047 - INFO - Scored 'NYDIG: ETS outflows, currency-...' (social) -> -0.49 (5279ms)
+INFO:     127.0.0.1:33952 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 23:06:40,538 - INFO - Translated (zh->en): BTC突破88000美元 【BTC突破8... -> BTC's breaking $88,0...
+2025-11-23 23:06:40,576 - INFO - Scored 'BTC's breaking $88,000 [BTC br...' (social) -> 0.85 (1297ms)
+INFO:     127.0.0.1:48984 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 23:06:41,846 - INFO - Translated (zh->en): BTC突破88000 USDT，24H涨... -> BTC broke 88000 USDT...
+2025-11-23 23:06:41,868 - INFO - Scored 'BTC broke 88000 USDT, 24H grew...' (news) -> -0.84 (1290ms)
+INFO:     127.0.0.1:48992 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 23:06:42,956 - INFO - Translated (zh->en): BTC突破88000美元 【BTC突破8... -> BTC's breaking $88,0...
+2025-11-23 23:06:42,976 - INFO - Scored 'BTC's breaking $88,000 [BTC br...' (social) -> 0.85 (1106ms)
+INFO:     127.0.0.1:48994 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 23:06:44,181 - INFO - Translated (zh->en): BTC突破88000 USDT，24H涨... -> BTC broke 88000 USDT...
+2025-11-23 23:06:44,201 - INFO - Scored 'BTC broke 88000 USDT, 24H grew...' (news) -> -0.84 (1223ms)
+INFO:     127.0.0.1:49006 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 23:52:32,310 - INFO - Translated (zh->en): 美国政府效率部已解散 【美国政府效率部已... -> The U.S. Administrat...
+2025-11-23 23:52:32,354 - INFO - Scored 'The U.S. Administration's Depa...' (social) -> -0.52 (4132ms)
+INFO:     127.0.0.1:57362 - "POST /score HTTP/1.1" 200 OK
+2025-11-23 23:52:36,250 - INFO - Translated (zh->en): 美国政府效率部已解散 【美国政府效率部已... -> The U.S. Administrat...
+2025-11-23 23:52:36,290 - INFO - Scored 'The U.S. Administration's Depa...' (social) -> -0.52 (3933ms)
+INFO:     127.0.0.1:47498 - "POST /score HTTP/1.1" 200 OK
+2025-11-24 00:23:11,195 - INFO - Translated (zh->en): BTC短时跌破87000 USDT，24... -> BTC shrunk 87,000 US...
+2025-11-24 00:23:11,222 - INFO - Scored 'BTC shrunk 87,000 USDDT, and 2...' (news) -> -0.92 (1528ms)
+INFO:     127.0.0.1:49442 - "POST /score HTTP/1.1" 200 OK

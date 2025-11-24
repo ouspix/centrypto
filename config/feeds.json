@@ -20,7 +20,8 @@
   {
     "name": "cryptoslate",
     "sourceKey": "en_cryptoslate",
-    "url": "https://cryptoslate.com/feed/",
-    "language": "en"
+    "url": "http://localhost:1200/cryptoslate",
+    "language": "en",
+    "disabled": true
   }
 ]

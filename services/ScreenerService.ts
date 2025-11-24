@@ -163,7 +163,16 @@ export class ScreenerService {
             }
         }
 
-        console.log(`✅ Screening completed in ${Date.now() - startTime}ms. Returning ${topCandidates.length} symbols (topN=${cfg.topN} + ${heldAdded} held).`);
-        return topCandidates;
+        // Deduplicate by symbol to avoid duplicate market entries downstream
+        const deduped: ScreenedSymbol[] = [];
+        const seen = new Set<string>();
+        for (const c of topCandidates) {
+            if (seen.has(c.symbol)) continue;
+            seen.add(c.symbol);
+            deduped.push(c);
+        }
+
+        console.log(`✅ Screening completed in ${Date.now() - startTime}ms. Returning ${deduped.length} unique symbols (topN=${cfg.topN} + ${heldAdded} held, deduped from ${topCandidates.length}).`);
+        return deduped;
     }
 }

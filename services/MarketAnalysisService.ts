@@ -54,9 +54,9 @@ export class MarketAnalysisService {
     // In-memory cache: symbol -> candles[]
     private candleCache: Record<string, Candle[]> = {};
 
-    public async getMetricsForSymbol(symbol: string, isTestnet: boolean): Promise<MarketMetrics> {
+    public async getMetricsForSymbol(symbol: string, isTestnet: boolean, allowFetch: boolean = false): Promise<MarketMetrics> {
         // 1. Fetch 1m candles with caching
-        const candles = await this.fetchCandlesWithCache(symbol, isTestnet);
+        const candles = await this.fetchCandlesWithCache(symbol, isTestnet, allowFetch);
 
         // Initialize defaults
         const metrics: MarketMetrics = {
@@ -191,7 +191,15 @@ export class MarketAnalysisService {
         return metrics;
     }
 
-    public async getOrderBookMetrics(symbol: string, isTestnet: boolean): Promise<OrderBookMetrics> {
+    public async getOrderBookMetrics(symbol: string, isTestnet: boolean, allowFetch: boolean = false): Promise<OrderBookMetrics> {
+        if (!allowFetch) {
+            return {
+                spread_bps: 0,
+                depth_usd: { bid_1pct: 0, ask_1pct: 0 },
+                imbalance: 1
+            };
+        }
+
         const book = await getL2Book(symbol, isTestnet);
 
         const metrics: OrderBookMetrics = {
@@ -242,7 +250,7 @@ export class MarketAnalysisService {
         return metrics;
     }
 
-    private async fetchCandlesWithCache(symbol: string, isTestnet: boolean): Promise<Candle[]> {
+    private async fetchCandlesWithCache(symbol: string, isTestnet: boolean, allowFetch: boolean = false): Promise<Candle[]> {
         // 1. Get latest candle from DB
         const latestCandle = await prisma.candle.findFirst({
             where: { symbol, interval: "1m" },
@@ -259,16 +267,16 @@ export class MarketAnalysisService {
 
         // 3. Fetch new candles from API (with retry logic handled in getOHLCV)
         let newCandles: Candle[] = [];
-        try {
-            newCandles = await getOHLCV(symbol, "1m", isTestnet, startTime);
-        } catch (err) {
-            console.error(`[MarketAnalysis] Failed to fetch new candles for ${symbol}, using cached only.`);
+        if (allowFetch) {
+            try {
+                newCandles = await getOHLCV(symbol, "1m", isTestnet, startTime);
+            } catch (err) {
+                console.error(`[MarketAnalysis] Failed to fetch new candles for ${symbol}, using cached only.`);
+            }
         }
 
         // 4. Save new candles to DB
-        if (newCandles && newCandles.length > 0) {
-            // console.log(`[MarketAnalysis] Saving ${newCandles.length} new candles for ${symbol}`);
-
+        if (allowFetch && newCandles && newCandles.length > 0) {
             // Filter out any that might overlap or be invalid
             const validCandles = newCandles.filter(c => c.t > (latestCandle ? Number(latestCandle.t) : 0));
 

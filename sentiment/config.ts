@@ -102,6 +102,8 @@ const defaults = {
     sourceWeights: {
       news: 1.2,
       twitter: 1.0,
+      reddit: 0.8,
+      telegram: 1.1,
     },
   } satisfies AggregationConfig,
 };
@@ -137,9 +139,10 @@ export function getFeedConfig(): FeedConfig {
       console.warn('Falling back to empty feed config', err);
       feedsCache = [];
     }
-    // Append CN feeds (RSSHub + official RSS)
+    // Append Extra feeds (RSSHub + official RSS)
     const rsshubBase = process.env.RSSHUB_BASE || 'https://rsshub.app';
-    const cnFeeds: FeedConfig = [
+    const extraFeeds: FeedConfig = [
+      // --- Chinese Feeds ---
       {
         name: 'cn_jinse_all',
         url: `${rsshubBase}/jinse/lives`,
@@ -176,8 +179,53 @@ export function getFeedConfig(): FeedConfig {
         sourceKey: 'cn_blockbeats_article',
         language: 'zh',
       },
+      // --- Social / Community Feeds (RSSHub) ---
+      // NOTE: Disabled due to RSSHub rate limits and Twitter API restrictions
+      // Reddit, Twitter, and Telegram feeds are unreliable via RSSHub
+      // {
+      //   name: 'reddit_cryptocurrency',
+      //   url: `${rsshubBase}/reddit/subreddit/cryptocurrency`,
+      //   sourceKey: 'reddit',
+      //   language: 'en',
+      // },
+      // {
+      //   name: 'reddit_solana',
+      //   url: `${rsshubBase}/reddit/subreddit/solana`,
+      //   sourceKey: 'reddit',
+      //   language: 'en',
+      // },
+      // {
+      //   name: 'reddit_defi',
+      //   url: `${rsshubBase}/reddit/subreddit/defi`,
+      //   sourceKey: 'reddit',
+      //   language: 'en',
+      // },
+      // {
+      //   name: 'twitter_bitcoin',
+      //   url: `${rsshubBase}/twitter/user/Bitcoin`,
+      //   sourceKey: 'twitter',
+      //   language: 'en',
+      // },
+      // {
+      //   name: 'twitter_ethereum',
+      //   url: `${rsshubBase}/twitter/user/ethereum`,
+      //   sourceKey: 'twitter',
+      //   language: 'en',
+      // },
+      // {
+      //   name: 'twitter_solana',
+      //   url: `${rsshubBase}/twitter/user/solana`,
+      //   sourceKey: 'twitter',
+      //   language: 'en',
+      // },
+      // {
+      //   name: 'telegram_coindesk',
+      //   url: `${rsshubBase}/telegram/channel/coindesk_news`,
+      //   sourceKey: 'telegram',
+      //   language: 'en',
+      // }
     ];
-    feedsCache = [...feedsCache, ...cnFeeds];
+    feedsCache = [...feedsCache, ...extraFeeds];
   }
   return feedsCache;
 }
