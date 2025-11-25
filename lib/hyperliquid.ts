@@ -295,7 +295,7 @@ class RateLimiter {
     private queue: Array<() => void> = [];
     private processing = false;
     private lastRequestTime = 0;
-    private minDelay = 100; // 10 requests per second max
+    private minDelay = 5; // 200 requests per second (aggressive)
 
     async wait(): Promise<void> {
         return new Promise((resolve) => {

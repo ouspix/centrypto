@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../node_modules/@prisma/market-client"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("MARKET_DATABASE_URL")
+}
+
+model MarketTick {
+  id           Int      @id @default(autoincrement())
+  ts           DateTime @default(now())
+  symbol       String
+
+  markPrice    Float
+  indexPrice   Float?
+  openInterest Float?
+  fundingRate  Float?
+  volume24h    Float?
+
+  // optional small derived stuff
+  bookBidPx    Float?
+  bookBidSz    Float?
+  bookAskPx    Float?
+  bookAskSz    Float?
+
+  @@index([ts])
+  @@index([symbol, ts])
+}
+
+model MarketCandle {
+  id        Int      @id @default(autoincrement())
+  symbol    String
+  timeframe String   // "1m", "5m", etc.
+  openTime  DateTime
+
+  open      Float
+  high      Float
+  low       Float
+  close     Float
+  volume    Float
+
+  @@unique([symbol, timeframe, openTime])
+  @@index([symbol, timeframe, openTime])
+}

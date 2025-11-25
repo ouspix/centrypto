@@ -1,5 +1,6 @@
 import { getOHLCV, getL2Book } from "@/lib/hyperliquid";
-import { prisma } from "@/lib/db";
+
+import { marketDbMain, marketDbTest } from "@/lib/market-db";
 
 export type MarketMetrics = {
     returns: {
@@ -251,10 +252,12 @@ export class MarketAnalysisService {
     }
 
     private async fetchCandlesWithCache(symbol: string, isTestnet: boolean, allowFetch: boolean = false): Promise<Candle[]> {
+        const db = isTestnet ? marketDbTest : marketDbMain;
+
         // 1. Get latest candle from DB
-        const latestCandle = await prisma.candle.findFirst({
-            where: { symbol, interval: "1m" },
-            orderBy: { t: 'desc' }
+        const latestCandle = await db.marketCandle.findFirst({
+            where: { symbol, timeframe: "1m" },
+            orderBy: { openTime: 'desc' }
         });
 
         // 2. Determine start time
@@ -262,14 +265,17 @@ export class MarketAnalysisService {
         // If data, fetch from last candle time + 1ms
         let startTime = Date.now() - (4.5 * 60 * 60 * 1000);
         if (latestCandle) {
-            startTime = Number(latestCandle.t) + 1;
+            startTime = latestCandle.openTime.getTime() + 1;
         }
 
         // 3. Fetch new candles from API (with retry logic handled in getOHLCV)
         let newCandles: Candle[] = [];
         if (allowFetch) {
             try {
-                newCandles = await getOHLCV(symbol, "1m", isTestnet, startTime);
+                // Only fetch if gap is significant (> 1 min)
+                if (Date.now() - startTime > 60000) {
+                    newCandles = await getOHLCV(symbol, "1m", isTestnet, startTime);
+                }
             } catch (err) {
                 console.error(`[MarketAnalysis] Failed to fetch new candles for ${symbol}, using cached only.`);
             }
@@ -278,31 +284,31 @@ export class MarketAnalysisService {
         // 4. Save new candles to DB
         if (allowFetch && newCandles && newCandles.length > 0) {
             // Filter out any that might overlap or be invalid
-            const validCandles = newCandles.filter(c => c.t > (latestCandle ? Number(latestCandle.t) : 0));
+            const validCandles = newCandles.filter(c => c.t > (latestCandle ? latestCandle.openTime.getTime() : 0));
 
             if (validCandles.length > 0) {
                 // SQLite doesn't support skipDuplicates in createMany.
                 // We use a transaction of upserts to handle duplicates safely.
-                await prisma.$transaction(
+                await db.$transaction(
                     validCandles.map((c: Candle) =>
-                        prisma.candle.upsert({
+                        db.marketCandle.upsert({
                             where: {
-                                symbol_interval_t: {
+                                symbol_timeframe_openTime: {
                                     symbol: symbol,
-                                    interval: "1m",
-                                    t: BigInt(c.t)
+                                    timeframe: "1m",
+                                    openTime: new Date(c.t)
                                 }
                             },
                             update: {}, // No-op if exists
                             create: {
                                 symbol,
-                                interval: "1m",
-                                t: BigInt(c.t),
-                                o: parseFloat(c.o),
-                                h: parseFloat(c.h),
-                                l: parseFloat(c.l),
-                                c: parseFloat(c.c),
-                                v: parseFloat(c.v)
+                                timeframe: "1m",
+                                openTime: new Date(c.t),
+                                open: parseFloat(c.o),
+                                high: parseFloat(c.h),
+                                low: parseFloat(c.l),
+                                close: parseFloat(c.c),
+                                volume: parseFloat(c.v)
                             }
                         })
                     )
@@ -312,23 +318,23 @@ export class MarketAnalysisService {
 
         // 5. Return combined data (last 4.5h is enough for metrics)
         // We query the DB for the last 4.5h to ensure we have a consistent view
-        const lookbackWindow = Date.now() - (4.5 * 60 * 60 * 1000);
-        const dbCandles = await prisma.candle.findMany({
+        const lookbackWindow = new Date(Date.now() - (4.5 * 60 * 60 * 1000));
+        const dbCandles = await db.marketCandle.findMany({
             where: {
                 symbol,
-                interval: "1m",
-                t: { gte: lookbackWindow }
+                timeframe: "1m",
+                openTime: { gte: lookbackWindow }
             },
-            orderBy: { t: 'asc' }
+            orderBy: { openTime: 'asc' }
         });
 
         return dbCandles.map(c => ({
-            t: Number(c.t),
-            o: c.o.toString(),
-            h: c.h.toString(),
-            l: c.l.toString(),
-            c: c.c.toString(),
-            v: c.v.toString()
+            t: c.openTime.getTime(),
+            o: c.open.toString(),
+            h: c.high.toString(),
+            l: c.low.toString(),
+            c: c.close.toString(),
+            v: c.volume.toString()
         }));
     }
 }

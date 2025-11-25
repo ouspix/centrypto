@@ -6,7 +6,7 @@ import {
   getFeedConfig,
   getSymbolConfig,
 } from './config';
-import { MarketDataService } from '../services/MarketDataService';
+import { marketDbMain } from '../lib/market-db';
 import { mapTextToSymbols } from './symbolMapper';
 import { aggregateMessages } from './aggregation';
 import { scoreMessage } from './scorer';
@@ -241,15 +241,30 @@ function shuffleArray<T>(arr: T[]): T[] {
 }
 
 async function pickSymbolsByVolume(symbolConfig: Record<string, string[]>): Promise<string[]> {
-  const mds = new MarketDataService();
   try {
-    const snapshot = await mds.getLatestSnapshot(false); // mainnet by default
-    if (snapshot && snapshot.length) {
+    // Get ticks from last 24h (or just recent ones, volume24h is in the tick)
+    // We just need recent ticks to get volume24h
+    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+    const ticks = await marketDbMain.marketTick.findMany({
+      where: { ts: { gte: fiveMinutesAgo } },
+      orderBy: { ts: 'desc' }
+    });
+
+    if (ticks.length) {
+      // Dedupe
+      const latestMap = new Map<string, number>();
+      for (const t of ticks) {
+        if (!latestMap.has(t.symbol)) {
+          latestMap.set(t.symbol, t.volume24h || 0);
+        }
+      }
+
       const set = new Set(Object.keys(symbolConfig));
-      const sorted = snapshot
-        .filter(s => set.has(s.symbol))
-        .sort((a, b) => b.volume24h - a.volume24h)
-        .map(s => s.symbol);
+      const sorted = Array.from(latestMap.entries())
+        .filter(([sym]) => set.has(sym))
+        .sort((a, b) => b[1] - a[1])
+        .map(([sym]) => sym);
+
       if (sorted.length) {
         return sorted;
       }
@@ -261,7 +276,7 @@ async function pickSymbolsByVolume(symbolConfig: Record<string, string[]>): Prom
 }
 
 function mapTweetToMessages(tweet: TweetV2) {
-  const metrics = tweet.public_metrics || {};
+  const metrics = (tweet.public_metrics || {}) as any;
   const symbols = mapTextToSymbols(tweet.text || '') || [];
   const ts = tweet.created_at ? new Date(tweet.created_at) : new Date();
   return symbols.map((symbol) => ({
@@ -270,9 +285,9 @@ function mapTweetToMessages(tweet: TweetV2) {
     symbol,
     text: tweet.text || '',
     ts,
-    likeCount: metrics.like_count ?? null,
-    retweetCount: metrics.retweet_count ?? null,
-    replyCount: metrics.reply_count ?? null,
+    likeCount: metrics?.like_count ?? null,
+    retweetCount: metrics?.retweet_count ?? null,
+    replyCount: metrics?.reply_count ?? null,
     language: 'en',
   }));
 }
@@ -457,7 +472,7 @@ async function getPreviousSnapshotScore(symbol: string, windowMinutes: number, n
 }
 function createParserForFeed(url: string) {
   // Default parser with UA
-  const baseOptions: ParserType.Options = {
+  const baseOptions: any = {
     headers: {
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
     },

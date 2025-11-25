@@ -1,5 +1,18 @@
-import { MarketDataService, EnrichedMarketData } from "./MarketDataService";
+import { MarketAnalysisService, MarketMetrics, OrderBookMetrics } from "./MarketAnalysisService";
 import { SentimentService } from "./SentimentService";
+import { marketDbMain, marketDbTest } from "@/lib/market-db";
+
+export type EnrichedMarketData = {
+    symbol: string;
+    price: number;
+    volume24h: number;
+    funding: number;
+    openInterest: number;
+    metrics: MarketMetrics;
+    bookMetrics: OrderBookMetrics;
+    sentiment: any;
+    isTestnet: boolean;
+};
 
 export type ScreenedSymbol = EnrichedMarketData & {
     score: number;
@@ -23,11 +36,11 @@ export type ScreeningConfig = {
 };
 
 export class ScreenerService {
-    private marketDataService: MarketDataService;
+    private marketAnalysisService: MarketAnalysisService;
     private sentimentService: SentimentService;
 
     constructor() {
-        this.marketDataService = new MarketDataService();
+        this.marketAnalysisService = new MarketAnalysisService();
         this.sentimentService = new SentimentService();
     }
 
@@ -58,30 +71,84 @@ export class ScreenerService {
         console.log(`🔍 Starting On-Demand Screening with topN=${cfg.topN}, config provided:`, !!config);
         const startTime = Date.now();
 
-        // 1. Fetch ALL Market Data from DB Snapshot
-        const allData = await this.marketDataService.getLatestSnapshot(isTestnet);
-        if (!allData || allData.length === 0) {
-            console.warn("⚠️ No market data snapshot found. Screening cannot proceed.");
+        // 1. Fetch Latest Ticks from DB (Layer 1 Filter Candidate Source)
+        const db = isTestnet ? marketDbTest : marketDbMain;
+
+        // Get the latest tick for each symbol. 
+        // Since we don't have a "latest" view, we query ticks from the last 5 minutes and dedupe.
+        const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+        const recentTicks = await db.marketTick.findMany({
+            where: { ts: { gte: fiveMinutesAgo } },
+            orderBy: { ts: 'desc' }
+        });
+
+        // Dedupe to get latest per symbol
+        const latestTicksMap = new Map<string, typeof recentTicks[0]>();
+        for (const tick of recentTicks) {
+            if (!latestTicksMap.has(tick.symbol)) {
+                latestTicksMap.set(tick.symbol, tick);
+            }
+        }
+        const allTicks = Array.from(latestTicksMap.values());
+
+        if (allTicks.length === 0) {
+            console.warn("⚠️ No recent market ticks found in DB. Screening cannot proceed. Ensure collector is running.");
             return [];
         }
-        console.log(`Loaded ${allData.length} symbols from MarketStateSnapshot.`);
+        console.log(`Loaded ${allTicks.length} symbols from recent DB ticks.`);
 
         // 2. Apply Filters In-Memory
 
         // Layer 1: Volume
+        // Layer 1: Volume
+        // We filter based on the tick's volume24h
         const layer1 = cfg.layer1Enabled
-            ? allData.filter(d => d.volume24h >= cfg.minVolume24h)
-            : allData;
-        console.log(`Layer 1: ${layer1.length} passed volume filter (threshold: $${(cfg.minVolume24h / 1_000_000).toFixed(1)}M, sample volumes: ${allData.slice(0, 3).map(d => `${d.symbol}=$${(d.volume24h / 1_000_000).toFixed(1)}M`).join(', ')}).`);
+            ? allTicks.filter(d => (d.volume24h ?? 0) >= cfg.minVolume24h)
+            : allTicks;
+        console.log(`Layer 1: ${layer1.length} passed volume filter (threshold: $${(cfg.minVolume24h / 1_000_000).toFixed(1)}M).`);
+
+        // Layer 2: Hard Filters (Spread, Depth)
+        // Enrich Layer 1 Survivors (Fetch Metrics, Book, Sentiment)
+        // This is more expensive, so we only do it for survivors.
+        const enrichedLayer1: EnrichedMarketData[] = [];
+
+        // Process in batches to avoid rate limits
+        const batchSize = 10;
+        for (let i = 0; i < layer1.length; i += batchSize) {
+            const batch = layer1.slice(i, i + batchSize);
+            await Promise.all(batch.map(async (tick) => {
+                try {
+                    const [metrics, bookMetrics, sentiment] = await Promise.all([
+                        this.marketAnalysisService.getMetricsForSymbol(tick.symbol, isTestnet, true),
+                        this.marketAnalysisService.getOrderBookMetrics(tick.symbol, isTestnet, true),
+                        this.sentimentService.getSentimentForCoin(tick.symbol)
+                    ]);
+
+                    enrichedLayer1.push({
+                        symbol: tick.symbol,
+                        price: tick.markPrice,
+                        volume24h: tick.volume24h || 0,
+                        funding: tick.fundingRate || 0,
+                        openInterest: tick.openInterest || 0,
+                        metrics,
+                        bookMetrics,
+                        sentiment,
+                        isTestnet
+                    });
+                } catch (e) {
+                    console.error(`Failed to enrich ${tick.symbol}`, e);
+                }
+            }));
+        }
 
         // Layer 2: Hard Filters (Spread, Depth)
         const layer2 = cfg.layer2Enabled
-            ? layer1.filter(d => {
+            ? enrichedLayer1.filter(d => {
                 if (heldSymbols.includes(d.symbol)) return true; // Always keep held
                 return d.bookMetrics.spread_bps <= cfg.maxSpreadBps &&
                     (d.bookMetrics.depth_usd.bid_1pct >= cfg.minDepthUsd || d.bookMetrics.depth_usd.ask_1pct >= cfg.minDepthUsd);
             })
-            : layer1;
+            : enrichedLayer1;
         console.log(`Layer 2: ${layer2.length} passed hard filters.`);
 
         // Layer 3: Action Filters

@@ -42,7 +42,7 @@ const DEFAULT_CONFIG: ScreeningConfig = {
 export function ScreeningParameters() {
     const [config, setConfig] = useState<ScreeningConfig>(DEFAULT_CONFIG)
     const [expanded, setExpanded] = useState(true)
-    const isInitialMount = useRef(true)
+    const [loaded, setLoaded] = useState(false)
 
     // Load from localStorage on mount
     useEffect(() => {
@@ -54,21 +54,17 @@ export function ScreeningParameters() {
                 console.error('Failed to load screening config', e)
             }
         }
-        // Mark that initial mount is complete
-        isInitialMount.current = false
+        setLoaded(true)
     }, [])
 
-    // Save to localStorage on change (but skip initial mount)
+    // Save to localStorage on change (only after loaded)
     useEffect(() => {
-        // Skip firing event on initial mount to prevent unnecessary refetches
-        if (isInitialMount.current) {
-            return
-        }
+        if (!loaded) return
 
         localStorage.setItem('screeningConfig', JSON.stringify(config))
         // Also emit event for other components to listen
         window.dispatchEvent(new CustomEvent('screeningConfigChanged', { detail: config }))
-    }, [config])
+    }, [config, loaded])
 
     const updateConfig = (key: keyof ScreeningConfig, value: any) => {
         setConfig(prev => ({ ...prev, [key]: value }))

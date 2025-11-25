@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
+import { marketDbMain, marketDbTest } from '@/lib/market-db';
 
 export async function GET(request: NextRequest) {
     try {
@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
         const symbol = searchParams.get('symbol');
         const interval = searchParams.get('interval') || '1h';
         // Kept for signature parity; data comes from DB only
-        const _isTestnet = searchParams.get('isTestnet') === 'true';
+        const isTestnet = searchParams.get('isTestnet') === 'true';
 
         if (!symbol) {
             return NextResponse.json({ error: 'Symbol is required' }, { status: 400 });
@@ -17,6 +17,7 @@ export async function GET(request: NextRequest) {
         let lookbackMs = 0;
         switch (interval) {
             case '1m': lookbackMs = 6 * 60 * 60 * 1000; break;
+            case '5m': lookbackMs = 24 * 60 * 60 * 1000; break;
             case '15m': lookbackMs = 7 * 24 * 60 * 60 * 1000; break;
             case '1h': lookbackMs = 30 * 24 * 60 * 60 * 1000; break;
             case '4h': lookbackMs = 90 * 24 * 60 * 60 * 1000; break;
@@ -24,17 +25,18 @@ export async function GET(request: NextRequest) {
             default: lookbackMs = 24 * 60 * 60 * 1000;
         }
 
-        const startTime = Date.now() - lookbackMs;
+        const startTime = new Date(Date.now() - lookbackMs);
+        const db = isTestnet ? marketDbTest : marketDbMain;
 
         // 2. Always fetch 1m candles from DB for the required range
         // We use 1m data as the source of truth for all aggregations
-        let dbCandles = await prisma.candle.findMany({
+        let dbCandles = await db.marketCandle.findMany({
             where: {
                 symbol,
-                interval: "1m",
-                t: { gte: startTime }
+                timeframe: "1m",
+                openTime: { gte: startTime }
             },
-            orderBy: { t: 'asc' }
+            orderBy: { openTime: 'asc' }
         });
 
         // 3. Aggregate candles if needed (DB only; ingestion happens in standalone script)
@@ -42,12 +44,12 @@ export async function GET(request: NextRequest) {
 
         if (interval === '1m') {
             resultCandles = dbCandles.map(c => ({
-                time: Number(c.t) / 1000,
-                open: c.o,
-                high: c.h,
-                low: c.l,
-                close: c.c,
-                volume: c.v
+                time: c.openTime.getTime() / 1000,
+                open: c.open,
+                high: c.high,
+                low: c.low,
+                close: c.close,
+                volume: c.volume
             }));
         } else {
             // Aggregate 1m candles into target interval
@@ -67,26 +69,26 @@ function aggregateCandles(candles: any[], intervalMs: number) {
     if (candles.length === 0) return [];
 
     const aggregated = [];
-    let currentBucketStartTime = Math.floor(Number(candles[0].t) / intervalMs) * intervalMs;
+    let currentBucketStartTime = Math.floor(candles[0].openTime.getTime() / intervalMs) * intervalMs;
     let currentBucket = {
-        open: candles[0].o,
-        high: candles[0].h,
-        low: candles[0].l,
-        close: candles[0].c,
-        volume: candles[0].v,
+        open: candles[0].open,
+        high: candles[0].high,
+        low: candles[0].low,
+        close: candles[0].close,
+        volume: candles[0].volume,
         startTime: currentBucketStartTime
     };
 
     for (let i = 1; i < candles.length; i++) {
         const c = candles[i];
-        const time = Number(c.t);
+        const time = c.openTime.getTime();
 
         if (time < currentBucketStartTime + intervalMs) {
             // Still in the same bucket
-            currentBucket.high = Math.max(currentBucket.high, c.h);
-            currentBucket.low = Math.min(currentBucket.low, c.l);
-            currentBucket.close = c.c; // Close is always the last one
-            currentBucket.volume += c.v;
+            currentBucket.high = Math.max(currentBucket.high, c.high);
+            currentBucket.low = Math.min(currentBucket.low, c.low);
+            currentBucket.close = c.close; // Close is always the last one
+            currentBucket.volume += c.volume;
         } else {
             // New bucket
             aggregated.push({
@@ -100,11 +102,11 @@ function aggregateCandles(candles: any[], intervalMs: number) {
 
             currentBucketStartTime = Math.floor(time / intervalMs) * intervalMs;
             currentBucket = {
-                open: c.o,
-                high: c.h,
-                low: c.l,
-                close: c.c,
-                volume: c.v,
+                open: c.open,
+                high: c.high,
+                low: c.low,
+                close: c.close,
+                volume: c.volume,
                 startTime: currentBucketStartTime
             };
         }

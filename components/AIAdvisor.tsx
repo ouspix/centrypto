@@ -168,7 +168,7 @@ export function AIAdvisor() {
     }
 
     return (
-        <Card className="bg-slate-900 border-slate-800 hover-lift flex flex-col">
+        <Card className="bg-slate-900 border-slate-800 hover-lift flex flex-col h-full">
             <CardHeader className="pb-3 border-b border-slate-800/50 space-y-3">
                 <div className="flex items-center justify-between">
                     <CardTitle className="text-base font-bold text-purple-400 flex items-center gap-2">

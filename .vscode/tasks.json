@@ -24,7 +24,7 @@
         {
             "label": "Run Market Collector",
             "type": "shell",
-            "command": "npx tsx -r dotenv/config scripts/run_market_collector.ts",
+            "command": "npx tsx scripts/start_collector.ts",
             "options": {
                 "env": {
                     "DOTENV_CONFIG_PATH": ".env.local"

@@ -127,21 +127,23 @@ export function HyperliquidFeed() {
 
                 if (data.channel === "allMids") {
                     const mids = data.data.mids
-                    const tickerList = Object.entries(mids).map(([coin, mid]) => {
-                        const enrichment = enrichedDataRef.current[coin] || {}
-                        const currentPrice = parseFloat(mid as string)
-                        const prevPrice = enrichment.prevDayPx || currentPrice
-                        const change24h = ((currentPrice - prevPrice) / prevPrice) * 100
+                    const tickerList = Object.entries(mids)
+                        .filter(([coin]) => enrichedDataRef.current[coin]) // Only include known perps
+                        .map(([coin, mid]) => {
+                            const enrichment = enrichedDataRef.current[coin] || {}
+                            const currentPrice = parseFloat(mid as string)
+                            const prevPrice = enrichment.prevDayPx || currentPrice
+                            const change24h = ((currentPrice - prevPrice) / prevPrice) * 100
 
-                        return {
-                            coin,
-                            mid: currentPrice,
-                            volume24h: enrichment.volume24h,
-                            change24h,
-                            funding: enrichment.funding,
-                            openInterest: enrichment.openInterest
-                        }
-                    })
+                            return {
+                                coin,
+                                mid: currentPrice,
+                                volume24h: enrichment.volume24h,
+                                change24h,
+                                funding: enrichment.funding,
+                                openInterest: enrichment.openInterest
+                            }
+                        })
 
                     // Sort by volume (highest first)
                     tickerList.sort((a, b) => (b.volume24h || 0) - (a.volume24h || 0))
@@ -236,11 +238,9 @@ export function HyperliquidFeed() {
 
         // Debounce config changes only, fetch immediately on network change
         const timeout = setTimeout(fetchScreenedSymbols, 500)
-        const interval = setInterval(fetchScreenedSymbols, 60000) // Refresh every minute
 
         return () => {
             clearTimeout(timeout)
-            clearInterval(interval)
         }
     }, [screeningConfig, isTestnet])
 

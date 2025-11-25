@@ -39,8 +39,8 @@ export default function Home() {
           </div>
 
           {/* Right Action Panel - Fixed width, scrollable */}
-          <aside className="w-96 space-y-4 max-h-[calc(100vh-6rem)] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-800 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-slate-700">
-            <ExecutionPanel />
+          <aside className="w-96 space-y-4 h-[calc(100vh-6rem)] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-800 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-slate-700 flex flex-col">
+            <ExecutionPanel className="flex-1" />
             <PriceAlerts />
             <TradeHistory />
           </aside>

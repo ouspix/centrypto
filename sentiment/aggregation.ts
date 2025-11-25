@@ -68,9 +68,9 @@ export function aggregateMessages(messages: AggregateMessage[], options: Aggrega
 
   for (const msg of scored) {
     const weight = engagementWeight(msg) * sourceWeight(msg.source, options.config.sourceWeights);
-    weightedSum += msg.sentimentScore * weight;
+    weightedSum += (msg.sentimentScore ?? 0) * weight;
     totalWeight += weight;
-    scores.push(msg.sentimentScore);
+    scores.push(msg.sentimentScore ?? 0);
     const key = normalizeSource(msg.source);
     sourceCounts[key] = (sourceCounts[key] || 0) + 1;
   }

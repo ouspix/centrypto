@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from "react"
-import { Filter } from "lucide-react"
+import { Filter, RefreshCw } from "lucide-react"
 import {
     Popover,
     PopoverContent,
@@ -187,47 +187,51 @@ export function LeftNavigation() {
         }
     }, [screeningConfig]) // ONLY screeningConfig - no network dependency
 
-    // Polling interval (slower - every 60s instead of 30s)
-    useEffect(() => {
-        if (!screeningConfig) return
 
-        const interval = setInterval(() => {
-            fetchTokens(false)
-        }, 60000)
-
-        return () => clearInterval(interval)
-    }, [fetchTokens])
 
     return (
         <nav className="fixed left-0 top-0 z-40 flex h-screen w-20 flex-col items-center border-r border-slate-800 bg-slate-950/95 backdrop-blur-sm py-4 gap-2 overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-800 [&::-webkit-scrollbar-thumb]:rounded-full">
             {/* Logo/Brand */}
-            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 shrink-0">
-                <span className="text-lg font-bold text-white">C</span>
+            {/* Logo/Brand */}
+            <div className="mb-4 flex h-10 w-10 items-center justify-center shrink-0">
+                <img src="/icon.png" alt="Centrypto" className="h-10 w-10 rounded-lg object-cover" />
             </div>
 
             {/* Filter Button */}
-            <Sheet open={filterOpen} onOpenChange={setFilterOpen}>
-                <SheetTrigger asChild>
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        className="w-14 h-10 hover:bg-slate-800 text-slate-400 hover:text-slate-100 shrink-0 transition-colors"
-                    >
-                        <Filter className="h-5 w-5" />
-                    </Button>
-                </SheetTrigger>
-                <SheetContent side="left" className="w-[400px] sm:w-[540px] bg-slate-950 border-slate-800 overflow-y-auto">
-                    <SheetHeader>
-                        <SheetTitle className="text-slate-100">Screening Parameters</SheetTitle>
-                        <SheetDescription className="text-slate-400">
-                            Configure filters to narrow down the market feed
-                        </SheetDescription>
-                    </SheetHeader>
-                    <div className="mt-6">
-                        <ScreeningParameters />
-                    </div>
-                </SheetContent>
-            </Sheet>
+            <div className="flex flex-col gap-2">
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-14 h-10 hover:bg-slate-800 text-slate-400 hover:text-slate-100 shrink-0 transition-colors"
+                    onClick={() => fetchTokens(true)}
+                    title="Refresh Feed"
+                >
+                    <RefreshCw className={`h-5 w-5 ${isLoading ? 'animate-spin' : ''}`} />
+                </Button>
+
+                <Sheet open={filterOpen} onOpenChange={setFilterOpen}>
+                    <SheetTrigger asChild>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="w-14 h-10 hover:bg-slate-800 text-slate-400 hover:text-slate-100 shrink-0 transition-colors"
+                        >
+                            <Filter className="h-5 w-5" />
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="w-[400px] sm:w-[540px] bg-slate-950 border-slate-800 overflow-y-auto" hideClose={true}>
+                        <SheetHeader>
+                            <SheetTitle className="text-slate-100">Screening Parameters</SheetTitle>
+                            <SheetDescription className="text-slate-400">
+                                Configure filters to narrow down the market feed
+                            </SheetDescription>
+                        </SheetHeader>
+                        <div className="mt-6">
+                            <ScreeningParameters />
+                        </div>
+                    </SheetContent>
+                </Sheet>
+            </div>
 
             <div className="h-px w-12 bg-slate-800 my-2 shrink-0" />
 

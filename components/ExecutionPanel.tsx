@@ -7,18 +7,18 @@ import { TradeForm } from "@/components/TradeForm"
 import { AIAdvisor } from "@/components/AIAdvisor"
 import { Zap, BrainCircuit } from "lucide-react"
 
-export function ExecutionPanel() {
+export function ExecutionPanel({ className }: { className?: string }) {
     const [activeTab, setActiveTab] = useState<string>("manual")
 
     return (
-        <Card className="bg-gradient-to-br from-slate-900 to-slate-800 border-slate-700">
+        <Card className={`bg-gradient-to-br from-slate-900 to-slate-800 border-slate-700 ${className}`}>
             <CardHeader className="pb-3">
                 <CardTitle className="text-lg font-semibold text-slate-100">
                     Execution & Trading
                 </CardTitle>
             </CardHeader>
-            <CardContent className="p-0">
-                <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <CardContent className="p-0 flex-1 flex flex-col min-h-0">
+                <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full flex flex-col h-full">
                     <TabsList className="grid w-full grid-cols-2 bg-transparent border-b border-slate-800 mx-4 mb-4 h-auto p-0 rounded-none">
                         <TabsTrigger
                             value="manual"
@@ -36,11 +36,11 @@ export function ExecutionPanel() {
                         </TabsTrigger>
                     </TabsList>
 
-                    <TabsContent value="manual" className="mt-0 px-4 pb-4">
+                    <TabsContent value="manual" className="mt-0 px-4 pb-4 flex-1 min-h-0 overflow-y-auto">
                         <TradeForm />
                     </TabsContent>
 
-                    <TabsContent value="ai" className="mt-0 px-4 pb-4">
+                    <TabsContent value="ai" className="mt-0 px-4 pb-4 flex-1 min-h-0 flex flex-col">
                         <AIAdvisor />
                     </TabsContent>
                 </Tabs>

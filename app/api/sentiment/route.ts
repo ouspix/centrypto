@@ -3,7 +3,7 @@ import { prisma } from '@/lib/db';
 import { getSymbolConfig } from '@/sentiment/config';
 import { SentimentService } from '@/services/SentimentService';
 
-export type SnapshotRow = {
+type SnapshotRow = {
   symbol: string;
   score: number;
   change2h: number;
@@ -15,7 +15,7 @@ export type SnapshotRow = {
   updatedAt: Date;
 };
 
-export function formatSnapshot(row: SnapshotRow) {
+function formatSnapshot(row: SnapshotRow) {
   let sourceMix: Record<string, number> = {};
   let tags: string[] = [];
 

@@ -18,7 +18,7 @@ export function TopHeader() {
             <div className="flex h-16 items-center justify-between px-6">
                 {/* Left: Branding */}
                 <div className="flex items-center gap-2">
-                    <span className="font-mono text-xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    <span className="font-orbitron text-xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
                         Centrypto
                     </span>
                 </div>

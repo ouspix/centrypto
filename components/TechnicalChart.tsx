@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState, useCallback } from 'react'
-import { createChart, ColorType, IChartApi, CandlestickSeries, HistogramSeries, LineSeries, Time } from 'lightweight-charts'
+import { createChart, ColorType, IChartApi, CandlestickSeries, HistogramSeries, LineSeries, Time, TickMarkType } from 'lightweight-charts'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -11,10 +11,10 @@ import { Loader2 } from "lucide-react"
 
 const TIMEFRAMES = [
     { label: '1m', value: '1m' },
+    { label: '5m', value: '5m' },
     { label: '15m', value: '15m' },
     { label: '1h', value: '1h' },
     { label: '4h', value: '4h' },
-    { label: '1d', value: '1d' },
 ]
 
 export function TechnicalChart() {
@@ -22,7 +22,7 @@ export function TechnicalChart() {
     const chartRef = useRef<IChartApi | null>(null)
     const { selectedPair, isTestnet } = useTrading()
 
-    const [interval, setInterval] = useState('1h')
+    const [interval, setTimeframe] = useState('1h')
     const [isLoading, setIsLoading] = useState(false)
 
     // Indicator States
@@ -54,7 +54,7 @@ export function TechnicalChart() {
         if (!selectedPair) return
         setIsLoading(true)
         try {
-            const response = await fetch(`/api/candles?symbol=${selectedPair}&interval=${interval}&isTestnet=${isTestnet}`)
+            const response = await fetch(`/api/candles?symbol=${selectedPair}&interval=${interval}&isTestnet=${isTestnet}&_t=${Date.now()}`)
             if (!response.ok) throw new Error('Failed to fetch candles')
 
             const data = await response.json()
@@ -106,6 +106,32 @@ export function TechnicalChart() {
             timeScale: {
                 timeVisible: true,
                 secondsVisible: false,
+                tickMarkFormatter: (time: number, tickMarkType: TickMarkType, locale: string) => {
+                    const date = new Date(time * 1000);
+                    switch (tickMarkType) {
+                        case TickMarkType.Year:
+                            return new Intl.DateTimeFormat('fr-FR', { timeZone: 'Europe/Paris', year: 'numeric' }).format(date);
+                        case TickMarkType.Month:
+                            return new Intl.DateTimeFormat('fr-FR', { timeZone: 'Europe/Paris', month: 'short' }).format(date);
+                        case TickMarkType.DayOfMonth:
+                            return new Intl.DateTimeFormat('fr-FR', { timeZone: 'Europe/Paris', day: 'numeric', month: 'short' }).format(date);
+                        case TickMarkType.Time:
+                        case TickMarkType.TimeWithSeconds:
+                            return new Intl.DateTimeFormat('fr-FR', { timeZone: 'Europe/Paris', hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
+                        default:
+                            return "";
+                    }
+                },
+            },
+            localization: {
+                timeFormatter: (time: number) => {
+                    return new Date(time * 1000).toLocaleString('fr-FR', {
+                        timeZone: 'Europe/Paris',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: false,
+                    });
+                }
             },
             // Hide the TradingView logo/watermark if possible (attribution is usually required for free version, but we can try to style it)
             // Lightweight charts doesn't have a direct 'hide' option for the logo in the free version without attribution, 
@@ -182,6 +208,15 @@ export function TechnicalChart() {
         return () => clearTimeout(timer)
     }, [fetchData])
 
+    // Auto-refresh every minute
+    useEffect(() => {
+        const intervalId = window.setInterval(() => {
+            console.log('[TechnicalChart] Auto-refreshing data...')
+            fetchData()
+        }, 60000)
+        return () => { window.clearInterval(intervalId) }
+    }, [fetchData])
+
     return (
         <Card className="bg-slate-900 border-slate-800 col-span-2 flex flex-col h-full">
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2 sm:space-y-0 pb-4 border-b border-slate-800/50">
@@ -198,7 +233,7 @@ export function TechnicalChart() {
                         {TIMEFRAMES.map((tf) => (
                             <button
                                 key={tf.value}
-                                onClick={() => setInterval(tf.value)}
+                                onClick={() => setTimeframe(tf.value)}
                                 className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 ${interval === tf.value
                                     ? 'bg-slate-800 text-white shadow-sm'
                                     : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
