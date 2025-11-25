@@ -1,27 +1,32 @@
 import { NextResponse } from 'next/server';
 
 export async function GET() {
+    const models = [];
+
+    // 1. Try fetching from Ollama
     try {
         const ollamaUrl = process.env.OLLAMA_BASE_URL || "http://localhost:11434";
-        const response = await fetch(`${ollamaUrl}/api/tags`);
+        const response = await fetch(`${ollamaUrl}/api/tags`, { signal: AbortSignal.timeout(2000) }); // Short timeout
 
-        if (!response.ok) {
-            throw new Error('Failed to fetch models from Ollama');
+        if (response.ok) {
+            const data = await response.json();
+            if (data.models) {
+                models.push(...data.models);
+            }
         }
-
-        const data = await response.json();
-
-        // Add OpenRouter models if configured
-        const openRouterModel = process.env.OPENROUTER_MODEL || "deepseek/deepseek-v3.2-exp";
-        if (process.env.OPENROUTER_API_KEY) {
-            data.models.push({ name: openRouterModel });
-            // Add other common OpenRouter models if desired
-            data.models.push({ name: "deepseek/deepseek-chat-v3-0324:free" });
-        }
-
-        return NextResponse.json(data);
-    } catch (error) {
-        console.error('Models Fetch Error:', error);
-        return NextResponse.json({ models: [] }, { status: 500 });
+    } catch (e) {
+        // Ollama might be down, just ignore
+        console.warn("Ollama unreachable, skipping local models.");
     }
+
+    // 2. Add OpenRouter models if configured
+    if (process.env.OPENROUTER_API_KEY) {
+        const openRouterModel = process.env.OPENROUTER_MODEL || "deepseek/deepseek-v3.2-exp";
+        models.push({ name: openRouterModel });
+        models.push({ name: "deepseek/deepseek-chat" });
+        models.push({ name: "anthropic/claude-3-opus" });
+        models.push({ name: "anthropic/claude-3-sonnet" });
+    }
+
+    return NextResponse.json({ models });
 }

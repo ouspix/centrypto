@@ -24,6 +24,7 @@ export type ScreeningConfig = {
     minVolume24h: number;
     layer2Enabled: boolean;
     maxSpreadBps: number;
+    dynamicSpreadEnabled: boolean;
     minDepthUsd: number;
     layer3Enabled: boolean;
     minVolZscore: number;
@@ -55,6 +56,7 @@ export class ScreenerService {
             minVolume24h: 1_000_000,
             layer2Enabled: true,
             maxSpreadBps: 50,
+            dynamicSpreadEnabled: true,
             minDepthUsd: 10_000,
             layer3Enabled: true,
             minVolZscore: 0.5,
@@ -151,15 +153,22 @@ export class ScreenerService {
             : enrichedLayer1;
         console.log(`Layer 2: ${layer2.length} passed hard filters.`);
 
-        // Layer 3: Action Filters
+        // Layer 3: Action Filters (Intraday Volatility & Movement)
+        // We want symbols that are "in play" - moving or volatile.
         let layer3 = cfg.layer3Enabled
             ? layer2.filter(d => {
                 if (heldSymbols.includes(d.symbol)) return true;
-                const volSpike = d.metrics.vol_zscores.vol_5m_vs_1h > cfg.minVolZscore;
-                const moveSpike = Math.abs(d.metrics.vol_zscores.ret_5m_vs_1h) > cfg.minRetZscore;
-                const minVol = d.metrics.realized_vol.m5 > cfg.minRealizedVol;
-                const significantMove = Math.abs(d.metrics.returns.m5) > cfg.minRetM5 || Math.abs(d.metrics.returns.m15) > cfg.minRetM15;
-                return volSpike || moveSpike || (minVol && significantMove);
+
+                // Primary check: Is it volatile relative to itself?
+                const isVolatile = d.metrics.vol_zscores.vol_5m_vs_1h > cfg.minVolZscore;
+
+                // Secondary check: Is it moving?
+                const isMoving = Math.abs(d.metrics.vol_zscores.ret_5m_vs_1h) > cfg.minRetZscore;
+
+                // Absolute volatility check (don't trade dead assets even if z-score is high)
+                const hasMinVol = d.metrics.realized_vol.m5 > cfg.minRealizedVol;
+
+                return (isVolatile || isMoving) && hasMinVol;
             })
             : layer2;
 
@@ -182,19 +191,29 @@ export class ScreenerService {
             // Fetch sentiment (cached in DB ideally, but service handles it)
             const sentiment = await this.sentimentService.getSentimentForCoin(candidate.symbol);
 
-            const volScore = 1.5 * Math.abs(candidate.metrics.vol_zscores.vol_5m_vs_1h);
+            // Scoring: Prioritize Intraday Volatility Z-Score
+            // This defines "In Play"
+            const volScore = 2.0 * Math.abs(candidate.metrics.vol_zscores.vol_5m_vs_1h);
             const moveScore = 1.0 * Math.abs(candidate.metrics.vol_zscores.ret_5m_vs_1h);
 
+            // Trend Alignment Bonus
             const s5 = Math.sign(candidate.metrics.returns.m5);
             const s15 = Math.sign(candidate.metrics.returns.m15);
             const s60 = Math.sign(candidate.metrics.returns.h1);
-            const trendAlign = (s5 === s15 && s15 === s60 && s5 !== 0) ? 0.5 : (s5 !== s15 || s15 !== s60 ? -0.5 : 0);
+            const trendAlign = (s5 === s15 && s15 === s60 && s5 !== 0) ? 0.5 : 0;
 
-            const attentionScore = 0.3 * Math.log(1 + Math.max(0, (sentiment.mentions_vs_baseline || 1) - 1));
-            const spreadPenalty = 0.5 * Math.max(0, candidate.bookMetrics.spread_bps - 5) / 10;
-            const illiquidityPenalty = 0.3 * Math.max(0, (cfg.minDepthUsd / Math.min(candidate.bookMetrics.depth_usd.bid_1pct, candidate.bookMetrics.depth_usd.ask_1pct)) - 1);
+            // Penalties
+            // Dynamic Spread Threshold: Scale acceptable spread with volatility.
+            // If vol is high, we tolerate wider spreads.
+            // Base = 3bps. Add buffer based on realized_vol (m5).
+            // Example: Vol 0.005 (0.5%) -> +10bps. Vol 0.001 (0.1%) -> +2bps.
+            const dynamicSpreadThreshold = cfg.dynamicSpreadEnabled
+                ? 3 + (candidate.metrics.realized_vol.m5 * 2000)
+                : 3;
+            const spreadPenalty = 1.0 * Math.max(0, candidate.bookMetrics.spread_bps - dynamicSpreadThreshold) / 5;
+            const illiquidityPenalty = 0.5 * Math.max(0, (cfg.minDepthUsd / Math.min(candidate.bookMetrics.depth_usd.bid_1pct, candidate.bookMetrics.depth_usd.ask_1pct)) - 1);
 
-            const totalScore = volScore + moveScore + trendAlign + attentionScore - spreadPenalty - illiquidityPenalty;
+            const totalScore = volScore + moveScore + trendAlign - spreadPenalty - illiquidityPenalty;
 
             scored.push({
                 ...candidate,

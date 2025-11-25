@@ -12,6 +12,7 @@ type ScreeningConfig = {
     minVolume24h: number;
     layer2Enabled: boolean;
     maxSpreadBps: number;
+    dynamicSpreadEnabled: boolean;
     minDepthUsd: number;
     layer3Enabled: boolean;
     minVolZscore: number;
@@ -28,6 +29,7 @@ const DEFAULT_CONFIG: ScreeningConfig = {
     minVolume24h: 1_000_000,
     layer2Enabled: true,
     maxSpreadBps: 50,
+    dynamicSpreadEnabled: true,
     minDepthUsd: 10_000,
     layer3Enabled: true,
     minVolZscore: 0.5,
@@ -49,7 +51,8 @@ export function ScreeningParameters() {
         const saved = localStorage.getItem('screeningConfig')
         if (saved) {
             try {
-                setConfig(JSON.parse(saved))
+                const loaded = JSON.parse(saved)
+                setConfig({ ...DEFAULT_CONFIG, ...loaded })
             } catch (e) {
                 console.error('Failed to load screening config', e)
             }
@@ -145,6 +148,14 @@ export function ScreeningParameters() {
                                         className="h-7 bg-slate-900 border-slate-700 text-slate-200 text-xs px-2"
                                         step="5"
                                     />
+                                    <div className="flex items-center gap-2 mt-2">
+                                        <Switch
+                                            checked={config.dynamicSpreadEnabled}
+                                            onCheckedChange={(val) => updateConfig('dynamicSpreadEnabled', val)}
+                                            className="scale-75 data-[state=checked]:bg-blue-500"
+                                        />
+                                        <label className="text-[10px] text-slate-400">Dynamic Scaling</label>
+                                    </div>
                                 </div>
                                 <div>
                                     <div className="flex justify-between items-center mb-1">

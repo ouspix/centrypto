@@ -171,11 +171,18 @@ ${JSON.stringify(snapshot.account.current_positions, null, 2)}`;
                     ],
                     temperature: 0.3,
                     top_p: 0.9,
+                    max_tokens: 8000, // Verified max for DeepSeek V3 (non-reasoner)
                     // @ts-ignore - signal is supported in newer openai versions but types might lag
                     signal: signal
                 });
 
-                rawOutput = completion.choices[0].message.content || "";
+                const choice = completion.choices[0];
+                console.log("🏁 LLM Finish Reason:", choice.finish_reason);
+                if (choice.finish_reason === "length") {
+                    console.warn("⚠️ LLM response was truncated due to length limit!");
+                }
+
+                rawOutput = choice.message.content || "";
 
             } else {
                 // Fallback to Ollama
@@ -269,8 +276,68 @@ ${JSON.stringify(snapshot.account.current_positions, null, 2)}`;
             try {
                 parsed = JSON.parse(jsonStr);
             } catch (e) {
-                console.error("JSON Parse Error:", e);
-                throw new Error(`Failed to parse JSON: ${e instanceof Error ? e.message : String(e)}`);
+                console.warn("⚠️ Initial JSON parse failed, attempting to repair truncated JSON...");
+                try {
+                    // Simple repair for truncated JSON
+                    // 1. Remove trailing commas
+                    // 2. Close open strings/objects/arrays
+                    let repaired = jsonStr.trim();
+
+                    // Remove trailing comma if present
+                    if (repaired.endsWith(',')) {
+                        repaired = repaired.slice(0, -1);
+                    }
+
+                    // Balance braces/brackets
+                    const stack = [];
+                    let inString = false;
+                    let escape = false;
+
+                    for (let i = 0; i < repaired.length; i++) {
+                        const char = repaired[i];
+                        if (escape) {
+                            escape = false;
+                            continue;
+                        }
+                        if (char === '\\') {
+                            escape = true;
+                            continue;
+                        }
+                        if (char === '"') {
+                            inString = !inString;
+                            continue;
+                        }
+                        if (!inString) {
+                            if (char === '{' || char === '[') {
+                                stack.push(char);
+                            } else if (char === '}' || char === ']') {
+                                const last = stack.pop();
+                                // Mismatch check could go here
+                            }
+                        }
+                    }
+
+                    // Close open string
+                    if (inString) {
+                        repaired += '"';
+                    }
+
+                    // Close open structures
+                    while (stack.length > 0) {
+                        const open = stack.pop();
+                        if (open === '{') repaired += '}';
+                        if (open === '[') repaired += ']';
+                    }
+
+                    console.log("🔧 Repaired JSON:", repaired.substring(repaired.length - 50)); // Log end of repaired string
+                    parsed = JSON.parse(repaired);
+                    console.log("✅ JSON repaired successfully");
+
+                } catch (repairError) {
+                    console.error("❌ JSON Repair Failed:", repairError);
+                    console.error("Original JSON Error:", e);
+                    throw new Error(`Failed to parse JSON (even after repair): ${e instanceof Error ? e.message : String(e)}`);
+                }
             }
 
             // Normalize Structure

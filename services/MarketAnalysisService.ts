@@ -30,6 +30,14 @@ export type MarketMetrics = {
         m1: { upper: number; middle: number; lower: number; width: number };
         m5: { upper: number; middle: number; lower: number; width: number };
     };
+    atr: {
+        m5: number;
+        h1: number;
+    };
+    macd: {
+        m5: { macd: number; signal: number; histogram: number };
+        h1: { macd: number; signal: number; histogram: number };
+    };
     regime_tags: string[];
 };
 
@@ -40,6 +48,8 @@ export type OrderBookMetrics = {
         ask_1pct: number;
     };
     imbalance: number; // bid/ask ratio
+    book_pressure: number; // (bid - ask) / (bid + ask) - range [-1, 1]
+    cost_bps: number; // 2 * taker_fee + spread/slippage
 };
 
 type Candle = {
@@ -68,6 +78,11 @@ export class MarketAnalysisService {
             bbands: {
                 m1: { upper: 0, middle: 0, lower: 0, width: 0 },
                 m5: { upper: 0, middle: 0, lower: 0, width: 0 }
+            },
+            atr: { m5: 0, h1: 0 },
+            macd: {
+                m5: { macd: 0, signal: 0, histogram: 0 },
+                h1: { macd: 0, signal: 0, histogram: 0 }
             },
             regime_tags: []
         };
@@ -176,7 +191,100 @@ export class MarketAnalysisService {
         metrics.bbands.m1 = calcBB(20, 1);
         metrics.bbands.m5 = calcBB(20, 5);
 
-        // 7. Regime Tags
+        // 7. Calculate ATR (14 periods)
+        const calcATR = (period: number, stride: number = 1) => {
+            if (candles.length < (period * stride) + 1) return 0;
+
+            let trSum = 0;
+            for (let i = 0; i < period; i++) {
+                const idx = candles.length - 1 - (i * stride);
+                const prevIdx = idx - stride;
+                if (prevIdx < 0) break;
+
+                const high = parseFloat(candles[idx].h);
+                const low = parseFloat(candles[idx].l);
+                const prevClose = parseFloat(candles[prevIdx].c);
+
+                const tr = Math.max(
+                    high - low,
+                    Math.abs(high - prevClose),
+                    Math.abs(low - prevClose)
+                );
+                trSum += tr;
+            }
+            return trSum / period; // Simple Average TR
+        };
+
+        metrics.atr.m5 = calcATR(14, 5);
+        metrics.atr.h1 = calcATR(14, 60);
+
+        // 8. Calculate MACD (12, 26, 9)
+        const calcEMA = (prices: number[], period: number) => {
+            if (prices.length === 0) return 0;
+            const k = 2 / (period + 1);
+            let ema = prices[0];
+            for (let i = 1; i < prices.length; i++) {
+                ema = (prices[i] * k) + (ema * (1 - k));
+            }
+            return ema;
+        };
+
+        const calcMACD = (stride: number) => {
+            // Need enough history for 26 EMA + 9 Signal
+            // Approx 35 periods * stride
+            const prices: number[] = [];
+            const limit = 50 * stride;
+            const start = Math.max(0, candles.length - limit);
+
+            for (let i = start; i < candles.length; i += stride) {
+                prices.push(parseFloat(candles[i].c));
+            }
+
+            if (prices.length < 35) return { macd: 0, signal: 0, histogram: 0 };
+
+            // Calculate MACD line
+            const macdLine: number[] = [];
+            // We need to calculate EMAs over the array
+            // Optimization: just calculate the last values? 
+            // Standard MACD requires full series for accuracy.
+            // Simplified: Calculate EMA12 and EMA26 for the *last* point
+            // But we need the *series* of MACD values to calculate the Signal Line (EMA9 of MACD)
+
+            // Let's do a simplified rolling calculation
+            const ema12s: number[] = [];
+            const ema26s: number[] = [];
+
+            let ema12 = prices[0];
+            let ema26 = prices[0];
+            const k12 = 2 / (12 + 1);
+            const k26 = 2 / (26 + 1);
+
+            for (let i = 0; i < prices.length; i++) {
+                ema12 = (prices[i] * k12) + (ema12 * (1 - k12));
+                ema26 = (prices[i] * k26) + (ema26 * (1 - k26));
+
+                if (i >= 26) {
+                    macdLine.push(ema12 - ema26);
+                }
+            }
+
+            if (macdLine.length < 9) return { macd: 0, signal: 0, histogram: 0 };
+
+            // Signal line is EMA9 of MACD line
+            const signal = calcEMA(macdLine, 9);
+            const macd = macdLine[macdLine.length - 1];
+
+            return {
+                macd,
+                signal,
+                histogram: macd - signal
+            };
+        };
+
+        metrics.macd.m5 = calcMACD(5);
+        metrics.macd.h1 = calcMACD(60);
+
+        // 9. Regime Tags
         if (metrics.vol_zscores.vol_5m_vs_1h > 2.0) metrics.regime_tags.push("high_intraday_vol");
         if (metrics.vol_zscores.vol_5m_vs_1h < 0.5) metrics.regime_tags.push("low_vol_compression");
 
@@ -197,7 +305,9 @@ export class MarketAnalysisService {
             return {
                 spread_bps: 0,
                 depth_usd: { bid_1pct: 0, ask_1pct: 0 },
-                imbalance: 1
+                imbalance: 1,
+                book_pressure: 0,
+                cost_bps: 0
             };
         }
 
@@ -206,7 +316,9 @@ export class MarketAnalysisService {
         const metrics: OrderBookMetrics = {
             spread_bps: 0,
             depth_usd: { bid_1pct: 0, ask_1pct: 0 },
-            imbalance: 1
+            imbalance: 1,
+            book_pressure: 0,
+            cost_bps: 0
         };
 
         if (!book || !book.levels) return metrics;
@@ -246,6 +358,20 @@ export class MarketAnalysisService {
             if (metrics.depth_usd.ask_1pct > 0) {
                 metrics.imbalance = metrics.depth_usd.bid_1pct / metrics.depth_usd.ask_1pct;
             }
+
+            // Book Pressure: Normalized imbalance [-1, 1]
+            const totalDepth = metrics.depth_usd.bid_1pct + metrics.depth_usd.ask_1pct;
+            if (totalDepth > 0) {
+                metrics.book_pressure = (metrics.depth_usd.bid_1pct - metrics.depth_usd.ask_1pct) / totalDepth;
+            }
+
+            // Cost BPS
+            // Taker fee approx 3.5 bps (0.035%) - typical for crypto perps
+            // Slippage estimate: half the spread? or full spread for worst case?
+            // User formula: cost_bps = 2 * taker_fee_bps + slippage_bps_estimate
+            // We'll use spread_bps as a proxy for immediate slippage/cost to cross
+            const takerFeeBps = 3.5;
+            metrics.cost_bps = (2 * takerFeeBps) + metrics.spread_bps;
         }
 
         return metrics;

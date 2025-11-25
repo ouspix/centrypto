@@ -219,7 +219,7 @@ export function LeftNavigation() {
                             <Filter className="h-5 w-5" />
                         </Button>
                     </SheetTrigger>
-                    <SheetContent side="left" className="w-[400px] sm:w-[540px] bg-slate-950 border-slate-800 overflow-y-auto" hideClose={true}>
+                    <SheetContent side="left" className="w-[400px] sm:w-[540px] bg-slate-950/80 backdrop-blur-md border-slate-800 overflow-y-auto" hideClose={true}>
                         <SheetHeader>
                             <SheetTitle className="text-slate-100">Screening Parameters</SheetTitle>
                             <SheetDescription className="text-slate-400">

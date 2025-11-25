@@ -11,8 +11,14 @@ export type StateSnapshot = {
         daily_realized_pnl: number;
         max_daily_loss: number;
         current_positions: Position[];
+        derived_portfolio: {
+            total_exposure_fraction: number;
+            remaining_capacity: number;
+            position_slots_used: number;
+            slots_remaining: number;
+        };
     };
-    markets: Record<string, any>; // Relaxed type for flexibility with trimmed data
+    markets: Record<string, any>; // Enriched with derived fields
     constraints: {
         max_position_pct_equity_per_symbol: number;
         max_total_exposure_pct_equity: number;
@@ -25,6 +31,11 @@ export type StateSnapshot = {
         fallback_markets?: string[];
         missing_markets?: string[];
         duplicate_markets?: string[];
+    };
+    global_regime: {
+        current: "RISK_ON" | "RISK_OFF" | "CHOP";
+        score: number; // -1 (risk-off) to 1 (risk-on)
+        reason: string;
     };
 };
 
@@ -114,6 +125,18 @@ export class SnapshotBuilder {
         } else {
             console.log("ℹ️ No user address provided, skipping account data fetch.");
         }
+
+        // 1b. Calculate Portfolio Derived Metrics
+        const maxTotalExposure = 1.0; // from constraints
+        const maxSlots = 5; // arbitrary limit or from config
+        const totalExposure = accountData.current_positions.reduce((sum: number, p: any) => sum + p.fraction_of_equity, 0);
+
+        accountData.derived_portfolio = {
+            total_exposure_fraction: parseFloat(totalExposure.toFixed(4)),
+            remaining_capacity: parseFloat((maxTotalExposure - totalExposure).toFixed(4)),
+            position_slots_used: accountData.current_positions.length,
+            slots_remaining: Math.max(0, maxSlots - accountData.current_positions.length)
+        };
 
         // 2. Fetch Screened Market Data
         console.log("📊 Fetching Screened Market Data...");
@@ -254,6 +277,153 @@ export class SnapshotBuilder {
 
         console.log(`📊 Total markets included in snapshot: ${Object.keys(markets).length}`);
 
+        // 4. Determine Global Regime
+        // We need BTC and ETH metrics. If they are in 'markets', use them. If not, we might need to fetch them.
+        // For simplicity, we'll infer from the screened markets (breadth) and specifically look for BTC/ETH if present.
+
+        let btcKey = Object.keys(markets).find(k => k.startsWith("BTC"));
+        let ethKey = Object.keys(markets).find(k => k.startsWith("ETH"));
+
+        // If not in screened list (e.g. not volatile enough), we should ideally fetch them. 
+        // But for this iteration, we'll rely on the aggregate stats of the "in-play" market.
+        // If the "in-play" market is all dumping, it's Risk-Off. If all pumping, Risk-On.
+
+        let upCount = 0;
+        let downCount = 0;
+        let volSum = 0;
+        const marketKeys = Object.keys(markets);
+
+        for (const key of marketKeys) {
+            const m = markets[key];
+            if (m.returns.m15 > 0.002) upCount++; // > 0.2% up
+            if (m.returns.m15 < -0.002) downCount++; // > 0.2% down
+            volSum += m.vol_zscores.vol_5m_vs_1h;
+        }
+
+        const breadth = marketKeys.length > 0 ? (upCount - downCount) / marketKeys.length : 0;
+        const avgVolZ = marketKeys.length > 0 ? volSum / marketKeys.length : 0;
+
+        let regime: "RISK_ON" | "RISK_OFF" | "CHOP" = "CHOP";
+        let regimeReason = "Mixed signals or low volatility";
+
+        if (avgVolZ > 1.0) {
+            if (breadth > 0.3) {
+                regime = "RISK_ON";
+                regimeReason = "High volatility + Positive breadth";
+            } else if (breadth < -0.3) {
+                regime = "RISK_OFF";
+                regimeReason = "High volatility + Negative breadth";
+            }
+        } else {
+            // Low vol
+            if (Math.abs(breadth) > 0.6) {
+                // Strong trend but low vol? Rare, but possible slow grind.
+                regime = breadth > 0 ? "RISK_ON" : "RISK_OFF";
+                regimeReason = "Low volatility but strong directional breadth";
+            }
+        }
+
+        // 5. Inject Derived Fields into Markets (Post-Regime Calculation)
+        // We need the regime to determine cost thresholds
+        const costBpsMax = regime === "RISK_ON" ? 15 : 10;
+        const feesBps = 3.5; // Taker fee estimate
+
+        for (const key of Object.keys(markets)) {
+            const m = markets[key];
+
+            // --- 1. Costs ---
+            const slippageEst = Math.max(1, m.spread_bps * 0.5);
+            const costBps = m.spread_bps + feesBps + slippageEst;
+            const costOk = costBps <= costBpsMax;
+
+            // --- 2. Expected Edge ---
+            // Option A: Vol-scaled move (ATR based)
+            // ATR is in price units. Convert to bps: (ATR / Price) * 10000
+            let expectedMoveBps = 0;
+            if (m.metrics?.atr?.m5 > 0) {
+                const atrBps = (m.metrics.atr.m5 / m.price) * 10000;
+                expectedMoveBps = 2.0 * atrBps; // k=2.0
+            } else {
+                // Option B Fallback: Simple returns proxy
+                expectedMoveBps = 10000 * Math.max(Math.abs(m.returns.m15), Math.abs(m.returns.h1));
+            }
+
+            const edgeBps = expectedMoveBps - costBps;
+            const edgeOk = edgeBps >= (3 * costBps) && edgeBps > 10;
+
+            // --- 3. Triggers & Normalization ---
+            const dirM15 = Math.sign(m.returns.m15);
+            const dirH1 = Math.sign(m.returns.h1);
+            const trendAligned = (dirM15 === dirH1) && (dirM15 !== 0);
+
+            const retSigma = m.vol_zscores.ret_5m_vs_1h; // Alias
+            const volRatio = m.vol_zscores.vol_5m_vs_1h; // Alias
+
+            const bp = m.orderbook.book_pressure;
+
+            // Momentum
+            const momOkLong = trendAligned && dirH1 === 1 && bp >= 0.2 && volRatio >= 1.0;
+            const momOkShort = trendAligned && dirH1 === -1 && bp <= -0.2 && volRatio >= 1.0;
+
+            // Mean Reversion
+            const mrOkLong = retSigma <= -3 && bp >= 0.1 && m.returns.m5 > 0;
+            const mrOkShort = retSigma >= 3 && bp <= -0.1 && m.returns.m5 < 0;
+
+            // Breakout (Simplified)
+            // We don't have range data easily, so using vol compression proxy if available or skipping
+            // For now, using vol spike as primary breakout signal
+            const volSpike = volRatio >= 2.0;
+            const breakoutOk = volSpike && Math.abs(bp) >= 0.3;
+
+            // --- 4. Liquidity ---
+            const minDepth = Math.min(m.orderbook.bid_liquidity_usd, m.orderbook.ask_liquidity_usd);
+            const depthOk = minDepth >= 10000;
+            const tradeable = depthOk && costOk;
+
+            // Inject
+            m.derived = {
+                costs: {
+                    fees_bps: feesBps,
+                    slippage_bps_est: parseFloat(slippageEst.toFixed(1)),
+                    cost_bps: parseFloat(costBps.toFixed(1)),
+                    cost_ok: costOk
+                },
+                edge: {
+                    expected_move_bps: parseFloat(expectedMoveBps.toFixed(1)),
+                    edge_bps: parseFloat(edgeBps.toFixed(1)),
+                    edge_ok: edgeOk
+                },
+                triggers: {
+                    direction_m15: dirM15,
+                    direction_h1: dirH1,
+                    trend_aligned: trendAligned,
+                    momentum_ok_long: momOkLong,
+                    momentum_ok_short: momOkShort,
+                    mr_ok_long: mrOkLong,
+                    mr_ok_short: mrOkShort,
+                    breakout_ok: breakoutOk
+                },
+                liquidity: {
+                    min_depth_usd: minDepth,
+                    depth_ok: depthOk,
+                    tradeable: tradeable
+                },
+                normalized: {
+                    ret_sigma_5m_vs_1h: retSigma,
+                    vol_ratio_5m_vs_1h: volRatio
+                }
+            };
+
+            // Add technicals to market object
+            if (m.metrics) {
+                m.technicals = {
+                    atr_m5: m.metrics.atr?.m5 || 0,
+                    macd_m5: m.metrics.macd?.m5 || { macd: 0, signal: 0, histogram: 0 },
+                    rsi_m5: m.metrics.rsi?.m5 || 50
+                };
+            }
+        }
+
         return {
             timestamp,
             account: accountData,
@@ -276,6 +446,11 @@ export class SnapshotBuilder {
                 fallback_markets: fallbackMarkets,
                 missing_markets: missingMarkets,
                 duplicate_markets: duplicateMarkets
+            },
+            global_regime: {
+                current: regime,
+                score: breadth,
+                reason: regimeReason
             }
         };
     }
