@@ -2,6 +2,7 @@ import { SnapshotBuilder, StateSnapshot } from "./SnapshotBuilder";
 import { RiskCheckModule, TradeDecision, RiskAssessment } from "@/lib/risk/RiskCheckModule";
 import { ExecutionEngine } from "@/lib/hyperliquidExecution";
 import { TradingLogger } from "@/lib/log/tradingLogger";
+import { AgentConfig, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
 
 import OpenAI from "openai";
 
@@ -61,20 +62,70 @@ export class OrchestratorService {
         autoTrading: boolean,
         model: string,
         isTestnet: boolean,
-        screeningConfig?: any
+        configOverride?: any
     ): Promise<{ decisions: TradeDecision[], riskAssessment: RiskAssessment, snapshot: StateSnapshot, prompt: string, rawOutput: string }> {
 
-        // 1. Build Snapshot
-        const snapshot = await this.snapshotBuilder.buildSnapshot(userAddress, isTestnet, screeningConfig);
+        // Merge config
+        // Basic deep merge for top-level sections
+        const config: AgentConfig = {
+            ...DEFAULT_AGENT_CONFIG,
+            ...configOverride,
+            network_profiles: { ...DEFAULT_AGENT_CONFIG.network_profiles, ...configOverride?.network_profiles },
+            gates: { ...DEFAULT_AGENT_CONFIG.gates, ...configOverride?.gates },
+            screener: { ...DEFAULT_AGENT_CONFIG.screener, ...configOverride?.screener },
+            risk: { ...DEFAULT_AGENT_CONFIG.risk, ...configOverride?.risk },
+            sentiment_policy: { ...DEFAULT_AGENT_CONFIG.sentiment_policy, ...configOverride?.sentiment_policy }
+        };
 
-        // 2. Call LLM with abort controller
+        // 1. Build Snapshot
+        const snapshot = await this.snapshotBuilder.buildSnapshot(userAddress, isTestnet, config);
+
+        // 2. Optimization: Filter Markets & Early Exit
+        const shortlistedMarkets: Record<string, any> = {};
+        let hasCandidates = false;
+
+        for (const [key, market] of Object.entries(snapshot.markets)) {
+            // Keep if tradeable AND edge_ok
+            // OR if we hold a position in it (so LLM can manage it)
+            const isHeld = snapshot.account.current_positions.some(p => p.symbol === key);
+            const isCandidate = market.derived?.liquidity?.tradeable && market.derived?.edge?.edge_ok;
+
+            if (isHeld || isCandidate) {
+                shortlistedMarkets[key] = market;
+                if (isCandidate) hasCandidates = true;
+            }
+        }
+
+        const hasPositions = snapshot.account.current_positions.length > 0;
+
+        // EARLY EXIT: If no positions to manage AND no valid candidates to open
+        if (!hasPositions && !hasCandidates) {
+            console.log("💤 Early Exit: No positions and no valid candidates. Skipping LLM.");
+            return {
+                decisions: [],
+                riskAssessment: { approved: true, reason: "No action needed" },
+                snapshot,
+                prompt: "SKIPPED",
+                rawOutput: "SKIPPED"
+            };
+        }
+
+        console.log(`✨ Optimization: Sending ${Object.keys(shortlistedMarkets).length} markets to LLM (filtered from ${Object.keys(snapshot.markets).length})`);
+
+        // 3. Call LLM with abort controller
         this.currentAbortController = new AbortController();
         let decisions: TradeDecision[];
         let prompt: string;
         let rawOutput: string;
 
         try {
-            const result = await this.getLLMDecision(snapshot, model, this.currentAbortController.signal);
+            // Create a lightweight snapshot for the LLM
+            const llmSnapshot = {
+                ...snapshot,
+                markets: shortlistedMarkets
+            };
+
+            const result = await this.getLLMDecision(llmSnapshot, model, this.currentAbortController.signal);
             decisions = result.decisions;
             prompt = result.prompt;
             rawOutput = result.rawOutput;
@@ -374,19 +425,36 @@ ${JSON.stringify(snapshot.account.current_positions, null, 2)}`;
                 }
             }
 
-            const decisions: TradeDecision[] = decisionsArray.map((d: any) => ({
-                action: d.action,
-                symbol: d.symbol,
-                side: d.side ?? null,
-                size_fraction_of_equity: d.size_fraction_of_equity ?? null,
-                target_side: d.target_side,
-                target_size_fraction_of_equity: d.target_size_fraction_of_equity,
-                risk_plan: d.risk_plan,
-                playbook: d.playbook || "none",
-                confidence: d.confidence || 0.5,
-                reason_code: d.reason_code || "unknown",
-                notes: d.notes || ""
-            }));
+            const decisions: TradeDecision[] = [];
+
+            for (const d of decisionsArray) {
+                // 1. Filter out DO_NOTHING
+                if (d.action === "DO_NOTHING") continue;
+
+                // 2. Filter out invalid symbols (N/A, null, empty)
+                if (!d.symbol || d.symbol === "N/A" || d.symbol === "null") continue;
+
+                // 3. Validate Action
+                const validActions = ["OPEN_POSITION", "INCREASE_POSITION", "REDUCE_POSITION", "CLOSE_POSITION", "HOLD_POSITION"];
+                if (!validActions.includes(d.action)) {
+                    console.warn(`⚠️ Skipping invalid action: ${d.action} for ${d.symbol}`);
+                    continue;
+                }
+
+                decisions.push({
+                    action: d.action,
+                    symbol: d.symbol,
+                    side: d.side ?? null,
+                    size_fraction_of_equity: d.size_fraction_of_equity ?? null,
+                    target_side: d.target_side,
+                    target_size_fraction_of_equity: d.target_size_fraction_of_equity,
+                    risk_plan: d.risk_plan,
+                    playbook: d.playbook || "none",
+                    confidence: d.confidence || 0.5,
+                    reason_code: d.reason_code || "unknown",
+                    notes: d.notes || ""
+                });
+            }
 
             return { decisions, prompt: SYSTEM_PROMPT + "\n\n" + USER_PROMPT, rawOutput };
 
@@ -394,19 +462,7 @@ ${JSON.stringify(snapshot.account.current_positions, null, 2)}`;
             console.error("❌ LLM Decision Error:", error);
             // Fallback
             return {
-                decisions: [{
-                    action: "DO_NOTHING",
-                    symbol: null,
-                    side: null,
-                    size_fraction_of_equity: null,
-                    target_side: "flat",
-                    target_size_fraction_of_equity: 0,
-                    risk_plan: null,
-                    playbook: "none",
-                    confidence: 0,
-                    reason_code: "error_fallback",
-                    notes: `Error: ${error instanceof Error ? error.message : String(error)}`
-                }],
+                decisions: [], // Return empty array on error instead of DO_NOTHING
                 prompt: SYSTEM_PROMPT + "\n\n" + USER_PROMPT,
                 rawOutput: rawOutput || `Error: ${error instanceof Error ? error.message : String(error)}`
             };

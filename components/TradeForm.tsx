@@ -172,14 +172,14 @@ export function TradeForm() {
             <div className="grid grid-cols-2 gap-3">
                 <Button
                     variant={formData.isBuy ? "default" : "outline"}
-                    className={`transition-all ${formData.isBuy ? 'bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 shadow-lg shadow-green-500/20' : 'border-slate-700 text-slate-400 hover:bg-slate-800'}`}
+                    className={`transition-all ${formData.isBuy ? 'bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 shadow-lg shadow-green-500/20' : 'border-green-900/50 text-green-400 hover:bg-green-950/20 hover:border-green-700/50'}`}
                     onClick={() => setFormData({ ...formData, isBuy: true })}
                 >
                     <ArrowUpRight className="mr-2 h-4 w-4" /> Long
                 </Button>
                 <Button
                     variant={!formData.isBuy ? "default" : "outline"}
-                    className={`transition-all ${!formData.isBuy ? 'bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 shadow-lg shadow-red-500/20' : 'border-slate-700 text-slate-400 hover:bg-slate-800'}`}
+                    className={`transition-all ${!formData.isBuy ? 'bg-gradient-to-r from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 shadow-lg shadow-red-500/20' : 'border-red-900/50 text-red-400 hover:bg-red-950/20 hover:border-red-700/50'}`}
                     onClick={() => setFormData({ ...formData, isBuy: false })}
                 >
                     <ArrowDownRight className="mr-2 h-4 w-4" /> Short

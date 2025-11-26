@@ -45,9 +45,4 @@ next-env.d.ts
 sentiment/venv/
 *.pyc
 __pycache__/
-logs/trading/trade_log_2025-11-24.jsonl
-prisma/md_main.db
-prisma/md_main.db
-prisma/md_test.db
-prisma/md_test.db-shm
-prisma/md_test.db-wal
+logs/*

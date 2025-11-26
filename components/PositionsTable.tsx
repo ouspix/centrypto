@@ -14,9 +14,10 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { Loader2, RefreshCw, X, TrendingUp, Clock } from "lucide-react"
+import { Loader2, RefreshCw, X, TrendingUp, Clock, History, TrendingDown, DollarSign } from "lucide-react"
 import { useTrading } from "@/context/TradingContext"
 import { placeOrderAction, cancelOrderAction } from "@/app/actions/trade"
+import { getCloseOrderParams } from "@/lib/trade-utils"
 
 type Position = {
     coin: string
@@ -39,14 +40,50 @@ type OpenOrder = {
     timestamp: number
 }
 
+type Trade = {
+    id: string;
+    symbol: string;
+    side: 'long' | 'short';
+    entryPrice: number;
+    exitPrice?: number;
+    size: number;
+    leverage: number;
+    realizedPnl?: number;
+    fees: number;
+    status: 'open' | 'closed';
+    openedAt: Date;
+    closedAt?: Date;
+    strategyName?: string;
+};
+
+type TradeAnalytics = {
+    totalTrades: number;
+    openTrades: number;
+    closedTrades: number;
+    winningTrades: number;
+    losingTrades: number;
+    winRate: number;
+    totalPnl: number;
+    avgWin: number;
+    avgLoss: number;
+    largestWin: number;
+    largestLoss: number;
+    profitFactor: number;
+    avgHoldTime: number;
+};
+
 export function PositionsTable() {
     const { address, isConnected } = useAccount()
     const { isTestnet, assetMetadata } = useTrading()
     const [positions, setPositions] = useState<Position[]>([])
     const [orders, setOrders] = useState<OpenOrder[]>([])
+    const [trades, setTrades] = useState<Trade[]>([])
+    const [analytics, setAnalytics] = useState<TradeAnalytics | null>(null)
     const [loading, setLoading] = useState(false)
+    const [historyLoading, setHistoryLoading] = useState(false)
     const [actionLoading, setActionLoading] = useState<string | null>(null)
     const [currentPrices, setCurrentPrices] = useState<Record<string, number>>({})
+    const [leverageMap, setLeverageMap] = useState<Record<string, number>>({})
     const [mounted, setMounted] = useState(false)
     const [activeTab, setActiveTab] = useState("positions")
 
@@ -78,6 +115,13 @@ export function PositionsTable() {
 
             if (positionsRes.ok) {
                 const data = await positionsRes.json()
+                // Extract leverage for all assets
+                const levMap: Record<string, number> = {}
+                data.assetPositions.forEach((ap: any) => {
+                    levMap[ap.position.coin] = ap.position.leverage.value
+                })
+                setLeverageMap(levMap)
+
                 const openPositions = data.assetPositions
                     .filter((ap: any) => parseFloat(ap.position.szi) !== 0)
                     .map((ap: any) => ({
@@ -119,14 +163,56 @@ export function PositionsTable() {
         }
     }
 
+    const fetchTrades = async () => {
+        if (!address) return
+
+        setHistoryLoading(true)
+        try {
+            const response = await fetch(`/api/trades?userAddress=${address}&limit=20`)
+            const data = await response.json()
+            if (data.trades) {
+                setTrades(data.trades)
+            }
+        } catch (error) {
+            console.error("Failed to fetch trades:", error)
+        } finally {
+            setHistoryLoading(false)
+        }
+    }
+
+    const fetchAnalytics = async () => {
+        if (!address) return
+
+        try {
+            const response = await fetch(`/api/trades?userAddress=${address}&analytics=true`)
+            const data = await response.json()
+            if (data.analytics) {
+                setAnalytics(data.analytics)
+            }
+        } catch (error) {
+            console.error("Failed to fetch analytics:", error)
+        }
+    }
+
     useEffect(() => {
         if (isConnected && address) {
             fetchData()
-            const interval = setInterval(fetchData, 5000)
+            fetchTrades()
+            fetchAnalytics()
+            const interval = setInterval(() => {
+                fetchData()
+                // Only refresh trades/analytics every 30s to save resources
+                if (Date.now() % 30000 < 5000) {
+                    fetchTrades()
+                    fetchAnalytics()
+                }
+            }, 5000)
             return () => clearInterval(interval)
         } else {
             setPositions([])
             setOrders([])
+            setTrades([])
+            setAnalytics(null)
         }
     }, [address, isConnected, isTestnet])
 
@@ -141,19 +227,10 @@ export function PositionsTable() {
         const isLong = sizeNum > 0
 
         const currentPrice = currentPrices[coin] || entryPrice
-        const aggressivePrice = isLong
-            ? currentPrice * 0.9
-            : currentPrice * 1.1
 
         setActionLoading(`close-${coin}`)
         try {
-            const order = {
-                asset: assetIndex,
-                isBuy: !isLong,
-                limitPx: aggressivePrice,
-                sz: Math.abs(sizeNum),
-                reduceOnly: true
-            }
+            const order = getCloseOrderParams(assetIndex, sizeNum, currentPrice, isLong)
 
             const res = await placeOrderAction(order, isTestnet)
             if (res.success) {
@@ -189,6 +266,20 @@ export function PositionsTable() {
         }
     }
 
+    const formatDate = (date: Date) => {
+        return new Date(date).toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        })
+    }
+
+    const formatPnl = (pnl: number) => {
+        const sign = pnl >= 0 ? '+' : ''
+        return `${sign}$${pnl.toFixed(2)}`
+    }
+
     if (!mounted) return null
 
     if (!isConnected) {
@@ -220,17 +311,21 @@ export function PositionsTable() {
                     <Button
                         variant="ghost"
                         size="icon"
-                        onClick={fetchData}
-                        disabled={loading}
+                        onClick={() => {
+                            fetchData()
+                            fetchTrades()
+                            fetchAnalytics()
+                        }}
+                        disabled={loading || historyLoading}
                         className="hover:bg-slate-800 h-8 w-8"
                     >
-                        {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
+                        {loading || historyLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
                     </Button>
                 </div>
             </CardHeader>
             <CardContent>
                 <Tabs defaultValue="positions" value={activeTab} onValueChange={setActiveTab} className="w-full">
-                    <TabsList className="grid w-full grid-cols-2 bg-slate-950 mb-4">
+                    <TabsList className="grid w-full grid-cols-4 bg-slate-950 mb-4">
                         <TabsTrigger value="positions" className="data-[state=active]:bg-slate-800 data-[state=active]:text-emerald-400">
                             Positions
                             {positions.length > 0 && (
@@ -247,6 +342,12 @@ export function PositionsTable() {
                                 </Badge>
                             )}
                         </TabsTrigger>
+                        <TabsTrigger value="history" className="data-[state=active]:bg-slate-800 data-[state=active]:text-purple-400">
+                            History
+                        </TabsTrigger>
+                        <TabsTrigger value="analytics" className="data-[state=active]:bg-slate-800 data-[state=active]:text-amber-400">
+                            Analytics
+                        </TabsTrigger>
                     </TabsList>
 
                     <TabsContent value="positions" className="mt-0">
@@ -261,6 +362,7 @@ export function PositionsTable() {
                                         <TableRow className="border-slate-800 hover:bg-slate-900/50">
                                             <TableHead className="text-slate-400/60 font-medium">Asset</TableHead>
                                             <TableHead className="text-slate-400/60 font-medium">Side</TableHead>
+                                            <TableHead className="text-slate-400/60 font-medium text-center">Lev</TableHead>
                                             <TableHead className="text-slate-400/60 font-medium text-right">Size</TableHead>
                                             <TableHead className="text-slate-400/60 font-medium text-right">Entry</TableHead>
                                             <TableHead className="text-slate-400/60 font-medium text-right">Mark</TableHead>
@@ -291,6 +393,9 @@ export function PositionsTable() {
                                                         >
                                                             {isLong ? 'LONG' : 'SHORT'}
                                                         </Badge>
+                                                    </TableCell>
+                                                    <TableCell className="text-center font-mono text-slate-400 text-xs">
+                                                        {position.leverage.value}x
                                                     </TableCell>
                                                     <TableCell className="text-right font-mono text-slate-200">
                                                         {Math.abs(size).toFixed(4)}
@@ -361,6 +466,9 @@ export function PositionsTable() {
                                                             {order.side === 'B' ? 'BUY' : 'SELL'}
                                                         </Badge>
                                                     </TableCell>
+                                                    <TableCell className="text-center font-mono text-slate-400 text-xs">
+                                                        {leverageMap[order.coin] || '-'}x
+                                                    </TableCell>
                                                     <TableCell className="text-right font-mono text-slate-200">
                                                         {order.sz}
                                                     </TableCell>
@@ -389,6 +497,155 @@ export function PositionsTable() {
                                         })}
                                     </TableBody>
                                 </Table>
+                            </div>
+                        )}
+                    </TabsContent>
+
+                    <TabsContent value="history" className="mt-0">
+                        {historyLoading && trades.length === 0 && (
+                            <div className="flex items-center justify-center h-32 text-slate-500">
+                                <Loader2 className="h-5 w-5 animate-spin" />
+                            </div>
+                        )}
+
+                        {trades.length === 0 && !historyLoading && (
+                            <div className="text-center text-slate-500 py-8 text-sm">
+                                No trades recorded yet
+                            </div>
+                        )}
+
+                        {trades.length > 0 && (
+                            <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1">
+                                {trades.map((trade) => (
+                                    <div
+                                        key={trade.id}
+                                        className="p-2 bg-slate-950/50 rounded-lg border border-slate-800 hover:border-slate-700 transition-colors"
+                                    >
+                                        <div className="flex items-center justify-between mb-1">
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-sm font-mono font-bold text-slate-200">
+                                                    {trade.symbol}
+                                                </span>
+                                                <Badge
+                                                    variant="outline"
+                                                    className={`text-xs px-2 py-0.5 ${trade.side === 'long'
+                                                        ? 'border-green-500/50 text-green-400 bg-green-500/10'
+                                                        : 'border-red-500/50 text-red-400 bg-red-500/10'
+                                                        }`}
+                                                >
+                                                    {trade.side === 'long' ? <TrendingUp className="h-2 w-2 mr-0.5" /> : <TrendingDown className="h-2 w-2 mr-0.5" />}
+                                                    {trade.side.toUpperCase()}
+                                                </Badge>
+                                                {trade.status === 'open' && (
+                                                    <Badge variant="outline" className="text-xs px-2 py-0.5 border-cyan-500/50 text-cyan-400">
+                                                        OPEN
+                                                    </Badge>
+                                                )}
+                                            </div>
+                                            {trade.status === 'closed' && trade.realizedPnl !== undefined && (
+                                                <span
+                                                    className={`text-sm font-mono font-bold ${trade.realizedPnl >= 0 ? 'text-green-400' : 'text-red-400'
+                                                        }`}
+                                                >
+                                                    {formatPnl(trade.realizedPnl)}
+                                                </span>
+                                            )}
+                                        </div>
+
+                                        <div className="grid grid-cols-4 gap-2 text-xs">
+                                            <div>
+                                                <span className="text-slate-500 block">Entry</span>
+                                                <span className="font-mono text-slate-300">${trade.entryPrice.toFixed(2)}</span>
+                                            </div>
+                                            {trade.exitPrice && (
+                                                <div>
+                                                    <span className="text-slate-500 block">Exit</span>
+                                                    <span className="font-mono text-slate-300">${trade.exitPrice.toFixed(2)}</span>
+                                                </div>
+                                            )}
+                                            <div>
+                                                <span className="text-slate-500 block">Size</span>
+                                                <span className="font-mono text-slate-300">{trade.size.toFixed(4)}</span>
+                                            </div>
+                                            <div>
+                                                <span className="text-slate-500 block">Lev</span>
+                                                <span className="font-mono text-purple-400">{trade.leverage}x</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="mt-1 pt-1 border-t border-slate-800/50 text-[10px] text-slate-500 flex justify-between">
+                                            <span>{formatDate(trade.openedAt)}</span>
+                                            {trade.strategyName && <span>{trade.strategyName}</span>}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </TabsContent>
+
+                    <TabsContent value="analytics" className="mt-0">
+                        {!analytics ? (
+                            <div className="text-center text-slate-500 py-8 text-sm">
+                                {historyLoading ? <Loader2 className="h-5 w-5 animate-spin mx-auto" /> : "No analytics available"}
+                            </div>
+                        ) : (
+                            <div className="space-y-3">
+                                {/* Summary Cards */}
+                                <div className="grid grid-cols-2 gap-2">
+                                    <div className="p-2.5 bg-slate-950/50 rounded-lg border border-slate-800">
+                                        <div className="text-xs text-slate-500 mb-1">Total P&L</div>
+                                        <div className={`text-lg font-bold font-mono ${analytics.totalPnl >= 0 ? 'text-green-400' : 'text-red-400'
+                                            }`}>
+                                            {formatPnl(analytics.totalPnl)}
+                                        </div>
+                                    </div>
+                                    <div className="p-2.5 bg-slate-950/50 rounded-lg border border-slate-800">
+                                        <div className="text-xs text-slate-500 mb-1">Win Rate</div>
+                                        <div className="text-lg font-bold font-mono text-cyan-400">
+                                            {analytics.winRate.toFixed(1)}%
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Detailed Stats */}
+                                <div className="p-2.5 bg-slate-950/50 rounded-lg border border-slate-800 space-y-2">
+                                    <div className="flex justify-between text-xs">
+                                        <span className="text-slate-500">Total Trades</span>
+                                        <span className="font-mono text-slate-300">{analytics.totalTrades}</span>
+                                    </div>
+                                    <div className="flex justify-between text-xs">
+                                        <span className="text-slate-500">Open / Closed</span>
+                                        <span className="font-mono text-slate-300">
+                                            {analytics.openTrades} / {analytics.closedTrades}
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between text-xs">
+                                        <span className="text-slate-500">Wins / Losses</span>
+                                        <span className="font-mono text-slate-300">
+                                            <span className="text-green-400">{analytics.winningTrades}</span>
+                                            {' / '}
+                                            <span className="text-red-400">{analytics.losingTrades}</span>
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between text-xs">
+                                        <span className="text-slate-500">Avg Win</span>
+                                        <span className="font-mono text-green-400">+${analytics.avgWin.toFixed(2)}</span>
+                                    </div>
+                                    <div className="flex justify-between text-xs">
+                                        <span className="text-slate-500">Avg Loss</span>
+                                        <span className="font-mono text-red-400">-${analytics.avgLoss.toFixed(2)}</span>
+                                    </div>
+                                    <div className="flex justify-between text-xs">
+                                        <span className="text-slate-500">Profit Factor</span>
+                                        <span className="font-mono text-purple-400">
+                                            {analytics.profitFactor === Infinity ? '∞' : analytics.profitFactor.toFixed(2)}
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between text-xs">
+                                        <span className="text-slate-500">Avg Hold Time</span>
+                                        <span className="font-mono text-slate-300">{analytics.avgHoldTime.toFixed(1)}h</span>
+                                    </div>
+                                </div>
                             </div>
                         )}
                     </TabsContent>

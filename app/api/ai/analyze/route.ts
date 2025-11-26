@@ -9,19 +9,23 @@ export async function POST(request: Request) {
             autoTrading = false,
             model = process.env.OPENROUTER_MODEL || "deepseek/deepseek-v3.2-exp", // Default to OpenRouter model if available
             isTestnet = true,
-            screeningConfig // Optional screening configuration
+            screeningConfig, // Legacy
+            configOverride // New full config
         } = body;
 
         // Get singleton instance
         const orchestrator = OrchestratorService.getInstance();
 
         // Call Orchestrator
+        // Prioritize configOverride (from ConfigEditor) over screeningConfig (from old UI)
+        const finalConfig = configOverride || screeningConfig;
+
         const result = await orchestrator.analyzeMarket(
             userAddress,
             autoTrading,
             model,
             isTestnet,
-            screeningConfig
+            finalConfig
         );
 
         return NextResponse.json(result);

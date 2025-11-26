@@ -38,6 +38,10 @@ export type MarketMetrics = {
         m5: { macd: number; signal: number; histogram: number };
         h1: { macd: number; signal: number; histogram: number };
     };
+    high_low: {
+        is_new_high_1h: boolean;
+        is_new_low_1h: boolean;
+    };
     regime_tags: string[];
 };
 
@@ -84,6 +88,7 @@ export class MarketAnalysisService {
                 m5: { macd: 0, signal: 0, histogram: 0 },
                 h1: { macd: 0, signal: 0, histogram: 0 }
             },
+            high_low: { is_new_high_1h: false, is_new_low_1h: false },
             regime_tags: []
         };
 
@@ -283,6 +288,35 @@ export class MarketAnalysisService {
 
         metrics.macd.m5 = calcMACD(5);
         metrics.macd.h1 = calcMACD(60);
+
+        // 9. Calculate High/Low (1h)
+        // Check if current price is highest/lowest in last 60 mins
+        const calcHighLow = (window: number) => {
+            if (candles.length < window) return { isHigh: false, isLow: false };
+
+            // Lookback window excluding current candle (to see if we are breaking it)
+            // Actually, "new high" usually means current price > max(previous N)
+            const lookback = Math.min(candles.length - 1, window);
+            let max = -Infinity;
+            let min = Infinity;
+
+            for (let i = 1; i <= lookback; i++) {
+                const idx = candles.length - 1 - i;
+                const h = parseFloat(candles[idx].h);
+                const l = parseFloat(candles[idx].l);
+                if (h > max) max = h;
+                if (l < min) min = l;
+            }
+
+            return {
+                isHigh: close > max,
+                isLow: close < min
+            };
+        };
+
+        const hl1h = calcHighLow(60);
+        metrics.high_low.is_new_high_1h = hl1h.isHigh;
+        metrics.high_low.is_new_low_1h = hl1h.isLow;
 
         // 9. Regime Tags
         if (metrics.vol_zscores.vol_5m_vs_1h > 2.0) metrics.regime_tags.push("high_intraday_vol");

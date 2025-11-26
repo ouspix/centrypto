@@ -6,8 +6,8 @@ import { ExecutionPanel } from "@/components/ExecutionPanel";
 import { PositionsTable } from "@/components/PositionsTable";
 import { SentimentPanel } from "@/components/SentimentPanel";
 import { AdvancedIndicators } from "@/components/AdvancedIndicators";
-import { PriceAlerts } from "@/components/PriceAlerts";
-import { TradeHistory } from "@/components/TradeHistory";
+
+
 
 export default function Home() {
   return (
@@ -41,8 +41,8 @@ export default function Home() {
           {/* Right Action Panel - Fixed width, scrollable */}
           <aside className="w-96 space-y-4 h-[calc(100vh-6rem)] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-800 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-slate-700 flex flex-col">
             <ExecutionPanel className="flex-1" />
-            <PriceAlerts />
-            <TradeHistory />
+
+
           </aside>
         </div>
       </div>

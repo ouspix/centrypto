@@ -2,6 +2,7 @@ import { getClearinghouseState, getMetaAndAssetCtxs, getOHLCV } from "@/lib/hype
 import { SentimentService, SentimentSnapshot } from "./SentimentService";
 import { MarketAnalysisService } from "./MarketAnalysisService";
 import { ScreenerService } from "./ScreenerService";
+import { AgentConfig, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
 
 // Types matching the prompt's JSON structure
 export type StateSnapshot = {
@@ -43,6 +44,7 @@ type Position = {
     symbol: string;
     side: "long" | "short";
     size_usd: number;
+    size_coin: number;
     fraction_of_equity: number;
     entry_price: number;
     unrealized_pnl: number;
@@ -63,7 +65,7 @@ export class SnapshotBuilder {
     public async buildSnapshot(
         userAddress: string | null,
         isTestnet: boolean,
-        screeningConfig?: any
+        config: AgentConfig = DEFAULT_AGENT_CONFIG
     ): Promise<StateSnapshot> {
         const timestamp = Math.floor(Date.now() / 1000);
         const metaAndCtxs = await getMetaAndAssetCtxs(isTestnet);
@@ -91,18 +93,19 @@ export class SnapshotBuilder {
                 const marginSummary = clearinghouseState.marginSummary;
                 const positions = clearinghouseState.assetPositions;
 
-                accountData.equity_usd = parseFloat(marginSummary.accountValue);
+                const equity = parseFloat(marginSummary.accountValue);
+                accountData.equity_usd = isNaN(equity) ? 0 : equity;
                 // Note: daily_realized_pnl is not directly in clearinghouseState, needs tracking. 
                 // For now, we'll default to 0 or try to estimate if possible.
 
                 accountData.current_positions = positions
                     .filter((p: any) => parseFloat(p.position.szi) !== 0)
                     .map((p: any) => {
-                        const size = parseFloat(p.position.szi);
-                        const entryPrice = parseFloat(p.position.entryPx);
+                        const size = parseFloat(p.position.szi) || 0;
+                        const entryPrice = parseFloat(p.position.entryPx) || 0;
                         const side = size > 0 ? "long" : "short";
-                        const unrealizedPnl = parseFloat(p.position.unrealizedPnl);
-                        const leverage = parseFloat(p.position.leverage.value);
+                        const unrealizedPnl = parseFloat(p.position.unrealizedPnl) || 0;
+                        const leverage = parseFloat(p.position.leverage.value) || 0;
                         const symbol = p.position.coin || "UNKNOWN";
                         const sizeUsd = Math.abs(size) * entryPrice;
 
@@ -112,6 +115,7 @@ export class SnapshotBuilder {
                             symbol: `${symbol}-PERP`, // Ensure consistency with market keys
                             side,
                             size_usd: sizeUsd,
+                            size_coin: Math.abs(size),
                             fraction_of_equity: accountData.equity_usd > 0 ? sizeUsd / accountData.equity_usd : 0,
                             entry_price: entryPrice,
                             unrealized_pnl: unrealizedPnl,
@@ -127,8 +131,8 @@ export class SnapshotBuilder {
         }
 
         // 1b. Calculate Portfolio Derived Metrics
-        const maxTotalExposure = 1.0; // from constraints
-        const maxSlots = 5; // arbitrary limit or from config
+        const maxTotalExposure = config.risk.max_total_exposure_fraction;
+        const maxSlots = config.risk.max_positions;
         const totalExposure = accountData.current_positions.reduce((sum: number, p: any) => sum + p.fraction_of_equity, 0);
 
         accountData.derived_portfolio = {
@@ -142,7 +146,7 @@ export class SnapshotBuilder {
         console.log("📊 Fetching Screened Market Data...");
 
         // ScreenerService now uses cached MarketStateSnapshot internally for fast on-demand screening
-        const screenedSymbols = await this.screenerService.getScreenedSymbols(isTestnet, heldSymbols, screeningConfig);
+        const screenedSymbols = await this.screenerService.getScreenedSymbols(isTestnet, heldSymbols, config);
         console.log(`✅ Loaded ${screenedSymbols.length} symbols from screener.`);
         const markets: Record<string, any> = {};
         const fallbackMarkets: string[] = [];
@@ -281,13 +285,6 @@ export class SnapshotBuilder {
         // We need BTC and ETH metrics. If they are in 'markets', use them. If not, we might need to fetch them.
         // For simplicity, we'll infer from the screened markets (breadth) and specifically look for BTC/ETH if present.
 
-        let btcKey = Object.keys(markets).find(k => k.startsWith("BTC"));
-        let ethKey = Object.keys(markets).find(k => k.startsWith("ETH"));
-
-        // If not in screened list (e.g. not volatile enough), we should ideally fetch them. 
-        // But for this iteration, we'll rely on the aggregate stats of the "in-play" market.
-        // If the "in-play" market is all dumping, it's Risk-Off. If all pumping, Risk-On.
-
         let upCount = 0;
         let downCount = 0;
         let volSum = 0;
@@ -325,16 +322,24 @@ export class SnapshotBuilder {
 
         // 5. Inject Derived Fields into Markets (Post-Regime Calculation)
         // We need the regime to determine cost thresholds
-        const costBpsMax = regime === "RISK_ON" ? 15 : 10;
-        const feesBps = 3.5; // Taker fee estimate
+        const costBpsMax = config.gates.cost_bps_max_by_regime[regime];
+        const networkProfile = isTestnet ? config.network_profiles.testnet : config.network_profiles.mainnet;
+        const feesBps = networkProfile.fees_bps;
+        const slippageModel = networkProfile.slippage_model;
 
         for (const key of Object.keys(markets)) {
             const m = markets[key];
 
             // --- 1. Costs ---
-            const slippageEst = Math.max(1, m.spread_bps * 0.5);
+            const slippageEst = Math.max(slippageModel.min_bps, m.spread_bps * slippageModel.spread_mult);
             const costBps = m.spread_bps + feesBps + slippageEst;
-            const costOk = costBps <= costBpsMax;
+
+            // Check for override
+            const symbolBase = key.replace("-PERP", "");
+            const overrideMax = config.gates.per_symbol_cost_override?.[symbolBase];
+            const effectiveCostMax = overrideMax !== undefined ? overrideMax : costBpsMax;
+
+            const costOk = costBps <= effectiveCostMax;
 
             // --- 2. Expected Edge ---
             // Option A: Vol-scaled move (ATR based)
@@ -349,7 +354,8 @@ export class SnapshotBuilder {
             }
 
             const edgeBps = expectedMoveBps - costBps;
-            const edgeOk = edgeBps >= (3 * costBps) && edgeBps > 10;
+            const edgeMult = config.gates.edge_to_cost_mult_by_regime[regime];
+            const edgeOk = edgeBps >= (edgeMult * costBps) && edgeBps > 10;
 
             // --- 3. Triggers & Normalization ---
             const dirM15 = Math.sign(m.returns.m15);
@@ -377,7 +383,7 @@ export class SnapshotBuilder {
 
             // --- 4. Liquidity ---
             const minDepth = Math.min(m.orderbook.bid_liquidity_usd, m.orderbook.ask_liquidity_usd);
-            const depthOk = minDepth >= 10000;
+            const depthOk = minDepth >= config.gates.depth_usd_min;
             const tradeable = depthOk && costOk;
 
             // Inject
@@ -419,7 +425,9 @@ export class SnapshotBuilder {
                 m.technicals = {
                     atr_m5: m.metrics.atr?.m5 || 0,
                     macd_m5: m.metrics.macd?.m5 || { macd: 0, signal: 0, histogram: 0 },
-                    rsi_m5: m.metrics.rsi?.m5 || 50
+                    rsi_m5: m.metrics.rsi?.m5 || 50,
+                    high_low: m.metrics.high_low || { is_new_high_1h: false, is_new_low_1h: false },
+                    bb_width_m5: m.metrics.bbands?.m5?.width || 0
                 };
             }
         }
@@ -429,9 +437,9 @@ export class SnapshotBuilder {
             account: accountData,
             markets,
             constraints: {
-                max_position_pct_equity_per_symbol: 0.2,
-                max_total_exposure_pct_equity: 1.0,
-                min_trade_notional_usd: 10.0,
+                max_position_pct_equity_per_symbol: config.risk.max_position_fraction_per_symbol,
+                max_total_exposure_pct_equity: config.risk.max_total_exposure_fraction,
+                min_trade_notional_usd: config.risk.min_trade_notional_usd,
                 kill_switch: false
             },
             allowed_actions: [
