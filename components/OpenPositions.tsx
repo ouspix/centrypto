@@ -250,7 +250,7 @@ export function OpenPositions() {
 
                     <TabsContent value="positions" className="space-y-3 mt-0">
                         {positions.length === 0 ? (
-                            <div className="text-center text-slate-500 py-8 text-sm">
+                            <div className="text-center text-slate-400 py-8 text-sm">
                                 No open positions
                             </div>
                         ) : (
@@ -265,21 +265,21 @@ export function OpenPositions() {
                                 const isClosing = actionLoading === `close-${position.coin}`
 
                                 return (
-                                    <div key={index} className="p-4 rounded-lg border border-slate-800 bg-slate-950/50 hover:bg-slate-950 transition-all">
+                                    <div key={index} className="p-5 rounded-lg border border-slate-800 bg-slate-950/50 hover:bg-slate-950 transition-all">
                                         <div className="flex items-start justify-between mb-3">
                                             <div className="flex items-center gap-2">
-                                                <span className="text-lg font-bold text-slate-100">{position.coin}</span>
+                                                <span className="text-xl font-bold text-slate-100">{position.coin}</span>
                                                 <Badge variant="outline" className={`text-xs h-6 px-2 ${isLong ? 'border-green-500 text-green-400 bg-green-500/10' : 'border-red-500 text-red-400 bg-red-500/10'}`}>
                                                     {isLong ? 'LONG' : 'SHORT'}
                                                 </Badge>
-                                                <Badge variant="outline" className="text-xs h-6 px-2 border-slate-700 text-slate-400">
+                                                <Badge variant="outline" className="text-xs h-6 px-2 border-slate-700 text-slate-300">
                                                     {position.leverage.value}x
                                                 </Badge>
                                             </div>
                                             <Button
                                                 variant="ghost"
                                                 size="sm"
-                                                className="h-7 px-3 text-xs hover:bg-red-500/20 hover:text-red-400 text-slate-500"
+                                                className="h-7 px-3 text-xs hover:bg-red-500/20 hover:text-red-400 text-slate-400"
                                                 onClick={() => handleClosePosition(position.coin, position.szi, parseFloat(position.entryPx))}
                                                 disabled={!!actionLoading}
                                             >
@@ -289,25 +289,25 @@ export function OpenPositions() {
 
                                         <div className="grid grid-cols-2 gap-3 text-sm mb-3">
                                             <div>
-                                                <span className="text-slate-500 block text-xs uppercase tracking-wider">Size</span>
-                                                <span className="text-slate-200 font-mono text-base">{Math.abs(size).toFixed(4)}</span>
+                                                <span className="text-slate-400 block text-sm uppercase tracking-wider">Size</span>
+                                                <span className="text-slate-200 font-mono text-lg">{Math.abs(size).toFixed(4)}</span>
                                             </div>
                                             <div className="text-right">
-                                                <span className="text-slate-500 block text-xs uppercase tracking-wider">Entry</span>
-                                                <span className="text-slate-200 font-mono text-base">${entryPrice.toFixed(2)}</span>
+                                                <span className="text-slate-400 block text-sm uppercase tracking-wider">Entry</span>
+                                                <span className="text-slate-200 font-mono text-lg">${entryPrice.toFixed(2)}</span>
                                             </div>
                                         </div>
 
                                         <div className="flex items-center justify-between pt-3 border-t border-slate-800/50">
                                             <div>
-                                                <span className="text-xs text-slate-500 block uppercase tracking-wider">Unrealized P&L</span>
-                                                <span className={`text-base font-bold ${pnl >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                                <span className="text-sm text-slate-400 block uppercase tracking-wider">Unrealized P&L</span>
+                                                <span className={`text-lg font-bold ${pnl >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                                                     {pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}
                                                 </span>
                                             </div>
                                             <div className="text-right">
-                                                <span className="text-xs text-slate-500 block uppercase tracking-wider">ROE</span>
-                                                <span className={`text-base font-bold ${roe >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                                <span className="text-sm text-slate-400 block uppercase tracking-wider">ROE</span>
+                                                <span className={`text-lg font-bold ${roe >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                                                     {roe >= 0 ? '+' : ''}{roe.toFixed(2)}%
                                                 </span>
                                             </div>
@@ -320,17 +320,17 @@ export function OpenPositions() {
 
                     <TabsContent value="orders" className="space-y-3 mt-0">
                         {orders.length === 0 ? (
-                            <div className="text-center text-slate-500 py-8 text-sm">
+                            <div className="text-center text-slate-400 py-8 text-sm">
                                 No open orders
                             </div>
                         ) : (
                             orders.map((order) => {
                                 const isCancelling = actionLoading === `cancel-${order.oid}`
                                 return (
-                                    <div key={order.oid} className="p-4 rounded-lg border border-slate-800 bg-slate-950/50 hover:bg-slate-950 transition-all">
+                                    <div key={order.oid} className="p-5 rounded-lg border border-slate-800 bg-slate-950/50 hover:bg-slate-950 transition-all">
                                         <div className="flex items-center justify-between mb-3">
                                             <div className="flex items-center gap-2">
-                                                <span className="text-lg font-bold text-slate-100">{order.coin}</span>
+                                                <span className="text-xl font-bold text-slate-100">{order.coin}</span>
                                                 <Badge variant="outline" className={`text-xs h-6 px-2 ${order.side === 'B' ? 'border-green-500 text-green-400' : 'border-red-500 text-red-400'}`}>
                                                     {order.side === 'B' ? 'BUY' : 'SELL'}
                                                 </Badge>
@@ -338,7 +338,7 @@ export function OpenPositions() {
                                             <Button
                                                 variant="ghost"
                                                 size="sm"
-                                                className="h-7 px-3 text-xs hover:bg-red-500/20 hover:text-red-400 text-slate-500"
+                                                className="h-7 px-3 text-xs hover:bg-red-500/20 hover:text-red-400 text-slate-400"
                                                 onClick={() => handleCancelOrder(order.oid, order.coin)}
                                                 disabled={!!actionLoading}
                                             >
@@ -347,15 +347,15 @@ export function OpenPositions() {
                                         </div>
                                         <div className="grid grid-cols-2 gap-3 text-sm">
                                             <div>
-                                                <span className="text-slate-500 block text-xs uppercase tracking-wider">Size</span>
-                                                <span className="text-slate-200 font-mono text-base">{order.sz}</span>
+                                                <span className="text-slate-400 block text-sm uppercase tracking-wider">Size</span>
+                                                <span className="text-slate-200 font-mono text-lg">{order.sz}</span>
                                             </div>
                                             <div className="text-right">
-                                                <span className="text-slate-500 block text-xs uppercase tracking-wider">Limit Price</span>
-                                                <span className="text-slate-200 font-mono text-base">${order.limitPx}</span>
+                                                <span className="text-slate-400 block text-sm uppercase tracking-wider">Limit Price</span>
+                                                <span className="text-slate-200 font-mono text-lg">${order.limitPx}</span>
                                             </div>
                                         </div>
-                                        <div className="mt-3 pt-3 border-t border-slate-800/50 flex items-center gap-1 text-xs text-slate-600">
+                                        <div className="mt-3 pt-3 border-t border-slate-800/50 flex items-center gap-1 text-xs text-slate-400">
                                             <Clock className="h-3 w-3" />
                                             <span>{new Date(order.timestamp).toLocaleTimeString()}</span>
                                         </div>

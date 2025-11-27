@@ -1,5 +1,4 @@
 import Vader from 'vader-sentiment';
-import type { SymbolSentimentSnapshot } from '@prisma/client';
 import { prisma } from '../lib/db';
 import { getSymbolConfig } from '../sentiment/config';
 
@@ -84,7 +83,7 @@ export class SentimentService {
         });
     }
 
-    private mapRowToSnapshot(row: SymbolSentimentSnapshot): SentimentSnapshot {
+    private mapRowToSnapshot(row: any): SentimentSnapshot {
         let source_mix: Record<string, number> = {};
         let tags: string[] = [];
         try {

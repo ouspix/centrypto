@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Candle {
+  id       Int    @id @default(autoincrement())
+  symbol   String
+  interval String
+  t        BigInt
+  o        Float
+  h        Float
+  l        Float
+  c        Float
+  v        Float
+
+  @@unique([symbol, interval, t])
+  @@index([symbol, interval, t])
+}
+
+model MarketStateSnapshot {
+  id        Int      @id @default(autoincrement())
+  data      String
+  createdAt DateTime @default(now())
+}
+
+model Message {
+  id             Int      @id @default(autoincrement())
+  externalId     String
+  source         String
+  symbol         String
+  text           String
+  ts             DateTime
+  likeCount      Int?
+  retweetCount   Int?
+  replyCount     Int?
+  sentimentScore Float?
+  sentimentConf  Float?
+  tagsJson       String?
+  language       String?
+
+  @@unique([externalId, source, symbol])
+  @@index([symbol, ts])
+}
+
+model PriceAlert {
+  id            String    @id
+  symbol        String
+  condition     String
+  targetPrice   Float
+  percentChange Float?
+  isActive      Boolean   @default(true)
+  triggered     Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  triggeredAt   DateTime?
+  userAddress   String
+
+  @@index([symbol, isActive])
+  @@index([userAddress, isActive, triggered])
+}
+
+model ScreeningSnapshot {
+  id        Int      @id @default(autoincrement())
+  data      String
+  createdAt DateTime @default(now())
+}
+
+model SymbolBaseline {
+  id             Int      @id @default(autoincrement())
+  symbol         String   @unique
+  avgMentions24h Float
+  updatedAt      DateTime
+}
+
+model SymbolSentimentSnapshot {
+  id                 Int      @id @default(autoincrement())
+  symbol             String
+  windowMinutes      Int
+  score              Float
+  change2h           Float
+  mentions           Int
+  mentionsVsBaseline Float
+  disagreement       Float
+  sourceMixJson      String
+  tagsJson           String
+  updatedAt          DateTime @default(now())
+
+  @@index([symbol, windowMinutes, updatedAt])
+  @@index([symbol, updatedAt])
+}
+
+model Trade {
+  id           String    @id
+  symbol       String
+  side         String
+  entryPrice   Float
+  exitPrice    Float?
+  size         Float
+  leverage     Float     @default(1)
+  realizedPnl  Float?
+  fees         Float     @default(0)
+  status       String    @default("open")
+  openedAt     DateTime  @default(now())
+  closedAt     DateTime?
+  userAddress  String
+  strategyName String?
+
+  @@index([openedAt])
+  @@index([symbol, userAddress])
+  @@index([userAddress, status])
+}

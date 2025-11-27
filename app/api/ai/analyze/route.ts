@@ -16,10 +16,26 @@ export async function POST(request: Request) {
         // Get singleton instance
         const orchestrator = OrchestratorService.getInstance();
 
-        // Call Orchestrator
-        // Prioritize configOverride (from ConfigEditor) over screeningConfig (from old UI)
-        const finalConfig = configOverride || screeningConfig;
+        // Merge configs
+        // configOverride comes from ConfigEditor (AgentConfig)
+        // screeningConfig comes from ScreeningParameters (ScreenerConfig)
+        const finalConfig = {
+            ...configOverride,
+            screener: screeningConfig || configOverride?.screener
+        };
 
+        // Check if this is a manual analysis request
+        if (body.isManual) {
+            const jobId = await orchestrator.analyzeMarketWithJobTracking(
+                userAddress,
+                model,
+                isTestnet,
+                finalConfig
+            );
+            return NextResponse.json({ jobId, status: 'pending' });
+        }
+
+        // Legacy/Auto-trading path (Synchronous)
         const result = await orchestrator.analyzeMarket(
             userAddress,
             autoTrading,

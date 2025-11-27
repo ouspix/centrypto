@@ -393,8 +393,8 @@ async function refreshBaselines(symbols: string[], baselineDays: number) {
     const avgMentions24h = baselineDays > 0 ? count / baselineDays : 0;
     await prisma.symbolBaseline.upsert({
       where: { symbol },
-      update: { avgMentions24h },
-      create: { symbol, avgMentions24h },
+      update: { avgMentions24h, updatedAt: new Date() },
+      create: { symbol, avgMentions24h, updatedAt: new Date() },
     });
   }
 }

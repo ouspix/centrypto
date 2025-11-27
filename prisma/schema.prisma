@@ -7,6 +7,48 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// LLM Decision Tracking Models
+model LlmQuery {
+  id        Int           @id @default(autoincrement())
+  prompt    String
+  response  String
+  createdAt DateTime      @default(now())
+  isTestnet Boolean       @default(true)
+  decisions LlmDecision[]
+}
+
+model LlmDecision {
+  id             Int      @id @default(autoincrement())
+  queryId        Int
+  query          LlmQuery @relation(fields: [queryId], references: [id])
+  action         String
+  symbol         String
+  confidence     Float
+  reasonCode     String?
+  notes          String?
+  side           String?
+  sizeFraction   Float?
+  targetSide     String?
+  targetSize     Float?
+  playbook       String?
+  riskPlan       String? // JSON
+  createdAt      DateTime @default(now())
+}
+
+// Market Data Models
+model MarketStateSnapshot {
+  id        Int      @id @default(autoincrement())
+  data      String
+  createdAt DateTime @default(now())
+}
+
+model ScreeningSnapshot {
+  id        Int      @id @default(autoincrement())
+  data      String
+  createdAt DateTime @default(now())
+}
+
+// Sentiment & Social Data Models
 model Message {
   id             Int      @id @default(autoincrement())
   externalId     String
@@ -17,10 +59,10 @@ model Message {
   likeCount      Int?
   retweetCount   Int?
   replyCount     Int?
-  language       String?
   sentimentScore Float?
   sentimentConf  Float?
   tagsJson       String?
+  language       String?
 
   @@unique([externalId, source, symbol])
   @@index([symbol, ts])
@@ -30,7 +72,7 @@ model SymbolBaseline {
   id             Int      @id @default(autoincrement())
   symbol         String   @unique
   avgMentions24h Float
-  updatedAt      DateTime @updatedAt
+  updatedAt      DateTime
 }
 
 model SymbolSentimentSnapshot {
@@ -46,71 +88,62 @@ model SymbolSentimentSnapshot {
   tagsJson           String
   updatedAt          DateTime @default(now())
 
-  @@index([symbol, updatedAt])
   @@index([symbol, windowMinutes, updatedAt])
+  @@index([symbol, updatedAt])
 }
 
-model Candle {
-  id        Int      @id @default(autoincrement())
-  symbol    String
-  interval  String
-  t         BigInt   // Timestamp (ms)
-  o         Float
-  h         Float
-  l         Float
-  c         Float
-  v         Float
-  
-  @@unique([symbol, interval, t])
-  @@index([symbol, interval, t])
-}
+// Trading Models
+model Trade {
+  id           String    @id
+  symbol       String
+  side         String
+  entryPrice   Float
+  exitPrice    Float?
+  size         Float
+  leverage     Float     @default(1)
+  realizedPnl  Float?
+  fees         Float     @default(0)
+  status       String    @default("open")
+  openedAt     DateTime  @default(now())
+  closedAt     DateTime?
+  userAddress  String
+  strategyName String?
 
-model ScreeningSnapshot {
-  id        Int      @id @default(autoincrement())
-  data      String   // JSON string of ScreenedSymbol[]
-  createdAt DateTime @default(now())
-}
-
-model MarketStateSnapshot {
-  id        Int      @id @default(autoincrement())
-  data      String   // JSON string of EnrichedMarketData[] (ALL symbols)
-  createdAt DateTime @default(now())
+  @@index([openedAt])
+  @@index([symbol, userAddress])
+  @@index([userAddress, status])
 }
 
 model PriceAlert {
-  id            String   @id @default(uuid())
+  id            String    @id
   symbol        String
-  condition     String   // 'above' | 'below' | 'percent_change_up' | 'percent_change_down'
+  condition     String
   targetPrice   Float
   percentChange Float?
-  isActive      Boolean  @default(true)
-  triggered     Boolean  @default(false)
-  createdAt     DateTime @default(now())
+  isActive      Boolean   @default(true)
+  triggered     Boolean   @default(false)
+  createdAt     DateTime  @default(now())
   triggeredAt   DateTime?
   userAddress   String
 
-  @@index([userAddress, isActive, triggered])
   @@index([symbol, isActive])
+  @@index([userAddress, isActive, triggered])
 }
 
-model Trade {
-  id              String   @id @default(uuid())
-  symbol          String
-  side            String   // 'long' | 'short'
-  entryPrice      Float
-  exitPrice       Float?
-  size            Float
-  leverage        Float    @default(1)
-  realizedPnl     Float?
-  fees            Float    @default(0)
-  status          String   @default("open") // 'open' | 'closed'
-  openedAt        DateTime @default(now())
-  closedAt        DateTime?
-  userAddress     String
-  strategyName    String?  // Optional: which strategy/AI decision led to this
-
+// Analysis Job Tracking
+model AnalysisJob {
+  id            String    @id @default(uuid())
+  status        String    // 'pending', 'running', 'completed', 'failed', 'cancelled'
+  userAddress   String?
+  isTestnet     Boolean   @default(true)
+  model         String
+  config        String?   // JSON serialized config
+  result        String?   // JSON serialized result
+  error         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  completedAt   DateTime?
+  
+  @@index([status, createdAt])
   @@index([userAddress, status])
-  @@index([symbol, userAddress])
-  @@index([openedAt])
 }
-

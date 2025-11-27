@@ -1,16 +1,8 @@
-
 import { signL1Action } from "@nktkas/hyperliquid/signing";
 import { OrderRequest, CancelRequest, parser } from "@nktkas/hyperliquid/api/exchange";
 import { privateKeyToAccount } from "viem/accounts";
 
 type Hex = `0x${string} `;
-
-// Helper to normalize numbers (strip trailing zeros)
-function normalizeNumber(x: number): string {
-    const s = x.toString();
-    if (!s.includes(".")) return s;
-    return s.replace(/(\.\d*?[1-9])0+$/, "$1").replace(/\.$/, "");
-}
 
 // Fetch asset metadata (tick size) from Hyperliquid
 export type AssetMeta = {
@@ -80,7 +72,9 @@ function roundToTickSize(price: number, szDecimals: number): number {
         rounded = Math.round(rounded / scale) * scale;
     }
 
-    return rounded;
+    // Clean up floating point errors by converting to fixed decimal and back
+    // This eliminates issues like 2721.7000000000003 -> 2721.7
+    return parseFloat(rounded.toFixed(maxDecimalPlaces));
 }
 
 export async function placeOrder(
@@ -100,20 +94,29 @@ export async function placeOrder(
     const assetMeta = await getAssetMeta(order.asset, isTestnet);
     // console.log("📋 Asset metadata:", assetMeta);
     const szDecimals = assetMeta.szDecimals;
+    const priceDecimals = 6 - szDecimals; // Max decimal places for price
 
     // Round price to tick size
     const roundedPrice = roundToTickSize(order.limitPx, szDecimals);
-    console.log(`📊 Original price: ${order.limitPx}, Rounded to tick size: ${roundedPrice} (${6 - szDecimals} decimals max)`);
+    // Also round size to avoid floating point errors
+    const roundedSize = parseFloat(order.sz.toFixed(szDecimals));
 
-    // Raw action in the same shape as the Rust structs
+    // Convert to strings with proper decimal places (Hyperliquid requires strings)
+    const priceStr = roundedPrice.toFixed(priceDecimals);
+    const sizeStr = roundedSize.toFixed(szDecimals);
+
+    console.log(`📊 Original price: ${order.limitPx}, Rounded: ${roundedPrice}, String: "${priceStr}"`);
+    console.log(`📊 Original size: ${order.sz}, Rounded: ${roundedSize}, String: "${sizeStr}"`);
+
+    // Hyperliquid API requires p and s to be strings
     const rawAction = {
         type: "order" as const,
         orders: [
             {
                 a: order.asset,
                 b: order.isBuy,
-                p: normalizeNumber(roundedPrice), // Use rounded price
-                s: normalizeNumber(order.sz),
+                p: priceStr, // Must be string
+                s: sizeStr, // Must be string
                 r: order.reduceOnly,
                 t: { limit: { tif: "Gtc" as const } },
             },
@@ -121,7 +124,7 @@ export async function placeOrder(
         grouping: "na" as const,
     };
 
-    // Let the SDK parser handle sorting/formatting for correct msgpack
+    // Use SDK parser to ensure proper formatting
     const action = parser(OrderRequest.entries.action)(rawAction);
 
     // Create wallet from private key - no MetaMask needed!
@@ -138,8 +141,9 @@ export async function placeOrder(
 
     const payload = { action, nonce, signature };
 
-    // console.log("📤 Sending payload to Hyperliquid:");
-    // console.log(JSON.stringify(payload, null, 2));
+    console.log("📤 Sending payload to Hyperliquid:");
+    console.log("Action:", JSON.stringify(action, null, 2));
+    console.log("Full payload:", JSON.stringify(payload, null, 2));
 
     const apiUrl = isTestnet
         ? "https://api.hyperliquid-testnet.xyz/exchange"
@@ -154,10 +158,17 @@ export async function placeOrder(
     if (!res.ok) {
         const text = await res.text();
         console.error(`❌ API Error(${res.status}): `, text);
-        throw new Error(`API Error: ${text} `);
+        throw new Error(`API Error: ${text}`);
     }
 
     const data = await res.json();
+
+    // Check if the response indicates an error
+    if (data.status === "err") {
+        console.error("❌ Order rejected by Hyperliquid:", data.response);
+        throw new Error(`Order rejected: ${data.response}`);
+    }
+
     console.log("✅ API Response:", JSON.stringify(data, null, 2));
     return data;
 }
@@ -183,6 +194,7 @@ export async function cancelOrder(
         grouping: "na" as const,
     };
 
+    // Use SDK parser to ensure proper formatting
     const action = parser(CancelRequest.entries.action)(rawAction);
     const wallet = privateKeyToAccount(privateKey as Hex);
 
@@ -245,49 +257,67 @@ export async function getMetaAndAssetCtxs(isTestnet: boolean = false): Promise<M
         ? "https://api.hyperliquid-testnet.xyz/info"
         : "https://api.hyperliquid.xyz/info";
 
-    try {
-        const res = await fetch(apiUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ type: "metaAndAssetCtxs" }),
-        });
+    const maxRetries = 3;
+    let attempt = 0;
 
-        if (!res.ok) {
-            throw new Error(`Failed to fetch meta and asset contexts: ${res.statusText} `);
-        }
+    while (attempt < maxRetries) {
+        try {
+            await limiter.wait(); // Wait for rate limiter
 
-        const data = await res.json();
+            const res = await fetch(apiUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ type: "metaAndAssetCtxs" }),
+            });
 
-        let universe: any[] | undefined;
-        let assetCtxs: any[] | undefined;
-
-        if (Array.isArray(data)) {
-            // Newer API shape: [ { universe, marginTables, collateralToken }, assetCtxs ]
-            if (data.length >= 2 && data[0]?.universe && Array.isArray(data[1])) {
-                universe = data[0].universe;
-                assetCtxs = data[1];
+            if (res.status === 429) {
+                const waitTime = Math.pow(2, attempt) * 1000; // 1s, 2s, 4s
+                console.warn(`[Hyperliquid] Rate limited(429) for metaAndAssetCtxs. Retrying in ${waitTime}ms...`);
+                await new Promise(resolve => setTimeout(resolve, waitTime));
+                attempt++;
+                continue;
             }
-            // Legacy shape: [ universeArray, assetCtxsArray ]
-            else if (data.length >= 2 && Array.isArray(data[0]) && Array.isArray(data[1])) {
-                universe = data[0];
-                assetCtxs = data[1];
+
+            if (!res.ok) {
+                throw new Error(`Failed to fetch meta and asset contexts: ${res.statusText} `);
             }
-        } else if (data?.universe && data?.assetCtxs) {
-            // Alt shape: { universe, assetCtxs }
-            universe = data.universe;
-            assetCtxs = data.assetCtxs;
-        }
 
-        if (!universe || !assetCtxs) {
-            console.error("Unexpected metaAndAssetCtxs response shape:", data);
-            return null;
-        }
+            const data = await res.json();
 
-        return { universe, assetCtxs };
-    } catch (error) {
-        console.error("Error fetching meta and asset contexts:", error);
-        return null;
+            let universe: any[] | undefined;
+            let assetCtxs: any[] | undefined;
+
+            if (Array.isArray(data)) {
+                // Newer API shape: [ { universe, marginTables, collateralToken }, assetCtxs ]
+                if (data.length >= 2 && data[0]?.universe && Array.isArray(data[1])) {
+                    universe = data[0].universe;
+                    assetCtxs = data[1];
+                }
+                // Legacy shape: [ universeArray, assetCtxsArray ]
+                else if (data.length >= 2 && Array.isArray(data[0]) && Array.isArray(data[1])) {
+                    universe = data[0];
+                    assetCtxs = data[1];
+                }
+            } else if (data?.universe && data?.assetCtxs) {
+                // Alt shape: { universe, assetCtxs }
+                universe = data.universe;
+                assetCtxs = data.assetCtxs;
+            }
+
+            if (!universe || !assetCtxs) {
+                console.error("Unexpected metaAndAssetCtxs response shape:", data);
+                return null;
+            }
+
+            return { universe, assetCtxs };
+        } catch (error: any) {
+            console.error(`Error fetching meta and asset contexts (attempt ${attempt + 1}/${maxRetries}):`, error.message);
+            if (attempt === maxRetries - 1) return null;
+            attempt++;
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        }
     }
+    return null;
 }
 
 // Rate Limiter to prevent 429s
@@ -295,7 +325,7 @@ class RateLimiter {
     private queue: Array<() => void> = [];
     private processing = false;
     private lastRequestTime = 0;
-    private minDelay = 5; // 200 requests per second (aggressive)
+    private minDelay = 50; // 20 requests per second (conservative)
 
     async wait(): Promise<void> {
         return new Promise((resolve) => {
@@ -406,5 +436,33 @@ export async function getL2Book(coin: string, isTestnet: boolean = false) {
     } catch (error) {
         console.error("Error fetching L2 Book:", error);
         return null;
+    }
+}
+
+export async function getUserFills(userAddress: string, isTestnet: boolean = false) {
+    const apiUrl = isTestnet
+        ? "https://api.hyperliquid-testnet.xyz/info"
+        : "https://api.hyperliquid.xyz/info";
+
+    try {
+        await limiter.wait();
+
+        const res = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                type: "userFills",
+                user: userAddress
+            }),
+        });
+
+        if (!res.ok) {
+            throw new Error(`Failed to fetch user fills: ${res.statusText}`);
+        }
+
+        return await res.json();
+    } catch (error) {
+        console.error("Error fetching user fills:", error);
+        return [];
     }
 }

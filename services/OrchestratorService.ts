@@ -3,6 +3,8 @@ import { RiskCheckModule, TradeDecision, RiskAssessment } from "@/lib/risk/RiskC
 import { ExecutionEngine } from "@/lib/hyperliquidExecution";
 import { TradingLogger } from "@/lib/log/tradingLogger";
 import { AgentConfig, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
+import { ScreenerConfig, DEFAULT_SCREENER_CONFIG } from "@/lib/screener-config";
+import { prisma } from "@/lib/db";
 
 import OpenAI from "openai";
 
@@ -17,6 +19,7 @@ export class OrchestratorService {
     private executionEngine: ExecutionEngine;
     private logger: TradingLogger;
     private currentAbortController: AbortController | null = null;
+    private activeJobs: Map<string, AbortController> = new Map();
 
     private constructor() {
         this.ollamaUrl = process.env.OLLAMA_BASE_URL || "http://localhost:11434";
@@ -57,6 +60,234 @@ export class OrchestratorService {
         }
     }
 
+    public async cancelJob(jobId: string): Promise<boolean> {
+        // 1. Abort the running process if active in memory
+        const controller = this.activeJobs.get(jobId);
+        if (controller) {
+            console.log(`🚫 Aborting job ${jobId}`);
+            controller.abort();
+            this.activeJobs.delete(jobId);
+        }
+
+        // 2. Update DB status
+        try {
+            await prisma.analysisJob.update({
+                where: { id: jobId },
+                data: {
+                    status: 'cancelled',
+                    completedAt: new Date()
+                }
+            });
+            return true;
+        } catch (error) {
+            console.error(`Failed to cancel job ${jobId} in DB:`, error);
+            return false;
+        }
+    }
+
+    public async getJobStatus(jobId: string): Promise<any> {
+        const job = await prisma.analysisJob.findUnique({
+            where: { id: jobId }
+        });
+
+        if (!job) return null;
+
+        return {
+            id: job.id,
+            status: job.status,
+            result: job.result ? JSON.parse(job.result) : null,
+            error: job.error,
+            createdAt: job.createdAt,
+            completedAt: job.completedAt
+        };
+    }
+
+    public async analyzeMarketWithJobTracking(
+        userAddress: string | null,
+        model: string,
+        isTestnet: boolean,
+        configOverride?: any
+    ): Promise<string> {
+        // 1. Create Job Record
+        const job = await prisma.analysisJob.create({
+            data: {
+                status: 'pending',
+                userAddress,
+                isTestnet,
+                model,
+                config: configOverride ? JSON.stringify(configOverride) : null
+            }
+        });
+
+        console.log(`📝 Created analysis job: ${job.id}`);
+
+        // 2. Start Analysis in Background (Fire & Forget)
+        this.runAnalysisJob(job.id, userAddress, model, isTestnet, configOverride).catch(err => {
+            console.error(`❌ Background job ${job.id} failed unhandled:`, err);
+        });
+
+        return job.id;
+    }
+
+    private async runAnalysisJob(
+        jobId: string,
+        userAddress: string | null,
+        model: string,
+        isTestnet: boolean,
+        configOverride?: any
+    ) {
+        const controller = new AbortController();
+        this.activeJobs.set(jobId, controller);
+
+        try {
+            // Update status to running
+            await prisma.analysisJob.update({
+                where: { id: jobId },
+                data: { status: 'running' }
+            });
+
+            // Re-use existing analyzeMarket logic but with our controller
+            // We need to refactor analyzeMarket slightly or just call it and pass the signal
+            // Since analyzeMarket creates its own controller, we should probably extract the core logic
+            // OR just modify analyzeMarket to accept an optional external signal.
+
+            // For now, I'll call analyzeMarket but I need to ensure it uses MY signal if passed.
+            // I'll modify analyzeMarket signature to accept an optional signal.
+
+            // Actually, analyzeMarket currently manages `this.currentAbortController`.
+            // I should refactor analyzeMarket to be "stateless" regarding the controller if a signal is provided.
+
+            // Let's use a private internal method for the core logic to avoid breaking the public API
+            // Or just call the public API and let it overwrite currentAbortController (which is fine for single-user dev mode, 
+            // but for job tracking we want isolation).
+
+            // Better approach: Call getLLMDecision directly after building snapshot?
+            // analyzeMarket does: Build Snapshot -> Filter -> Get LLM Decision -> Risk Check -> Execution -> Log
+
+            // I will duplicate the orchestration logic here for safety and isolation, 
+            // reusing the helper methods.
+
+            // --- COPY OF ORCHESTRATION LOGIC ---
+            // Merge config
+            const config: AgentConfig = {
+                ...DEFAULT_AGENT_CONFIG,
+                ...configOverride,
+                network_profiles: { ...DEFAULT_AGENT_CONFIG.network_profiles, ...configOverride?.network_profiles },
+                gates: { ...DEFAULT_AGENT_CONFIG.gates, ...configOverride?.gates },
+                risk: { ...DEFAULT_AGENT_CONFIG.risk, ...configOverride?.risk },
+                sentiment_policy: { ...DEFAULT_AGENT_CONFIG.sentiment_policy, ...configOverride?.sentiment_policy }
+            };
+
+            const screenerConfig: ScreenerConfig = {
+                ...DEFAULT_SCREENER_CONFIG,
+                ...configOverride?.screener
+            };
+
+            // 1. Build Snapshot
+            if (controller.signal.aborted) throw new Error('Aborted');
+            const snapshot = await this.snapshotBuilder.buildSnapshot(userAddress, isTestnet, config, screenerConfig);
+
+            // 2. Optimization
+            const shortlistedMarkets: Record<string, any> = {};
+            let hasCandidates = false;
+
+            for (const [key, market] of Object.entries(snapshot.markets)) {
+                const isHeld = snapshot.account.current_positions.some(p => p.symbol === key);
+                const isCandidate = market.derived?.liquidity?.tradeable && market.derived?.edge?.edge_ok;
+
+                if (isHeld || isCandidate) {
+                    shortlistedMarkets[key] = market;
+                    if (isCandidate) hasCandidates = true;
+                }
+            }
+
+            const hasPositions = snapshot.account.current_positions.length > 0;
+
+            if (!hasPositions && !hasCandidates) {
+                await prisma.analysisJob.update({
+                    where: { id: jobId },
+                    data: {
+                        status: 'completed',
+                        result: JSON.stringify({
+                            decisions: [],
+                            riskAssessment: { approved: true, reason: "No action needed" },
+                            snapshot,
+                            prompt: "SKIPPED",
+                            rawOutput: "SKIPPED"
+                        }),
+                        completedAt: new Date()
+                    }
+                });
+                return;
+            }
+
+            // 3. Call LLM
+            if (controller.signal.aborted) throw new Error('Aborted');
+
+            const llmSnapshot = {
+                ...snapshot,
+                markets: shortlistedMarkets
+            };
+
+            const result = await this.getLLMDecision(llmSnapshot, model, controller.signal);
+
+            // Save interaction
+            await this.saveLlmInteraction(result.prompt, result.rawOutput, result.decisions, isTestnet);
+
+            // 4. Risk Check (Sequential)
+            let lastRiskAssessment: RiskAssessment = { approved: false, reason: "No decisions" };
+
+            // Note: We are NOT executing trades here for manual analysis jobs.
+            // The user just wants the analysis. Execution happens when they click "Execute" in UI.
+
+            for (const decision of result.decisions) {
+                if (decision.target_side === "flat" && decision.action === "HOLD") continue;
+                const riskAssessment = this.riskModule.assess(decision, snapshot);
+                lastRiskAssessment = riskAssessment;
+            }
+
+            const finalResult = {
+                decisions: result.decisions,
+                riskAssessment: lastRiskAssessment,
+                snapshot,
+                prompt: result.prompt,
+                rawOutput: result.rawOutput
+            };
+
+            // 5. Complete Job
+            await prisma.analysisJob.update({
+                where: { id: jobId },
+                data: {
+                    status: 'completed',
+                    result: JSON.stringify(finalResult),
+                    completedAt: new Date()
+                }
+            });
+
+        } catch (error) {
+            if (error instanceof Error && (error.name === 'AbortError' || error.message === 'Aborted')) {
+                console.log(`Job ${jobId} was cancelled`);
+                // Status already updated to cancelled in cancelJob, but just in case
+                await prisma.analysisJob.update({
+                    where: { id: jobId },
+                    data: { status: 'cancelled', completedAt: new Date() }
+                });
+            } else {
+                console.error(`Job ${jobId} failed:`, error);
+                await prisma.analysisJob.update({
+                    where: { id: jobId },
+                    data: {
+                        status: 'failed',
+                        error: error instanceof Error ? error.message : String(error),
+                        completedAt: new Date()
+                    }
+                });
+            }
+        } finally {
+            this.activeJobs.delete(jobId);
+        }
+    }
+
     public async analyzeMarket(
         userAddress: string | null,
         autoTrading: boolean,
@@ -72,13 +303,17 @@ export class OrchestratorService {
             ...configOverride,
             network_profiles: { ...DEFAULT_AGENT_CONFIG.network_profiles, ...configOverride?.network_profiles },
             gates: { ...DEFAULT_AGENT_CONFIG.gates, ...configOverride?.gates },
-            screener: { ...DEFAULT_AGENT_CONFIG.screener, ...configOverride?.screener },
             risk: { ...DEFAULT_AGENT_CONFIG.risk, ...configOverride?.risk },
             sentiment_policy: { ...DEFAULT_AGENT_CONFIG.sentiment_policy, ...configOverride?.sentiment_policy }
         };
 
+        const screenerConfig: ScreenerConfig = {
+            ...DEFAULT_SCREENER_CONFIG,
+            ...configOverride?.screener
+        };
+
         // 1. Build Snapshot
-        const snapshot = await this.snapshotBuilder.buildSnapshot(userAddress, isTestnet, config);
+        const snapshot = await this.snapshotBuilder.buildSnapshot(userAddress, isTestnet, config, screenerConfig);
 
         // 2. Optimization: Filter Markets & Early Exit
         const shortlistedMarkets: Record<string, any> = {};
@@ -129,6 +364,10 @@ export class OrchestratorService {
             decisions = result.decisions;
             prompt = result.prompt;
             rawOutput = result.rawOutput;
+
+            // Save to DB
+            await this.saveLlmInteraction(prompt, rawOutput, decisions, isTestnet);
+
         } finally {
             // Always clean up abort controller, even on error
             this.currentAbortController = null;
@@ -157,16 +396,25 @@ export class OrchestratorService {
             // 4. Execution (if Auto-Trading)
             let executionResult = null;
             if (autoTrading && riskAssessment.approved && riskAssessment.modifiedOrder) {
-                console.log(`🚀 Auto-Trading: Executing Order for ${decision.symbol}...`);
+                console.log(`🚀 Auto-Trading: Risk Officer APPROVED. Executing Order for ${decision.symbol}...`);
 
-                // Need asset index for execution. 
-                // In a real app, we'd have a map. For now, finding it from snapshot or defaulting.
-                // We need to fetch meta to get the index if not in snapshot.
-                // Assuming we can get it or pass it. 
-                // For this demo, we might fail if we don't have the index.
-                // TODO: Add asset index to snapshot or fetch it here.
-                const assetIndex = 0; // Placeholder
-                const currentPrice = snapshot.markets[decision.symbol!]?.price || 0;
+                const marketData = snapshot.markets[decision.symbol!];
+                const assetIndex = marketData?.assetIndex;
+
+                if (assetIndex === undefined) {
+                    console.error(`❌ Auto-Trading Error: Asset index not found for ${decision.symbol}`);
+                    // Log the failure
+                    await this.logger.logDecision({
+                        timestamp: new Date().toISOString(),
+                        snapshot: "SNAPSHOT_HASH",
+                        decision,
+                        riskAssessment,
+                        executionResult: { success: false, error: "Asset index not found" }
+                    });
+                    continue;
+                }
+
+                const currentPrice = marketData?.price || 0;
 
                 this.executionEngine = new ExecutionEngine(process.env.HYPERLIQUID_PRIVATE_KEY || "", isTestnet);
                 executionResult = await this.executionEngine.placeOrder(
@@ -292,7 +540,20 @@ ${JSON.stringify(snapshot.account.current_positions, null, 2)}`;
                 }
             }
 
+            // Log Snapshot Details for Debugging
+            if (snapshot.markets) {
+                console.log("🔍 Snapshot Debug:");
+                console.log("   Global Regime:", JSON.stringify(snapshot.global_regime));
+                Object.entries(snapshot.markets).forEach(([symbol, market]) => {
+                    console.log(`   Market ${symbol}:`);
+                    console.log(`     Price: ${market.price}, Spread: ${market.spread_bps.toFixed(2)}bps`);
+                    console.log(`     Triggers:`, JSON.stringify(market.derived.triggers));
+                    console.log(`     Edge OK: ${market.derived.edge.edge_ok}, Cost OK: ${market.derived.costs.cost_ok}`);
+                });
+            }
+
             console.log("📦 Raw LLM Response (first 300 chars):", rawOutput.substring(0, 300));
+            require('fs').appendFileSync('debug_llm_response.log', `\n\n--- ${new Date().toISOString()} ---\nPrompt:\n${USER_PROMPT}\n\nResponse:\n${rawOutput}\n-----------------------------------\n`);
             console.log("🔍 Debug: rawOutput length:", rawOutput.length);
 
             // Robust JSON Extraction
@@ -466,6 +727,36 @@ ${JSON.stringify(snapshot.account.current_positions, null, 2)}`;
                 prompt: SYSTEM_PROMPT + "\n\n" + USER_PROMPT,
                 rawOutput: rawOutput || `Error: ${error instanceof Error ? error.message : String(error)}`
             };
+        }
+    }
+
+    private async saveLlmInteraction(prompt: string, response: string, decisions: TradeDecision[], isTestnet: boolean) {
+        try {
+            await prisma.llmQuery.create({
+                data: {
+                    prompt,
+                    response,
+                    decisions: {
+                        create: decisions.map(d => ({
+                            action: d.action,
+                            symbol: d.symbol || "UNKNOWN",
+                            confidence: d.confidence || 0,
+                            reasonCode: d.reason_code,
+                            notes: d.notes,
+                            side: d.side,
+                            sizeFraction: d.size_fraction_of_equity,
+                            targetSide: d.target_side,
+                            targetSize: d.target_size_fraction_of_equity,
+                            playbook: d.playbook,
+                            riskPlan: d.risk_plan ? JSON.stringify(d.risk_plan) : null
+                        }))
+                    },
+                    isTestnet: isTestnet
+                }
+            });
+            console.log("✅ Saved LLM interaction to DB");
+        } catch (error) {
+            console.error("❌ Failed to save LLM interaction:", error);
         }
     }
 }

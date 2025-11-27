@@ -3,6 +3,7 @@ import { SentimentService, SentimentSnapshot } from "./SentimentService";
 import { MarketAnalysisService } from "./MarketAnalysisService";
 import { ScreenerService } from "./ScreenerService";
 import { AgentConfig, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
+import { ScreenerConfig, DEFAULT_SCREENER_CONFIG } from "@/lib/screener-config";
 
 // Types matching the prompt's JSON structure
 export type StateSnapshot = {
@@ -25,6 +26,7 @@ export type StateSnapshot = {
         max_total_exposure_pct_equity: number;
         min_trade_notional_usd: number;
         kill_switch: boolean;
+        no_flip_same_tick: boolean;
     };
     allowed_actions: string[];
     meta: {
@@ -65,14 +67,17 @@ export class SnapshotBuilder {
     public async buildSnapshot(
         userAddress: string | null,
         isTestnet: boolean,
-        config: AgentConfig = DEFAULT_AGENT_CONFIG
+        config: AgentConfig = DEFAULT_AGENT_CONFIG,
+        screenerConfig: ScreenerConfig = DEFAULT_SCREENER_CONFIG
     ): Promise<StateSnapshot> {
         const timestamp = Math.floor(Date.now() / 1000);
         const metaAndCtxs = await getMetaAndAssetCtxs(isTestnet);
         const assetCtxMap = new Map<string, any>();
+        const assetIndexMap = new Map<string, number>();
         if (metaAndCtxs) {
             metaAndCtxs.universe.forEach((asset: any, idx: number) => {
                 assetCtxMap.set(asset.name, metaAndCtxs.assetCtxs[idx]);
+                assetIndexMap.set(asset.name, idx);
             });
         }
 
@@ -146,7 +151,7 @@ export class SnapshotBuilder {
         console.log("📊 Fetching Screened Market Data...");
 
         // ScreenerService now uses cached MarketStateSnapshot internally for fast on-demand screening
-        const screenedSymbols = await this.screenerService.getScreenedSymbols(isTestnet, heldSymbols, config);
+        const screenedSymbols = await this.screenerService.getScreenedSymbols(isTestnet, heldSymbols, config, screenerConfig);
         console.log(`✅ Loaded ${screenedSymbols.length} symbols from screener.`);
         const markets: Record<string, any> = {};
         const fallbackMarkets: string[] = [];
@@ -174,6 +179,7 @@ export class SnapshotBuilder {
             }
 
             markets[marketKey] = {
+                symbol: marketKey,
                 price,
                 spread_bps: bookMetrics.spread_bps,
                 orderbook: {
@@ -195,10 +201,12 @@ export class SnapshotBuilder {
                 },
                 sentiment: {
                     score: sentiment.score,
-                    tags: sentiment.tags,
-                    source_mix: sentiment.source_mix
+                    mentionsVsBaseline: sentiment.mentions_vs_baseline,
+                    disagreement: sentiment.disagreement,
+                    change2h: sentiment.change_2h
                 },
-                regime_tags: metrics.regime_tags
+                regime_tags: metrics.regime_tags,
+                assetIndex: assetIndexMap.get(symbol) // Add assetIndex
             };
         }
 
@@ -227,6 +235,7 @@ export class SnapshotBuilder {
                 const bookPressure = denom > 0 ? (2 * (bid / denom)) - 1 : 0;
 
                 markets[marketKey] = {
+                    symbol: marketKey,
                     price,
                     spread_bps: bookMetrics.spread_bps,
                     orderbook: {
@@ -248,17 +257,21 @@ export class SnapshotBuilder {
                     },
                     sentiment: {
                         score: sentiment.score,
-                        tags: sentiment.tags,
-                        source_mix: sentiment.source_mix
+                        mentionsVsBaseline: sentiment.mentions_vs_baseline,
+                        disagreement: sentiment.disagreement,
+                        change2h: sentiment.change_2h
                     },
                     regime_tags: metrics.regime_tags,
-                    data_source: "fallback_on_demand"
+                    regime_tags: metrics.regime_tags,
+                    data_source: "fallback_on_demand",
+                    assetIndex: assetIndexMap.get(baseSymbol)
                 };
 
                 fallbackMarkets.push(marketKey);
             } catch (err) {
                 console.warn(`⚠️ Failed to fetch fallback market data for ${marketKey}. Marking as missing.`, err);
                 markets[marketKey] = {
+                    symbol: marketKey,
                     price,
                     spread_bps: 0,
                     orderbook: {
@@ -270,7 +283,7 @@ export class SnapshotBuilder {
                     vol_zscores: { vol_5m_vs_1h: 0, ret_5m_vs_1h: 0 },
                     funding: { current_8h: funding },
                     open_interest: { current: openInterest },
-                    sentiment: { score: 0, tags: [], source_mix: {} },
+                    sentiment: { score: 0, mentionsVsBaseline: 0, disagreement: 0, change2h: 0 },
                     regime_tags: [],
                     data_unavailable: true,
                     data_source: "missing"
@@ -345,13 +358,10 @@ export class SnapshotBuilder {
             // Option A: Vol-scaled move (ATR based)
             // ATR is in price units. Convert to bps: (ATR / Price) * 10000
             let expectedMoveBps = 0;
-            if (m.metrics?.atr?.m5 > 0) {
-                const atrBps = (m.metrics.atr.m5 / m.price) * 10000;
-                expectedMoveBps = 2.0 * atrBps; // k=2.0
-            } else {
-                // Option B Fallback: Simple returns proxy
-                expectedMoveBps = 10000 * Math.max(Math.abs(m.returns.m15), Math.abs(m.returns.h1));
-            }
+            // Note: We removed raw metrics.atr from the market object, so we can't use it here unless we kept it temporarily.
+            // But we kept 'returns' and 'vol_zscores'.
+            // Fallback to returns-based expected move.
+            expectedMoveBps = 10000 * Math.max(Math.abs(m.returns.m15), Math.abs(m.returns.h1));
 
             const edgeBps = expectedMoveBps - costBps;
             const edgeMult = config.gates.edge_to_cost_mult_by_regime[regime];
@@ -360,7 +370,10 @@ export class SnapshotBuilder {
             // --- 3. Triggers & Normalization ---
             const dirM15 = Math.sign(m.returns.m15);
             const dirH1 = Math.sign(m.returns.h1);
-            const trendAligned = (dirM15 === dirH1) && (dirM15 !== 0);
+
+            // Relaxed Trend Alignment for Testnet
+            const strictTrend = (dirM15 === dirH1) && (dirM15 !== 0);
+            const trendAligned = strictTrend || (isTestnet && dirM15 !== 0);
 
             const retSigma = m.vol_zscores.ret_5m_vs_1h; // Alias
             const volRatio = m.vol_zscores.vol_5m_vs_1h; // Alias
@@ -368,18 +381,18 @@ export class SnapshotBuilder {
             const bp = m.orderbook.book_pressure;
 
             // Momentum
-            const momOkLong = trendAligned && dirH1 === 1 && bp >= 0.2 && volRatio >= 1.0;
-            const momOkShort = trendAligned && dirH1 === -1 && bp <= -0.2 && volRatio >= 1.0;
+            const momOkLong = trendAligned && (dirH1 === 1 || (isTestnet && dirM15 === 1)) && bp >= config.triggers.momentum.book_pressure_min && volRatio >= config.triggers.momentum.vol_ratio_min;
+            const momOkShort = trendAligned && (dirH1 === -1 || (isTestnet && dirM15 === -1)) && bp <= -config.triggers.momentum.book_pressure_min && volRatio >= config.triggers.momentum.vol_ratio_min;
 
-            // Mean Reversion
-            const mrOkLong = retSigma <= -3 && bp >= 0.1 && m.returns.m5 > 0;
-            const mrOkShort = retSigma >= 3 && bp <= -0.1 && m.returns.m5 < 0;
+            // Mean Reversion (Fixed: Removed contradictory returns check)
+            const mrOkLong = retSigma <= -config.triggers.mean_reversion.ret_sigma_threshold && bp >= config.triggers.mean_reversion.book_pressure_min;
+            const mrOkShort = retSigma >= config.triggers.mean_reversion.ret_sigma_threshold && bp <= -config.triggers.mean_reversion.book_pressure_min;
 
             // Breakout (Simplified)
             // We don't have range data easily, so using vol compression proxy if available or skipping
             // For now, using vol spike as primary breakout signal
-            const volSpike = volRatio >= 2.0;
-            const breakoutOk = volSpike && Math.abs(bp) >= 0.3;
+            const volSpike = volRatio >= config.triggers.breakout.vol_ratio_min;
+            const breakoutOk = volSpike && Math.abs(bp) >= config.triggers.breakout.book_pressure_min;
 
             // --- 4. Liquidity ---
             const minDepth = Math.min(m.orderbook.bid_liquidity_usd, m.orderbook.ask_liquidity_usd);
@@ -419,17 +432,6 @@ export class SnapshotBuilder {
                     vol_ratio_5m_vs_1h: volRatio
                 }
             };
-
-            // Add technicals to market object
-            if (m.metrics) {
-                m.technicals = {
-                    atr_m5: m.metrics.atr?.m5 || 0,
-                    macd_m5: m.metrics.macd?.m5 || { macd: 0, signal: 0, histogram: 0 },
-                    rsi_m5: m.metrics.rsi?.m5 || 50,
-                    high_low: m.metrics.high_low || { is_new_high_1h: false, is_new_low_1h: false },
-                    bb_width_m5: m.metrics.bbands?.m5?.width || 0
-                };
-            }
         }
 
         return {
@@ -440,7 +442,8 @@ export class SnapshotBuilder {
                 max_position_pct_equity_per_symbol: config.risk.max_position_fraction_per_symbol,
                 max_total_exposure_pct_equity: config.risk.max_total_exposure_fraction,
                 min_trade_notional_usd: config.risk.min_trade_notional_usd,
-                kill_switch: false
+                kill_switch: false,
+                no_flip_same_tick: config.risk.no_flip_same_tick
             },
             allowed_actions: [
                 "OPEN_POSITION",

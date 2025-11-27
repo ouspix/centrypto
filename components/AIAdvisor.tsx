@@ -63,6 +63,8 @@ export function AIAdvisor() {
     const [loading, setLoading] = useState(false)
     const [result, setResult] = useState<AnalysisResult | null>(null)
     const [executing, setExecuting] = useState<number | null>(null)
+    const [currentJobId, setCurrentJobId] = useState<string | null>(null)
+    const pollIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
     const executeDecision = async (decision: TradeDecision, index: number) => {
         if (!result || !result.snapshot) return;
@@ -162,6 +164,74 @@ export function AIAdvisor() {
     const timerRef = useRef<NodeJS.Timeout | null>(null)
     const abortControllerRef = useRef<AbortController | null>(null)
 
+    // Poll Job Status
+    const pollJobStatus = async (jobId: string) => {
+        try {
+            const res = await fetch(`/api/ai/job-status?jobId=${jobId}`);
+            if (!res.ok) {
+                if (res.status === 404) {
+                    // Job lost?
+                    console.error("Job not found, stopping poll");
+                    stopPolling();
+                    setLoading(false);
+                    setCurrentJobId(null);
+                    localStorage.removeItem('currentAnalysisJobId');
+                }
+                return;
+            }
+
+            const job = await res.json();
+
+            if (job.status === 'completed') {
+                console.log("✅ Analysis job completed");
+                setResult(job.result);
+                setLoading(false);
+                stopPolling();
+                setCurrentJobId(null);
+                localStorage.removeItem('currentAnalysisJobId');
+            } else if (job.status === 'failed' || job.status === 'cancelled') {
+                console.error("❌ Analysis job failed/cancelled:", job.error);
+                setLoading(false);
+                stopPolling();
+                setCurrentJobId(null);
+                localStorage.removeItem('currentAnalysisJobId');
+                if (job.status === 'failed') {
+                    toast.error(`Analysis failed: ${job.error}`);
+                }
+            } else {
+                // Still running/pending, continue polling
+                console.log(`⏳ Job ${jobId} status: ${job.status}`);
+            }
+        } catch (e) {
+            console.error("Polling error", e);
+        }
+    }
+
+    const startPolling = (jobId: string) => {
+        if (pollIntervalRef.current) clearInterval(pollIntervalRef.current);
+        setCurrentJobId(jobId);
+        localStorage.setItem('currentAnalysisJobId', jobId);
+        pollIntervalRef.current = setInterval(() => pollJobStatus(jobId), 2000);
+    }
+
+    const stopPolling = () => {
+        if (pollIntervalRef.current) {
+            clearInterval(pollIntervalRef.current);
+            pollIntervalRef.current = null;
+        }
+    }
+
+    // Resume polling on mount
+    useEffect(() => {
+        const savedJobId = localStorage.getItem('currentAnalysisJobId');
+        if (savedJobId) {
+            console.log("🔄 Resuming analysis job:", savedJobId);
+            setLoading(true);
+            startPolling(savedJobId);
+        }
+        return () => stopPolling();
+    }, []);
+
     // Load Config
     useEffect(() => {
         const saved = localStorage.getItem('agentConfig');
@@ -197,7 +267,7 @@ export function AIAdvisor() {
 
         setLoading(true)
 
-        // Create new AbortController for this request
+        // Create new AbortController for this request (only for auto-trading or legacy fallback)
         abortControllerRef.current = new AbortController();
 
         try {
@@ -215,15 +285,19 @@ export function AIAdvisor() {
                 console.error('Failed to read screening config', e);
             }
 
+            const body = {
+                userAddress: address || null,
+                autoTrading: autoTrading,
+                screeningConfig,
+                configOverride: customConfig,
+                isManual: !autoTrading, // Flag for manual analysis
+                isTestnet: isTestnet
+            };
+
             const response = await fetch('/api/ai/analyze', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    userAddress: address || null,
-                    autoTrading: autoTrading,
-                    screeningConfig,
-                    configOverride: customConfig
-                }),
+                body: JSON.stringify(body),
                 signal: abortControllerRef.current.signal
             })
 
@@ -232,33 +306,66 @@ export function AIAdvisor() {
             }
 
             const data = await response.json()
-            setResult(data)
+
+            if (!autoTrading && data.jobId) {
+                // Manual analysis started with job tracking
+                console.log("🚀 Started manual analysis job:", data.jobId);
+                startPolling(data.jobId);
+            } else {
+                // Auto-trading (synchronous)
+                setResult(data)
+                setLoading(false)
+            }
+
         } catch (error) {
             if (error instanceof Error && error.name === 'AbortError') {
                 console.log("Analysis cancelled by user")
             } else {
                 console.error("Analysis failed", error)
+                setLoading(false)
             }
         } finally {
-            setLoading(false)
-            abortControllerRef.current = null;
+            // Only clear loading if NOT using job tracking (auto-trading or error)
+            // For manual job, polling handles loading state
+            if (autoTrading) {
+                abortControllerRef.current = null;
+            }
         }
     }
 
     const cancelAnalysis = async () => {
+        // 1. Cancel client-side abort controller (if any)
         if (abortControllerRef.current) {
             abortControllerRef.current.abort();
             abortControllerRef.current = null;
-            setLoading(false);
         }
 
-        // Also call the backend cancel endpoint
-        try {
-            await fetch('/api/ai/cancel', { method: 'POST' });
-            console.log('✅ Backend cancellation requested');
-        } catch (error) {
-            console.error('Failed to cancel backend request:', error);
+        // 2. Cancel Job if active
+        if (currentJobId) {
+            try {
+                await fetch('/api/ai/cancel', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ jobId: currentJobId })
+                });
+                console.log('✅ Job cancellation requested');
+            } catch (error) {
+                console.error('Failed to cancel job:', error);
+            }
+            stopPolling();
+            setCurrentJobId(null);
+            localStorage.removeItem('currentAnalysisJobId');
+        } else {
+            // Legacy/Auto-trading cancel
+            try {
+                await fetch('/api/ai/cancel', { method: 'POST' });
+                console.log('✅ Backend cancellation requested');
+            } catch (error) {
+                console.error('Failed to cancel backend request:', error);
+            }
         }
+
+        setLoading(false);
     }
 
     // Auto Trading Loop

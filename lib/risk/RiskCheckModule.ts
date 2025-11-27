@@ -69,13 +69,15 @@ export class RiskCheckModule {
         }
 
         // 4. No Same-Tick Flip
-        const currentPosition = snapshot.account.current_positions.find(p => p.symbol === decision.symbol);
-        if (currentPosition) {
-            const isFlip = (decision.target_side === "long" && currentPosition.side === "short") ||
-                (decision.target_side === "short" && currentPosition.side === "long");
+        if (snapshot.constraints.no_flip_same_tick) {
+            const currentPosition = snapshot.account.current_positions.find(p => p.symbol === decision.symbol);
+            if (currentPosition) {
+                const isFlip = (decision.target_side === "long" && currentPosition.side === "short") ||
+                    (decision.target_side === "short" && currentPosition.side === "long");
 
-            if (isFlip && decision.action !== "CLOSE_POSITION") {
-                return { approved: false, reason: "Cannot flip position in same tick. Must CLOSE_POSITION first." };
+                if (isFlip && decision.action !== "CLOSE_POSITION") {
+                    return { approved: false, reason: "Cannot flip position in same tick. Must CLOSE_POSITION first." };
+                }
             }
         }
 

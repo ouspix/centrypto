@@ -2,6 +2,7 @@ import { MarketAnalysisService, MarketMetrics, OrderBookMetrics } from "./Market
 import { SentimentService } from "./SentimentService";
 import { marketDbMain, marketDbTest } from "@/lib/market-db";
 import { AgentConfig, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
+import { ScreenerConfig, DEFAULT_SCREENER_CONFIG } from "@/lib/screener-config";
 
 export type EnrichedMarketData = {
     symbol: string;
@@ -32,12 +33,13 @@ export class ScreenerService {
     public async getScreenedSymbols(
         isTestnet: boolean,
         heldSymbols: string[] = [],
-        config: AgentConfig = DEFAULT_AGENT_CONFIG
+        config: AgentConfig = DEFAULT_AGENT_CONFIG,
+        screenerConfig: ScreenerConfig = DEFAULT_SCREENER_CONFIG
     ): Promise<ScreenedSymbol[]> {
-        const screenerCfg = config.screener;
+        const screenerCfg = screenerConfig;
         const gatesCfg = config.gates;
 
-        console.log(`🔍 Starting On-Demand Screening with topN=${screenerCfg.top_n}`);
+        console.log(`🔍 Starting On-Demand Screening with topN=${screenerCfg.topN}`);
         const startTime = Date.now();
 
         // 1. Fetch Latest Ticks from DB (Layer 1 Filter Candidate Source)
@@ -69,8 +71,8 @@ export class ScreenerService {
         // 2. Apply Filters In-Memory
 
         // Layer 1: Volume
-        const layer1 = allTicks.filter(d => (d.volume24h ?? 0) >= screenerCfg.min_volume_24h);
-        console.log(`Layer 1: ${layer1.length} passed volume filter (threshold: $${(screenerCfg.min_volume_24h / 1_000_000).toFixed(1)}M).`);
+        const layer1 = allTicks.filter(d => (d.volume24h ?? 0) >= screenerCfg.minVolume24h);
+        console.log(`Layer 1: ${layer1.length} passed volume filter (threshold: $${(screenerCfg.minVolume24h / 1_000_000).toFixed(1)}M).`);
 
         // Layer 2: Hard Filters (Spread, Depth)
         // Enrich Layer 1 Survivors (Fetch Metrics, Book, Sentiment)
@@ -108,8 +110,8 @@ export class ScreenerService {
         // Layer 2: Hard Filters (Spread, Depth)
         const layer2 = enrichedLayer1.filter(d => {
             if (heldSymbols.includes(d.symbol)) return true; // Always keep held
-            return d.bookMetrics.spread_bps <= gatesCfg.spread_bps_hard_max &&
-                (d.bookMetrics.depth_usd.bid_1pct >= screenerCfg.min_depth_usd || d.bookMetrics.depth_usd.ask_1pct >= screenerCfg.min_depth_usd);
+            return d.bookMetrics.spread_bps <= screenerCfg.maxSpreadBps &&
+                (d.bookMetrics.depth_usd.bid_1pct >= screenerCfg.minDepthUsd || d.bookMetrics.depth_usd.ask_1pct >= screenerCfg.minDepthUsd);
         });
         console.log(`Layer 2: ${layer2.length} passed hard filters.`);
 
@@ -118,10 +120,10 @@ export class ScreenerService {
             if (heldSymbols.includes(d.symbol)) return true;
 
             // Primary check: Is it volatile relative to itself?
-            const isVolatile = d.metrics.vol_zscores.vol_5m_vs_1h > screenerCfg.min_vol_ratio_5m_vs_1h;
+            const isVolatile = d.metrics.vol_zscores.vol_5m_vs_1h > screenerCfg.minVolZscore;
 
             // Secondary check: Is it moving?
-            const isMoving = Math.abs(d.metrics.vol_zscores.ret_5m_vs_1h) > screenerCfg.min_abs_ret_sigma_5m_vs_1h;
+            const isMoving = Math.abs(d.metrics.vol_zscores.ret_5m_vs_1h) > screenerCfg.minRetZscore;
 
             // Absolute volatility check (don't trade dead assets even if z-score is high)
             // Hardcoded fallback for now as it wasn't in the config explicitly, but could be added.
@@ -165,7 +167,7 @@ export class ScreenerService {
             const spreadPenalty = weights.spread_penalty * Math.max(0, candidate.bookMetrics.spread_bps - dynamicSpreadThreshold) / 5;
 
             const minDepth = Math.min(candidate.bookMetrics.depth_usd.bid_1pct, candidate.bookMetrics.depth_usd.ask_1pct);
-            const illiquidityPenalty = weights.illiquidity_penalty * Math.max(0, (screenerCfg.min_depth_usd / minDepth) - 1);
+            const illiquidityPenalty = weights.illiquidity_penalty * Math.max(0, (screenerCfg.minDepthUsd / minDepth) - 1);
 
             const totalScore = volScore + moveScore + trendAlign - spreadPenalty - illiquidityPenalty;
 
@@ -180,7 +182,7 @@ export class ScreenerService {
         scored.sort((a, b) => b.score - a.score);
 
         // Top N + Held
-        const topCandidates = scored.slice(0, screenerCfg.top_n);
+        const topCandidates = scored.slice(0, screenerCfg.topN);
         const heldSet = new Set(heldSymbols);
         let heldAdded = 0;
         for (const c of scored) {
@@ -210,7 +212,7 @@ export class ScreenerService {
             deduped.push(c);
         }
 
-        console.log(`✅ Screening completed in ${Date.now() - startTime}ms. Returning ${deduped.length} unique symbols (topN=${screenerCfg.top_n} + ${heldAdded} held).`);
+        console.log(`✅ Screening completed in ${Date.now() - startTime}ms. Returning ${deduped.length} unique symbols (topN=${screenerCfg.topN} + ${heldAdded} held).`);
         return deduped;
     }
 }

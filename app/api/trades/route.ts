@@ -7,9 +7,10 @@ export async function GET(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url);
         const userAddress = searchParams.get('userAddress');
-        const status = searchParams.get('status') as 'open' | 'closed' | null;
         const analytics = searchParams.get('analytics') === 'true';
         const limit = parseInt(searchParams.get('limit') || '100');
+        const network = searchParams.get('network');
+        const isTestnet = network === 'testnet';
 
         if (!userAddress) {
             return NextResponse.json(
@@ -19,13 +20,13 @@ export async function GET(request: NextRequest) {
         }
 
         if (analytics) {
-            const analyticsData = await tradeService.getAnalytics(userAddress);
+            const analyticsData = await tradeService.getAnalytics(userAddress, isTestnet);
             return NextResponse.json({ analytics: analyticsData });
         }
 
         const trades = await tradeService.getTrades(
             userAddress,
-            status || undefined,
+            isTestnet,
             limit
         );
 

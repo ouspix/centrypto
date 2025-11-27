@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model LlmQuery {
+  id        Int           @id @default(autoincrement())
+  prompt    String
+  response  String
+  createdAt DateTime      @default(now())
+  decisions LlmDecision[]
+}
+
+model LlmDecision {
+  id             Int      @id @default(autoincrement())
+  queryId        Int
+  query          LlmQuery @relation(fields: [queryId], references: [id])
+  action         String
+  symbol         String
+  confidence     Float
+  reasonCode     String?
+  notes          String?
+  side           String?
+  sizeFraction   Float?
+  targetSide     String?
+  targetSize     Float?
+  playbook       String?
+  riskPlan       String? // JSON
+  createdAt      DateTime @default(now())
+}

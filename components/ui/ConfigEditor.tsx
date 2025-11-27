@@ -17,7 +17,17 @@ interface ConfigEditorProps {
 }
 
 export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorProps) {
-    const [config, setConfig] = useState<AgentConfig>(initialConfig || DEFAULT_AGENT_CONFIG);
+    const [config, setConfig] = useState<AgentConfig>(() => {
+        // Deep merge initialConfig with defaults to ensure new fields (like triggers) exist
+        return {
+            ...DEFAULT_AGENT_CONFIG,
+            ...initialConfig,
+            triggers: {
+                ...DEFAULT_AGENT_CONFIG.triggers,
+                ...(initialConfig?.triggers || {})
+            }
+        };
+    });
 
     // Helper to update nested state
     const updateConfig = (path: string, value: any) => {
@@ -60,8 +70,8 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
                 <Tabs defaultValue="gates" className="w-full h-full flex flex-col">
                     <TabsList className="grid w-full grid-cols-4 bg-slate-950/50 p-1 mb-6 rounded-xl border border-slate-800/50 shrink-0">
                         <TabsTrigger value="gates" className="rounded-lg data-[state=active]:bg-slate-800 data-[state=active]:text-white text-slate-400 font-medium text-xs transition-all">Gates</TabsTrigger>
-                        <TabsTrigger value="screener" className="rounded-lg data-[state=active]:bg-slate-800 data-[state=active]:text-white text-slate-400 font-medium text-xs transition-all">Screener</TabsTrigger>
                         <TabsTrigger value="risk" className="rounded-lg data-[state=active]:bg-slate-800 data-[state=active]:text-white text-slate-400 font-medium text-xs transition-all">Risk</TabsTrigger>
+                        <TabsTrigger value="triggers" className="rounded-lg data-[state=active]:bg-slate-800 data-[state=active]:text-white text-slate-400 font-medium text-xs transition-all">Triggers</TabsTrigger>
                         <TabsTrigger value="network" className="rounded-lg data-[state=active]:bg-slate-800 data-[state=active]:text-white text-slate-400 font-medium text-xs transition-all">Network</TabsTrigger>
                     </TabsList>
 
@@ -77,15 +87,7 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
                                     onChange={e => updateConfig('gates.depth_usd_min', Number(e.target.value))}
                                 />
                             </div>
-                            <div className="space-y-2">
-                                <Label className="text-sm text-slate-300 font-medium">Max Spread (BPS)</Label>
-                                <Input
-                                    className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-11 rounded-lg"
-                                    type="number"
-                                    value={config.gates.spread_bps_hard_max}
-                                    onChange={e => updateConfig('gates.spread_bps_hard_max', Number(e.target.value))}
-                                />
-                            </div>
+
                             <div className="grid grid-cols-3 gap-4 pt-2">
                                 <div className="space-y-2">
                                     <Label className="text-xs font-medium text-slate-400">Risk On (BPS)</Label>
@@ -117,37 +119,7 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
                             </div>
                         </TabsContent>
 
-                        {/* SCREENER */}
-                        <TabsContent value="screener" className="space-y-5 mt-0">
-                            <div className="space-y-2">
-                                <Label className="text-sm text-slate-300 font-medium">Top N Candidates</Label>
-                                <Input
-                                    className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-11 rounded-lg"
-                                    type="number"
-                                    value={config.screener.top_n}
-                                    onChange={e => updateConfig('screener.top_n', Number(e.target.value))}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label className="text-sm text-slate-300 font-medium">Min Volume 24h</Label>
-                                <Input
-                                    className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-11 rounded-lg"
-                                    type="number"
-                                    value={config.screener.min_volume_24h}
-                                    onChange={e => updateConfig('screener.min_volume_24h', Number(e.target.value))}
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label className="text-sm text-slate-300 font-medium">Min Volatility Ratio (5m/1h)</Label>
-                                <Input
-                                    className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-11 rounded-lg"
-                                    type="number"
-                                    step="0.1"
-                                    value={config.screener.min_vol_ratio_5m_vs_1h}
-                                    onChange={e => updateConfig('screener.min_vol_ratio_5m_vs_1h', Number(e.target.value))}
-                                />
-                            </div>
-                        </TabsContent>
+
 
                         {/* RISK */}
                         <TabsContent value="risk" className="space-y-5 mt-0">
@@ -181,7 +153,89 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
                             </div>
                         </TabsContent>
 
-                        {/* NETWORK */}
+                        {/* TRIGGERS */}
+                        <TabsContent value="triggers" className="space-y-6 mt-0">
+                            {/* Momentum */}
+                            <div className="space-y-3">
+                                <h4 className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Momentum</h4>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <Label className="text-xs font-medium text-slate-400">Book Pressure Min</Label>
+                                        <Input
+                                            className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-9 rounded-lg text-sm"
+                                            type="number"
+                                            step="0.05"
+                                            value={config.triggers?.momentum.book_pressure_min ?? 0.2}
+                                            onChange={e => updateConfig('triggers.momentum.book_pressure_min', Number(e.target.value))}
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label className="text-xs font-medium text-slate-400">Vol Ratio Min</Label>
+                                        <Input
+                                            className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-9 rounded-lg text-sm"
+                                            type="number"
+                                            step="0.1"
+                                            value={config.triggers?.momentum.vol_ratio_min ?? 1.0}
+                                            onChange={e => updateConfig('triggers.momentum.vol_ratio_min', Number(e.target.value))}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Mean Reversion */}
+                            <div className="space-y-3 pt-2 border-t border-slate-800/50">
+                                <h4 className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Mean Reversion</h4>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <Label className="text-xs font-medium text-slate-400">Ret Sigma Threshold</Label>
+                                        <Input
+                                            className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-9 rounded-lg text-sm"
+                                            type="number"
+                                            step="0.5"
+                                            value={config.triggers?.mean_reversion.ret_sigma_threshold ?? 3.0}
+                                            onChange={e => updateConfig('triggers.mean_reversion.ret_sigma_threshold', Number(e.target.value))}
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label className="text-xs font-medium text-slate-400">Book Pressure Min</Label>
+                                        <Input
+                                            className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-9 rounded-lg text-sm"
+                                            type="number"
+                                            step="0.05"
+                                            value={config.triggers?.mean_reversion.book_pressure_min ?? 0.1}
+                                            onChange={e => updateConfig('triggers.mean_reversion.book_pressure_min', Number(e.target.value))}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Breakout */}
+                            <div className="space-y-3 pt-2 border-t border-slate-800/50">
+                                <h4 className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Breakout</h4>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <Label className="text-xs font-medium text-slate-400">Vol Ratio Min</Label>
+                                        <Input
+                                            className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-9 rounded-lg text-sm"
+                                            type="number"
+                                            step="0.1"
+                                            value={config.triggers?.breakout.vol_ratio_min ?? 2.0}
+                                            onChange={e => updateConfig('triggers.breakout.vol_ratio_min', Number(e.target.value))}
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label className="text-xs font-medium text-slate-400">Book Pressure Min</Label>
+                                        <Input
+                                            className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-9 rounded-lg text-sm"
+                                            type="number"
+                                            step="0.05"
+                                            value={config.triggers?.breakout.book_pressure_min ?? 0.3}
+                                            onChange={e => updateConfig('triggers.breakout.book_pressure_min', Number(e.target.value))}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </TabsContent>
                         <TabsContent value="network" className="space-y-5 mt-0">
                             <div className="space-y-2">
                                 <Label className="text-sm text-slate-300 font-medium">Slippage Min BPS</Label>

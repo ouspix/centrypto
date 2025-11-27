@@ -23,7 +23,7 @@ export interface AgentConfig {
             RISK_OFF: number;
             CHOP: number;
         };
-        spread_bps_hard_max: number;
+
         edge_to_cost_mult_by_regime: {
             RISK_ON: number;
             RISK_OFF: number;
@@ -31,21 +31,7 @@ export interface AgentConfig {
         };
         per_symbol_cost_override?: Record<string, number>;
     };
-    screener: {
-        top_n: number;
-        min_volume_24h: number;
-        min_oi_usd: number;
-        min_depth_usd: number;
-        min_vol_ratio_5m_vs_1h: number;
-        min_abs_ret_sigma_5m_vs_1h: number;
-        quality_weights: {
-            vol_score: number;
-            move_score: number;
-            trend_align: number;
-            spread_penalty: number;
-            illiquidity_penalty: number;
-        };
-    };
+
     risk: {
         max_positions: number;
         max_position_fraction_per_symbol: number;
@@ -62,6 +48,20 @@ export interface AgentConfig {
         tag_blocklist: string[];
         penalty_multipliers: Record<string, number>;
         decay_windows: Record<string, number>;
+    };
+    triggers: {
+        momentum: {
+            book_pressure_min: number;
+            vol_ratio_min: number;
+        };
+        mean_reversion: {
+            ret_sigma_threshold: number;
+            book_pressure_min: number;
+        };
+        breakout: {
+            vol_ratio_min: number;
+            book_pressure_min: number;
+        };
     };
 }
 
@@ -97,7 +97,7 @@ export const DEFAULT_AGENT_CONFIG: AgentConfig = {
             RISK_OFF: 10,
             CHOP: 10
         },
-        spread_bps_hard_max: 50,
+
         edge_to_cost_mult_by_regime: {
             RISK_ON: 3.0,
             RISK_OFF: 3.0,
@@ -105,21 +105,7 @@ export const DEFAULT_AGENT_CONFIG: AgentConfig = {
         },
         per_symbol_cost_override: {}
     },
-    screener: {
-        top_n: 20,
-        min_volume_24h: 1_000_000,
-        min_oi_usd: 500_000,
-        min_depth_usd: 10_000,
-        min_vol_ratio_5m_vs_1h: 0.5,
-        min_abs_ret_sigma_5m_vs_1h: 0.5,
-        quality_weights: {
-            vol_score: 2.0,
-            move_score: 1.0,
-            trend_align: 0.5,
-            spread_penalty: 1.0,
-            illiquidity_penalty: 0.5
-        }
-    },
+
     risk: {
         max_positions: 5,
         max_position_fraction_per_symbol: 0.2,
@@ -141,6 +127,20 @@ export const DEFAULT_AGENT_CONFIG: AgentConfig = {
         decay_windows: {
             "hack": 3600 * 24, // 24 hours
             "generic": 3600 // 1 hour
+        }
+    },
+    triggers: {
+        momentum: {
+            book_pressure_min: 0.2,
+            vol_ratio_min: 1.0
+        },
+        mean_reversion: {
+            ret_sigma_threshold: 3.0,
+            book_pressure_min: 0.1
+        },
+        breakout: {
+            vol_ratio_min: 2.0,
+            book_pressure_min: 0.3
         }
     }
 };

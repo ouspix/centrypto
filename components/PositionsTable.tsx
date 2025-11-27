@@ -18,6 +18,7 @@ import { Loader2, RefreshCw, X, TrendingUp, Clock, History, TrendingDown, Dollar
 import { useTrading } from "@/context/TradingContext"
 import { placeOrderAction, cancelOrderAction } from "@/app/actions/trade"
 import { getCloseOrderParams } from "@/lib/trade-utils"
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
 type Position = {
     coin: string
@@ -54,6 +55,7 @@ type Trade = {
     openedAt: Date;
     closedAt?: Date;
     strategyName?: string;
+    type?: string;
 };
 
 type TradeAnalytics = {
@@ -71,6 +73,96 @@ type TradeAnalytics = {
     profitFactor: number;
     avgHoldTime: number;
 };
+
+// PnL Chart Component
+function PnlChart({ trades }: { trades: Trade[] }) {
+    // Process trades to create cumulative PnL data
+    const chartData = trades
+        .filter(trade => trade.status === 'closed' && trade.realizedPnl !== undefined)
+        .sort((a, b) => new Date(a.closedAt || a.openedAt).getTime() - new Date(b.closedAt || b.openedAt).getTime())
+        .reduce((acc, trade, index) => {
+            const prevPnl = index > 0 ? acc[index - 1].cumulativePnl : 0;
+            const currentPnl = trade.realizedPnl || 0;
+            const cumulativePnl = prevPnl + currentPnl;
+
+            acc.push({
+                date: new Date(trade.closedAt || trade.openedAt).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric'
+                }),
+                cumulativePnl: parseFloat(cumulativePnl.toFixed(2)),
+                tradePnl: parseFloat(currentPnl.toFixed(2))
+            });
+            return acc;
+        }, [] as { date: string; cumulativePnl: number; tradePnl: number }[]);
+
+    if (chartData.length === 0) {
+        return (
+            <div className="flex items-center justify-center h-full bg-slate-950/50 rounded-lg border border-slate-800">
+                <div className="text-center text-slate-500 text-sm">
+                    No closed trades to display
+                </div>
+            </div>
+        );
+    }
+
+    const CustomTooltip = ({ active, payload }: any) => {
+        if (active && payload && payload.length) {
+            const data = payload[0].payload;
+            return (
+                <div className="bg-slate-900 border border-slate-700 rounded-lg p-2 shadow-lg">
+                    <p className="text-xs text-slate-400 mb-1">{data.date}</p>
+                    <p className={`text-sm font-mono font-bold ${data.cumulativePnl >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                        {data.cumulativePnl >= 0 ? '+' : ''}${data.cumulativePnl}
+                    </p>
+                    <p className={`text-xs font-mono ${data.tradePnl >= 0 ? 'text-green-400/70' : 'text-red-400/70'}`}>
+                        Trade: {data.tradePnl >= 0 ? '+' : ''}${data.tradePnl}
+                    </p>
+                </div>
+            );
+        }
+        return null;
+    };
+
+    const finalPnl = chartData[chartData.length - 1]?.cumulativePnl || 0;
+
+    return (
+        <div className="bg-slate-950/50 rounded-lg border border-slate-800 p-3">
+            <div className="flex items-center justify-between mb-2">
+                <h3 className="text-xs font-medium text-slate-400">PnL Over Time</h3>
+                <div className={`text-sm font-mono font-bold ${finalPnl >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                    {finalPnl >= 0 ? '+' : ''}${finalPnl}
+                </div>
+            </div>
+            <ResponsiveContainer width="100%" height={280}>
+                <LineChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                    <XAxis
+                        dataKey="date"
+                        stroke="#64748b"
+                        style={{ fontSize: '10px' }}
+                        tick={{ fill: '#64748b' }}
+                    />
+                    <YAxis
+                        stroke="#64748b"
+                        style={{ fontSize: '10px' }}
+                        tick={{ fill: '#64748b' }}
+                        tickFormatter={(value) => `$${value}`}
+                    />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Line
+                        type="monotone"
+                        dataKey="cumulativePnl"
+                        stroke={finalPnl >= 0 ? '#4ade80' : '#f87171'}
+                        strokeWidth={2}
+                        dot={{ fill: finalPnl >= 0 ? '#4ade80' : '#f87171', r: 3 }}
+                        activeDot={{ r: 5 }}
+                    />
+                </LineChart>
+            </ResponsiveContainer>
+        </div>
+    );
+}
 
 export function PositionsTable() {
     const { address, isConnected } = useAccount()
@@ -168,7 +260,8 @@ export function PositionsTable() {
 
         setHistoryLoading(true)
         try {
-            const response = await fetch(`/api/trades?userAddress=${address}&limit=20`)
+            const network = isTestnet ? 'testnet' : 'mainnet'
+            const response = await fetch(`/api/trades?userAddress=${address}&limit=50&network=${network}`)
             const data = await response.json()
             if (data.trades) {
                 setTrades(data.trades)
@@ -184,7 +277,8 @@ export function PositionsTable() {
         if (!address) return
 
         try {
-            const response = await fetch(`/api/trades?userAddress=${address}&analytics=true`)
+            const network = isTestnet ? 'testnet' : 'mainnet'
+            const response = await fetch(`/api/trades?userAddress=${address}&analytics=true&network=${network}`)
             const data = await response.json()
             if (data.analytics) {
                 setAnalytics(data.analytics)
@@ -360,15 +454,15 @@ export function PositionsTable() {
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="border-slate-800 hover:bg-slate-900/50">
-                                            <TableHead className="text-slate-400/60 font-medium">Asset</TableHead>
-                                            <TableHead className="text-slate-400/60 font-medium">Side</TableHead>
-                                            <TableHead className="text-slate-400/60 font-medium text-center">Lev</TableHead>
-                                            <TableHead className="text-slate-400/60 font-medium text-right">Size</TableHead>
-                                            <TableHead className="text-slate-400/60 font-medium text-right">Entry</TableHead>
-                                            <TableHead className="text-slate-400/60 font-medium text-right">Mark</TableHead>
-                                            <TableHead className="text-slate-400/60 font-medium text-right">PnL</TableHead>
-                                            <TableHead className="text-slate-400/60 font-medium text-right">ROE</TableHead>
-                                            <TableHead className="text-slate-400/60 font-medium text-center">Action</TableHead>
+                                            <TableHead className="text-slate-400 font-medium text-base py-4">Asset</TableHead>
+                                            <TableHead className="text-slate-400 font-medium text-base py-4">Side</TableHead>
+                                            <TableHead className="text-slate-400 font-medium text-base text-center py-4">Lev</TableHead>
+                                            <TableHead className="text-slate-400 font-medium text-base text-right py-4">Size</TableHead>
+                                            <TableHead className="text-slate-400 font-medium text-base text-right py-4">Entry</TableHead>
+                                            <TableHead className="text-slate-400 font-medium text-base text-right py-4">Mark</TableHead>
+                                            <TableHead className="text-slate-400 font-medium text-base text-right py-4">PnL</TableHead>
+                                            <TableHead className="text-slate-400 font-medium text-base text-right py-4">ROE</TableHead>
+                                            <TableHead className="text-slate-400 font-medium text-base text-center py-4">Action</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -383,44 +477,44 @@ export function PositionsTable() {
 
                                             return (
                                                 <TableRow key={index} className="border-slate-800 hover:bg-slate-950/50">
-                                                    <TableCell className="font-semibold text-slate-100">
+                                                    <TableCell className="font-semibold text-slate-100 text-lg py-4">
                                                         {position.coin}
                                                     </TableCell>
-                                                    <TableCell>
+                                                    <TableCell className="py-4">
                                                         <Badge
                                                             variant="outline"
-                                                            className={`text-xs ${isLong ? 'border-green-500 text-green-400 bg-green-500/10' : 'border-red-500 text-red-400 bg-red-500/10'}`}
+                                                            className={`text-sm ${isLong ? 'border-green-500 text-green-400 bg-green-500/10' : 'border-red-500 text-red-400 bg-red-500/10'}`}
                                                         >
                                                             {isLong ? 'LONG' : 'SHORT'}
                                                         </Badge>
                                                     </TableCell>
-                                                    <TableCell className="text-center font-mono text-slate-400 text-xs">
+                                                    <TableCell className="text-center font-mono text-slate-300 text-base py-4">
                                                         {position.leverage.value}x
                                                     </TableCell>
-                                                    <TableCell className="text-right font-mono text-slate-200">
+                                                    <TableCell className="text-right font-mono text-slate-200 text-base py-4">
                                                         {Math.abs(size).toFixed(4)}
                                                     </TableCell>
-                                                    <TableCell className="text-right font-mono text-slate-200">
+                                                    <TableCell className="text-right font-mono text-slate-200 text-base py-4">
                                                         ${entryPrice.toFixed(2)}
                                                     </TableCell>
-                                                    <TableCell className="text-right font-mono text-slate-200">
+                                                    <TableCell className="text-right font-mono text-slate-200 text-base py-4">
                                                         ${currentPrice.toFixed(2)}
                                                     </TableCell>
-                                                    <TableCell className={`text-right font-mono font-semibold ${pnl >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                                    <TableCell className={`text-right font-mono font-semibold text-base py-4 ${pnl >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                                                         {pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}
                                                     </TableCell>
-                                                    <TableCell className={`text-right font-mono font-semibold ${roe >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                                    <TableCell className={`text-right font-mono font-semibold text-base py-4 ${roe >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                                                         {roe >= 0 ? '+' : ''}{roe.toFixed(2)}%
                                                     </TableCell>
-                                                    <TableCell className="text-center">
+                                                    <TableCell className="text-center py-4">
                                                         <Button
                                                             variant="ghost"
                                                             size="sm"
-                                                            className="h-7 px-3 text-xs hover:bg-red-500/20 hover:text-red-400 text-slate-500"
+                                                            className="h-8 px-3 text-sm hover:bg-red-500/20 hover:text-red-400 text-slate-400"
                                                             onClick={() => handleClosePosition(position.coin, position.szi, entryPrice)}
                                                             disabled={!!actionLoading}
                                                         >
-                                                            {isClosing ? <Loader2 className="h-3 w-3 animate-spin" /> : <X className="h-3 w-3" />}
+                                                            {isClosing ? <Loader2 className="h-4 w-4 animate-spin" /> : <X className="h-4 w-4" />}
                                                         </Button>
                                                     </TableCell>
                                                 </TableRow>
@@ -442,12 +536,12 @@ export function PositionsTable() {
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="border-slate-800 hover:bg-slate-900/50">
-                                            <TableHead className="text-slate-400/60 font-medium">Asset</TableHead>
-                                            <TableHead className="text-slate-400/60 font-medium">Side</TableHead>
-                                            <TableHead className="text-slate-400/60 font-medium text-right">Size</TableHead>
-                                            <TableHead className="text-slate-400/60 font-medium text-right">Limit Price</TableHead>
-                                            <TableHead className="text-slate-400/60 font-medium text-right">Time</TableHead>
-                                            <TableHead className="text-slate-400/60 font-medium text-center">Action</TableHead>
+                                            <TableHead className="text-slate-400 font-medium text-base py-4">Asset</TableHead>
+                                            <TableHead className="text-slate-400 font-medium text-base py-4">Side</TableHead>
+                                            <TableHead className="text-slate-400 font-medium text-base text-right py-4">Size</TableHead>
+                                            <TableHead className="text-slate-400 font-medium text-base text-right py-4">Limit Price</TableHead>
+                                            <TableHead className="text-slate-400 font-medium text-base text-right py-4">Time</TableHead>
+                                            <TableHead className="text-slate-400 font-medium text-base text-center py-4">Action</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -455,41 +549,41 @@ export function PositionsTable() {
                                             const isCancelling = actionLoading === `cancel-${order.oid}`
                                             return (
                                                 <TableRow key={order.oid} className="border-slate-800 hover:bg-slate-950/50">
-                                                    <TableCell className="font-semibold text-slate-100">
+                                                    <TableCell className="font-semibold text-slate-100 text-lg py-4">
                                                         {order.coin}
                                                     </TableCell>
-                                                    <TableCell>
+                                                    <TableCell className="py-4">
                                                         <Badge
                                                             variant="outline"
-                                                            className={`text-xs ${order.side === 'B' ? 'border-green-500 text-green-400' : 'border-red-500 text-red-400'}`}
+                                                            className={`text-sm ${order.side === 'B' ? 'border-green-500 text-green-400' : 'border-red-500 text-red-400'}`}
                                                         >
                                                             {order.side === 'B' ? 'BUY' : 'SELL'}
                                                         </Badge>
                                                     </TableCell>
-                                                    <TableCell className="text-center font-mono text-slate-400 text-xs">
+                                                    <TableCell className="text-center font-mono text-slate-300 text-base py-4">
                                                         {leverageMap[order.coin] || '-'}x
                                                     </TableCell>
-                                                    <TableCell className="text-right font-mono text-slate-200">
+                                                    <TableCell className="text-right font-mono text-slate-200 text-base py-4">
                                                         {order.sz}
                                                     </TableCell>
-                                                    <TableCell className="text-right font-mono text-slate-200">
+                                                    <TableCell className="text-right font-mono text-slate-200 text-base py-4">
                                                         ${order.limitPx}
                                                     </TableCell>
-                                                    <TableCell className="text-right font-mono text-slate-400 text-xs">
+                                                    <TableCell className="text-right font-mono text-slate-300 text-base py-4">
                                                         <div className="flex items-center justify-end gap-1">
-                                                            <Clock className="h-3 w-3" />
+                                                            <Clock className="h-4 w-4" />
                                                             {new Date(order.timestamp).toLocaleTimeString()}
                                                         </div>
                                                     </TableCell>
-                                                    <TableCell className="text-center">
+                                                    <TableCell className="text-center py-4">
                                                         <Button
                                                             variant="ghost"
                                                             size="sm"
-                                                            className="h-7 px-3 text-xs hover:bg-red-500/20 hover:text-red-400 text-slate-500"
+                                                            className="h-8 px-3 text-sm hover:bg-red-500/20 hover:text-red-400 text-slate-400"
                                                             onClick={() => handleCancelOrder(order.oid, order.coin)}
                                                             disabled={!!actionLoading}
                                                         >
-                                                            {isCancelling ? <Loader2 className="h-3 w-3 animate-spin" /> : <X className="h-3 w-3" />}
+                                                            {isCancelling ? <Loader2 className="h-4 w-4 animate-spin" /> : <X className="h-4 w-4" />}
                                                         </Button>
                                                     </TableCell>
                                                 </TableRow>
@@ -519,63 +613,97 @@ export function PositionsTable() {
                                 {trades.map((trade) => (
                                     <div
                                         key={trade.id}
-                                        className="p-2 bg-slate-950/50 rounded-lg border border-slate-800 hover:border-slate-700 transition-colors"
+                                        className={`group relative overflow-hidden rounded-xl border border-slate-800 bg-gradient-to-br from-slate-950/80 to-slate-900/80 p-4 transition-all hover:border-slate-700 hover:from-slate-900 hover:to-slate-900 ${trade.realizedPnl && trade.realizedPnl >= 0
+                                            ? 'border-l-4 border-l-emerald-500'
+                                            : 'border-l-4 border-l-red-500'
+                                            }`}
                                     >
-                                        <div className="flex items-center justify-between mb-1">
-                                            <div className="flex items-center gap-2">
-                                                <span className="text-sm font-mono font-bold text-slate-200">
-                                                    {trade.symbol}
-                                                </span>
-                                                <Badge
-                                                    variant="outline"
-                                                    className={`text-xs px-2 py-0.5 ${trade.side === 'long'
-                                                        ? 'border-green-500/50 text-green-400 bg-green-500/10'
-                                                        : 'border-red-500/50 text-red-400 bg-red-500/10'
-                                                        }`}
-                                                >
-                                                    {trade.side === 'long' ? <TrendingUp className="h-2 w-2 mr-0.5" /> : <TrendingDown className="h-2 w-2 mr-0.5" />}
-                                                    {trade.side.toUpperCase()}
-                                                </Badge>
-                                                {trade.status === 'open' && (
-                                                    <Badge variant="outline" className="text-xs px-2 py-0.5 border-cyan-500/50 text-cyan-400">
+                                        <div className="flex items-center justify-between">
+                                            {/* Left: Symbol & Side */}
+                                            <div className="flex flex-col gap-1">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-xl font-bold text-slate-100 tracking-tight">
+                                                        {trade.symbol}
+                                                    </span>
+                                                    <Badge
+                                                        variant="outline"
+                                                        className={`text-xs font-bold px-2 py-0.5 ${trade.side === 'long'
+                                                            ? 'border-emerald-500/30 text-emerald-400 bg-emerald-500/5'
+                                                            : 'border-red-500/30 text-red-400 bg-red-500/5'
+                                                            }`}
+                                                    >
+                                                        {trade.side === 'long' ? 'LONG' : 'SHORT'}
+                                                    </Badge>
+                                                </div>
+                                                <div className="flex items-center gap-2 text-xs text-slate-500">
+                                                    <span>{formatDate(trade.openedAt)}</span>
+                                                    {trade.strategyName && (
+                                                        <>
+                                                            <span>•</span>
+                                                            <span className="text-slate-400">{trade.strategyName}</span>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            {/* Middle: Stats Grid */}
+                                            <div className="hidden sm:grid grid-cols-3 gap-x-8 gap-y-1 text-right">
+                                                <div>
+                                                    <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Entry</span>
+                                                    <div className="font-mono text-slate-300 text-sm">${trade.entryPrice.toFixed(2)}</div>
+                                                </div>
+                                                <div>
+                                                    <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Size</span>
+                                                    <div className="font-mono text-slate-300 text-sm">{trade.size.toFixed(4)}</div>
+                                                </div>
+                                                <div>
+                                                    <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Exit</span>
+                                                    <div className="font-mono text-slate-300 text-sm">
+                                                        {trade.exitPrice ? `$${trade.exitPrice.toFixed(2)}` : '-'}
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Lev</span>
+                                                    <div className="font-mono text-purple-400 text-sm">{trade.leverage}x</div>
+                                                </div>
+                                            </div>
+
+                                            {/* Right: PnL */}
+                                            <div className="text-right min-w-[100px]">
+                                                {trade.status === 'closed' && trade.realizedPnl !== undefined ? (
+                                                    <>
+                                                        <div className="text-[10px] uppercase tracking-wider text-slate-500 font-medium mb-0.5">Realized P&L</div>
+                                                        <div className={`text-2xl font-bold font-mono tracking-tight ${trade.realizedPnl >= 0 ? 'text-emerald-400' : 'text-red-400'
+                                                            }`}>
+                                                            {formatPnl(trade.realizedPnl)}
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    <Badge variant="outline" className="border-cyan-500/50 text-cyan-400 px-3 py-1">
                                                         OPEN
                                                     </Badge>
                                                 )}
                                             </div>
-                                            {trade.status === 'closed' && trade.realizedPnl !== undefined && (
-                                                <span
-                                                    className={`text-sm font-mono font-bold ${trade.realizedPnl >= 0 ? 'text-green-400' : 'text-red-400'
-                                                        }`}
-                                                >
-                                                    {formatPnl(trade.realizedPnl)}
-                                                </span>
-                                            )}
                                         </div>
 
-                                        <div className="grid grid-cols-4 gap-2 text-xs">
-                                            <div>
-                                                <span className="text-slate-500 block">Entry</span>
+                                        {/* Mobile Stats (visible only on small screens) */}
+                                        <div className="mt-4 grid grid-cols-2 gap-4 border-t border-slate-800/50 pt-3 sm:hidden">
+                                            <div className="flex justify-between">
+                                                <span className="text-xs text-slate-500">Entry</span>
                                                 <span className="font-mono text-slate-300">${trade.entryPrice.toFixed(2)}</span>
                                             </div>
-                                            {trade.exitPrice && (
-                                                <div>
-                                                    <span className="text-slate-500 block">Exit</span>
-                                                    <span className="font-mono text-slate-300">${trade.exitPrice.toFixed(2)}</span>
-                                                </div>
-                                            )}
-                                            <div>
-                                                <span className="text-slate-500 block">Size</span>
+                                            <div className="flex justify-between">
+                                                <span className="text-xs text-slate-500">Exit</span>
+                                                <span className="font-mono text-slate-300">{trade.exitPrice ? `$${trade.exitPrice.toFixed(2)}` : '-'}</span>
+                                            </div>
+                                            <div className="flex justify-between">
+                                                <span className="text-xs text-slate-500">Size</span>
                                                 <span className="font-mono text-slate-300">{trade.size.toFixed(4)}</span>
                                             </div>
-                                            <div>
-                                                <span className="text-slate-500 block">Lev</span>
+                                            <div className="flex justify-between">
+                                                <span className="text-xs text-slate-500">Lev</span>
                                                 <span className="font-mono text-purple-400">{trade.leverage}x</span>
                                             </div>
-                                        </div>
-
-                                        <div className="mt-1 pt-1 border-t border-slate-800/50 text-[10px] text-slate-500 flex justify-between">
-                                            <span>{formatDate(trade.openedAt)}</span>
-                                            {trade.strategyName && <span>{trade.strategyName}</span>}
                                         </div>
                                     </div>
                                 ))}
@@ -589,63 +717,69 @@ export function PositionsTable() {
                                 {historyLoading ? <Loader2 className="h-5 w-5 animate-spin mx-auto" /> : "No analytics available"}
                             </div>
                         ) : (
-                            <div className="space-y-3">
-                                {/* Summary Cards */}
-                                <div className="grid grid-cols-2 gap-2">
-                                    <div className="p-2.5 bg-slate-950/50 rounded-lg border border-slate-800">
-                                        <div className="text-xs text-slate-500 mb-1">Total P&L</div>
-                                        <div className={`text-lg font-bold font-mono ${analytics.totalPnl >= 0 ? 'text-green-400' : 'text-red-400'
-                                            }`}>
-                                            {formatPnl(analytics.totalPnl)}
+                            <div className="grid grid-cols-2 gap-4">
+                                {/* Left Half - Statistics */}
+                                <div className="flex flex-col space-y-3">
+                                    {/* Summary Cards */}
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <div className="p-3 bg-slate-950/50 rounded-lg border border-slate-800">
+                                            <div className="text-sm text-slate-500 mb-1">Total P&L</div>
+                                            <div className={`text-xl font-bold font-mono ${analytics.totalPnl >= 0 ? 'text-green-400' : 'text-red-400'
+                                                }`}>
+                                                {formatPnl(analytics.totalPnl)}
+                                            </div>
+                                        </div>
+                                        <div className="p-3 bg-slate-950/50 rounded-lg border border-slate-800">
+                                            <div className="text-sm text-slate-500 mb-1">Win Rate</div>
+                                            <div className="text-xl font-bold font-mono text-cyan-400">
+                                                {analytics.winRate.toFixed(1)}%
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="p-2.5 bg-slate-950/50 rounded-lg border border-slate-800">
-                                        <div className="text-xs text-slate-500 mb-1">Win Rate</div>
-                                        <div className="text-lg font-bold font-mono text-cyan-400">
-                                            {analytics.winRate.toFixed(1)}%
+
+                                    {/* Detailed Stats */}
+                                    <div className="flex-1 p-3 bg-slate-950/50 rounded-lg border border-slate-800 flex flex-col justify-center space-y-3">
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-slate-500">Total Trades</span>
+                                            <span className="font-mono text-slate-300">{analytics.totalTrades}</span>
+                                        </div>
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-slate-500">Open / Closed</span>
+                                            <span className="font-mono text-slate-300">
+                                                {analytics.openTrades} / {analytics.closedTrades}
+                                            </span>
+                                        </div>
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-slate-500">Wins / Losses</span>
+                                            <span className="font-mono text-slate-300">
+                                                <span className="text-green-400">{analytics.winningTrades}</span>
+                                                {' / '}
+                                                <span className="text-red-400">{analytics.losingTrades}</span>
+                                            </span>
+                                        </div>
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-slate-500">Avg Win</span>
+                                            <span className="font-mono text-green-400">+${analytics.avgWin.toFixed(2)}</span>
+                                        </div>
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-slate-500">Avg Loss</span>
+                                            <span className="font-mono text-red-400">-${analytics.avgLoss.toFixed(2)}</span>
+                                        </div>
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-slate-500">Profit Factor</span>
+                                            <span className="font-mono text-purple-400">
+                                                {analytics.profitFactor === Infinity ? '∞' : analytics.profitFactor.toFixed(2)}
+                                            </span>
+                                        </div>
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-slate-500">Avg Hold Time</span>
+                                            <span className="font-mono text-slate-300">{analytics.avgHoldTime.toFixed(1)}h</span>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Detailed Stats */}
-                                <div className="p-2.5 bg-slate-950/50 rounded-lg border border-slate-800 space-y-2">
-                                    <div className="flex justify-between text-xs">
-                                        <span className="text-slate-500">Total Trades</span>
-                                        <span className="font-mono text-slate-300">{analytics.totalTrades}</span>
-                                    </div>
-                                    <div className="flex justify-between text-xs">
-                                        <span className="text-slate-500">Open / Closed</span>
-                                        <span className="font-mono text-slate-300">
-                                            {analytics.openTrades} / {analytics.closedTrades}
-                                        </span>
-                                    </div>
-                                    <div className="flex justify-between text-xs">
-                                        <span className="text-slate-500">Wins / Losses</span>
-                                        <span className="font-mono text-slate-300">
-                                            <span className="text-green-400">{analytics.winningTrades}</span>
-                                            {' / '}
-                                            <span className="text-red-400">{analytics.losingTrades}</span>
-                                        </span>
-                                    </div>
-                                    <div className="flex justify-between text-xs">
-                                        <span className="text-slate-500">Avg Win</span>
-                                        <span className="font-mono text-green-400">+${analytics.avgWin.toFixed(2)}</span>
-                                    </div>
-                                    <div className="flex justify-between text-xs">
-                                        <span className="text-slate-500">Avg Loss</span>
-                                        <span className="font-mono text-red-400">-${analytics.avgLoss.toFixed(2)}</span>
-                                    </div>
-                                    <div className="flex justify-between text-xs">
-                                        <span className="text-slate-500">Profit Factor</span>
-                                        <span className="font-mono text-purple-400">
-                                            {analytics.profitFactor === Infinity ? '∞' : analytics.profitFactor.toFixed(2)}
-                                        </span>
-                                    </div>
-                                    <div className="flex justify-between text-xs">
-                                        <span className="text-slate-500">Avg Hold Time</span>
-                                        <span className="font-mono text-slate-300">{analytics.avgHoldTime.toFixed(1)}h</span>
-                                    </div>
-                                </div>
+                                {/* Right Half - PnL Over Time Chart */}
+                                <PnlChart trades={trades} />
                             </div>
                         )}
                     </TabsContent>
