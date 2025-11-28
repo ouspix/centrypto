@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import crypto from 'crypto';
 
 export type AlertCondition = 'above' | 'below' | 'percent_change_up' | 'percent_change_down';
 
@@ -30,6 +31,7 @@ export class PriceAlertsService {
     async createAlert(params: CreateAlertParams): Promise<PriceAlert> {
         const alert = await prisma.priceAlert.create({
             data: {
+                id: crypto.randomUUID(),
                 symbol: params.symbol,
                 condition: params.condition,
                 targetPrice: params.targetPrice,

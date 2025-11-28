@@ -126,6 +126,64 @@ export class TradeHistoryService {
                 }
             });
 
+            // Calculate average hold time using FIFO matching
+            const holdTimes: number[] = [];
+            // Separate queues for Long and Short opens
+            const openLongs: Record<string, { time: number, size: number }[]> = {};
+            const openShorts: Record<string, { time: number, size: number }[]> = {};
+
+            // Sort trades by time ascending for FIFO matching
+            const sortedTrades = [...trades].sort((a, b) => a.openedAt.getTime() - b.openedAt.getTime());
+
+            sortedTrades.forEach(trade => {
+                const isLong = trade.side === 'long';
+                const isOpen = trade.type.includes('Open');
+                const isClose = trade.type.includes('Close') || trade.type.includes('Liquidation');
+
+                // Initialize queues
+                if (!openLongs[trade.symbol]) openLongs[trade.symbol] = [];
+                if (!openShorts[trade.symbol]) openShorts[trade.symbol] = [];
+
+                if (isOpen) {
+                    if (isLong) {
+                        openLongs[trade.symbol].push({ time: trade.openedAt.getTime(), size: trade.size });
+                    } else {
+                        openShorts[trade.symbol].push({ time: trade.openedAt.getTime(), size: trade.size });
+                    }
+                } else if (isClose) {
+                    let remainingCloseSize = trade.size;
+                    // If closing a Long, match with Open Longs. If closing a Short, match with Open Shorts.
+                    // Note: trade.side for a "Close Long" is usually "sell" (short), but our Trade mapping logic
+                    // might have mapped it to 'long' based on 'dir'.
+                    // Let's rely on the 'type' field which comes from 'dir' (e.g. "Close Long").
+
+                    const isClosingLong = trade.type.includes('Long');
+                    const symbolOpens = isClosingLong ? openLongs[trade.symbol] : openShorts[trade.symbol];
+
+                    while (remainingCloseSize > 0 && symbolOpens.length > 0) {
+                        const openFill = symbolOpens[0]; // FIFO
+                        const matchSize = Math.min(remainingCloseSize, openFill.size);
+
+                        const holdTime = trade.openedAt.getTime() - openFill.time;
+                        // Filter out unreasonable hold times (e.g. negative or > 1 year) which indicate data issues
+                        if (holdTime > 0 && holdTime < 365 * 24 * 60 * 60 * 1000) {
+                            holdTimes.push(holdTime);
+                        }
+
+                        openFill.size -= matchSize;
+                        remainingCloseSize -= matchSize;
+
+                        if (openFill.size <= 0.000001) {
+                            symbolOpens.shift();
+                        }
+                    }
+                }
+            });
+
+            const totalHoldTime = holdTimes.reduce((a, b) => a + b, 0);
+            const avgHoldTimeMs = holdTimes.length > 0 ? totalHoldTime / holdTimes.length : 0;
+            const avgHoldTimeHours = avgHoldTimeMs / (1000 * 60 * 60);
+
             const winRate = closedTrades > 0 ? (winningTrades / closedTrades) * 100 : 0;
             const avgWin = winningTrades > 0 ? totalWinPnl / winningTrades : 0;
             const avgLoss = losingTrades > 0 ? totalLossPnl / losingTrades : 0;
@@ -144,7 +202,7 @@ export class TradeHistoryService {
                 largestWin: maxWin,
                 largestLoss: maxLoss,
                 profitFactor,
-                avgHoldTime: 0 // Hard to calculate from individual fills without linking them
+                avgHoldTime: avgHoldTimeHours
             };
         } catch (error) {
             console.error("Failed to get analytics:", error);

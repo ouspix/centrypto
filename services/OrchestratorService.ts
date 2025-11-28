@@ -1,6 +1,7 @@
 import { SnapshotBuilder, StateSnapshot } from "./SnapshotBuilder";
 import { RiskCheckModule, TradeDecision, RiskAssessment } from "@/lib/risk/RiskCheckModule";
 import { ExecutionEngine } from "@/lib/hyperliquidExecution";
+import { placeOrder } from "@/lib/hyperliquid";
 import { TradingLogger } from "@/lib/log/tradingLogger";
 import { AgentConfig, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
 import { ScreenerConfig, DEFAULT_SCREENER_CONFIG } from "@/lib/screener-config";
@@ -387,53 +388,109 @@ export class OrchestratorService {
         let lastRiskAssessment: RiskAssessment = { approved: false, reason: "No decisions" };
 
         for (const decision of decisions) {
-            if (decision.target_side === "flat" && decision.action === "HOLD") continue; // Skip no-ops
+            try {
+                if (decision.target_side === "flat" && decision.action === "HOLD") continue; // Skip no-ops
 
-            // Risk Check
-            const riskAssessment = this.riskModule.assess(decision, snapshot);
-            lastRiskAssessment = riskAssessment;
+                // Risk Check
+                const riskAssessment = this.riskModule.assess(decision, snapshot);
+                lastRiskAssessment = riskAssessment;
 
-            // 4. Execution (if Auto-Trading)
-            let executionResult = null;
-            if (autoTrading && riskAssessment.approved && riskAssessment.modifiedOrder) {
-                console.log(`🚀 Auto-Trading: Risk Officer APPROVED. Executing Order for ${decision.symbol}...`);
+                // 4. Execution (if Auto-Trading)
+                let executionResult = null;
+                if (autoTrading && riskAssessment.approved && riskAssessment.modifiedOrder) {
+                    console.log(`🚀 Auto-Trading: Risk Officer APPROVED. Executing Order for ${decision.symbol}...`);
 
-                const marketData = snapshot.markets[decision.symbol!];
-                const assetIndex = marketData?.assetIndex;
+                    const marketData = snapshot.markets[decision.symbol!];
+                    const assetIndex = marketData?.assetIndex;
 
-                if (assetIndex === undefined) {
-                    console.error(`❌ Auto-Trading Error: Asset index not found for ${decision.symbol}`);
-                    // Log the failure
-                    await this.logger.logDecision({
-                        timestamp: new Date().toISOString(),
-                        snapshot: "SNAPSHOT_HASH",
-                        decision,
-                        riskAssessment,
-                        executionResult: { success: false, error: "Asset index not found" }
-                    });
-                    continue;
+                    if (assetIndex === undefined) {
+                        console.error(`❌ Auto-Trading Error: Asset index not found for ${decision.symbol}`);
+                        // Log the failure
+                        await this.logger.logDecision({
+                            timestamp: new Date().toISOString(),
+                            snapshot: "SNAPSHOT_HASH",
+                            decision,
+                            riskAssessment,
+                            executionResult: { success: false, error: "Asset index not found" }
+                        });
+                        continue;
+                    }
+
+                    const currentPrice = marketData?.price || 0;
+
+                    // Direct Execution using placeOrder (same as manual trading)
+                    try {
+                        const privateKey = isTestnet
+                            ? process.env.HYPERLIQUID_TESTNET_PRIVATE_KEY
+                            : process.env.HYPERLIQUID_PRIVATE_KEY;
+
+                        if (!privateKey) {
+                            throw new Error("Private key not found in env");
+                        }
+
+                        const isBuy = riskAssessment.modifiedOrder.side === 'buy';
+                        const sz = riskAssessment.modifiedOrder.sizeUsd / currentPrice;
+                        const reduceOnly = decision.action === 'CLOSE_POSITION' || decision.action === 'REDUCE_POSITION';
+
+                        // 5% Slippage for "Market" execution
+                        const slippage = 0.05;
+                        const limitPx = isBuy
+                            ? currentPrice * (1 + slippage)
+                            : currentPrice * (1 - slippage);
+
+                        console.log(`🚀 Sending Order: ${isBuy ? 'BUY' : 'SELL'} ${decision.symbol} sz=${sz.toFixed(4)} px=${limitPx.toFixed(4)} reduce=${reduceOnly}`);
+
+                        const result = await placeOrder(
+                            privateKey,
+                            {
+                                asset: assetIndex,
+                                isBuy,
+                                limitPx,
+                                sz,
+                                reduceOnly
+                            },
+                            isTestnet
+                        );
+
+                        if (result.status === "ok") {
+                            executionResult = {
+                                success: true,
+                                status: "submitted",
+                                orderId: result.response?.data?.statuses?.[0]?.oid?.toString()
+                            };
+                            // Add a small delay to prevent nonce collisions and rate limits
+                            await new Promise(resolve => setTimeout(resolve, 500));
+                        } else {
+                            executionResult = {
+                                success: false,
+                                status: "failed",
+                                error: JSON.stringify(result.response)
+                            };
+                        }
+
+                    } catch (error: any) {
+                        console.error("❌ Auto-Trading Execution Failed:", error);
+                        executionResult = {
+                            success: false,
+                            status: "error",
+                            error: error.message || String(error)
+                        };
+                    }
                 }
 
-                const currentPrice = marketData?.price || 0;
+                // 5. Log
+                await this.logger.logDecision({
+                    timestamp: new Date().toISOString(),
+                    snapshot: "SNAPSHOT_HASH", // Optimize logging
+                    decision,
+                    riskAssessment,
+                    executionResult
+                });
 
-                this.executionEngine = new ExecutionEngine(process.env.HYPERLIQUID_PRIVATE_KEY || "", isTestnet);
-                executionResult = await this.executionEngine.placeOrder(
-                    riskAssessment.modifiedOrder,
-                    currentPrice,
-                    assetIndex
-                );
+                processedDecisions.push(decision);
+            } catch (loopError) {
+                console.error(`❌ Error processing decision for ${decision.symbol}:`, loopError);
             }
-
-            // 5. Log
-            await this.logger.logDecision({
-                timestamp: new Date().toISOString(),
-                snapshot: "SNAPSHOT_HASH", // Optimize logging
-                decision,
-                riskAssessment,
-                executionResult
-            });
-
-            processedDecisions.push(decision);
         }
 
         return { decisions, riskAssessment: lastRiskAssessment, snapshot, prompt, rawOutput };

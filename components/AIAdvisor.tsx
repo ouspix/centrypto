@@ -153,6 +153,23 @@ export function AIAdvisor() {
 
     // Controls
     const [autoTrading, setAutoTrading] = useState(false)
+    const [isInitialized, setIsInitialized] = useState(false)
+
+    // Load Auto Trading State
+    useEffect(() => {
+        const saved = localStorage.getItem('autoTrading');
+        if (saved) {
+            setAutoTrading(saved === 'true');
+        }
+        setIsInitialized(true);
+    }, []);
+
+    // Save Auto Trading State
+    useEffect(() => {
+        if (isInitialized) {
+            localStorage.setItem('autoTrading', String(autoTrading));
+        }
+    }, [autoTrading, isInitialized]);
     const DEFAULT_TRADING_INTERVAL = 600; // 10 minutes
     const [frequency, setFrequency] = useState(DEFAULT_TRADING_INTERVAL) // seconds
     const [selectedModel, setSelectedModel] = useState("deepseek/deepseek-v3.2-exp")

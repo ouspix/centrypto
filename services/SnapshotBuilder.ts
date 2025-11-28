@@ -206,6 +206,8 @@ export class SnapshotBuilder {
                     change2h: sentiment.change_2h
                 },
                 regime_tags: metrics.regime_tags,
+                high_low: metrics.high_low,
+                bbands: metrics.bbands,
                 assetIndex: assetIndexMap.get(symbol) // Add assetIndex
             };
         }
@@ -262,7 +264,7 @@ export class SnapshotBuilder {
                         change2h: sentiment.change_2h
                     },
                     regime_tags: metrics.regime_tags,
-                    regime_tags: metrics.regime_tags,
+
                     data_source: "fallback_on_demand",
                     assetIndex: assetIndexMap.get(baseSymbol)
                 };
@@ -411,6 +413,10 @@ export class SnapshotBuilder {
                     expected_move_bps: parseFloat(expectedMoveBps.toFixed(1)),
                     edge_bps: parseFloat(edgeBps.toFixed(1)),
                     edge_ok: edgeOk
+                },
+                technicals: {
+                    high_low: m.high_low || { is_new_high_1h: false, is_new_low_1h: false },
+                    bb_width_m5: m.bbands?.m5?.width || 0
                 },
                 triggers: {
                     direction_m15: dirM15,

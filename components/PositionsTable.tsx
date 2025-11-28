@@ -739,41 +739,46 @@ export function PositionsTable() {
 
                                     {/* Detailed Stats */}
                                     <div className="flex-1 p-3 bg-slate-950/50 rounded-lg border border-slate-800 flex flex-col justify-center space-y-3">
-                                        <div className="flex justify-between text-sm">
-                                            <span className="text-slate-500">Total Trades</span>
-                                            <span className="font-mono text-slate-300">{analytics.totalTrades}</span>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-slate-500 text-base">Total Trades</span>
+                                            <span className="font-mono text-slate-300 text-lg font-semibold">{positions.length + analytics.closedTrades}</span>
                                         </div>
-                                        <div className="flex justify-between text-sm">
-                                            <span className="text-slate-500">Open / Closed</span>
-                                            <span className="font-mono text-slate-300">
-                                                {analytics.openTrades} / {analytics.closedTrades}
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-slate-500 text-base">Open / Closed</span>
+                                            <span className="font-mono text-slate-300 text-lg font-semibold">
+                                                {positions.length} / {analytics.closedTrades}
                                             </span>
                                         </div>
-                                        <div className="flex justify-between text-sm">
-                                            <span className="text-slate-500">Wins / Losses</span>
-                                            <span className="font-mono text-slate-300">
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-slate-500 text-base">Wins / Losses</span>
+                                            <span className="font-mono text-slate-300 text-lg font-semibold">
                                                 <span className="text-green-400">{analytics.winningTrades}</span>
                                                 {' / '}
                                                 <span className="text-red-400">{analytics.losingTrades}</span>
                                             </span>
                                         </div>
-                                        <div className="flex justify-between text-sm">
-                                            <span className="text-slate-500">Avg Win</span>
-                                            <span className="font-mono text-green-400">+${analytics.avgWin.toFixed(2)}</span>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-slate-500 text-base">Avg Win</span>
+                                            <span className="font-mono text-green-400 text-lg font-semibold">+${analytics.avgWin.toFixed(2)}</span>
                                         </div>
-                                        <div className="flex justify-between text-sm">
-                                            <span className="text-slate-500">Avg Loss</span>
-                                            <span className="font-mono text-red-400">-${analytics.avgLoss.toFixed(2)}</span>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-slate-500 text-base">Avg Loss</span>
+                                            <span className="font-mono text-red-400 text-lg font-semibold">-${analytics.avgLoss.toFixed(2)}</span>
                                         </div>
-                                        <div className="flex justify-between text-sm">
-                                            <span className="text-slate-500">Profit Factor</span>
-                                            <span className="font-mono text-purple-400">
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-slate-500 text-base" title="Gross Profit / Gross Loss">Profit Factor</span>
+                                            <span className="font-mono text-purple-400 text-lg font-semibold">
                                                 {analytics.profitFactor === Infinity ? '∞' : analytics.profitFactor.toFixed(2)}
                                             </span>
                                         </div>
-                                        <div className="flex justify-between text-sm">
-                                            <span className="text-slate-500">Avg Hold Time</span>
-                                            <span className="font-mono text-slate-300">{analytics.avgHoldTime.toFixed(1)}h</span>
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-slate-500 text-base">Avg Hold Time</span>
+                                            <span className="font-mono text-slate-300 text-lg font-semibold">
+                                                {analytics.avgHoldTime < 1
+                                                    ? `${(analytics.avgHoldTime * 60).toFixed(1)}m`
+                                                    : `${analytics.avgHoldTime.toFixed(1)}h`
+                                                }
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

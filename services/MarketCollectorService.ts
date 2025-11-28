@@ -95,10 +95,9 @@ export class MarketCollectorService {
                 high: number;
                 low: number;
                 close: number;
-                volume: number; // Volume is tricky with snapshots. We can't sum volume24h. 
-                // We need delta of volume24h or if we had trade ticks.
-                // With snapshots, volume is hard. We'll use 0 or estimate from volume24h diff?
-                // For now, let's use 0 or just track price.
+                volume: number;
+                firstVol24h: number;
+                lastVol24h: number;
             }>();
 
             for (const tick of ticks) {
@@ -114,14 +113,28 @@ export class MarketCollectorService {
                         high: tick.markPrice,
                         low: tick.markPrice,
                         close: tick.markPrice,
-                        volume: 0
+                        volume: 0,
+                        // Track first and last vol24h for this bucket to estimate volume
+                        firstVol24h: tick.volume24h || 0,
+                        lastVol24h: tick.volume24h || 0
                     });
                 } else {
                     const candle = candlesMap.get(key)!;
                     candle.high = Math.max(candle.high, tick.markPrice);
                     candle.low = Math.min(candle.low, tick.markPrice);
                     candle.close = tick.markPrice;
-                    // Volume logic would go here if we had trade data
+                    candle.lastVol24h = tick.volume24h || 0;
+                }
+            }
+
+            // Calculate volume for each candle
+            for (const candle of candlesMap.values()) {
+                // Estimate quote volume delta
+                const quoteVolDelta = Math.max(0, candle.lastVol24h - candle.firstVol24h);
+
+                // Convert to base volume (approximate using close price)
+                if (candle.close > 0) {
+                    candle.volume = quoteVolDelta / candle.close;
                 }
             }
 
@@ -148,9 +161,10 @@ export class MarketCollectorService {
                                 }
                             },
                             update: {
-                                high: Math.max(candle.high, candle.high), // Logic to merge? No, just overwrite or careful merge.
+                                high: Math.max(candle.high, candle.high),
                                 low: Math.min(candle.low, candle.low),
                                 close: candle.close,
+                                volume: candle.volume
                             },
                             create: {
                                 symbol: candle.symbol,
@@ -160,7 +174,7 @@ export class MarketCollectorService {
                                 high: candle.high,
                                 low: candle.low,
                                 close: candle.close,
-                                volume: 0
+                                volume: candle.volume
                             }
                         })
                     )
@@ -193,39 +207,42 @@ export class MarketCollectorService {
         const MAX_LOOKBACK_MS = 80 * 60 * 60 * 1000; // 80 hours
 
         // Process in batches
-        for (let i = 0; i < universe.length; i += BATCH_SIZE) {
-            const batch = universe.slice(i, i + BATCH_SIZE);
+        // Process sequentially to avoid SQLite database locking/timeouts
+        let processedCount = 0;
+        for (const asset of universe) {
+            try {
+                const symbol = asset.name;
 
-            await Promise.all(batch.map(async (asset) => {
-                try {
-                    const symbol = asset.name;
+                // 1. Check latest candle
+                const latestCandle = await db.marketCandle.findFirst({
+                    where: { symbol, timeframe: "1m" },
+                    orderBy: { openTime: 'desc' }
+                });
 
-                    // 1. Check latest candle
-                    const latestCandle = await db.marketCandle.findFirst({
-                        where: { symbol, timeframe: "1m" },
-                        orderBy: { openTime: 'desc' }
-                    });
+                // 2. Determine start time
+                const now = Date.now();
+                let startTime = now - MAX_LOOKBACK_MS;
 
-                    // 2. Determine start time
-                    const now = Date.now();
-                    let startTime = now - MAX_LOOKBACK_MS;
+                if (latestCandle) {
+                    startTime = Math.max(startTime, latestCandle.openTime.getTime() + 60000);
+                }
 
-                    if (latestCandle) {
-                        startTime = Math.max(startTime, latestCandle.openTime.getTime() + 60000);
-                    }
+                // If gap is small (< 2 mins), skip
+                if (now - startTime < 2 * 60000) continue;
 
-                    // If gap is small (< 2 mins), skip
-                    if (now - startTime < 2 * 60000) return;
+                // 3. Fetch missing candles
+                // console.log(`[Backfill] Fetching ${symbol} from ${new Date(startTime).toISOString()}`);
+                const candles = await getOHLCV(symbol, "1m", isTestnet, startTime);
 
-                    // 3. Fetch missing candles
-                    // console.log(`[Backfill] Fetching ${symbol} from ${new Date(startTime).toISOString()}`);
-                    const candles = await getOHLCV(symbol, "1m", isTestnet, startTime);
+                if (candles.length === 0) continue;
 
-                    if (candles.length === 0) return;
-
-                    // 4. Save to DB
+                // 4. Save to DB
+                // Split into smaller chunks to avoid "Transaction too large" or timeouts
+                const CHUNK_SIZE = 500;
+                for (let i = 0; i < candles.length; i += CHUNK_SIZE) {
+                    const chunk = candles.slice(i, i + CHUNK_SIZE);
                     await db.$transaction(
-                        candles.map((c: any) =>
+                        chunk.map((c: any) =>
                             db.marketCandle.upsert({
                                 where: {
                                     symbol_timeframe_openTime: {
@@ -248,16 +265,17 @@ export class MarketCollectorService {
                             })
                         )
                     );
-                    // console.log(`[Backfill] Filled ${candles.length} candles for ${symbol}`);
-
-                } catch (error) {
-                    console.error(`[Backfill] Error processing ${asset.name}:`, error);
                 }
-            }));
+                // console.log(`[Backfill] Filled ${candles.length} candles for ${symbol}`);
 
-            // Progress log every 50 symbols
-            if ((i + BATCH_SIZE) % 50 === 0) {
-                console.log(`[Backfill] Processed ${i + BATCH_SIZE}/${universe.length} symbols...`);
+            } catch (error) {
+                console.error(`[Backfill] Error processing ${asset.name}:`, error);
+            }
+
+            processedCount++;
+            // Progress log every 10 symbols
+            if (processedCount % 10 === 0) {
+                console.log(`[Backfill] Processed ${processedCount}/${universe.length} symbols...`);
             }
         }
         console.log(`[MarketCollector] Backfill complete for ${isTestnet ? 'Testnet' : 'Mainnet'}.`);

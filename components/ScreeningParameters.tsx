@@ -10,6 +10,8 @@ import { Filter, ChevronDown, ChevronUp } from "lucide-react"
 type ScreeningConfig = {
     layer1Enabled: boolean;
     minVolume24h: number;
+    minRecentVolume: number;
+    recentVolumeMinutes: number;
     layer2Enabled: boolean;
     maxSpreadBps: number;
     dynamicSpreadEnabled: boolean;
@@ -27,6 +29,8 @@ type ScreeningConfig = {
 const DEFAULT_CONFIG: ScreeningConfig = {
     layer1Enabled: true,
     minVolume24h: 1_000_000,
+    minRecentVolume: 50_000,
+    recentVolumeMinutes: 15,
     layer2Enabled: true,
     maxSpreadBps: 50,
     dynamicSpreadEnabled: true,
@@ -102,8 +106,8 @@ export function ScreeningParameters() {
                             />
                         </div>
                         {config.layer1Enabled && (
-                            <div className="grid grid-cols-1 gap-2">
-                                <div>
+                            <div className="grid grid-cols-2 gap-2">
+                                <div className="col-span-2">
                                     <div className="flex justify-between items-center mb-1">
                                         <label className="text-[10px] text-slate-400">Min 24h Vol</label>
                                         <span className="text-[10px] text-slate-500 font-mono">
@@ -116,6 +120,35 @@ export function ScreeningParameters() {
                                         onChange={(e) => updateConfig('minVolume24h', Number(e.target.value))}
                                         className="h-7 bg-slate-900 border-slate-700 text-slate-200 text-xs px-2"
                                         step="100000"
+                                    />
+                                </div>
+                                <div>
+                                    <div className="flex justify-between items-center mb-1">
+                                        <label className="text-[10px] text-slate-400">Recent Vol</label>
+                                        <span className="text-[10px] text-slate-500 font-mono">
+                                            ${(config.minRecentVolume / 1_000).toFixed(0)}k
+                                        </span>
+                                    </div>
+                                    <Input
+                                        type="number"
+                                        value={config.minRecentVolume}
+                                        onChange={(e) => updateConfig('minRecentVolume', Number(e.target.value))}
+                                        className="h-7 bg-slate-900 border-slate-700 text-slate-200 text-xs px-2"
+                                        step="10000"
+                                    />
+                                </div>
+                                <div>
+                                    <div className="flex justify-between items-center mb-1">
+                                        <label className="text-[10px] text-slate-400">Window (m)</label>
+                                    </div>
+                                    <Input
+                                        type="number"
+                                        value={config.recentVolumeMinutes}
+                                        onChange={(e) => updateConfig('recentVolumeMinutes', Number(e.target.value))}
+                                        className="h-7 bg-slate-900 border-slate-700 text-slate-200 text-xs px-2"
+                                        step="1"
+                                        min="1"
+                                        max="60"
                                     />
                                 </div>
                             </div>

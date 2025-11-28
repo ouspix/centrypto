@@ -14,6 +14,10 @@ export interface ScreenerConfig {
     minRetM15: number;
     layer4Enabled: boolean;
     topN: number;
+    // Recent Activity Filter (Layer 1)
+    minRecentVolume: number;
+    recentVolumeMinutes: number;
+
     // Quality weights were in AgentConfig but not in ScreeningParameters.
     // We should include them here to maintain logic in ScreenerService, 
     // even if not exposed in UI yet, or use defaults.
@@ -29,6 +33,8 @@ export interface ScreenerConfig {
 export const DEFAULT_SCREENER_CONFIG: ScreenerConfig = {
     layer1Enabled: true,
     minVolume24h: 1_000_000,
+    minRecentVolume: 50_000,
+    recentVolumeMinutes: 15,
     layer2Enabled: true,
     maxSpreadBps: 50,
     dynamicSpreadEnabled: true,

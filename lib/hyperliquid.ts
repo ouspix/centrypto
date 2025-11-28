@@ -325,7 +325,7 @@ class RateLimiter {
     private queue: Array<() => void> = [];
     private processing = false;
     private lastRequestTime = 0;
-    private minDelay = 50; // 20 requests per second (conservative)
+    private minDelay = 200; // 5 requests per second (very conservative)
 
     async wait(): Promise<void> {
         return new Promise((resolve) => {
@@ -416,27 +416,43 @@ export async function getL2Book(coin: string, isTestnet: boolean = false) {
         ? "https://api.hyperliquid-testnet.xyz/info"
         : "https://api.hyperliquid.xyz/info";
 
-    try {
-        await limiter.wait(); // Wait for rate limiter
+    const maxRetries = 3;
+    let attempt = 0;
 
-        const res = await fetch(apiUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                type: "l2Book",
-                coin: coin
-            }),
-        });
+    while (attempt < maxRetries) {
+        try {
+            await limiter.wait(); // Wait for rate limiter
 
-        if (!res.ok) {
-            throw new Error(`Failed to fetch L2 Book: ${res.statusText} `);
+            const res = await fetch(apiUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    type: "l2Book",
+                    coin: coin
+                }),
+            });
+
+            if (res.status === 429) {
+                const waitTime = Math.pow(2, attempt) * 1000; // 1s, 2s, 4s
+                console.warn(`[Hyperliquid] Rate limited(429) for L2Book ${coin}. Retrying in ${waitTime}ms...`);
+                await new Promise(resolve => setTimeout(resolve, waitTime));
+                attempt++;
+                continue;
+            }
+
+            if (!res.ok) {
+                throw new Error(`Failed to fetch L2 Book: ${res.statusText} `);
+            }
+
+            return await res.json();
+        } catch (error: any) {
+            console.error(`Error fetching L2 Book (attempt ${attempt + 1}/${maxRetries}):`, error.message);
+            if (attempt === maxRetries - 1) return null;
+            attempt++;
+            await new Promise(resolve => setTimeout(resolve, 1000));
         }
-
-        return await res.json();
-    } catch (error) {
-        console.error("Error fetching L2 Book:", error);
-        return null;
     }
+    return null;
 }
 
 export async function getUserFills(userAddress: string, isTestnet: boolean = false) {

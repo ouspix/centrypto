@@ -213,14 +213,15 @@ export class TechnicalIndicatorsService {
     public async getIndicators(symbol: string, isTestnet: boolean): Promise<TechnicalIndicators> {
         // Fetch candles from database (we need enough history for 200-period SMA)
         const lookbackWindow = Date.now() - (30 * 24 * 60 * 60 * 1000); // 30 days
-        const dbCandles = await prisma.candle.findMany({
-            where: {
-                symbol,
-                interval: "1m",
-                t: { gte: lookbackWindow }
-            },
-            orderBy: { t: 'asc' }
-        });
+        // const dbCandles = await prisma.candle.findMany({
+        //     where: {
+        //         symbol,
+        //         interval: "1m",
+        //         t: { gte: lookbackWindow }
+        //     },
+        //     orderBy: { t: 'asc' }
+        // });
+        const dbCandles: any[] = []; // Temporary fix for build error (Candle model missing in client)
 
         // If not enough data in DB, fetch from API
         let candles: Candle[] = dbCandles.map(c => ({
