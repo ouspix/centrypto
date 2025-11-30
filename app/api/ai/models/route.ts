@@ -23,6 +23,7 @@ export async function GET() {
     if (process.env.OPENROUTER_API_KEY) {
         const openRouterModel = process.env.OPENROUTER_MODEL || "deepseek/deepseek-v3.2-exp";
         models.push({ name: openRouterModel });
+        models.push({ name: "deepseek/deepseek-reasoner" });
         models.push({ name: "deepseek/deepseek-chat" });
         models.push({ name: "anthropic/claude-3-opus" });
         models.push({ name: "anthropic/claude-3-sonnet" });

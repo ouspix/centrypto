@@ -180,21 +180,6 @@ export function AIAdvisor() {
     const [autoTrading, setAutoTrading] = useState(false)
     const [isInitialized, setIsInitialized] = useState(false)
 
-    // Load Auto Trading State
-    useEffect(() => {
-        const saved = localStorage.getItem('autoTrading');
-        if (saved) {
-            setAutoTrading(saved === 'true');
-        }
-        setIsInitialized(true);
-    }, []);
-
-    // Save Auto Trading State
-    useEffect(() => {
-        if (isInitialized) {
-            localStorage.setItem('autoTrading', String(autoTrading));
-        }
-    }, [autoTrading, isInitialized]);
     const DEFAULT_TRADING_INTERVAL = 600; // 10 minutes
     const [frequency, setFrequency] = useState(DEFAULT_TRADING_INTERVAL) // seconds
     const [selectedModel, setSelectedModel] = useState("deepseek/deepseek-v3.2-exp")
@@ -202,6 +187,35 @@ export function AIAdvisor() {
     const [killSwitch, setKillSwitch] = useState(false)
     const [showConfig, setShowConfig] = useState(false)
     const [customConfig, setCustomConfig] = useState<AgentConfig | undefined>(undefined)
+
+    // Load Auto Trading State & Settings
+    useEffect(() => {
+        const savedAuto = localStorage.getItem('autoTrading');
+        if (savedAuto) {
+            setAutoTrading(savedAuto === 'true');
+        }
+
+        const savedFreq = localStorage.getItem('aiAdvisor_frequency');
+        if (savedFreq) {
+            setFrequency(Number(savedFreq));
+        }
+
+        const savedModel = localStorage.getItem('aiAdvisor_selectedModel');
+        if (savedModel) {
+            setSelectedModel(savedModel);
+        }
+
+        setIsInitialized(true);
+    }, []);
+
+    // Save Auto Trading State & Settings
+    useEffect(() => {
+        if (isInitialized) {
+            localStorage.setItem('autoTrading', String(autoTrading));
+            localStorage.setItem('aiAdvisor_frequency', String(frequency));
+            localStorage.setItem('aiAdvisor_selectedModel', selectedModel);
+        }
+    }, [autoTrading, frequency, selectedModel, isInitialized]);
 
     const timerRef = useRef<NodeJS.Timeout | null>(null)
     const abortControllerRef = useRef<AbortController | null>(null)

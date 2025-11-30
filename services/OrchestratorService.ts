@@ -523,13 +523,21 @@ ${JSON.stringify(snapshot.account.current_positions, null, 2)}`;
 
             if (this.openRouterClient && (model.includes("/") || model.startsWith("gpt") || model.startsWith("anthropic"))) {
                 console.log("✨ Using OpenRouter via OpenAI SDK");
+
+                const isReasoning = model.includes("reasoner") || model.includes("r1");
+                const temperature = isReasoning ? 0.6 : 0.3;
+
+                if (isReasoning) {
+                    console.log("🧠 Reasoning Model Detected: Adjusting temperature to 0.6");
+                }
+
                 const completion = await this.openRouterClient.chat.completions.create({
                     model: model,
                     messages: [
                         { role: "system", content: SYSTEM_PROMPT },
                         { role: "user", content: USER_PROMPT }
                     ],
-                    temperature: 0.3,
+                    temperature: temperature,
                     top_p: 0.9,
                     max_tokens: 8000, // Verified max for DeepSeek V3 (non-reasoner)
                     // @ts-ignore - signal is supported in newer openai versions but types might lag
@@ -608,8 +616,8 @@ ${JSON.stringify(snapshot.account.current_positions, null, 2)}`;
                 Object.entries(snapshot.markets).forEach(([symbol, market]) => {
                     console.log(`   Market ${symbol}:`);
                     console.log(`     Price: ${market.price}, Spread: ${market.spread_bps.toFixed(2)}bps`);
-                    console.log(`     Triggers:`, JSON.stringify(market.derived.triggers));
-                    console.log(`     Edge OK: ${market.derived.edge.edge_ok}, Cost OK: ${market.derived.costs.cost_ok}`);
+                    console.log(`     Triggers:`, JSON.stringify(market.derived?.triggers));
+                    console.log(`     Edge OK: ${market.derived?.edge?.edge_ok}, Cost OK: ${market.derived?.costs?.cost_ok}`);
                 });
             }
 
