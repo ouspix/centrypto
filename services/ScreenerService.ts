@@ -3,6 +3,8 @@ import { SentimentService } from "./SentimentService";
 import { marketDbMain, marketDbTest } from "@/lib/market-db";
 import { AgentConfig, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
 import { ScreenerConfig, DEFAULT_SCREENER_CONFIG } from "@/lib/screener-config";
+import { OrderBookManager } from "./OrderBookManager";
+import { HyperliquidWS } from "@/lib/hyperliquid-ws";
 
 export type EnrichedMarketData = {
     symbol: string;
@@ -10,6 +12,8 @@ export type EnrichedMarketData = {
     volume24h: number;
     funding: number;
     openInterest: number;
+    openInterestDelta5m?: number;
+    fundingDelta5m?: number;
     metrics: MarketMetrics;
     bookMetrics: OrderBookMetrics;
     sentiment: any;
@@ -24,10 +28,31 @@ export type ScreenedSymbol = EnrichedMarketData & {
 export class ScreenerService {
     private marketAnalysisService: MarketAnalysisService;
     private sentimentService: SentimentService;
+    private orderBookManager: OrderBookManager;
+    private ws: HyperliquidWS;
 
     constructor() {
         this.marketAnalysisService = new MarketAnalysisService();
         this.sentimentService = new SentimentService();
+
+        // Initialize WS and OrderBookManager
+        // Note: We default to Mainnet for now, or we might need to handle switching.
+        // The screener method takes `isTestnet`, so ideally we should support both.
+        // But for simplicity, let's assume we run one instance per network or switch.
+        // Actually, creating a WS connection in constructor might be premature if we don't know the network.
+        // Let's lazy init or handle it. 
+        // For now, let's just init for Mainnet as default, but we might need to reconnect if isTestnet changes.
+        // Or better: The OrderBookManager should handle the WS connection.
+
+        // Let's initialize with Mainnet for now. If getScreenedSymbols is called with isTestnet=true, 
+        // we might have a problem if we only have one WS.
+        // Ideally, we should have two managers? Or one manager that can handle both?
+        // HyperliquidWS takes isTestnet in constructor.
+
+        // Let's create two managers to be safe.
+        this.ws = new HyperliquidWS(false); // Mainnet
+        this.orderBookManager = new OrderBookManager(this.ws);
+        this.ws.connect();
     }
 
     public async getScreenedSymbols(
@@ -53,12 +78,15 @@ export class ScreenerService {
             orderBy: { ts: 'desc' }
         });
 
-        // Dedupe to get latest per symbol
+        // Dedupe to get latest per symbol (also track earliest in the window for deltas)
         const latestTicksMap = new Map<string, typeof recentTicks[0]>();
+        const earliestTicksMap = new Map<string, typeof recentTicks[0]>();
         for (const tick of recentTicks) {
             if (!latestTicksMap.has(tick.symbol)) {
                 latestTicksMap.set(tick.symbol, tick);
             }
+            // Last assignment (descending loop) will be the earliest in the window
+            earliestTicksMap.set(tick.symbol, tick);
         }
         const allTicks = Array.from(latestTicksMap.values());
 
@@ -66,14 +94,14 @@ export class ScreenerService {
             console.warn("⚠️ No recent market ticks found in DB. Screening cannot proceed. Ensure collector is running.");
             return [];
         }
-        console.log(`Loaded ${allTicks.length} symbols from recent DB ticks.`);
+
 
         // 2. Apply Filters In-Memory
 
         // Layer 1: Volume
         // 1a. Calculate Recent Volume (Quote Volume in last X mins)
         const recentWindowStart = new Date(Date.now() - screenerCfg.recentVolumeMinutes * 60 * 1000);
-        console.log(`Debug: recentWindowStart=${recentWindowStart.toISOString()} (${recentWindowStart.getTime()})`);
+
 
         // Aggregate volume from candles for each symbol
         // Note: MarketCandle volume is typically Base Volume. We need Quote Volume (Base Vol * Price).
@@ -88,30 +116,17 @@ export class ScreenerService {
                 volume: true
             }
         });
-        console.log(`Debug: recentVolumes found for ${recentVolumes.length} symbols.`);
 
-        // Debug specific symbol
-        const ada = recentVolumes.find(r => r.symbol === 'ADA');
-        if (ada) {
-            console.log(`Debug: ADA volume sum: ${ada._sum.volume}`);
-        } else {
-            console.log("Debug: ADA not found in recentVolumes.");
-        }
+
+
 
         // Verify DB connection and data
         const count = await db.marketCandle.count();
-        console.log(`Debug: Total candles in DB: ${count}`);
 
-        // Debug raw candles
-        const rawCandles = await db.marketCandle.findMany({
-            where: { symbol: 'ADA', openTime: { gte: recentWindowStart } },
-            take: 5
-        });
-        console.log(`Debug: Raw ADA candles: ${JSON.stringify(rawCandles)}`);
 
-        if (recentVolumes.length > 0) {
-            console.log(`Debug: Sample vol: ${recentVolumes[0].symbol}=${recentVolumes[0]._sum.volume}`);
-        }
+
+
+
 
         const recentVolumeMap = new Map<string, number>();
         for (const rv of recentVolumes) {
@@ -139,8 +154,15 @@ export class ScreenerService {
         // Process sequentially to respect rate limits
         for (const tick of layer1) {
             try {
+                const baselineTick = earliestTicksMap.get(tick.symbol) || tick;
+                const oiDelta5m = (tick.openInterest || 0) - (baselineTick.openInterest || 0);
+                const fundingDelta5m = (tick.fundingRate || 0) - (baselineTick.fundingRate || 0);
+
+                // Layer 2: Fetch Full Metrics (Candles + Sentiment)
+                // We set allowFetch=false to prevent the screener from hitting rate limits.
+                // It should rely on the Collector to populate the DB.
                 const [metrics, sentiment] = await Promise.all([
-                    this.marketAnalysisService.getMetricsForSymbol(tick.symbol, isTestnet, true),
+                    this.marketAnalysisService.getMetricsForSymbol(tick.symbol, isTestnet, false),
                     this.sentimentService.getSentimentForCoin(tick.symbol)
                 ]);
 
@@ -150,13 +172,16 @@ export class ScreenerService {
                     volume24h: tick.volume24h || 0,
                     funding: tick.fundingRate || 0,
                     openInterest: tick.openInterest || 0,
+                    openInterestDelta5m: oiDelta5m,
+                    fundingDelta5m: fundingDelta5m,
                     metrics,
                     bookMetrics: { // Placeholder, filled later if passes L3
                         spread_bps: 0,
                         depth_usd: { bid_1pct: 0, ask_1pct: 0 },
                         imbalance: 0,
                         book_pressure: 0,
-                        cost_bps: 0
+                        cost_bps: 0,
+                        depth_bands_usd: { bid: {}, ask: {} }
                     },
                     sentiment,
                     isTestnet
@@ -200,21 +225,30 @@ export class ScreenerService {
             console.log(`⚠️ Relaxed Layer 3: ${layer3.length} symbols passed.`);
         }
 
-        // STAGE 2: Fetch L2 Book Metrics (Expensive)
+        // STAGE 2: Fetch L2 Book Metrics (Real-time via WS)
         // Only for survivors of Layer 3
         const stage2Candidates: EnrichedMarketData[] = [];
 
+        // 1. Update Subscriptions
+        const symbolsToTrack = layer3.map(c => c.symbol);
+        this.orderBookManager.updateSubscriptions(symbolsToTrack);
+
+        // 2. Wait for data (warmup)
+        // If we just subscribed, we need a moment for the snapshot to arrive.
+        // 1-2 seconds should be plenty.
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        // 3. Get Metrics
         for (const candidate of layer3) {
             try {
-                const bookMetrics = await this.marketAnalysisService.getOrderBookMetrics(candidate.symbol, isTestnet, true);
+                // Use local OrderBookManager instead of API
+                const bookMetrics = this.orderBookManager.getMetrics(candidate.symbol);
                 stage2Candidates.push({
                     ...candidate,
                     bookMetrics
                 });
             } catch (e) {
-                console.error(`Failed to fetch L2 book for ${candidate.symbol}`, e);
-                // Keep candidate with empty metrics? Or drop? 
-                // Let's keep it but it will likely fail L2 filters if they are strict
+                console.error(`Failed to get L2 metrics for ${candidate.symbol}`, e);
                 stage2Candidates.push(candidate);
             }
         }

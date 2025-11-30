@@ -28,6 +28,7 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
             }
         };
     });
+    const [preset, setPreset] = useState<string>('default');
 
     // Helper to update nested state
     const updateConfig = (path: string, value: any) => {
@@ -41,6 +42,7 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
             current[keys[keys.length - 1]] = value;
             return newConfig;
         });
+        setPreset('custom');
     };
 
     const handleSave = () => {
@@ -51,11 +53,143 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
     const handleReset = () => {
         setConfig(DEFAULT_AGENT_CONFIG);
         toast.info("Reset to defaults");
+        setPreset('default');
+    };
+
+    type Preset = {
+        name: string;
+        description: string;
+        config: Partial<AgentConfig>;
+    };
+
+    const presets: Record<string, Preset> = {
+        default: {
+            name: "Default",
+            description: "Balanced configuration suitable for general market conditions.",
+            config: DEFAULT_AGENT_CONFIG
+        },
+        scalper_strict: {
+            name: "Scalper Strict",
+            description: "High frequency, tight stops, requires high book pressure. Best for high volatility.",
+            config: {
+                gates: {
+                    ...DEFAULT_AGENT_CONFIG.gates,
+                    depth_usd_min: 50000,
+                    cost_bps_max_by_regime: { RISK_ON: 8, RISK_OFF: 5, CHOP: 5 },
+                    edge_to_cost_mult_by_regime: { RISK_ON: 4.0, RISK_OFF: 5.0, CHOP: 6.0 }
+                },
+                risk: {
+                    ...DEFAULT_AGENT_CONFIG.risk,
+                    max_positions: 3,
+                    max_position_fraction_per_symbol: 0.1,
+                    max_total_exposure_fraction: 0.5,
+                    min_trade_notional_usd: 50,
+                    no_flip_same_tick: true
+                },
+                triggers: {
+                    momentum: { book_pressure_min: 0.4, vol_ratio_min: 1.5 },
+                    mean_reversion: { ret_sigma_threshold: 3.5, book_pressure_min: 0.2 },
+                    breakout: { vol_ratio_min: 3.0, book_pressure_min: 0.5 }
+                }
+            }
+        },
+        momentum_moderate: {
+            name: "Momentum Moderate",
+            description: "Trend following with moderate risk. Good for trending markets.",
+            config: {
+                gates: {
+                    ...DEFAULT_AGENT_CONFIG.gates,
+                    depth_usd_min: 15000,
+                    cost_bps_max_by_regime: { RISK_ON: 15, RISK_OFF: 12, CHOP: 12 },
+                    edge_to_cost_mult_by_regime: { RISK_ON: 3.0, RISK_OFF: 3.0, CHOP: 4.0 }
+                },
+                risk: {
+                    ...DEFAULT_AGENT_CONFIG.risk,
+                    max_positions: 5,
+                    max_position_fraction_per_symbol: 0.2,
+                    max_total_exposure_fraction: 1.0,
+                    min_trade_notional_usd: 10,
+                    no_flip_same_tick: true
+                },
+                triggers: {
+                    momentum: { book_pressure_min: 0.2, vol_ratio_min: 1.0 },
+                    mean_reversion: { ret_sigma_threshold: 3.0, book_pressure_min: 0.1 },
+                    breakout: { vol_ratio_min: 2.0, book_pressure_min: 0.3 }
+                }
+            }
+        },
+        swing_relaxed: {
+            name: "Swing Relaxed",
+            description: "Wider stops, higher risk tolerance. Captures larger moves over longer timeframes.",
+            config: {
+                gates: {
+                    ...DEFAULT_AGENT_CONFIG.gates,
+                    depth_usd_min: 5000,
+                    cost_bps_max_by_regime: { RISK_ON: 25, RISK_OFF: 20, CHOP: 20 },
+                    edge_to_cost_mult_by_regime: { RISK_ON: 2.0, RISK_OFF: 2.5, CHOP: 3.0 }
+                },
+                risk: {
+                    ...DEFAULT_AGENT_CONFIG.risk,
+                    max_positions: 8,
+                    max_position_fraction_per_symbol: 0.25,
+                    max_total_exposure_fraction: 1.5,
+                    min_trade_notional_usd: 5,
+                    no_flip_same_tick: false
+                },
+                triggers: {
+                    momentum: { book_pressure_min: 0.1, vol_ratio_min: 0.8 },
+                    mean_reversion: { ret_sigma_threshold: 2.5, book_pressure_min: 0.05 },
+                    breakout: { vol_ratio_min: 1.5, book_pressure_min: 0.2 }
+                }
+            }
+        },
+        testnet_aggressive: {
+            name: "Testnet Aggressive",
+            description: "Very loose gates, high leverage. FOR TESTING ONLY.",
+            config: {
+                gates: {
+                    ...DEFAULT_AGENT_CONFIG.gates,
+                    depth_usd_min: 1000,
+                    cost_bps_max_by_regime: { RISK_ON: 50, RISK_OFF: 50, CHOP: 50 },
+                    edge_to_cost_mult_by_regime: { RISK_ON: 1.0, RISK_OFF: 1.0, CHOP: 1.0 }
+                },
+                risk: {
+                    ...DEFAULT_AGENT_CONFIG.risk,
+                    max_positions: 10,
+                    max_position_fraction_per_symbol: 0.5,
+                    max_total_exposure_fraction: 3.0,
+                    min_trade_notional_usd: 1,
+                    no_flip_same_tick: false
+                },
+                triggers: {
+                    momentum: { book_pressure_min: 0.0, vol_ratio_min: 0.5 },
+                    mean_reversion: { ret_sigma_threshold: 2.0, book_pressure_min: 0.0 },
+                    breakout: { vol_ratio_min: 1.0, book_pressure_min: 0.1 }
+                }
+            }
+        }
+    };
+
+    const applyPreset = (key: string) => {
+        const presetData = presets[key];
+        if (!presetData) return;
+
+        const presetCfg = presetData.config;
+
+        setConfig(prev => ({
+            ...DEFAULT_AGENT_CONFIG,
+            ...presetCfg,
+            gates: { ...DEFAULT_AGENT_CONFIG.gates, ...(presetCfg.gates || {}) },
+            risk: { ...DEFAULT_AGENT_CONFIG.risk, ...(presetCfg.risk || {}) },
+            triggers: { ...DEFAULT_AGENT_CONFIG.triggers, ...(presetCfg.triggers || {}) },
+            network_profiles: { ...DEFAULT_AGENT_CONFIG.network_profiles, ...(presetCfg as any).network_profiles }
+        }));
+        setPreset(key);
     };
 
     return (
-        <Card className="w-full h-full bg-slate-900 border-slate-800 flex flex-col shadow-2xl overflow-hidden">
-            <CardHeader className="flex flex-row items-center justify-between py-5 px-6 shrink-0">
+        <Card className="w-full bg-slate-900 border-slate-800 flex flex-col shadow-none border-0">
+            <CardHeader className="flex flex-row items-center justify-between py-3 px-4 shrink-0">
                 <CardTitle className="text-lg font-medium text-white tracking-tight">Agent Configuration</CardTitle>
                 <div className="flex items-center gap-1">
                     <Button variant="ghost" size="icon" onClick={handleReset} title="Reset to Defaults" className="h-8 w-8 hover:bg-slate-800 text-slate-400 hover:text-white transition-colors rounded-full">
@@ -66,51 +200,74 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
                     </Button>
                 </div>
             </CardHeader>
-            <div className="flex-1 overflow-y-auto px-6 pb-6">
+            <div className="px-4 pb-4">
+                <div className="flex flex-col gap-3 mb-5">
+                    <div className="flex items-center gap-3">
+                        <label className="text-xs text-slate-400 font-medium">Preset</label>
+                        <select
+                            value={preset}
+                            onChange={(e) => applyPreset(e.target.value)}
+                            className="flex-1 text-sm bg-slate-900/50 border border-slate-800 text-slate-200 font-medium rounded-md px-3 py-2 focus:outline-none focus:border-purple-500/50 transition-colors"
+                        >
+                            <option value="default">Default</option>
+                            <option value="momentum_moderate">Momentum Moderate</option>
+                            <option value="scalper_strict">Scalper Strict</option>
+                            <option value="swing_relaxed">Swing Relaxed</option>
+                            <option value="testnet_aggressive">Testnet Aggressive</option>
+                            <option value="custom">Custom (edited)</option>
+                        </select>
+
+                    </div>
+                    {presets[preset] && (
+                        <div className="text-[11px] text-slate-500 italic px-1 leading-relaxed">
+                            {presets[preset].description}
+                        </div>
+                    )}
+                </div>
                 <Tabs defaultValue="gates" className="w-full h-full flex flex-col">
-                    <TabsList className="grid w-full grid-cols-4 bg-slate-950/50 p-1 mb-6 rounded-xl border border-slate-800/50 shrink-0">
-                        <TabsTrigger value="gates" className="rounded-lg data-[state=active]:bg-slate-800 data-[state=active]:text-white text-slate-400 font-medium text-xs transition-all">Gates</TabsTrigger>
-                        <TabsTrigger value="risk" className="rounded-lg data-[state=active]:bg-slate-800 data-[state=active]:text-white text-slate-400 font-medium text-xs transition-all">Risk</TabsTrigger>
-                        <TabsTrigger value="triggers" className="rounded-lg data-[state=active]:bg-slate-800 data-[state=active]:text-white text-slate-400 font-medium text-xs transition-all">Triggers</TabsTrigger>
-                        <TabsTrigger value="network" className="rounded-lg data-[state=active]:bg-slate-800 data-[state=active]:text-white text-slate-400 font-medium text-xs transition-all">Network</TabsTrigger>
+                    <TabsList className="grid w-full grid-cols-4 bg-slate-900/30 p-1 mb-5 rounded-lg border border-slate-800/50 shrink-0 gap-1">
+                        <TabsTrigger value="gates" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Gates</TabsTrigger>
+                        <TabsTrigger value="risk" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Risk</TabsTrigger>
+                        <TabsTrigger value="triggers" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Triggers</TabsTrigger>
+                        <TabsTrigger value="network" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Network</TabsTrigger>
                     </TabsList>
 
                     <div className="flex-1">
                         {/* GATES */}
-                        <TabsContent value="gates" className="space-y-5 mt-0">
-                            <div className="space-y-2">
-                                <Label className="text-sm text-slate-300 font-medium">Min Depth (USD)</Label>
+                        <TabsContent value="gates" className="space-y-4 mt-0">
+                            <div className="space-y-1.5">
+                                <Label className="text-xs text-slate-300 font-medium">Min Depth (USD)</Label>
                                 <Input
-                                    className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-11 rounded-lg"
+                                    className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
                                     type="number"
                                     value={config.gates.depth_usd_min}
                                     onChange={e => updateConfig('gates.depth_usd_min', Number(e.target.value))}
                                 />
                             </div>
 
-                            <div className="grid grid-cols-3 gap-4 pt-2">
-                                <div className="space-y-2">
-                                    <Label className="text-xs font-medium text-slate-400">Risk On (BPS)</Label>
+                            <div className="grid grid-cols-3 gap-3 pt-2">
+                                <div className="space-y-1.5">
+                                    <Label className="text-[10px] font-medium text-slate-400">Risk On (BPS)</Label>
                                     <Input
-                                        className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-11 rounded-lg"
+                                        className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
                                         type="number"
                                         value={config.gates.cost_bps_max_by_regime.RISK_ON}
                                         onChange={e => updateConfig('gates.cost_bps_max_by_regime.RISK_ON', Number(e.target.value))}
                                     />
                                 </div>
-                                <div className="space-y-2">
-                                    <Label className="text-xs font-medium text-slate-400">Risk Off (BPS)</Label>
+                                <div className="space-y-1.5">
+                                    <Label className="text-[10px] font-medium text-slate-400">Risk Off (BPS)</Label>
                                     <Input
-                                        className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-11 rounded-lg"
+                                        className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
                                         type="number"
                                         value={config.gates.cost_bps_max_by_regime.RISK_OFF}
                                         onChange={e => updateConfig('gates.cost_bps_max_by_regime.RISK_OFF', Number(e.target.value))}
                                     />
                                 </div>
-                                <div className="space-y-2">
-                                    <Label className="text-xs font-medium text-slate-400">Chop (BPS)</Label>
+                                <div className="space-y-1.5">
+                                    <Label className="text-[10px] font-medium text-slate-400">Chop (BPS)</Label>
                                     <Input
-                                        className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-11 rounded-lg"
+                                        className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
                                         type="number"
                                         value={config.gates.cost_bps_max_by_regime.CHOP}
                                         onChange={e => updateConfig('gates.cost_bps_max_by_regime.CHOP', Number(e.target.value))}
@@ -122,20 +279,30 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
 
 
                         {/* RISK */}
-                        <TabsContent value="risk" className="space-y-5 mt-0">
-                            <div className="space-y-2">
-                                <Label className="text-sm text-slate-300 font-medium">Max Positions</Label>
+                        <TabsContent value="risk" className="space-y-4 mt-0">
+                            <div className="space-y-1.5">
+                                <Label className="text-xs text-slate-300 font-medium">Max Positions</Label>
                                 <Input
-                                    className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-11 rounded-lg"
+                                    className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
                                     type="number"
                                     value={config.risk.max_positions}
                                     onChange={e => updateConfig('risk.max_positions', Number(e.target.value))}
                                 />
                             </div>
-                            <div className="space-y-2">
-                                <Label className="text-sm text-slate-300 font-medium">Max Total Exposure (Fraction)</Label>
+                            <div className="space-y-1.5">
+                                <Label className="text-xs text-slate-300 font-medium">Max Position Fraction per Symbol</Label>
                                 <Input
-                                    className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-11 rounded-lg"
+                                    className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
+                                    type="number"
+                                    step="0.01"
+                                    value={config.risk.max_position_fraction_per_symbol}
+                                    onChange={e => updateConfig('risk.max_position_fraction_per_symbol', Number(e.target.value))}
+                                />
+                            </div>
+                            <div className="space-y-1.5">
+                                <Label className="text-xs text-slate-300 font-medium">Max Total Exposure (Fraction)</Label>
+                                <Input
+                                    className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
                                     type="number"
                                     step="0.1"
                                     max="5.0"
@@ -143,8 +310,17 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
                                     onChange={e => updateConfig('risk.max_total_exposure_fraction', Number(e.target.value))}
                                 />
                             </div>
-                            <div className="flex items-center justify-between p-4 bg-slate-950 rounded-xl border border-slate-800">
-                                <Label className="text-sm text-slate-300 font-medium">No Flip Same Tick</Label>
+                            <div className="space-y-1.5">
+                                <Label className="text-xs text-slate-300 font-medium">Min Trade Notional (USD)</Label>
+                                <Input
+                                    className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
+                                    type="number"
+                                    value={config.risk.min_trade_notional_usd}
+                                    onChange={e => updateConfig('risk.min_trade_notional_usd', Number(e.target.value))}
+                                />
+                            </div>
+                            <div className="flex items-center justify-between p-3 bg-slate-950 rounded-lg border border-slate-800">
+                                <Label className="text-xs text-slate-300 font-medium">No Flip Same Tick</Label>
                                 <Switch
                                     checked={config.risk.no_flip_same_tick}
                                     onCheckedChange={c => updateConfig('risk.no_flip_same_tick', c)}
@@ -236,20 +412,20 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
                                 </div>
                             </div>
                         </TabsContent>
-                        <TabsContent value="network" className="space-y-5 mt-0">
-                            <div className="space-y-2">
-                                <Label className="text-sm text-slate-300 font-medium">Slippage Min BPS</Label>
+                        <TabsContent value="network" className="space-y-4 mt-0">
+                            <div className="space-y-1.5">
+                                <Label className="text-xs text-slate-300 font-medium">Slippage Min BPS</Label>
                                 <Input
-                                    className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-11 rounded-lg"
+                                    className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
                                     type="number"
                                     value={config.network_profiles.mainnet.slippage_model.min_bps}
                                     onChange={e => updateConfig('network_profiles.mainnet.slippage_model.min_bps', Number(e.target.value))}
                                 />
                             </div>
-                            <div className="space-y-2">
-                                <Label className="text-sm text-slate-300 font-medium">Slippage Spread Multiplier</Label>
+                            <div className="space-y-1.5">
+                                <Label className="text-xs text-slate-300 font-medium">Slippage Spread Multiplier</Label>
                                 <Input
-                                    className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-11 rounded-lg"
+                                    className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
                                     type="number"
                                     step="0.1"
                                     value={config.network_profiles.mainnet.slippage_model.spread_mult}
@@ -260,8 +436,8 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
                     </div>
                 </Tabs>
             </div>
-            <div className="p-6 pt-2 shrink-0">
-                <Button onClick={handleSave} className="w-full bg-purple-600 hover:bg-purple-500 text-white font-medium h-12 rounded-xl shadow-lg shadow-purple-900/20 transition-all">
+            <div className="p-4 pt-2 shrink-0">
+                <Button onClick={handleSave} className="w-full bg-purple-600/90 hover:bg-purple-600 text-white font-medium h-10 text-sm rounded-lg shadow-lg shadow-purple-900/10 transition-all">
                     <Save className="h-4 w-4 mr-2" />
                     Save Configuration
                 </Button>

@@ -20,7 +20,9 @@ export function TradeForm() {
         isBuy: true,
         price: 0,
         size: 0.01,
-        leverage: 5
+        leverage: 5,
+        sl: undefined as number | undefined,
+        tp: undefined as number | undefined
     })
 
     // Get metadata for selected pair
@@ -83,7 +85,9 @@ export function TradeForm() {
                 isBuy: formData.isBuy,
                 limitPx: formData.price,
                 sz: formData.size,
-                reduceOnly: false
+                reduceOnly: false,
+                stopLossPrice: formData.sl,
+                takeProfitPrice: formData.tp
             }
 
             const actionResponse = await placeOrderAction(order, isTestnet)
@@ -243,6 +247,31 @@ export function TradeForm() {
                         className="bg-slate-950 border-slate-700 text-slate-200 focus:border-blue-500 transition-colors"
                         value={formData.leverage}
                         onChange={(e) => setFormData({ ...formData, leverage: parseInt(e.target.value) })}
+                    />
+                </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-2">
+                    <Label htmlFor="sl" className="text-slate-400/60 text-xs">Stop Loss (Optional)</Label>
+                    <Input
+                        id="sl"
+                        type="number"
+                        placeholder="Price"
+                        className="bg-slate-950 border-slate-700 text-slate-200 focus:border-blue-500 transition-colors"
+                        value={formData.sl || ""}
+                        onChange={(e) => setFormData({ ...formData, sl: e.target.value ? parseFloat(e.target.value) : undefined })}
+                    />
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="tp" className="text-slate-400/60 text-xs">Take Profit (Optional)</Label>
+                    <Input
+                        id="tp"
+                        type="number"
+                        placeholder="Price"
+                        className="bg-slate-950 border-slate-700 text-slate-200 focus:border-blue-500 transition-colors"
+                        value={formData.tp || ""}
+                        onChange={(e) => setFormData({ ...formData, tp: e.target.value ? parseFloat(e.target.value) : undefined })}
                     />
                 </div>
             </div>

@@ -17,6 +17,11 @@ export type MarketMetrics = {
         h1: number;
         h4: number;
     };
+    volume_zscores: {
+        v1m_vs_1h: number;
+        v5m_vs_1h: number;
+        v15m_vs_1h: number;
+    };
     vol_zscores: {
         vol_5m_vs_1h: number;
         ret_5m_vs_1h: number;
@@ -31,6 +36,10 @@ export type MarketMetrics = {
         m5: { upper: number; middle: number; lower: number; width: number };
     };
     atr: {
+        m5: number;
+        h1: number;
+    };
+    atr_pct: {
         m5: number;
         h1: number;
     };
@@ -54,6 +63,10 @@ export type OrderBookMetrics = {
     imbalance: number; // bid/ask ratio
     book_pressure: number; // (bid - ask) / (bid + ask) - range [-1, 1]
     cost_bps: number; // 2 * taker_fee + spread/slippage
+    depth_bands_usd?: {
+        bid: Record<string, number>;
+        ask: Record<string, number>;
+    };
 };
 
 type Candle = {
@@ -75,20 +88,22 @@ export class MarketAnalysisService {
 
         // Initialize defaults
         const metrics: MarketMetrics = {
-            returns: { m1: 0, m5: 0, m15: 0, h1: 0, h4: 0 },
-            realized_vol: { m1: 0, m5: 0, m15: 0, h1: 0, h4: 0 },
-            vol_zscores: { vol_5m_vs_1h: 0, ret_5m_vs_1h: 0 },
-            rsi: { m1: 50, m5: 50, m15: 50 },
-            bbands: {
-                m1: { upper: 0, middle: 0, lower: 0, width: 0 },
-                m5: { upper: 0, middle: 0, lower: 0, width: 0 }
-            },
-            atr: { m5: 0, h1: 0 },
-            macd: {
-                m5: { macd: 0, signal: 0, histogram: 0 },
-                h1: { macd: 0, signal: 0, histogram: 0 }
-            },
-            high_low: { is_new_high_1h: false, is_new_low_1h: false },
+        returns: { m1: 0, m5: 0, m15: 0, h1: 0, h4: 0 },
+        realized_vol: { m1: 0, m5: 0, m15: 0, h1: 0, h4: 0 },
+        volume_zscores: { v1m_vs_1h: 0, v5m_vs_1h: 0, v15m_vs_1h: 0 },
+        vol_zscores: { vol_5m_vs_1h: 0, ret_5m_vs_1h: 0 },
+        rsi: { m1: 50, m5: 50, m15: 50 },
+        bbands: {
+            m1: { upper: 0, middle: 0, lower: 0, width: 0 },
+            m5: { upper: 0, middle: 0, lower: 0, width: 0 }
+        },
+        atr: { m5: 0, h1: 0 },
+        atr_pct: { m5: 0, h1: 0 },
+        macd: {
+            m5: { macd: 0, signal: 0, histogram: 0 },
+            h1: { macd: 0, signal: 0, histogram: 0 }
+        },
+        high_low: { is_new_high_1h: false, is_new_low_1h: false },
             regime_tags: []
         };
 
@@ -132,6 +147,42 @@ export class MarketAnalysisService {
         metrics.realized_vol.m15 = calcVol(30);
         metrics.realized_vol.h1 = calcVol(60);
         metrics.realized_vol.h4 = calcVol(240);
+
+        // 3b. Volume Z-Scores (1m/5m/15m vs 1h baseline)
+        const sumVolume = (minutes: number) => {
+            if (candles.length < minutes) return 0;
+            let total = 0;
+            for (let i = candles.length - minutes; i < candles.length; i++) {
+                if (i < 0) continue;
+                total += parseFloat(candles[i].v);
+            }
+            return total;
+        };
+
+        const calcVolumeZ = (windowMinutes: number) => {
+            const baselineWindow = 60;
+            if (candles.length < baselineWindow) return 0;
+
+            const vols: number[] = [];
+            for (let i = candles.length - baselineWindow; i < candles.length; i++) {
+                vols.push(parseFloat(candles[i].v));
+            }
+            const mean = vols.reduce((a, b) => a + b, 0) / vols.length;
+            const variance = vols.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / vols.length;
+            const std = Math.sqrt(variance);
+
+            if (std === 0) return 0;
+
+            const windowSum = sumVolume(windowMinutes);
+            const expectedSum = mean * windowMinutes;
+            const expectedStd = std * Math.sqrt(windowMinutes);
+
+            return (windowSum - expectedSum) / expectedStd;
+        };
+
+        metrics.volume_zscores.v1m_vs_1h = calcVolumeZ(1);
+        metrics.volume_zscores.v5m_vs_1h = calcVolumeZ(5);
+        metrics.volume_zscores.v15m_vs_1h = calcVolumeZ(15);
 
         // 4. Calculate Z-Scores
         const vol1h = metrics.realized_vol.h1 || 0.001;
@@ -222,6 +273,8 @@ export class MarketAnalysisService {
 
         metrics.atr.m5 = calcATR(14, 5);
         metrics.atr.h1 = calcATR(14, 60);
+        metrics.atr_pct.m5 = close > 0 ? metrics.atr.m5 / close : 0;
+        metrics.atr_pct.h1 = close > 0 ? metrics.atr.h1 / close : 0;
 
         // 8. Calculate MACD (12, 26, 9)
         const calcEMA = (prices: number[], period: number) => {
@@ -341,7 +394,8 @@ export class MarketAnalysisService {
                 depth_usd: { bid_1pct: 0, ask_1pct: 0 },
                 imbalance: 1,
                 book_pressure: 0,
-                cost_bps: 0
+                cost_bps: 0,
+                depth_bands_usd: { bid: {}, ask: {} }
             };
         }
 
@@ -352,7 +406,8 @@ export class MarketAnalysisService {
             depth_usd: { bid_1pct: 0, ask_1pct: 0 },
             imbalance: 1,
             book_pressure: 0,
-            cost_bps: 0
+            cost_bps: 0,
+            depth_bands_usd: { bid: {}, ask: {} }
         };
 
         if (!book || !book.levels) return metrics;
@@ -369,14 +424,19 @@ export class MarketAnalysisService {
             const spread = bestAsk - bestBid;
             metrics.spread_bps = (spread / midPrice) * 10000;
 
-            // Depth within 1%
-            const calculateDepth = (levels: any[], isBid: boolean) => {
+            const depthBands = [0.001, 0.0025, 0.005, 0.01]; // 0.1%, 0.25%, 0.5%, 1%
+            const depthBandKey = (band: number) => {
+                const pct = band * 100;
+                return pct % 1 === 0 ? pct.toFixed(0) : pct.toFixed(2).replace(/0+$/, "").replace(/\.$/, "");
+            };
+
+            const calculateDepth = (levels: any[], band: number) => {
                 let depth = 0;
                 for (const level of levels) {
                     const px = parseFloat(level.px);
                     const sz = parseFloat(level.sz);
                     const dist = Math.abs(px - midPrice) / midPrice;
-                    if (dist <= 0.01) {
+                    if (dist <= band) {
                         depth += px * sz;
                     } else {
                         break; // Sorted by price, so we can stop
@@ -385,8 +445,18 @@ export class MarketAnalysisService {
                 return depth;
             };
 
-            metrics.depth_usd.bid_1pct = calculateDepth(bids, true);
-            metrics.depth_usd.ask_1pct = calculateDepth(asks, false);
+            const depthBandsBid: Record<string, number> = {};
+            const depthBandsAsk: Record<string, number> = {};
+
+            for (const band of depthBands) {
+                const key = depthBandKey(band);
+                depthBandsBid[key] = calculateDepth(bids, band);
+                depthBandsAsk[key] = calculateDepth(asks, band);
+            }
+
+            metrics.depth_bands_usd = { bid: depthBandsBid, ask: depthBandsAsk };
+            metrics.depth_usd.bid_1pct = depthBandsBid["1"] ?? 0;
+            metrics.depth_usd.ask_1pct = depthBandsAsk["1"] ?? 0;
 
             // Imbalance
             if (metrics.depth_usd.ask_1pct > 0) {

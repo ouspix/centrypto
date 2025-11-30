@@ -51,13 +51,17 @@ export class HeldPositionMarketResolver {
                     orderbook: {
                         book_pressure: parseFloat(bookPressure.toFixed(2)),
                         bid_liquidity_usd: bid,
-                        ask_liquidity_usd: ask
+                        ask_liquidity_usd: ask,
+                        depth_bands_usd: bookMetrics.depth_bands_usd
                     },
                     returns: {
                         m5: metrics.returns.m5,
                         m15: metrics.returns.m15,
                         h1: metrics.returns.h1
                     },
+                    realized_vol: metrics.realized_vol,
+                    volume_zscores: metrics.volume_zscores,
+                    atr_pct: metrics.atr_pct,
                     vol_zscores: metrics.vol_zscores,
                     funding: {
                         current_8h: funding
@@ -86,10 +90,14 @@ export class HeldPositionMarketResolver {
                     orderbook: {
                         book_pressure: 0,
                         bid_liquidity_usd: 0,
-                        ask_liquidity_usd: 0
+                        ask_liquidity_usd: 0,
+                        depth_bands_usd: { bid: {}, ask: {} }
                     },
                     returns: { m5: 0, m15: 0, h1: 0 },
                     vol_zscores: { vol_5m_vs_1h: 0, ret_5m_vs_1h: 0 },
+                    realized_vol: { m1: 0, m5: 0, m15: 0, h1: 0, h4: 0 },
+                    volume_zscores: { v1m_vs_1h: 0, v5m_vs_1h: 0, v15m_vs_1h: 0 },
+                    atr_pct: { m5: 0, h1: 0 },
                     funding: { current_8h: funding },
                     open_interest: { current: openInterest },
                     sentiment: { score: 0, mentionsVsBaseline: 0, disagreement: 0, change2h: 0 },

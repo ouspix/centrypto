@@ -211,7 +211,7 @@ export class OrchestratorService {
                         status: 'completed',
                         result: JSON.stringify({
                             decisions: [],
-                            riskAssessment: { approved: true, reason: "No action needed" },
+                            riskAssessments: [],
                             snapshot,
                             prompt: "SKIPPED",
                             rawOutput: "SKIPPED"
@@ -236,20 +236,22 @@ export class OrchestratorService {
             await this.saveLlmInteraction(result.prompt, result.rawOutput, result.decisions, isTestnet);
 
             // 4. Risk Check (Sequential)
-            let lastRiskAssessment: RiskAssessment = { approved: false, reason: "No decisions" };
-
             // Note: We are NOT executing trades here for manual analysis jobs.
             // The user just wants the analysis. Execution happens when they click "Execute" in UI.
+            const riskAssessments: RiskAssessment[] = [];
 
             for (const decision of result.decisions) {
-                if (decision.target_side === "flat" && decision.action === "HOLD") continue;
+                if (decision.target_side === "flat" && decision.action === "HOLD") {
+                    riskAssessments.push({ approved: true, reason: "Hold decision - no trade" });
+                    continue;
+                }
                 const riskAssessment = this.riskModule.assess(decision, snapshot);
-                lastRiskAssessment = riskAssessment;
+                riskAssessments.push(riskAssessment);
             }
 
             const finalResult = {
                 decisions: result.decisions,
-                riskAssessment: lastRiskAssessment,
+                riskAssessments,
                 snapshot,
                 prompt: result.prompt,
                 rawOutput: result.rawOutput
@@ -295,7 +297,7 @@ export class OrchestratorService {
         model: string,
         isTestnet: boolean,
         configOverride?: any
-    ): Promise<{ decisions: TradeDecision[], riskAssessment: RiskAssessment, snapshot: StateSnapshot, prompt: string, rawOutput: string }> {
+    ): Promise<{ decisions: TradeDecision[], riskAssessments: RiskAssessment[], snapshot: StateSnapshot, prompt: string, rawOutput: string }> {
 
         // Merge config
         // Basic deep merge for top-level sections
@@ -339,7 +341,7 @@ export class OrchestratorService {
             console.log("💤 Early Exit: No positions and no valid candidates. Skipping LLM.");
             return {
                 decisions: [],
-                riskAssessment: { approved: true, reason: "No action needed" },
+                riskAssessments: [],
                 snapshot,
                 prompt: "SKIPPED",
                 rawOutput: "SKIPPED"
@@ -379,21 +381,18 @@ export class OrchestratorService {
         // For simplicity in this iteration, we will process them sequentially.
 
         const processedDecisions: TradeDecision[] = [];
-        // Note: RiskAssessment currently returns a single assessment. 
-        // We might need to aggregate them or just return the last one for the signature, 
-        // but ideally we should return an array of assessments.
-        // For now, I'll keep the signature compatible-ish but return the first assessment or a dummy one if multiple.
-        // Actually, I should update the return type of analyzeMarket to include decisions array.
-
-        let lastRiskAssessment: RiskAssessment = { approved: false, reason: "No decisions" };
+        const riskAssessments: RiskAssessment[] = [];
 
         for (const decision of decisions) {
             try {
-                if (decision.target_side === "flat" && decision.action === "HOLD") continue; // Skip no-ops
+                if (decision.target_side === "flat" && decision.action === "HOLD") {
+                    riskAssessments.push({ approved: true, reason: "Hold decision - no trade" });
+                    continue; // Skip no-ops
+                }
 
                 // Risk Check
                 const riskAssessment = this.riskModule.assess(decision, snapshot);
-                lastRiskAssessment = riskAssessment;
+                riskAssessments.push(riskAssessment);
 
                 // 4. Execution (if Auto-Trading)
                 let executionResult = null;
@@ -440,6 +439,9 @@ export class OrchestratorService {
 
                         console.log(`🚀 Sending Order: ${isBuy ? 'BUY' : 'SELL'} ${decision.symbol} sz=${sz.toFixed(4)} px=${limitPx.toFixed(4)} reduce=${reduceOnly}`);
 
+                        const stopLossPrice = !reduceOnly ? riskAssessment.modifiedOrder.stopLossPrice : undefined;
+                        const takeProfitPrice = !reduceOnly ? riskAssessment.modifiedOrder.takeProfitPrice : undefined;
+
                         const result = await placeOrder(
                             privateKey,
                             {
@@ -447,7 +449,9 @@ export class OrchestratorService {
                                 isBuy,
                                 limitPx,
                                 sz,
-                                reduceOnly
+                                reduceOnly,
+                                stopLossPrice,
+                                takeProfitPrice
                             },
                             isTestnet
                         );
@@ -493,7 +497,7 @@ export class OrchestratorService {
             }
         }
 
-        return { decisions, riskAssessment: lastRiskAssessment, snapshot, prompt, rawOutput };
+        return { decisions, riskAssessments, snapshot, prompt, rawOutput };
     }
 
     private async getLLMDecision(snapshot: StateSnapshot, model: string, signal?: AbortSignal): Promise<{ decisions: TradeDecision[], prompt: string, rawOutput: string }> {

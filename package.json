@@ -13,7 +13,9 @@
     "ingest:twitter": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/ingestTwitter.ts",
     "ingest:rss": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/ingestRss.ts",
     "sentiment:score": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/scoreMessages.ts",
-    "sentiment:aggregate": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/aggregateSentiment.ts"
+    "sentiment:aggregate": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/aggregateSentiment.ts",
+    "collector": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/start_collector.ts",
+    "backfill": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/manual_backfill.ts"
   },
   "dependencies": {
     "@msgpack/msgpack": "^3.1.2",

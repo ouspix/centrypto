@@ -77,15 +77,19 @@ function roundToTickSize(price: number, szDecimals: number): number {
     return parseFloat(rounded.toFixed(maxDecimalPlaces));
 }
 
+export type PlaceOrderRequest = {
+    asset: number;
+    isBuy: boolean;
+    limitPx: number;
+    sz: number;
+    reduceOnly: boolean;
+    stopLossPrice?: number;
+    takeProfitPrice?: number;
+};
+
 export async function placeOrder(
     privateKey: string,
-    order: {
-        asset: number;
-        isBuy: boolean;
-        limitPx: number;
-        sz: number;
-        reduceOnly: boolean;
-    },
+    order: PlaceOrderRequest,
     isTestnet = false,
 ) {
     const nonce = Date.now();
@@ -109,19 +113,51 @@ export async function placeOrder(
     console.log(`📊 Original size: ${order.sz}, Rounded: ${roundedSize}, String: "${sizeStr}"`);
 
     // Hyperliquid API requires p and s to be strings
+    const orders: any[] = [
+        {
+            a: order.asset,
+            b: order.isBuy,
+            p: priceStr, // Must be string
+            s: sizeStr, // Must be string
+            r: order.reduceOnly,
+            t: { limit: { tif: "Gtc" as const } },
+        },
+    ];
+
+    // Attach TP/SL as trigger orders if provided
+    const pushTriggerOrder = (px: number, type: "tp" | "sl") => {
+        const rounded = roundToTickSize(px, szDecimals);
+        const triggerPxStr = rounded.toFixed(priceDecimals);
+        orders.push({
+            a: order.asset,
+            b: order.isBuy ? false : true, // Close in the opposite direction
+            // Mirror triggerPx as the order price to satisfy validation
+            p: triggerPxStr,
+            s: sizeStr,
+            r: true, // Ensure these never increase exposure
+            t: {
+                trigger: {
+                    isMarket: true,
+                    triggerPx: triggerPxStr,
+                    tpsl: type
+                }
+            }
+        });
+    };
+
+    if (order.stopLossPrice) {
+        pushTriggerOrder(order.stopLossPrice, "sl");
+    }
+
+    if (order.takeProfitPrice) {
+        pushTriggerOrder(order.takeProfitPrice, "tp");
+    }
+
     const rawAction = {
         type: "order" as const,
-        orders: [
-            {
-                a: order.asset,
-                b: order.isBuy,
-                p: priceStr, // Must be string
-                s: sizeStr, // Must be string
-                r: order.reduceOnly,
-                t: { limit: { tif: "Gtc" as const } },
-            },
-        ],
-        grouping: "na" as const,
+        orders,
+        // normalTpsl is the parent-linked OCO bundle (entry + TP/SL)
+        grouping: (order.stopLossPrice || order.takeProfitPrice) ? "normalTpsl" as const : "na" as const,
     };
 
     // Use SDK parser to ensure proper formatting
@@ -367,7 +403,7 @@ export async function getOHLCV(coin: string, interval: string, isTestnet: boolea
     const maxRetries = 3;
     let attempt = 0;
 
-    while (attempt < maxRetries) {
+    while (true) {
         try {
             await limiter.wait(); // Wait for rate limiter
 
@@ -389,8 +425,8 @@ export async function getOHLCV(coin: string, interval: string, isTestnet: boolea
             });
 
             if (res.status === 429) {
-                const waitTime = Math.pow(2, attempt) * 1000; // 1s, 2s, 4s
-                console.warn(`[Hyperliquid] Rate limited(429) for ${coin}.Retrying in ${waitTime}ms...`);
+                const waitTime = Math.min(Math.pow(2, attempt) * 1000, 30000); // Cap at 30s
+                console.warn(`[Hyperliquid] Rate limited(429) for ${coin}. Retrying in ${waitTime}ms...`);
                 await new Promise(resolve => setTimeout(resolve, waitTime));
                 attempt++;
                 continue;
@@ -402,8 +438,8 @@ export async function getOHLCV(coin: string, interval: string, isTestnet: boolea
 
             return await res.json();
         } catch (error: any) {
-            console.error(`Error fetching OHLCV(attempt ${attempt + 1}/${maxRetries}): `, error.message);
-            if (attempt === maxRetries - 1) return []; // Return empty on final failure
+            console.error(`Error fetching OHLCV(attempt ${attempt + 1}): `, error.message);
+            if (attempt >= maxRetries) return []; // Only give up on non-429 errors after maxRetries
             attempt++;
             await new Promise(resolve => setTimeout(resolve, 1000)); // Basic wait for other errors
         }

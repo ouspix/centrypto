@@ -8,19 +8,19 @@ import { AIAdvisor } from "@/components/AIAdvisor"
 import { LlmDecisionsLog } from "@/components/LlmDecisionsLog"
 import { Zap, BrainCircuit, ScrollText } from "lucide-react"
 
-export function ExecutionPanel({ className }: { className?: string }) {
+export function TradingAndRisk({ className }: { className?: string }) {
     const [activeTab, setActiveTab] = useState<string>("manual")
 
     return (
-        <Card className={`bg-gradient-to-br from-slate-900 to-slate-800 border-slate-700 flex flex-col h-full ${className}`}>
-            <CardHeader className="pb-3">
+        <Card className={`bg-gradient-to-br from-slate-900 to-slate-800 border-slate-700 flex flex-col h-full overflow-hidden ${className}`}>
+            <CardHeader className="pb-3 flex-none">
                 <CardTitle className="text-lg font-semibold text-slate-100">
-                    Execution & Trading
+                    Trading & Risk
                 </CardTitle>
             </CardHeader>
-            <CardContent className="p-0 flex-1 flex flex-col min-h-0">
-                <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full flex flex-col flex-1">
-                    <TabsList className="grid w-full grid-cols-3 bg-transparent border-b border-slate-800 mx-4 mb-4 h-auto p-0 rounded-none">
+            <CardContent className="p-0 flex-1 flex flex-col min-h-0 overflow-hidden">
+                <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full flex flex-col flex-1 h-full">
+                    <TabsList className="grid w-full grid-cols-3 bg-transparent border-b border-slate-800 h-auto p-0 rounded-none flex-none">
                         <TabsTrigger
                             value="manual"
                             className="data-[state=active]:border-b-2 data-[state=active]:border-blue-500 data-[state=active]:text-blue-400 data-[state=active]:bg-transparent rounded-none border-b-2 border-transparent pb-3 text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-2"
@@ -30,7 +30,7 @@ export function ExecutionPanel({ className }: { className?: string }) {
                         </TabsTrigger>
                         <TabsTrigger
                             value="ai"
-                            className="data-[state=active]:border-b-2 data-[state=active]:border-purple-500 data-[state=active]:text-purple-400 data-[state=active]:bg-transparent rounded-none border-b-2 border-transparent pb-3 text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-2 overflow-y-auto"
+                            className="data-[state=active]:border-b-2 data-[state=active]:border-purple-500 data-[state=active]:text-purple-400 data-[state=active]:bg-transparent rounded-none border-b-2 border-transparent pb-3 text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-2"
                         >
                             <BrainCircuit className="h-4 w-4" />
                             AI Agent
@@ -44,16 +44,16 @@ export function ExecutionPanel({ className }: { className?: string }) {
                         </TabsTrigger>
                     </TabsList>
 
-                    <TabsContent value="manual" className="mt-0 px-4 pb-4 flex-1 min-h-0 overflow-y-auto">
+                    <TabsContent value="manual" className="mt-0 flex-1 min-h-0 overflow-y-auto p-4 data-[state=inactive]:hidden data-[state=active]:flex flex-col">
                         <TradeForm />
                     </TabsContent>
 
-                    <TabsContent value="ai" className="mt-0 px-4 pb-4 flex-1 min-h-0 flex flex-col">
+                    <TabsContent value="ai" className="mt-0 flex-1 min-h-0 overflow-hidden data-[state=inactive]:hidden data-[state=active]:flex flex-col">
                         <AIAdvisor />
                     </TabsContent>
 
-                    <TabsContent value="log" className="mt-0 px-4 pb-4 flex-1 min-h-0 flex flex-col overflow-hidden">
-                        <LlmDecisionsLog />
+                    <TabsContent value="log" className="mt-0 flex-1 min-h-0 overflow-hidden data-[state=inactive]:hidden data-[state=active]:flex flex-col">
+                        <LlmDecisionsLog className="h-full p-4" />
                     </TabsContent>
                 </Tabs>
             </CardContent>

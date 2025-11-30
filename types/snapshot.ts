@@ -39,6 +39,10 @@ export type MarketEntry = {
         book_pressure: number;
         bid_liquidity_usd: number;
         ask_liquidity_usd: number;
+        depth_bands_usd?: {
+            bid: Record<string, number>;
+            ask: Record<string, number>;
+        };
     };
     returns: {
         m5: number;
@@ -49,11 +53,29 @@ export type MarketEntry = {
         vol_5m_vs_1h: number;
         ret_5m_vs_1h: number;
     };
+    realized_vol?: {
+        m1: number;
+        m5: number;
+        m15: number;
+        h1: number;
+        h4: number;
+    };
+    atr_pct?: {
+        m5: number;
+        h1: number;
+    };
+    volume_zscores?: {
+        v1m_vs_1h: number;
+        v5m_vs_1h: number;
+        v15m_vs_1h: number;
+    };
     funding: {
         current_8h: number;
+        delta_5m?: number;
     };
     open_interest: {
         current: number;
+        delta_5m?: number;
     };
     sentiment: MarketSentiment;
     regime_tags?: string[];

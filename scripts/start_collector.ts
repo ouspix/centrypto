@@ -13,14 +13,19 @@ async function runCollection() {
         collector.backfillHistory(false)
     ]).then(() => console.log("✅ Background backfill complete."));
 
-    console.log("🚀 Starting live collection loop...");
+    // 2. Start WebSocket Streams (Live Candles)
+    console.log("🚀 Starting WebSocket streams...");
+    collector.startCandleStream(true); // Testnet
+    collector.startCandleStream(false); // Mainnet
 
-    // 2. Start Live Loop
+    console.log("🚀 Starting tick snapshot loop...");
+
+    // 3. Start Tick Snapshot Loop (Polling)
     while (true) {
         try {
-            await collectBoth();
+            await collectTicksOnly();
         } catch (error) {
-            console.error("❌ Error in collection cycle:", error);
+            console.error("❌ Error in tick collection cycle:", error);
         }
 
         // Wait for interval BEFORE starting next cycle
@@ -28,17 +33,17 @@ async function runCollection() {
     }
 }
 
-async function collectBoth() {
+async function collectTicksOnly() {
     const start = Date.now();
 
     // Run in parallel
     await Promise.all([
-        collector.collectTicks(true).then(() => collector.aggregateCandles(true)),  // Testnet
-        collector.collectTicks(false).then(() => collector.aggregateCandles(false))  // Mainnet
+        collector.collectTicks(true),
+        collector.collectTicks(false)
     ]);
 
     const duration = Date.now() - start;
-    console.log(`⏱️ Collection cycle finished in ${duration}ms`);
+    console.log(`⏱️ Tick snapshot finished in ${duration}ms`);
 }
 
 // Handle shutdown

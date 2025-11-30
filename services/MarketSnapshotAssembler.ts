@@ -30,19 +30,25 @@ export class MarketSnapshotAssembler {
                 orderbook: {
                     book_pressure: parseFloat(bookPressure.toFixed(2)),
                     bid_liquidity_usd: bid,
-                    ask_liquidity_usd: ask
+                    ask_liquidity_usd: ask,
+                    depth_bands_usd: bookMetrics.depth_bands_usd
                 },
                 returns: {
                     m5: metrics.returns.m5,
                     m15: metrics.returns.m15,
                     h1: metrics.returns.h1
                 },
+                realized_vol: metrics.realized_vol,
+                volume_zscores: metrics.volume_zscores,
+                atr_pct: metrics.atr_pct,
                 vol_zscores: metrics.vol_zscores,
                 funding: {
-                    current_8h: funding
+                    current_8h: funding,
+                    delta_5m: symbolData.fundingDelta5m
                 },
                 open_interest: {
-                    current: openInterest
+                    current: openInterest,
+                    delta_5m: symbolData.openInterestDelta5m
                 },
                 sentiment: {
                     score: sentiment.score,

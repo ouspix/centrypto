@@ -47,7 +47,9 @@ export class ExecutionEngine {
                     isBuy: order.side === 'buy',
                     limitPx: limitPx,
                     sz: size,
-                    reduceOnly: false
+                    reduceOnly: false,
+                    stopLossPrice: order.stopLossPrice,
+                    takeProfitPrice: order.takeProfitPrice
                 },
                 this.isTestnet
             );

@@ -74,6 +74,8 @@
 
   body {
     @apply bg-background text-foreground;
+    background: linear-gradient(to bottom right, #020617, #0f172a, #020617);
+    min-height: 100vh;
     font-feature-settings: 'cv11', 'ss01';
     font-variant-numeric: tabular-nums;
   }

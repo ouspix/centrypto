@@ -60,7 +60,7 @@ export class RiskCheckModule {
             }
         }
 
-        if (decision.action === "DO_NOTHING" || decision.action === "HOLD") {
+        if (decision.action === "DO_NOTHING" || decision.action === "HOLD" || decision.action === "HOLD_POSITION") {
             return { approved: true, reason: "No Trade Proposed" };
         }
 
@@ -106,67 +106,45 @@ export class RiskCheckModule {
             return { approved: false, reason: "Market not tradeable (Liquidity or Cost gate failed)" };
         }
 
-        // 7. Edge Gate
-        if (market.derived && !market.derived.edge.edge_ok) {
-            return { approved: false, reason: `Insufficient edge (Edge: ${market.derived.edge.edge_bps} bps)` };
+        // 7. Edge Check (numeric, not strict boolean)
+        if (market.derived) {
+            const edgeBps = market.derived.edge.edge_bps;
+            const costBps = market.derived.costs.cost_bps;
+            if (edgeBps <= 0 || edgeBps < 0.5 * costBps) {
+                return { approved: false, reason: `Insufficient edge (Edge: ${edgeBps} bps vs Cost: ${costBps} bps)` };
+            }
         }
 
-        // 8. Playbook Gate & Direction Consistency
+        // 8. Playbook Gate & Direction Consistency (advisory: only fail if direction misaligned with provided triggers)
         const triggers = market.derived?.triggers;
-        if (triggers) {
+        if (triggers && decision.playbook) {
             const isLong = decision.target_side === "long";
-            let playbookOk = false;
-            let playbookReason = "";
-
-            // Check specific playbook alignment
-            if (decision.playbook.toLowerCase().includes("momentum")) {
-                if (isLong && triggers.momentum_ok_long) playbookOk = true;
-                else if (!isLong && triggers.momentum_ok_short) playbookOk = true;
-                else playbookReason = "Momentum triggers not met for direction";
-            } else if (decision.playbook.toLowerCase().includes("mean reversion") || decision.playbook.toLowerCase().includes("reversion")) {
-                if (isLong && triggers.mr_ok_long) playbookOk = true;
-                else if (!isLong && triggers.mr_ok_short) playbookOk = true;
-                else playbookReason = "Mean Reversion triggers not met for direction";
-            } else if (decision.playbook.toLowerCase().includes("breakout")) {
-                if (triggers.breakout_ok) playbookOk = true;
-                else playbookReason = "Breakout triggers not met";
-            } else {
-                // Fallback: Must satisfy AT LEAST one valid trigger for the direction
-                if (isLong && (triggers.momentum_ok_long || triggers.mr_ok_long || triggers.breakout_ok)) playbookOk = true;
-                else if (!isLong && (triggers.momentum_ok_short || triggers.mr_ok_short || triggers.breakout_ok)) playbookOk = true;
-                else playbookReason = "No valid triggers met for direction";
+            const pb = decision.playbook.toLowerCase();
+            if (pb.includes("momentum")) {
+                if (isLong && !triggers.momentum_ok_long && !triggers.breakout_ok) {
+                    return { approved: false, reason: "Momentum play not supported by triggers" };
+                }
+                if (!isLong && !triggers.momentum_ok_short && !triggers.breakout_ok) {
+                    return { approved: false, reason: "Momentum play not supported by triggers" };
+                }
+            } else if (pb.includes("reversion") || pb.includes("mean")) {
+                if (isLong && !triggers.mr_ok_long) {
+                    return { approved: false, reason: "Mean reversion not supported (long)" };
+                }
+                if (!isLong && !triggers.mr_ok_short) {
+                    return { approved: false, reason: "Mean reversion not supported (short)" };
+                }
             }
-
-            if (!playbookOk) {
-                return { approved: false, reason: `Playbook Gate Failed: ${playbookReason}` };
-            }
+            // Breakout and discretionary fall through without hard block.
         }
 
-        // 9. Regime Compatibility Gate
-        const regime = snapshot.global_regime.current;
+        // 9b. Direction vs book pressure sanity (prevent fading without extreme move)
+        const bp = market.orderbook?.book_pressure ?? 0;
+        const retSigma = market.vol_zscores?.ret_5m_vs_1h ?? 0;
         const isLong = decision.target_side === "long";
-
-        if (regime === "RISK_ON") {
-            // Forbid shorts unless MR short
-            if (!isLong && triggers && !triggers.mr_ok_short) {
-                return { approved: false, reason: "Regime Mismatch: RISK_ON forbids shorts (unless MR)" };
-            }
-        } else if (regime === "RISK_OFF") {
-            // Forbid longs unless MR long
-            if (isLong && triggers && !triggers.mr_ok_long) {
-                return { approved: false, reason: "Regime Mismatch: RISK_OFF forbids longs (unless MR)" };
-            }
-        } else if (regime === "CHOP") {
-            // Forbid opens unless edge is strong (4x cost) AND (MR or Breakout)
-            const edgeStrong = market.derived && market.derived.edge.expected_move_bps >= (4 * market.derived.costs.cost_bps);
-            const isTrend = decision.playbook.toLowerCase().includes("momentum");
-
-            if (!edgeStrong) {
-                return { approved: false, reason: "Regime Mismatch: CHOP requires strong edge (4x cost)" };
-            }
-            if (isTrend) {
-                return { approved: false, reason: "Regime Mismatch: CHOP forbids Momentum plays" };
-            }
+        const bpAligned = (isLong && bp >= 0) || (!isLong && bp <= 0);
+        if (!bpAligned && Math.abs(retSigma) < 3) {
+            return { approved: false, reason: "Direction conflicts with book pressure without extreme move" };
         }
 
         // --- C) Risk Plan Enforcement ---
@@ -190,7 +168,7 @@ export class RiskCheckModule {
 
         // --- Accounting Checks ---
 
-        const sizeFraction = decision.target_size_fraction_of_equity ?? decision.size_fraction_of_equity;
+        const sizeFraction = decision.target_size_fraction_of_equity ?? (decision as any).target_size_fraction_of_1h ?? decision.size_fraction_of_equity;
         if (sizeFraction === null || sizeFraction === undefined) {
             return { approved: false, reason: "Missing target size" };
         }
@@ -209,11 +187,11 @@ export class RiskCheckModule {
         const currentExposure = currentPositions.reduce((sum, p) => sum + p.size_usd, 0);
         const maxTotal = equity * snapshot.constraints.max_total_exposure_pct_equity;
 
-        // Check slots (max 5)
-        // If we are opening a NEW position (symbol not in current), check if we have space
+        // Check slots using derived portfolio if available
         const isNewPosition = !currentPositions.find(p => p.symbol === decision.symbol);
-        if (isNewPosition && currentPositions.length >= 5) {
-            return { approved: false, reason: "Max position slots (5) reached" };
+        const slotsRemaining = snapshot.account.derived_portfolio?.slots_remaining;
+        if (isNewPosition && slotsRemaining !== undefined && slotsRemaining <= 0) {
+            return { approved: false, reason: "Max position slots reached" };
         }
 
         if (currentExposure + proposedSizeUsd > maxTotal) {

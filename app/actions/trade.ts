@@ -1,15 +1,10 @@
 "use server"
 
 import { placeOrder, cancelOrder } from "@/lib/hyperliquid"
+import type { PlaceOrderRequest } from "@/lib/hyperliquid"
 
 export async function placeOrderAction(
-    order: {
-        asset: number
-        isBuy: boolean
-        limitPx: number
-        sz: number
-        reduceOnly: boolean
-    },
+    order: PlaceOrderRequest,
     isTestnet: boolean
 ) {
     const privateKey = isTestnet

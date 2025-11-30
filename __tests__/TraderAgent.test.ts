@@ -41,7 +41,7 @@ describe('OrchestratorService', () => {
 
     beforeEach(() => {
         vi.clearAllMocks();
-        orchestrator = new OrchestratorService();
+        orchestrator = OrchestratorService.getInstance();
     });
 
     it('should analyze market and return decision', async () => {
@@ -66,8 +66,8 @@ describe('OrchestratorService', () => {
         const result = await orchestrator.analyzeMarket("0xUser", true, "model-v1", true);
 
         expect(result).toBeDefined();
-        expect(result.decision).toEqual(mockDecision);
-        expect(result.riskAssessment.approved).toBe(true);
+        expect(result.decisions[0]).toEqual(mockDecision);
+        expect(result.riskAssessments[0].approved).toBe(true);
         expect(global.fetch).toHaveBeenCalledWith(
             expect.stringContaining('/api/generate'),
             expect.objectContaining({
@@ -85,7 +85,6 @@ describe('OrchestratorService', () => {
 
         const result = await orchestrator.analyzeMarket("0xUser", false, "model-v1", true);
 
-        expect(result.decision.action).toBe("DO_NOTHING");
-        expect(result.decision.reason_code).toBe("error_fallback");
+        expect(result.decisions.length).toBe(0);
     });
 });

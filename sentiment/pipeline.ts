@@ -453,9 +453,7 @@ async function buildSnapshot(symbol: string, windowMinutes: number, config: Retu
     },
   });
 
-  console.log(
-    `Snapshot ${symbol}: score=${agg.score.toFixed(3)} mentions=${agg.mentions} change2h=${change2h.toFixed(3)}`
-  );
+
 }
 
 async function getPreviousSnapshotScore(symbol: string, windowMinutes: number, now: Date) {

@@ -12,7 +12,9 @@ import { Badge } from "@/components/ui/badge"
 import { Switch } from "@/components/ui/switch"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+
 import { BrainCircuit, Play, Pause, AlertOctagon, Loader2, Activity, ShieldAlert, Settings } from "lucide-react"
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { useTrading } from "@/context/TradingContext"
 import { ConfigEditor } from "@/components/ui/ConfigEditor"
 import { AgentConfig, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config"
@@ -47,11 +49,12 @@ type TradeDecision = {
 type RiskAssessment = {
     approved: boolean;
     reason: string;
+    modifiedOrder?: any;
 };
 
 type AnalysisResult = {
     decisions: TradeDecision[];
-    riskAssessment: RiskAssessment;
+    riskAssessments: RiskAssessment[];
     snapshot: any;
     prompt: string;
     rawOutput: string;
@@ -71,6 +74,16 @@ export function AIAdvisor() {
         setExecuting(index);
 
         try {
+            // If risk check flagged it, ask for manual override confirmation (manual only)
+            const risk = result.riskAssessments?.[index];
+            if (risk && risk.approved === false) {
+                const proceed = window.confirm(`Risk check did NOT approve this trade (${risk.reason}). Execute anyway?`);
+                if (!proceed) {
+                    setExecuting(null);
+                    return;
+                }
+            }
+
             const market = result.snapshot.markets[decision.symbol!];
             if (!market) throw new Error(`Market data not found for ${decision.symbol}`);
 
@@ -108,12 +121,24 @@ export function AIAdvisor() {
                 // Aggressive limit price (5% buffer) to ensure fill
                 const limitPx = isBuy ? price * 1.05 : price * 0.95;
 
+                let stopLossPrice: number | undefined;
+                let takeProfitPrice: number | undefined;
+
+                if (decision.risk_plan) {
+                    const slPct = Math.abs(decision.risk_plan.stop_loss_pct);
+                    const tpPct = Math.abs(decision.risk_plan.take_profit_pct_primary);
+                    stopLossPrice = isBuy ? price * (1 - slPct) : price * (1 + slPct);
+                    takeProfitPrice = isBuy ? price * (1 + tpPct) : price * (1 - tpPct);
+                }
+
                 orderRequest = {
                     asset: assetIndex,
                     isBuy,
                     limitPx,
                     sz: size,
-                    reduceOnly: false
+                    reduceOnly: false,
+                    stopLossPrice,
+                    takeProfitPrice
                 };
             } else if (decision.action === "CLOSE_POSITION" || decision.action === "REDUCE_POSITION") {
                 // Find current position size
@@ -201,7 +226,7 @@ export function AIAdvisor() {
 
             if (job.status === 'completed') {
                 console.log("✅ Analysis job completed");
-                setResult(job.result);
+                setResult({ ...job.result, riskAssessments: job.result?.riskAssessments || [] });
                 setLoading(false);
                 stopPolling();
                 setCurrentJobId(null);
@@ -330,7 +355,7 @@ export function AIAdvisor() {
                 startPolling(data.jobId);
             } else {
                 // Auto-trading (synchronous)
-                setResult(data)
+                setResult({ ...data, riskAssessments: data.riskAssessments || [] })
                 setLoading(false)
             }
 
@@ -413,17 +438,36 @@ export function AIAdvisor() {
     }
 
     return (
-        <Card className="bg-slate-900 border-slate-800 hover-lift flex flex-col h-full">
-            <CardHeader className="pb-3 border-b border-slate-800/50 space-y-3">
+        <Card className="bg-slate-900 border-slate-800 flex flex-col flex-1 h-full border-0 rounded-none">
+            <CardHeader className="pb-3 border-b border-slate-800/50 space-y-3" >
                 <div className="flex items-center justify-between">
                     <CardTitle className="text-base font-bold text-purple-400 flex items-center gap-2">
                         <BrainCircuit className="h-4 w-4" />
                         AI Trader Agent
                     </CardTitle>
                     <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setShowConfig(!showConfig)}>
-                            <Settings className="h-4 w-4 text-slate-400" />
-                        </Button>
+                        <Sheet open={showConfig} onOpenChange={setShowConfig}>
+                            <SheetTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-6 w-6">
+                                    <Settings className="h-4 w-4 text-slate-400" />
+                                </Button>
+                            </SheetTrigger>
+                            <SheetContent side="right" className="w-[400px] sm:w-[540px] bg-slate-950/80 backdrop-blur-md border-slate-800 overflow-y-auto">
+                                <SheetHeader>
+                                    <SheetTitle className="text-slate-100">Agent Configuration</SheetTitle>
+                                    <SheetDescription className="text-slate-400">
+                                        Configure the AI Trader's risk management and decision logic.
+                                    </SheetDescription>
+                                </SheetHeader>
+                                <div className="mt-6">
+                                    <ConfigEditor
+                                        initialConfig={customConfig || DEFAULT_AGENT_CONFIG}
+                                        onSave={handleSaveConfig}
+                                        onCancel={() => setShowConfig(false)}
+                                    />
+                                </div>
+                            </SheetContent>
+                        </Sheet>
                         <Badge variant={autoTrading ? "default" : "outline"} className={autoTrading ? "bg-green-500/20 text-green-400 border-green-500/50 text-xs" : "text-slate-500 text-xs"}>
                             {autoTrading ? <Play className="h-3 w-3 mr-1" /> : <Pause className="h-3 w-3 mr-1" />}
                             {autoTrading ? "Active" : "Paused"}
@@ -462,9 +506,9 @@ export function AIAdvisor() {
                                 type="number"
                                 value={frequency}
                                 onChange={(e) => setFrequency(Number(e.target.value))}
-                                className="w-16 h-7 text-xs text-right bg-slate-900 border-slate-700 focus-visible:ring-purple-500"
+                                className="w-20 h-7 text-xs text-right bg-slate-900 border-slate-700 focus-visible:ring-purple-500"
                             />
-                            <span className="text-xs text-slate-500">sec</span>
+                            <span className="text-xs text-slate-500 font-medium">sec</span>
                         </div>
                     </div>
 
@@ -472,11 +516,11 @@ export function AIAdvisor() {
                         <span className="text-xs text-slate-400 font-medium block">Model</span>
                         <Select value={selectedModel} onValueChange={setSelectedModel}>
                             <SelectTrigger className="w-full h-8 text-xs bg-slate-900 border-slate-700 text-slate-200 focus:ring-purple-500">
-                                <SelectValue placeholder="Select Model" />
+                                <SelectValue placeholder="Select Model" className="truncate" />
                             </SelectTrigger>
                             <SelectContent className="bg-slate-900 border-slate-700 text-slate-200">
                                 {availableModels.map(m => (
-                                    <SelectItem key={m} value={m} className="focus:bg-slate-800 focus:text-purple-400 text-xs">{m}</SelectItem>
+                                    <SelectItem key={m} value={m} title={m} className="focus:bg-slate-800 focus:text-purple-400 text-xs">{m}</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
@@ -484,174 +528,184 @@ export function AIAdvisor() {
                 </div>
             </CardHeader>
 
-            <CardContent className="flex-1 overflow-y-auto p-3 space-y-3">
-                {showConfig ? (
-                    <ConfigEditor
-                        initialConfig={customConfig || DEFAULT_AGENT_CONFIG}
-                        onSave={handleSaveConfig}
-                        onCancel={() => setShowConfig(false)}
-                    />
-                ) : (
-                    <>
-                        {loading && !result && (
-                            <div className="flex flex-col items-center justify-center h-32 text-slate-500 gap-3">
-                                <Loader2 className="h-6 w-6 animate-spin text-purple-500" />
-                                <span className="text-xs animate-pulse">Calling LLM with model: {selectedModel}</span>
-                                <Button
-                                    onClick={cancelAnalysis}
-                                    variant="outline"
-                                    size="sm"
-                                    className="h-7 text-xs border-red-500/50 text-red-400 hover:bg-red-950/30 hover:border-red-500"
-                                >
-                                    Cancel
-                                </Button>
+            <CardContent className="flex-1 p-3 space-y-3 overflow-y-auto min-h-0">
+                {/* Config is now in a Sheet, so we just show the main content */}
+                <>
+                    {loading && !result && (
+                        <div className="flex flex-col items-center justify-center h-32 text-slate-500 gap-3">
+                            <Loader2 className="h-6 w-6 animate-spin text-purple-500" />
+                            <span className="text-xs animate-pulse">Calling LLM with model: {selectedModel}</span>
+                            <Button
+                                onClick={cancelAnalysis}
+                                variant="outline"
+                                size="sm"
+                                className="h-7 text-xs border-red-500/50 text-red-400 hover:bg-red-950/30 hover:border-red-500"
+                            >
+                                Cancel
+                            </Button>
+                        </div>
+                    )}
+
+                    {!result && !loading && (
+                        <div className="flex flex-col items-center justify-center py-6 text-center space-y-3">
+                            <div className="p-3 rounded-full bg-slate-950 border border-slate-800">
+                                <BrainCircuit className="h-6 w-6 text-slate-600" />
                             </div>
-                        )}
-
-                        {!result && !loading && (
-                            <div className="flex flex-col items-center justify-center py-6 text-center space-y-3">
-                                <div className="p-3 rounded-full bg-slate-950 border border-slate-800">
-                                    <BrainCircuit className="h-6 w-6 text-slate-600" />
-                                </div>
-                                <div className="space-y-1">
-                                    <p className="text-sm text-slate-300 font-medium">Ready to Analyze</p>
-                                    <p className="text-xs text-slate-500 max-w-[200px] mx-auto">
-                                        Enable Auto Trading or run a manual analysis to generate trading signals.
-                                    </p>
-                                </div>
-                                <Button onClick={analyzeMarket} className="w-full bg-purple-600 hover:bg-purple-700 text-white text-xs h-8">
-                                    <Play className="h-3 w-3 mr-2" />
-                                    Run Manual Analysis
-                                </Button>
+                            <div className="space-y-1">
+                                <p className="text-sm text-slate-300 font-medium">Ready to Analyze</p>
+                                <p className="text-xs text-slate-500 max-w-[200px] mx-auto">
+                                    Enable Auto Trading or run a manual analysis to generate trading signals.
+                                </p>
                             </div>
-                        )}
+                            <Button onClick={analyzeMarket} className="w-full bg-purple-600 hover:bg-purple-700 text-white text-xs h-8">
+                                <Play className="h-3 w-3 mr-2" />
+                                Run Manual Analysis
+                            </Button>
+                        </div>
+                    )}
 
-                        {result && (
-                            <div className="space-y-3 animate-fade-in">
-                                {/* Portfolio Plan Header */}
-                                <div className="p-3 bg-gradient-to-br from-slate-950 to-slate-900 rounded-lg border border-slate-800 shadow-lg">
-                                    <div className="flex items-center justify-between mb-2">
-                                        <span className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Portfolio Plan</span>
-                                        <Badge variant="outline" className="text-[9px] border-purple-500/30 text-purple-400 bg-purple-500/5">
-                                            {result.decisions.length} Decision{result.decisions.length !== 1 ? 's' : ''}
-                                        </Badge>
-                                    </div>
+                    {result && (
+                        <div className="space-y-3 animate-fade-in">
+                            {/* Portfolio Plan Header */}
+                            <div className="p-3 bg-gradient-to-br from-slate-950 to-slate-900 rounded-lg border border-slate-800 shadow-lg">
+                                <div className="flex items-center justify-between mb-2">
+                                    <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Portfolio Plan</span>
+                                    <Badge variant="outline" className="text-xs border-purple-500/30 text-purple-400 bg-purple-500/5">
+                                        {result.decisions.length} Decision{result.decisions.length !== 1 ? 's' : ''}
+                                    </Badge>
                                 </div>
+                            </div>
 
-                                {/* Decisions List */}
-                                <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1">
-                                    {result.decisions.map((decision, idx) => (
-                                        <div key={idx} className="p-2.5 bg-slate-950/50 rounded-lg border border-slate-800 hover:border-slate-700 transition-colors">
-                                            <div className="flex items-center justify-between mb-1.5">
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-xs font-mono font-bold text-slate-200">{decision.symbol || 'N/A'}</span>
-                                                    {decision.target_side && decision.target_side !== 'flat' && (
-                                                        <Badge variant="outline" className={`text-[9px] px-1.5 py-0 ${decision.target_side === 'long'
-                                                            ? 'border-green-500/50 text-green-400 bg-green-500/10'
-                                                            : 'border-red-500/50 text-red-400 bg-red-500/10'
-                                                            }`}>
-                                                            {decision.target_side.toUpperCase()}
-                                                        </Badge>
-                                                    )}
-                                                </div>
-                                                <Badge variant="outline" className={`text-[9px] px-1.5 py-0 ${decision.confidence > 0.7 ? 'border-green-500/30 text-green-400 bg-green-500/5' :
-                                                    decision.confidence > 0.5 ? 'border-yellow-500/30 text-yellow-400 bg-yellow-500/5' :
-                                                        'border-slate-500/30 text-slate-400 bg-slate-500/5'
-                                                    }`}>
-                                                    {(decision.confidence * 100).toFixed(0)}%
-                                                </Badge>
-                                            </div>
-                                            <div className="space-y-1">
-                                                <div className="flex items-center justify-between">
-                                                    <span className="text-[10px] text-slate-500">Action</span>
-                                                    <span className={`text-[10px] font-semibold ${decision.action === 'OPEN_POSITION' || decision.action === 'INCREASE_POSITION' ? 'text-green-400' :
-                                                        decision.action === 'CLOSE_POSITION' || decision.action === 'REDUCE_POSITION' ? 'text-orange-400' :
-                                                            'text-slate-400'
+                            {/* Decisions List */}
+                            <div className="space-y-2 pr-1">
+                                {result.decisions.map((decision, idx) => (
+                                    <div key={idx} className="p-2.5 bg-slate-950/50 rounded-lg border border-slate-800 hover:border-slate-700 transition-colors">
+                                        <div className="flex items-center justify-between mb-1.5">
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-xs font-mono font-bold text-slate-200">{decision.symbol || 'N/A'}</span>
+                                                {decision.target_side && decision.target_side !== 'flat' && (
+                                                    <Badge variant="outline" className={`text-xs px-1.5 py-0 ${decision.target_side === 'long'
+                                                        ? 'border-green-500/50 text-green-400 bg-green-500/10'
+                                                        : 'border-red-500/50 text-red-400 bg-red-500/10'
                                                         }`}>
-                                                        {decision.action.replace(/_/g, ' ')}
+                                                        {decision.target_side.toUpperCase()}
+                                                    </Badge>
+                                                )}
+                                            </div>
+                                            <Badge variant="outline" className={`text-xs px-1.5 py-0 ${decision.confidence > 0.7 ? 'border-green-500/30 text-green-400 bg-green-500/5' :
+                                                decision.confidence > 0.5 ? 'border-yellow-500/30 text-yellow-400 bg-yellow-500/5' :
+                                                    'border-slate-500/30 text-slate-400 bg-slate-500/5'
+                                                }`}>
+                                                {(decision.confidence * 100).toFixed(0)}%
+                                            </Badge>
+                                        </div>
+                                        <div className="space-y-1">
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-xs text-slate-500">Action</span>
+                                                <span className={`text-xs font-semibold ${decision.action === 'OPEN_POSITION' || decision.action === 'INCREASE_POSITION' ? 'text-green-400' :
+                                                    decision.action === 'CLOSE_POSITION' || decision.action === 'REDUCE_POSITION' ? 'text-orange-400' :
+                                                        'text-slate-400'
+                                                    }`}>
+                                                    {decision.action.replace(/_/g, ' ')}
+                                                </span>
+                                            </div>
+                                            {decision.target_size_fraction_of_equity !== null && decision.target_size_fraction_of_equity !== undefined && (
+                                                <div className="flex items-center justify-between">
+                                                    <span className="text-xs text-slate-500">Target Size</span>
+                                                    <span className="text-xs font-mono text-cyan-400">
+                                                        {(decision.target_size_fraction_of_equity * 100).toFixed(1)}% equity
                                                     </span>
                                                 </div>
-                                                {decision.target_size_fraction_of_equity !== null && decision.target_size_fraction_of_equity !== undefined && (
-                                                    <div className="flex items-center justify-between">
-                                                        <span className="text-[10px] text-slate-500">Target Size</span>
-                                                        <span className="text-[10px] font-mono text-cyan-400">
-                                                            {(decision.target_size_fraction_of_equity * 100).toFixed(1)}% equity
+                                            )}
+                                            <div className="pt-1 border-t border-slate-800/50">
+                                                <p className="text-xs text-slate-400 leading-relaxed break-words">
+                                                    {decision.notes}
+                                                </p>
+                                            </div>
+
+                                            {/* Audit Metrics */}
+                                            {decision.audit && (
+                                                <div className="grid grid-cols-3 gap-1 mt-2 p-1.5 bg-slate-900/50 rounded border border-slate-800/50">
+                                                    <div className="flex flex-col">
+                                                        <span className="text-[10px] text-slate-500 uppercase">Edge</span>
+                                                        <span className={`text-xs font-mono ${decision.audit.edge_bps > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                                            {decision.audit.edge_bps.toFixed(0)} bps
                                                         </span>
                                                     </div>
-                                                )}
-                                                <div className="pt-1 border-t border-slate-800/50">
-                                                    <p className="text-[10px] text-slate-400 leading-relaxed">
-                                                        {decision.notes}
-                                                    </p>
-                                                </div>
-
-                                                {/* Audit Metrics */}
-                                                {decision.audit && (
-                                                    <div className="grid grid-cols-3 gap-1 mt-2 p-1.5 bg-slate-900/50 rounded border border-slate-800/50">
-                                                        <div className="flex flex-col">
-                                                            <span className="text-[8px] text-slate-500 uppercase">Edge</span>
-                                                            <span className={`text-[9px] font-mono ${decision.audit.edge_bps > 0 ? 'text-green-400' : 'text-red-400'}`}>
-                                                                {decision.audit.edge_bps.toFixed(0)} bps
-                                                            </span>
-                                                        </div>
-                                                        <div className="flex flex-col">
-                                                            <span className="text-[8px] text-slate-500 uppercase">Cost</span>
-                                                            <span className="text-[9px] font-mono text-slate-300">
-                                                                {decision.audit.cost_bps.toFixed(1)} bps
-                                                            </span>
-                                                        </div>
-                                                        <div className="flex flex-col">
-                                                            <span className="text-[8px] text-slate-500 uppercase">Vol Ratio</span>
-                                                            <span className={`text-[9px] font-mono ${decision.audit.vol_ratio_5m_vs_1h > 1.2 ? 'text-purple-400' : 'text-slate-300'}`}>
-                                                                {decision.audit.vol_ratio_5m_vs_1h.toFixed(2)}x
-                                                            </span>
-                                                        </div>
+                                                    <div className="flex flex-col">
+                                                        <span className="text-[10px] text-slate-500 uppercase">Cost</span>
+                                                        <span className="text-xs font-mono text-slate-300">
+                                                            {decision.audit.cost_bps.toFixed(1)} bps
+                                                        </span>
                                                     </div>
-                                                )}
+                                                    <div className="flex flex-col">
+                                                        <span className="text-[10px] text-slate-500 uppercase">Vol Ratio</span>
+                                                        <span className={`text-xs font-mono ${decision.audit.vol_ratio_5m_vs_1h > 1.2 ? 'text-purple-400' : 'text-slate-300'}`}>
+                                                            {decision.audit.vol_ratio_5m_vs_1h.toFixed(2)}x
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            )}
 
-                                                {/* Execution Button */}
-                                                {(decision.action === "OPEN_POSITION" || decision.action === "INCREASE_POSITION" || decision.action === "CLOSE_POSITION" || decision.action === "REDUCE_POSITION") && (
-                                                    <Button
-                                                        onClick={() => executeDecision(decision, idx)}
-                                                        disabled={executing === idx}
-                                                        size="sm"
-                                                        className={`w-full h-6 text-[10px] mt-2 ${decision.action.includes("CLOSE") || decision.action.includes("REDUCE")
-                                                            ? "bg-orange-500/10 text-orange-400 border border-orange-500/50 hover:bg-orange-500/20"
-                                                            : "bg-green-500/10 text-green-400 border border-green-500/50 hover:bg-green-500/20"
-                                                            }`}
-                                                    >
-                                                        {executing === idx ? (
-                                                            <Loader2 className="h-3 w-3 animate-spin" />
-                                                        ) : (
-                                                            <>
-                                                                <Activity className="h-3 w-3 mr-1" />
-                                                                EXECUTE {decision.action.split("_")[0]}
-                                                            </>
-                                                        )}
-                                                    </Button>
-                                                )}
-                                            </div>
+                                            {/* Execution Button */}
+                                            {(decision.action === "OPEN_POSITION" || decision.action === "INCREASE_POSITION" || decision.action === "CLOSE_POSITION" || decision.action === "REDUCE_POSITION") && (
+                                                <Button
+                                                    onClick={() => executeDecision(decision, idx)}
+                                                    disabled={executing === idx}
+                                                    size="sm"
+                                                    className={`w-full h-6 text-xs mt-2 ${decision.action.includes("CLOSE") || decision.action.includes("REDUCE")
+                                                        ? "bg-orange-500/10 text-orange-400 border border-orange-500/50 hover:bg-orange-500/20"
+                                                        : "bg-green-500/10 text-green-400 border border-green-500/50 hover:bg-green-500/20"
+                                                        }`}
+                                                >
+                                                    {executing === idx ? (
+                                                        <Loader2 className="h-3 w-3 animate-spin" />
+                                                    ) : (
+                                                        <>
+                                                            <Activity className="h-3 w-3 mr-1" />
+                                                            EXECUTE {decision.action.split("_")[0]}
+                                                        </>
+                                                    )}
+                                                </Button>
+                                            )}
                                         </div>
-                                    ))}
-                                </div>
+                                    </div>
+                                ))}
+                            </div>
 
-                                {/* Risk Assessment */}
-                                <div className={`p-2.5 rounded-lg border flex items-start gap-2 ${result.riskAssessment.approved
-                                    ? 'bg-green-950/10 border-green-900/30'
-                                    : 'bg-red-950/10 border-red-900/30'
-                                    }`}>
-                                    <ShieldAlert className={`h-4 w-4 shrink-0 mt-0.5 ${result.riskAssessment.approved ? 'text-green-500' : 'text-red-500'}`} />
-                                    <div className="flex flex-col">
-                                        <span className={`text-xs font-bold ${result.riskAssessment.approved ? 'text-green-400' : 'text-red-400'}`}>
-                                            Risk: {result.riskAssessment.approved ? 'PASSED' : 'FAILED'}
-                                        </span>
-                                        <span className="text-[11px] text-slate-400 mt-0.5 leading-relaxed">{result.riskAssessment.reason}</span>
+                            {/* Risk Assessments */}
+                            {result.riskAssessments && result.riskAssessments.length > 0 && (
+                                <div className="p-2.5 rounded-lg border border-slate-800/60 bg-slate-900/40">
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <ShieldAlert className="h-4 w-4 text-sky-400" />
+                                        <span className="text-xs font-semibold text-slate-100">Risk Checks</span>
+                                    </div>
+                                    <div className="flex flex-col gap-2">
+                                        {result.decisions.map((d, idx) => {
+                                            const risk = result.riskAssessments[idx];
+                                            if (!risk) return null;
+                                            const pass = risk.approved;
+                                            return (
+                                                <div
+                                                    key={`${d.symbol || 'N/A'}-${d.action}-${idx}`}
+                                                    className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 px-2 py-1.5 rounded border ${pass ? 'border-green-900/40 bg-green-900/10' : 'border-red-900/40 bg-red-900/10'}`}
+                                                >
+                                                    <div className="flex items-center gap-2">
+                                                        <span className={`text-[11px] font-semibold ${pass ? 'text-green-300' : 'text-red-300'}`}>
+                                                            {pass ? 'PASSED' : 'FAILED'}
+                                                        </span>
+                                                        <span className="text-[11px] text-slate-300">{d.symbol} · {d.action}</span>
+                                                    </div>
+                                                    <span className="text-[11px] text-slate-400 leading-relaxed">{risk.reason}</span>
+                                                </div>
+                                            );
+                                        })}
                                     </div>
                                 </div>
-                            </div>
-                        )}
-                    </>
-                )}
+                            )}
+                        </div>
+                    )}
+                </>
             </CardContent>
 
             {/* Manual Analyze Button (Only visible if we have a result, to allow re-analysis) */}

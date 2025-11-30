@@ -538,6 +538,7 @@ export function PositionsTable() {
                                         <TableRow className="border-slate-800 hover:bg-slate-900/50">
                                             <TableHead className="text-slate-400 font-medium text-base py-4">Asset</TableHead>
                                             <TableHead className="text-slate-400 font-medium text-base py-4">Side</TableHead>
+                                            <TableHead className="text-slate-400 font-medium text-base text-center py-4">Lev</TableHead>
                                             <TableHead className="text-slate-400 font-medium text-base text-right py-4">Size</TableHead>
                                             <TableHead className="text-slate-400 font-medium text-base text-right py-4">Limit Price</TableHead>
                                             <TableHead className="text-slate-400 font-medium text-base text-right py-4">Time</TableHead>
@@ -555,7 +556,7 @@ export function PositionsTable() {
                                                     <TableCell className="py-4">
                                                         <Badge
                                                             variant="outline"
-                                                            className={`text-sm ${order.side === 'B' ? 'border-green-500 text-green-400' : 'border-red-500 text-red-400'}`}
+                                                            className={`text-sm ${order.side === 'B' ? 'border-green-500 text-green-400 bg-green-500/10' : 'border-red-500 text-red-400 bg-red-500/10'}`}
                                                         >
                                                             {order.side === 'B' ? 'BUY' : 'SELL'}
                                                         </Badge>

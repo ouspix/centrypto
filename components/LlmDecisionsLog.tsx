@@ -161,7 +161,7 @@ function HistoryItem({ item }: { item: LlmQuery }) {
     )
 }
 
-export function LlmDecisionsLog() {
+export function LlmDecisionsLog({ className }: { className?: string }) {
     const { isTestnet } = useTrading()
     const [history, setHistory] = useState<LlmQuery[]>([])
     const [loading, setLoading] = useState(false)
@@ -186,15 +186,15 @@ export function LlmDecisionsLog() {
     }, [isTestnet])
 
     return (
-        <div className="flex flex-col h-full space-y-3">
-            <div className="flex justify-between items-center px-1">
+        <div className={`flex flex-col h-full space-y-3 ${className}`}>
+            <div className="flex justify-between items-center px-1 flex-none">
                 <h3 className="text-sm font-medium text-slate-300">Decision History</h3>
                 <Button variant="ghost" size="icon" onClick={fetchHistory} disabled={loading} className="h-6 w-6">
                     <RefreshCw className={`h-3 w-3 ${loading ? 'animate-spin' : ''}`} />
                 </Button>
             </div>
 
-            <div className="flex-1 overflow-y-auto space-y-2 pr-1">
+            <div className="flex-1 overflow-y-auto space-y-2 pr-1 min-h-0">
                 {history.map((item) => (
                     <HistoryItem key={item.id} item={item} />
                 ))}
