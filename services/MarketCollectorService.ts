@@ -150,12 +150,11 @@ export class MarketCollectorService {
         }
 
         const { universe } = metaAndCtxs;
-        // Process in batches to balance speed and rate limits
-        // Batch size of 50 with 1s delay = ~3000 requests/min (too fast? No, 50 * 1 = 50 req/batch)
-        // Actually, we want to be safe.
-        const CHUNK_SIZE = 50;
-
         // Process sequentially to avoid SQLite database locking/timeouts
+        // SQLite handles one writer at a time. Parallel writes cause contention.
+        // We can try a small batch size to speed things up without overwhelming the DB.
+        const CHUNK_SIZE = 5;
+
         let processedCount = 0;
         for (let i = 0; i < universe.length; i += CHUNK_SIZE) {
             const batch = universe.slice(i, i + CHUNK_SIZE);
@@ -196,14 +195,19 @@ export class MarketCollectorService {
                                 // console.log(`[Backfill] Detected gap for ${symbol}`);
                             }
                         }
+                    }
 
-                        // 3. Fetch History
-                        const candles = await getOHLCV(symbol, "1m", isTestnet, startTime);
+                    // 3. Fetch History
+                    const candles = await getOHLCV(symbol, "1m", isTestnet, startTime);
 
-                        if (candles && candles.length > 0) {
-                            // Upsert candles in a transaction
+                    if (candles && candles.length > 0) {
+                        // Split into smaller chunks to avoid "Transaction too large" or timeouts
+                        const UPSERT_BATCH_SIZE = 500;
+                        for (let j = 0; j < candles.length; j += UPSERT_BATCH_SIZE) {
+                            const candleBatch = candles.slice(j, j + UPSERT_BATCH_SIZE);
+
                             await db.$transaction(
-                                candles.map((c: any) =>
+                                candleBatch.map((c: any) =>
                                     db.marketCandle.upsert({
                                         where: {
                                             symbol_timeframe_openTime: {
@@ -231,8 +235,8 @@ export class MarketCollectorService {
                                     })
                                 )
                             );
-                            console.log(`[Backfill] Inserted ${candles.length} candles for ${symbol}`);
                         }
+                        console.log(`[Backfill] Inserted ${candles.length} candles for ${symbol}`);
                     }
                 } catch (error) {
                     console.error(`[Backfill] Error processing ${asset.name}:`, error);
@@ -242,8 +246,8 @@ export class MarketCollectorService {
             processedCount += batch.length;
             console.log(`[Backfill] Processed ${processedCount}/${universe.length} symbols...`);
 
-            // Rate limit delay between batches
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            // Small delay to let the event loop breathe and other writers (like live stream) get a chance
+            await new Promise(resolve => setTimeout(resolve, 50));
         }
         console.log(`[MarketCollector] Backfill complete for ${isTestnet ? 'Testnet' : 'Mainnet'}.`);
     }

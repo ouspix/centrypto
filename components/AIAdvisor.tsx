@@ -110,10 +110,28 @@ export function AIAdvisor() {
                 }
 
                 const sizeUsd = equityNum * sizeFraction;
-                const size = sizeUsd / price;
+                let size = sizeUsd / price;
+
+                if (decision.action === "INCREASE_POSITION") {
+                    // Find current position
+                    const position = result.snapshot.account.current_positions.find((p: any) => p.symbol === decision.symbol);
+                    if (position) {
+                        const currentSizeUsd = Number(position.size_usd);
+                        const increaseAmountUsd = sizeUsd - currentSizeUsd;
+
+                        if (increaseAmountUsd <= 0) {
+                            toast.info(`Position already at or above target size. Current: $${currentSizeUsd.toFixed(0)}, Target: $${sizeUsd.toFixed(0)}`);
+                            setExecuting(null);
+                            return;
+                        }
+
+                        size = increaseAmountUsd / price;
+                        console.log(`📈 Increasing position by $${increaseAmountUsd.toFixed(2)} (${size.toFixed(4)} coins) to reach target $${sizeUsd.toFixed(2)}`);
+                    }
+                }
 
                 if (isNaN(size) || size <= 0) {
-                    throw new Error(`Invalid calculated size: ${size} (USD: ${sizeUsd}, Price: ${price})`);
+                    throw new Error(`Invalid calculated size: ${size} (Target USD: ${sizeUsd}, Price: ${price})`);
                 }
 
                 const isBuy = decision.target_side === "long";
@@ -146,9 +164,27 @@ export function AIAdvisor() {
                 if (!position) throw new Error("No open position to close");
 
                 // Use the exact coin size from the snapshot if available, otherwise fallback (though snapshot should have it now)
-                const sizeToClose = position.size_coin !== undefined
+                let sizeToClose = position.size_coin !== undefined
                     ? position.size_coin
                     : Math.abs(Number(position.size_usd) / price); // Fallback estimate
+
+                if (decision.action === "REDUCE_POSITION") {
+                    const targetFraction = Number(decision.target_size_fraction_of_equity) || 0;
+                    const targetSizeUsd = Number(equity) * targetFraction;
+                    const currentSizeUsd = Number(position.size_usd);
+
+                    const reduceAmountUsd = currentSizeUsd - targetSizeUsd;
+
+                    if (reduceAmountUsd <= 0) {
+                        toast.info(`Position already below target size. Current: $${currentSizeUsd.toFixed(0)}, Target: $${targetSizeUsd.toFixed(0)}`);
+                        setExecuting(null);
+                        return;
+                    }
+
+                    // Convert USD reduction to Coin size
+                    sizeToClose = reduceAmountUsd / price;
+                    console.log(`📉 Reducing position by $${reduceAmountUsd.toFixed(2)} (${sizeToClose.toFixed(4)} coins) to reach target $${targetSizeUsd.toFixed(2)}`);
+                }
 
                 const isLong = position.side === "long";
 
@@ -347,7 +383,8 @@ export function AIAdvisor() {
                 screeningConfig,
                 configOverride: customConfig,
                 isManual: !autoTrading, // Flag for manual analysis
-                isTestnet: isTestnet
+                isTestnet: isTestnet,
+                model: selectedModel
             };
 
             const response = await fetch('/api/ai/analyze', {

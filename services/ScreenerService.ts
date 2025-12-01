@@ -36,20 +36,7 @@ export class ScreenerService {
         this.sentimentService = new SentimentService();
 
         // Initialize WS and OrderBookManager
-        // Note: We default to Mainnet for now, or we might need to handle switching.
-        // The screener method takes `isTestnet`, so ideally we should support both.
-        // But for simplicity, let's assume we run one instance per network or switch.
-        // Actually, creating a WS connection in constructor might be premature if we don't know the network.
-        // Let's lazy init or handle it. 
-        // For now, let's just init for Mainnet as default, but we might need to reconnect if isTestnet changes.
-        // Or better: The OrderBookManager should handle the WS connection.
-
-        // Let's initialize with Mainnet for now. If getScreenedSymbols is called with isTestnet=true, 
-        // we might have a problem if we only have one WS.
-        // Ideally, we should have two managers? Or one manager that can handle both?
-        // HyperliquidWS takes isTestnet in constructor.
-
-        // Let's create two managers to be safe.
+        // We default to Mainnet for now. Ideally, we should support switching or multiple instances.
         this.ws = new HyperliquidWS(false); // Mainnet
         this.orderBookManager = new OrderBookManager(this.ws);
         this.ws.connect();
@@ -62,30 +49,27 @@ export class ScreenerService {
         screenerConfig: ScreenerConfig = DEFAULT_SCREENER_CONFIG
     ): Promise<ScreenedSymbol[]> {
         const screenerCfg = screenerConfig;
-        const gatesCfg = config.gates;
 
         console.log(`🔍 Starting On-Demand Screening with topN=${screenerCfg.topN}`);
         const startTime = Date.now();
 
-        // 1. Fetch Latest Ticks from DB (Layer 1 Filter Candidate Source)
+        // 1. Fetch Latest Ticks from DB (Candidate Source)
         const db = isTestnet ? marketDbTest : marketDbMain;
 
-        // Get the latest tick for each symbol. 
-        // Since we don't have a "latest" view, we query ticks from the last 5 minutes and dedupe.
+        // Get the latest tick for each symbol from the last 5 minutes
         const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
         const recentTicks = await db.marketTick.findMany({
             where: { ts: { gte: fiveMinutesAgo } },
             orderBy: { ts: 'desc' }
         });
 
-        // Dedupe to get latest per symbol (also track earliest in the window for deltas)
+        // Dedupe to get latest per symbol
         const latestTicksMap = new Map<string, typeof recentTicks[0]>();
         const earliestTicksMap = new Map<string, typeof recentTicks[0]>();
         for (const tick of recentTicks) {
             if (!latestTicksMap.has(tick.symbol)) {
                 latestTicksMap.set(tick.symbol, tick);
             }
-            // Last assignment (descending loop) will be the earliest in the window
             earliestTicksMap.set(tick.symbol, tick);
         }
         const allTicks = Array.from(latestTicksMap.values());
@@ -95,18 +79,13 @@ export class ScreenerService {
             return [];
         }
 
+        // --- Layer 1: Universe Control (Hard Gate) ---
+        const universeCandidates = this.filterByUniverse(allTicks, heldSymbols, screenerCfg);
+        console.log(`Layer 1 (Universe): ${universeCandidates.length} passed minVolume24h (${screenerCfg.minVolume24h}).`);
 
-        // 2. Apply Filters In-Memory
-
-        // Layer 1: Volume
-        // 1a. Calculate Recent Volume (Quote Volume in last X mins)
+        // --- Layer 2: Activity / "In-Play" (Hard Gate) ---
+        // 2a. Calculate Recent Volume (Quote Volume in last X mins)
         const recentWindowStart = new Date(Date.now() - screenerCfg.recentVolumeMinutes * 60 * 1000);
-
-
-        // Aggregate volume from candles for each symbol
-        // Note: MarketCandle volume is typically Base Volume. We need Quote Volume (Base Vol * Price).
-        // Since we don't have a direct quote volume field, we'll sum base volume and multiply by current price.
-        // This is an approximation but sufficient for screening.
         const recentVolumes = await db.marketCandle.groupBy({
             by: ['symbol'],
             where: {
@@ -117,56 +96,34 @@ export class ScreenerService {
             }
         });
 
-
-
-
-        // Verify DB connection and data
-        const count = await db.marketCandle.count();
-
-
-
-
-
-
         const recentVolumeMap = new Map<string, number>();
         for (const rv of recentVolumes) {
             recentVolumeMap.set(rv.symbol, rv._sum.volume || 0);
         }
 
-        // Layer 1: Volume
-        const layer1 = screenerCfg.layer1Enabled ? allTicks.filter(d => {
-            // Check 24h Volume
-            if ((d.volume24h ?? 0) < screenerCfg.minVolume24h) return false;
+        const activityCandidates: (EnrichedMarketData & { sentiment: any })[] = [];
 
-            // Check Recent Activity
-            const recentBaseVol = recentVolumeMap.get(d.symbol) || 0;
-            const recentQuoteVol = recentBaseVol * d.markPrice;
+        for (const tick of universeCandidates) {
+            // Check Recent Volume first (cheap)
+            const recentBaseVol = recentVolumeMap.get(tick.symbol) || 0;
+            const recentQuoteVol = recentBaseVol * tick.markPrice;
 
-            return recentQuoteVol >= screenerCfg.minRecentVolume;
-        }) : allTicks;
+            if (!heldSymbols.includes(tick.symbol) && recentQuoteVol < screenerCfg.minRecentVolume) {
+                continue;
+            }
 
-        console.log(`Layer 1: ${layer1.length} passed volume filters.`);
-
-        // STAGE 1: Fetch Metrics & Sentiment (Cheap/Cached)
-        // We do this first to apply Volatility filters (Layer 3) BEFORE fetching expensive L2 Books
-        const stage1Candidates: (EnrichedMarketData & { sentiment: any })[] = [];
-
-        // Process sequentially to respect rate limits
-        for (const tick of layer1) {
             try {
                 const baselineTick = earliestTicksMap.get(tick.symbol) || tick;
                 const oiDelta5m = (tick.openInterest || 0) - (baselineTick.openInterest || 0);
                 const fundingDelta5m = (tick.fundingRate || 0) - (baselineTick.fundingRate || 0);
 
-                // Layer 2: Fetch Full Metrics (Candles + Sentiment)
-                // We set allowFetch=false to prevent the screener from hitting rate limits.
-                // It should rely on the Collector to populate the DB.
+                // Fetch Metrics & Sentiment
                 const [metrics, sentiment] = await Promise.all([
                     this.marketAnalysisService.getMetricsForSymbol(tick.symbol, isTestnet, false),
                     this.sentimentService.getSentimentForCoin(tick.symbol)
                 ]);
 
-                stage1Candidates.push({
+                const candidate = {
                     symbol: tick.symbol,
                     price: tick.markPrice,
                     volume24h: tick.volume24h || 0,
@@ -175,7 +132,7 @@ export class ScreenerService {
                     openInterestDelta5m: oiDelta5m,
                     fundingDelta5m: fundingDelta5m,
                     metrics,
-                    bookMetrics: { // Placeholder, filled later if passes L3
+                    bookMetrics: { // Placeholder, filled in Layer 3
                         spread_bps: 0,
                         depth_usd: { bid_1pct: 0, ask_1pct: 0 },
                         imbalance: 0,
@@ -185,150 +142,133 @@ export class ScreenerService {
                     },
                     sentiment,
                     isTestnet
-                });
+                };
+
+                // Check Realized Volatility (Hard Gate)
+                if (this.filterByActivity([candidate], heldSymbols, screenerCfg).length > 0) {
+                    activityCandidates.push(candidate);
+                }
+
             } catch (e) {
-                console.error(`Failed to fetch stage 1 data for ${tick.symbol}`, e);
+                console.error(`Failed to fetch metrics for ${tick.symbol}`, e);
             }
         }
+        console.log(`Layer 2 (Activity): ${activityCandidates.length} passed recentVolume & realizedVol.`);
 
-        // Layer 3: Action Filters (Intraday Volatility & Movement)
-        // Apply this EARLY to filter out dead assets before fetching L2 books
-        let layer3 = stage1Candidates;
-        if (screenerCfg.layer3Enabled) {
-            layer3 = stage1Candidates.filter(d => {
-                if (heldSymbols.includes(d.symbol)) return true;
-
-                // Primary check: Is it volatile relative to itself?
-                const isVolatile = d.metrics.vol_zscores.vol_5m_vs_1h > screenerCfg.minVolZscore;
-
-                // Secondary check: Is it moving?
-                const isMoving = Math.abs(d.metrics.vol_zscores.ret_5m_vs_1h) > screenerCfg.minRetZscore;
-
-                // Absolute volatility check (don't trade dead assets even if z-score is high)
-                const minRealizedVol = screenerCfg.minRealizedVol || 0.0005;
-                const hasMinVol = d.metrics.realized_vol.m5 > minRealizedVol;
-
-                return (isVolatile || isMoving) && hasMinVol;
-            });
-            console.log(`Layer 3: ${layer3.length} passed action filters.`);
-        } else {
-            console.log(`Layer 3: Skipped (disabled). Keeping ${layer3.length} candidates.`);
-        }
-
-        // FALLBACK: If too few candidates, relax filters
-        if (layer3.length < 3) {
-            console.log("⚠️ Layer 3 filtered too many symbols. Relaxing filters...");
-            layer3 = stage1Candidates.filter(d => {
-                if (heldSymbols.includes(d.symbol)) return true;
-                return d.metrics.realized_vol.m5 > 0.00025; // Relaxed vol threshold
-            });
-            console.log(`⚠️ Relaxed Layer 3: ${layer3.length} symbols passed.`);
-        }
-
-        // STAGE 2: Fetch L2 Book Metrics (Real-time via WS)
-        // Only for survivors of Layer 3
-        const stage2Candidates: EnrichedMarketData[] = [];
-
-        // 1. Update Subscriptions
-        const symbolsToTrack = layer3.map(c => c.symbol);
+        // --- Layer 3: Liquidity / Execution (Hard Gate) ---
+        const symbolsToTrack = activityCandidates.map(c => c.symbol);
         this.orderBookManager.updateSubscriptions(symbolsToTrack);
 
         // 2. Wait for data (warmup)
-        // If we just subscribed, we need a moment for the snapshot to arrive.
-        // 1-2 seconds should be plenty.
         await new Promise(resolve => setTimeout(resolve, 2000));
 
-        // 3. Get Metrics
-        for (const candidate of layer3) {
+        const liquidityCandidates: EnrichedMarketData[] = [];
+
+        for (const candidate of activityCandidates) {
             try {
-                // Use local OrderBookManager instead of API
                 const bookMetrics = this.orderBookManager.getMetrics(candidate.symbol);
-                stage2Candidates.push({
-                    ...candidate,
-                    bookMetrics
-                });
+                const enriched = { ...candidate, bookMetrics };
+
+                if (this.filterByLiquidity([enriched], heldSymbols, screenerCfg).length > 0) {
+                    liquidityCandidates.push(enriched);
+                } else if (heldSymbols.includes(candidate.symbol)) {
+                    // Keep held symbols even if they fail liquidity (though filterByLiquidity should handle this if passed heldSymbols)
+                    // My filterByLiquidity implementation below handles heldSymbols.
+                    // But wait, if I pass [enriched] to filterByLiquidity, it returns [] if it fails.
+                    // So I should just trust the filter.
+                    // However, if fetching bookMetrics failed, we might want to keep it if held.
+                    // The catch block handles failure.
+                }
             } catch (e) {
                 console.error(`Failed to get L2 metrics for ${candidate.symbol}`, e);
-                stage2Candidates.push(candidate);
+                if (heldSymbols.includes(candidate.symbol)) {
+                    liquidityCandidates.push(candidate);
+                }
             }
         }
+        console.log(`Layer 3 (Liquidity): ${liquidityCandidates.length} passed spread & depth.`);
 
-        // Layer 2: Hard Filters (Spread, Depth)
-        let layer2 = stage2Candidates;
-        if (screenerCfg.layer2Enabled) {
-            layer2 = stage2Candidates.filter(d => {
-                if (heldSymbols.includes(d.symbol)) return true; // Always keep held
-                return d.bookMetrics.spread_bps <= screenerCfg.maxSpreadBps &&
-                    (d.bookMetrics.depth_usd.bid_1pct >= screenerCfg.minDepthUsd || d.bookMetrics.depth_usd.ask_1pct >= screenerCfg.minDepthUsd);
+        // --- Layer 4: Quality Scoring (Ranking) ---
+        const deduped = this.scoreAndRank(liquidityCandidates, heldSymbols, screenerCfg);
+
+        console.log(`✅ Screening completed in ${Date.now() - startTime}ms. Returning ${deduped.length} unique symbols (topN=${screenerCfg.topN}).`);
+        return deduped;
+    }
+
+    public filterByUniverse(candidates: any[], heldSymbols: string[], config: ScreenerConfig): any[] {
+        return candidates.filter(d => {
+            if (heldSymbols.includes(d.symbol)) return true;
+            return (d.volume24h ?? 0) >= config.minVolume24h;
+        });
+    }
+
+    public filterByActivity(candidates: (EnrichedMarketData & { sentiment: any })[], heldSymbols: string[], config: ScreenerConfig): (EnrichedMarketData & { sentiment: any })[] {
+        return candidates.filter(c => {
+            if (heldSymbols.includes(c.symbol)) return true;
+            // Note: Recent Volume check is done before creating candidate in getScreenedSymbols for efficiency,
+            // but strictly speaking should be here. We assume candidates passed to this might need checking if we were testing pure logic.
+            // But here we only check realized vol as that's what's available in 'metrics'.
+            const realizedVol = c.metrics.realized_vol.m5;
+            return realizedVol >= config.minRealizedVol;
+        });
+    }
+
+    public filterByLiquidity(candidates: EnrichedMarketData[], heldSymbols: string[], config: ScreenerConfig): EnrichedMarketData[] {
+        return candidates.filter(c => {
+            if (heldSymbols.includes(c.symbol)) return true;
+
+            if (c.bookMetrics.spread_bps > config.maxSpreadBps) return false;
+
+            const minSideDepth = Math.min(c.bookMetrics.depth_usd.bid_1pct, c.bookMetrics.depth_usd.ask_1pct);
+            if (minSideDepth < config.minDepthUsd) return false;
+
+            if (config.maxCostBps) {
+                const estimatedCost = 3.5 + c.bookMetrics.spread_bps;
+                if (estimatedCost > config.maxCostBps) return false;
+            }
+
+            return true;
+        });
+    }
+
+    public scoreAndRank(candidates: EnrichedMarketData[], heldSymbols: string[], config: ScreenerConfig): ScreenedSymbol[] {
+        const scored: ScreenedSymbol[] = [];
+        const weights = config.quality_weights;
+
+        for (const candidate of candidates) {
+            const volScore = weights.vol_score * Math.abs(candidate.metrics.vol_zscores.vol_5m_vs_1h);
+            const moveScore = weights.move_score * Math.abs(candidate.metrics.vol_zscores.ret_5m_vs_1h);
+
+            const s5 = Math.sign(candidate.metrics.returns.m5);
+            const s15 = Math.sign(candidate.metrics.returns.m15);
+            const s60 = Math.sign(candidate.metrics.returns.h1);
+            const trendAlign = (s5 === s15 && s15 === s60 && s5 !== 0) ? weights.trend_align : 0;
+
+            const spreadPenalty = weights.spread_penalty * (candidate.bookMetrics.spread_bps / 5);
+
+            const minDepth = Math.min(candidate.bookMetrics.depth_usd.bid_1pct, candidate.bookMetrics.depth_usd.ask_1pct);
+            const illiquidityPenalty = weights.illiquidity_penalty * (config.minDepthUsd / (minDepth + 1));
+
+            const totalScore = volScore + moveScore + trendAlign - spreadPenalty - illiquidityPenalty;
+
+            scored.push({
+                ...candidate,
+                score: totalScore,
+                sentiment: candidate.sentiment
             });
-            console.log(`Layer 2: ${layer2.length} passed hard filters.`);
-        } else {
-            console.log(`Layer 2: Skipped (disabled). Keeping ${layer2.length} candidates.`);
         }
 
-        // Layer 4: Scoring & Ranking
-        const scored = [];
-        const weights = screenerCfg.quality_weights;
-
-        if (screenerCfg.layer4Enabled) {
-            for (const candidate of layer2) {
-                // Scoring: Prioritize Intraday Volatility Z-Score
-                const volScore = weights.vol_score * Math.abs(candidate.metrics.vol_zscores.vol_5m_vs_1h);
-                const moveScore = weights.move_score * Math.abs(candidate.metrics.vol_zscores.ret_5m_vs_1h);
-
-                // Trend Alignment Bonus
-                const s5 = Math.sign(candidate.metrics.returns.m5);
-                const s15 = Math.sign(candidate.metrics.returns.m15);
-                const s60 = Math.sign(candidate.metrics.returns.h1);
-                const trendAlign = (s5 === s15 && s15 === s60 && s5 !== 0) ? weights.trend_align : 0;
-
-                // Penalties
-                // Dynamic Spread Threshold: Scale acceptable spread with volatility.
-                const dynamicSpreadThreshold = 3 + (candidate.metrics.realized_vol.m5 * 2000);
-                const spreadPenalty = weights.spread_penalty * Math.max(0, candidate.bookMetrics.spread_bps - dynamicSpreadThreshold) / 5;
-
-                const minDepth = Math.min(candidate.bookMetrics.depth_usd.bid_1pct, candidate.bookMetrics.depth_usd.ask_1pct);
-                const illiquidityPenalty = weights.illiquidity_penalty * Math.max(0, (screenerCfg.minDepthUsd / minDepth) - 1);
-
-                const totalScore = volScore + moveScore + trendAlign - spreadPenalty - illiquidityPenalty;
-
-                scored.push({
-                    ...candidate,
-                    score: totalScore,
-                    sentiment: candidate.sentiment // Already fetched
-                });
-            }
-        } else {
-            // If Layer 4 disabled, just pass through with 0 score
-            for (const candidate of layer2) {
-                scored.push({
-                    ...candidate,
-                    score: 0,
-                    sentiment: candidate.sentiment
-                });
-            }
-        }
-
-        // Sort
         scored.sort((a, b) => b.score - a.score);
 
-        // Top N + Held
-        const topCandidates = scored.slice(0, screenerCfg.topN);
+        const topCandidates = scored.slice(0, config.topN);
         const heldSet = new Set(heldSymbols);
-        let heldAdded = 0;
+
         for (const c of scored) {
             if (heldSet.has(c.symbol) && !topCandidates.includes(c)) {
                 topCandidates.push(c);
-                heldAdded++;
             }
         }
 
-        // If still < 3, grab from layer2 (hard filters only) to ensure we have something
-        // Note: In this new pipeline, layer2 IS the set of survivors. 
-        // If topCandidates is small, it means we didn't have many survivors or TopN is small.
-        // We can't really "fill" from anywhere else unless we relax filters earlier.
-
-        // Deduplicate by symbol
         const deduped: ScreenedSymbol[] = [];
         const seen = new Set<string>();
         for (const c of topCandidates) {
@@ -337,7 +277,6 @@ export class ScreenerService {
             deduped.push(c);
         }
 
-        console.log(`✅ Screening completed in ${Date.now() - startTime}ms. Returning ${deduped.length} unique symbols (topN=${screenerCfg.topN} + ${heldAdded} held).`);
         return deduped;
     }
 }

@@ -138,6 +138,8 @@ export type StateSnapshot = {
         min_trade_notional_usd: number;
         kill_switch: boolean;
         no_flip_same_tick: boolean;
+        max_new_positions_per_cycle: number;
+        daily_loss_kill_switch_fraction: number;
     };
     allowed_actions: string[];
     meta: {

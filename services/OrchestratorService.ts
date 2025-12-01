@@ -239,14 +239,19 @@ export class OrchestratorService {
             // Note: We are NOT executing trades here for manual analysis jobs.
             // The user just wants the analysis. Execution happens when they click "Execute" in UI.
             const riskAssessments: RiskAssessment[] = [];
+            let newPositionsCount = 0;
 
             for (const decision of result.decisions) {
                 if (decision.target_side === "flat" && decision.action === "HOLD") {
                     riskAssessments.push({ approved: true, reason: "Hold decision - no trade" });
                     continue;
                 }
-                const riskAssessment = this.riskModule.assess(decision, snapshot);
+                const riskAssessment = this.riskModule.assess(decision, snapshot, { newPositionsCount });
                 riskAssessments.push(riskAssessment);
+
+                if (riskAssessment.approved && (decision.action === 'OPEN_POSITION' || (decision.action === 'INCREASE_POSITION' && riskAssessment.modifiedOrder?.clientTag === 'AI_TRADER_INCREASE_NEW'))) {
+                    newPositionsCount++;
+                }
             }
 
             const finalResult = {
@@ -382,6 +387,7 @@ export class OrchestratorService {
 
         const processedDecisions: TradeDecision[] = [];
         const riskAssessments: RiskAssessment[] = [];
+        let newPositionsCount = 0;
 
         for (const decision of decisions) {
             try {
@@ -391,8 +397,12 @@ export class OrchestratorService {
                 }
 
                 // Risk Check
-                const riskAssessment = this.riskModule.assess(decision, snapshot);
+                const riskAssessment = this.riskModule.assess(decision, snapshot, { newPositionsCount });
                 riskAssessments.push(riskAssessment);
+
+                if (riskAssessment.approved && (decision.action === 'OPEN_POSITION' || (decision.action === 'INCREASE_POSITION' && riskAssessment.modifiedOrder?.clientTag === 'AI_TRADER_INCREASE_NEW'))) {
+                    newPositionsCount++;
+                }
 
                 // 4. Execution (if Auto-Trading)
                 let executionResult = null;
@@ -524,24 +534,43 @@ ${JSON.stringify(snapshot.account.current_positions, null, 2)}`;
             if (this.openRouterClient && (model.includes("/") || model.startsWith("gpt") || model.startsWith("anthropic"))) {
                 console.log("✨ Using OpenRouter via OpenAI SDK");
 
-                const isReasoning = model.includes("reasoner") || model.includes("r1");
+                let targetModel = model;
+                let includeReasoning = false;
+
+                // Check for reasoning suffix
+                if (targetModel.endsWith(":reasoning")) {
+                    targetModel = targetModel.replace(":reasoning", "");
+                    includeReasoning = true;
+                    console.log("🧠 Reasoning Mode Enabled via suffix");
+                }
+
+                // Also enable for R1 by default if not already
+                if (targetModel.includes("r1") || targetModel.includes("reasoner")) {
+                    includeReasoning = true;
+                }
+
+                const isReasoning = includeReasoning;
                 const temperature = isReasoning ? 0.6 : 0.3;
 
                 if (isReasoning) {
-                    console.log("🧠 Reasoning Model Detected: Adjusting temperature to 0.6");
+                    console.log(`🧠 Reasoning Active for ${targetModel}: Adjusting temperature to 0.6`);
                 }
 
                 const completion = await this.openRouterClient.chat.completions.create({
-                    model: model,
+                    model: targetModel,
                     messages: [
                         { role: "system", content: SYSTEM_PROMPT },
                         { role: "user", content: USER_PROMPT }
                     ],
                     temperature: temperature,
                     top_p: 0.9,
-                    max_tokens: 8000, // Verified max for DeepSeek V3 (non-reasoner)
-                    // @ts-ignore - signal is supported in newer openai versions but types might lag
-                    signal: signal
+                    max_tokens: 8000,
+                    // @ts-ignore - signal is supported
+                    signal: signal,
+                    // @ts-ignore - extra_body for OpenRouter specific params
+                    extra_body: includeReasoning ? {
+                        include_reasoning: true
+                    } : undefined
                 });
 
                 const choice = completion.choices[0];

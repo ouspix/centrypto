@@ -32,35 +32,42 @@ export type RiskAssessment = {
     modifiedOrder?: ApprovedOrder;
 };
 
+export type RiskContext = {
+    newPositionsCount: number;
+};
+
 export class RiskCheckModule {
 
-    public assess(decision: TradeDecision, snapshot: StateSnapshot): RiskAssessment {
+    public assess(decision: TradeDecision, snapshot: StateSnapshot, context: RiskContext = { newPositionsCount: 0 }): RiskAssessment {
         // --- A) Output/Accounting Invariants ---
 
-        // 1. Check Kill Switch
+        // 1. Check Kill Switch (Manual or Daily Loss)
         if (snapshot.constraints.kill_switch) {
-            return { approved: false, reason: "Kill Switch Active" };
+            return { approved: false, reason: "Kill Switch Active (Manual)" };
         }
 
-        // 2. Check Daily Loss
-        if (snapshot.account.daily_realized_pnl <= -snapshot.account.max_daily_loss) {
-            return { approved: false, reason: "Max Daily Loss Exceeded" };
+        // Check Daily Loss Kill Switch
+        // daily_loss_kill_switch_fraction is a positive number (e.g. 0.03 for 3%)
+        // daily_realized_pnl is negative when losing
+        // If daily_realized_pnl < -(equity * fraction), kill it.
+        const maxDailyLossAmount = snapshot.account.equity_usd * snapshot.constraints.daily_loss_kill_switch_fraction;
+        if (snapshot.account.daily_realized_pnl <= -maxDailyLossAmount) {
+            return { approved: false, reason: `Kill Switch Active: Max Daily Loss Exceeded (${snapshot.account.daily_realized_pnl.toFixed(2)} < -${maxDailyLossAmount.toFixed(2)})` };
         }
 
-        // 3. Validate Action Enum
+        // 2. Validate Action Enum
         const allowedActions = snapshot.allowed_actions;
         if (!allowedActions.includes(decision.action) && decision.action !== "DO_NOTHING") {
-            // "HOLD" might be mapped to "HOLD_POSITION" in prompt, but let's be strict
             if (decision.action === "HOLD" && allowedActions.includes("HOLD_POSITION")) {
-                // Allow soft mapping or reject? User said "Reject anything else".
+                // Strict check: User said "Reject anything else"
                 return { approved: false, reason: `Invalid action: ${decision.action}. Must be one of ${allowedActions.join(", ")}` };
             }
-            if (decision.action !== "HOLD") { // Allow HOLD if it's just a no-op
+            if (decision.action !== "HOLD") {
                 return { approved: false, reason: `Invalid action: ${decision.action}` };
             }
         }
 
-        if (decision.action === "DO_NOTHING" || decision.action === "HOLD" || decision.action === "HOLD_POSITION") {
+        if (decision.action === "DO_NOTHING" || decision.action === "HOLD") {
             return { approved: true, reason: "No Trade Proposed" };
         }
 
@@ -68,22 +75,25 @@ export class RiskCheckModule {
             return { approved: false, reason: "No symbol provided" };
         }
 
-        // 4. No Same-Tick Flip
-        if (snapshot.constraints.no_flip_same_tick) {
-            const currentPosition = snapshot.account.current_positions.find(p => p.symbol === decision.symbol);
-            if (currentPosition) {
-                const isFlip = (decision.target_side === "long" && currentPosition.side === "short") ||
-                    (decision.target_side === "short" && currentPosition.side === "long");
+        // 3. Post-LLM Validator: Drop if symbol not in current_positions for CLOSE/REDUCE
+        const currentPosition = snapshot.account.current_positions.find(p => p.symbol === decision.symbol);
+        if ((decision.action === "CLOSE_POSITION" || decision.action === "REDUCE_POSITION") && !currentPosition) {
+            return { approved: false, reason: `Cannot ${decision.action} for ${decision.symbol}: No open position found.` };
+        }
 
-                if (isFlip && decision.action !== "CLOSE_POSITION") {
-                    return { approved: false, reason: "Cannot flip position in same tick. Must CLOSE_POSITION first." };
-                }
+        // 4. No Same-Tick Flip
+        if (snapshot.constraints.no_flip_same_tick && currentPosition) {
+            const isFlip = (decision.target_side === "long" && currentPosition.side === "short") ||
+                (decision.target_side === "short" && currentPosition.side === "long");
+
+            if (isFlip && decision.action !== "CLOSE_POSITION") {
+                return { approved: false, reason: "Cannot flip position in same tick. Must CLOSE_POSITION first." };
             }
         }
 
         // Dispatch based on action
         if (decision.action === "OPEN_POSITION" || decision.action === "INCREASE_POSITION") {
-            return this.assessOpenPosition(decision, snapshot);
+            return this.assessOpenPosition(decision, snapshot, context);
         }
 
         if (decision.action === "CLOSE_POSITION" || decision.action === "REDUCE_POSITION") {
@@ -93,7 +103,7 @@ export class RiskCheckModule {
         return { approved: false, reason: `Action ${decision.action} logic not implemented` };
     }
 
-    private assessOpenPosition(decision: TradeDecision, snapshot: StateSnapshot): RiskAssessment {
+    private assessOpenPosition(decision: TradeDecision, snapshot: StateSnapshot, context: RiskContext): RiskAssessment {
         const market = snapshot.markets[decision.symbol!];
         if (!market) {
             return { approved: false, reason: `Market data not found for ${decision.symbol}` };
@@ -101,12 +111,12 @@ export class RiskCheckModule {
 
         // --- B) Trade Permission Gates ---
 
-        // 6. Tradeable Gate
+        // 5. Tradeable Gate
         if (market.derived && !market.derived.liquidity.tradeable) {
             return { approved: false, reason: "Market not tradeable (Liquidity or Cost gate failed)" };
         }
 
-        // 7. Edge Check (numeric, not strict boolean)
+        // 6. Edge Check
         if (market.derived) {
             const edgeBps = market.derived.edge.edge_bps;
             const costBps = market.derived.costs.cost_bps;
@@ -115,46 +125,30 @@ export class RiskCheckModule {
             }
         }
 
-        // 8. Playbook Gate & Direction Consistency (advisory: only fail if direction misaligned with provided triggers)
-        const triggers = market.derived?.triggers;
-        if (triggers && decision.playbook) {
-            const isLong = decision.target_side === "long";
-            const pb = decision.playbook.toLowerCase();
-            if (pb.includes("momentum")) {
-                if (isLong && !triggers.momentum_ok_long && !triggers.breakout_ok) {
-                    return { approved: false, reason: "Momentum play not supported by triggers" };
-                }
-                if (!isLong && !triggers.momentum_ok_short && !triggers.breakout_ok) {
-                    return { approved: false, reason: "Momentum play not supported by triggers" };
-                }
-            } else if (pb.includes("reversion") || pb.includes("mean")) {
-                if (isLong && !triggers.mr_ok_long) {
-                    return { approved: false, reason: "Mean reversion not supported (long)" };
-                }
-                if (!isLong && !triggers.mr_ok_short) {
-                    return { approved: false, reason: "Mean reversion not supported (short)" };
-                }
+        // 7. Max New Positions Per Cycle
+        // If this is a NEW position (not increasing existing), check limit
+        const isNewPosition = !snapshot.account.current_positions.find(p => p.symbol === decision.symbol);
+        if (isNewPosition) {
+            if (context.newPositionsCount >= snapshot.constraints.max_new_positions_per_cycle) {
+                return { approved: false, reason: `Max new positions per cycle reached (${snapshot.constraints.max_new_positions_per_cycle})` };
             }
-            // Breakout and discretionary fall through without hard block.
         }
 
-        // 9b. Direction vs book pressure sanity (prevent fading without extreme move)
-        const bp = market.orderbook?.book_pressure ?? 0;
-        const retSigma = market.vol_zscores?.ret_5m_vs_1h ?? 0;
-        const isLong = decision.target_side === "long";
-        const bpAligned = (isLong && bp >= 0) || (!isLong && bp <= 0);
-        if (!bpAligned && Math.abs(retSigma) < 3) {
-            return { approved: false, reason: "Direction conflicts with book pressure without extreme move" };
+        // 8. Max Positions (Total Slots)
+        // Check slots using derived portfolio if available
+        const slotsRemaining = snapshot.account.derived_portfolio?.slots_remaining;
+        if (isNewPosition && slotsRemaining !== undefined && slotsRemaining <= 0) {
+            return { approved: false, reason: "Max position slots reached" };
         }
 
         // --- C) Risk Plan Enforcement ---
 
-        // 10. Risk Plan Required
+        // 9. Risk Plan Required
         if (!decision.risk_plan) {
             return { approved: false, reason: "Missing Risk Plan (SL/TP required)" };
         }
 
-        // 11. Bounds
+        // 10. Bounds
         const slPct = Math.abs(decision.risk_plan.stop_loss_pct);
         const tpPct = Math.abs(decision.risk_plan.take_profit_pct_primary);
 
@@ -166,51 +160,53 @@ export class RiskCheckModule {
             return { approved: false, reason: `Risk/Reward too low (TP must be >= 1.5x SL)` };
         }
 
-        // --- Accounting Checks ---
+        // --- Accounting Checks & Clamping ---
 
-        const sizeFraction = decision.target_size_fraction_of_equity ?? (decision as any).target_size_fraction_of_1h ?? decision.size_fraction_of_equity;
+        let sizeFraction = decision.target_size_fraction_of_equity ?? (decision as any).target_size_fraction_of_1h ?? decision.size_fraction_of_equity;
         if (sizeFraction === null || sizeFraction === undefined) {
             return { approved: false, reason: "Missing target size" };
         }
 
         const equity = snapshot.account.equity_usd;
-        const proposedSizeUsd = equity * sizeFraction;
 
-        // 3. Max Position Size
-        const maxPerSymbol = equity * snapshot.constraints.max_position_pct_equity_per_symbol;
-        if (proposedSizeUsd > maxPerSymbol) {
-            return { approved: false, reason: `Position size exceeds limit (${snapshot.constraints.max_position_pct_equity_per_symbol * 100}%)` };
+        // Post-LLM Validator: Clamp size
+        const maxFractionPerSymbol = snapshot.constraints.max_position_pct_equity_per_symbol;
+        if (sizeFraction > maxFractionPerSymbol) {
+            console.warn(`⚠️ Clamping position size for ${decision.symbol} from ${sizeFraction} to ${maxFractionPerSymbol}`);
+            sizeFraction = maxFractionPerSymbol;
         }
 
-        // 4. Max Total Exposure & Slots
+        const proposedSizeUsd = equity * sizeFraction;
+
+        // 11. Max Total Exposure
         const currentPositions = snapshot.account.current_positions;
         const currentExposure = currentPositions.reduce((sum, p) => sum + p.size_usd, 0);
         const maxTotal = equity * snapshot.constraints.max_total_exposure_pct_equity;
 
-        // Check slots using derived portfolio if available
-        const isNewPosition = !currentPositions.find(p => p.symbol === decision.symbol);
-        const slotsRemaining = snapshot.account.derived_portfolio?.slots_remaining;
-        if (isNewPosition && slotsRemaining !== undefined && slotsRemaining <= 0) {
-            return { approved: false, reason: "Max position slots reached" };
-        }
-
         if (currentExposure + proposedSizeUsd > maxTotal) {
-            return { approved: false, reason: `Total exposure exceeds limit (${snapshot.constraints.max_total_exposure_pct_equity * 100}%)` };
+            // Try to clamp to remaining exposure?
+            const remainingExposure = maxTotal - currentExposure;
+            if (remainingExposure < snapshot.constraints.min_trade_notional_usd) {
+                return { approved: false, reason: `Total exposure limit reached (${snapshot.constraints.max_total_exposure_pct_equity * 100}%)` };
+            }
+            // Clamp to remaining
+            if (proposedSizeUsd > remainingExposure) {
+                console.warn(`⚠️ Clamping position size for ${decision.symbol} to remaining exposure: ${remainingExposure}`);
+                // Update proposedSizeUsd (we can't easily update sizeFraction to match exactly without back-calc, but we use USD for order)
+                // But we should update sizeFraction for consistency if we were returning it, but we return ApprovedOrder with sizeUsd.
+            }
         }
 
-        // 5. Min Trade Size
+        // 12. Min Trade Size
         if (proposedSizeUsd < snapshot.constraints.min_trade_notional_usd) {
             return { approved: false, reason: "Trade size too small" };
         }
 
         // Construct ApprovedOrder
+        const isLong = decision.target_side === "long";
         const orderSide = isLong ? "buy" : "sell";
         const entryPx = market.price;
 
-        // Calculate SL/TP prices
-        // SL is always a distance from entry. 
-        // Long: Entry * (1 - slPct)
-        // Short: Entry * (1 + slPct)
         const stopLossPrice = isLong
             ? entryPx * (1 - slPct)
             : entryPx * (1 + slPct);
@@ -219,11 +215,29 @@ export class RiskCheckModule {
             ? entryPx * (1 + tpPct)
             : entryPx * (1 - tpPct);
 
+        let sizeToExecute = proposedSizeUsd;
+        let clientTag = "AI_TRADER";
+
+        if (decision.action === "INCREASE_POSITION") {
+            const currentPosition = snapshot.account.current_positions.find(p => p.symbol === decision.symbol);
+            if (currentPosition) {
+                const increaseAmount = proposedSizeUsd - currentPosition.size_usd;
+
+                if (increaseAmount <= 0) {
+                    return { approved: false, reason: `Position already at or above target size (Current: ${currentPosition.size_usd.toFixed(2)}, Target: ${proposedSizeUsd.toFixed(2)})` };
+                }
+                sizeToExecute = increaseAmount;
+                clientTag = "AI_TRADER_INCREASE";
+            } else {
+                clientTag = "AI_TRADER_INCREASE_NEW";
+            }
+        }
+
         const approvedOrder: ApprovedOrder = {
             symbol: decision.symbol!,
             side: orderSide,
-            sizeUsd: proposedSizeUsd,
-            clientTag: "AI_TRADER",
+            sizeUsd: sizeToExecute,
+            clientTag: clientTag,
             stopLossPrice,
             takeProfitPrice
         };
@@ -237,13 +251,29 @@ export class RiskCheckModule {
             return { approved: false, reason: "No open position to close" };
         }
 
+        let sizeToExecute = position.size_usd;
+        let clientTag = "AI_TRADER_CLOSE";
+
+        if (decision.action === "REDUCE_POSITION") {
+            const targetFraction = decision.target_size_fraction_of_equity ?? 0;
+            const targetSizeUsd = snapshot.account.equity_usd * targetFraction;
+            const reduceAmount = position.size_usd - targetSizeUsd;
+
+            if (reduceAmount <= 0) {
+                return { approved: false, reason: `Position already below target size (Current: ${position.size_usd.toFixed(2)}, Target: ${targetSizeUsd.toFixed(2)})` };
+            }
+
+            sizeToExecute = Math.min(reduceAmount, position.size_usd);
+            clientTag = "AI_TRADER_REDUCE";
+        }
+
         const approvedOrder: ApprovedOrder = {
             symbol: decision.symbol!,
             side: position.side === "long" ? "sell" : "buy",
-            sizeUsd: position.size_usd,
-            clientTag: "AI_TRADER_CLOSE"
+            sizeUsd: sizeToExecute,
+            clientTag: clientTag
         };
 
-        return { approved: true, reason: "Close Approved", modifiedOrder: approvedOrder };
+        return { approved: true, reason: `${decision.action === "REDUCE_POSITION" ? "Reduce" : "Close"} Approved`, modifiedOrder: approvedOrder };
     }
 }

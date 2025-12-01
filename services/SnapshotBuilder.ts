@@ -81,7 +81,9 @@ export class SnapshotBuilder {
                 max_total_exposure_pct_equity: config.risk.max_total_exposure_fraction,
                 min_trade_notional_usd: config.risk.min_trade_notional_usd,
                 kill_switch: false,
-                no_flip_same_tick: config.risk.no_flip_same_tick
+                no_flip_same_tick: config.risk.no_flip_same_tick,
+                max_new_positions_per_cycle: config.risk.max_new_positions_per_cycle,
+                daily_loss_kill_switch_fraction: config.risk.daily_loss_kill_switch_fraction
             },
             allowed_actions: [
                 "OPEN_POSITION",

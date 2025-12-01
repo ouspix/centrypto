@@ -8314,3 +8314,700 @@ Response:
 }
 ```
 -----------------------------------
+
+
+--- 2025-11-30T18:16:42.560Z ---
+Prompt:
+MARKET SNAPSHOT:
+{"timestamp":1764526573,"account":{"equity_usd":902.258964,"daily_realized_pnl":0,"max_daily_loss":500,"current_positions":[{"symbol":"SOL-PERP","side":"long","size_usd":135.79654200000002,"size_coin":0.98,"fraction_of_equity":0.15050727941562464,"entry_price":138.5679,"unrealized_pnl":-0.4292,"leverage":10},{"symbol":"AAVE-PERP","side":"short","size_usd":405.9495,"size_coin":2.25,"fraction_of_equity":0.44992570447878644,"entry_price":180.422,"unrealized_pnl":0.027,"leverage":10}],"derived_portfolio":{"total_exposure_fraction":0.6004,"remaining_capacity":0.3996,"position_slots_used":2,"slots_remaining":3}},"markets":{"AAVE-PERP":{"symbol":"AAVE-PERP","price":180.42,"spread_bps":2.2134912290405646,"orderbook":{"book_pressure":-0.36,"bid_liquidity_usd":131023.26599999999,"ask_liquidity_usd":277778.7373999999,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":-0.004304873337380656,"m15":-0.004304873337380656,"h1":-0.0029291477837957397},"realized_vol":{"m1":0.0015055507034862938,"m5":0.000959688086644385,"m15":0.0006936718554769292,"h1":0.0006821376151500296,"h4":0},"volume_zscores":{"v1m_vs_1h":3.4511648790866487,"v5m_vs_1h":4.195788301582619,"v15m_vs_1h":1.743708929209005},"atr_pct":{"m5":0.0006889070133901275,"h1":0},"vol_zscores":{"vol_5m_vs_1h":2.207106997251812,"ret_5m_vs_1h":-6.310857577372919},"funding":{"current_8h":-0.0001155349,"delta_5m":0.000002197199999999993},"open_interest":{"current":229241.652,"delta_5m":76.23600000000442},"sentiment":{"score":0,"mentionsVsBaseline":0,"disagreement":0,"change2h":0.4},"regime_tags":["high_intraday_vol","fast_move_down"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":181.65411719535652,"middle":181.03650000000005,"lower":180.41888280464357,"width":0.0068231234624672385},"m5":{"upper":182.42410804262266,"middle":180.68400000000003,"lower":178.9438919573774,"width":0.01926134071221172}},"assetIndex":21,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1.1,"cost_bps":6.8,"cost_ok":true},"edge":{"expected_move_bps":43,"edge_bps":36.2,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.01926134071221172},"triggers":{"direction_m15":-1,"direction_h1":-1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":true,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":true},"liquidity":{"min_depth_usd":131023.26599999999,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":-6.310857577372919,"vol_ratio_5m_vs_1h":2.207106997251812}}},"JUP-PERP":{"symbol":"JUP-PERP","price":0.25173,"spread_bps":3.174603174601944,"orderbook":{"book_pressure":0.05,"bid_liquidity_usd":58290.09689000001,"ask_liquidity_usd":52983.74209,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.0039026721357173387,"m15":0.0039026721357173387,"h1":0.010664314637373083},"realized_vol":{"m1":0.0017008621557832583,"m5":0.0010484128678587626,"m15":0.0007526234962173386,"h1":0.0010420210902116827,"h4":0},"volume_zscores":{"v1m_vs_1h":2.0462801835741695,"v5m_vs_1h":4.143396750593356,"v15m_vs_1h":1.394010716363123},"atr_pct":{"m5":0.0007990343584774194,"h1":0},"vol_zscores":{"vol_5m_vs_1h":1.6322722944482193,"ret_5m_vs_1h":3.745290927772417},"funding":{"current_8h":0.0000125,"delta_5m":0},"open_interest":{"current":45224.30142,"delta_5m":-7.1861599999974715},"sentiment":{"score":0,"mentionsVsBaseline":0,"disagreement":0,"change2h":0},"regime_tags":["fast_move_up","overbought_m5"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":0.25195695646631466,"middle":0.25125349999999996,"lower":0.25055004353368526,"width":0.0055995754591654425},"m5":{"upper":0.25208310401661604,"middle":0.25024199999999996,"lower":0.24840089598338386,"width":0.014714588411346648}},"assetIndex":71,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1.6,"cost_bps":8.3,"cost_ok":true},"edge":{"expected_move_bps":106.6,"edge_bps":98.4,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.014714588411346648},"triggers":{"direction_m15":1,"direction_h1":1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":52983.74209,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":3.745290927772417,"vol_ratio_5m_vs_1h":1.6322722944482193}}},"APT-PERP":{"symbol":"APT-PERP","price":2.0305,"spread_bps":2.9545006893831687,"orderbook":{"book_pressure":-0.39,"bid_liquidity_usd":64717.384991,"ask_liquidity_usd":145942.309301,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":-0.007197062423500581,"m15":0.008805532063081463,"h1":0.008805532063081463},"realized_vol":{"m1":0.003941000239187194,"m5":0.005183831072442162,"m15":0.0036771527585293586,"h1":0.002604241969118451,"h4":0},"volume_zscores":{"v1m_vs_1h":0.08855883457692267,"v5m_vs_1h":0.05487710317233372,"v15m_vs_1h":2.372491168629675},"atr_pct":{"m5":0.0016590816225888689,"h1":0},"vol_zscores":{"vol_5m_vs_1h":1.5133003330413428,"ret_5m_vs_1h":-2.7635920582052607},"funding":{"current_8h":-0.0001118102,"delta_5m":-0.000004039900000000002},"open_interest":{"current":7944.656129999999,"delta_5m":3.9126599999990503},"sentiment":{"score":0,"mentionsVsBaseline":0,"disagreement":0,"change2h":-0.3666666666666667},"regime_tags":["fast_move_down"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":2.051830520490064,"middle":2.021090000000001,"lower":1.9903494795099377,"width":0.030419744286561426},"m5":{"upper":2.028337447362061,"middle":2.0126050000000006,"lower":1.9968725526379403,"width":0.01563391461519807}},"assetIndex":1,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1.5,"cost_bps":7.9,"cost_ok":true},"edge":{"expected_move_bps":88.1,"edge_bps":80.1,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.01563391461519807},"triggers":{"direction_m15":1,"direction_h1":1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":64717.384991,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":-2.7635920582052607,"vol_ratio_5m_vs_1h":1.5133003330413428}}},"BTC-PERP":{"symbol":"BTC-PERP","price":89655,"spread_bps":0.10956082543125881,"orderbook":{"book_pressure":0.14,"bid_liquidity_usd":3426635.091,"ask_liquidity_usd":2562544.4113,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":-0.012497237569060774,"m15":-0.016842684268426843,"h1":-0.01210426246904846},"realized_vol":{"m1":0.008822852379160848,"m5":0.007029213977227791,"m15":0.006981772328116861,"h1":0.005468159514765161,"h4":0.005417439064334709},"volume_zscores":{"v1m_vs_1h":-0.24469172950572782,"v5m_vs_1h":-0.5445237619932678,"v15m_vs_1h":-0.7247196387100093},"atr_pct":{"m5":0.009265756901961849,"h1":0},"vol_zscores":{"vol_5m_vs_1h":1.6134957942132673,"ret_5m_vs_1h":-2.285455926315911},"funding":{"current_8h":-0.000383981,"delta_5m":-0.000004661499999999996},"open_interest":{"current":3183855.2565,"delta_5m":-2805.4716999996454},"sentiment":{"score":0,"mentionsVsBaseline":0.6,"disagreement":0,"change2h":-0.05666666666666666},"regime_tags":["fast_move_down","bb_expansion"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":91307.73608405796,"middle":89969.35,"lower":88630.96391594205,"width":0.02975204520334891},"m5":{"upper":91095.22517932627,"middle":89953.8,"lower":88812.37482067374,"width":0.025378031374467043}},"assetIndex":3,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":4.6,"cost_ok":true},"edge":{"expected_move_bps":168.4,"edge_bps":163.8,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.025378031374467043},"triggers":{"direction_m15":-1,"direction_h1":-1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":2562544.4113,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":-2.285455926315911,"vol_ratio_5m_vs_1h":1.6134957942132673}}},"BNB-PERP":{"symbol":"BNB-PERP","price":895.23,"spread_bps":0.11174745076117787,"orderbook":{"book_pressure":0.21,"bid_liquidity_usd":189331.91277000002,"ask_liquidity_usd":123506.30988999999,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.00030150417080767586,"m15":-0.0013266887409835943,"h1":-0.002816399683850756},"realized_vol":{"m1":0.0008397625230807554,"m5":0.0005381490721076058,"m15":0.00039486074123263443,"h1":0.0004556862460475675,"h4":0.0005638138704953698},"volume_zscores":{"v1m_vs_1h":0.8050273260186732,"v5m_vs_1h":3.4151869398129393,"v15m_vs_1h":2.582726707185243},"atr_pct":{"m5":0.0003564331803408384,"h1":0},"vol_zscores":{"vol_5m_vs_1h":1.8428524678207987,"ret_5m_vs_1h":0.6616486089338823},"funding":{"current_8h":0.0000125,"delta_5m":0},"open_interest":{"current":353236.27248,"delta_5m":78.91519999998854},"sentiment":{"score":0,"mentionsVsBaseline":0,"disagreement":0,"change2h":0.4},"regime_tags":["oversold_m5"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":897.4071683215283,"middle":896.207,"lower":895.0068316784717,"width":0.002678328380671674},"m5":{"upper":900.0709913724166,"middle":897.5644999999998,"lower":895.058008627583,"width":0.005585094714456293}},"assetIndex":6,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":4.6,"cost_ok":true},"edge":{"expected_move_bps":28.2,"edge_bps":23.6,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.005585094714456293},"triggers":{"direction_m15":-1,"direction_h1":-1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":123506.30988999999,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":0.6616486089338823,"vol_ratio_5m_vs_1h":1.8428524678207987}}},"SOL-PERP":{"symbol":"SOL-PERP","price":138.13,"spread_bps":0.7247164546885042,"orderbook":{"book_pressure":-0.01,"bid_liquidity_usd":3800366.096700001,"ask_liquidity_usd":3859410.3445,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":-0.00036184686640621915,"m15":-0.003462953610850719,"h1":-0.006187495503273715},"realized_vol":{"m1":0.00021473382247986302,"m5":0.0007132329241719569,"m15":0.0007205827130264096,"h1":0.0006991557657696121,"h4":0.0006622418835215508},"volume_zscores":{"v1m_vs_1h":-0.8042562774984358,"v5m_vs_1h":1.1703688892145228,"v15m_vs_1h":1.2643127873499431},"atr_pct":{"m5":0.0015875314145060442,"h1":0},"vol_zscores":{"vol_5m_vs_1h":0.3071330209849442,"ret_5m_vs_1h":-0.5175482834042107},"funding":{"current_8h":0.0000125,"delta_5m":0},"open_interest":{"current":631535.8852,"delta_5m":5626.874000000069},"sentiment":{"score":0.4,"mentionsVsBaseline":0.2,"disagreement":0,"change2h":0.8},"regime_tags":["low_vol_compression","oversold_m5"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":138.77801089648975,"middle":138.3765,"lower":137.97498910351024,"width":0.005803165949272453},"m5":{"upper":139.93433996645672,"middle":138.95650000000003,"lower":137.97866003354335,"width":0.014074044272224463}},"assetIndex":0,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":5.2,"cost_ok":true},"edge":{"expected_move_bps":61.9,"edge_bps":56.7,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.014074044272224463},"triggers":{"direction_m15":-1,"direction_h1":-1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":3800366.096700001,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":-0.5175482834042107,"vol_ratio_5m_vs_1h":0.3071330209849442}}}},"constraints":{"max_position_pct_equity_per_symbol":0.2,"max_total_exposure_pct_equity":1,"min_trade_notional_usd":10,"kill_switch":false,"no_flip_same_tick":true},"allowed_actions":["OPEN_POSITION","INCREASE_POSITION","REDUCE_POSITION","CLOSE_POSITION","HOLD_POSITION"],"meta":{"note":"Generated by SnapshotBuilder with Screener","fallback_markets":[],"missing_markets":[],"duplicate_markets":[]},"global_regime":{"current":"CHOP","score":-0.2857142857142857,"reason":"Mixed signals or low volatility"}}
+
+CURRENT POSITIONS (JSON):
+[
+  {
+    "symbol": "SOL-PERP",
+    "side": "long",
+    "size_usd": 135.79654200000002,
+    "size_coin": 0.98,
+    "fraction_of_equity": 0.15050727941562464,
+    "entry_price": 138.5679,
+    "unrealized_pnl": -0.4292,
+    "leverage": 10
+  },
+  {
+    "symbol": "AAVE-PERP",
+    "side": "short",
+    "size_usd": 405.9495,
+    "size_coin": 2.25,
+    "fraction_of_equity": 0.44992570447878644,
+    "entry_price": 180.422,
+    "unrealized_pnl": 0.027,
+    "leverage": 10
+  }
+]
+
+Response:
+```json
+{
+  "decisions": [
+    {
+      "action": "CLOSE_POSITION",
+      "symbol": "SOL-PERP",
+      "target_side": "flat",
+      "target_size_fraction_of_equity": 0,
+      "playbook": "Risk Management",
+      "risk_plan": {
+        "stop_loss_pct": 0,
+        "take_profit_pct_primary": 0
+      },
+      "confidence": 0.75,
+      "reason_code": "weak_momentum_book_pressure",
+      "notes": "CHOP regime, negative returns, weak vol ratio, minimal book pressure. Better to exit and preserve capital.",
+      "audit": {
+        "cost_bps": 5.2,
+        "spread_bps": 0.72,
+        "expected_move_bps": 61.9,
+        "edge_bps": 56.7,
+        "book_pressure": -0.01,
+        "vol_ratio_5m_vs_1h": 0.31,
+        "ret_sigma_5m_vs_1h": -0.52,
+        "min_depth_usd": 3800366.1,
+        "depth_0_25pct_bid_usd": null,
+        "depth_0_25pct_ask_usd": null,
+        "volume_zscore_1m": -0.8,
+        "oi_delta_5m": 5626.87,
+        "funding_delta_5m": 0,
+        "atr_pct_h1": 0
+      }
+    },
+    {
+      "action": "HOLD_POSITION",
+      "symbol": "AAVE-PERP",
+      "target_side": "short",
+      "target_size_fraction_of_equity": 0.45,
+      "playbook": "Momentum",
+      "risk_plan": {
+        "stop_loss_pct": 0.02,
+        "take_profit_pct_primary": 0.035
+      },
+      "confidence": 0.68,
+      "reason_code": "strong_downward_momentum",
+      "notes": "Strong short momentum aligned with book pressure, extreme ret_sigma (-6.3), high volume z-scores. Edge>cost with good liquidity.",
+      "audit": {
+        "cost_bps": 6.8,
+        "spread_bps": 2.21,
+        "expected_move_bps": 43,
+        "edge_bps": 36.2,
+        "book_pressure": -0.36,
+        "vol_ratio_5m_vs_1h": 2.21,
+        "ret_sigma_5m_vs_1h": -6.31,
+        "min_depth_usd": 131023.27,
+        "depth_0_25pct_bid_usd": null,
+        "depth_0_25pct_ask_usd": null,
+        "volume_zscore_1m": 3.45,
+        "oi_delta_5m": 76.24,
+        "funding_delta_5m": 0.0000022,
+        "atr_pct_h1": 0
+      }
+    },
+    {
+      "action": "OPEN_POSITION",
+      "symbol": "JUP-PERP",
+      "target_side": "long",
+      "target_size_fraction_of_equity": 0.15,
+      "playbook": "Momentum",
+      "risk_plan": {
+        "stop_loss_pct": 0.012,
+        "take_profit_pct_primary": 0.025
+      },
+      "confidence": 0.62,
+      "reason_code": "momentum_book_pressure",
+      "notes": "Positive momentum, strong volume z-scores (4.14), positive book pressure. Edge>cost with reasonable spread in CHOP regime.",
+      "audit": {
+        "cost_bps": 8.3,
+        "spread_bps": 3.17,
+        "expected_move_bps": 106.6,
+        "edge_bps": 98.4,
+        "book_pressure": 0.05,
+        "vol_ratio_5m_vs_1h": 1.63,
+        "ret_sigma_5m_vs_1h": 3.75,
+        "min_depth_usd": 52983.74,
+        "depth_0_25pct_bid_usd": null,
+        "depth_0_25pct_ask_usd": null,
+        "volume_zscore_1m": 2.05,
+        "oi_delta_5m": -7.19,
+        "funding_delta_5m": 0,
+        "atr_pct_h1": 0
+      }
+    }
+  ]
+}
+```
+-----------------------------------
+
+
+--- 2025-11-30T21:10:43.314Z ---
+Prompt:
+MARKET SNAPSHOT:
+{"timestamp":1764537002,"account":{"equity_usd":903.557781,"daily_realized_pnl":0,"max_daily_loss":500,"current_positions":[{"symbol":"AAVE-PERP","side":"short","size_usd":405.9495,"size_coin":2.25,"fraction_of_equity":0.44927895983665933,"entry_price":180.422,"unrealized_pnl":2.6145,"leverage":10},{"symbol":"JUP-PERP","side":"long","size_usd":135.48992,"size_coin":538,"fraction_of_equity":0.1499515834505331,"entry_price":0.25184,"unrealized_pnl":-0.90922,"leverage":20}],"derived_portfolio":{"total_exposure_fraction":0.5992,"remaining_capacity":0.4008,"position_slots_used":2,"slots_remaining":3}},"markets":{"ETH-PERP":{"symbol":"ETH-PERP","price":3025,"spread_bps":0.3307808080972134,"orderbook":{"book_pressure":-0.07,"bid_liquidity_usd":7724249.60906,"ask_liquidity_usd":8909166.89611,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":-0.0008917071237492232,"m15":-0.00039651070578914646,"h1":-0.004933885928557332},"realized_vol":{"m1":0.00036467795032011166,"m5":0.0004050428713205582,"m15":0.00035796690098711346,"h1":0.0003957779283744483,"h4":0},"volume_zscores":{"v1m_vs_1h":-0.31219573909465137,"v5m_vs_1h":2.7278469187525287,"v15m_vs_1h":1.4536441402842817},"atr_pct":{"m5":0.001027086756955878,"h1":0},"vol_zscores":{"vol_5m_vs_1h":0.9214206356022139,"ret_5m_vs_1h":-2.2530491465546625},"funding":{"current_8h":0.0000125,"delta_5m":0},"open_interest":{"current":1214515.72,"delta_5m":-554.6696000001393},"sentiment":{"score":0,"mentionsVsBaseline":0.2,"disagreement":0,"change2h":-0.2},"regime_tags":["fast_move_down"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":3030.4200557615036,"middle":3027.73,"lower":3025.0399442384964,"width":0.0017769456071074765},"m5":{"upper":3042.2699948717936,"middle":3032.52,"lower":3022.7700051282063,"width":0.006430292213600304}},"assetIndex":4,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":4.8,"cost_ok":true},"edge":{"expected_move_bps":49.3,"edge_bps":44.5,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.006430292213600304},"triggers":{"direction_m15":-1,"direction_h1":-1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":7724249.60906,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":-2.2530491465546625,"vol_ratio_5m_vs_1h":0.9214206356022139}}},"BNB-PERP":{"symbol":"BNB-PERP","price":894.64,"spread_bps":0.1117986729496504,"orderbook":{"book_pressure":0.61,"bid_liquidity_usd":218130.55373000004,"ask_liquidity_usd":52653.59954,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.0019367478309544005,"m15":-0.0010826497014342622,"h1":-0.004050655449466946},"realized_vol":{"m1":0.0009908585749994361,"m5":0.001338694958089378,"m15":0.0011892879354259295,"h1":0.0009228364334557938,"h4":0},"volume_zscores":{"v1m_vs_1h":2.6830593285924635,"v5m_vs_1h":0.4760411443131704,"v15m_vs_1h":1.920074088761629},"atr_pct":{"m5":0.0012386549739339912,"h1":0},"vol_zscores":{"vol_5m_vs_1h":1.073709856999161,"ret_5m_vs_1h":2.0986902561938954},"funding":{"current_8h":0.0000125,"delta_5m":0},"open_interest":{"current":352488.16,"delta_5m":-133.96000000002095},"sentiment":{"score":0,"mentionsVsBaseline":0.2,"disagreement":0,"change2h":0.4},"regime_tags":["fast_move_up","bb_squeeze"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":896.9078488043095,"middle":895.0585000000003,"lower":893.2091511956911,"width":0.004132352922874328},"m5":{"upper":0,"middle":0,"lower":0,"width":0}},"assetIndex":6,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":4.6,"cost_ok":true},"edge":{"expected_move_bps":40.5,"edge_bps":35.9,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0},"triggers":{"direction_m15":-1,"direction_h1":-1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":52653.59954,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":2.0986902561938954,"vol_ratio_5m_vs_1h":1.073709856999161}}},"SOL-PERP":{"symbol":"SOL-PERP","price":137.28,"spread_bps":0.7293680026271343,"orderbook":{"book_pressure":-0.01,"bid_liquidity_usd":4273137.3041,"ask_liquidity_usd":4328272.0756,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":-0.0005097211097358304,"m15":-0.0005097211097358304,"h1":-0.0046410442349529716},"realized_vol":{"m1":0.0006520747961999105,"m5":0.0004978827827525727,"m15":0.0005273378766121512,"h1":0.0006166975528240994,"h4":0.0006385602928973827},"volume_zscores":{"v1m_vs_1h":0.7251849090781647,"v5m_vs_1h":-0.33151383858230166,"v15m_vs_1h":0.27371298271317734},"atr_pct":{"m5":0.0012853604213068294,"h1":0},"vol_zscores":{"vol_5m_vs_1h":1.0573656295761267,"ret_5m_vs_1h":-0.8265333750744073},"funding":{"current_8h":0.0000147509,"delta_5m":-0.000004633800000000001},"open_interest":{"current":609454.56,"delta_5m":-372.0810000000056},"sentiment":{"score":0.06666666666666667,"mentionsVsBaseline":0.6,"disagreement":0.1346870059402948,"change2h":0.4666666666666667},"regime_tags":[],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":137.4675458619114,"middle":137.3585,"lower":137.2494541380886,"width":0.0015877555726279016},"m5":{"upper":138.03523898693751,"middle":137.53300000000002,"lower":137.03076101306252,"width":0.007303541505493164}},"assetIndex":0,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":5.2,"cost_ok":true},"edge":{"expected_move_bps":46.4,"edge_bps":41.2,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.007303541505493164},"triggers":{"direction_m15":-1,"direction_h1":-1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":4273137.3041,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":-0.8265333750744073,"vol_ratio_5m_vs_1h":1.0573656295761267}}},"DOGE-PERP":{"symbol":"DOGE-PERP","price":0.14936,"spread_bps":0.669500887089345,"orderbook":{"book_pressure":-0.01,"bid_liquidity_usd":1387199.34457,"ask_liquidity_usd":1422368.00028,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0,"m15":-0.004330157884218133,"h1":0},"realized_vol":{"m1":0.0004166205621507941,"m5":0.0007658659868625434,"m15":0,"h1":0,"h4":0},"volume_zscores":{"v1m_vs_1h":0,"v5m_vs_1h":0,"v15m_vs_1h":0},"atr_pct":{"m5":0,"h1":0},"vol_zscores":{"vol_5m_vs_1h":0.41662056215079407,"ret_5m_vs_1h":0},"funding":{"current_8h":0.0000125,"delta_5m":0},"open_interest":{"current":135667.27264,"delta_5m":-118.0821199999773},"sentiment":{"score":0,"mentionsVsBaseline":0,"disagreement":0,"change2h":0.2},"regime_tags":["low_vol_compression","bb_squeeze"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":0,"middle":0,"lower":0,"width":0},"m5":{"upper":0,"middle":0,"lower":0,"width":0}},"assetIndex":173,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":5.2,"cost_ok":true},"edge":{"expected_move_bps":43.3,"edge_bps":38.1,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0},"triggers":{"direction_m15":-1,"direction_h1":0,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":1387199.34457,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":0,"vol_ratio_5m_vs_1h":0.41662056215079407}}},"BTC-PERP":{"symbol":"BTC-PERP","price":90848,"spread_bps":0.10963529818060223,"orderbook":{"book_pressure":-0.13,"bid_liquidity_usd":2700474.79555,"ask_liquidity_usd":3473412.7995200003,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.00003301201637396012,"m15":-0.00043995204522707026,"h1":-0.0036289880495559697},"realized_vol":{"m1":0.000137002743232897,"m5":0.0002563383567960062,"m15":0.00027824235166449174,"h1":0.00038240801261858547,"h4":0.0036696703693113847},"volume_zscores":{"v1m_vs_1h":1.2278119374293148,"v5m_vs_1h":-0.6101667072481626,"v15m_vs_1h":-1.1633684614067055},"atr_pct":{"m5":0.000752177542195038,"h1":0},"vol_zscores":{"vol_5m_vs_1h":0.3582632651830541,"ret_5m_vs_1h":0.08632668585552461},"funding":{"current_8h":-0.0004406271,"delta_5m":-0.000004970699999999996},"open_interest":{"current":3361343.29472,"delta_5m":-820.94357999973},"sentiment":{"score":0,"mentionsVsBaseline":0.6,"disagreement":0,"change2h":0},"regime_tags":["low_vol_compression","bb_squeeze"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":90955.64393310365,"middle":90904.55,"lower":90853.45606689635,"width":0.0011241226782080203},"m5":{"upper":91219.78811129348,"middle":90998.05,"lower":90776.31188870652,"width":0.004873469514862805}},"assetIndex":3,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":4.6,"cost_ok":true},"edge":{"expected_move_bps":36.3,"edge_bps":31.7,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.004873469514862805},"triggers":{"direction_m15":-1,"direction_h1":-1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":2700474.79555,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":0.08632668585552461,"vol_ratio_5m_vs_1h":0.3582632651830541}}},"AAVE-PERP":{"symbol":"AAVE-PERP","price":179.26,"spread_bps":0,"orderbook":{"book_pressure":0,"bid_liquidity_usd":0,"ask_liquidity_usd":0,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":-0.004304873337380656,"m15":-0.004304873337380656,"h1":-0.0029291477837957397},"realized_vol":{"m1":0.0015055507034862938,"m5":0.000959688086644385,"m15":0.0006936718554769292,"h1":0.0006821376151500296,"h4":0},"volume_zscores":{"v1m_vs_1h":3.4511648790866487,"v5m_vs_1h":4.195788301582619,"v15m_vs_1h":1.743708929209005},"atr_pct":{"m5":0,"h1":0},"vol_zscores":{"vol_5m_vs_1h":2.207106997251812,"ret_5m_vs_1h":-6.310857577372919},"funding":{"current_8h":-0.0001568507},"open_interest":{"current":227767.75599999996},"sentiment":{"score":0,"mentionsVsBaseline":0,"disagreement":0,"change2h":0.4},"regime_tags":["high_intraday_vol","fast_move_down","bb_squeeze"],"data_source":"fallback_on_demand","assetIndex":21,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":4.5,"cost_ok":true},"edge":{"expected_move_bps":43,"edge_bps":38.5,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0},"triggers":{"direction_m15":-1,"direction_h1":-1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":0,"depth_ok":false,"tradeable":false},"normalized":{"ret_sigma_5m_vs_1h":-6.310857577372919,"vol_ratio_5m_vs_1h":2.207106997251812}}},"JUP-PERP":{"symbol":"JUP-PERP","price":0.25015,"spread_bps":0,"orderbook":{"book_pressure":0,"bid_liquidity_usd":0,"ask_liquidity_usd":0,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0,"m15":0,"h1":0},"realized_vol":{"m1":0.0027087061862485964,"m5":0,"m15":0,"h1":0,"h4":0},"volume_zscores":{"v1m_vs_1h":0,"v5m_vs_1h":0,"v15m_vs_1h":0},"atr_pct":{"m5":0,"h1":0},"vol_zscores":{"vol_5m_vs_1h":2.7087061862485964,"ret_5m_vs_1h":0},"funding":{"current_8h":0.0000125},"open_interest":{"current":45209.6095},"sentiment":{"score":0,"mentionsVsBaseline":0.2,"disagreement":0,"change2h":0},"regime_tags":["high_intraday_vol","bb_squeeze"],"data_source":"fallback_on_demand","assetIndex":71,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":4.5,"cost_ok":true},"edge":{"expected_move_bps":0,"edge_bps":-4.5,"edge_ok":false},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0},"triggers":{"direction_m15":0,"direction_h1":0,"trend_aligned":false,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":0,"depth_ok":false,"tradeable":false},"normalized":{"ret_sigma_5m_vs_1h":0,"vol_ratio_5m_vs_1h":2.7087061862485964}}}},"constraints":{"max_position_pct_equity_per_symbol":0.2,"max_total_exposure_pct_equity":1,"min_trade_notional_usd":10,"kill_switch":false,"no_flip_same_tick":true},"allowed_actions":["OPEN_POSITION","INCREASE_POSITION","REDUCE_POSITION","CLOSE_POSITION","HOLD_POSITION"],"meta":{"note":"Generated by SnapshotBuilder with Screener","fallback_markets":["AAVE-PERP","JUP-PERP"],"missing_markets":[],"duplicate_markets":[]},"global_regime":{"current":"CHOP","score":-0.1111111111111111,"reason":"Mixed signals or low volatility"}}
+
+CURRENT POSITIONS (JSON):
+[
+  {
+    "symbol": "AAVE-PERP",
+    "side": "short",
+    "size_usd": 405.9495,
+    "size_coin": 2.25,
+    "fraction_of_equity": 0.44927895983665933,
+    "entry_price": 180.422,
+    "unrealized_pnl": 2.6145,
+    "leverage": 10
+  },
+  {
+    "symbol": "JUP-PERP",
+    "side": "long",
+    "size_usd": 135.48992,
+    "size_coin": 538,
+    "fraction_of_equity": 0.1499515834505331,
+    "entry_price": 0.25184,
+    "unrealized_pnl": -0.90922,
+    "leverage": 20
+  }
+]
+
+Response:
+```json
+{
+  "decisions": [
+    {
+      "action": "CLOSE_POSITION",
+      "symbol": "JUP-PERP",
+      "target_side": "flat",
+      "target_size_fraction_of_equity": 0,
+      "playbook": "Discretionary Edge",
+      "risk_plan": { "stop_loss_pct": 0, "take_profit_pct_primary": 0 },
+      "confidence": 0.9,
+      "reason_code": "negative_edge_liquidity",
+      "notes": "Negative edge (-4.5bps) and non-tradeable liquidity. Close to limit losses in CHOP.",
+      "audit": {
+        "cost_bps": 4.5,
+        "spread_bps": 0,
+        "expected_move_bps": 0,
+        "edge_bps": -4.5,
+        "book_pressure": 0,
+        "vol_ratio_5m_vs_1h": 2.71,
+        "ret_sigma_5m_vs_1h": 0,
+        "min_depth_usd": 0,
+        "depth_0_25pct_bid_usd": 0,
+        "depth_0_25pct_ask_usd": 0,
+        "volume_zscore_1m": 0,
+        "oi_delta_5m": 0,
+        "funding_delta_5m": 0,
+        "atr_pct_h1": 0
+      }
+    },
+    {
+      "action": "REDUCE_POSITION",
+      "symbol": "AAVE-PERP",
+      "target_side": "short",
+      "target_size_fraction_of_equity": 0.2,
+      "playbook": "Risk Management",
+      "risk_plan": { "stop_loss_pct": 0.02, "take_profit_pct_primary": 0.015 },
+      "confidence": 0.75,
+      "reason_code": "over_position_limit",
+      "notes": "Position exceeds 20% equity cap. Reduce to comply despite positive edge (38.5bps). Liquidity constraints present.",
+      "audit": {
+        "cost_bps": 4.5,
+        "spread_bps": 0,
+        "expected_move_bps": 43.0,
+        "edge_bps": 38.5,
+        "book_pressure": 0,
+        "vol_ratio_5m_vs_1h": 2.21,
+        "ret_sigma_5m_vs_1h": -6.31,
+        "min_depth_usd": 0,
+        "depth_0_25pct_bid_usd": 0,
+        "depth_0_25pct_ask_usd": 0,
+        "volume_zscore_1m": 3.45,
+        "oi_delta_5m": 0,
+        "funding_delta_5m": 0,
+        "atr_pct_h1": 0
+      }
+    },
+    {
+      "action": "OPEN_POSITION",
+      "symbol": "BNB-PERP",
+      "target_side": "long",
+      "target_size_fraction_of_equity": 0.08,
+      "playbook": "Momentum",
+      "risk_plan": { "stop_loss_pct": 0.5, "take_profit_pct_primary": 0.25 },
+      "confidence": 0.65,
+      "reason_code": "momentum_book_pressure",
+      "notes": "Strong buy-side book pressure (0.61), edge_bps (35.9) > cost (4.6). Vol ratio >1 with positive ret_sigma.",
+      "audit": {
+        "cost_bps": 4.6,
+        "spread_bps": 0.11,
+        "expected_move_bps": 40.5,
+        "edge_bps": 35.9,
+        "book_pressure": 0.61,
+        "vol_ratio_5m_vs_1h": 1.07,
+        "ret_sigma_5m_vs_1h": 2.1,
+        "min_depth_usd": 52653.6,
+        "depth_0_25pct_bid_usd": 218130.55,
+        "depth_0_25pct_ask_usd": 52653.6,
+        "volume_zscore_1m": 2.68,
+        "oi_delta_5m": -133.96,
+        "funding_delta_5m": 0,
+        "atr_pct_h1": 0
+      }
+    }
+  ]
+}
+```
+-----------------------------------
+
+
+--- 2025-11-30T22:54:52.212Z ---
+Prompt:
+MARKET SNAPSHOT:
+{"timestamp":1764543271,"account":{"equity_usd":903.308964,"daily_realized_pnl":0,"max_daily_loss":500,"current_positions":[],"derived_portfolio":{"total_exposure_fraction":0,"remaining_capacity":1,"position_slots_used":0,"slots_remaining":5}},"markets":{"DOGE-PERP":{"symbol":"DOGE-PERP","price":0.14892,"spread_bps":0.6713436944050217,"orderbook":{"book_pressure":-0.14,"bid_liquidity_usd":1217105.91235,"ask_liquidity_usd":1608199.8328399998,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.0029651593773165038,"m15":-0.00361518377184182,"h1":0},"realized_vol":{"m1":0.0009585070548452239,"m5":0.0019682523589622273,"m15":0,"h1":0,"h4":0},"volume_zscores":{"v1m_vs_1h":0,"v5m_vs_1h":0,"v15m_vs_1h":0},"atr_pct":{"m5":0,"h1":0},"vol_zscores":{"vol_5m_vs_1h":0.9585070548452239,"ret_5m_vs_1h":2.9651593773165037},"funding":{"current_8h":0.0000125,"delta_5m":0},"open_interest":{"current":135502.308,"delta_5m":27.296999999991385},"sentiment":{"score":0,"mentionsVsBaseline":0,"disagreement":0,"change2h":0.2},"regime_tags":["fast_move_up","bb_squeeze"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":0.15000816317961077,"middle":0.1492275,"lower":0.14844683682038926,"width":0.010462725430778783},"m5":{"upper":0,"middle":0,"lower":0,"width":0}},"assetIndex":173,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":5.2,"cost_ok":true},"edge":{"expected_move_bps":36.2,"edge_bps":31,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0},"triggers":{"direction_m15":-1,"direction_h1":0,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":1217105.91235,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":2.9651593773165037,"vol_ratio_5m_vs_1h":0.9585070548452239}}},"ETH-PERP":{"symbol":"ETH-PERP","price":3027.8,"spread_bps":0.3304092118085247,"orderbook":{"book_pressure":0.13,"bid_liquidity_usd":9673889.15769,"ask_liquidity_usd":7401659.965589998,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.0004625958234205957,"m15":0.0012235045137397153,"h1":0.0024831970334072773},"realized_vol":{"m1":0.0002859775118910852,"m5":0.0003836837360177771,"m15":0.0003862723425690698,"h1":0.0004706966378546458,"h4":0.00045328861916154586},"volume_zscores":{"v1m_vs_1h":-1.3306092949086161,"v5m_vs_1h":-1.8296854405475649,"v15m_vs_1h":0.4726258942441115},"atr_pct":{"m5":0.0009978956904117021,"h1":0},"vol_zscores":{"vol_5m_vs_1h":0.6075622574967212,"ret_5m_vs_1h":0.9827897338061046},"funding":{"current_8h":0.0000125,"delta_5m":0},"open_interest":{"current":1225760.01856,"delta_5m":871.4623000000138},"sentiment":{"score":0.2,"mentionsVsBaseline":0.4,"disagreement":0,"change2h":0.2},"regime_tags":["bb_squeeze"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":3029.299231981254,"middle":3026.37,"lower":3023.440768018746,"width":0.0019358055897024128},"m5":{"upper":3032.306511432554,"middle":3024.97,"lower":3017.6334885674455,"width":0.004850634176573175}},"assetIndex":4,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":4.8,"cost_ok":true},"edge":{"expected_move_bps":24.8,"edge_bps":20,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.004850634176573175},"triggers":{"direction_m15":1,"direction_h1":1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":7401659.965589998,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":0.9827897338061046,"vol_ratio_5m_vs_1h":0.6075622574967212}}},"SOL-PERP":{"symbol":"SOL-PERP","price":137.58,"spread_bps":0.7275637527731752,"orderbook":{"book_pressure":0.03,"bid_liquidity_usd":3992549.4513000012,"ask_liquidity_usd":3777161.9296,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.0004362684505199031,"m15":0.0012370833939747922,"h1":0.0037204552086372252},"realized_vol":{"m1":0.0002449622668508912,"m5":0.0007247764638227181,"m15":0.000658634439190866,"h1":0.0006954361528358104,"h4":0.0006229695778233837},"volume_zscores":{"v1m_vs_1h":-0.2715374058838777,"v5m_vs_1h":-0.7865566819981797,"v15m_vs_1h":-0.8747916191325603},"atr_pct":{"m5":0.0012718947597936132,"h1":0},"vol_zscores":{"vol_5m_vs_1h":0.35224264061049726,"ret_5m_vs_1h":0.6273307028127775},"funding":{"current_8h":0.0000125,"delta_5m":0},"open_interest":{"current":611199.15,"delta_5m":57.08900000003632},"sentiment":{"score":0.2,"mentionsVsBaseline":0.2,"disagreement":0,"change2h":0.2},"regime_tags":["low_vol_compression"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":137.73489911937185,"middle":137.53049999999996,"lower":137.32610088062808,"width":0.002972418763429003},"m5":{"upper":137.97367442757644,"middle":137.401,"lower":136.82832557242358,"width":0.008335811640038044}},"assetIndex":0,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":5.2,"cost_ok":true},"edge":{"expected_move_bps":37.2,"edge_bps":32,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.008335811640038044},"triggers":{"direction_m15":1,"direction_h1":1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":3777161.9296,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":0.6273307028127775,"vol_ratio_5m_vs_1h":0.35224264061049726}}}},"constraints":{"max_position_pct_equity_per_symbol":0.2,"max_total_exposure_pct_equity":1,"min_trade_notional_usd":10,"kill_switch":false,"no_flip_same_tick":true},"allowed_actions":["OPEN_POSITION","INCREASE_POSITION","REDUCE_POSITION","CLOSE_POSITION","HOLD_POSITION"],"meta":{"note":"Generated by SnapshotBuilder with Screener","fallback_markets":[],"missing_markets":[],"duplicate_markets":[]},"global_regime":{"current":"CHOP","score":-0.25,"reason":"Mixed signals or low volatility"}}
+
+CURRENT POSITIONS (JSON):
+[]
+
+Response:
+```json
+{
+  "decisions": [
+    {
+      "action": "OPEN_POSITION",
+      "symbol": "ETH-PERP",
+      "target_side": "long",
+      "target_size_fraction_of_equity": 0.35,
+      "playbook": "Liquidity Grab",
+      "risk_plan": {
+        "stop_loss_pct": 0.008,
+        "take_profit_pct_primary": 0.015
+      },
+      "confidence": 0.68,
+      "reason_code": "liquidity_edge_compression",
+      "notes": "Excellent liquidity, tight spread, positive book pressure, BB squeeze regime with trending m15/h1 alignment. Edge>cost with good depth support.",
+      "audit": {
+        "cost_bps": 4.8,
+        "spread_bps": 0.33,
+        "expected_move_bps": 24.8,
+        "edge_bps": 20.0,
+        "book_pressure": 0.13,
+        "vol_ratio_5m_vs_1h": 0.61,
+        "ret_sigma_5m_vs_1h": 0.98,
+        "min_depth_usd": 7401659.97,
+        "depth_0_25pct_bid_usd": null,
+        "depth_0_25pct_ask_usd": null,
+        "volume_zscore_1m": -1.33,
+        "oi_delta_5m": 871.46,
+        "funding_delta_5m": 0.0,
+        "atr_pct_h1": 0.0
+      }
+    },
+    {
+      "action": "OPEN_POSITION",
+      "symbol": "DOGE-PERP",
+      "target_side": "long",
+      "target_size_fraction_of_1h": 0.25,
+      "playbook": "Momentum",
+      "risk_plan": {
+        "stop_loss_pct": 0.012,
+        "take_profit_pct_primary": 0.025
+      },
+      "confidence": 0.55,
+      "reason_code": "fast_move_momentum",
+      "notes": "Strong m5 momentum (ret_sigma=2.97), fast_move_up regime tag, positive edge>cost despite negative book pressure. Good liquidity depth.",
+      "audit": {
+        "cost_bps": 5.2,
+        "spread_bps": 0.67,
+        "expected_move_bps": 36.2,
+        "edge_bps": 31.0,
+        "book_pressure": -0.14,
+        "vol_ratio_5m_vs_1h": 0.96,
+        "ret_sigma_5m_vs_1h": 2.97,
+        "min_depth_usd": 1217105.91,
+        "depth_0_25pct_bid_usd": null,
+        "depth_0_25pct_ask_usd": null,
+        "volume_zscore_1m": 0.0,
+        "oi_delta_5m": 27.3,
+        "funding_delta_5m": 0.0,
+        "atr_pct_h1": 0.0
+      }
+    }
+  ]
+}
+```
+-----------------------------------
+
+
+--- 2025-12-01T21:11:59.252Z ---
+Prompt:
+MARKET SNAPSHOT:
+{"timestamp":1764623489,"account":{"equity_usd":903.308964,"daily_realized_pnl":0,"max_daily_loss":500,"current_positions":[],"derived_portfolio":{"total_exposure_fraction":0,"remaining_capacity":3,"position_slots_used":0,"slots_remaining":10}},"markets":{"DOGE-PERP":{"symbol":"DOGE-PERP","price":0.13435,"spread_bps":0.7442414319191936,"orderbook":{"book_pressure":-0.02,"bid_liquidity_usd":1308237.65901,"ask_liquidity_usd":1350995.3928099996,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.0053084112149531845,"m15":0.0053084112149531845,"h1":0.008172752493064464},"realized_vol":{"m1":0.0013837310314302879,"m5":0.0009420169890642467,"m15":0.0007067390213248551,"h1":0.0010187475151905677,"h4":0.001057561507548233},"volume_zscores":{"v1m_vs_1h":4.199755205399759,"v5m_vs_1h":5.374572225343358,"v15m_vs_1h":2.3524823578252656},"atr_pct":{"m5":0.0014768066976902344,"h1":0},"vol_zscores":{"vol_5m_vs_1h":1.358266902051237,"ret_5m_vs_1h":5.2107231043996105},"funding":{"current_8h":0.0000072117,"delta_5m":-1.678999999999997e-7},"open_interest":{"current":121196.5976,"delta_5m":2644.395679999987},"sentiment":{"score":0,"mentionsVsBaseline":0,"disagreement":0,"change2h":0.2},"regime_tags":["fast_move_up","overbought_m5"],"high_low":{"is_new_high_1h":true,"is_new_low_1h":false},"bbands":{"m1":{"upper":0.13411958798565318,"middle":0.13377999999999998,"lower":0.13344041201434678,"width":0.005076812463046825},"m5":{"upper":0.13446375830290758,"middle":0.133504,"lower":0.13254424169709245,"width":0.01437797074106477}},"assetIndex":173,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":5.2,"cost_ok":true},"edge":{"expected_move_bps":81.7,"edge_bps":76.5,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":true,"is_new_low_1h":false},"bb_width_m5":0.01437797074106477},"triggers":{"direction_m15":1,"direction_h1":1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":true,"breakout_ok":false},"liquidity":{"min_depth_usd":1308237.65901,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":5.2107231043996105,"vol_ratio_5m_vs_1h":1.358266902051237}}},"SOL-PERP":{"symbol":"SOL-PERP","price":124.84,"spread_bps":0.8015068328450211,"orderbook":{"book_pressure":0.01,"bid_liquidity_usd":6301161.273299999,"ask_liquidity_usd":6133216.31,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.004983922829581915,"m15":0.004660880745740906,"h1":-0.002950793524204518},"realized_vol":{"m1":0.000981750842090179,"m5":0.0009205545009898192,"m15":0.0008913075682923459,"h1":0.0009102236644268442,"h4":0.0009824848250031758},"volume_zscores":{"v1m_vs_1h":-0.5598463783227581,"v5m_vs_1h":0.6541466941336171,"v15m_vs_1h":-0.8371512860535633},"atr_pct":{"m5":0.0024738898919029924,"h1":0},"vol_zscores":{"vol_5m_vs_1h":1.0785819798569778,"ret_5m_vs_1h":5.475492479884299},"funding":{"current_8h":0.0000125,"delta_5m":0},"open_interest":{"current":538662.1288,"delta_5m":-10661.751200000057},"sentiment":{"score":0.06666666666666667,"mentionsVsBaseline":0.6,"disagreement":0.1346870059402948,"change2h":0},"regime_tags":["fast_move_up"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":124.9582822013904,"middle":124.54,"lower":124.12171779860961,"width":0.00671723464574272},"m5":{"upper":125.26983788110516,"middle":124.4025,"lower":123.53516211889485,"width":0.013944058698260315}},"assetIndex":0,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":5.3,"cost_ok":true},"edge":{"expected_move_bps":46.6,"edge_bps":41.3,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.013944058698260315},"triggers":{"direction_m15":1,"direction_h1":-1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":6133216.31,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":5.475492479884299,"vol_ratio_5m_vs_1h":1.0785819798569778}}},"ETH-PERP":{"symbol":"ETH-PERP","price":2770.8,"spread_bps":0.36100431400122396,"orderbook":{"book_pressure":0.11,"bid_liquidity_usd":11018813.960200002,"ask_liquidity_usd":8751173.818890002,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.0031870201361727446,"m15":0.005736693050613675,"h1":0.0022432882263549525},"realized_vol":{"m1":0.001648298966019307,"m5":0.0013747318875187667,"m15":0.0012152334475545711,"h1":0.0010451745085591746,"h4":0.0010033223404774694},"volume_zscores":{"v1m_vs_1h":6.976630085098317,"v5m_vs_1h":4.29510282095383,"v15m_vs_1h":1.9482187272374665},"atr_pct":{"m5":0.002083548220732341,"h1":0},"vol_zscores":{"vol_5m_vs_1h":1.57705622603786,"ret_5m_vs_1h":3.049270825181348},"funding":{"current_8h":0.0000125,"delta_5m":0},"open_interest":{"current":1108964.48808,"delta_5m":-7580.317659999942},"sentiment":{"score":-0.06666666666666665,"mentionsVsBaseline":0.6,"disagreement":0.5387480237611791,"change2h":-0.06666666666666665},"regime_tags":["fast_move_up","overbought_m5"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":2771.3198862207532,"middle":2759.3449999999993,"lower":2747.3701137792455,"width":0.00867951359525816},"m5":{"upper":2770.4725447746314,"middle":2751.0000000000005,"lower":2731.5274552253695,"width":0.014156702853239346}},"assetIndex":4,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":4.9,"cost_ok":true},"edge":{"expected_move_bps":57.4,"edge_bps":52.5,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.014156702853239346},"triggers":{"direction_m15":1,"direction_h1":1,"trend_aligned":true,"momentum_ok_long":true,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":true},"liquidity":{"min_depth_usd":8751173.818890002,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":3.049270825181348,"vol_ratio_5m_vs_1h":1.57705622603786}}},"BTC-PERP":{"symbol":"BTC-PERP","price":85499,"spread_bps":0.11652091841787897,"orderbook":{"book_pressure":0.21,"bid_liquidity_usd":4175821.6740399995,"ask_liquidity_usd":2728928.90543,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.002991447978133102,"m15":0.006308702714154563,"h1":0.0048657797000611165},"realized_vol":{"m1":0.0003902465821306428,"m5":0.001281801441659395,"m15":0.0010762422371499085,"h1":0.0009479804426723713,"h4":0},"volume_zscores":{"v1m_vs_1h":0.10099651973072059,"v5m_vs_1h":-0.3998683859740614,"v15m_vs_1h":-0.9178080208421926},"atr_pct":{"m5":0.00213873006219026,"h1":0},"vol_zscores":{"vol_5m_vs_1h":0.41166100540063016,"ret_5m_vs_1h":3.1556009422516826},"funding":{"current_8h":-0.0003965902,"delta_5m":-0.000007183099999999996},"open_interest":{"current":3265386.3579,"delta_5m":5398.892140000127},"sentiment":{"score":-0.03333333333333334,"mentionsVsBaseline":1,"disagreement":0.09523809523809526,"change2h":-0.03333333333333334},"regime_tags":["low_vol_compression","fast_move_up"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":85602.81737242344,"middle":85088.2,"lower":84573.58262757656,"width":0.012096092582130886},"m5":{"upper":85330.60223753446,"middle":84859.1,"lower":84387.59776246555,"width":0.011112591048796356}},"assetIndex":3,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":4.6,"cost_ok":true},"edge":{"expected_move_bps":63.1,"edge_bps":58.5,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.011112591048796356},"triggers":{"direction_m15":1,"direction_h1":1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":2728928.90543,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":3.1556009422516826,"vol_ratio_5m_vs_1h":0.41166100540063016}}},"FARTCOIN-PERP":{"symbol":"FARTCOIN-PERP","price":0.32135,"spread_bps":2.487020859886498,"orderbook":{"book_pressure":0.1,"bid_liquidity_usd":51751.372839999996,"ask_liquidity_usd":42357.298733999996,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.005931938807368133,"m15":0.004677268475210481,"h1":0.02266235002856592},"realized_vol":{"m1":0.0073952962966559,"m5":0.004803015765727886,"m15":0.0038260022562185644,"h1":0.004686024063711397,"h4":0.006697613905907894},"volume_zscores":{"v1m_vs_1h":-0.5584026162920137,"v5m_vs_1h":0.4352784027088854,"v15m_vs_1h":-0.6990253011387308},"atr_pct":{"m5":0.005695220360024828,"h1":0},"vol_zscores":{"vol_5m_vs_1h":1.5781601195617254,"ret_5m_vs_1h":1.2658788616356258},"funding":{"current_8h":0.0000125,"delta_5m":0},"open_interest":{"current":93325.69576,"delta_5m":1001.9407199999987},"sentiment":{"score":0,"mentionsVsBaseline":0,"disagreement":0,"change2h":0},"regime_tags":["bb_expansion"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":0.32327793627781226,"middle":0.3209240000000001,"lower":0.31857006372218793,"width":0.014669742853835413},"m5":{"upper":0.3241571607868062,"middle":0.31990299999999994,"lower":0.3156488392131937,"width":0.026596567001911514}},"assetIndex":141,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1.2,"cost_bps":7.2,"cost_ok":true},"edge":{"expected_move_bps":226.6,"edge_bps":219.4,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.026596567001911514},"triggers":{"direction_m15":1,"direction_h1":1,"trend_aligned":true,"momentum_ok_long":true,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":true},"liquidity":{"min_depth_usd":42357.298733999996,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":1.2658788616356258,"vol_ratio_5m_vs_1h":1.5781601195617254}}}},"constraints":{"max_position_pct_equity_per_symbol":0.5,"max_total_exposure_pct_equity":3,"min_trade_notional_usd":1,"kill_switch":false,"no_flip_same_tick":false,"max_new_positions_per_cycle":4,"daily_loss_kill_switch_fraction":0.2},"allowed_actions":["OPEN_POSITION","INCREASE_POSITION","REDUCE_POSITION","CLOSE_POSITION","HOLD_POSITION"],"meta":{"note":"Generated by SnapshotBuilder with Screener","fallback_markets":[],"missing_markets":[],"duplicate_markets":[]},"global_regime":{"current":"RISK_ON","score":1,"reason":"High volatility + Positive breadth"}}
+
+CURRENT POSITIONS (JSON):
+[]
+
+Response:
+```json
+{
+  "decisions": [
+    {
+      "action": "OPEN_POSITION",
+      "symbol": "ETH-PERP",
+      "target_side": "long",
+      "target_size_fraction_of_equity": 0.45,
+      "playbook": "Momentum",
+      "risk_plan": {
+        "stop_loss_pct": 0.008,
+        "take_profit_pct_primary": 0.015
+      },
+      "confidence": 0.75,
+      "reason_code": "momentum_aligned_strong_book",
+      "notes": "Strong positive book pressure (0.11), aligned m15/h1 momentum, tight spread (0.36bps), high volume z-scores, breakout triggers active",
+      "audit": {
+        "cost_bps": 4.9,
+        "spread_bps": 0.36,
+        "expected_move_bps": 57.4,
+        "edge_bps": 52.5,
+        "book_pressure": 0.11,
+        "vol_ratio_5m_vs_1h": 1.58,
+        "ret_sigma_5m_vs_1h": 3.05,
+        "min_depth_usd": 8751173.82,
+        "depth_0_25pct_bid_usd": 11018813.96,
+        "depth_0_25pct_ask_usd": 8751173.82,
+        "volume_zscore_1m": 6.98,
+        "oi_delta_5m": -7580.32,
+        "funding_delta_5m": 0.0,
+        "atr_pct_h1": 0.0
+      }
+    },
+    {
+      "action": "OPEN_POSITION",
+      "symbol": "DOGE-PERP",
+      "target_side": "short",
+      "target_size_fraction_of_equity": 0.35,
+      "playbook": "Mean Reversion",
+      "risk_plan": {
+        "stop_loss_pct": 0.012,
+        "take_profit_pct_primary": 0.025
+      },
+      "confidence": 0.68,
+      "reason_code": "mr_extreme_overbought",
+      "notes": "Extreme ret_sigma (5.21), overbought_m5 tag, new 1h high, MR trigger active short, negative book pressure supports fade",
+      "audit": {
+        "cost_bps": 5.2,
+        "spread_bps": 0.74,
+        "expected_move_bps": 81.7,
+        "edge_bps": 76.5,
+        "book_pressure": -0.02,
+        "vol_ratio_5m_vs_1h": 1.36,
+        "ret_sigma_5m_vs_1h": 5.21,
+        "min_depth_usd": 1308237.66,
+        "depth_0_25pct_bid_usd": 1308237.66,
+        "depth_0_25pct_ask_usd": 1350995.39,
+        "volume_zscore_1m": 4.2,
+        "oi_delta_5m": 2644.4,
+        "funding_delta_5m": -0.00000017,
+        "atr_pct_h1": 0.0
+      }
+    },
+    {
+      "action": "OPEN_POSITION",
+      "symbol": "BTC-PERP",
+      "target_side": "long",
+      "target_size_fraction_of_equity": 0.3,
+      "playbook": "Liquidity Grab",
+      "risk_plan": {
+        "stop_loss_pct": 0.006,
+        "take_profit_pct_primary": 0.012
+      },
+      "confidence": 0.65,
+      "reason_code": "liquidity_quality_flow",
+      "notes": "Ultra-tight spread (0.12bps), strong book pressure (0.21), RISK_ON regime, good depth despite modest vol_ratio",
+      "audit": {
+        "cost_bps": 4.6,
+        "spread_bps": 0.12,
+        "expected_move_bps": 63.1,
+        "edge_bps": 58.5,
+        "book_pressure": 0.21,
+        "vol_ratio_5m_vs_1h": 0.41,
+        "ret_sigma_5m_vs_1h": 3.16,
+        "min_depth_usd": 2728928.91,
+        "depth_0_25pct_bid_usd": 4175821.67,
+        "depth_0_25pct_ask_usd": 2728928.91,
+        "volume_zscore_1m": 0.1,
+        "oi_delta_5m": 5398.89,
+        "funding_delta_5m": -0.00000718,
+        "atr_pct_h1": 0.0
+      }
+    }
+  ]
+}
+```
+-----------------------------------
+
+
+--- 2025-12-01T21:27:43.258Z ---
+Prompt:
+MARKET SNAPSHOT:
+{"timestamp":1764624434,"account":{"equity_usd":904.766783,"daily_realized_pnl":0,"max_daily_loss":500,"current_positions":[{"symbol":"BTC-PERP","side":"long","size_usd":270.82578,"size_coin":0.00317,"fraction_of_equity":0.29933214292196225,"entry_price":85434,"unrealized_pnl":1.10316,"leverage":20},{"symbol":"ETH-PERP","side":"long","size_usd":406.24163999999996,"size_coin":0.1467,"fraction_of_equity":0.4490014969968233,"entry_price":2769.2,"unrealized_pnl":3.03669,"leverage":20},{"symbol":"DOGE-PERP","side":"short","size_usd":315.56083,"size_coin":2353,"fraction_of_equity":0.34877587896592793,"entry_price":0.13411,"unrealized_pnl":-2.23535,"leverage":10}],"derived_portfolio":{"total_exposure_fraction":1.0971,"remaining_capacity":1.9029,"position_slots_used":3,"slots_remaining":7}},"markets":{"ETH-PERP":{"symbol":"ETH-PERP","price":2790,"spread_bps":0.35850646207865283,"orderbook":{"book_pressure":0.01,"bid_liquidity_usd":8598341.650530001,"ask_liquidity_usd":8389517.45367,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.007073003500414965,"m15":0.010354440461967311,"h1":0.012995027042723775},"realized_vol":{"m1":0.0010259162200274823,"m5":0.0014307203926744454,"m15":0.001259318479435749,"h1":0.0011224808715978674,"h4":0.0010208784138491917},"volume_zscores":{"v1m_vs_1h":-0.18622963540165022,"v5m_vs_1h":-0.3246423585142524,"v15m_vs_1h":2.134674273376547},"atr_pct":{"m5":0.0022626171621047365,"h1":0},"vol_zscores":{"vol_5m_vs_1h":0.9139721183551895,"ret_5m_vs_1h":6.301224082639774},"funding":{"current_8h":0.0000125,"delta_5m":0},"open_interest":{"current":1105648.542,"delta_5m":3493.0744999998715},"sentiment":{"score":-0.06666666666666665,"mentionsVsBaseline":0.6,"disagreement":0.5387480237611791,"change2h":-0.06666666666666665},"regime_tags":["fast_move_up"],"high_low":{"is_new_high_1h":true,"is_new_low_1h":false},"bbands":{"m1":{"upper":2787.696576027888,"middle":2771.2699999999995,"lower":2754.843423972111,"width":0.011854908419524957},"m5":{"upper":2780.1420934487655,"middle":2755.2300000000005,"lower":2730.3179065512354,"width":0.018083494625686314}},"assetIndex":4,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":4.9,"cost_ok":true},"edge":{"expected_move_bps":130,"edge_bps":125.1,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":true,"is_new_low_1h":false},"bb_width_m5":0.018083494625686314},"triggers":{"direction_m15":1,"direction_h1":1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":8389517.45367,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":6.301224082639774,"vol_ratio_5m_vs_1h":0.9139721183551895}}},"SOL-PERP":{"symbol":"SOL-PERP","price":125.61,"spread_bps":0.7962100402078829,"orderbook":{"book_pressure":0.1,"bid_liquidity_usd":7005343.863700001,"ask_liquidity_usd":5736034.024,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.003353293413173666,"m15":0.00519916813309875,"h1":0.009154420621536983},"realized_vol":{"m1":0.0007851031347371186,"m5":0.0013245621820287177,"m15":0.0011407285298058601,"h1":0.001014318471099708,"h4":0.001012932593569541},"volume_zscores":{"v1m_vs_1h":-0.38176940680119825,"v5m_vs_1h":-0.5904439274029954,"v15m_vs_1h":-0.6759652468781426},"atr_pct":{"m5":0.0021825870477099663,"h1":0},"vol_zscores":{"vol_5m_vs_1h":0.774020346771288,"ret_5m_vs_1h":3.3059571611055043},"funding":{"current_8h":0.0000125,"delta_5m":0},"open_interest":{"current":541263.5388,"delta_5m":-2049.7912000000942},"sentiment":{"score":0.06666666666666667,"mentionsVsBaseline":0.6,"disagreement":0.1346870059402948,"change2h":0},"regime_tags":["fast_move_up"],"high_low":{"is_new_high_1h":true,"is_new_low_1h":false},"bbands":{"m1":{"upper":125.59200498889511,"middle":124.91549999999998,"lower":124.23899501110485,"width":0.010831401849972631},"m5":{"upper":125.5138517626321,"middle":124.6125,"lower":123.7111482373679,"width":0.014466474272357971}},"assetIndex":0,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":5.3,"cost_ok":true},"edge":{"expected_move_bps":91.5,"edge_bps":86.2,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":true,"is_new_low_1h":false},"bb_width_m5":0.014466474272357971},"triggers":{"direction_m15":1,"direction_h1":1,"trend_aligned":true,"momentum_ok_long":true,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":5736034.024,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":3.3059571611055043,"vol_ratio_5m_vs_1h":0.774020346771288}}},"HYPE-PERP":{"symbol":"HYPE-PERP","price":38.126,"spread_bps":0.3262589517303868,"orderbook":{"book_pressure":-0.83,"bid_liquidity_usd":207148.67612000002,"ask_liquidity_usd":2240434.9759399993,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.07130358705161856,"m15":-0.07789045634821029,"h1":-0.07789045634821029},"realized_vol":{"m1":0.17569538626025485,"m5":0.13065930887337077,"m15":0.09242961609879194,"h1":0.06537158078797836,"h4":0},"volume_zscores":{"v1m_vs_1h":0.03368369058616555,"v5m_vs_1h":4.77007046079724,"v15m_vs_1h":2.706097698512989},"atr_pct":{"m5":0.015541814929320037,"h1":0},"vol_zscores":{"vol_5m_vs_1h":2.6876416960160876,"ret_5m_vs_1h":1.0907428915154989},"funding":{"current_8h":0.0387124958,"delta_5m":0.0007873258000000022},"open_interest":{"current":1974.9268,"delta_5m":265.83760000000007},"sentiment":{"score":0,"mentionsVsBaseline":0,"disagreement":0,"change2h":0},"regime_tags":["high_intraday_vol","bb_expansion"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":45.211879210609474,"middle":36.73515,"lower":28.25842078939052,"width":0.4615050822228563},"m5":{"upper":42.11347226541806,"middle":39.405449999999995,"lower":36.69742773458193,"width":0.13744404722788686}},"assetIndex":135,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":4.8,"cost_ok":true},"edge":{"expected_move_bps":778.9,"edge_bps":774.1,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.13744404722788686},"triggers":{"direction_m15":-1,"direction_h1":-1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":true,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":true},"liquidity":{"min_depth_usd":207148.67612000002,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":1.0907428915154989,"vol_ratio_5m_vs_1h":2.6876416960160876}}},"DOGE-PERP":{"symbol":"DOGE-PERP","price":0.13499,"spread_bps":0.7402746418908276,"orderbook":{"book_pressure":-0.32,"bid_liquidity_usd":904737.4711499999,"ask_liquidity_usd":1748590.4009000002,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.001264316525360728,"m15":0.006579439252336387,"h1":0.009447401964459857},"realized_vol":{"m1":0.002102791481978344,"m5":0.0015218525143096077,"m15":0.0011013299985686462,"h1":0.00118553309117238,"h4":0.0011006388336394497},"volume_zscores":{"v1m_vs_1h":7.457429029308469,"v5m_vs_1h":3.620464816165222,"v15m_vs_1h":2.1673009785321327},"atr_pct":{"m5":0.0014271919865027037,"h1":0},"vol_zscores":{"vol_5m_vs_1h":1.7737096481203087,"ret_5m_vs_1h":1.066454015307526},"funding":{"current_8h":0.0000125,"delta_5m":0},"open_interest":{"current":116785.78856,"delta_5m":-5413.1074399999925},"sentiment":{"score":0,"mentionsVsBaseline":0,"disagreement":0,"change2h":0.2},"regime_tags":["overbought_m5"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":0.13455281524291035,"middle":0.133944,"lower":0.13333518475708966,"width":0.009090593724397557},"m5":{"upper":0.13463586466366767,"middle":0.133583,"lower":0.13253013533633234,"width":0.01576345288947919}},"assetIndex":173,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":5.2,"cost_ok":true},"edge":{"expected_move_bps":94.5,"edge_bps":89.2,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.01576345288947919},"triggers":{"direction_m15":1,"direction_h1":1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":true},"liquidity":{"min_depth_usd":904737.4711499999,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":1.066454015307526,"vol_ratio_5m_vs_1h":1.7737096481203087}}},"BTC-PERP":{"symbol":"BTC-PERP","price":85775,"spread_bps":0.11590104368889842,"orderbook":{"book_pressure":0.78,"bid_liquidity_usd":9455127.45753,"ask_liquidity_usd":1159531.80369,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.0009577760906383227,"m15":0.0024565138559079157,"h1":0.008627183277623464},"realized_vol":{"m1":0.0002693479363737656,"m5":0.0006874816118837058,"m15":0.0010373509673619608,"h1":0.0009664947454401333,"h4":0},"volume_zscores":{"v1m_vs_1h":-0.37745163800683007,"v5m_vs_1h":-0.8229792869340686,"v15m_vs_1h":0.7245394574988322},"atr_pct":{"m5":0.002196276249043557,"h1":0},"vol_zscores":{"vol_5m_vs_1h":0.27868536031316643,"ret_5m_vs_1h":0.9909790975657709},"funding":{"current_8h":-0.0004042588,"delta_5m":-0.00000516859999999999},"open_interest":{"current":3280940.0685,"delta_5m":3604.061660000123},"sentiment":{"score":-0.03333333333333334,"mentionsVsBaseline":1,"disagreement":0.09523809523809526,"change2h":-0.03333333333333334},"regime_tags":["low_vol_compression"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":85760.85104758327,"middle":85479.25,"lower":85197.64895241673,"width":0.006588758033868539},"m5":{"upper":85672.11387551957,"middle":84979.25,"lower":84286.38612448043,"width":0.01630666016750139}},"assetIndex":3,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":4.6,"cost_ok":true},"edge":{"expected_move_bps":86.3,"edge_bps":81.7,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.01630666016750139},"triggers":{"direction_m15":1,"direction_h1":1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":1159531.80369,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":0.9909790975657709,"vol_ratio_5m_vs_1h":0.27868536031316643}}}},"constraints":{"max_position_pct_equity_per_symbol":0.5,"max_total_exposure_pct_equity":3,"min_trade_notional_usd":1,"kill_switch":false,"no_flip_same_tick":false,"max_new_positions_per_cycle":4,"daily_loss_kill_switch_fraction":0.2},"allowed_actions":["OPEN_POSITION","INCREASE_POSITION","REDUCE_POSITION","CLOSE_POSITION","HOLD_POSITION"],"meta":{"note":"Generated by SnapshotBuilder with Screener","fallback_markets":[],"missing_markets":[],"duplicate_markets":[]},"global_regime":{"current":"RISK_ON","score":0.6666666666666666,"reason":"High volatility + Positive breadth"}}
+
+CURRENT POSITIONS (JSON):
+[
+  {
+    "symbol": "BTC-PERP",
+    "side": "long",
+    "size_usd": 270.82578,
+    "size_coin": 0.00317,
+    "fraction_of_equity": 0.29933214292196225,
+    "entry_price": 85434,
+    "unrealized_pnl": 1.10316,
+    "leverage": 20
+  },
+  {
+    "symbol": "ETH-PERP",
+    "side": "long",
+    "size_usd": 406.24163999999996,
+    "size_coin": 0.1467,
+    "fraction_of_equity": 0.4490014969968233,
+    "entry_price": 2769.2,
+    "unrealized_pnl": 3.03669,
+    "leverage": 20
+  },
+  {
+    "symbol": "DOGE-PERP",
+    "side": "short",
+    "size_usd": 315.56083,
+    "size_coin": 2353,
+    "fraction_of_equity": 0.34877587896592793,
+    "entry_price": 0.13411,
+    "unrealized_pnl": -2.23535,
+    "leverage": 10
+  }
+]
+
+Response:
+```json
+{
+  "decisions": [
+    {
+      "action": "CLOSE_POSITION",
+      "symbol": "DOGE-PERP",
+      "target_side": "flat",
+      "target_size_fraction_of_equity": 0,
+      "playbook": "Risk Management",
+      "risk_plan": {
+        "stop_loss_pct": 0,
+        "take_profit_pct_primary": 0
+      },
+      "confidence": 0.75,
+      "reason_code": "unfavorable_position_alignment",
+      "notes": "Current short position is losing. Book pressure is negative (-0.32), returns are positive across timeframes, and volume z-scores are extremely elevated (7.46 v1m). Edge exists but position is misaligned with current momentum.",
+      "audit": {
+        "cost_bps": 5.2,
+        "spread_bps": 0.74,
+        "expected_move_bps": 94.5,
+        "edge_bps": 89.2,
+        "book_pressure": -0.32,
+        "vol_ratio_5m_vs_1h": 1.77,
+        "ret_sigma_5m_vs_1h": 1.07,
+        "min_depth_usd": 904737.47,
+        "volume_zscore_1m": 7.46,
+        "oi_delta_5m": -5413.11,
+        "funding_delta_5m": 0,
+        "atr_pct_h1": 0
+      }
+    },
+    {
+      "action": "INCREASE_POSITION",
+      "symbol": "BTC-PERP",
+      "target_side": "long",
+      "target_size_fraction_of_equity": 0.45,
+      "playbook": "Momentum",
+      "risk_plan": {
+        "stop_loss_pct": 0.008,
+        "take_profit_pct_primary": 0.02
+      },
+      "confidence": 0.68,
+      "reason_code": "strong_book_pressure_momentum",
+      "notes": "Very strong book pressure (0.78) aligns with long momentum. Tight spread (0.12bps), excellent edge (81.7bps vs 4.6bps cost). Trend aligned, OI increasing. Adding to existing profitable long.",
+      "audit": {
+        "cost_bps": 4.6,
+        "spread_bps": 0.12,
+        "expected_move_bps": 86.3,
+        "edge_bps": 81.7,
+        "book_pressure": 0.78,
+        "vol_ratio_5m_vs_1h": 0.28,
+        "ret_sigma_5m_vs_1h": 0.99,
+        "min_depth_usd": 1159531.8,
+        "volume_zscore_1m": -0.38,
+        "oi_delta_5m": 3604.06,
+        "funding_delta_5m": -0.00000517,
+        "atr_pct_h1": 0
+      }
+    },
+    {
+      "action": "OPEN_POSITION",
+      "symbol": "HYPE-PERP",
+      "target_side": "short",
+      "target_size_fraction_of_1h": 0.25,
+      "playbook": "Mean Reversion",
+      "risk_plan": {
+        "stop_loss_pct": 0.03,
+        "take_profit_pct_primary": 0.06
+      },
+      "confidence": 0.72,
+      "reason_code": "extreme_conditions_fade",
+      "notes": "Massive negative book pressure (-0.83), extreme volatility (778.9bps expected move), high funding rate (0.0387). Short trigger is true. Fading the spike with strong edge (774bps vs 5bps cost).",
+      "audit": {
+        "cost_bps": 4.8,
+        "spread_bps": 0.33,
+        "expected_move_bps": 778.9,
+        "edge_bps": 774.1,
+        "book_pressure": -0.83,
+        "vol_ratio_5m_vs_1h": 2.69,
+        "ret_sigma_5m_vs_1h": 1.09,
+        "min_depth_usd": 207148.68,
+        "volume_zscore_1m": 0.03,
+        "oi_delta_5m": 265.84,
+        "funding_delta_5m": 0.00078733,
+        "atr_pct_h1": 0
+      }
+    }
+  ]
+}
+```
+-----------------------------------
+
+
+--- 2025-12-01T21:34:16.782Z ---
+Prompt:
+MARKET SNAPSHOT:
+{"timestamp":1764624827,"account":{"equity_usd":905.216042,"daily_realized_pnl":0,"max_daily_loss":500,"current_positions":[{"symbol":"BTC-PERP","side":"long","size_usd":407.55738800000006,"size_coin":0.00476,"fraction_of_equity":0.45023217562465606,"entry_price":85621.3,"unrealized_pnl":1.75457,"leverage":20},{"symbol":"ETH-PERP","side":"long","size_usd":406.24163999999996,"size_coin":0.1467,"fraction_of_equity":0.44877865741579503,"entry_price":2769.2,"unrealized_pnl":3.2274,"leverage":20}],"derived_portfolio":{"total_exposure_fraction":0.899,"remaining_capacity":2.101,"position_slots_used":2,"slots_remaining":8}},"markets":{"SUI-PERP":{"symbol":"SUI-PERP","price":1.3428,"spread_bps":4.468940861015447,"orderbook":{"book_pressure":0.09,"bid_liquidity_usd":306547.55428000004,"ask_liquidity_usd":253369.24543,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.011851740016607569,"m15":0.011851740016607569,"h1":0.017922235722964815},"realized_vol":{"m1":0.00292147575093639,"m5":0.0020196372961821785,"m15":0.0014793445134623716,"h1":0.0018151256099833853,"h4":0},"volume_zscores":{"v1m_vs_1h":4.3083992277697165,"v5m_vs_1h":3.634525323995371,"v15m_vs_1h":1.4860025190238535},"atr_pct":{"m5":0.0020356396811186312,"h1":0},"vol_zscores":{"vol_5m_vs_1h":1.6095171237009496,"ret_5m_vs_1h":6.52943242683687},"funding":{"current_8h":0.0000125,"delta_5m":0},"open_interest":{"current":10387.09512,"delta_5m":41.771160000000236},"sentiment":{"score":0,"mentionsVsBaseline":0,"disagreement":0,"change2h":0.2},"regime_tags":["fast_move_up","overbought_m5"],"high_low":{"is_new_high_1h":true,"is_new_low_1h":false},"bbands":{"m1":{"upper":1.3338728907919355,"middle":1.32614,"lower":1.3184071092080647,"width":0.01166225404849485},"m5":{"upper":1.3347700000000005,"middle":1.3221100000000003,"lower":1.3094500000000002,"width":0.01915120527036331}},"assetIndex":25,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":2.2,"cost_bps":10.2,"cost_ok":true},"edge":{"expected_move_bps":179.2,"edge_bps":169,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":true,"is_new_low_1h":false},"bb_width_m5":0.01915120527036331},"triggers":{"direction_m15":1,"direction_h1":1,"trend_aligned":true,"momentum_ok_long":true,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":253369.24543,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":6.52943242683687,"vol_ratio_5m_vs_1h":1.6095171237009496}}},"DOGE-PERP":{"symbol":"DOGE-PERP","price":0.13509,"spread_bps":0.7400007400014801,"orderbook":{"book_pressure":-0.09,"bid_liquidity_usd":1289043.3824200002,"ask_liquidity_usd":1538753.9175000002,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.003498064900267923,"m15":0.008074766355140168,"h1":0.010946989577866214},"realized_vol":{"m1":0.0020042988324744755,"m5":0.0018581418675645074,"m15":0.001342709944431215,"h1":0.0013058971813291172,"h4":0.0011229044714314218},"volume_zscores":{"v1m_vs_1h":0.15008846653038313,"v5m_vs_1h":3.2544559264767448,"v15m_vs_1h":2.2876119669842163},"atr_pct":{"m5":0.001440967991438955,"h1":0},"vol_zscores":{"vol_5m_vs_1h":1.5348060024408188,"ret_5m_vs_1h":2.6786679305852084},"funding":{"current_8h":0.0000081627,"delta_5m":-0.0000032398999999999993},"open_interest":{"current":116779.63122,"delta_5m":106.31137999999919},"sentiment":{"score":0,"mentionsVsBaseline":0,"disagreement":0,"change2h":0.2},"regime_tags":["fast_move_up","overbought_m5"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":0.13509532059291984,"middle":0.13413600000000003,"lower":0.13317667940708022,"width":0.0143037006160881},"m5":{"upper":0.13465584228902008,"middle":0.13357800000000003,"lower":0.13250015771097998,"width":0.016138021066643575}},"assetIndex":173,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":5.2,"cost_ok":true},"edge":{"expected_move_bps":109.5,"edge_bps":104.2,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.016138021066643575},"triggers":{"direction_m15":1,"direction_h1":1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":true,"breakout_ok":false},"liquidity":{"min_depth_usd":1289043.3824200002,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":2.6786679305852084,"vol_ratio_5m_vs_1h":1.5348060024408188}}},"ETH-PERP":{"symbol":"ETH-PERP","price":2790.4,"spread_bps":0.3581726033772419,"orderbook":{"book_pressure":-0.19,"bid_liquidity_usd":7191402.849559999,"ask_liquidity_usd":10544595.499120003,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.0016879758655364955,"m15":0.007986989519334986,"h1":0.011716482878699842},"realized_vol":{"m1":0.001311943179419665,"m5":0.0011817854099238914,"m15":0.0013006454211202127,"h1":0.0011525039609525595,"h4":0.001021594133961112},"volume_zscores":{"v1m_vs_1h":-0.1638518047432156,"v5m_vs_1h":-0.17275045279761156,"v15m_vs_1h":-0.5147439297100108},"atr_pct":{"m5":0.0017722050635893883,"h1":0},"vol_zscores":{"vol_5m_vs_1h":1.1383415796118626,"ret_5m_vs_1h":1.4646161078191535},"funding":{"current_8h":0.0000125,"delta_5m":0},"open_interest":{"current":1093993.0624,"delta_5m":-6225.866900000023},"sentiment":{"score":-0.06666666666666665,"mentionsVsBaseline":0.6,"disagreement":0.5387480237611791,"change2h":-0.06666666666666665},"regime_tags":["overbought_m5"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":2793.486477701888,"middle":2776.1699999999996,"lower":2758.8535222981113,"width":0.012475084524282334},"m5":{"upper":2784.2685112365243,"middle":2757.2250000000004,"lower":2730.1814887634764,"width":0.019616470354449807}},"assetIndex":4,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":4.9,"cost_ok":true},"edge":{"expected_move_bps":117.2,"edge_bps":112.3,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.019616470354449807},"triggers":{"direction_m15":1,"direction_h1":1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":true},"liquidity":{"min_depth_usd":7191402.849559999,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":1.4646161078191535,"vol_ratio_5m_vs_1h":1.1383415796118626}}},"SOL-PERP":{"symbol":"SOL-PERP","price":125.6,"spread_bps":0.7958298515770088,"orderbook":{"book_pressure":-0.03,"bid_liquidity_usd":6477755.8769000005,"ask_liquidity_usd":6849244.013499999,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":0.0008765638696310418,"m15":0.006571565956082651,"h1":0.009484005786850928},"realized_vol":{"m1":0.000872104625952918,"m5":0.0011503550176544378,"m15":0.0012031417542173295,"h1":0.0010497812431038702,"h4":0.0009939054481132618},"volume_zscores":{"v1m_vs_1h":-0.383885425586566,"v5m_vs_1h":0.09365635809642085,"v15m_vs_1h":-0.5513814363491839},"atr_pct":{"m5":0.0015297998180163934,"h1":0},"vol_zscores":{"vol_5m_vs_1h":0.8307489123871,"ret_5m_vs_1h":0.8349966961110111},"funding":{"current_8h":0.0000125,"delta_5m":0},"open_interest":{"current":540406.56,"delta_5m":182.21520000009332},"sentiment":{"score":0.06666666666666667,"mentionsVsBaseline":0.6,"disagreement":0.1346870059402948,"change2h":0},"regime_tags":["overbought_m5"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":125.94226302785187,"middle":125.11949999999999,"lower":124.29673697214811,"width":0.01315163548210917},"m5":{"upper":125.49687749061965,"middle":124.697,"lower":123.89712250938035,"width":0.012829137679649947}},"assetIndex":0,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":5.3,"cost_ok":true},"edge":{"expected_move_bps":94.8,"edge_bps":89.5,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.012829137679649947},"triggers":{"direction_m15":1,"direction_h1":1,"trend_aligned":true,"momentum_ok_long":false,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":6477755.8769000005,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":0.8349966961110111,"vol_ratio_5m_vs_1h":0.8307489123871}}},"BTC-PERP":{"symbol":"BTC-PERP","price":85982,"spread_bps":1.2735682487857685,"orderbook":{"book_pressure":0.06,"bid_liquidity_usd":3203641.03835,"ask_liquidity_usd":2824072.85036,"depth_bands_usd":{"bid":{},"ask":{}}},"returns":{"m5":-0.00019770660340055358,"m15":0.007736581134464125,"h1":0.014778615862223638},"realized_vol":{"m1":0.0013308436875772442,"m5":0.001210856535605703,"m15":0.0012132777750641349,"h1":0.0010821703160278128,"h4":0},"volume_zscores":{"v1m_vs_1h":-0.3843226415712998,"v5m_vs_1h":-0.13042796902006182,"v15m_vs_1h":1.0762748905184054},"atr_pct":{"m5":0.0024668360521982176,"h1":0},"vol_zscores":{"vol_5m_vs_1h":1.2297913441778792,"ret_5m_vs_1h":-0.1826945356681474},"funding":{"current_8h":-0.000408257,"delta_5m":-0.0000026902999999999563},"open_interest":{"current":3272770.69808,"delta_5m":-800.1323199998587},"sentiment":{"score":-0.03333333333333334,"mentionsVsBaseline":1,"disagreement":0.09523809523809526,"change2h":-0.03333333333333334},"regime_tags":["bb_expansion"],"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bbands":{"m1":{"upper":86054.79756553614,"middle":85627.6,"lower":85200.40243446387,"width":0.009978034314546582},"m5":{"upper":85908.21873497369,"middle":85043.85,"lower":84179.48126502632,"width":0.020327601230980957}},"assetIndex":3,"derived":{"costs":{"fees_bps":3.5,"slippage_bps_est":1,"cost_bps":5.8,"cost_ok":true},"edge":{"expected_move_bps":147.8,"edge_bps":142,"edge_ok":true},"technicals":{"high_low":{"is_new_high_1h":false,"is_new_low_1h":false},"bb_width_m5":0.020327601230980957},"triggers":{"direction_m15":1,"direction_h1":1,"trend_aligned":true,"momentum_ok_long":true,"momentum_ok_short":false,"mr_ok_long":false,"mr_ok_short":false,"breakout_ok":false},"liquidity":{"min_depth_usd":2824072.85036,"depth_ok":true,"tradeable":true},"normalized":{"ret_sigma_5m_vs_1h":-0.1826945356681474,"vol_ratio_5m_vs_1h":1.2297913441778792}}}},"constraints":{"max_position_pct_equity_per_symbol":0.5,"max_total_exposure_pct_equity":3,"min_trade_notional_usd":1,"kill_switch":false,"no_flip_same_tick":false,"max_new_positions_per_cycle":4,"daily_loss_kill_switch_fraction":0.2},"allowed_actions":["OPEN_POSITION","INCREASE_POSITION","REDUCE_POSITION","CLOSE_POSITION","HOLD_POSITION"],"meta":{"note":"Generated by SnapshotBuilder with Screener","fallback_markets":[],"missing_markets":[],"duplicate_markets":[]},"global_regime":{"current":"RISK_ON","score":0.7142857142857143,"reason":"High volatility + Positive breadth"}}
+
+CURRENT POSITIONS (JSON):
+[
+  {
+    "symbol": "BTC-PERP",
+    "side": "long",
+    "size_usd": 407.55738800000006,
+    "size_coin": 0.00476,
+    "fraction_of_equity": 0.45023217562465606,
+    "entry_price": 85621.3,
+    "unrealized_pnl": 1.75457,
+    "leverage": 20
+  },
+  {
+    "symbol": "ETH-PERP",
+    "side": "long",
+    "size_usd": 406.24163999999996,
+    "size_coin": 0.1467,
+    "fraction_of_equity": 0.44877865741579503,
+    "entry_price": 2769.2,
+    "unrealized_pnl": 3.2274,
+    "leverage": 20
+  }
+]
+
+Response:
+```json
+{
+  "decisions": [
+    {
+      "action": "HOLD_POSITION",
+      "symbol": "BTC-PERP",
+      "target_side": "long",
+      "target_size_fraction_of_equity": 0.45023217562465606,
+      "playbook": "Momentum",
+      "risk_plan": {
+        "stop_loss_pct": 0.025,
+        "take_profit_pct_primary": 0.045
+      },
+      "confidence": 0.68,
+      "reason_code": "momentum_aligned_hold",
+      "notes": "Trend aligned, positive book pressure, strong edge vs cost. Recent m5 retraction creates potential entry but holding current position.",
+      "audit": {
+        "cost_bps": 5.8,
+        "spread_bps": 1.27,
+        "expected_move_bps": 147.8,
+        "edge_bps": 142.0,
+        "book_pressure": 0.06,
+        "vol_ratio_5m_vs_1h": 1.23,
+        "ret_sigma_5m_vs_1h": -0.18,
+        "min_depth_usd": 2824072.85,
+        "depth_0_25pct_bid_usd": 3203641.04,
+        "depth_0_25pct_ask_usd": 2824072.85,
+        "volume_zscore_1m": -0.38,
+        "oi_delta_5m": -800.13,
+        "funding_delta_5m": -0.00000269,
+        "atr_pct_h1": 0.0
+      }
+    },
+    {
+      "action": "REDUCE_POSITION",
+      "symbol": "ETH-PERP",
+      "target_side": "long",
+      "target_size_fraction_of_equity": 0.25,
+      "playbook": "Risk Management",
+      "risk_plan": {
+        "stop_loss_pct": 0.018,
+        "take_profit_pct_primary": 0.03
+      },
+      "confidence": 0.75,
+      "reason_code": "weak_book_pressure_reduction",
+      "notes": "Strong negative book pressure (-0.19), negative OI delta, and weak volume zscores. Reduce exposure despite positive trend alignment.",
+      "audit": {
+        "cost_bps": 4.9,
+        "spread_bps": 0.36,
+        "expected_move_bps": 117.2,
+        "edge_bps": 112.3,
+        "book_pressure": -0.19,
+        "vol_ratio_5m_vs_1h": 1.14,
+        "ret_sigma_5m_vs_1h": 1.46,
+        "min_depth_usd": 7191402.85,
+        "depth_0_25pct_bid_usd": 7191402.85,
+        "depth_0_25pct_ask_usd": 10544595.5,
+        "volume_zscore_1m": -0.16,
+        "oi_delta_5m": -6225.87,
+        "funding_delta_5m": 0.0,
+        "atr_pct_h1": 0.0
+      }
+    },
+    {
+      "action": "OPEN_POSITION",
+      "symbol": "SUI-PERP",
+      "target_side": "long",
+      "target_size_fraction_of_equity": 0.35,
+      "playbook": "Momentum",
+      "risk_plan": {
+        "stop_loss_pct": 0.02,
+        "take_profit_pct_primary": 0.06
+      },
+      "confidence": 0.72,
+      "reason_code": "extreme_momentum_breakout",
+      "notes": "Extreme ret_sigma (6.53), new 1h high, massive volume zscores, positive book pressure. High edge (169bps) justifies higher spread cost.",
+      "audit": {
+        "cost_bps": 10.2,
+        "spread_bps": 4.47,
+        "expected_move_bps": 179.2,
+        "edge_bps": 169.0,
+        "book_pressure": 0.09,
+        "vol_ratio_5m_vs_1h": 1.61,
+        "ret_sigma_5m_vs_1h": 6.53,
+        "min_depth_usd": 253369.25,
+        "depth_0_25pct_bid_usd": 306547.55,
+        "depth_0_25pct_ask_usd": 253369.25,
+        "volume_zscore_1m": 4.31,
+        "oi_delta_5m": 41.77,
+        "funding_delta_5m": 0.0,
+        "atr_pct_h1": 0.0
+      }
+    }
+  ]
+}
+```
+-----------------------------------
