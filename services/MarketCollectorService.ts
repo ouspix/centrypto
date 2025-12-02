@@ -5,6 +5,8 @@ import { HyperliquidWS } from "@/lib/hyperliquid-ws";
 export class MarketCollectorService {
     // Backfill 48 hours of history on startup
     private readonly MAX_LOOKBACK_MS = 48 * 60 * 60 * 1000;
+    // Space out backfill API calls to avoid HL burst limits (≈1.25 rps by default)
+    private readonly BACKFILL_REQUEST_SPACING_MS = 800;
 
     /**
      * Collects a snapshot of the entire market (ticks) and saves it to the DB.
@@ -150,105 +152,105 @@ export class MarketCollectorService {
         }
 
         const { universe } = metaAndCtxs;
-        // Process sequentially to avoid SQLite database locking/timeouts
-        // SQLite handles one writer at a time. Parallel writes cause contention.
-        // We can try a small batch size to speed things up without overwhelming the DB.
-        const CHUNK_SIZE = 5;
-
+        // Process strictly sequentially to avoid API burst 429s and SQLite writer contention
         let processedCount = 0;
-        for (let i = 0; i < universe.length; i += CHUNK_SIZE) {
-            const batch = universe.slice(i, i + CHUNK_SIZE);
+        for (const asset of universe) {
+            const symbol = asset.name;
+            let didFetch = false;
+            try {
+                // Smart Check: Do we need to backfill?
+                const latestCandle = await db.marketCandle.findFirst({
+                    where: { symbol: asset.name, timeframe: "1m" },
+                    orderBy: { openTime: 'desc' }
+                });
 
-            await Promise.all(batch.map(async (asset) => {
-                try {
-                    const symbol = asset.name;
+                const now = Date.now();
+                let startTime = now - this.MAX_LOOKBACK_MS;
 
-                    // Smart Check: Do we need to backfill?
-                    const latestCandle = await db.marketCandle.findFirst({
-                        where: { symbol: asset.name, timeframe: "1m" },
-                        orderBy: { openTime: 'desc' }
+                if (latestCandle && !force) {
+                    const candleCount = await db.marketCandle.count({
+                        where: {
+                            symbol: asset.name,
+                            timeframe: "1m",
+                            openTime: { gte: new Date(now - this.MAX_LOOKBACK_MS) }
+                        }
                     });
 
-                    const now = Date.now();
-                    let startTime = now - this.MAX_LOOKBACK_MS;
+                    const expectedCount = (this.MAX_LOOKBACK_MS / 60000);
+                    const missingDataThreshold = expectedCount * 0.95;
 
-                    if (latestCandle && !force) {
-                        const candleCount = await db.marketCandle.count({
-                            where: {
-                                symbol: asset.name,
-                                timeframe: "1m",
-                                openTime: { gte: new Date(now - this.MAX_LOOKBACK_MS) }
-                            }
-                        });
-
-                        const expectedCount = (this.MAX_LOOKBACK_MS / 60000);
-                        const missingDataThreshold = expectedCount * 0.95;
-
-                        if (candleCount >= missingDataThreshold) {
-                            startTime = Math.max(startTime, latestCandle.openTime.getTime() + 60000);
-                            if (now - startTime < 2 * 60000) {
-                                // console.log(`[Backfill] ${symbol} is up-to-date or within 2 minutes. Skipping.`);
-                                return;
-                            }
-                        } else {
-                            if (candleCount < missingDataThreshold) {
-                                // console.log(`[Backfill] Detected gap for ${symbol}`);
-                            }
+                    if (candleCount >= missingDataThreshold) {
+                        startTime = Math.max(startTime, latestCandle.openTime.getTime() + 60000);
+                        if (now - startTime < 2 * 60000) {
+                            // Up-to-date within 2 minutes; skip
+                            continue;
                         }
                     }
+                }
 
-                    // 3. Fetch History
-                    const candles = await getOHLCV(symbol, "1m", isTestnet, startTime);
+                // 3. Fetch History
+                didFetch = true;
+                const candles = await getOHLCV(symbol, "1m", isTestnet, startTime);
 
-                    if (candles && candles.length > 0) {
-                        // Split into smaller chunks to avoid "Transaction too large" or timeouts
-                        const UPSERT_BATCH_SIZE = 500;
-                        for (let j = 0; j < candles.length; j += UPSERT_BATCH_SIZE) {
-                            const candleBatch = candles.slice(j, j + UPSERT_BATCH_SIZE);
+                if (candles && candles.length > 0) {
+                    // Split into smaller chunks to avoid "Transaction too large" or timeouts
+                    const UPSERT_BATCH_SIZE = 500;
+                    for (let j = 0; j < candles.length; j += UPSERT_BATCH_SIZE) {
+                        const candleBatch = candles.slice(j, j + UPSERT_BATCH_SIZE);
 
-                            await db.$transaction(
-                                candleBatch.map((c: any) =>
-                                    db.marketCandle.upsert({
-                                        where: {
-                                            symbol_timeframe_openTime: {
-                                                symbol,
-                                                timeframe: "1m",
-                                                openTime: new Date(c.t)
-                                            }
-                                        },
-                                        update: {
-                                            high: parseFloat(c.h),
-                                            low: parseFloat(c.l),
-                                            close: parseFloat(c.c),
-                                            volume: parseFloat(c.v)
-                                        },
-                                        create: {
+                        await db.$transaction(
+                            candleBatch.map((c: any) =>
+                                db.marketCandle.upsert({
+                                    where: {
+                                        symbol_timeframe_openTime: {
                                             symbol,
                                             timeframe: "1m",
-                                            openTime: new Date(c.t),
-                                            open: parseFloat(c.o),
-                                            high: parseFloat(c.h),
-                                            low: parseFloat(c.l),
-                                            close: parseFloat(c.c),
-                                            volume: parseFloat(c.v)
+                                            openTime: new Date(c.t)
                                         }
-                                    })
-                                )
-                            );
-                        }
-                        console.log(`[Backfill] Inserted ${candles.length} candles for ${symbol}`);
+                                    },
+                                    update: {
+                                        high: parseFloat(c.h),
+                                        low: parseFloat(c.l),
+                                        close: parseFloat(c.c),
+                                        volume: parseFloat(c.v)
+                                    },
+                                    create: {
+                                        symbol,
+                                        timeframe: "1m",
+                                        openTime: new Date(c.t),
+                                        open: parseFloat(c.o),
+                                        high: parseFloat(c.h),
+                                        low: parseFloat(c.l),
+                                        close: parseFloat(c.c),
+                                        volume: parseFloat(c.v)
+                                    }
+                                })
+                            )
+                        );
                     }
-                } catch (error) {
-                    console.error(`[Backfill] Error processing ${asset.name}:`, error);
+                    console.log(`[Backfill] Inserted ${candles.length} candles for ${symbol}`);
                 }
-            }));
+            } catch (error) {
+                console.error(`[Backfill] Error processing ${symbol}:`, error);
+            } finally {
+                processedCount++;
+                if (processedCount % 5 === 0 || processedCount === universe.length) {
+                    console.log(`[Backfill] Processed ${processedCount}/${universe.length} symbols...`);
+                }
 
-            processedCount += batch.length;
-            console.log(`[Backfill] Processed ${processedCount}/${universe.length} symbols...`);
-
-            // Small delay to let the event loop breathe and other writers (like live stream) get a chance
-            await new Promise(resolve => setTimeout(resolve, 50));
+                // Space out successive API requests to stay below burst limits
+                if (didFetch && this.BACKFILL_REQUEST_SPACING_MS > 0) {
+                    await this.sleep(this.BACKFILL_REQUEST_SPACING_MS);
+                } else {
+                    // Still yield so other tasks (e.g., WS flush) can run
+                    await this.sleep(25);
+                }
+            }
         }
         console.log(`[MarketCollector] Backfill complete for ${isTestnet ? 'Testnet' : 'Mainnet'}.`);
+    }
+
+    private sleep(ms: number) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 }

@@ -1,3 +1,6 @@
+import { AgentConfig } from "@/lib/agent-config";
+import { ScreenerConfig } from "@/lib/screener-config";
+
 export type Position = {
     symbol: string;
     side: "long" | "short";
@@ -19,6 +22,9 @@ export type DerivedPortfolio = {
 export type AccountState = {
     equity_usd: number;
     daily_realized_pnl: number;
+    daily_realized_pnl_usd?: number;
+    daily_unrealized_pnl_usd?: number;
+    daily_total_pnl_usd?: number;
     max_daily_loss: number;
     current_positions: Position[];
     derived_portfolio: DerivedPortfolio;
@@ -36,6 +42,9 @@ export type MarketEntry = {
     price: number;
     spread_bps: number;
     orderbook: {
+        best_bid?: number;
+        best_ask?: number;
+        mid?: number;
         book_pressure: number;
         bid_liquidity_usd: number;
         ask_liquidity_usd: number;
@@ -133,6 +142,7 @@ export type StateSnapshot = {
     account: AccountState;
     markets: Record<string, MarketEntry>;
     constraints: {
+        max_position_pct_equity?: number;
         max_position_pct_equity_per_symbol: number;
         max_total_exposure_pct_equity: number;
         min_trade_notional_usd: number;
@@ -147,6 +157,10 @@ export type StateSnapshot = {
         fallback_markets?: string[];
         missing_markets?: string[];
         duplicate_markets?: string[];
+    };
+    presets?: {
+        screening: ScreenerConfig;
+        agent: AgentConfig;
     };
     global_regime: GlobalRegime;
 };

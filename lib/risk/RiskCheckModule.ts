@@ -51,8 +51,9 @@ export class RiskCheckModule {
         // daily_realized_pnl is negative when losing
         // If daily_realized_pnl < -(equity * fraction), kill it.
         const maxDailyLossAmount = snapshot.account.equity_usd * snapshot.constraints.daily_loss_kill_switch_fraction;
-        if (snapshot.account.daily_realized_pnl <= -maxDailyLossAmount) {
-            return { approved: false, reason: `Kill Switch Active: Max Daily Loss Exceeded (${snapshot.account.daily_realized_pnl.toFixed(2)} < -${maxDailyLossAmount.toFixed(2)})` };
+        const dailyTotal = snapshot.account.daily_total_pnl_usd ?? snapshot.account.daily_realized_pnl ?? 0;
+        if (dailyTotal <= -maxDailyLossAmount) {
+            return { approved: false, reason: `Kill Switch Active: Max Daily Loss Exceeded (${dailyTotal.toFixed(2)} < -${maxDailyLossAmount.toFixed(2)})` };
         }
 
         // 2. Validate Action Enum

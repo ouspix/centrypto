@@ -1,4 +1,5 @@
 import { getOHLCV, getL2Book } from "@/lib/hyperliquid";
+import { DEFAULT_SCREENER_CONFIG } from "@/lib/screener-config";
 
 import { marketDbMain, marketDbTest } from "@/lib/market-db";
 
@@ -56,6 +57,9 @@ export type MarketMetrics = {
 
 export type OrderBookMetrics = {
     spread_bps: number;
+    best_bid?: number;
+    best_ask?: number;
+    mid?: number;
     depth_usd: {
         bid_1pct: number;
         ask_1pct: number;
@@ -387,10 +391,18 @@ export class MarketAnalysisService {
         return metrics;
     }
 
-    public async getOrderBookMetrics(symbol: string, isTestnet: boolean, allowFetch: boolean = false): Promise<OrderBookMetrics> {
+    public async getOrderBookMetrics(
+        symbol: string,
+        isTestnet: boolean,
+        allowFetch: boolean = false,
+        depthBandsPct: string[] = DEFAULT_SCREENER_CONFIG.depthBandsPct
+    ): Promise<OrderBookMetrics> {
         if (!allowFetch) {
             return {
                 spread_bps: 0,
+                best_bid: 0,
+                best_ask: 0,
+                mid: 0,
                 depth_usd: { bid_1pct: 0, ask_1pct: 0 },
                 imbalance: 1,
                 book_pressure: 0,
@@ -403,6 +415,9 @@ export class MarketAnalysisService {
 
         const metrics: OrderBookMetrics = {
             spread_bps: 0,
+            best_bid: 0,
+            best_ask: 0,
+            mid: 0,
             depth_usd: { bid_1pct: 0, ask_1pct: 0 },
             imbalance: 1,
             book_pressure: 0,
@@ -419,16 +434,16 @@ export class MarketAnalysisService {
             const bestBid = parseFloat(bids[0].px);
             const bestAsk = parseFloat(asks[0].px);
             const midPrice = (bestBid + bestAsk) / 2;
+            metrics.best_bid = bestBid;
+            metrics.best_ask = bestAsk;
+            metrics.mid = midPrice;
 
             // Spread
             const spread = bestAsk - bestBid;
             metrics.spread_bps = (spread / midPrice) * 10000;
 
-            const depthBands = [0.001, 0.0025, 0.005, 0.01]; // 0.1%, 0.25%, 0.5%, 1%
-            const depthBandKey = (band: number) => {
-                const pct = band * 100;
-                return pct % 1 === 0 ? pct.toFixed(0) : pct.toFixed(2).replace(/0+$/, "").replace(/\.$/, "");
-            };
+            const depthBandStrings = depthBandsPct?.length ? depthBandsPct : DEFAULT_SCREENER_CONFIG.depthBandsPct;
+            const depthBands = depthBandStrings.map(b => parseFloat(b) / 100);
 
             const calculateDepth = (levels: any[], band: number) => {
                 let depth = 0;
@@ -448,15 +463,17 @@ export class MarketAnalysisService {
             const depthBandsBid: Record<string, number> = {};
             const depthBandsAsk: Record<string, number> = {};
 
-            for (const band of depthBands) {
-                const key = depthBandKey(band);
+            depthBands.forEach((band, idx) => {
+                const key = depthBandStrings[idx] ?? (band * 100).toFixed(2);
                 depthBandsBid[key] = calculateDepth(bids, band);
                 depthBandsAsk[key] = calculateDepth(asks, band);
-            }
+            });
+
+            const onePctKey = depthBandStrings.find(k => parseFloat(k) >= 1) ?? depthBandStrings[depthBandStrings.length - 1];
 
             metrics.depth_bands_usd = { bid: depthBandsBid, ask: depthBandsAsk };
-            metrics.depth_usd.bid_1pct = depthBandsBid["1"] ?? 0;
-            metrics.depth_usd.ask_1pct = depthBandsAsk["1"] ?? 0;
+            metrics.depth_usd.bid_1pct = depthBandsBid[onePctKey] ?? 0;
+            metrics.depth_usd.ask_1pct = depthBandsAsk[onePctKey] ?? 0;
 
             // Imbalance
             if (metrics.depth_usd.ask_1pct > 0) {

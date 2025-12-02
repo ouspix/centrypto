@@ -13,6 +13,7 @@ export interface ScreenerConfig {
     // C. Universe control (hard-gates)
     minVolume24h: number;
     topN: number;
+    depthBandsPct: string[];
 
     // D. Quality scoring (ranking, NOT gating)
     quality_weights: {
@@ -41,6 +42,7 @@ export const DEFAULT_SCREENER_CONFIG: ScreenerConfig = {
 
     minVolume24h: 5_000_000,
     topN: 12,
+    depthBandsPct: ["0.10", "0.25", "0.50", "1.00"],
 
     quality_weights: {
         vol_score: 2.0,
@@ -66,6 +68,7 @@ export const SCREENER_PRESETS: Record<string, ScreenerConfig> = {
         minRealizedVol: 0.0008,
         minVolume24h: 5_000_000,
         topN: 12,
+        depthBandsPct: ["0.10", "0.25", "0.50", "1.00"],
         quality_weights: {
             vol_score: 2.0,
             move_score: 1.0,
@@ -83,6 +86,7 @@ export const SCREENER_PRESETS: Record<string, ScreenerConfig> = {
         minRealizedVol: 0.0005,
         minVolume24h: 2_000_000,
         topN: 20,
+        depthBandsPct: ["0.10", "0.25", "0.50", "1.00"],
         quality_weights: {
             vol_score: 1.5,
             move_score: 1.0,
@@ -100,6 +104,7 @@ export const SCREENER_PRESETS: Record<string, ScreenerConfig> = {
         minRealizedVol: 0.0003,
         minVolume24h: 500_000,
         topN: 30,
+        depthBandsPct: ["0.10", "0.25", "0.50", "1.00"],
         quality_weights: {
             vol_score: 1.0,
             move_score: 1.5,
@@ -117,6 +122,7 @@ export const SCREENER_PRESETS: Record<string, ScreenerConfig> = {
         minRealizedVol: 0.0001,
         minVolume24h: 0,
         topN: 25,
+        depthBandsPct: ["0.10", "0.25", "0.50", "1.00"],
         quality_weights: {
             vol_score: 0.1,
             move_score: 0.1,

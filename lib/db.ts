@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client';
 if (!process.env.DATABASE_URL) {
   // Provide a sane default for local/dev usage so API routes don't crash.
   // Use an absolute path to avoid Next.js working-directory surprises (.next/server).
-  const dbPath = path.join(process.cwd(), 'prisma', 'dev.db');
+  const dbPath = path.join(process.cwd(), 'prisma', 'backend.db');
   process.env.DATABASE_URL = `file:${dbPath}`;
   console.warn(`DATABASE_URL not set; defaulting to ${process.env.DATABASE_URL}`);
 }

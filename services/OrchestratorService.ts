@@ -176,8 +176,23 @@ export class OrchestratorService {
                 network_profiles: { ...DEFAULT_AGENT_CONFIG.network_profiles, ...configOverride?.network_profiles },
                 gates: { ...DEFAULT_AGENT_CONFIG.gates, ...configOverride?.gates },
                 risk: { ...DEFAULT_AGENT_CONFIG.risk, ...configOverride?.risk },
+                risk_plan_model: {
+                    ...DEFAULT_AGENT_CONFIG.risk_plan_model,
+                    ...configOverride?.risk_plan_model,
+                    vol_anchor_priority: configOverride?.risk_plan_model?.vol_anchor_priority ?? DEFAULT_AGENT_CONFIG.risk_plan_model.vol_anchor_priority,
+                    multipliers_by_playbook: {
+                        ...DEFAULT_AGENT_CONFIG.risk_plan_model.multipliers_by_playbook,
+                        ...configOverride?.risk_plan_model?.multipliers_by_playbook
+                    },
+                    regime_adjustments: {
+                        ...DEFAULT_AGENT_CONFIG.risk_plan_model.regime_adjustments,
+                        ...configOverride?.risk_plan_model?.regime_adjustments
+                    }
+                },
                 sentiment_policy: { ...DEFAULT_AGENT_CONFIG.sentiment_policy, ...configOverride?.sentiment_policy }
             };
+            config.risk.max_position_fraction = config.risk.max_position_fraction ?? config.risk.max_position_fraction_per_symbol;
+            config.risk.max_position_fraction_per_symbol = config.risk.max_position_fraction_per_symbol ?? config.risk.max_position_fraction;
 
             const screenerConfig: ScreenerConfig = {
                 ...DEFAULT_SCREENER_CONFIG,
@@ -246,6 +261,7 @@ export class OrchestratorService {
                     riskAssessments.push({ approved: true, reason: "Hold decision - no trade" });
                     continue;
                 }
+                this.clampDecisionRiskPlan(decision);
                 const riskAssessment = this.riskModule.assess(decision, snapshot, { newPositionsCount });
                 riskAssessments.push(riskAssessment);
 
@@ -312,8 +328,23 @@ export class OrchestratorService {
             network_profiles: { ...DEFAULT_AGENT_CONFIG.network_profiles, ...configOverride?.network_profiles },
             gates: { ...DEFAULT_AGENT_CONFIG.gates, ...configOverride?.gates },
             risk: { ...DEFAULT_AGENT_CONFIG.risk, ...configOverride?.risk },
+            risk_plan_model: {
+                ...DEFAULT_AGENT_CONFIG.risk_plan_model,
+                ...configOverride?.risk_plan_model,
+                vol_anchor_priority: configOverride?.risk_plan_model?.vol_anchor_priority ?? DEFAULT_AGENT_CONFIG.risk_plan_model.vol_anchor_priority,
+                multipliers_by_playbook: {
+                    ...DEFAULT_AGENT_CONFIG.risk_plan_model.multipliers_by_playbook,
+                    ...configOverride?.risk_plan_model?.multipliers_by_playbook
+                },
+                regime_adjustments: {
+                    ...DEFAULT_AGENT_CONFIG.risk_plan_model.regime_adjustments,
+                    ...configOverride?.risk_plan_model?.regime_adjustments
+                }
+            },
             sentiment_policy: { ...DEFAULT_AGENT_CONFIG.sentiment_policy, ...configOverride?.sentiment_policy }
         };
+        config.risk.max_position_fraction = config.risk.max_position_fraction ?? config.risk.max_position_fraction_per_symbol;
+        config.risk.max_position_fraction_per_symbol = config.risk.max_position_fraction_per_symbol ?? config.risk.max_position_fraction;
 
         const screenerConfig: ScreenerConfig = {
             ...DEFAULT_SCREENER_CONFIG,
@@ -396,6 +427,7 @@ export class OrchestratorService {
                     continue; // Skip no-ops
                 }
 
+                this.clampDecisionRiskPlan(decision);
                 // Risk Check
                 const riskAssessment = this.riskModule.assess(decision, snapshot, { newPositionsCount });
                 riskAssessments.push(riskAssessment);
@@ -514,7 +546,13 @@ export class OrchestratorService {
         const marketCount = Object.keys(snapshot.markets).length;
 
         const SYSTEM_PROMPT = TRADER_AGENT_SYSTEM_PROMPT;
-        const USER_PROMPT = `MARKET SNAPSHOT:
+        const USER_PROMPT = `CONFIG PRESETS:
+screening:
+${JSON.stringify(snapshot.presets?.screening ?? {}, null, 2)}
+agent:
+${JSON.stringify(snapshot.presets?.agent ?? {}, null, 2)}
+
+MARKET SNAPSHOT:
 ${JSON.stringify(snapshot)}
 
 CURRENT POSITIONS (JSON):
@@ -855,6 +893,24 @@ ${JSON.stringify(snapshot.account.current_positions, null, 2)}`;
             console.log("✅ Saved LLM interaction to DB");
         } catch (error) {
             console.error("❌ Failed to save LLM interaction:", error);
+        }
+    }
+
+    /**
+     * Clamp stop loss to the allowed bounds before sending to risk manager.
+     */
+    private clampDecisionRiskPlan(decision: TradeDecision) {
+        if (!decision.risk_plan) return;
+        const minSl = 0.005; // 0.5%
+        const maxSl = 0.05;  // 5%
+        const sl = decision.risk_plan.stop_loss_pct;
+        if (sl === undefined || sl === null) return;
+        const clamped = Math.min(maxSl, Math.max(minSl, Math.abs(sl)));
+        decision.risk_plan.stop_loss_pct = clamped;
+        const minRr = 1.5;
+        const tp = decision.risk_plan.take_profit_pct_primary;
+        if (tp === undefined || tp === null || tp < minRr * clamped) {
+            decision.risk_plan.take_profit_pct_primary = minRr * clamped;
         }
     }
 }

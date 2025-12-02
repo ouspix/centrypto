@@ -49,6 +49,7 @@ export class ScreenerService {
         screenerConfig: ScreenerConfig = DEFAULT_SCREENER_CONFIG
     ): Promise<ScreenedSymbol[]> {
         const screenerCfg = screenerConfig;
+        this.orderBookManager.setDepthBandsPct(screenerCfg.depthBandsPct);
 
         console.log(`🔍 Starting On-Demand Screening with topN=${screenerCfg.topN}`);
         const startTime = Date.now();
@@ -133,6 +134,9 @@ export class ScreenerService {
                     fundingDelta5m: fundingDelta5m,
                     metrics,
                     bookMetrics: { // Placeholder, filled in Layer 3
+                        best_bid: 0,
+                        best_ask: 0,
+                        mid: 0,
                         spread_bps: 0,
                         depth_usd: { bid_1pct: 0, ask_1pct: 0 },
                         imbalance: 0,

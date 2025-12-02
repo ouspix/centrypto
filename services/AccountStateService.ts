@@ -11,7 +11,10 @@ export class AccountStateService {
         const account: AccountState = {
             equity_usd: 10000.0,
             daily_realized_pnl: 0.0,
-            max_daily_loss: 500.0,
+            daily_realized_pnl_usd: 0.0,
+            daily_unrealized_pnl_usd: 0.0,
+            daily_total_pnl_usd: 0.0,
+            max_daily_loss: 0.0,
             current_positions: [],
             derived_portfolio: {
                 total_exposure_fraction: 0,
@@ -33,6 +36,9 @@ export class AccountStateService {
 
                 const equity = parseFloat(marginSummary.accountValue);
                 account.equity_usd = isNaN(equity) ? 0 : equity;
+                const realizedPnl = parseFloat((marginSummary as any)?.totalPnl24h || marginSummary?.totalPnl || 0);
+                account.daily_realized_pnl = isNaN(realizedPnl) ? 0 : realizedPnl;
+                account.daily_realized_pnl_usd = account.daily_realized_pnl;
 
                 account.current_positions = positions
                     .filter((p: any) => parseFloat(p.position.szi) !== 0)
@@ -67,6 +73,9 @@ export class AccountStateService {
             console.log("ℹ️ No user address provided, skipping account data fetch.");
         }
 
+        account.daily_unrealized_pnl_usd = account.current_positions.reduce((sum, p) => sum + (p.unrealized_pnl || 0), 0);
+        account.daily_total_pnl_usd = (account.daily_realized_pnl_usd || account.daily_realized_pnl || 0) + account.daily_unrealized_pnl_usd;
+        account.max_daily_loss = account.equity_usd * riskConfig.daily_loss_kill_switch_fraction;
         account.derived_portfolio = this.calculateDerivedPortfolio(account.current_positions, account.equity_usd, riskConfig);
 
         return { account, heldSymbols };

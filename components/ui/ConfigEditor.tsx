@@ -19,7 +19,7 @@ interface ConfigEditorProps {
 export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorProps) {
     const [config, setConfig] = useState<AgentConfig>(() => {
         // Deep merge initialConfig with defaults to ensure new fields (like triggers) exist
-        return {
+        const merged: AgentConfig = {
             ...DEFAULT_AGENT_CONFIG,
             ...initialConfig,
             triggers: {
@@ -33,8 +33,24 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
             regime: {
                 ...DEFAULT_AGENT_CONFIG.regime,
                 ...(initialConfig?.regime || {})
+            },
+            risk_plan_model: {
+                ...DEFAULT_AGENT_CONFIG.risk_plan_model,
+                ...(initialConfig?.risk_plan_model || {}),
+                vol_anchor_priority: initialConfig?.risk_plan_model?.vol_anchor_priority ?? DEFAULT_AGENT_CONFIG.risk_plan_model.vol_anchor_priority,
+                multipliers_by_playbook: {
+                    ...DEFAULT_AGENT_CONFIG.risk_plan_model.multipliers_by_playbook,
+                    ...(initialConfig?.risk_plan_model?.multipliers_by_playbook || {})
+                },
+                regime_adjustments: {
+                    ...DEFAULT_AGENT_CONFIG.risk_plan_model.regime_adjustments,
+                    ...(initialConfig?.risk_plan_model?.regime_adjustments || {})
+                }
             }
         };
+        merged.risk.max_position_fraction = merged.risk.max_position_fraction ?? merged.risk.max_position_fraction_per_symbol;
+        merged.risk.max_position_fraction_per_symbol = merged.risk.max_position_fraction_per_symbol ?? merged.risk.max_position_fraction;
+        return merged;
     });
     const [preset, setPreset] = useState<string>('default');
 
@@ -79,6 +95,19 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
             risk: { ...DEFAULT_AGENT_CONFIG.risk, ...(presetCfg.risk || {}) },
             triggers: { ...DEFAULT_AGENT_CONFIG.triggers, ...(presetCfg.triggers || {}) },
             regime: { ...DEFAULT_AGENT_CONFIG.regime, ...(presetCfg.regime || {}) },
+            risk_plan_model: {
+                ...DEFAULT_AGENT_CONFIG.risk_plan_model,
+                ...(presetCfg as any).risk_plan_model,
+                vol_anchor_priority: (presetCfg as any).risk_plan_model?.vol_anchor_priority ?? DEFAULT_AGENT_CONFIG.risk_plan_model.vol_anchor_priority,
+                multipliers_by_playbook: {
+                    ...DEFAULT_AGENT_CONFIG.risk_plan_model.multipliers_by_playbook,
+                    ...(presetCfg as any).risk_plan_model?.multipliers_by_playbook
+                },
+                regime_adjustments: {
+                    ...DEFAULT_AGENT_CONFIG.risk_plan_model.regime_adjustments,
+                    ...(presetCfg as any).risk_plan_model?.regime_adjustments
+                }
+            },
             network_profiles: { ...DEFAULT_AGENT_CONFIG.network_profiles, ...(presetCfg as any).network_profiles }
         }));
         setPreset(key);
@@ -154,7 +183,11 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
                                     type="number"
                                     step="0.01"
                                     value={config.risk.max_position_fraction_per_symbol}
-                                    onChange={e => updateConfig('risk.max_position_fraction_per_symbol', Number(e.target.value))}
+                                    onChange={e => {
+                                        const val = Number(e.target.value);
+                                        updateConfig('risk.max_position_fraction_per_symbol', val);
+                                        updateConfig('risk.max_position_fraction', val);
+                                    }}
                                 />
                             </div>
                             <div className="space-y-1.5">

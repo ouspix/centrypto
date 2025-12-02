@@ -8,6 +8,8 @@ export class OrderBookManager {
     private ws: HyperliquidWS;
     private books: Map<string, WsBook> = new Map();
     private activeSymbols: Set<string> = new Set();
+    private depthBandsPct: string[] = ["0.10", "0.25", "0.50", "1.00"];
+    private depthBandFractions: number[] = [0.001, 0.0025, 0.005, 0.01];
 
     constructor(ws: HyperliquidWS) {
         this.ws = ws;
@@ -48,6 +50,20 @@ export class OrderBookManager {
         this.books.set(book.coin, book);
     }
 
+    public setDepthBandsPct(bands: string[]) {
+        if (!bands || bands.length === 0) return;
+
+        const sanitized = bands
+            .map(b => parseFloat(b))
+            .filter(v => !isNaN(v) && v > 0)
+            .sort((a, b) => a - b);
+
+        if (sanitized.length === 0) return;
+
+        this.depthBandsPct = sanitized.map(v => v.toFixed(2));
+        this.depthBandFractions = sanitized.map(v => v / 100);
+    }
+
     public getMetrics(symbol: string): OrderBookMetrics {
         const book = this.books.get(symbol);
         if (!book) {
@@ -57,7 +73,7 @@ export class OrderBookManager {
         return this.calculateMetrics(book);
     }
 
-    private calculateMetrics(book: WsBook, pct: number = 0.01): OrderBookMetrics {
+    private calculateMetrics(book: WsBook): OrderBookMetrics {
         const bids = book.levels[0];
         const asks = book.levels[1];
 
@@ -70,26 +86,36 @@ export class OrderBookManager {
         // Spread BPS
         const spreadBps = ((bestAsk - bestBid) / mid) * 10000;
 
-        // Depth & Imbalance
-        const bidLimit = mid * (1 - pct);
-        const askLimit = mid * (1 + pct);
+        const depthBandsBid: Record<string, number> = {};
+        const depthBandsAsk: Record<string, number> = {};
 
-        let bidUsd = 0;
-        let askUsd = 0;
+        const calculateDepth = (levels: WsLevel[], bandFraction: number) => {
+            let depth = 0;
+            const lower = mid * (1 - bandFraction);
+            const upper = mid * (1 + bandFraction);
 
-        for (const l of bids) {
-            const px = parseFloat(l.px);
-            const sz = parseFloat(l.sz);
-            if (px < bidLimit) break;
-            bidUsd += px * sz;
-        }
+            const iterator = levels === bids ? bids : asks;
+            for (const l of iterator) {
+                const px = parseFloat(l.px);
+                const sz = parseFloat(l.sz);
+                if (levels === bids && px < lower) break;
+                if (levels === asks && px > upper) break;
+                depth += px * sz;
+            }
+            return depth;
+        };
 
-        for (const l of asks) {
-            const px = parseFloat(l.px);
-            const sz = parseFloat(l.sz);
-            if (px > askLimit) break;
-            askUsd += px * sz;
-        }
+        this.depthBandsPct.forEach((bandPct, idx) => {
+            const fraction = this.depthBandFractions[idx] ?? 0;
+            const bidDepth = calculateDepth(bids, fraction);
+            const askDepth = calculateDepth(asks, fraction);
+            depthBandsBid[bandPct] = bidDepth;
+            depthBandsAsk[bandPct] = askDepth;
+        });
+
+        const onePctKey = this.depthBandsPct.find(k => parseFloat(k) >= 1) ?? this.depthBandsPct[this.depthBandsPct.length - 1];
+        const bidUsd = depthBandsBid[onePctKey] ?? 0;
+        const askUsd = depthBandsAsk[onePctKey] ?? 0;
 
         const denom = bidUsd + askUsd;
         const imbalance = denom > 0 ? (bidUsd - askUsd) / denom : 0;
@@ -101,6 +127,9 @@ export class OrderBookManager {
 
         return {
             spread_bps: spreadBps,
+            best_bid: bestBid,
+            best_ask: bestAsk,
+            mid,
             depth_usd: {
                 bid_1pct: bidUsd,
                 ask_1pct: askUsd
@@ -110,13 +139,16 @@ export class OrderBookManager {
             // If bid > ask, positive (buy pressure). If ask > bid, negative (sell pressure).
             book_pressure: bookPressure,
             cost_bps: costBps,
-            depth_bands_usd: { bid: {}, ask: {} }
+            depth_bands_usd: { bid: depthBandsBid, ask: depthBandsAsk }
         };
     }
 
     private getEmptyMetrics(): OrderBookMetrics {
         return {
             spread_bps: 0,
+            best_bid: 0,
+            best_ask: 0,
+            mid: 0,
             depth_usd: { bid_1pct: 0, ask_1pct: 0 },
             imbalance: 0,
             book_pressure: 0,

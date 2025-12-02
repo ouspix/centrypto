@@ -63,7 +63,8 @@ export class SnapshotBuilder {
             markets,
             assetCtxMap,
             assetIndexMap,
-            isTestnet
+            isTestnet,
+            screenerConfig.depthBandsPct
         );
 
         console.log(`📊 Total markets included in snapshot: ${Object.keys(markets).length}`);
@@ -77,6 +78,7 @@ export class SnapshotBuilder {
             account,
             markets,
             constraints: {
+                max_position_pct_equity: config.risk.max_position_fraction,
                 max_position_pct_equity_per_symbol: config.risk.max_position_fraction_per_symbol,
                 max_total_exposure_pct_equity: config.risk.max_total_exposure_fraction,
                 min_trade_notional_usd: config.risk.min_trade_notional_usd,
@@ -97,6 +99,10 @@ export class SnapshotBuilder {
                 fallback_markets: fallbackMarkets,
                 missing_markets: missingMarkets,
                 duplicate_markets: duplicateMarkets
+            },
+            presets: {
+                screening: screenerConfig,
+                agent: config
             },
             global_regime
         };

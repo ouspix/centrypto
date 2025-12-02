@@ -16,7 +16,8 @@ export class HeldPositionMarketResolver {
         markets: Record<string, MarketEntry>,
         assetCtxMap: Map<string, any>,
         assetIndexMap: Map<string, number>,
-        isTestnet: boolean
+        isTestnet: boolean,
+        depthBandsPct: string[]
     ): Promise<{ fallbackMarkets: string[]; missingMarkets: string[] }> {
         const fallbackMarkets: string[] = [];
         const missingMarkets: string[] = [];
@@ -35,7 +36,7 @@ export class HeldPositionMarketResolver {
             try {
                 const [metrics, bookMetrics, sentiment] = await Promise.all([
                     this.marketAnalysisService.getMetricsForSymbol(baseSymbol, isTestnet),
-                    this.marketAnalysisService.getOrderBookMetrics(baseSymbol, isTestnet),
+                    this.marketAnalysisService.getOrderBookMetrics(baseSymbol, isTestnet, false, depthBandsPct),
                     this.sentimentService.getSentimentForCoin(baseSymbol)
                 ]);
 
@@ -49,6 +50,9 @@ export class HeldPositionMarketResolver {
                     price,
                     spread_bps: bookMetrics.spread_bps,
                     orderbook: {
+                        best_bid: bookMetrics.best_bid || 0,
+                        best_ask: bookMetrics.best_ask || 0,
+                        mid: bookMetrics.mid || 0,
                         book_pressure: parseFloat(bookPressure.toFixed(2)),
                         bid_liquidity_usd: bid,
                         ask_liquidity_usd: ask,
@@ -88,6 +92,9 @@ export class HeldPositionMarketResolver {
                     price,
                     spread_bps: 0,
                     orderbook: {
+                        best_bid: 0,
+                        best_ask: 0,
+                        mid: 0,
                         book_pressure: 0,
                         bid_liquidity_usd: 0,
                         ask_liquidity_usd: 0,

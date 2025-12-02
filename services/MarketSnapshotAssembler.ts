@@ -28,6 +28,9 @@ export class MarketSnapshotAssembler {
                 price,
                 spread_bps: bookMetrics.spread_bps,
                 orderbook: {
+                    best_bid: bookMetrics.best_bid || 0,
+                    best_ask: bookMetrics.best_ask || 0,
+                    mid: bookMetrics.mid || 0,
                     book_pressure: parseFloat(bookPressure.toFixed(2)),
                     bid_liquidity_usd: bid,
                     ask_liquidity_usd: ask,

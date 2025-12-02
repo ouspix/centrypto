@@ -20,6 +20,7 @@ export interface AgentConfig {
     // A. Portfolio constraints (hard rules)
     risk: {
         max_positions: number;
+        max_position_fraction: number;
         max_position_fraction_per_symbol: number;
         max_total_exposure_fraction: number;
         min_trade_notional_usd: number;
@@ -35,7 +36,14 @@ export interface AgentConfig {
         };
     };
 
-    // B. Signal sensitivity (soft thresholds)
+    // B. Risk plan model (deterministic SL/TP computation)
+    risk_plan_model: {
+        vol_anchor_priority: string[];
+        multipliers_by_playbook: Record<string, { sl_mult: number; tp_mult: number }>;
+        regime_adjustments: Record<string, { sl_mult_factor: number; tp_mult_factor: number }>;
+    };
+
+    // C. Signal sensitivity (soft thresholds)
     triggers: {
         momentum: {
             book_pressure_min: number;
@@ -105,6 +113,7 @@ export const DEFAULT_AGENT_CONFIG: AgentConfig = {
     },
     risk: {
         max_positions: 3,
+        max_position_fraction: 0.10,
         max_position_fraction_per_symbol: 0.10,
         max_total_exposure_fraction: 0.50,
         min_trade_notional_usd: 50,
@@ -115,6 +124,21 @@ export const DEFAULT_AGENT_CONFIG: AgentConfig = {
             default: { stop_loss_pct: 0.02, rr_min: 1.5 },
             scalp: { stop_loss_pct: 0.015, rr_min: 1.5, time_stop_minutes: 15 },
             trend: { stop_loss_pct: 0.03, rr_min: 2.0 }
+        }
+    },
+    risk_plan_model: {
+        vol_anchor_priority: ["edge.expected_move_bps", "atr_pct.m5", "atr_pct.h1", "realized_vol.m5"],
+        multipliers_by_playbook: {
+            Momentum: { sl_mult: 1.2, tp_mult: 2.6 },
+            "Breakout/Squeeze": { sl_mult: 1.3, tp_mult: 2.8 },
+            "Mean Reversion": { sl_mult: 0.9, tp_mult: 1.8 },
+            "Liquidity Grab": { sl_mult: 1.0, tp_mult: 2.0 },
+            "Discretionary Edge": { sl_mult: 1.1, tp_mult: 2.2 }
+        },
+        regime_adjustments: {
+            CHOP: { sl_mult_factor: 1.0, tp_mult_factor: 0.85 },
+            RISK_ON: { sl_mult_factor: 1.0, tp_mult_factor: 1.1 },
+            RISK_OFF: { sl_mult_factor: 1.05, tp_mult_factor: 1.0 }
         }
     },
     triggers: {
@@ -150,6 +174,7 @@ export const AGENT_PRESETS: Record<string, Partial<AgentConfig>> = {
         risk: {
             ...DEFAULT_AGENT_CONFIG.risk,
             max_positions: 3,
+            max_position_fraction: 0.10,
             max_position_fraction_per_symbol: 0.10,
             max_total_exposure_fraction: 0.50,
             min_trade_notional_usd: 50,
@@ -167,6 +192,7 @@ export const AGENT_PRESETS: Record<string, Partial<AgentConfig>> = {
         risk: {
             ...DEFAULT_AGENT_CONFIG.risk,
             max_positions: 5,
+            max_position_fraction: 0.20,
             max_position_fraction_per_symbol: 0.20,
             max_total_exposure_fraction: 1.00,
             min_trade_notional_usd: 10,
@@ -184,6 +210,7 @@ export const AGENT_PRESETS: Record<string, Partial<AgentConfig>> = {
         risk: {
             ...DEFAULT_AGENT_CONFIG.risk,
             max_positions: 8,
+            max_position_fraction: 0.25,
             max_position_fraction_per_symbol: 0.25,
             max_total_exposure_fraction: 1.50,
             min_trade_notional_usd: 5,
@@ -201,6 +228,7 @@ export const AGENT_PRESETS: Record<string, Partial<AgentConfig>> = {
         risk: {
             ...DEFAULT_AGENT_CONFIG.risk,
             max_positions: 10,
+            max_position_fraction: 0.50,
             max_position_fraction_per_symbol: 0.50,
             max_total_exposure_fraction: 3.00,
             min_trade_notional_usd: 1,
