@@ -20,6 +20,7 @@ export async function getMeta(isTestnet: boolean): Promise<AssetMeta[]> {
         : "https://api.hyperliquid.xyz/info";
 
     try {
+        await waitForHyperliquidSlot();
         const res = await fetch(apiUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -111,6 +112,13 @@ export async function placeOrder(
 
     console.log(`📊 Original price: ${order.limitPx}, Rounded: ${roundedPrice}, String: "${priceStr}"`);
     console.log(`📊 Original size: ${order.sz}, Rounded: ${roundedSize}, String: "${sizeStr}"`);
+
+    // Enforce venue min notional after rounding to avoid exchange rejects
+    const notional = roundedPrice * roundedSize;
+    const minNotionalUsd = 10; // Hyperliquid venue minimum
+    if (notional < minNotionalUsd) {
+        throw new Error(`Order notional ${notional.toFixed(4)} is below venue minimum $${minNotionalUsd}. size=${sizeStr}, price=${priceStr}`);
+    }
 
     // Hyperliquid API requires p and s to be strings
     const orders: any[] = [
@@ -263,6 +271,7 @@ export async function getClearinghouseState(userAddress: string, isTestnet: bool
         : "https://api.hyperliquid.xyz/info";
 
     try {
+        await waitForHyperliquidSlot();
         const res = await fetch(apiUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -298,7 +307,7 @@ export async function getMetaAndAssetCtxs(isTestnet: boolean = false): Promise<M
 
     while (attempt < maxRetries) {
         try {
-            await limiter.wait(); // Wait for rate limiter
+            await waitForHyperliquidSlot(); // Wait for rate limiter
 
             const res = await fetch(apiUrl, {
                 method: "POST",
@@ -357,11 +366,17 @@ export async function getMetaAndAssetCtxs(isTestnet: boolean = false): Promise<M
 }
 
 // Rate Limiter to prevent 429s
+const HL_MIN_DELAY_MS = parseInt(process.env.HL_INFO_MIN_DELAY_MS || "900", 10);
+
 class RateLimiter {
     private queue: Array<() => void> = [];
     private processing = false;
     private lastRequestTime = 0;
-    private minDelay = 200; // 5 requests per second (very conservative)
+    private minDelay: number;
+
+    constructor(minDelay: number = HL_MIN_DELAY_MS) {
+        this.minDelay = minDelay;
+    }
 
     async wait(): Promise<void> {
         return new Promise((resolve) => {
@@ -393,7 +408,11 @@ class RateLimiter {
     }
 }
 
-const limiter = new RateLimiter();
+const hyperliquidLimiter = new RateLimiter();
+
+export async function waitForHyperliquidSlot(): Promise<void> {
+    await hyperliquidLimiter.wait();
+}
 
 export async function getOHLCV(coin: string, interval: string, isTestnet: boolean = false, startTime?: number) {
     const apiUrl = isTestnet
@@ -405,7 +424,7 @@ export async function getOHLCV(coin: string, interval: string, isTestnet: boolea
 
     while (true) {
         try {
-            await limiter.wait(); // Wait for rate limiter
+            await waitForHyperliquidSlot(); // Wait for rate limiter
 
             // Get candles for the last 24 hours (approx) to calculate returns
             // Hyperliquid candleSnapshot returns the last N candles
@@ -457,7 +476,7 @@ export async function getL2Book(coin: string, isTestnet: boolean = false) {
 
     while (attempt < maxRetries) {
         try {
-            await limiter.wait(); // Wait for rate limiter
+            await waitForHyperliquidSlot(); // Wait for rate limiter
 
             const res = await fetch(apiUrl, {
                 method: "POST",
@@ -497,7 +516,7 @@ export async function getUserFills(userAddress: string, isTestnet: boolean = fal
         : "https://api.hyperliquid.xyz/info";
 
     try {
-        await limiter.wait();
+        await waitForHyperliquidSlot();
 
         const res = await fetch(apiUrl, {
             method: "POST",

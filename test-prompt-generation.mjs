@@ -11,6 +11,11 @@
 
 import fetch from 'node-fetch';
 
+// Toggle network (default mainnet)
+const IS_TESTNET = false;
+const HL_API = IS_TESTNET ? 'https://api.hyperliquid-testnet.xyz/info' : 'https://api.hyperliquid.xyz/info';
+const HL_LABEL = IS_TESTNET ? 'Hyperliquid Testnet' : 'Hyperliquid Mainnet';
+
 // Colors for console output
 const colors = {
     reset: '\x1b[0m',
@@ -36,7 +41,7 @@ async function testHyperliquidMeta() {
     section('TEST 1: Hyperliquid Meta & Asset Contexts');
 
     try {
-        const response = await fetch('https://api.hyperliquid-testnet.xyz/info', {
+        const response = await fetch(HL_API, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ type: 'metaAndAssetCtxs' })
@@ -68,7 +73,7 @@ async function testHyperliquidMeta() {
             throw new Error('Unexpected response format');
         }
 
-        log(colors.green, '✅', `Fetched ${universe.length} assets from Hyperliquid Testnet`);
+        log(colors.green, '✅', `Fetched ${universe.length} assets from ${HL_LABEL}`);
 
         // Show first few assets
         const majorAssets = ['BTC', 'ETH', 'SOL', 'ARB'];
@@ -92,7 +97,7 @@ async function testOHLCV() {
     section('TEST 2: OHLCV Data Fetching');
 
     try {
-        const response = await fetch('https://api.hyperliquid-testnet.xyz/info', {
+        const response = await fetch(HL_API, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -173,7 +178,7 @@ async function testAccountState(address) {
     }
 
     try {
-        const response = await fetch('https://api.hyperliquid-testnet.xyz/info', {
+        const response = await fetch(HL_API, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -213,7 +218,8 @@ async function testSnapshotGeneration(address) {
             body: JSON.stringify({
                 userAddress: address || null,
                 autoTrading: false,
-                model: 'llama3.1:8b'
+                model: 'deepseek/deepseek-v3.2-exp',
+                isTestnet: IS_TESTNET
             })
         });
 
@@ -233,14 +239,16 @@ async function testSnapshotGeneration(address) {
 
         // Show details for first market
         if (Object.keys(data.snapshot.markets).length > 0) {
-            const firstMarket = Object.values(data.snapshot.markets)[0];
-            console.log(`\n  First Market (${Object.keys(data.snapshot.markets)[0]}) Details:`);
+            const [firstKey, firstMarket] = Object.entries(data.snapshot.markets)[0];
+            console.log(`\n  First Market (${firstKey}) Details:`);
             console.log(`    Price: $${firstMarket.price}`);
             console.log(`    Spread: ${firstMarket.spread_bps.toFixed(2)} bps`);
-            console.log(`    Depth (1%): Bid=$${(firstMarket.depth_usd.bid_1pct / 1000).toFixed(0)}k, Ask=$${(firstMarket.depth_usd.ask_1pct / 1000).toFixed(0)}k`);
-            console.log(`    Returns: m1=${(firstMarket.returns.m1 * 100).toFixed(4)}%, m5=${(firstMarket.returns.m5 * 100).toFixed(4)}%`);
+            const bidDepth = firstMarket.orderbook?.bid_liquidity_usd ?? 0;
+            const askDepth = firstMarket.orderbook?.ask_liquidity_usd ?? 0;
+            console.log(`    Depth (book): Bid=$${(bidDepth / 1000).toFixed(0)}k, Ask=$${(askDepth / 1000).toFixed(0)}k`);
+            console.log(`    Returns: m5=${(firstMarket.returns.m5 * 100).toFixed(4)}%, m15=${(firstMarket.returns.m15 * 100).toFixed(4)}%, h1=${(firstMarket.returns.h1 * 100).toFixed(4)}%`);
             console.log(`    Vol Z-Scores: Vol=${firstMarket.vol_zscores.vol_5m_vs_1h.toFixed(2)}, Ret=${firstMarket.vol_zscores.ret_5m_vs_1h.toFixed(2)}`);
-            console.log(`    Regime Tags: ${firstMarket.regime_tags.join(', ') || 'none'}`);
+            console.log(`    Regime Tags: ${firstMarket.regime_tags?.join(', ') || 'none'}`);
         }
 
         console.log(`  Constraints: Max Leverage=${data.snapshot.constraints.max_leverage}x`);

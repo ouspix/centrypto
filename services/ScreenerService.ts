@@ -30,24 +30,29 @@ export class ScreenerService {
     private sentimentService: SentimentService;
     private orderBookManager: OrderBookManager;
     private ws: HyperliquidWS;
+    private readonly isTestnet: boolean;
 
-    constructor() {
+    constructor(isTestnet: boolean = true) {
         this.marketAnalysisService = new MarketAnalysisService();
         this.sentimentService = new SentimentService();
 
+        this.isTestnet = isTestnet;
+
         // Initialize WS and OrderBookManager
         // We default to Mainnet for now. Ideally, we should support switching or multiple instances.
-        this.ws = new HyperliquidWS(false); // Mainnet
+        this.ws = new HyperliquidWS(this.isTestnet);
         this.orderBookManager = new OrderBookManager(this.ws);
         this.ws.connect();
     }
 
     public async getScreenedSymbols(
-        isTestnet: boolean,
+        _isTestnet: boolean | undefined,
         heldSymbols: string[] = [],
         config: AgentConfig = DEFAULT_AGENT_CONFIG,
         screenerConfig: ScreenerConfig = DEFAULT_SCREENER_CONFIG
     ): Promise<ScreenedSymbol[]> {
+        // Enforce active network
+        const isTestnet = this.isTestnet;
         const screenerCfg = screenerConfig;
         this.orderBookManager.setDepthBandsPct(screenerCfg.depthBandsPct);
 
@@ -76,8 +81,45 @@ export class ScreenerService {
         const allTicks = Array.from(latestTicksMap.values());
 
         if (allTicks.length === 0) {
-            console.warn("⚠️ No recent market ticks found in DB. Screening cannot proceed. Ensure collector is running.");
-            return [];
+            console.warn("⚠️ No recent market ticks found in DB. Falling back to live fetch for a small default universe.");
+            const fallbackSymbols = ["BTC", "ETH", "SOL", "LINK", "DOGE", "XRP"];
+            const fallbackCandidates: ScreenedSymbol[] = [];
+
+            for (const symbol of fallbackSymbols) {
+                try {
+                    const [metrics, sentiment, bookMetrics] = await Promise.all([
+                        this.marketAnalysisService.getMetricsForSymbol(symbol, isTestnet, true),
+                        this.sentimentService.getSentimentForCoin(symbol),
+                        this.marketAnalysisService.getOrderBookMetrics(symbol, isTestnet, true, screenerCfg.depthBandsPct)
+                    ]);
+
+                    const price = bookMetrics.mid || 0;
+                    const candidate: ScreenedSymbol = {
+                        symbol,
+                        price,
+                        volume24h: 0,
+                        funding: 0,
+                        openInterest: 0,
+                        metrics,
+                        bookMetrics,
+                        sentiment,
+                        isTestnet,
+                        score: 0
+                    };
+
+                    // Simple gate: reuse activity + liquidity filters
+                    if (this.filterByActivity([{ ...candidate, sentiment }], heldSymbols, screenerCfg).length > 0) {
+                        const withBook = this.filterByLiquidity([{ ...candidate, bookMetrics }], heldSymbols, screenerCfg);
+                        if (withBook.length > 0) {
+                            fallbackCandidates.push(candidate);
+                        }
+                    }
+                } catch (e) {
+                    console.error(`Fallback fetch failed for ${symbol}`, e);
+                }
+            }
+
+            return this.scoreAndRank(fallbackCandidates, heldSymbols, screenerCfg);
         }
 
         // --- Layer 1: Universe Control (Hard Gate) ---
@@ -120,7 +162,8 @@ export class ScreenerService {
 
                 // Fetch Metrics & Sentiment
                 const [metrics, sentiment] = await Promise.all([
-                    this.marketAnalysisService.getMetricsForSymbol(tick.symbol, isTestnet, false),
+                    // Actively fetch if local cache/DB is missing to avoid zeroed metrics in the snapshot
+                    this.marketAnalysisService.getMetricsForSymbol(tick.symbol, isTestnet, true),
                     this.sentimentService.getSentimentForCoin(tick.symbol)
                 ]);
 
@@ -170,7 +213,11 @@ export class ScreenerService {
 
         for (const candidate of activityCandidates) {
             try {
-                const bookMetrics = this.orderBookManager.getMetrics(candidate.symbol);
+                const bookMetrics = await this.getBookMetricsWithFallback(
+                    candidate.symbol,
+                    isTestnet,
+                    screenerCfg.depthBandsPct
+                );
                 const enriched = { ...candidate, bookMetrics };
 
                 if (this.filterByLiquidity([enriched], heldSymbols, screenerCfg).length > 0) {
@@ -197,6 +244,42 @@ export class ScreenerService {
 
         console.log(`✅ Screening completed in ${Date.now() - startTime}ms. Returning ${deduped.length} unique symbols (topN=${screenerCfg.topN}).`);
         return deduped;
+    }
+
+    private bookMetricsMissing(metrics: OrderBookMetrics | undefined): boolean {
+        if (!metrics) return true;
+
+        const bid = metrics.depth_usd?.bid_1pct ?? 0;
+        const ask = metrics.depth_usd?.ask_1pct ?? 0;
+        const hasPrices = (metrics.best_bid ?? 0) > 0 && (metrics.best_ask ?? 0) > 0;
+        const hasDepth = bid > 0 && ask > 0;
+
+        return !(hasPrices && hasDepth);
+    }
+
+    private async getBookMetricsWithFallback(
+        symbol: string,
+        isTestnet: boolean,
+        depthBandsPct: string[]
+    ): Promise<OrderBookMetrics> {
+        const baseMetrics = this.orderBookManager.getMetrics(symbol);
+        if (!this.bookMetricsMissing(baseMetrics)) {
+            return baseMetrics;
+        }
+
+        try {
+            const fetched = await this.marketAnalysisService.getOrderBookMetrics(symbol, isTestnet, true, depthBandsPct);
+
+            // Prefer fetched values when the WS cache is empty, but keep any non-zero fields we already have
+            return {
+                ...baseMetrics,
+                ...fetched,
+                depth_bands_usd: fetched.depth_bands_usd ?? baseMetrics.depth_bands_usd
+            };
+        } catch (err) {
+            console.error(`[Screener] Failed to hydrate orderbook for ${symbol}`, err);
+            return baseMetrics;
+        }
     }
 
     public filterByUniverse(candidates: any[], heldSymbols: string[], config: ScreenerConfig): any[] {

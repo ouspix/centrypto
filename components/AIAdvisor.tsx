@@ -22,7 +22,7 @@ import { AgentConfig, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config"
 // ... (inside AIAdvisor component)
 
 type TradeDecision = {
-    action: "OPEN_POSITION" | "CLOSE_POSITION" | "REDUCE_POSITION" | "ADJUST_STOPS" | "DO_NOTHING" | "HOLD" | "INCREASE_POSITION";
+    action: "OPEN_POSITION" | "CLOSE_POSITION" | "REDUCE_POSITION" | "ADJUST_STOPS" | "DO_NOTHING" | "HOLD" | "HOLD_POSITION" | "INCREASE_POSITION";
     symbol: string | null;
     side: "long" | "short" | null;
     target_side: "long" | "short" | "flat" | null;
@@ -37,12 +37,19 @@ type TradeDecision = {
     reason_code: string;
     notes: string;
     audit?: {
-        cost_bps: number;
-        expected_move_bps: number;
-        edge_bps: number;
-        book_pressure: number;
-        vol_ratio_5m_vs_1h: number;
-        ret_sigma_5m_vs_1h: number;
+        spread_bps?: number | null;
+        cost_bps?: number | null;
+        edge_bps?: number | null;
+        book_pressure?: number | null;
+        depth_usd?: number | null;
+        vol_ratio_5m_vs_1h?: number | null;
+        ret_sigma_5m_vs_1h?: number | null;
+        anchor_key?: string | null;
+        anchor_value?: number | null;
+        regime?: string;
+        computed_stop_loss_pct?: number | null;
+        computed_take_profit_pct_primary?: number | null;
+        computed_size_fraction_of_equity?: number | null;
     };
 };
 
@@ -679,20 +686,20 @@ export function AIAdvisor() {
                                                 <div className="grid grid-cols-3 gap-1 mt-2 p-1.5 bg-slate-900/50 rounded border border-slate-800/50">
                                                     <div className="flex flex-col">
                                                         <span className="text-[10px] text-slate-500 uppercase">Edge</span>
-                                                        <span className={`text-xs font-mono ${decision.audit.edge_bps > 0 ? 'text-green-400' : 'text-red-400'}`}>
-                                                            {decision.audit.edge_bps.toFixed(0)} bps
+                                                        <span className={`text-xs font-mono ${decision.audit.edge_bps && decision.audit.edge_bps > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                                            {decision.audit.edge_bps !== null && decision.audit.edge_bps !== undefined ? `${decision.audit.edge_bps.toFixed(0)} bps` : '--'}
                                                         </span>
                                                     </div>
                                                     <div className="flex flex-col">
                                                         <span className="text-[10px] text-slate-500 uppercase">Cost</span>
                                                         <span className="text-xs font-mono text-slate-300">
-                                                            {decision.audit.cost_bps.toFixed(1)} bps
+                                                            {decision.audit.cost_bps !== null && decision.audit.cost_bps !== undefined ? `${decision.audit.cost_bps.toFixed(1)} bps` : '--'}
                                                         </span>
                                                     </div>
                                                     <div className="flex flex-col">
                                                         <span className="text-[10px] text-slate-500 uppercase">Vol Ratio</span>
-                                                        <span className={`text-xs font-mono ${decision.audit.vol_ratio_5m_vs_1h > 1.2 ? 'text-purple-400' : 'text-slate-300'}`}>
-                                                            {decision.audit.vol_ratio_5m_vs_1h.toFixed(2)}x
+                                                        <span className={`text-xs font-mono ${decision.audit.vol_ratio_5m_vs_1h && decision.audit.vol_ratio_5m_vs_1h > 1.2 ? 'text-purple-400' : 'text-slate-300'}`}>
+                                                            {decision.audit.vol_ratio_5m_vs_1h !== null && decision.audit.vol_ratio_5m_vs_1h !== undefined ? `${decision.audit.vol_ratio_5m_vs_1h.toFixed(2)}x` : '--'}
                                                         </span>
                                                     </div>
                                                 </div>

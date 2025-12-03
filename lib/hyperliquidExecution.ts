@@ -5,8 +5,6 @@ export type ApprovedOrder = {
     side: 'buy' | 'sell';
     sizeUsd: number;
     limitPx?: number; // Optional limit price
-    stopLossPrice?: number;
-    takeProfitPrice?: number;
     clientTag?: string;
 };
 
@@ -47,9 +45,7 @@ export class ExecutionEngine {
                     isBuy: order.side === 'buy',
                     limitPx: limitPx,
                     sz: size,
-                    reduceOnly: false,
-                    stopLossPrice: order.stopLossPrice,
-                    takeProfitPrice: order.takeProfitPrice
+                    reduceOnly: false
                 },
                 this.isTestnet
             );

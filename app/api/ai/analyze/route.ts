@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { OrchestratorService } from '@/services/OrchestratorService';
+import { ensureCollectorReady } from '@/services/CollectorRunner';
 
 export async function POST(request: Request) {
     try {
@@ -26,6 +27,7 @@ export async function POST(request: Request) {
 
         // Check if this is a manual analysis request
         if (body.isManual) {
+            await ensureCollectorReady(isTestnet);
             const jobId = await orchestrator.analyzeMarketWithJobTracking(
                 userAddress,
                 model,
@@ -36,6 +38,7 @@ export async function POST(request: Request) {
         }
 
         // Legacy/Auto-trading path (Synchronous)
+        await ensureCollectorReady(isTestnet);
         const result = await orchestrator.analyzeMarket(
             userAddress,
             autoTrading,

@@ -59,6 +59,10 @@ export class MarketDerivedMetricsService {
             const depthOk = minDepth >= config.gates.depth_usd_min;
             const tradeable = depthOk && costOk;
 
+            const { bestAnchorKey, bestAnchorValue } = this.findBestAnchor(m, config);
+            const eligiblePlaybooks = this.buildEligiblePlaybooks(m, { breakoutOk, momOkLong, momOkShort, mrOkLong, mrOkShort, edgeOk, tradeable });
+            const eligible = tradeable && edgeOk && eligiblePlaybooks.length > 0;
+
             m.derived = {
                 costs: {
                     fees_bps: feesBps,
@@ -93,8 +97,71 @@ export class MarketDerivedMetricsService {
                 normalized: {
                     ret_sigma_5m_vs_1h: retSigma,
                     vol_ratio_5m_vs_1h: volRatio
+                },
+                risk: {
+                    eligible,
+                    eligible_playbooks: eligiblePlaybooks,
+                    best_anchor_key: bestAnchorKey,
+                    best_anchor_value: bestAnchorValue
                 }
             };
         }
+    }
+
+    private getValueByPath(obj: any, path: string): number | null {
+        const parts = path.split(".");
+        let current: any = obj;
+
+        for (const part of parts) {
+            if (current && Object.prototype.hasOwnProperty.call(current, part)) {
+                current = current[part];
+            } else {
+                return null;
+            }
+        }
+
+        if (typeof current !== "number" || Number.isNaN(current)) return null;
+        return current;
+    }
+
+    private findBestAnchor(market: MarketEntry, config: AgentConfig): { bestAnchorKey: string | null, bestAnchorValue: number | null } {
+        const priorities = config.risk_plan_model.vol_anchor_priority || [];
+
+        for (const key of priorities) {
+            const rawValue = this.getValueByPath(market, key) ?? this.getValueByPath(market.derived, key);
+            if (rawValue === null) continue;
+
+            // Convert bps anchors to decimal fraction of price move
+            const value = key.includes("bps") ? rawValue / 10000 : rawValue;
+            return { bestAnchorKey: key, bestAnchorValue: value };
+        }
+
+        return { bestAnchorKey: null, bestAnchorValue: null };
+    }
+
+    private buildEligiblePlaybooks(
+        market: MarketEntry,
+        triggers: { breakoutOk: boolean; momOkLong: boolean; momOkShort: boolean; mrOkLong: boolean; mrOkShort: boolean; edgeOk: boolean; tradeable: boolean }
+    ): string[] {
+        const playbooks = new Set<string>();
+        const bp = market.orderbook?.book_pressure ?? 0;
+        const directionBias = bp > 0 ? "long" : bp < 0 ? "short" : (market.returns?.h1 ?? 0) >= 0 ? "long" : "short";
+
+        if (triggers.momOkLong) playbooks.add("Momentum:long");
+        if (triggers.momOkShort) playbooks.add("Momentum:short");
+        if (triggers.mrOkLong) playbooks.add("Mean Reversion:long");
+        if (triggers.mrOkShort) playbooks.add("Mean Reversion:short");
+        if (triggers.breakoutOk) {
+            if (bp >= 0) playbooks.add("Breakout/Squeeze:long");
+            if (bp <= 0) playbooks.add("Breakout/Squeeze:short");
+        }
+
+        // Only add fallback discretionary playbooks when core gates pass
+        if (triggers.edgeOk && triggers.tradeable) {
+            playbooks.add(`Liquidity Grab:${directionBias}`);
+            playbooks.add(`Discretionary Edge:${directionBias}`);
+        }
+
+        return Array.from(playbooks);
     }
 }

@@ -2,13 +2,22 @@ import { NextResponse } from 'next/server';
 import { DEFAULT_AGENT_CONFIG } from '@/lib/agent-config';
 import { DEFAULT_SCREENER_CONFIG, ScreenerConfig } from '@/lib/screener-config';
 import { ScreenerService } from '@/services/ScreenerService';
+import { ensureCollectorReady } from '@/services/CollectorRunner';
 
-const screener = new ScreenerService();
+const screenerCache: Record<string, ScreenerService> = {};
+
+function getScreener(isTestnet: boolean) {
+    const key = isTestnet ? 'testnet' : 'mainnet';
+    if (!screenerCache[key]) {
+        screenerCache[key] = new ScreenerService(isTestnet);
+    }
+    return screenerCache[key];
+}
 
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { isTestnet = true, screeningConfig } = body;
+        const { screeningConfig, isTestnet = true } = body;
 
         // Construct a valid AgentConfig
         // Construct a valid ScreenerConfig
@@ -39,7 +48,9 @@ export async function POST(request: Request) {
             }
         }
 
-        const symbols = await screener.getScreenedSymbols(isTestnet, [], agentConfig, screenerConfig);
+        await ensureCollectorReady(isTestnet);
+
+        const symbols = await getScreener(isTestnet).getScreenedSymbols(isTestnet, [], agentConfig, screenerConfig);
 
         return NextResponse.json({ symbols });
     } catch (error) {

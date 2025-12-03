@@ -128,6 +128,12 @@ export type MarketEntry = {
             ret_sigma_5m_vs_1h: number;
             vol_ratio_5m_vs_1h: number;
         };
+        risk?: {
+            eligible: boolean;
+            eligible_playbooks: string[];
+            best_anchor_key: string | null;
+            best_anchor_value: number | null;
+        };
     };
 };
 
@@ -150,6 +156,7 @@ export type StateSnapshot = {
         no_flip_same_tick: boolean;
         max_new_positions_per_cycle: number;
         daily_loss_kill_switch_fraction: number;
+        max_new_trades_allowed?: number;
     };
     allowed_actions: string[];
     meta: {
@@ -157,6 +164,7 @@ export type StateSnapshot = {
         fallback_markets?: string[];
         missing_markets?: string[];
         duplicate_markets?: string[];
+        snapshot_id?: number;
     };
     presets?: {
         screening: ScreenerConfig;

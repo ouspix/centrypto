@@ -12,7 +12,7 @@ import { RegimeService } from "./RegimeService";
 import { MarketDerivedMetricsService } from "./MarketDerivedMetricsService";
 
 export class SnapshotBuilder {
-    private screenerService: ScreenerService;
+    private screenerServices: Record<string, ScreenerService>;
     private sentimentService: SentimentService;
     private marketAnalysisService: MarketAnalysisService;
     private accountStateService: AccountStateService;
@@ -22,7 +22,7 @@ export class SnapshotBuilder {
     private marketDerivedMetricsService: MarketDerivedMetricsService;
 
     constructor() {
-        this.screenerService = new ScreenerService();
+        this.screenerServices = {};
         this.sentimentService = new SentimentService();
         this.marketAnalysisService = new MarketAnalysisService();
         this.accountStateService = new AccountStateService();
@@ -30,6 +30,14 @@ export class SnapshotBuilder {
         this.heldPositionMarketResolver = new HeldPositionMarketResolver(this.marketAnalysisService, this.sentimentService);
         this.regimeService = new RegimeService();
         this.marketDerivedMetricsService = new MarketDerivedMetricsService();
+    }
+
+    private getScreener(isTestnet: boolean) {
+        const key = isTestnet ? "testnet" : "mainnet";
+        if (!this.screenerServices[key]) {
+            this.screenerServices[key] = new ScreenerService(isTestnet);
+        }
+        return this.screenerServices[key];
     }
 
     public async buildSnapshot(
@@ -42,6 +50,7 @@ export class SnapshotBuilder {
         const metaAndCtxs = await getMetaAndAssetCtxs(isTestnet);
         const assetCtxMap = new Map<string, any>();
         const assetIndexMap = new Map<string, number>();
+        const networkProfile = isTestnet ? config.network_profiles.testnet : config.network_profiles.mainnet;
 
         if (metaAndCtxs) {
             metaAndCtxs.universe.forEach((asset: any, idx: number) => {
@@ -53,7 +62,7 @@ export class SnapshotBuilder {
         const { account, heldSymbols } = await this.accountStateService.buildAccountState(userAddress, isTestnet, config.risk);
 
         console.log("📊 Fetching Screened Market Data...");
-        const screenedSymbols = await this.screenerService.getScreenedSymbols(isTestnet, heldSymbols, config, screenerConfig);
+        const screenedSymbols = await this.getScreener(isTestnet).getScreenedSymbols(isTestnet, heldSymbols, config, screenerConfig);
         console.log(`✅ Loaded ${screenedSymbols.length} symbols from screener.`);
 
         const { markets, duplicateMarkets } = this.marketSnapshotAssembler.buildFromScreenedSymbols(screenedSymbols, assetIndexMap);
@@ -73,6 +82,12 @@ export class SnapshotBuilder {
 
         this.marketDerivedMetricsService.applyDerivedMetrics(markets, config, global_regime.current, isTestnet);
 
+        const maxNewTradesAllowed = Math.min(
+            account.derived_portfolio?.slots_remaining ?? config.risk.max_new_positions_per_cycle,
+            config.risk.max_new_positions_per_cycle
+        );
+        const effectiveMinNotional = Math.max(config.risk.min_trade_notional_usd, networkProfile.min_notional_usd);
+
         return {
             timestamp,
             account,
@@ -81,11 +96,12 @@ export class SnapshotBuilder {
                 max_position_pct_equity: config.risk.max_position_fraction,
                 max_position_pct_equity_per_symbol: config.risk.max_position_fraction_per_symbol,
                 max_total_exposure_pct_equity: config.risk.max_total_exposure_fraction,
-                min_trade_notional_usd: config.risk.min_trade_notional_usd,
+                min_trade_notional_usd: effectiveMinNotional,
                 kill_switch: false,
                 no_flip_same_tick: config.risk.no_flip_same_tick,
                 max_new_positions_per_cycle: config.risk.max_new_positions_per_cycle,
-                daily_loss_kill_switch_fraction: config.risk.daily_loss_kill_switch_fraction
+                daily_loss_kill_switch_fraction: config.risk.daily_loss_kill_switch_fraction,
+                max_new_trades_allowed: maxNewTradesAllowed
             },
             allowed_actions: [
                 "OPEN_POSITION",

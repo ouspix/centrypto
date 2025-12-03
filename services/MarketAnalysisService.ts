@@ -508,9 +508,10 @@ export class MarketAnalysisService {
         });
 
         // 2. Determine start time
-        // If no data, fetch last 4.5 hours (approx 270 mins)
+        // If no data, fetch a long enough window to compute higher-timeframe metrics (e.g., ATR h1 needs ~14h)
         // If data, fetch from last candle time + 1ms
-        let startTime = Date.now() - (4.5 * 60 * 60 * 1000);
+        const defaultLookbackMs = 16 * 60 * 60 * 1000; // 16h ensures ATR h1 is populated
+        let startTime = Date.now() - defaultLookbackMs;
         if (latestCandle) {
             startTime = latestCandle.openTime.getTime() + 1;
         }
@@ -563,10 +564,9 @@ export class MarketAnalysisService {
             }
         }
 
-        // 5. Return combined data (last 4.5h is enough for metrics)
-        // We query the DB for the last 4.5h to ensure we have a consistent view
-        const lookbackWindow = new Date(Date.now() - (4.5 * 60 * 60 * 1000));
-        const dbCandles = await db.marketCandle.findMany({
+        // 5. Return combined data (keep enough history for higher-timeframe metrics)
+        const lookbackWindow = new Date(Date.now() - defaultLookbackMs);
+        let dbCandles = await db.marketCandle.findMany({
             where: {
                 symbol,
                 timeframe: "1m",
@@ -574,6 +574,53 @@ export class MarketAnalysisService {
             },
             orderBy: { openTime: 'asc' }
         });
+
+        // If we still don't have enough history for the lookback window, backfill from the API once more.
+        if (allowFetch) {
+            const missingHistory = dbCandles.length === 0 || dbCandles[0].openTime > lookbackWindow;
+            if (missingHistory) {
+                try {
+                    const backfillCandles = await getOHLCV(symbol, "1m", isTestnet, lookbackWindow.getTime());
+                    if (backfillCandles && backfillCandles.length > 0) {
+                        await db.$transaction(
+                            backfillCandles.map((c: Candle) =>
+                                db.marketCandle.upsert({
+                                    where: {
+                                        symbol_timeframe_openTime: {
+                                            symbol: symbol,
+                                            timeframe: "1m",
+                                            openTime: new Date(c.t)
+                                        }
+                                    },
+                                    update: {},
+                                    create: {
+                                        symbol,
+                                        timeframe: "1m",
+                                        openTime: new Date(c.t),
+                                        open: parseFloat(c.o),
+                                        high: parseFloat(c.h),
+                                        low: parseFloat(c.l),
+                                        close: parseFloat(c.c),
+                                        volume: parseFloat(c.v)
+                                    }
+                                })
+                            )
+                        );
+
+                        dbCandles = await db.marketCandle.findMany({
+                            where: {
+                                symbol,
+                                timeframe: "1m",
+                                openTime: { gte: lookbackWindow }
+                            },
+                            orderBy: { openTime: 'asc' }
+                        });
+                    }
+                } catch (err) {
+                    console.error(`[MarketAnalysis] Failed to backfill historical candles for ${symbol}`, err);
+                }
+            }
+        }
 
         return dbCandles.map(c => ({
             t: c.openTime.getTime(),

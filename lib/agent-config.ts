@@ -27,6 +27,8 @@ export interface AgentConfig {
         no_flip_same_tick: boolean;
         max_new_positions_per_cycle: number;
         daily_loss_kill_switch_fraction: number;
+        // Target leverage used for risk plan sizing when no position leverage is known
+        default_leverage?: number;
 
         // Stop Loss Templates (kept for reference/defaults)
         stop_loss_templates: {
@@ -120,6 +122,7 @@ export const DEFAULT_AGENT_CONFIG: AgentConfig = {
         no_flip_same_tick: true,
         max_new_positions_per_cycle: 1,
         daily_loss_kill_switch_fraction: 0.03,
+        default_leverage: 1,
         stop_loss_templates: {
             default: { stop_loss_pct: 0.02, rr_min: 1.5 },
             scalp: { stop_loss_pct: 0.015, rr_min: 1.5, time_stop_minutes: 15 },

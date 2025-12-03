@@ -1,14 +1,13 @@
 "use client"
 
 import { WalletConnect } from "@/components/WalletConnect"
-import { Badge } from "@/components/ui/badge"
 import { useTrading } from "@/context/TradingContext"
 import { useAccountData } from "@/hooks/useAccountData"
-import { Loader2, TrendingUp, Wallet } from "lucide-react"
+import { Loader2, Percent, TrendingUp, Wallet } from "lucide-react"
 
 export function TopHeader() {
     const { isTestnet } = useTrading()
-    const { accountValue, unrealizedPnl, loading } = useAccountData()
+    const { accountValue, unrealizedPnl, totalExposurePct, loading } = useAccountData()
 
     const pnlValue = parseFloat(unrealizedPnl)
     const isPnlPositive = pnlValue >= 0
@@ -35,6 +34,21 @@ export function TopHeader() {
                             ) : (
                                 <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
                                     ${accountValue}
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Total Exposure */}
+                    <div className="flex items-center gap-3">
+                        <Percent className="h-5 w-5 text-slate-400" />
+                        <div className="flex flex-col">
+                            <span className="text-xs text-slate-400/60">Total Exposure</span>
+                            {loading && totalExposurePct === "0.00" ? (
+                                <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
+                            ) : (
+                                <span className="text-2xl font-bold text-cyan-300">
+                                    {totalExposurePct}%
                                 </span>
                             )}
                         </div>

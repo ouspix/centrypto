@@ -35,8 +35,8 @@ export class HeldPositionMarketResolver {
 
             try {
                 const [metrics, bookMetrics, sentiment] = await Promise.all([
-                    this.marketAnalysisService.getMetricsForSymbol(baseSymbol, isTestnet),
-                    this.marketAnalysisService.getOrderBookMetrics(baseSymbol, isTestnet, false, depthBandsPct),
+                    this.marketAnalysisService.getMetricsForSymbol(baseSymbol, isTestnet, true),
+                    this.marketAnalysisService.getOrderBookMetrics(baseSymbol, isTestnet, true, depthBandsPct),
                     this.sentimentService.getSentimentForCoin(baseSymbol)
                 ]);
 

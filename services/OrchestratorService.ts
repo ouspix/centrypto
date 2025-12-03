@@ -1,4 +1,5 @@
 import { SnapshotBuilder, StateSnapshot } from "./SnapshotBuilder";
+import { MarketEntry, GlobalRegime } from "@/types/snapshot";
 import { RiskCheckModule, TradeDecision, RiskAssessment } from "@/lib/risk/RiskCheckModule";
 import { ExecutionEngine } from "@/lib/hyperliquidExecution";
 import { placeOrder } from "@/lib/hyperliquid";
@@ -202,6 +203,10 @@ export class OrchestratorService {
             // 1. Build Snapshot
             if (controller.signal.aborted) throw new Error('Aborted');
             const snapshot = await this.snapshotBuilder.buildSnapshot(userAddress, isTestnet, config, screenerConfig);
+            const snapshotId = await this.persistSnapshot(snapshot);
+            if (snapshotId) {
+                snapshot.meta.snapshot_id = snapshotId;
+            }
 
             // 2. Optimization
             const shortlistedMarkets: Record<string, any> = {};
@@ -209,7 +214,7 @@ export class OrchestratorService {
 
             for (const [key, market] of Object.entries(snapshot.markets)) {
                 const isHeld = snapshot.account.current_positions.some(p => p.symbol === key);
-                const isCandidate = market.derived?.liquidity?.tradeable && market.derived?.edge?.edge_ok;
+                const isCandidate = !!market.derived?.risk?.eligible;
 
                 if (isHeld || isCandidate) {
                     shortlistedMarkets[key] = market;
@@ -247,8 +252,10 @@ export class OrchestratorService {
 
             const result = await this.getLLMDecision(llmSnapshot, model, controller.signal);
 
+            const backendDecisions = this.enrichDecisions(result.decisions, snapshot, config);
+
             // Save interaction
-            await this.saveLlmInteraction(result.prompt, result.rawOutput, result.decisions, isTestnet);
+            await this.saveLlmInteraction(result.prompt, result.rawOutput, backendDecisions, isTestnet);
 
             // 4. Risk Check (Sequential)
             // Note: We are NOT executing trades here for manual analysis jobs.
@@ -256,8 +263,8 @@ export class OrchestratorService {
             const riskAssessments: RiskAssessment[] = [];
             let newPositionsCount = 0;
 
-            for (const decision of result.decisions) {
-                if (decision.target_side === "flat" && decision.action === "HOLD") {
+            for (const decision of backendDecisions) {
+                if (decision.target_side === "flat" && (decision.action === "HOLD" || decision.action === "HOLD_POSITION")) {
                     riskAssessments.push({ approved: true, reason: "Hold decision - no trade" });
                     continue;
                 }
@@ -271,7 +278,7 @@ export class OrchestratorService {
             }
 
             const finalResult = {
-                decisions: result.decisions,
+                decisions: backendDecisions,
                 riskAssessments,
                 snapshot,
                 prompt: result.prompt,
@@ -353,6 +360,10 @@ export class OrchestratorService {
 
         // 1. Build Snapshot
         const snapshot = await this.snapshotBuilder.buildSnapshot(userAddress, isTestnet, config, screenerConfig);
+        const snapshotId = await this.persistSnapshot(snapshot);
+        if (snapshotId) {
+            snapshot.meta.snapshot_id = snapshotId;
+        }
 
         // 2. Optimization: Filter Markets & Early Exit
         const shortlistedMarkets: Record<string, any> = {};
@@ -362,7 +373,7 @@ export class OrchestratorService {
             // Keep if tradeable AND edge_ok
             // OR if we hold a position in it (so LLM can manage it)
             const isHeld = snapshot.account.current_positions.some(p => p.symbol === key);
-            const isCandidate = market.derived?.liquidity?.tradeable && market.derived?.edge?.edge_ok;
+            const isCandidate = !!market.derived?.risk?.eligible;
 
             if (isHeld || isCandidate) {
                 shortlistedMarkets[key] = market;
@@ -400,7 +411,8 @@ export class OrchestratorService {
             };
 
             const result = await this.getLLMDecision(llmSnapshot, model, this.currentAbortController.signal);
-            decisions = result.decisions;
+            const backendDecisions = this.enrichDecisions(result.decisions, snapshot, config);
+            decisions = backendDecisions;
             prompt = result.prompt;
             rawOutput = result.rawOutput;
 
@@ -422,7 +434,7 @@ export class OrchestratorService {
 
         for (const decision of decisions) {
             try {
-                if (decision.target_side === "flat" && decision.action === "HOLD") {
+                if (decision.target_side === "flat" && (decision.action === "HOLD" || decision.action === "HOLD_POSITION")) {
                     riskAssessments.push({ approved: true, reason: "Hold decision - no trade" });
                     continue; // Skip no-ops
                 }
@@ -431,6 +443,10 @@ export class OrchestratorService {
                 // Risk Check
                 const riskAssessment = this.riskModule.assess(decision, snapshot, { newPositionsCount });
                 riskAssessments.push(riskAssessment);
+
+                if (!riskAssessment.approved) {
+                    console.warn(`⚠️ Risk Rejected ${decision.symbol} (${decision.action} ${decision.target_side || ""}) | Reason: ${riskAssessment.reason || "unknown"} | Playbook: ${decision.playbook} | Confidence: ${decision.confidence}`);
+                }
 
                 if (riskAssessment.approved && (decision.action === 'OPEN_POSITION' || (decision.action === 'INCREASE_POSITION' && riskAssessment.modifiedOrder?.clientTag === 'AI_TRADER_INCREASE_NEW'))) {
                     newPositionsCount++;
@@ -481,9 +497,6 @@ export class OrchestratorService {
 
                         console.log(`🚀 Sending Order: ${isBuy ? 'BUY' : 'SELL'} ${decision.symbol} sz=${sz.toFixed(4)} px=${limitPx.toFixed(4)} reduce=${reduceOnly}`);
 
-                        const stopLossPrice = !reduceOnly ? riskAssessment.modifiedOrder.stopLossPrice : undefined;
-                        const takeProfitPrice = !reduceOnly ? riskAssessment.modifiedOrder.takeProfitPrice : undefined;
-
                         const result = await placeOrder(
                             privateKey,
                             {
@@ -491,9 +504,7 @@ export class OrchestratorService {
                                 isBuy,
                                 limitPx,
                                 sz,
-                                reduceOnly,
-                                stopLossPrice,
-                                takeProfitPrice
+                                reduceOnly
                             },
                             isTestnet
                         );
@@ -543,8 +554,6 @@ export class OrchestratorService {
     }
 
     private async getLLMDecision(snapshot: StateSnapshot, model: string, signal?: AbortSignal): Promise<{ decisions: TradeDecision[], prompt: string, rawOutput: string }> {
-        const marketCount = Object.keys(snapshot.markets).length;
-
         const SYSTEM_PROMPT = TRADER_AGENT_SYSTEM_PROMPT;
         const USER_PROMPT = `CONFIG PRESETS:
 screening:
@@ -842,14 +851,15 @@ ${JSON.stringify(snapshot.account.current_positions, null, 2)}`;
                     action: d.action,
                     symbol: d.symbol,
                     side: d.side ?? null,
-                    size_fraction_of_equity: d.size_fraction_of_equity ?? null,
-                    target_side: d.target_side,
-                    target_size_fraction_of_equity: d.target_size_fraction_of_equity,
-                    risk_plan: d.risk_plan,
+                    size_fraction_of_equity: null,
+                    target_side: d.target_side ?? d.side ?? null,
+                    target_size_fraction_of_equity: null,
+                    risk_plan: null,
                     playbook: d.playbook || "none",
-                    confidence: d.confidence || 0.5,
+                    confidence: d.confidence ?? 0.5,
                     reason_code: d.reason_code || "unknown",
-                    notes: d.notes || ""
+                    notes: d.notes || "",
+                    audit: d.audit
                 });
             }
 
@@ -863,6 +873,205 @@ ${JSON.stringify(snapshot.account.current_positions, null, 2)}`;
                 prompt: SYSTEM_PROMPT + "\n\n" + USER_PROMPT,
                 rawOutput: rawOutput || `Error: ${error instanceof Error ? error.message : String(error)}`
             };
+        }
+    }
+
+    private enrichDecisions(decisions: TradeDecision[], snapshot: StateSnapshot, config: AgentConfig): TradeDecision[] {
+        const maxNewTrades = snapshot.constraints.max_new_trades_allowed ?? snapshot.constraints.max_new_positions_per_cycle;
+        const heldSymbols = new Set((snapshot.account.current_positions || []).map(p => p.symbol));
+        let newTradeCount = 0;
+
+        return decisions.flatMap(decision => {
+            const symbol = decision.symbol;
+            if (!symbol) return [];
+            const market = snapshot.markets[symbol];
+            if (!market) return [];
+
+            const inferredSide = decision.target_side ?? decision.side ?? this.inferSideFromPlaybook(decision.playbook);
+            const normalizedDecision: TradeDecision = {
+                ...decision,
+                target_side: inferredSide,
+                side: inferredSide === "flat" ? null : inferredSide
+            };
+            if (!normalizedDecision.target_side && (decision.action === "CLOSE_POSITION" || decision.action === "HOLD_POSITION")) {
+                normalizedDecision.target_side = "flat";
+                normalizedDecision.side = null;
+            }
+
+            const isNewPosition = !heldSymbols.has(symbol);
+            const riskInfo = market.derived?.risk;
+            const currentPosition = snapshot.account.current_positions.find(p => p.symbol === symbol);
+            const effectiveLeverage = currentPosition?.leverage && currentPosition.leverage > 0
+                ? currentPosition.leverage
+                : (config.risk.default_leverage ?? 1);
+
+            if (decision.action === "OPEN_POSITION" || decision.action === "INCREASE_POSITION") {
+                if (!normalizedDecision.target_side || normalizedDecision.target_side === "flat") return [];
+                if (isNewPosition && riskInfo && !riskInfo.eligible) return [];
+                if (riskInfo?.eligible_playbooks?.length && !this.isPlaybookAllowed(decision.playbook, riskInfo.eligible_playbooks)) return [];
+                if (isNewPosition && maxNewTrades !== undefined && newTradeCount >= maxNewTrades) return [];
+
+                const sizeFraction = this.computeSizeFraction(decision.confidence ?? 0, config, snapshot.account.equity_usd);
+                if (sizeFraction === null) return [];
+
+                const riskPlan = this.computeRiskPlan(decision.playbook, market, config, snapshot.global_regime.current, effectiveLeverage);
+                if (!riskPlan) return [];
+
+                const enriched: TradeDecision = {
+                    ...normalizedDecision,
+                    target_size_fraction_of_equity: sizeFraction,
+                    size_fraction_of_equity: sizeFraction,
+                    risk_plan: riskPlan,
+                    audit: this.buildAudit(market, snapshot, riskPlan, sizeFraction)
+                };
+
+                if (isNewPosition) newTradeCount += 1;
+                return [enriched];
+            }
+
+            if (decision.action === "CLOSE_POSITION" || decision.action === "REDUCE_POSITION") {
+                const targetSize = decision.action === "CLOSE_POSITION" ? 0 : decision.target_size_fraction_of_equity ?? null;
+                const enriched: TradeDecision = {
+                    ...normalizedDecision,
+                    target_size_fraction_of_equity: targetSize,
+                    size_fraction_of_equity: normalizedDecision.size_fraction_of_equity ?? targetSize,
+                    audit: this.buildAudit(market, snapshot, normalizedDecision.risk_plan, targetSize)
+                };
+                return [enriched];
+            }
+
+            const audit = this.buildAudit(market, snapshot, normalizedDecision.risk_plan, normalizedDecision.target_size_fraction_of_equity ?? null);
+            return [{ ...normalizedDecision, audit }];
+        });
+    }
+
+    private inferSideFromPlaybook(playbook: string): "long" | "short" | null {
+        const lower = (playbook || "").toLowerCase();
+        if (lower.includes("short")) return "short";
+        if (lower.includes("long")) return "long";
+        return null;
+    }
+
+    private isPlaybookAllowed(playbook: string, eligiblePlaybooks: string[]): boolean {
+        if (!eligiblePlaybooks || eligiblePlaybooks.length === 0) return true;
+        const normalized = (playbook || "").toLowerCase().trim();
+        return eligiblePlaybooks.some(p => p.toLowerCase().trim() === normalized);
+    }
+
+    /**
+     * Computes a size as a fraction of equity using confidence buckets, then clamps to per-trade and per-symbol caps.
+     */
+    private computeSizeFraction(confidence: number, config: AgentConfig, equity: number): number | null {
+        if (!equity || equity <= 0) return null;
+
+        // New sizing: absolute USD target = 10 * (1 + risk_factor)
+        const riskFactor = Math.max(0, Math.min(1, confidence ?? 0));
+        const targetUsd = 10 * (1 + riskFactor);
+
+        const perTradeCap = config.risk.max_position_fraction ?? config.risk.max_position_fraction_per_symbol ?? 0;
+        const perSymbolCap = config.risk.max_position_fraction_per_symbol ?? perTradeCap;
+        const usableCap = perTradeCap > 0 ? Math.min(perTradeCap, perSymbolCap) : perSymbolCap;
+        if (usableCap <= 0) return null;
+
+        const targetFraction = targetUsd / equity;
+        return Math.min(targetFraction, usableCap);
+    }
+
+    private computeRiskPlan(playbook: string, market: MarketEntry, config: AgentConfig, regime: GlobalRegime["current"], leverage: number) {
+        const anchor = this.resolveAnchor(market, config);
+        if (!anchor.value || anchor.value <= 0) return null;
+
+        const basePlaybook = (playbook || "").split(":")[0]?.trim() || "Discretionary Edge";
+        const multipliers = config.risk_plan_model.multipliers_by_playbook?.[basePlaybook] || { sl_mult: 1, tp_mult: 2 };
+        const regimeAdj = config.risk_plan_model.regime_adjustments?.[regime] || { sl_mult_factor: 1, tp_mult_factor: 1 };
+        const amplification = 1.5; // push both SL and TP wider; agent can exit on next tick if needed
+        const lev = Math.max(1, leverage || 1);
+
+        const stop_loss_pct = anchor.value * (multipliers.sl_mult ?? 1) * (regimeAdj.sl_mult_factor ?? 1) * amplification * lev;
+        const take_profit_pct_primary = anchor.value * (multipliers.tp_mult ?? 2) * (regimeAdj.tp_mult_factor ?? 1) * amplification * lev;
+
+        return { stop_loss_pct, take_profit_pct_primary };
+    }
+
+    private resolveAnchor(market: MarketEntry, config: AgentConfig): { key: string | null, value: number | null } {
+        if (market.derived?.risk?.best_anchor_key && market.derived.risk.best_anchor_value !== null && market.derived.risk.best_anchor_value !== undefined) {
+            return { key: market.derived.risk.best_anchor_key, value: market.derived.risk.best_anchor_value };
+        }
+
+        for (const key of config.risk_plan_model.vol_anchor_priority) {
+            const value = this.getValueByPath(market as any, key);
+            if (value === null) continue;
+            const normalizedValue = key.includes("bps") ? value / 10000 : value;
+            return { key, value: normalizedValue };
+        }
+
+        return { key: null, value: null };
+    }
+
+    private getValueByPath(obj: any, path: string): number | null {
+        const parts = path.split(".");
+        let current: any = obj;
+        for (const part of parts) {
+            if (current && Object.prototype.hasOwnProperty.call(current, part)) {
+                current = current[part];
+            } else {
+                return null;
+            }
+        }
+        if (typeof current !== "number" || Number.isNaN(current)) return null;
+        return current;
+    }
+
+    private buildAudit(
+        market: MarketEntry,
+        snapshot: StateSnapshot,
+        riskPlan: { stop_loss_pct: number; take_profit_pct_primary: number } | null,
+        sizeFraction: number | null
+    ): TradeDecision["audit"] {
+        const depthBands = market.orderbook?.depth_bands_usd;
+        const depthFromBands = depthBands
+            ? depthBands.bid?.["0.25"] ?? depthBands.ask?.["0.25"] ?? depthBands.bid?.["0.10"] ?? depthBands.ask?.["0.10"]
+            : undefined;
+        const depth = depthFromBands ?? market.derived?.liquidity?.min_depth_usd ?? null;
+
+        return {
+            spread_bps: market.spread_bps ?? null,
+            cost_bps: market.derived?.costs?.cost_bps ?? null,
+            edge_bps: market.derived?.edge?.edge_bps ?? null,
+            book_pressure: market.orderbook?.book_pressure ?? null,
+            depth_usd: depth,
+            vol_ratio_5m_vs_1h: market.derived?.normalized?.vol_ratio_5m_vs_1h ?? null,
+            ret_sigma_5m_vs_1h: market.derived?.normalized?.ret_sigma_5m_vs_1h ?? null,
+            anchor_key: market.derived?.risk?.best_anchor_key ?? null,
+            anchor_value: market.derived?.risk?.best_anchor_value ?? null,
+            regime: snapshot.global_regime?.current,
+            computed_stop_loss_pct: riskPlan?.stop_loss_pct ?? null,
+            computed_take_profit_pct_primary: riskPlan?.take_profit_pct_primary ?? null,
+            computed_size_fraction_of_equity: sizeFraction ?? null
+        };
+    }
+
+    private async persistSnapshot(snapshot: StateSnapshot): Promise<number | null> {
+        try {
+            const saved = await prisma.marketStateSnapshot.create({
+                data: { data: JSON.stringify(snapshot) }
+            });
+
+            // Update stored snapshot with its own id for traceability
+            try {
+                const snapshotWithId = { ...snapshot, meta: { ...snapshot.meta, snapshot_id: saved.id } };
+                await prisma.marketStateSnapshot.update({
+                    where: { id: saved.id },
+                    data: { data: JSON.stringify(snapshotWithId) }
+                });
+            } catch (updateError) {
+                console.warn("⚠️ Unable to backfill snapshot_id into stored snapshot:", updateError);
+            }
+
+            return saved.id;
+        } catch (error) {
+            console.error("❌ Failed to persist snapshot:", error);
+            return null;
         }
     }
 
@@ -901,16 +1110,20 @@ ${JSON.stringify(snapshot.account.current_positions, null, 2)}`;
      */
     private clampDecisionRiskPlan(decision: TradeDecision) {
         if (!decision.risk_plan) return;
-        const minSl = 0.005; // 0.5%
-        const maxSl = 0.05;  // 5%
+        const minSl = 0.005; // 0.5% of equity
+        const maxSl = 0.05;  // 5% of equity
+        const minTp = 0.01;  // 1% target floor to avoid tiny profits
+        const minRr = 1.5;
+
         const sl = decision.risk_plan.stop_loss_pct;
         if (sl === undefined || sl === null) return;
-        const clamped = Math.min(maxSl, Math.max(minSl, Math.abs(sl)));
-        decision.risk_plan.stop_loss_pct = clamped;
-        const minRr = 1.5;
+        const clampedSl = Math.min(maxSl, Math.max(minSl, Math.abs(sl)));
+        decision.risk_plan.stop_loss_pct = clampedSl;
+
         const tp = decision.risk_plan.take_profit_pct_primary;
-        if (tp === undefined || tp === null || tp < minRr * clamped) {
-            decision.risk_plan.take_profit_pct_primary = minRr * clamped;
+        const floorTp = Math.max(minTp, minRr * clampedSl);
+        if (tp === undefined || tp === null || tp < floorTp) {
+            decision.risk_plan.take_profit_pct_primary = floorTp;
         }
     }
 }
