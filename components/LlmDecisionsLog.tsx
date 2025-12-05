@@ -121,22 +121,25 @@ function HistoryItem({ item }: { item: LlmQuery }) {
                         {item.decisions.length > 0 ? (
                             item.decisions.map((decision, idx) => (
                                 <div key={idx} className="flex flex-col gap-1 bg-slate-950/30 p-2 rounded border border-slate-800/50">
-                                    <div className="flex justify-between items-center">
-                                        <div className="flex items-center gap-2">
-                                            <Badge variant="outline" className={`
-                                                text-[10px] px-1.5 py-0
-                                                ${decision.action === 'OPEN_POSITION' ? 'border-emerald-500/50 text-emerald-400' :
-                                                    decision.action === 'CLOSE_POSITION' ? 'border-red-500/50 text-red-400' :
-                                                        'border-slate-600 text-slate-400'}
-                                            `}>
-                                                {decision.action}
-                                            </Badge>
-                                            <span className="font-bold text-slate-200 text-sm">{decision.symbol}</span>
-                                        </div>
-                                        <span className="text-xs text-slate-500">
-                                            Conf: {(decision.confidence * 100).toFixed(0)}%
-                                        </span>
-                                    </div>
+                            <div className="flex justify-between items-center">
+                                <div className="flex items-center gap-2">
+                                    <Badge variant="outline" className={`
+                                        text-[10px] px-1.5 py-0
+                                        ${decision.action === 'OPEN_POSITION' ? 'border-emerald-500/50 text-emerald-400' :
+                                            decision.action === 'CLOSE_POSITION' ? 'border-red-500/50 text-red-400' :
+                                                'border-slate-600 text-slate-400'}
+                                    `}>
+                                        {decision.action}
+                                    </Badge>
+                                    <span className="font-bold text-slate-200 text-sm">{decision.symbol}</span>
+                                </div>
+                                <span className="text-xs text-slate-500">
+                                    {(() => {
+                                        const hasConfidence = typeof decision.confidence === 'number' && decision.confidence > 0
+                                        return `Conf: ${hasConfidence ? `${(decision.confidence * 100).toFixed(0)}%` : '—'}`
+                                    })()}
+                                </span>
+                            </div>
                                     {decision.reasonCode && (
                                         <p className="text-xs text-slate-300 mt-0.5">
                                             <span className="text-slate-500">Reason:</span> {decision.reasonCode}

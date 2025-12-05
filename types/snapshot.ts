@@ -10,6 +10,11 @@ export type Position = {
     entry_price: number;
     unrealized_pnl: number;
     leverage: number;
+    position_age_min?: number | null;
+    regim_when_opening?: string | null;
+    edge_to_cost?: number | null;
+    playbook_when_opened?: string | null;
+    llm_reason_when_opened?: string | null;
 };
 
 export type DerivedPortfolio = {
@@ -93,49 +98,58 @@ export type MarketEntry = {
     assetIndex?: number;
     data_source?: string;
     data_unavailable?: boolean;
-    derived?: {
-        costs: {
-            fees_bps: number;
-            slippage_bps_est: number;
-            cost_bps: number;
-            cost_ok: boolean;
-        };
-        edge: {
-            expected_move_bps: number;
-            edge_bps: number;
-            edge_ok: boolean;
-        };
-        technicals: {
-            high_low: any;
-            bb_width_m5: number;
-        };
-        triggers: {
-            direction_m15: number;
-            direction_h1: number;
-            trend_aligned: boolean;
-            momentum_ok_long: boolean;
-            momentum_ok_short: boolean;
-            mr_ok_long: boolean;
-            mr_ok_short: boolean;
-            breakout_ok: boolean;
-        };
-        liquidity: {
-            min_depth_usd: number;
-            depth_ok: boolean;
-            tradeable: boolean;
-        };
-        normalized: {
-            ret_sigma_5m_vs_1h: number;
-            vol_ratio_5m_vs_1h: number;
-        };
-        risk?: {
-            eligible: boolean;
-            eligible_playbooks: string[];
-            best_anchor_key: string | null;
-            best_anchor_value: number | null;
+    news_blocked?: boolean;
+        derived?: {
+            costs: {
+                fees_bps: number;
+                slippage_bps_est: number;
+                cost_bps: number;
+                cost_ok: boolean;
+            };
+            edge: {
+                expected_move_bps: number;
+                edge_bps: number;
+                edge_ok: boolean;
+            };
+            technicals: {
+                high_low: any;
+                bb_width_m5: number;
+            };
+            triggers: {
+                direction_m15: number;
+                direction_h1: number;
+                trend_aligned: boolean;
+                momentum_ok_long: boolean;
+                momentum_ok_short: boolean;
+                mr_ok_long: boolean;
+                mr_ok_short: boolean;
+                breakout_ok: boolean;
+            };
+            liquidity: {
+                min_depth_usd: number;
+                depth_ok: boolean;
+                tradeable: boolean;
+            };
+            normalized: {
+                ret_sigma_5m_vs_1h: number;
+                vol_ratio_5m_vs_1h: number;
+            };
+            entry?: {
+                entry_ok: boolean;
+                edge_to_cost_mult: number;
+                entry_score?: number | null;
+                confidence_hint?: number | null;
+                reasons_failed?: string[];
+            };
+            risk?: {
+                eligible: boolean;
+                eligible_playbooks: string[];
+                best_anchor_key: string | null;
+                best_anchor_value: number | null;
+            };
+            rank?: number;
         };
     };
-};
 
 export type GlobalRegime = {
     current: "RISK_ON" | "RISK_OFF" | "CHOP";
@@ -157,6 +171,8 @@ export type StateSnapshot = {
         max_new_positions_per_cycle: number;
         daily_loss_kill_switch_fraction: number;
         max_new_trades_allowed?: number;
+        max_new_entries_allowed?: number;
+        max_increases_allowed?: number | null;
     };
     allowed_actions: string[];
     meta: {
@@ -171,4 +187,5 @@ export type StateSnapshot = {
         agent: AgentConfig;
     };
     global_regime: GlobalRegime;
+    debug_context?: boolean;
 };

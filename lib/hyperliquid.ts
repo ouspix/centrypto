@@ -115,8 +115,8 @@ export async function placeOrder(
 
     // Enforce venue min notional after rounding to avoid exchange rejects
     const notional = roundedPrice * roundedSize;
-    const minNotionalUsd = 10; // Hyperliquid venue minimum
-    if (notional < minNotionalUsd) {
+    const minNotionalUsd = 10; // Hyperliquid venue minimum for opening/adding
+    if (!order.reduceOnly && notional < minNotionalUsd) {
         throw new Error(`Order notional ${notional.toFixed(4)} is below venue minimum $${minNotionalUsd}. size=${sizeStr}, price=${priceStr}`);
     }
 

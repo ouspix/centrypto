@@ -555,21 +555,21 @@ export class OrchestratorService {
 
     private async getLLMDecision(snapshot: StateSnapshot, model: string, signal?: AbortSignal): Promise<{ decisions: TradeDecision[], prompt: string, rawOutput: string }> {
         const SYSTEM_PROMPT = TRADER_AGENT_SYSTEM_PROMPT;
-        const USER_PROMPT = `CONFIG PRESETS:
-screening:
-${JSON.stringify(snapshot.presets?.screening ?? {}, null, 2)}
-agent:
-${JSON.stringify(snapshot.presets?.agent ?? {}, null, 2)}
+        const debugContext = snapshot.debug_context ?? process.env.LLM_DEBUG_CONTEXT === "true";
+        const llmPayload = this.buildLlmPayload(snapshot, !!debugContext);
+        const debugPresets = debugContext ? snapshot.presets : undefined;
 
-MARKET SNAPSHOT:
-${JSON.stringify(snapshot)}
-
-CURRENT POSITIONS (JSON):
-${JSON.stringify(snapshot.account.current_positions, null, 2)}`;
+        const USER_PROMPT = `SNAPSHOT (minimal schema; use provided fields only):
+${JSON.stringify(llmPayload, null, 2)}${debugPresets ? `\n\nDEBUG_PRESETS (for inspection; not for action logic):\n${JSON.stringify(debugPresets, null, 2)}` : ""}`;
 
         let rawOutput = "";
 
         try {
+            const fail = (message: string) => {
+                rawOutput = rawOutput ? `${rawOutput}\n\nERROR: ${message}` : message;
+                throw new Error(message);
+            };
+
             console.log(`🤖 Calling LLM with model: ${model}`);
 
             // Check if we should use OpenRouter
@@ -841,11 +841,14 @@ ${JSON.stringify(snapshot.account.current_positions, null, 2)}`;
                 if (!d.symbol || d.symbol === "N/A" || d.symbol === "null") continue;
 
                 // 3. Validate Action
-                const validActions = ["OPEN_POSITION", "INCREASE_POSITION", "REDUCE_POSITION", "CLOSE_POSITION", "HOLD_POSITION"];
+                const validActions = ["OPEN_POSITION", "INCREASE_POSITION", "REDUCE_POSITION", "CLOSE_POSITION", "HOLD_POSITION", "HOLD"];
                 if (!validActions.includes(d.action)) {
                     console.warn(`⚠️ Skipping invalid action: ${d.action} for ${d.symbol}`);
                     continue;
                 }
+
+                const sizeHint = d.size_hint ?? d.sizeHint;
+                const notes = d.notes || (sizeHint ? `size_hint:${sizeHint}` : "");
 
                 decisions.push({
                     action: d.action,
@@ -858,9 +861,92 @@ ${JSON.stringify(snapshot.account.current_positions, null, 2)}`;
                     playbook: d.playbook || "none",
                     confidence: d.confidence ?? 0.5,
                     reason_code: d.reason_code || "unknown",
-                    notes: d.notes || "",
+                    notes,
                     audit: d.audit
                 });
+            }
+
+            // Backend validator: ensure opens are emitted when slots and entry_ok candidates exist
+            const killSwitch = snapshot.constraints.kill_switch;
+            const maxNewEntries = snapshot.constraints.max_new_entries_allowed ?? snapshot.constraints.max_new_trades_allowed ?? 0;
+            const maxIncreases = snapshot.constraints.max_increases_allowed
+                ?? snapshot.constraints.max_new_trades_allowed
+                ?? snapshot.constraints.max_new_entries_allowed
+                ?? 0;
+
+            const entryCandidatesNew = Object.values(snapshot.markets || {})
+                .filter(m => m?.derived?.risk?.eligible && m?.derived?.entry?.entry_ok && m?.derived?.liquidity?.tradeable)
+                .filter(m => !snapshot.account.current_positions.some(p => p.symbol === m.symbol))
+                .sort((a, b) => (a?.derived?.rank ?? Infinity) - (b?.derived?.rank ?? Infinity));
+
+            const entryCandidatesIncrease = Object.values(snapshot.markets || {})
+                .filter(m => m?.derived?.risk?.eligible && m?.derived?.entry?.entry_ok && m?.derived?.liquidity?.tradeable)
+                .filter(m => snapshot.account.current_positions.some(p => p.symbol === m.symbol))
+                .sort((a, b) => (a?.derived?.rank ?? Infinity) - (b?.derived?.rank ?? Infinity));
+
+            const requiredNew = killSwitch ? 0 : Math.min(maxNewEntries, entryCandidatesNew.length);
+            const requiredIncreases = killSwitch ? 0 : Math.min(maxIncreases, entryCandidatesIncrease.length);
+
+            const openDecisionsNew = decisions.filter(d => d.action === "OPEN_POSITION");
+            const openDecisionsIncrease = decisions.filter(d => d.action === "INCREASE_POSITION");
+
+            if (killSwitch && (openDecisionsNew.length + openDecisionsIncrease.length) > 0) {
+                fail(`INVALID: kill_switch is true but ${openDecisionsNew.length + openDecisionsIncrease.length} open/increase actions were returned.`);
+            }
+
+            if (!killSwitch && requiredNew === 0 && openDecisionsNew.length > 0) {
+                fail(`INVALID: max_new_entries_allowed is 0 but ${openDecisionsNew.length} open actions were returned.`);
+            }
+
+            if (!killSwitch && requiredIncreases === 0 && openDecisionsIncrease.length > 0 && maxIncreases === 0) {
+                fail(`INVALID: max_increases_allowed is 0 but ${openDecisionsIncrease.length} increase actions were returned.`);
+            }
+
+            // Autofill missing required opens/increases to avoid hard failures
+            const minConfidence = (snapshot as any)?.policy?.min_confidence ?? this.computeMinConfidence(snapshot.global_regime?.current);
+            const buildDecision = (symbol: string, playbook: string, action: "OPEN_POSITION" | "INCREASE_POSITION") => {
+                const side = this.inferSideFromPlaybook(playbook);
+                if (!side) return null;
+                return {
+                    action,
+                    symbol,
+                    side,
+                    target_side: side,
+                    playbook,
+                    confidence: minConfidence,
+                    reason_code: "liquidity_grab",
+                    notes: ""
+                } as TradeDecision;
+            };
+
+            const pickPlaybook = (eligiblePlaybooks: string[]) => eligiblePlaybooks && eligiblePlaybooks.length > 0 ? eligiblePlaybooks[0] : null;
+
+            while (openDecisionsNew.length < requiredNew) {
+                const candidate = entryCandidatesNew[openDecisionsNew.length];
+                if (!candidate) break;
+                const playbook = pickPlaybook(candidate?.derived?.risk?.eligible_playbooks ?? []);
+                if (!playbook) break;
+                const decision = buildDecision(candidate.symbol, playbook, "OPEN_POSITION");
+                if (decision) openDecisionsNew.push(decision); else break;
+            }
+
+            while (openDecisionsIncrease.length < requiredIncreases) {
+                const candidate = entryCandidatesIncrease[openDecisionsIncrease.length];
+                if (!candidate) break;
+                const playbook = pickPlaybook(candidate?.derived?.risk?.eligible_playbooks ?? []);
+                if (!playbook) break;
+                const decision = buildDecision(candidate.symbol, playbook, "INCREASE_POSITION");
+                if (decision) openDecisionsIncrease.push(decision); else break;
+            }
+
+            if (requiredNew > 0 && openDecisionsNew.length < requiredNew) {
+                const topSymbol = entryCandidatesNew[openDecisionsNew.length]?.symbol || entryCandidatesNew[0]?.symbol || "unknown";
+                fail(`INVALID: required ${requiredNew} OPEN_POSITION actions (slots=${maxNewEntries}, entry_ok_new=${entryCandidatesNew.length}) but only ${openDecisionsNew.length} provided. Next candidate: ${topSymbol}.`);
+            }
+
+            if (requiredIncreases > 0 && openDecisionsIncrease.length < requiredIncreases) {
+                const topSymbol = entryCandidatesIncrease[openDecisionsIncrease.length]?.symbol || entryCandidatesIncrease[0]?.symbol || "unknown";
+                fail(`INVALID: required ${requiredIncreases} INCREASE_POSITION actions (limit=${maxIncreases}, entry_ok_existing=${entryCandidatesIncrease.length}) but only ${openDecisionsIncrease.length} provided. Next candidate: ${topSymbol}.`);
             }
 
             return { decisions, prompt: SYSTEM_PROMPT + "\n\n" + USER_PROMPT, rawOutput };
@@ -874,6 +960,87 @@ ${JSON.stringify(snapshot.account.current_positions, null, 2)}`;
                 rawOutput: rawOutput || `Error: ${error instanceof Error ? error.message : String(error)}`
             };
         }
+    }
+
+    private buildLlmPayload(snapshot: StateSnapshot, debugContext: boolean) {
+        const openPositions = (snapshot.account.current_positions || []).map(p => ({
+            symbol: p.symbol,
+            side: p.side,
+            size_usd: p.size_usd,
+            fraction_of_equity: p.fraction_of_equity,
+            entry_price: p.entry_price,
+            leverage: p.leverage,
+            position_age_min: (p as any).position_age_min ?? null,
+            playbook_when_opened: (p as any).playbook_when_opened ?? null,
+            llm_reason_when_opened: (p as any).llm_reason_when_opened ?? null
+        }));
+
+        const symbols = Object.entries(snapshot.markets || {}).map(([symbol, market]) => {
+            const position = snapshot.account.current_positions.find(p => p.symbol === symbol);
+            const bookPressure = market.orderbook?.book_pressure;
+
+            return {
+                symbol: market.symbol || symbol,
+                news_blocked: market.news_blocked ?? false,
+                derived: {
+                    rank: market.derived?.rank ?? null,
+                    entry: {
+                        entry_ok: !!market.derived?.entry?.entry_ok,
+                        edge_to_cost_mult: market.derived?.entry?.edge_to_cost_mult ?? null,
+                        entry_score: market.derived?.entry?.entry_score ?? null,
+                        confidence_hint: (market.derived?.entry as any)?.confidence_hint ?? null,
+                        reasons_failed: market.derived?.entry?.reasons_failed ?? []
+                    },
+                    risk: {
+                        eligible: !!market.derived?.risk?.eligible,
+                        eligible_playbooks: market.derived?.risk?.eligible_playbooks ?? []
+                    },
+                    liquidity: {
+                        tradeable: !!market.derived?.liquidity?.tradeable
+                    },
+                    orderbook: bookPressure === undefined ? undefined : { book_pressure: bookPressure }
+                },
+                position_state: {
+                    has_position: !!position,
+                    position_side: position?.side ?? null,
+                    pnl_unrealized_usd: position?.unrealized_pnl ?? null,
+                    position_age_min: (position as any)?.position_age_min ?? null
+                }
+            };
+        }).sort((a, b) => {
+            const rankA = a.derived?.rank ?? Infinity;
+            const rankB = b.derived?.rank ?? Infinity;
+            return rankA - rankB;
+        });
+
+        const maxNewEntries = snapshot.constraints.max_new_entries_allowed ?? snapshot.constraints.max_new_trades_allowed ?? 0;
+        const maxIncreases = snapshot.constraints.max_increases_allowed
+            ?? snapshot.constraints.max_new_trades_allowed
+            ?? snapshot.constraints.max_new_entries_allowed
+            ?? 0;
+        const minConfidence = (snapshot as any)?.policy?.min_confidence ?? this.computeMinConfidence(snapshot.global_regime?.current);
+
+        return {
+            debug_context: debugContext,
+            snapshot: {
+                snapshot_id: snapshot.meta?.snapshot_id ?? null,
+                timestamp: snapshot.timestamp,
+                global_regime: { current: snapshot.global_regime?.current },
+                constraints: {
+                    max_new_entries_allowed: maxNewEntries,
+                    max_increases_allowed: maxIncreases
+                },
+                veto: {
+                    kill_switch: snapshot.constraints.kill_switch ?? false,
+                    risk_reduction_priority: (snapshot as any)?.veto?.risk_reduction_priority ?? false
+                },
+                policy: {
+                    min_confidence: minConfidence
+                },
+                open_positions: openPositions,
+                symbols
+            }
+        };
     }
 
     private enrichDecisions(decisions: TradeDecision[], snapshot: StateSnapshot, config: AgentConfig): TradeDecision[] {
@@ -956,6 +1123,12 @@ ${JSON.stringify(snapshot.account.current_positions, null, 2)}`;
         if (!eligiblePlaybooks || eligiblePlaybooks.length === 0) return true;
         const normalized = (playbook || "").toLowerCase().trim();
         return eligiblePlaybooks.some(p => p.toLowerCase().trim() === normalized);
+    }
+
+    private computeMinConfidence(regime: string | undefined) {
+        const base = 0.3;
+        if (regime === "CHOP") return parseFloat((base * 1.2).toFixed(4));
+        return base;
     }
 
     /**

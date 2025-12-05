@@ -7,7 +7,7 @@ import { Loader2, Percent, TrendingUp, Wallet } from "lucide-react"
 
 export function TopHeader() {
     const { isTestnet } = useTrading()
-    const { accountValue, unrealizedPnl, totalExposurePct, loading } = useAccountData()
+    const { accountValue, unrealizedPnl, totalExposurePct, marginUsagePct, loading } = useAccountData()
 
     const pnlValue = parseFloat(unrealizedPnl)
     const isPnlPositive = pnlValue >= 0
@@ -39,17 +39,22 @@ export function TopHeader() {
                         </div>
                     </div>
 
-                    {/* Total Exposure */}
+                    {/* Exposure */}
                     <div className="flex items-center gap-3">
                         <Percent className="h-5 w-5 text-slate-400" />
                         <div className="flex flex-col">
-                            <span className="text-xs text-slate-400/60">Total Exposure</span>
+                            <span className="text-xs text-slate-400/60">Exposure</span>
                             {loading && totalExposurePct === "0.00" ? (
                                 <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
                             ) : (
-                                <span className="text-2xl font-bold text-cyan-300">
-                                    {totalExposurePct}%
-                                </span>
+                                <div className="leading-tight">
+                                    <span className="text-2xl font-bold text-cyan-300 block">
+                                        {marginUsagePct}%
+                                    </span>
+                                    <span className="text-[11px] text-slate-400">
+                                        Margin used • Notional {totalExposurePct}%
+                                    </span>
+                                </div>
                             )}
                         </div>
                     </div>

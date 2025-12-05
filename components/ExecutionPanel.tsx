@@ -48,7 +48,7 @@ export function ExecutionPanel({ className }: { className?: string }) {
                         <TradeForm />
                     </TabsContent>
 
-                    <TabsContent value="ai" className="mt-0 px-4 pb-4 flex-1 min-h-0 flex flex-col">
+                    <TabsContent value="ai" forceMount className="mt-0 px-4 pb-4 flex-1 min-h-0 flex flex-col">
                         <AIAdvisor />
                     </TabsContent>
 

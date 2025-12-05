@@ -175,24 +175,16 @@ describe('OrchestratorService Integration', () => {
 
         // Check if LLM was called with correct prompt containing screened values AND existing positions
         // Verify Result Prompt (Concatenation of System + User)
-        expect(result.prompt).toContain('ROLE: Crypto Volatility Scalper AI'); // System Prompt start
+        expect(result.prompt).toContain('You are a fast Scalping Intraday Operator'); // System Prompt start
         expect(result.prompt).toContain('MARKET SNAPSHOT:'); // User Prompt start
         expect(result.prompt).toContain('BTC');
         expect(result.prompt).toContain('150'); // Entry Price
 
-        // Check if result matches LLM decision for ALL symbols
-        expect(result.decisions).toHaveLength(3);
-
+        // Check if result matches filtered LLM decision set (no HOLD/DO_NOTHING)
         const btcDecision = result.decisions.find(d => d.symbol === 'BTC');
         expect(btcDecision).toBeDefined();
         expect(btcDecision?.action).toBe('OPEN_POSITION');
 
-        const ethDecision = result.decisions.find(d => d.symbol === 'ETH');
-        expect(ethDecision).toBeDefined();
-        expect(ethDecision?.action).toBe('DO_NOTHING');
-
-        const solDecision = result.decisions.find(d => d.symbol === 'SOL');
-        expect(solDecision).toBeDefined();
-        expect(solDecision?.action).toBe('HOLD');
+        expect(result.decisions.some(d => d.action === 'DO_NOTHING' || d.action === 'HOLD')).toBe(false);
     });
 });

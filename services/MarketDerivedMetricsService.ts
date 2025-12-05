@@ -30,6 +30,9 @@ export class MarketDerivedMetricsService {
             const edgeMult = config.gates.edge_to_cost_mult_by_regime[regime];
             const edgeOk = edgeBps >= (edgeMult * costBps) && edgeBps > 10;
 
+            const edgeToCostMult = costBps > 0 ? edgeBps / costBps : 0;
+            const entryReasonsFailed: string[] = [];
+
             const dirM15 = Math.sign(m.returns?.m15 ?? 0);
             const dirH1 = Math.sign(m.returns?.h1 ?? 0);
 
@@ -58,6 +61,12 @@ export class MarketDerivedMetricsService {
             const minDepth = Math.min(m.orderbook?.bid_liquidity_usd ?? 0, m.orderbook?.ask_liquidity_usd ?? 0);
             const depthOk = minDepth >= config.gates.depth_usd_min;
             const tradeable = depthOk && costOk;
+
+            const entryOk = edgeOk && tradeable && costOk && edgeToCostMult >= edgeMult;
+            if (!edgeOk) entryReasonsFailed.push("EDGE_GATE");
+            if (!costOk) entryReasonsFailed.push("COST_GATE");
+            if (!depthOk) entryReasonsFailed.push("DEPTH_GATE");
+            if (edgeToCostMult < edgeMult) entryReasonsFailed.push("EDGE_TO_COST_BELOW_MULT");
 
             const { bestAnchorKey, bestAnchorValue } = this.findBestAnchor(m, config);
             const eligiblePlaybooks = this.buildEligiblePlaybooks(m, { breakoutOk, momOkLong, momOkShort, mrOkLong, mrOkShort, edgeOk, tradeable });
@@ -98,6 +107,11 @@ export class MarketDerivedMetricsService {
                     ret_sigma_5m_vs_1h: retSigma,
                     vol_ratio_5m_vs_1h: volRatio
                 },
+                entry: {
+                    entry_ok: entryOk,
+                    edge_to_cost_mult: parseFloat(edgeToCostMult.toFixed(3)),
+                    reasons_failed: entryReasonsFailed
+                },
                 risk: {
                     eligible,
                     eligible_playbooks: eligiblePlaybooks,
@@ -106,6 +120,27 @@ export class MarketDerivedMetricsService {
                 }
             };
         }
+
+        // --- Deterministic ranking: edge desc → vol_ratio → depth → assetIndex ---
+        const rankedSymbols = Object.entries(markets)
+            .sort(([, a], [, b]) => {
+                const edgeDiff = (b.derived?.edge?.edge_bps ?? -Infinity) - (a.derived?.edge?.edge_bps ?? -Infinity);
+                if (edgeDiff !== 0) return edgeDiff;
+
+                const volDiff = (b.derived?.normalized?.vol_ratio_5m_vs_1h ?? -Infinity) - (a.derived?.normalized?.vol_ratio_5m_vs_1h ?? -Infinity);
+                if (volDiff !== 0) return volDiff;
+
+                const depthDiff = (b.derived?.liquidity?.min_depth_usd ?? -Infinity) - (a.derived?.liquidity?.min_depth_usd ?? -Infinity);
+                if (depthDiff !== 0) return depthDiff;
+
+                return (a.assetIndex ?? Number.POSITIVE_INFINITY) - (b.assetIndex ?? Number.POSITIVE_INFINITY);
+            });
+
+        rankedSymbols.forEach(([symbol], idx) => {
+            const market = markets[symbol];
+            if (!market.derived) return;
+            market.derived.rank = idx + 1;
+        });
     }
 
     private getValueByPath(obj: any, path: string): number | null {

@@ -461,7 +461,7 @@ export function PositionsTable() {
                                             <TableHead className="text-slate-400 font-medium text-base text-right py-4">Entry</TableHead>
                                             <TableHead className="text-slate-400 font-medium text-base text-right py-4">Exposure</TableHead>
                                             <TableHead className="text-slate-400 font-medium text-base text-right py-4">PnL</TableHead>
-                                            <TableHead className="text-slate-400 font-medium text-base text-right py-4">Return</TableHead>
+                                            <TableHead className="text-slate-400 font-medium text-base text-right py-4">ROE</TableHead>
                                             <TableHead className="text-slate-400 font-medium text-base text-center py-4">Action</TableHead>
                                         </TableRow>
                                     </TableHeader>
@@ -472,11 +472,13 @@ export function PositionsTable() {
                                             const entryPrice = parseFloat(position.entryPx)
                                             const currentPrice = currentPrices[position.coin] || entryPrice
                                             const pnl = parseFloat(position.unrealizedPnl)
-                                            const priceReturnPct = entryPrice === 0
-                                                ? 0
-                                                : ((currentPrice - entryPrice) / entryPrice) * (isLong ? 1 : -1) * 100
                                             const isClosing = actionLoading === `close-${position.coin}`
                                             const exposure = Math.abs(size) * currentPrice
+                                            const margin = position.leverage.value ? exposure / position.leverage.value : 0
+                                            const roeFromApi = parseFloat(position.returnOnEquity)
+                                            const roePct = Number.isFinite(roeFromApi)
+                                                ? roeFromApi * 100
+                                                : (margin === 0 ? 0 : (pnl / margin) * 100)
 
                                             return (
                                                 <TableRow key={index} className="border-slate-800 hover:bg-slate-950/50">
@@ -506,8 +508,8 @@ export function PositionsTable() {
                                                     <TableCell className={`text-right font-mono font-semibold text-base py-4 ${pnl >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                                                         {pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}
                                                     </TableCell>
-                                                    <TableCell className={`text-right font-mono font-semibold text-base py-4 ${priceReturnPct >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                                                        {priceReturnPct >= 0 ? '+' : ''}{priceReturnPct.toFixed(2)}%
+                                                    <TableCell className={`text-right font-mono font-semibold text-base py-4 ${roePct >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                                        {roePct >= 0 ? '+' : ''}{roePct.toFixed(2)}%
                                                     </TableCell>
                                                     <TableCell className="text-center py-4">
                                                         <Button

@@ -537,7 +537,11 @@ export function AIAdvisor() {
                 <Button
                     variant={killSwitch ? "outline" : "destructive"}
                     size="sm"
-                    className={`w-full font-bold tracking-wider text-xs h-8 ${killSwitch ? "border-red-500 text-red-500 hover:bg-red-950" : "bg-red-600 hover:bg-red-700"}`}
+                    className={`w-full font-bold tracking-wider text-xs h-9 ${
+                        killSwitch
+                            ? "border-red-400 text-red-300 hover:bg-red-900/40"
+                            : "bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-900/30"
+                    }`}
                     onClick={handleKillSwitch}
                     disabled={killSwitch}
                 >
@@ -546,39 +550,46 @@ export function AIAdvisor() {
                 </Button>
 
                 {/* Controls */}
-                <div className="grid grid-cols-1 gap-2.5 bg-slate-950/50 p-2.5 rounded-lg border border-slate-800">
+                <div className="grid grid-cols-1 gap-3 bg-slate-900/80 p-3 rounded-lg border border-slate-700 shadow-inner">
                     <div className="flex items-center justify-between">
-                        <span className="text-xs text-slate-400 font-medium">Auto Trading</span>
+                        <span className="text-sm text-slate-200 font-semibold">Auto Trading</span>
                         <Switch
                             checked={autoTrading}
                             onCheckedChange={setAutoTrading}
                             disabled={killSwitch}
-                            className="data-[state=checked]:bg-green-500"
+                            className="data-[state=checked]:bg-emerald-500 data-[state=unchecked]:bg-slate-700"
                         />
                     </div>
 
                     <div className="flex items-center justify-between">
-                        <span className="text-xs text-slate-400 font-medium">Frequency</span>
-                        <div className="flex items-center gap-2">
+                        <span className="text-sm text-slate-200 font-semibold">Frequency</span>
+                        <div className="flex items-center gap-2 text-slate-400">
                             <Input
                                 type="number"
                                 value={frequency}
                                 onChange={(e) => setFrequency(Number(e.target.value))}
-                                className="w-20 h-7 text-xs text-right bg-slate-900 border-slate-700 focus-visible:ring-purple-500"
+                                className="w-24 h-9 text-sm text-right bg-slate-800/80 border-slate-600 text-slate-100 focus-visible:ring-emerald-500 focus:border-emerald-500 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                             />
-                            <span className="text-xs text-slate-500 font-medium">sec</span>
+                            <span className="text-sm font-medium">sec</span>
                         </div>
                     </div>
 
                     <div className="space-y-1">
-                        <span className="text-xs text-slate-400 font-medium block">Model</span>
+                        <span className="text-sm text-slate-200 font-semibold block">Model</span>
                         <Select value={selectedModel} onValueChange={setSelectedModel}>
-                            <SelectTrigger className="w-full h-8 text-xs bg-slate-900 border-slate-700 text-slate-200 focus:ring-purple-500">
+                            <SelectTrigger className="w-full h-10 text-sm bg-slate-800/80 border-slate-600 text-slate-100 focus:ring-emerald-500 focus:border-emerald-500">
                                 <SelectValue placeholder="Select Model" className="truncate" />
                             </SelectTrigger>
-                            <SelectContent className="bg-slate-900 border-slate-700 text-slate-200">
+                            <SelectContent className="bg-slate-900 border-slate-700 text-slate-100">
                                 {availableModels.map(m => (
-                                    <SelectItem key={m} value={m} title={m} className="focus:bg-slate-800 focus:text-purple-400 text-xs">{m}</SelectItem>
+                                    <SelectItem
+                                        key={m}
+                                        value={m}
+                                        title={m}
+                                        className="focus:bg-slate-800 focus:text-emerald-400 text-sm"
+                                    >
+                                        {m}
+                                    </SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
