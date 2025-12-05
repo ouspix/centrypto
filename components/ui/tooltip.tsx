@@ -14,15 +14,22 @@ const TooltipTrigger = TooltipPrimitive.Trigger
 const TooltipContent = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
->(({ className, sideOffset = 4, ...props }, ref) => (
+>(({ className, sideOffset = 4, style, ...props }, ref) => (
   <TooltipPrimitive.Portal>
     <TooltipPrimitive.Content
       ref={ref}
-      sideOffset={sideOffset}
-      className={cn(
-        "z-50 overflow-hidden rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 origin-[--radix-tooltip-content-transform-origin]",
+        sideOffset={sideOffset}
+        className={cn(
+        "z-50 overflow-hidden rounded-md px-3 py-1.5 text-xs text-white shadow-lg shadow-black/50 border",
+        "bg-[rgba(124,58,237,0.88)] border-[rgba(185,162,250,0.95)] backdrop-blur-sm",
+        "opacity-0 data-[state=delayed-open]:opacity-100 data-[state=instant-open]:opacity-100 data-[state=closed]:opacity-0",
+        "transition-opacity duration-150 ease-out will-change-[transform,opacity] origin-[--radix-tooltip-content-transform-origin]",
         className
       )}
+      style={{
+        color: "#ffffff",
+        ...style
+      }}
       {...props}
     />
   </TooltipPrimitive.Portal>

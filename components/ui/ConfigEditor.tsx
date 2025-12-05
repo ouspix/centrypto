@@ -3,10 +3,11 @@ import React, { useState, useEffect } from "react";
 import { AgentConfig, DEFAULT_AGENT_CONFIG, AGENT_PRESETS } from "@/lib/agent-config";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { LabelWithTooltip } from "@/components/ui/label-with-tooltip";
 import { Save, RotateCcw, X } from "lucide-react";
 import { toast } from "sonner";
 
@@ -114,332 +115,432 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
     };
 
     return (
-        <Card className="w-full bg-slate-900 border-slate-800 flex flex-col shadow-none border-0">
-            <CardHeader className="flex flex-row items-center justify-between py-3 px-4 shrink-0">
-                <CardTitle className="text-lg font-medium text-white tracking-tight">Agent Configuration</CardTitle>
-                <div className="flex items-center gap-1">
-                    <Button variant="ghost" size="icon" onClick={handleReset} title="Reset to Defaults" className="h-8 w-8 hover:bg-slate-800 text-slate-400 hover:text-white transition-colors rounded-full">
-                        <RotateCcw className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon" onClick={onCancel} title="Close" className="h-8 w-8 hover:bg-slate-800 text-slate-400 hover:text-white transition-colors rounded-full">
-                        <X className="h-4 w-4" />
-                    </Button>
-                </div>
-            </CardHeader>
-            <div className="px-4 pb-4">
-                <div className="flex flex-col gap-3 mb-5">
-                    <div className="flex items-center gap-3">
-                        <label className="text-xs text-slate-400 font-medium">Preset</label>
-                        <select
-                            value={preset}
-                            onChange={(e) => applyPreset(e.target.value)}
-                            className="flex-1 text-sm bg-slate-900/50 border border-slate-800 text-slate-200 font-medium rounded-md px-3 py-2 focus:outline-none focus:border-purple-500/50 transition-colors"
-                        >
-                            <option value="default">Default</option>
-                            {Object.keys(AGENT_PRESETS).map(key => (
-                                <option key={key} value={key}>{key}</option>
-                            ))}
-                            <option value="custom">Custom (edited)</option>
-                        </select>
-
+        <TooltipProvider delayDuration={120}>
+            <Card className="w-full bg-slate-900 border-slate-800 flex flex-col shadow-none border-0">
+                <CardHeader className="flex flex-row items-center justify-between py-3 px-4 shrink-0">
+                    <CardTitle className="text-lg font-medium text-white tracking-tight">Agent Configuration</CardTitle>
+                    <div className="flex items-center gap-1">
+                        <Button variant="ghost" size="icon" onClick={handleReset} title="Reset to Defaults" className="h-8 w-8 hover:bg-slate-800 text-slate-400 hover:text-white transition-colors rounded-full">
+                            <RotateCcw className="h-4 w-4" />
+                        </Button>
+                        <Button variant="ghost" size="icon" onClick={onCancel} title="Close" className="h-8 w-8 hover:bg-slate-800 text-slate-400 hover:text-white transition-colors rounded-full">
+                            <X className="h-4 w-4" />
+                        </Button>
                     </div>
-                </div>
-                <Tabs defaultValue="risk" className="w-full h-full flex flex-col">
-                    <TabsList className="grid w-full grid-cols-5 bg-slate-900/30 p-1 mb-5 rounded-lg border border-slate-800/50 shrink-0 gap-1">
-                        <TabsTrigger value="risk" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Risk</TabsTrigger>
-                        <TabsTrigger value="triggers" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Triggers</TabsTrigger>
-                        <TabsTrigger value="regime" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Regime</TabsTrigger>
-                        <TabsTrigger value="gates" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Gates</TabsTrigger>
-                        <TabsTrigger value="network" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Network</TabsTrigger>
-                    </TabsList>
+                </CardHeader>
+                <div className="px-4 pb-4">
+                    <div className="flex flex-col gap-3 mb-5">
+                        <div className="flex items-center gap-3">
+                            <LabelWithTooltip
+                                label="Preset"
+                                tooltip="Load a saved mix of risk, trigger, regime, and network defaults."
+                                className="text-xs text-slate-400 font-medium"
+                                labelClassName="text-xs text-slate-400 font-medium"
+                            />
+                            <select
+                                value={preset}
+                                onChange={(e) => applyPreset(e.target.value)}
+                                className="flex-1 text-sm bg-slate-900/50 border border-slate-800 text-slate-200 font-medium rounded-md px-3 py-2 focus:outline-none focus:border-purple-500/50 transition-colors"
+                            >
+                                <option value="default">Default</option>
+                                {Object.keys(AGENT_PRESETS).map(key => (
+                                    <option key={key} value={key}>{key}</option>
+                                ))}
+                                <option value="custom">Custom (edited)</option>
+                            </select>
 
-                    <div className="flex-1">
-                        {/* RISK */}
-                        <TabsContent value="risk" className="space-y-4 mt-0">
-                            <div className="grid grid-cols-2 gap-3">
-                                <div className="space-y-1.5">
-                                    <Label className="text-xs text-slate-300 font-medium">Max Positions</Label>
-                                    <Input
-                                        className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
-                                        type="number"
-                                        value={config.risk.max_positions}
-                                        onChange={e => updateConfig('risk.max_positions', Number(e.target.value))}
-                                    />
-                                </div>
-                                <div className="space-y-1.5">
-                                    <Label className="text-xs text-slate-300 font-medium">Max New Pos / Cycle</Label>
-                                    <Input
-                                        className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
-                                        type="number"
-                                        value={config.risk.max_new_positions_per_cycle}
-                                        onChange={e => updateConfig('risk.max_new_positions_per_cycle', Number(e.target.value))}
-                                    />
-                                </div>
-                            </div>
-                            <div className="space-y-1.5">
-                                <Label className="text-xs text-slate-300 font-medium">Max Position Fraction per Symbol</Label>
-                                <Input
-                                    className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
-                                    type="number"
-                                    step="0.01"
-                                    value={config.risk.max_position_fraction_per_symbol}
-                                    onChange={e => {
-                                        const val = Number(e.target.value);
-                                        updateConfig('risk.max_position_fraction_per_symbol', val);
-                                        updateConfig('risk.max_position_fraction', val);
-                                    }}
-                                />
-                            </div>
-                            <div className="space-y-1.5">
-                                <Label className="text-xs text-slate-300 font-medium">Max Total Exposure (Fraction)</Label>
-                                <Input
-                                    className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
-                                    type="number"
-                                    step="0.1"
-                                    max="5.0"
-                                    value={config.risk.max_total_exposure_fraction}
-                                    onChange={e => updateConfig('risk.max_total_exposure_fraction', Number(e.target.value))}
-                                />
-                            </div>
-                            <div className="space-y-1.5">
-                                <Label className="text-xs text-slate-300 font-medium">Daily Loss Kill Switch (Fraction)</Label>
-                                <Input
-                                    className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
-                                    type="number"
-                                    step="0.01"
-                                    value={config.risk.daily_loss_kill_switch_fraction}
-                                    onChange={e => updateConfig('risk.daily_loss_kill_switch_fraction', Number(e.target.value))}
-                                />
-                            </div>
-                            <div className="space-y-1.5">
-                                <Label className="text-xs text-slate-300 font-medium">Min Trade Notional (USD)</Label>
-                                <Input
-                                    className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
-                                    type="number"
-                                    value={config.risk.min_trade_notional_usd}
-                                    onChange={e => updateConfig('risk.min_trade_notional_usd', Number(e.target.value))}
-                                />
-                            </div>
-                            <div className="flex items-center justify-between p-3 bg-slate-950 rounded-lg border border-slate-800">
-                                <Label className="text-xs text-slate-300 font-medium">No Flip Same Tick</Label>
-                                <Switch
-                                    checked={config.risk.no_flip_same_tick}
-                                    onCheckedChange={c => updateConfig('risk.no_flip_same_tick', c)}
-                                    className="data-[state=checked]:bg-purple-600"
-                                />
-                            </div>
-                        </TabsContent>
+                        </div>
+                    </div>
+                    <Tabs defaultValue="risk" className="w-full h-full flex flex-col">
+                        <TabsList className="grid w-full grid-cols-5 bg-slate-900/30 p-1 mb-5 rounded-lg border border-slate-800/50 shrink-0 gap-1">
+                            <TabsTrigger value="risk" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Risk</TabsTrigger>
+                            <TabsTrigger value="triggers" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Triggers</TabsTrigger>
+                            <TabsTrigger value="regime" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Regime</TabsTrigger>
+                            <TabsTrigger value="gates" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Gates</TabsTrigger>
+                            <TabsTrigger value="network" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Network</TabsTrigger>
+                        </TabsList>
 
-                        {/* TRIGGERS */}
-                        <TabsContent value="triggers" className="space-y-6 mt-0">
-                            {/* Momentum */}
-                            <div className="space-y-3">
-                                <h4 className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Momentum</h4>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="space-y-2">
-                                        <Label className="text-xs font-medium text-slate-400">Book Pressure Min</Label>
-                                        <Input
-                                            className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-9 rounded-lg text-sm"
-                                            type="number"
-                                            step="0.05"
-                                            value={config.triggers?.momentum.book_pressure_min ?? 0.2}
-                                            onChange={e => updateConfig('triggers.momentum.book_pressure_min', Number(e.target.value))}
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label className="text-xs font-medium text-slate-400">Vol Ratio Min</Label>
-                                        <Input
-                                            className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-9 rounded-lg text-sm"
-                                            type="number"
-                                            step="0.1"
-                                            value={config.triggers?.momentum.vol_ratio_min ?? 1.0}
-                                            onChange={e => updateConfig('triggers.momentum.vol_ratio_min', Number(e.target.value))}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Mean Reversion */}
-                            <div className="space-y-3 pt-2 border-t border-slate-800/50">
-                                <h4 className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Mean Reversion</h4>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="space-y-2">
-                                        <Label className="text-xs font-medium text-slate-400">Ret Sigma Threshold</Label>
-                                        <Input
-                                            className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-9 rounded-lg text-sm"
-                                            type="number"
-                                            step="0.5"
-                                            value={config.triggers?.mean_reversion.ret_sigma_threshold ?? 3.0}
-                                            onChange={e => updateConfig('triggers.mean_reversion.ret_sigma_threshold', Number(e.target.value))}
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label className="text-xs font-medium text-slate-400">Book Pressure Min</Label>
-                                        <Input
-                                            className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-9 rounded-lg text-sm"
-                                            type="number"
-                                            step="0.05"
-                                            value={config.triggers?.mean_reversion.book_pressure_min ?? 0.1}
-                                            onChange={e => updateConfig('triggers.mean_reversion.book_pressure_min', Number(e.target.value))}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Breakout */}
-                            <div className="space-y-3 pt-2 border-t border-slate-800/50">
-                                <h4 className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Breakout</h4>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="space-y-2">
-                                        <Label className="text-xs font-medium text-slate-400">Vol Ratio Min</Label>
-                                        <Input
-                                            className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-9 rounded-lg text-sm"
-                                            type="number"
-                                            step="0.1"
-                                            value={config.triggers?.breakout.vol_ratio_min ?? 2.0}
-                                            onChange={e => updateConfig('triggers.breakout.vol_ratio_min', Number(e.target.value))}
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label className="text-xs font-medium text-slate-400">Book Pressure Min</Label>
-                                        <Input
-                                            className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-9 rounded-lg text-sm"
-                                            type="number"
-                                            step="0.05"
-                                            value={config.triggers?.breakout.book_pressure_min ?? 0.3}
-                                            onChange={e => updateConfig('triggers.breakout.book_pressure_min', Number(e.target.value))}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </TabsContent>
-
-                        {/* REGIME */}
-                        <TabsContent value="regime" className="space-y-4 mt-0">
-                            <div className="space-y-3">
-                                <h4 className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Chop Regime</h4>
+                        <div className="flex-1">
+                            {/* RISK */}
+                            <TabsContent value="risk" className="space-y-4 mt-0">
                                 <div className="grid grid-cols-2 gap-3">
                                     <div className="space-y-1.5">
-                                        <Label className="text-[10px] font-medium text-slate-400">New Pos Mult</Label>
+                                        <LabelWithTooltip
+                                            label="Max Positions"
+                                            tooltip="Hard cap on simultaneous open positions across all symbols."
+                                            labelClassName="text-xs text-slate-300 font-medium"
+                                        />
                                         <Input
-                                            className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium h-8 text-sm rounded-md"
+                                            className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
                                             type="number"
-                                            step="0.1"
-                                            value={config.regime?.chop.max_new_positions_per_cycle_mult ?? 0.5}
-                                            onChange={e => updateConfig('regime.chop.max_new_positions_per_cycle_mult', Number(e.target.value))}
+                                            value={config.risk.max_positions}
+                                            onChange={e => updateConfig('risk.max_positions', Number(e.target.value))}
                                         />
                                     </div>
                                     <div className="space-y-1.5">
-                                        <Label className="text-[10px] font-medium text-slate-400">Conf. Thresh Mult</Label>
-                                        <Input
-                                            className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium h-8 text-sm rounded-md"
-                                            type="number"
-                                            step="0.1"
-                                            value={config.regime?.chop.confidence_threshold_mult ?? 1.2}
-                                            onChange={e => updateConfig('regime.chop.confidence_threshold_mult', Number(e.target.value))}
+                                        <LabelWithTooltip
+                                            label="Max New Pos / Cycle"
+                                            tooltip="Limit how many fresh entries the agent can open in a single decision cycle."
+                                            labelClassName="text-xs text-slate-300 font-medium"
                                         />
-                                    </div>
-                                    <div className="space-y-1.5">
-                                        <Label className="text-[10px] font-medium text-slate-400">TP/SL Mult</Label>
                                         <Input
-                                            className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium h-8 text-sm rounded-md"
+                                            className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
                                             type="number"
-                                            step="0.1"
-                                            value={config.regime?.chop.tp_sl_mult ?? 0.8}
-                                            onChange={e => updateConfig('regime.chop.tp_sl_mult', Number(e.target.value))}
+                                            value={config.risk.max_new_positions_per_cycle}
+                                            onChange={e => updateConfig('risk.max_new_positions_per_cycle', Number(e.target.value))}
                                         />
                                     </div>
                                 </div>
-                            </div>
-                            <div className="space-y-3 pt-2 border-t border-slate-800/50">
-                                <h4 className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Risk On/Off</h4>
                                 <div className="space-y-1.5">
-                                    <Label className="text-[10px] font-medium text-slate-400">Risk On Sizing Mult</Label>
+                                    <LabelWithTooltip
+                                        label="Max Position Fraction per Symbol"
+                                        tooltip="Maximum fraction of equity that can be allocated to any single symbol. Also mirrors the overall per-trade cap."
+                                        labelClassName="text-xs text-slate-300 font-medium"
+                                    />
                                     <Input
-                                        className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium h-8 text-sm rounded-md"
+                                        className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
+                                        type="number"
+                                        step="0.01"
+                                        value={config.risk.max_position_fraction_per_symbol}
+                                        onChange={e => {
+                                            const val = Number(e.target.value);
+                                            updateConfig('risk.max_position_fraction_per_symbol', val);
+                                            updateConfig('risk.max_position_fraction', val);
+                                        }}
+                                    />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <LabelWithTooltip
+                                        label="Max Total Exposure (Fraction)"
+                                        tooltip="Cap on total gross exposure vs. equity (sum of all legs), preventing over-leverage across the book."
+                                        labelClassName="text-xs text-slate-300 font-medium"
+                                    />
+                                    <Input
+                                        className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
                                         type="number"
                                         step="0.1"
-                                        value={config.regime?.risk_on_off.sizing_mult ?? 1.2}
-                                        onChange={e => updateConfig('regime.risk_on_off.sizing_mult', Number(e.target.value))}
-                                    />
-                                </div>
-                            </div>
-                        </TabsContent>
-
-                        {/* GATES */}
-                        <TabsContent value="gates" className="space-y-4 mt-0">
-                            <div className="space-y-1.5">
-                                <Label className="text-xs text-slate-300 font-medium">Min Depth (USD)</Label>
-                                <Input
-                                    className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
-                                    type="number"
-                                    value={config.gates.depth_usd_min}
-                                    onChange={e => updateConfig('gates.depth_usd_min', Number(e.target.value))}
-                                />
-                            </div>
-
-                            <div className="grid grid-cols-3 gap-3 pt-2">
-                                <div className="space-y-1.5">
-                                    <Label className="text-[10px] font-medium text-slate-400">Risk On (BPS)</Label>
-                                    <Input
-                                        className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
-                                        type="number"
-                                        value={config.gates.cost_bps_max_by_regime.RISK_ON}
-                                        onChange={e => updateConfig('gates.cost_bps_max_by_regime.RISK_ON', Number(e.target.value))}
+                                        max="5.0"
+                                        value={config.risk.max_total_exposure_fraction}
+                                        onChange={e => updateConfig('risk.max_total_exposure_fraction', Number(e.target.value))}
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-[10px] font-medium text-slate-400">Risk Off (BPS)</Label>
+                                    <LabelWithTooltip
+                                        label="Daily Loss Kill Switch (Fraction)"
+                                        tooltip="Equity drawdown limit for the day. If breached, the agent should stop trading until the next session."
+                                        labelClassName="text-xs text-slate-300 font-medium"
+                                    />
                                     <Input
                                         className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
                                         type="number"
-                                        value={config.gates.cost_bps_max_by_regime.RISK_OFF}
-                                        onChange={e => updateConfig('gates.cost_bps_max_by_regime.RISK_OFF', Number(e.target.value))}
+                                        step="0.01"
+                                        value={config.risk.daily_loss_kill_switch_fraction}
+                                        onChange={e => updateConfig('risk.daily_loss_kill_switch_fraction', Number(e.target.value))}
                                     />
                                 </div>
                                 <div className="space-y-1.5">
-                                    <Label className="text-[10px] font-medium text-slate-400">Chop (BPS)</Label>
+                                    <LabelWithTooltip
+                                        label="Min Trade Notional (USD)"
+                                        tooltip="Smallest notional size the agent is allowed to submit, used to avoid dust orders."
+                                        labelClassName="text-xs text-slate-300 font-medium"
+                                    />
                                     <Input
                                         className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
                                         type="number"
-                                        value={config.gates.cost_bps_max_by_regime.CHOP}
-                                        onChange={e => updateConfig('gates.cost_bps_max_by_regime.CHOP', Number(e.target.value))}
+                                        value={config.risk.min_trade_notional_usd}
+                                        onChange={e => updateConfig('risk.min_trade_notional_usd', Number(e.target.value))}
                                     />
                                 </div>
-                            </div>
-                        </TabsContent>
+                                <div className="flex items-center justify-between p-3 bg-slate-950 rounded-lg border border-slate-800">
+                                    <LabelWithTooltip
+                                        label="No Flip Same Tick"
+                                        tooltip="Blocks immediate side flips within the same engine tick to reduce churn and fee drag."
+                                        className="text-xs text-slate-300 font-medium"
+                                        labelClassName="text-xs text-slate-300 font-medium"
+                                    />
+                                    <Switch
+                                        checked={config.risk.no_flip_same_tick}
+                                        onCheckedChange={c => updateConfig('risk.no_flip_same_tick', c)}
+                                        className="data-[state=checked]:bg-purple-600"
+                                    />
+                                </div>
+                            </TabsContent>
 
-                        {/* NETWORK */}
-                        <TabsContent value="network" className="space-y-4 mt-0">
-                            <div className="space-y-1.5">
-                                <Label className="text-xs text-slate-300 font-medium">Slippage Min BPS</Label>
-                                <Input
-                                    className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
-                                    type="number"
-                                    value={config.network_profiles.mainnet.slippage_model.min_bps}
-                                    onChange={e => updateConfig('network_profiles.mainnet.slippage_model.min_bps', Number(e.target.value))}
-                                />
-                            </div>
-                            <div className="space-y-1.5">
-                                <Label className="text-xs text-slate-300 font-medium">Slippage Spread Multiplier</Label>
-                                <Input
-                                    className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
-                                    type="number"
-                                    step="0.1"
-                                    value={config.network_profiles.mainnet.slippage_model.spread_mult}
-                                    onChange={e => updateConfig('network_profiles.mainnet.slippage_model.spread_mult', Number(e.target.value))}
-                                />
-                            </div>
-                        </TabsContent>
-                    </div>
-                </Tabs>
-            </div>
-            <div className="p-4 pt-2 shrink-0">
-                <Button onClick={handleSave} className="w-full bg-purple-600/90 hover:bg-purple-600 text-white font-medium h-10 text-sm rounded-lg shadow-lg shadow-purple-900/10 transition-all">
-                    <Save className="h-4 w-4 mr-2" />
-                    Save Configuration
-                </Button>
-            </div>
-        </Card>
+                            {/* TRIGGERS */}
+                            <TabsContent value="triggers" className="space-y-6 mt-0">
+                                {/* Momentum */}
+                                <div className="space-y-3">
+                                    <h4 className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Momentum</h4>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <LabelWithTooltip
+                                                label="Book Pressure Min"
+                                                tooltip="Minimum order book imbalance to count as momentum confirmation. Higher values require stronger bid/ask skew."
+                                                labelClassName="text-xs font-medium text-slate-400"
+                                            />
+                                            <Input
+                                                className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-9 rounded-lg text-sm"
+                                                type="number"
+                                                step="0.05"
+                                                value={config.triggers?.momentum.book_pressure_min ?? 0.2}
+                                                onChange={e => updateConfig('triggers.momentum.book_pressure_min', Number(e.target.value))}
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <LabelWithTooltip
+                                                label="Vol Ratio Min"
+                                                tooltip="Floor for short-term vs. long-term volume ratio before treating a move as real momentum."
+                                                labelClassName="text-xs font-medium text-slate-400"
+                                            />
+                                            <Input
+                                                className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-9 rounded-lg text-sm"
+                                                type="number"
+                                                step="0.1"
+                                                value={config.triggers?.momentum.vol_ratio_min ?? 1.0}
+                                                onChange={e => updateConfig('triggers.momentum.vol_ratio_min', Number(e.target.value))}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Mean Reversion */}
+                                <div className="space-y-3 pt-2 border-t border-slate-800/50">
+                                    <h4 className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Mean Reversion</h4>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <LabelWithTooltip
+                                                label="Ret Sigma Threshold"
+                                                tooltip="How many standard deviations a return must stretch before flagging a fade opportunity."
+                                                labelClassName="text-xs font-medium text-slate-400"
+                                            />
+                                            <Input
+                                                className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-9 rounded-lg text-sm"
+                                                type="number"
+                                                step="0.5"
+                                                value={config.triggers?.mean_reversion.ret_sigma_threshold ?? 3.0}
+                                                onChange={e => updateConfig('triggers.mean_reversion.ret_sigma_threshold', Number(e.target.value))}
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <LabelWithTooltip
+                                                label="Book Pressure Min"
+                                                tooltip="Baseline book skew needed to trust that a stretched move can snap back."
+                                                labelClassName="text-xs font-medium text-slate-400"
+                                            />
+                                            <Input
+                                                className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-9 rounded-lg text-sm"
+                                                type="number"
+                                                step="0.05"
+                                                value={config.triggers?.mean_reversion.book_pressure_min ?? 0.1}
+                                                onChange={e => updateConfig('triggers.mean_reversion.book_pressure_min', Number(e.target.value))}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Breakout */}
+                                <div className="space-y-3 pt-2 border-t border-slate-800/50">
+                                    <h4 className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Breakout</h4>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <LabelWithTooltip
+                                                label="Vol Ratio Min"
+                                                tooltip="Minimum volume expansion vs. baseline to treat the squeeze release as a true breakout."
+                                                labelClassName="text-xs font-medium text-slate-400"
+                                            />
+                                            <Input
+                                                className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-9 rounded-lg text-sm"
+                                                type="number"
+                                                step="0.1"
+                                                value={config.triggers?.breakout.vol_ratio_min ?? 2.0}
+                                                onChange={e => updateConfig('triggers.breakout.vol_ratio_min', Number(e.target.value))}
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <LabelWithTooltip
+                                                label="Book Pressure Min"
+                                                tooltip="Order book bias required to keep trading in the breakout direction after the initial squeeze."
+                                                labelClassName="text-xs font-medium text-slate-400"
+                                            />
+                                            <Input
+                                                className="bg-slate-950 border-slate-800 text-slate-100 focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-9 rounded-lg text-sm"
+                                                type="number"
+                                                step="0.05"
+                                                value={config.triggers?.breakout.book_pressure_min ?? 0.3}
+                                                onChange={e => updateConfig('triggers.breakout.book_pressure_min', Number(e.target.value))}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </TabsContent>
+
+                            {/* REGIME */}
+                            <TabsContent value="regime" className="space-y-4 mt-0">
+                                <div className="space-y-3">
+                                    <h4 className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Chop Regime</h4>
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div className="space-y-1.5">
+                                            <LabelWithTooltip
+                                                label="New Pos Mult"
+                                                tooltip="Multiplier applied to max new positions when the global regime is CHOP. Values below 1 slow down entries."
+                                                labelClassName="text-[10px] font-medium text-slate-400"
+                                            />
+                                            <Input
+                                                className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium h-8 text-sm rounded-md"
+                                                type="number"
+                                                step="0.1"
+                                                value={config.regime?.chop.max_new_positions_per_cycle_mult ?? 0.5}
+                                                onChange={e => updateConfig('regime.chop.max_new_positions_per_cycle_mult', Number(e.target.value))}
+                                            />
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <LabelWithTooltip
+                                                label="Conf. Thresh Mult"
+                                                tooltip="Inflates the confidence threshold needed to take trades in CHOP, forcing only A+ setups."
+                                                labelClassName="text-[10px] font-medium text-slate-400"
+                                            />
+                                            <Input
+                                                className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium h-8 text-sm rounded-md"
+                                                type="number"
+                                                step="0.1"
+                                                value={config.regime?.chop.confidence_threshold_mult ?? 1.2}
+                                                onChange={e => updateConfig('regime.chop.confidence_threshold_mult', Number(e.target.value))}
+                                            />
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <LabelWithTooltip
+                                                label="TP/SL Mult"
+                                                tooltip="Scales the take-profit / stop-loss template in CHOP to tighten or loosen exits."
+                                                labelClassName="text-[10px] font-medium text-slate-400"
+                                            />
+                                            <Input
+                                                className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium h-8 text-sm rounded-md"
+                                                type="number"
+                                                step="0.1"
+                                                value={config.regime?.chop.tp_sl_mult ?? 0.8}
+                                                onChange={e => updateConfig('regime.chop.tp_sl_mult', Number(e.target.value))}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="space-y-3 pt-2 border-t border-slate-800/50">
+                                    <h4 className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Risk On/Off</h4>
+                                    <div className="space-y-1.5">
+                                        <LabelWithTooltip
+                                            label="Risk On Sizing Mult"
+                                            tooltip="Scaling factor on position sizing when the system flags RISK_ON or RISK_OFF regimes."
+                                            labelClassName="text-[10px] font-medium text-slate-400"
+                                        />
+                                        <Input
+                                            className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium h-8 text-sm rounded-md"
+                                            type="number"
+                                            step="0.1"
+                                            value={config.regime?.risk_on_off.sizing_mult ?? 1.2}
+                                            onChange={e => updateConfig('regime.risk_on_off.sizing_mult', Number(e.target.value))}
+                                        />
+                                    </div>
+                                </div>
+                            </TabsContent>
+
+                            {/* GATES */}
+                            <TabsContent value="gates" className="space-y-4 mt-0">
+                                <div className="space-y-1.5">
+                                    <LabelWithTooltip
+                                        label="Min Depth (USD)"
+                                        tooltip="Absolute minimum combined order book depth required before trading a symbol."
+                                        labelClassName="text-xs text-slate-300 font-medium"
+                                    />
+                                    <Input
+                                        className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
+                                        type="number"
+                                        value={config.gates.depth_usd_min}
+                                        onChange={e => updateConfig('gates.depth_usd_min', Number(e.target.value))}
+                                    />
+                                </div>
+
+                                <div className="grid grid-cols-3 gap-3 pt-2">
+                                    <div className="space-y-1.5">
+                                        <LabelWithTooltip
+                                            label="Risk On (BPS)"
+                                            tooltip="Max allowed all-in trading cost (fees + slip + spread) when regime is RISK_ON."
+                                            labelClassName="text-[10px] font-medium text-slate-400"
+                                        />
+                                        <Input
+                                            className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
+                                            type="number"
+                                            value={config.gates.cost_bps_max_by_regime.RISK_ON}
+                                            onChange={e => updateConfig('gates.cost_bps_max_by_regime.RISK_ON', Number(e.target.value))}
+                                        />
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <LabelWithTooltip
+                                            label="Risk Off (BPS)"
+                                            tooltip="Max allowed cost when the book is in defensive RISK_OFF mode."
+                                            labelClassName="text-[10px] font-medium text-slate-400"
+                                        />
+                                        <Input
+                                            className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
+                                            type="number"
+                                            value={config.gates.cost_bps_max_by_regime.RISK_OFF}
+                                            onChange={e => updateConfig('gates.cost_bps_max_by_regime.RISK_OFF', Number(e.target.value))}
+                                        />
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <LabelWithTooltip
+                                            label="Chop (BPS)"
+                                            tooltip="Max allowed cost when trading a choppy regime, usually tighter to avoid grinding drawdown."
+                                            labelClassName="text-[10px] font-medium text-slate-400"
+                                        />
+                                        <Input
+                                            className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
+                                            type="number"
+                                            value={config.gates.cost_bps_max_by_regime.CHOP}
+                                            onChange={e => updateConfig('gates.cost_bps_max_by_regime.CHOP', Number(e.target.value))}
+                                        />
+                                    </div>
+                                </div>
+                            </TabsContent>
+
+                            {/* NETWORK */}
+                            <TabsContent value="network" className="space-y-4 mt-0">
+                                <div className="space-y-1.5">
+                                    <LabelWithTooltip
+                                        label="Slippage Min BPS"
+                                        tooltip="Base slippage floor baked into sizing calculations even when depth looks perfect."
+                                        labelClassName="text-xs text-slate-300 font-medium"
+                                    />
+                                    <Input
+                                        className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
+                                        type="number"
+                                        value={config.network_profiles.mainnet.slippage_model.min_bps}
+                                        onChange={e => updateConfig('network_profiles.mainnet.slippage_model.min_bps', Number(e.target.value))}
+                                    />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <LabelWithTooltip
+                                        label="Slippage Spread Multiplier"
+                                        tooltip="How strongly the model should scale slippage off the observed spread width."
+                                        labelClassName="text-xs text-slate-300 font-medium"
+                                    />
+                                    <Input
+                                        className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
+                                        type="number"
+                                        step="0.1"
+                                        value={config.network_profiles.mainnet.slippage_model.spread_mult}
+                                        onChange={e => updateConfig('network_profiles.mainnet.slippage_model.spread_mult', Number(e.target.value))}
+                                    />
+                                </div>
+                            </TabsContent>
+                        </div>
+                    </Tabs>
+                </div>
+                <div className="p-4 pt-2 shrink-0">
+                    <Button onClick={handleSave} className="w-full bg-purple-600/90 hover:bg-purple-600 text-white font-medium h-10 text-sm rounded-lg shadow-lg shadow-purple-900/10 transition-all">
+                        <Save className="h-4 w-4 mr-2" />
+                        Save Configuration
+                    </Button>
+                </div>
+            </Card>
+        </TooltipProvider>
     );
 }

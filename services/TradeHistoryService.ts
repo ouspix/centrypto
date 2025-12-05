@@ -41,17 +41,18 @@ export class TradeHistoryService {
     /**
      * Get all trades (fills) for a user from Hyperliquid
      */
-    async getTrades(userAddress: string, isTestnet: boolean = false, limit: number = 100): Promise<Trade[]> {
+    async getTrades(userAddress: string, isTestnet: boolean = false, limit: number = 100, sinceMs?: number): Promise<Trade[]> {
         try {
             const fills = await getUserFills(userAddress, isTestnet);
 
             // Map fills to Trade objects
-            return fills.map((fill: any) => {
+            const mapped = fills.map((fill: any) => {
                 const isBuy = fill.side === 'B';
                 const size = parseFloat(fill.sz);
                 const price = parseFloat(fill.px);
                 const pnl = parseFloat(fill.closedPnl || '0');
                 const fee = parseFloat(fill.fee || '0');
+                const timestamp = new Date(fill.time).getTime();
 
                 // Determine side based on direction if available, otherwise guess
                 // dir examples: "Open Long", "Close Long", "Open Short", "Close Short"
@@ -78,9 +79,21 @@ export class TradeHistoryService {
                     openedAt: new Date(fill.time),
                     closedAt: isClose ? new Date(fill.time) : undefined,
                     userAddress: userAddress,
-                    type: fill.dir || (isBuy ? 'Buy' : 'Sell')
+                    type: fill.dir || (isBuy ? 'Buy' : 'Sell'),
+                    __timestamp: timestamp // internal: helps filter by time
                 };
-            }).slice(0, limit);
+            });
+
+            const filtered = sinceMs
+                ? mapped.filter((trade: any) => Number.isFinite(trade.__timestamp) && trade.__timestamp >= sinceMs)
+                : mapped;
+
+            return filtered
+                .slice(0, limit)
+                .map((trade: any) => {
+                    const { __timestamp, ...rest } = trade;
+                    return rest;
+                });
         } catch (error) {
             console.error("Failed to get trades:", error);
             return [];

@@ -74,6 +74,9 @@ type TradeAnalytics = {
     avgHoldTime: number;
 };
 
+const TRADE_RANGES = ['24h', '3d', '7d', '1m', '1y'] as const;
+type TradeRange = typeof TRADE_RANGES[number];
+
 // PnL Chart Component
 function PnlChart({ trades }: { trades: Trade[] }) {
     // Process trades to create cumulative PnL data
@@ -178,6 +181,7 @@ export function PositionsTable() {
     const [leverageMap, setLeverageMap] = useState<Record<string, number>>({})
     const [mounted, setMounted] = useState(false)
     const [activeTab, setActiveTab] = useState("positions")
+    const [selectedRange, setSelectedRange] = useState<TradeRange>('7d')
 
     useEffect(() => {
         setMounted(true)
@@ -255,13 +259,13 @@ export function PositionsTable() {
         }
     }
 
-    const fetchTrades = async () => {
+    const fetchTrades = async (range: TradeRange = selectedRange) => {
         if (!address) return
 
         setHistoryLoading(true)
         try {
             const network = isTestnet ? 'testnet' : 'mainnet'
-            const response = await fetch(`/api/trades?userAddress=${address}&limit=50&network=${network}`)
+            const response = await fetch(`/api/trades?userAddress=${address}&limit=1000&network=${network}&range=${range}`)
             const data = await response.json()
             if (data.trades) {
                 setTrades(data.trades)
@@ -291,13 +295,13 @@ export function PositionsTable() {
     useEffect(() => {
         if (isConnected && address) {
             fetchData()
-            fetchTrades()
+            fetchTrades(selectedRange)
             fetchAnalytics()
             const interval = setInterval(() => {
                 fetchData()
                 // Only refresh trades/analytics every 30s to save resources
                 if (Date.now() % 30000 < 5000) {
-                    fetchTrades()
+                    fetchTrades(selectedRange)
                     fetchAnalytics()
                 }
             }, 5000)
@@ -308,7 +312,7 @@ export function PositionsTable() {
             setTrades([])
             setAnalytics(null)
         }
-    }, [address, isConnected, isTestnet])
+    }, [address, isConnected, isTestnet, selectedRange])
 
     const handleClosePosition = async (coin: string, size: string, entryPrice: number) => {
         if (!assetMetadata[coin]) {
@@ -790,7 +794,32 @@ export function PositionsTable() {
                                 </div>
 
                                 {/* Right Half - PnL Over Time Chart */}
-                                <PnlChart trades={trades} />
+                                <div className="flex flex-col space-y-3">
+                                    <div className="flex flex-wrap items-center justify-between gap-2">
+                                        <h3 className="text-xs font-medium text-slate-400 uppercase tracking-wide">Range</h3>
+                                        <div className="flex flex-wrap gap-2">
+                                            {TRADE_RANGES.map((range) => {
+                                                const isActive = selectedRange === range
+                                                return (
+                                                    <Button
+                                                        key={range}
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        className={`h-7 px-2 text-[11px] rounded-md border transition-colors ${
+                                                            isActive
+                                                                ? 'border-amber-400/80 text-amber-200 bg-amber-500/10 hover:bg-amber-500/15'
+                                                                : 'border-slate-800 text-slate-300 bg-slate-900/40 hover:bg-slate-800/60'
+                                                        }`}
+                                                        onClick={() => setSelectedRange(range)}
+                                                    >
+                                                        {range.toUpperCase()}
+                                                    </Button>
+                                                )
+                                            })}
+                                        </div>
+                                    </div>
+                                    <PnlChart trades={trades} />
+                                </div>
                             </div>
                         )}
                     </TabsContent>

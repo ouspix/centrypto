@@ -90473,3 +90473,4186 @@ Response:
 }
 ```
 -----------------------------------
+
+
+--- 2025-12-05T10:04:47.384Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1008,
+    "timestamp": 1764929031,
+    "global_regime": {
+      "current": "RISK_OFF"
+    },
+    "constraints": {
+      "max_new_entries_allowed": 1,
+      "max_increases_allowed": 1
+    },
+    "veto": {
+      "kill_switch": false,
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.3
+    },
+    "open_positions": [
+      {
+        "symbol": "kPEPE-PERP",
+        "side": "short",
+        "size_usd": 16.9824,
+        "fraction_of_equity": 0.1582747279238377,
+        "entry_price": 0.00464,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      },
+      {
+        "symbol": "HYPE-PERP",
+        "side": "short",
+        "size_usd": 18.02625,
+        "fraction_of_equity": 0.1680033337006006,
+        "entry_price": 32.775,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      },
+      {
+        "symbol": "XPL-PERP",
+        "side": "short",
+        "size_usd": 17.00178,
+        "fraction_of_equity": 0.15845534810868578,
+        "entry_price": 0.18087,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      }
+    ],
+    "symbols": [
+      {
+        "symbol": "PUMP-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 2,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 25.343,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.31
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "XPL-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 3,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 20.77,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.18
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": 0.01692,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "HYPE-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 4,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 34.925,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.9
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": 0.35695,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "ZEC-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 5,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 28.579,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.24
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "kPEPE-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 6,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 22.64,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.03
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": 0.04392,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+```json
+{
+    "decisions": [
+        {
+            "action": "INCREASE_POSITION",
+            "symbol": "HYPE-PERP",
+            "target_side": "short",
+            "target_size_fraction_of_equity": 0.1680033337006006,
+            "playbook": "Liquidity Grab:short",
+            "risk_plan": {
+                "stop_loss_pct": 0.02,
+                "take_profit_pct_primary": 0.04
+            },
+            "confidence": 0.7,
+            "reason_code": "position_management",
+            "notes": "Increasing short position with strong book pressure alignment and high edge-to-cost ratio",
+            "audit": {
+                "cost_bps": null,
+                "edge_bps": null,
+                "book_pressure": 0.9,
+                "vol_ratio_5m_vs_1h": null,
+                "ret_sigma_5m_vs_1h": null,
+                "anchor_key": "book_pressure",
+                "anchor_value": 0.9,
+                "computed_stop_loss_pct": 0.02,
+                "computed_take_profit_pct_primary": 0.04,
+                "computed_size_fraction_of_equity": 0.1680033337006006
+            }
+        },
+        {
+            "action": "OPEN_POSITION",
+            "symbol": "PUMP-PERP",
+            "target_side": "short",
+            "target_size_fraction_of_equity": 0.15,
+            "playbook": "Liquidity Grab:short",
+            "risk_plan": {
+                "stop_loss_pct": 0.02,
+                "take_profit_pct_primary": 0.05
+            },
+            "confidence": 0.8,
+            "reason_code": "liquidity_grab",
+            "notes": "New short position with highest rank, strong book pressure support, and excellent edge-to-cost ratio",
+            "audit": {
+                "cost_bps": null,
+                "edge_bps": null,
+                "book_pressure": -0.31,
+                "vol_ratio_5m_vs_1h": null,
+                "ret_sigma_5m_vs_1h": null,
+                "anchor_key": "book_pressure",
+                "anchor_value": -0.31,
+                "computed_stop_loss_pct": 0.02,
+                "computed_take_profit_pct_primary": 0.05,
+                "computed_size_fraction_of_equity": 0.15
+            }
+        }
+    ]
+}
+```
+-----------------------------------
+
+
+--- 2025-12-05T10:11:08.903Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1009,
+    "timestamp": 1764929431,
+    "global_regime": {
+      "current": "CHOP"
+    },
+    "constraints": {
+      "max_new_entries_allowed": 0,
+      "max_increases_allowed": 0
+    },
+    "veto": {
+      "kill_switch": false,
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.36
+    },
+    "open_positions": [
+      {
+        "symbol": "kPEPE-PERP",
+        "side": "short",
+        "size_usd": 16.9824,
+        "fraction_of_equity": 0.15850642711995835,
+        "entry_price": 0.00464,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      },
+      {
+        "symbol": "HYPE-PERP",
+        "side": "short",
+        "size_usd": 18.02625,
+        "fraction_of_equity": 0.16824927465323802,
+        "entry_price": 32.775,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      },
+      {
+        "symbol": "PUMP-PERP",
+        "side": "short",
+        "size_usd": 17.999488,
+        "fraction_of_equity": 0.1679994896403668,
+        "entry_price": 0.003016,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      },
+      {
+        "symbol": "XPL-PERP",
+        "side": "short",
+        "size_usd": 17.00178,
+        "fraction_of_equity": 0.158687311715633,
+        "entry_price": 0.18087,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      }
+    ],
+    "symbols": [
+      {
+        "symbol": "PUMP-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 1,
+          "entry": {
+            "entry_ok": false,
+            "edge_to_cost_mult": 13.744,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": [
+              "COST_GATE"
+            ]
+          },
+          "risk": {
+            "eligible": false,
+            "eligible_playbooks": []
+          },
+          "liquidity": {
+            "tradeable": false
+          },
+          "orderbook": {
+            "book_pressure": -0.24
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": -0.005968,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "ZEC-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 2,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 23.111,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.73
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "XPL-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 3,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 16.749,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.23
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": -0.05734,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "HYPE-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 4,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 22.641,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": 0.33935,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "kPEPE-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 5,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 14.832,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.01
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": -0.00732,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "FARTCOIN-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 6,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 9.932,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.17
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "ENA-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 7,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 16.406,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.27
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "SOL-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 8,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 14.824,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.05
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "TAO-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 9,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 8.022,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+```json
+{
+  "decisions": [
+    {
+      "action": "CLOSE_POSITION",
+      "symbol": "PUMP-PERP",
+      "target_side": "flat",
+      "target_size_fraction_of_equity": 0,
+      "playbook": null,
+      "risk_plan": {},
+      "confidence": 0.4,
+      "reason_code": "risk_reduction",
+      "notes": "Tradeable=false, entry_ok=false, cost gate failed - closing position",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": -0.24,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": null,
+        "anchor_value": null,
+        "computed_stop_loss_pct": null,
+        "computed_take_profit_pct_primary": null,
+        "computed_size_fraction_of_equity": 0
+      }
+    }
+  ]
+}
+```
+-----------------------------------
+
+
+--- 2025-12-05T10:11:35.720Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1010,
+    "timestamp": 1764929446,
+    "global_regime": {
+      "current": "CHOP"
+    },
+    "constraints": {
+      "max_new_entries_allowed": 0,
+      "max_increases_allowed": 0
+    },
+    "veto": {
+      "kill_switch": false,
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.36
+    },
+    "open_positions": [
+      {
+        "symbol": "kPEPE-PERP",
+        "side": "short",
+        "size_usd": 16.9824,
+        "fraction_of_equity": 0.15852508198009646,
+        "entry_price": 0.00464,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      },
+      {
+        "symbol": "HYPE-PERP",
+        "side": "short",
+        "size_usd": 18.02625,
+        "fraction_of_equity": 0.1682690761637763,
+        "entry_price": 32.775,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      },
+      {
+        "symbol": "PUMP-PERP",
+        "side": "short",
+        "size_usd": 17.999488,
+        "fraction_of_equity": 0.16801926175333068,
+        "entry_price": 0.003016,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      },
+      {
+        "symbol": "XPL-PERP",
+        "side": "short",
+        "size_usd": 17.00178,
+        "fraction_of_equity": 0.1587059878643516,
+        "entry_price": 0.18087,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      }
+    ],
+    "symbols": [
+      {
+        "symbol": "PUMP-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 1,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 22.004,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.11
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": -0.011936,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "ZEC-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 2,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 30.672,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.22
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "XPL-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 3,
+          "entry": {
+            "entry_ok": false,
+            "edge_to_cost_mult": 7.989,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": [
+              "COST_GATE"
+            ]
+          },
+          "risk": {
+            "eligible": false,
+            "eligible_playbooks": []
+          },
+          "liquidity": {
+            "tradeable": false
+          },
+          "orderbook": {
+            "book_pressure": -0.25
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": -0.05922,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "HYPE-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 4,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 21.875,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.47
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": 0.33825,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "FARTCOIN-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 5,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 16.413,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.23
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "kPEPE-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 6,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 14.83,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.03
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": -0.01098,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "ENA-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 7,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 14.741,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.09
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "TAO-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 8,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 13.24,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.12
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "SOL-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 9,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 13.989,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.06
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+```json
+{
+  "decisions": [
+    {
+      "action": "HOLD_POSITION",
+      "symbol": "PUMP-PERP",
+      "target_side": "short",
+      "target_size_fraction_of_equity": 0.16801926175333068,
+      "playbook": "Liquidity Grab:short",
+      "risk_plan": {
+        "stop_loss_pct": 0.03,
+        "take_profit_pct_primary": 0.06
+      },
+      "confidence": 0.7,
+      "reason_code": "position_management",
+      "notes": "Entry conditions still valid, book pressure supports short thesis",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": -0.11,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": "discretionary",
+        "anchor_value": 0.03,
+        "computed_stop_loss_pct": 0.03,
+        "computed_take_profit_pct_primary": 0.06,
+        "computed_size_fraction_of_equity": 0.16801926175333068
+      }
+    },
+    {
+      "action": "HOLD_POSITION",
+      "symbol": "HYPE-PERP",
+      "target_side": "short",
+      "target_size_fraction_of_equity": 0.1682690761637763,
+      "playbook": "Liquidity Grab:short",
+      "risk_plan": {
+        "stop_loss_pct": 0.03,
+        "take_profit_pct_primary": 0.06
+      },
+      "confidence": 0.65,
+      "reason_code": "position_management",
+      "notes": "Positive PNL, entry conditions valid despite opposing book pressure",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": 0.47,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": "discretionary",
+        "anchor_value": 0.03,
+        "computed_stop_loss_pct": 0.03,
+        "computed_take_profit_pct_primary": 0.06,
+        "computed_size_fraction_of_equity": 0.1682690761637763
+      }
+    },
+    {
+      "action": "CLOSE_POSITION",
+      "symbol": "XPL-PERP",
+      "target_side": "flat",
+      "target_size_fraction_of_equity": 0,
+      "playbook": "Liquidity Grab:short",
+      "risk_plan": {
+        "stop_loss_pct": 0,
+        "take_profit_pct_primary": 0
+      },
+      "confidence": 0.8,
+      "reason_code": "risk_reduction",
+      "notes": "Entry failed COST_GATE, not tradeable, negative book pressure",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": -0.25,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": "discretionary",
+        "anchor_value": 0,
+        "computed_stop_loss_pct": 0,
+        "computed_take_profit_pct_primary": 0,
+        "computed_size_fraction_of_equity": 0
+      }
+    },
+    {
+      "action": "HOLD_POSITION",
+      "symbol": "kPEPE-PERP",
+      "target_side": "short",
+      "target_size_fraction_of_equity": 0.15852508198009646,
+      "playbook": "Liquidity Grab:short",
+      "risk_plan": {
+        "stop_loss_pct": 0.03,
+        "take_profit_pct_primary": 0.06
+      },
+      "confidence": 0.6,
+      "reason_code": "position_management",
+      "notes": "Entry conditions valid, minimal book pressure",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": -0.03,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": "discretionary",
+        "anchor_value": 0.03,
+        "computed_stop_loss_pct": 0.03,
+        "computed_take_profit_pct_primary": 0.06,
+        "computed_size_fraction_of_equity": 0.15852508198009646
+      }
+    }
+  ]
+}
+```
+-----------------------------------
+
+
+--- 2025-12-05T10:18:08.051Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1011,
+    "timestamp": 1764929847,
+    "global_regime": {
+      "current": "RISK_ON"
+    },
+    "constraints": {
+      "max_new_entries_allowed": 1,
+      "max_increases_allowed": 1
+    },
+    "veto": {
+      "kill_switch": false,
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.3
+    },
+    "open_positions": [
+      {
+        "symbol": "kPEPE-PERP",
+        "side": "short",
+        "size_usd": 16.9824,
+        "fraction_of_equity": 0.15869090765968166,
+        "entry_price": 0.00464,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      },
+      {
+        "symbol": "HYPE-PERP",
+        "side": "short",
+        "size_usd": 18.02625,
+        "fraction_of_equity": 0.16844509458029117,
+        "entry_price": 32.775,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      }
+    ],
+    "symbols": [
+      {
+        "symbol": "PUMP-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 1,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 14.404,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.25
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "FARTCOIN-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 2,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 17.766,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.04
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "SUI-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 3,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 20.702,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.07
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "ENA-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 4,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 20.019,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.04
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "ZEC-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 5,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 13.023,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.04
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "SOL-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 6,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 13.31,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.02
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "HYPE-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 7,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 13.142,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.29
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": 0.2838,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "kPEPE-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 8,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 6.295,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": -0.04392,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "LINK-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 9,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 8.897,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.23
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+```json
+{
+  "decisions": [
+    {
+      "action": "OPEN_POSITION",
+      "symbol": "PUMP-PERP",
+      "target_side": "short",
+      "target_size_fraction_of_equity": 0.15,
+      "playbook": "Liquidity Grab:short",
+      "risk_plan": {
+        "stop_loss_pct": 0.03,
+        "take_profit_pct_primary": 0.06
+      },
+      "confidence": 0.7,
+      "reason_code": "liquidity_grab",
+      "notes": "Highest rank with strong edge-to-cost ratio and negative book pressure",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": -0.25,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": "atr_pct.m5",
+        "anchor_value": 0.002,
+        "computed_stop_loss_pct": 0.03,
+        "computed_take_profit_pct_primary": 0.06,
+        "computed_size_fraction_of_equity": 0.15
+      }
+    },
+    {
+      "action": "HOLD_POSITION",
+      "symbol": "HYPE-PERP",
+      "target_side": "short",
+      "target_size_fraction_of_equity": 0.16844509458029117,
+      "playbook": "Liquidity Grab:short",
+      "risk_plan": {
+        "stop_loss_pct": 0.03,
+        "take_profit_pct_primary": 0.06
+      },
+      "confidence": 0.6,
+      "reason_code": "position_management",
+      "notes": "Position profitable with good edge-to-cost ratio, maintaining exposure",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": -0.29,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": "atr_pct.m5",
+        "anchor_value": 0.002,
+        "computed_stop_loss_pct": 0.03,
+        "computed_take_profit_pct_primary": 0.06,
+        "computed_size_fraction_of_equity": 0.16844509458029117
+      }
+    },
+    {
+      "action": "HOLD_POSITION",
+      "symbol": "kPEPE-PERP",
+      "target_side": "short",
+      "target_size_fraction_of_equity": 0.15869090765968166,
+      "playbook": "Liquidity Grab:short",
+      "risk_plan": {
+        "stop_loss_pct": 0.03,
+        "take_profit_pct_primary": 0.06
+      },
+      "confidence": 0.5,
+      "reason_code": "position_management",
+      "notes": "Position slightly negative but entry conditions still valid",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": 0,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": "atr_pct.m5",
+        "anchor_value": 0.002,
+        "computed_stop_loss_pct": 0.03,
+        "computed_take_profit_pct_primary": 0.06,
+        "computed_size_fraction_of_equity": 0.15869090765968166
+      }
+    }
+  ]
+}
+```
+-----------------------------------
+
+
+--- 2025-12-05T10:25:29.164Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1012,
+    "timestamp": 1764930247,
+    "global_regime": {
+      "current": "RISK_ON"
+    },
+    "constraints": {
+      "max_new_entries_allowed": 1,
+      "max_increases_allowed": 1
+    },
+    "veto": {
+      "kill_switch": false,
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.3
+    },
+    "open_positions": [
+      {
+        "symbol": "kPEPE-PERP",
+        "side": "short",
+        "size_usd": 16.9824,
+        "fraction_of_equity": 0.15861761624110488,
+        "entry_price": 0.00464,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      },
+      {
+        "symbol": "HYPE-PERP",
+        "side": "short",
+        "size_usd": 18.02625,
+        "fraction_of_equity": 0.1683672981890791,
+        "entry_price": 32.775,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      },
+      {
+        "symbol": "PUMP-PERP",
+        "side": "short",
+        "size_usd": 16.98235,
+        "fraction_of_equity": 0.15861714923521575,
+        "entry_price": 0.003025,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      }
+    ],
+    "symbols": [
+      {
+        "symbol": "FARTCOIN-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 1,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 11.729,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.41
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "SUI-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 2,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 26.529,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.1
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "MON-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 3,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 5.927,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Mean Reversion:short",
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.26
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "PUMP-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 4,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 8.699,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.06
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": 0.033684,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "ENA-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 5,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 7.681,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.01
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "SOL-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 6,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 9.09,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.05
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "LINK-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 7,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 5.798,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.17
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "HYPE-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 8,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 5.983,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.31
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": 0.3069,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "ZEC-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 9,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 5.798,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.22
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "kPEPE-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 10,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 3.489,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.01
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": -0.04392,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+```json
+{
+  "decisions": [
+    {
+      "action": "OPEN_POSITION",
+      "symbol": "FARTCOIN-PERP",
+      "target_side": "short",
+      "target_size_fraction_of_equity": 0.15,
+      "playbook": "Liquidity Grab:short",
+      "risk_plan": {
+        "stop_loss_pct": 0.03,
+        "take_profit_pct_primary": 0.06
+      },
+      "confidence": 0.7,
+      "reason_code": "liquidity_grab",
+      "notes": "Highest rank, strong edge-to-cost ratio, negative book pressure",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": -0.41,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": "book_pressure",
+        "anchor_value": -0.41,
+        "computed_stop_loss_pct": 0.03,
+        "computed_take_profit_pct_primary": 0.06,
+        "computed_size_fraction_of_equity": 0.15
+      }
+    },
+    {
+      "action": "HOLD_POSITION",
+      "symbol": "PUMP-PERP",
+      "target_side": "short",
+      "target_size_fraction_of_equity": 0.15861714923521575,
+      "playbook": "Liquidity Grab:short",
+      "risk_plan": {
+        "stop_loss_pct": 0.025,
+        "take_profit_pct_primary": 0.05
+      },
+      "confidence": 0.6,
+      "reason_code": "position_management",
+      "notes": "Position profitable, entry_ok true, negative book pressure supports thesis",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": -0.06,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": "book_pressure",
+        "anchor_value": -0.06,
+        "computed_stop_loss_pct": 0.025,
+        "computed_take_profit_pct_primary": 0.05,
+        "computed_size_fraction_of_equity": 0.15861714923521575
+      }
+    },
+    {
+      "action": "HOLD_POSITION",
+      "symbol": "HYPE-PERP",
+      "target_side": "short",
+      "target_size_fraction_of_equity": 0.1683672981890791,
+      "playbook": "Liquidity Grab:short",
+      "risk_plan": {
+        "stop_loss_pct": 0.025,
+        "take_profit_pct_primary": 0.05
+      },
+      "confidence": 0.6,
+      "reason_code": "position_management",
+      "notes": "Position profitable, entry_ok true, negative book pressure supports thesis",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": -0.31,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": "book_pressure",
+        "anchor_value": -0.31,
+        "computed_stop_loss_pct": 0.025,
+        "computed_take_profit_pct_primary": 0.05,
+        "computed_size_fraction_of_equity": 0.1683672981890791
+      }
+    },
+    {
+      "action": "HOLD_POSITION",
+      "symbol": "kPEPE-PERP",
+      "target_side": "short",
+      "target_size_fraction_of_equity": 0.15861761624110488,
+      "playbook": "Liquidity Grab:short",
+      "risk_plan": {
+        "stop_loss_pct": 0.025,
+        "take_profit_pct_primary": 0.05
+      },
+      "confidence": 0.5,
+      "reason_code": "position_management",
+      "notes": "Position slightly negative but entry_ok true, maintaining position",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": -0.01,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": "book_pressure",
+        "anchor_value": -0.01,
+        "computed_stop_loss_pct": 0.025,
+        "computed_take_profit_pct_primary": 0.05,
+        "computed_size_fraction_of_equity": 0.15861761624110488
+      }
+    }
+  ]
+}
+```
+-----------------------------------
+
+
+--- 2025-12-05T10:31:03.830Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1013,
+    "timestamp": 1764930611,
+    "global_regime": {
+      "current": "CHOP"
+    },
+    "constraints": {
+      "max_new_entries_allowed": 0,
+      "max_increases_allowed": 0
+    },
+    "veto": {
+      "kill_switch": false,
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.36
+    },
+    "open_positions": [
+      {
+        "symbol": "kPEPE-PERP",
+        "side": "short",
+        "size_usd": 16.9824,
+        "fraction_of_equity": 0.158726924525639,
+        "entry_price": 0.00464,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      },
+      {
+        "symbol": "HYPE-PERP",
+        "side": "short",
+        "size_usd": 18.02625,
+        "fraction_of_equity": 0.16848332527971902,
+        "entry_price": 32.775,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      },
+      {
+        "symbol": "FARTCOIN-PERP",
+        "side": "short",
+        "size_usd": 17.034549,
+        "fraction_of_equity": 0.15921433798822895,
+        "entry_price": 0.36321,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      },
+      {
+        "symbol": "PUMP-PERP",
+        "side": "short",
+        "size_usd": 16.98235,
+        "fraction_of_equity": 0.15872645719792172,
+        "entry_price": 0.003025,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      }
+    ],
+    "symbols": [
+      {
+        "symbol": "SUI-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 1,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 26.686,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.07
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "FARTCOIN-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 2,
+          "entry": {
+            "entry_ok": false,
+            "edge_to_cost_mult": 8.3,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": [
+              "COST_GATE"
+            ]
+          },
+          "risk": {
+            "eligible": false,
+            "eligible_playbooks": []
+          },
+          "liquidity": {
+            "tradeable": false
+          },
+          "orderbook": {
+            "book_pressure": -0.09
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": 0.052997,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "HYPE-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 3,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 16.835,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.81
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": 0.17655,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "PUMP-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 4,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 5.613,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.1
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": 0.033684,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "SOL-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 5,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 8.367,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.01
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "ETH-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 6,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 7.765,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.01
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "ENA-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 7,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 7.299,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.19
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "kPEPE-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 9,
+          "entry": {
+            "entry_ok": false,
+            "edge_to_cost_mult": 1.598,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": [
+              "EDGE_GATE",
+              "EDGE_TO_COST_BELOW_MULT"
+            ]
+          },
+          "risk": {
+            "eligible": false,
+            "eligible_playbooks": []
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.01
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": -0.03294,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+```json
+{
+  "decisions": [
+    {
+      "action": "CLOSE_POSITION",
+      "symbol": "kPEPE-PERP",
+      "target_side": "flat",
+      "target_size_fraction_of_equity": 0.0,
+      "playbook": "position_management",
+      "risk_plan": {
+        "stop_loss_pct": 0.0,
+        "take_profit_pct_primary": 0.0
+      },
+      "confidence": 0.7,
+      "reason_code": "risk_reduction",
+      "notes": "Position failing edge gate and edge-to-cost below threshold",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": 0.01,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": null,
+        "anchor_value": null,
+        "computed_stop_loss_pct": 0.0,
+        "computed_take_profit_pct_primary": 0.0,
+        "computed_size_fraction_of_equity": 0.0
+      }
+    },
+    {
+      "action": "CLOSE_POSITION",
+      "symbol": "FARTCOIN-PERP",
+      "target_side": "flat",
+      "target_size_fraction_of_equity": 0.0,
+      "playbook": "position_management",
+      "risk_plan": {
+        "stop_loss_pct": 0.0,
+        "take_profit_pct_primary": 0.0
+      },
+      "confidence": 0.7,
+      "reason_code": "risk_reduction",
+      "notes": "Position failing cost gate and not tradeable",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": -0.09,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": null,
+        "anchor_value": null,
+        "computed_stop_loss_pct": 0.0,
+        "computed_take_profit_pct_primary": 0.0,
+        "computed_size_fraction_of_equity": 0.0
+      }
+    }
+  ]
+}
+```
+-----------------------------------
+
+
+--- 2025-12-05T10:37:33.313Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1014,
+    "timestamp": 1764931010,
+    "global_regime": {
+      "current": "RISK_ON"
+    },
+    "constraints": {
+      "max_new_entries_allowed": 1,
+      "max_increases_allowed": 1
+    },
+    "veto": {
+      "kill_switch": false,
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.3
+    },
+    "open_positions": [
+      {
+        "symbol": "kPEPE-PERP",
+        "side": "short",
+        "size_usd": 0.03712,
+        "fraction_of_equity": 0.0003474487573455881,
+        "entry_price": 0.00464,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      },
+      {
+        "symbol": "HYPE-PERP",
+        "side": "short",
+        "size_usd": 18.02625,
+        "fraction_of_equity": 0.16872839876349427,
+        "entry_price": 32.775,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      },
+      {
+        "symbol": "PUMP-PERP",
+        "side": "short",
+        "size_usd": 16.98235,
+        "fraction_of_equity": 0.1589573384781209,
+        "entry_price": 0.003025,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      }
+    ],
+    "symbols": [
+      {
+        "symbol": "MON-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 1,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 16.496,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.3
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "HYPE-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 2,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 18.65,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.81
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": 0.1639,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "FARTCOIN-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 3,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 5.639,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.06
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "ETH-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 4,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 13.965,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.05
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "SOL-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 5,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 10.469,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.07
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "PUMP-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 6,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 4.49,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Mean Reversion:short",
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.26
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": -0.095438,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "ZEC-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 7,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 7.14,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.25
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "UNI-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 8,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 6.283,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.14
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "kPEPE-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 9,
+          "entry": {
+            "entry_ok": false,
+            "edge_to_cost_mult": 0.279,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": [
+              "EDGE_GATE",
+              "EDGE_TO_COST_BELOW_MULT"
+            ]
+          },
+          "risk": {
+            "eligible": false,
+            "eligible_playbooks": []
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.05
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": -0.00004,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+```json
+{
+  "decisions": [
+    {
+      "action": "OPEN_POSITION",
+      "symbol": "MON-PERP",
+      "target_side": "long",
+      "target_size_fraction_of_equity": 0.15,
+      "playbook": "Liquidity Grab:long",
+      "risk_plan": {
+        "stop_loss_pct": 0.03,
+        "take_profit_pct_primary": 0.06
+      },
+      "confidence": 0.75,
+      "reason_code": "liquidity_grab",
+      "notes": "Top ranked symbol with strong entry metrics and positive book pressure",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": 0.3,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": "book_pressure",
+        "anchor_value": 0.3,
+        "computed_stop_loss_pct": 0.03,
+        "computed_take_profit_pct_primary": 0.06,
+        "computed_size_fraction_of_equity": 0.15
+      }
+    },
+    {
+      "action": "CLOSE_POSITION",
+      "symbol": "kPEPE-PERP",
+      "target_side": "flat",
+      "target_size_fraction_of_equity": 0.0,
+      "playbook": "risk_reduction",
+      "risk_plan": {
+        "stop_loss_pct": 0.0,
+        "take_profit_pct_primary": 0.0
+      },
+      "confidence": 0.9,
+      "reason_code": "risk_reduction",
+      "notes": "Entry not OK, edge_to_cost_mult too low, position showing losses",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": -0.05,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": "entry_failure",
+        "anchor_value": 0.279,
+        "computed_stop_loss_pct": 0.0,
+        "computed_take_profit_pct_primary": 0.0,
+        "computed_size_fraction_of_equity": 0.0
+      }
+    }
+  ]
+}
+```
+-----------------------------------
+
+
+--- 2025-12-05T10:44:41.555Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1015,
+    "timestamp": 1764931411,
+    "global_regime": {
+      "current": "CHOP"
+    },
+    "constraints": {
+      "max_new_entries_allowed": 1,
+      "max_increases_allowed": 1
+    },
+    "veto": {
+      "kill_switch": false,
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.36
+    },
+    "open_positions": [
+      {
+        "symbol": "HYPE-PERP",
+        "side": "short",
+        "size_usd": 18.02625,
+        "fraction_of_equity": 0.16861061300509878,
+        "entry_price": 32.775,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      },
+      {
+        "symbol": "PUMP-PERP",
+        "side": "short",
+        "size_usd": 16.98235,
+        "fraction_of_equity": 0.15884637369209564,
+        "entry_price": 0.003025,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      },
+      {
+        "symbol": "MON-PERP",
+        "side": "long",
+        "size_usd": 17.43055,
+        "fraction_of_equity": 0.16303866419893345,
+        "entry_price": 0.02645,
+        "leverage": 5,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      }
+    ],
+    "symbols": [
+      {
+        "symbol": "MON-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 1,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 33.923,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.14
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "long",
+          "pnl_unrealized_usd": 0.065241,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "HYPE-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 3,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 15.415,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.09
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": 0.18645,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "PUMP-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 4,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 7.246,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.28
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": -0.101052,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+```json
+{
+  "decisions": [
+    {
+      "action": "CLOSE_POSITION",
+      "symbol": "MON-PERP",
+      "target_side": "flat",
+      "target_size_fraction_of_equity": 0.0,
+      "playbook": "position_management",
+      "risk_plan": {
+        "stop_loss_pct": 0.0,
+        "take_profit_pct_primary": 0.0
+      },
+      "confidence": 0.7,
+      "reason_code": "risk_reduction",
+      "notes": "Closing long position - eligible playbooks only allow short side, book pressure negative",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": -0.14,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": null,
+        "anchor_value": null,
+        "computed_stop_loss_pct": 0.0,
+        "computed_take_profit_pct_primary": 0.0,
+        "computed_size_fraction_of_equity": 0.0
+      }
+    },
+    {
+      "action": "CLOSE_POSITION",
+      "symbol": "HYPE-PERP",
+      "target_side": "flat",
+      "target_size_fraction_of_equity": 0.0,
+      "playbook": "position_management",
+      "risk_plan": {
+        "stop_loss_pct": 0.0,
+        "take_profit_pct_primary": 0.0
+      },
+      "confidence": 0.7,
+      "reason_code": "risk_reduction",
+      "notes": "Closing short position - eligible playbooks only allow long side, book pressure positive",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": 0.09,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": null,
+        "anchor_value": null,
+        "computed_stop_loss_pct": 0.0,
+        "computed_take_profit_pct_primary": 0.0,
+        "computed_size_fraction_of_equity": 0.0
+      }
+    },
+    {
+      "action": "CLOSE_POSITION",
+      "symbol": "PUMP-PERP",
+      "target_side": "flat",
+      "target_size_fraction_of_equity": 0.0,
+      "playbook": "position_management",
+      "risk_plan": {
+        "stop_loss_pct": 0.0,
+        "take_profit_pct_primary": 0.0
+      },
+      "confidence": 0.7,
+      "reason_code": "risk_reduction",
+      "notes": "Closing short position - negative PnL, book pressure negative",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": -0.28,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": null,
+        "anchor_value": null,
+        "computed_stop_loss_pct": 0.0,
+        "computed_take_profit_pct_primary": 0.0,
+        "computed_size_fraction_of_equity": 0.0
+      }
+    }
+  ]
+}
+```
+-----------------------------------
+
+
+--- 2025-12-05T10:49:26.395Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1016,
+    "timestamp": 1764931724,
+    "global_regime": {
+      "current": "CHOP"
+    },
+    "constraints": {
+      "max_new_entries_allowed": 1,
+      "max_increases_allowed": 1
+    },
+    "veto": {
+      "kill_switch": false,
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.36
+    },
+    "open_positions": [
+      {
+        "symbol": "PUMP-PERP",
+        "side": "short",
+        "size_usd": 0.093775,
+        "fraction_of_equity": 0.0008772369741628524,
+        "entry_price": 0.003025,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      },
+      {
+        "symbol": "MON-PERP",
+        "side": "long",
+        "size_usd": 0.0529,
+        "fraction_of_equity": 0.0004948636196557174,
+        "entry_price": 0.02645,
+        "leverage": 5,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      }
+    ],
+    "symbols": [
+      {
+        "symbol": "MON-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 3,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 12.08,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.17
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "long",
+          "pnl_unrealized_usd": 0.000126,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "HYPE-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 4,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 8.812,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.39
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "ASTER-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 6,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 4.277,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.03
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "PUMP-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 7,
+          "entry": {
+            "entry_ok": false,
+            "edge_to_cost_mult": 1.738,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": [
+              "EDGE_GATE",
+              "EDGE_TO_COST_BELOW_MULT"
+            ]
+          },
+          "risk": {
+            "eligible": false,
+            "eligible_playbooks": []
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.13
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "short",
+          "pnl_unrealized_usd": -0.000217,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+```json
+{
+  "decisions": [
+    {
+      "action": "CLOSE_POSITION",
+      "symbol": "PUMP-PERP",
+      "target_side": "flat",
+      "target_size_fraction_of_equity": 0,
+      "playbook": "risk_reduction",
+      "risk_plan": {
+        "stop_loss_pct": 0,
+        "take_profit_pct_primary": 0
+      },
+      "confidence": 0.7,
+      "reason_code": "risk_reduction",
+      "notes": "entry_ok=false, edge_to_cost_mult below threshold, position showing unrealized loss",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": 0.13,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": null,
+        "anchor_value": null,
+        "computed_stop_loss_pct": 0,
+        "computed_take_profit_pct_primary": 0,
+        "computed_size_fraction_of_equity": 0
+      }
+    },
+    {
+      "action": "CLOSE_POSITION",
+      "symbol": "MON-PERP",
+      "target_side": "flat",
+      "target_size_fraction_of_equity": 0,
+      "playbook": "risk_reduction",
+      "risk_plan": {
+        "stop_loss_pct": 0,
+        "take_profit_pct_primary": 0
+      },
+      "confidence": 0.6,
+      "reason_code": "risk_reduction",
+      "notes": "eligible_playbooks only allow short positions but current position is long, book_pressure negative",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": -0.17,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": null,
+        "anchor_value": null,
+        "computed_stop_loss_pct": 0,
+        "computed_take_profit_pct_primary": 0,
+        "computed_size_fraction_of_equity": 0
+      }
+    }
+  ]
+}
+```
+-----------------------------------
+
+
+--- 2025-12-05T10:55:47.057Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1017,
+    "timestamp": 1764932123,
+    "global_regime": {
+      "current": "CHOP"
+    },
+    "constraints": {
+      "max_new_entries_allowed": 1,
+      "max_increases_allowed": 1
+    },
+    "veto": {
+      "kill_switch": false,
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.36
+    },
+    "open_positions": [],
+    "symbols": [
+      {
+        "symbol": "ZEC-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 1,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 34.697,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.06
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "XPL-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 3,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 31.58,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.17
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "FARTCOIN-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 4,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 5.079,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.43
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+```json
+{
+  "decisions": [
+    {
+      "action": "OPEN_POSITION",
+      "symbol": "ZEC-PERP",
+      "target_side": "long",
+      "target_size_fraction_of_equity": 0.1,
+      "playbook": "Liquidity Grab:long",
+      "risk_plan": {
+        "stop_loss_pct": 0.02,
+        "take_profit_pct_primary": 0.04
+      },
+      "confidence": 0.7,
+      "reason_code": "liquidity_grab",
+      "notes": "Highest rank, strong edge-to-cost ratio, positive book pressure in CHOP regime",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": 0.06,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": null,
+        "anchor_value": null,
+        "computed_stop_loss_pct": 0.02,
+        "computed_take_profit_pct_primary": 0.04,
+        "computed_size_fraction_of_equity": 0.1
+      }
+    }
+  ]
+}
+```
+-----------------------------------
+
+
+--- 2025-12-05T11:02:33.684Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1018,
+    "timestamp": 1764932524,
+    "global_regime": {
+      "current": "RISK_OFF"
+    },
+    "constraints": {
+      "max_new_entries_allowed": 1,
+      "max_increases_allowed": 1
+    },
+    "veto": {
+      "kill_switch": false,
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.3
+    },
+    "open_positions": [
+      {
+        "symbol": "ZEC-PERP",
+        "side": "long",
+        "size_usd": 15.165999999999999,
+        "fraction_of_equity": 0.14183727775825947,
+        "entry_price": 379.15,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      }
+    ],
+    "symbols": [
+      {
+        "symbol": "ZEC-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 1,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 31.58,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.72
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "long",
+          "pnl_unrealized_usd": 0.034,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "FARTCOIN-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 3,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 8.61,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.18
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "HYPE-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 4,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 6.2,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.21
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+```json
+{
+  "decisions": [
+    {
+      "action": "CLOSE_POSITION",
+      "symbol": "ZEC-PERP",
+      "target_side": "flat",
+      "target_size_fraction_of_equity": 0,
+      "playbook": "position_management",
+      "risk_plan": {
+        "stop_loss_pct": 0,
+        "take_profit_pct_primary": 0
+      },
+      "confidence": 0.8,
+      "reason_code": "risk_reduction",
+      "notes": "Closing long position due to bearish book_pressure (-0.72) and only short playbooks eligible in RISK_OFF regime",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": -0.72,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": null,
+        "anchor_value": null,
+        "computed_stop_loss_pct": 0,
+        "computed_take_profit_pct_primary": 0,
+        "computed_size_fraction_of_equity": 0
+      }
+    }
+  ]
+}
+```
+-----------------------------------
+
+
+--- 2025-12-05T11:09:16.103Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1019,
+    "timestamp": 1764932924,
+    "global_regime": {
+      "current": "CHOP"
+    },
+    "constraints": {
+      "max_new_entries_allowed": 1,
+      "max_increases_allowed": 1
+    },
+    "veto": {
+      "kill_switch": false,
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.36
+    },
+    "open_positions": [],
+    "symbols": [
+      {
+        "symbol": "ZEC-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 1,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 24.663,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.08
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+```json
+{
+  "decisions": [
+    {
+      "action": "OPEN_POSITION",
+      "symbol": "ZEC-PERP",
+      "target_side": "long",
+      "target_size_fraction_of_equity": 0.1,
+      "playbook": "Liquidity Grab:long",
+      "risk_plan": {
+        "stop_loss_pct": 0.02,
+        "take_profit_pct_primary": 0.05
+      },
+      "confidence": 0.8,
+      "reason_code": "liquidity_grab",
+      "notes": "High edge-to-cost ratio (24.7x), favorable book pressure in CHOP regime",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": 0.08,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": "book_pressure",
+        "anchor_value": 0.08,
+        "computed_stop_loss_pct": 0.02,
+        "computed_take_profit_pct_primary": 0.05,
+        "computed_size_fraction_of_equity": 0.1
+      }
+    }
+  ]
+}
+```
+-----------------------------------
+
+
+--- 2025-12-05T11:15:44.518Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1020,
+    "timestamp": 1764933322,
+    "global_regime": {
+      "current": "CHOP"
+    },
+    "constraints": {
+      "max_new_entries_allowed": 1,
+      "max_increases_allowed": 1
+    },
+    "veto": {
+      "kill_switch": false,
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.36
+    },
+    "open_positions": [
+      {
+        "symbol": "ZEC-PERP",
+        "side": "long",
+        "size_usd": 18.982499999999998,
+        "fraction_of_equity": 0.17759843799823108,
+        "entry_price": 379.65,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      }
+    ],
+    "symbols": [
+      {
+        "symbol": "ZEC-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 1,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 46.529,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.11
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "long",
+          "pnl_unrealized_usd": -0.013,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "FARTCOIN-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 2,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 4.573,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.18
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+```json
+{
+  "decisions": [
+    {
+      "action": "HOLD_POSITION",
+      "symbol": "ZEC-PERP",
+      "target_side": "long",
+      "target_size_fraction_of_equity": 0.1776,
+      "playbook": "Discretionary Edge:long",
+      "risk_plan": {
+        "stop_loss_pct": 0.02,
+        "take_profit_pct_primary": 0.04
+      },
+      "confidence": 0.7,
+      "reason_code": "position_management",
+      "notes": "Existing position maintains entry_ok=true, book_pressure supportive at 0.11",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": 0.11,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": "discretionary",
+        "anchor_value": null,
+        "computed_stop_loss_pct": 0.02,
+        "computed_take_profit_pct_primary": 0.04,
+        "computed_size_fraction_of_equity": 0.1776
+      }
+    }
+  ]
+}
+```
+-----------------------------------
+
+
+--- 2025-12-05T11:22:27.168Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1021,
+    "timestamp": 1764933723,
+    "global_regime": {
+      "current": "RISK_OFF"
+    },
+    "constraints": {
+      "max_new_entries_allowed": 1,
+      "max_increases_allowed": 1
+    },
+    "veto": {
+      "kill_switch": false,
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.3
+    },
+    "open_positions": [
+      {
+        "symbol": "ZEC-PERP",
+        "side": "long",
+        "size_usd": 18.982499999999998,
+        "fraction_of_equity": 0.1776142245428921,
+        "entry_price": 379.65,
+        "leverage": 10,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      }
+    ],
+    "symbols": [
+      {
+        "symbol": "ZEC-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 1,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 43.084,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.17
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "long",
+          "pnl_unrealized_usd": -0.0225,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "XPL-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 3,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 12.657,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.05
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "HYPE-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 4,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 4.106,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.31
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+```json
+{
+  "decisions": [
+    {
+      "action": "HOLD_POSITION",
+      "symbol": "ZEC-PERP",
+      "target_side": "long",
+      "target_size_fraction_of_equity": 0.1776142245428921,
+      "playbook": "Discretionary Edge:long",
+      "risk_plan": {
+        "stop_loss_pct": 0.02,
+        "take_profit_pct_primary": 0.04
+      },
+      "confidence": 0.7,
+      "reason_code": "position_management",
+      "notes": "Position thesis intact with strong edge_to_cost_mult (43.084), holding in RISK_OFF regime",
+      "audit": {
+        "cost_bps": null,
+        "edge_bps": null,
+        "book_pressure": 0.17,
+        "vol_ratio_5m_vs_1h": null,
+        "ret_sigma_5m_vs_1h": null,
+        "anchor_key": "discretionary",
+        "anchor_value": 0.02,
+        "computed_stop_loss_pct": 0.02,
+        "computed_take_profit_pct_primary": 0.04,
+        "computed_size_fraction_of_equity": 0.1776142245428921
+      }
+    }
+  ]
+}
+```
+-----------------------------------

@@ -9,6 +9,7 @@ export async function GET(request: NextRequest) {
         const userAddress = searchParams.get('userAddress');
         const analytics = searchParams.get('analytics') === 'true';
         const limit = parseInt(searchParams.get('limit') || '100');
+        const range = searchParams.get('range'); // e.g., 24h,3d,7d,1m,1y
         const network = searchParams.get('network');
         const isTestnet = network === 'testnet';
 
@@ -24,11 +25,23 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ analytics: analyticsData });
         }
 
-        const trades = await tradeService.getTrades(
-            userAddress,
-            isTestnet,
-            limit
-        );
+        let sinceMs: number | undefined = undefined;
+        if (range) {
+            const now = Date.now();
+            const msMap: Record<string, number> = {
+                '24h': 24 * 60 * 60 * 1000,
+                '3d': 3 * 24 * 60 * 60 * 1000,
+                '7d': 7 * 24 * 60 * 60 * 1000,
+                '1m': 30 * 24 * 60 * 60 * 1000,
+                '1y': 365 * 24 * 60 * 60 * 1000,
+            };
+            const windowMs = msMap[range];
+            if (windowMs) {
+                sinceMs = now - windowMs;
+            }
+        }
+
+        const trades = await tradeService.getTrades(userAddress, isTestnet, limit, sinceMs);
 
         return NextResponse.json({ trades });
     } catch (error) {
