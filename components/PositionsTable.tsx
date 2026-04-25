@@ -45,6 +45,7 @@ type Trade = {
     id: string;
     symbol: string;
     side: 'long' | 'short';
+    action: 'buy' | 'sell';
     entryPrice: number;
     exitPrice?: number;
     size: number;
@@ -620,103 +621,117 @@ export function PositionsTable() {
 
                         {trades.length > 0 && (
                             <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1">
-                                {trades.map((trade) => (
-                                    <div
-                                        key={trade.id}
-                                        className={`group relative overflow-hidden rounded-xl border border-slate-800 bg-gradient-to-br from-slate-950/80 to-slate-900/80 p-4 transition-all hover:border-slate-700 hover:from-slate-900 hover:to-slate-900 ${trade.realizedPnl && trade.realizedPnl >= 0
-                                            ? 'border-l-4 border-l-emerald-500'
-                                            : 'border-l-4 border-l-red-500'
-                                            }`}
-                                    >
-                                        <div className="flex items-center justify-between">
-                                            {/* Left: Symbol & Side */}
-                                            <div className="flex flex-col gap-1">
-                                                <div className="flex items-center gap-2">
-                                                    <span className="text-xl font-bold text-slate-100 tracking-tight">
-                                                        {trade.symbol}
-                                                    </span>
-                                                    <Badge
-                                                        variant="outline"
-                                                        className={`text-xs font-bold px-2 py-0.5 ${trade.side === 'long'
-                                                            ? 'border-emerald-500/30 text-emerald-400 bg-emerald-500/5'
-                                                            : 'border-red-500/30 text-red-400 bg-red-500/5'
-                                                            }`}
-                                                    >
-                                                        {trade.side === 'long' ? 'LONG' : 'SHORT'}
-                                                    </Badge>
+                                {trades.map((trade) => {
+                                    const isBuy = trade.action === 'buy';
+                                    const accentBorder = isBuy ? 'border-l-4 border-l-emerald-500' : 'border-l-4 border-l-rose-500';
+                                    const actionBadgeClass = isBuy
+                                        ? 'border-emerald-500/30 text-emerald-300 bg-emerald-500/5'
+                                        : 'border-rose-500/30 text-rose-300 bg-rose-500/5';
+                                    const openBadgeClass = isBuy
+                                        ? 'border-emerald-500/40 text-emerald-200'
+                                        : 'border-rose-500/40 text-rose-200';
+
+                                    return (
+                                        <div
+                                            key={trade.id}
+                                            className={`group relative overflow-hidden rounded-xl border border-slate-800 bg-gradient-to-br from-slate-950/80 to-slate-900/80 p-4 transition-all hover:border-slate-700 hover:from-slate-900 hover:to-slate-900 ${accentBorder}`}
+                                        >
+                                            <div className="flex items-center justify-between">
+                                                {/* Left: Symbol, Position Side & Action */}
+                                                <div className="flex flex-col gap-1">
+                                                    <div className="flex items-center gap-2 flex-wrap">
+                                                        <span className="text-xl font-bold text-slate-100 tracking-tight">
+                                                            {trade.symbol}
+                                                        </span>
+                                                        <Badge
+                                                            variant="outline"
+                                                            className={`text-xs font-bold px-2 py-0.5 ${trade.side === 'long'
+                                                                ? 'border-emerald-500/30 text-emerald-400 bg-emerald-500/5'
+                                                                : 'border-red-500/30 text-red-400 bg-red-500/5'
+                                                                }`}
+                                                        >
+                                                            {trade.side === 'long' ? 'LONG' : 'SHORT'}
+                                                        </Badge>
+                                                        <Badge
+                                                            variant="outline"
+                                                            className={`text-[11px] font-semibold px-2.5 py-0.5 ${actionBadgeClass}`}
+                                                        >
+                                                            {isBuy ? 'BUY' : 'SELL'}
+                                                        </Badge>
+                                                    </div>
+                                                    <div className="flex items-center gap-2 text-xs text-slate-500">
+                                                        <span>{formatDate(trade.openedAt)}</span>
+                                                        {trade.strategyName && (
+                                                            <>
+                                                                <span>•</span>
+                                                                <span className="text-slate-400">{trade.strategyName}</span>
+                                                            </>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                                <div className="flex items-center gap-2 text-xs text-slate-500">
-                                                    <span>{formatDate(trade.openedAt)}</span>
-                                                    {trade.strategyName && (
+
+                                                {/* Middle: Stats Grid */}
+                                                <div className="hidden sm:grid grid-cols-3 gap-x-8 gap-y-1 text-right">
+                                                    <div>
+                                                        <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Entry</span>
+                                                        <div className="font-mono text-slate-300 text-sm">${trade.entryPrice.toFixed(2)}</div>
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Size</span>
+                                                        <div className="font-mono text-slate-300 text-sm">{trade.size.toFixed(4)}</div>
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Exit</span>
+                                                        <div className="font-mono text-slate-300 text-sm">
+                                                            {trade.exitPrice ? `$${trade.exitPrice.toFixed(2)}` : '-'}
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Lev</span>
+                                                        <div className="font-mono text-purple-400 text-sm">{trade.leverage}x</div>
+                                                    </div>
+                                                </div>
+
+                                                {/* Right: PnL */}
+                                                <div className="text-right min-w-[100px]">
+                                                    {trade.status === 'closed' && trade.realizedPnl !== undefined ? (
                                                         <>
-                                                            <span>•</span>
-                                                            <span className="text-slate-400">{trade.strategyName}</span>
+                                                            <div className="text-[10px] uppercase tracking-wider text-slate-500 font-medium mb-0.5">Realized P&L</div>
+                                                            <div className={`text-2xl font-bold font-mono tracking-tight ${trade.realizedPnl >= 0 ? 'text-emerald-400' : 'text-red-400'
+                                                                }`}>
+                                                                {formatPnl(trade.realizedPnl)}
+                                                            </div>
                                                         </>
+                                                    ) : (
+                                                        <Badge variant="outline" className={`${openBadgeClass} px-3 py-1 bg-slate-900/60`}>
+                                                            OPEN
+                                                        </Badge>
                                                     )}
                                                 </div>
                                             </div>
 
-                                            {/* Middle: Stats Grid */}
-                                            <div className="hidden sm:grid grid-cols-3 gap-x-8 gap-y-1 text-right">
-                                                <div>
-                                                    <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Entry</span>
-                                                    <div className="font-mono text-slate-300 text-sm">${trade.entryPrice.toFixed(2)}</div>
+                                            {/* Mobile Stats (visible only on small screens) */}
+                                            <div className="mt-4 grid grid-cols-2 gap-4 border-t border-slate-800/50 pt-3 sm:hidden">
+                                                <div className="flex justify-between">
+                                                    <span className="text-xs text-slate-500">Entry</span>
+                                                    <span className="font-mono text-slate-300">${trade.entryPrice.toFixed(2)}</span>
                                                 </div>
-                                                <div>
-                                                    <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Size</span>
-                                                    <div className="font-mono text-slate-300 text-sm">{trade.size.toFixed(4)}</div>
+                                                <div className="flex justify-between">
+                                                    <span className="text-xs text-slate-500">Exit</span>
+                                                    <span className="font-mono text-slate-300">{trade.exitPrice ? `$${trade.exitPrice.toFixed(2)}` : '-'}</span>
                                                 </div>
-                                                <div>
-                                                    <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Exit</span>
-                                                    <div className="font-mono text-slate-300 text-sm">
-                                                        {trade.exitPrice ? `$${trade.exitPrice.toFixed(2)}` : '-'}
-                                                    </div>
+                                                <div className="flex justify-between">
+                                                    <span className="text-xs text-slate-500">Size</span>
+                                                    <span className="font-mono text-slate-300">{trade.size.toFixed(4)}</span>
                                                 </div>
-                                                <div>
-                                                    <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Lev</span>
-                                                    <div className="font-mono text-purple-400 text-sm">{trade.leverage}x</div>
+                                                <div className="flex justify-between">
+                                                    <span className="text-xs text-slate-500">Lev</span>
+                                                    <span className="font-mono text-purple-400">{trade.leverage}x</span>
                                                 </div>
-                                            </div>
-
-                                            {/* Right: PnL */}
-                                            <div className="text-right min-w-[100px]">
-                                                {trade.status === 'closed' && trade.realizedPnl !== undefined ? (
-                                                    <>
-                                                        <div className="text-[10px] uppercase tracking-wider text-slate-500 font-medium mb-0.5">Realized P&L</div>
-                                                        <div className={`text-2xl font-bold font-mono tracking-tight ${trade.realizedPnl >= 0 ? 'text-emerald-400' : 'text-red-400'
-                                                            }`}>
-                                                            {formatPnl(trade.realizedPnl)}
-                                                        </div>
-                                                    </>
-                                                ) : (
-                                                    <Badge variant="outline" className="border-cyan-500/50 text-cyan-400 px-3 py-1">
-                                                        OPEN
-                                                    </Badge>
-                                                )}
                                             </div>
                                         </div>
-
-                                        {/* Mobile Stats (visible only on small screens) */}
-                                        <div className="mt-4 grid grid-cols-2 gap-4 border-t border-slate-800/50 pt-3 sm:hidden">
-                                            <div className="flex justify-between">
-                                                <span className="text-xs text-slate-500">Entry</span>
-                                                <span className="font-mono text-slate-300">${trade.entryPrice.toFixed(2)}</span>
-                                            </div>
-                                            <div className="flex justify-between">
-                                                <span className="text-xs text-slate-500">Exit</span>
-                                                <span className="font-mono text-slate-300">{trade.exitPrice ? `$${trade.exitPrice.toFixed(2)}` : '-'}</span>
-                                            </div>
-                                            <div className="flex justify-between">
-                                                <span className="text-xs text-slate-500">Size</span>
-                                                <span className="font-mono text-slate-300">{trade.size.toFixed(4)}</span>
-                                            </div>
-                                            <div className="flex justify-between">
-                                                <span className="text-xs text-slate-500">Lev</span>
-                                                <span className="font-mono text-purple-400">{trade.leverage}x</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
+                                    )
+                                })}
                             </div>
                         )}
                     </TabsContent>

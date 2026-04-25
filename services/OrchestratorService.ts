@@ -1,12 +1,24 @@
 import { SnapshotBuilder, StateSnapshot } from "./SnapshotBuilder";
 import { MarketEntry, GlobalRegime } from "@/types/snapshot";
-import { RiskCheckModule, TradeDecision, RiskAssessment } from "@/lib/risk/RiskCheckModule";
+import { TradeDecision, RiskAssessment } from "@/types/trading";
+import { RiskCheckModule } from "@/lib/risk/RiskCheckModule";
+import {
+    computeSizeFraction,
+    clampRiskPlan,
+    resolveAnchor,
+    computeRiskPlan,
+    computeMinConfidence,
+    inferSideFromPlaybook,
+    isPlaybookAllowed,
+} from "@/lib/risk/shared";
+import { parseLlmResponse } from "@/lib/llm/LlmResponseParser";
 import { ExecutionEngine } from "@/lib/hyperliquidExecution";
 import { placeOrder } from "@/lib/hyperliquid";
 import { TradingLogger } from "@/lib/log/tradingLogger";
 import { AgentConfig, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
 import { ScreenerConfig, DEFAULT_SCREENER_CONFIG } from "@/lib/screener-config";
 import { prisma } from "@/lib/db";
+import { promises as fs } from "fs";
 
 import OpenAI from "openai";
 
@@ -698,7 +710,7 @@ ${JSON.stringify(llmPayload, null, 2)}${debugPresets ? `\n\nDEBUG_PRESETS (for i
             }
 
             console.log("📦 Raw LLM Response (first 300 chars):", rawOutput.substring(0, 300));
-            require('fs').appendFileSync('debug_llm_response.log', `\n\n--- ${new Date().toISOString()} ---\nPrompt:\n${USER_PROMPT}\n\nResponse:\n${rawOutput}\n-----------------------------------\n`);
+            fs.appendFile('debug_llm_response.log', `\n\n--- ${new Date().toISOString()} ---\nPrompt:\n${USER_PROMPT}\n\nResponse:\n${rawOutput}\n-----------------------------------\n`).catch(e => console.warn('⚠️ Debug log write failed:', e));
             console.log("🔍 Debug: rawOutput length:", rawOutput.length);
 
             // Robust JSON Extraction
@@ -1112,88 +1124,19 @@ ${JSON.stringify(llmPayload, null, 2)}${debugPresets ? `\n\nDEBUG_PRESETS (for i
         });
     }
 
-    private inferSideFromPlaybook(playbook: string): "long" | "short" | null {
-        const lower = (playbook || "").toLowerCase();
-        if (lower.includes("short")) return "short";
-        if (lower.includes("long")) return "long";
-        return null;
+    private inferSideFromPlaybook(playbook: string) { return inferSideFromPlaybook(playbook); }
+
+    private isPlaybookAllowed(playbook: string, eligible: string[]) { return isPlaybookAllowed(playbook, eligible); }
+
+    private computeMinConfidence(regime: string | undefined) { return computeMinConfidence(regime); }
+
+    private computeSizeFraction(confidence: number, config: AgentConfig, equity: number) { return computeSizeFraction(confidence, config, equity); }
+
+    private computeRiskPlan(playbook: string, market: MarketEntry | any, config: AgentConfig, regime: GlobalRegime["current"], leverage: number) {
+        return computeRiskPlan(playbook, market, config, regime, leverage);
     }
 
-    private isPlaybookAllowed(playbook: string, eligiblePlaybooks: string[]): boolean {
-        if (!eligiblePlaybooks || eligiblePlaybooks.length === 0) return true;
-        const normalized = (playbook || "").toLowerCase().trim();
-        return eligiblePlaybooks.some(p => p.toLowerCase().trim() === normalized);
-    }
-
-    private computeMinConfidence(regime: string | undefined) {
-        const base = 0.3;
-        if (regime === "CHOP") return parseFloat((base * 1.2).toFixed(4));
-        return base;
-    }
-
-    /**
-     * Computes a size as a fraction of equity using confidence buckets, then clamps to per-trade and per-symbol caps.
-     */
-    private computeSizeFraction(confidence: number, config: AgentConfig, equity: number): number | null {
-        if (!equity || equity <= 0) return null;
-
-        // New sizing: absolute USD target = 10 * (1 + risk_factor)
-        const riskFactor = Math.max(0, Math.min(1, confidence ?? 0));
-        const targetUsd = 10 * (1 + riskFactor);
-
-        const perTradeCap = config.risk.max_position_fraction ?? config.risk.max_position_fraction_per_symbol ?? 0;
-        const perSymbolCap = config.risk.max_position_fraction_per_symbol ?? perTradeCap;
-        const usableCap = perTradeCap > 0 ? Math.min(perTradeCap, perSymbolCap) : perSymbolCap;
-        if (usableCap <= 0) return null;
-
-        const targetFraction = targetUsd / equity;
-        return Math.min(targetFraction, usableCap);
-    }
-
-    private computeRiskPlan(playbook: string, market: MarketEntry, config: AgentConfig, regime: GlobalRegime["current"], leverage: number) {
-        const anchor = this.resolveAnchor(market, config);
-        if (!anchor.value || anchor.value <= 0) return null;
-
-        const basePlaybook = (playbook || "").split(":")[0]?.trim() || "Discretionary Edge";
-        const multipliers = config.risk_plan_model.multipliers_by_playbook?.[basePlaybook] || { sl_mult: 1, tp_mult: 2 };
-        const regimeAdj = config.risk_plan_model.regime_adjustments?.[regime] || { sl_mult_factor: 1, tp_mult_factor: 1 };
-        const amplification = 1.5; // push both SL and TP wider; agent can exit on next tick if needed
-        const lev = Math.max(1, leverage || 1);
-
-        const stop_loss_pct = anchor.value * (multipliers.sl_mult ?? 1) * (regimeAdj.sl_mult_factor ?? 1) * amplification * lev;
-        const take_profit_pct_primary = anchor.value * (multipliers.tp_mult ?? 2) * (regimeAdj.tp_mult_factor ?? 1) * amplification * lev;
-
-        return { stop_loss_pct, take_profit_pct_primary };
-    }
-
-    private resolveAnchor(market: MarketEntry, config: AgentConfig): { key: string | null, value: number | null } {
-        if (market.derived?.risk?.best_anchor_key && market.derived.risk.best_anchor_value !== null && market.derived.risk.best_anchor_value !== undefined) {
-            return { key: market.derived.risk.best_anchor_key, value: market.derived.risk.best_anchor_value };
-        }
-
-        for (const key of config.risk_plan_model.vol_anchor_priority) {
-            const value = this.getValueByPath(market as any, key);
-            if (value === null) continue;
-            const normalizedValue = key.includes("bps") ? value / 10000 : value;
-            return { key, value: normalizedValue };
-        }
-
-        return { key: null, value: null };
-    }
-
-    private getValueByPath(obj: any, path: string): number | null {
-        const parts = path.split(".");
-        let current: any = obj;
-        for (const part of parts) {
-            if (current && Object.prototype.hasOwnProperty.call(current, part)) {
-                current = current[part];
-            } else {
-                return null;
-            }
-        }
-        if (typeof current !== "number" || Number.isNaN(current)) return null;
-        return current;
-    }
+    private resolveAnchor(market: MarketEntry | any, config: AgentConfig) { return resolveAnchor(market, config); }
 
     private buildAudit(
         market: MarketEntry,
@@ -1278,25 +1221,5 @@ ${JSON.stringify(llmPayload, null, 2)}${debugPresets ? `\n\nDEBUG_PRESETS (for i
         }
     }
 
-    /**
-     * Clamp stop loss to the allowed bounds before sending to risk manager.
-     */
-    private clampDecisionRiskPlan(decision: TradeDecision) {
-        if (!decision.risk_plan) return;
-        const minSl = 0.005; // 0.5% of equity
-        const maxSl = 0.05;  // 5% of equity
-        const minTp = 0.01;  // 1% target floor to avoid tiny profits
-        const minRr = 1.5;
-
-        const sl = decision.risk_plan.stop_loss_pct;
-        if (sl === undefined || sl === null) return;
-        const clampedSl = Math.min(maxSl, Math.max(minSl, Math.abs(sl)));
-        decision.risk_plan.stop_loss_pct = clampedSl;
-
-        const tp = decision.risk_plan.take_profit_pct_primary;
-        const floorTp = Math.max(minTp, minRr * clampedSl);
-        if (tp === undefined || tp === null || tp < floorTp) {
-            decision.risk_plan.take_profit_pct_primary = floorTp;
-        }
-    }
+    private clampDecisionRiskPlan(decision: TradeDecision) { clampRiskPlan(decision); }
 }

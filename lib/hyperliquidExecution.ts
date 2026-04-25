@@ -1,12 +1,8 @@
 import { placeOrder as hlPlaceOrder, cancelOrder as hlCancelOrder } from "./hyperliquid";
+import { ApprovedOrder } from "@/types/trading";
 
-export type ApprovedOrder = {
-    symbol: string;
-    side: 'buy' | 'sell';
-    sizeUsd: number;
-    limitPx?: number; // Optional limit price
-    clientTag?: string;
-};
+// Re-export for backward compatibility
+export type { ApprovedOrder } from "@/types/trading";
 
 export type ExecutionResult = {
     success: boolean;

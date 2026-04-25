@@ -175,7 +175,6 @@ export async function placeOrder(
     const wallet = privateKeyToAccount(privateKey as Hex);
 
     console.log("🔑 Signing with address:", wallet.address);
-    console.log("🔑 Private key (first 10 chars):", privateKey.substring(0, 10) + "...");
     console.log("🔑 isTestnet:", isTestnet);
 
     // SDK handles: correct msgpack, connectionId, EIP-712 domain (Exchange, 1337)
@@ -408,7 +407,13 @@ class RateLimiter {
     }
 }
 
-const hyperliquidLimiter = new RateLimiter();
+
+const globalForHL = globalThis as unknown as {
+    _hyperliquidLimiter?: RateLimiter;
+};
+
+const hyperliquidLimiter = globalForHL._hyperliquidLimiter ?? new RateLimiter();
+if (process.env.NODE_ENV !== "production") globalForHL._hyperliquidLimiter = hyperliquidLimiter;
 
 export async function waitForHyperliquidSlot(): Promise<void> {
     await hyperliquidLimiter.wait();

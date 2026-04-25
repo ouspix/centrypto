@@ -1,48 +1,16 @@
-import { ApprovedOrder } from "@/lib/hyperliquidExecution";
 import { StateSnapshot } from "@/services/SnapshotBuilder";
 import { AgentConfig } from "@/lib/agent-config";
+import { TradeDecision, RiskAssessment, RiskContext, ApprovedOrder } from "@/types/trading";
+import {
+    computeSizeFraction as sharedComputeSizeFraction,
+    clampRiskPlan as sharedClampRiskPlan,
+    resolveAnchor as sharedResolveAnchor,
+    getValueByPath as sharedGetValueByPath,
+    computeRiskPlan as sharedComputeRiskPlan
+} from "@/lib/risk/shared";
 
-export type TradeDecision = {
-    action: "OPEN_POSITION" | "CLOSE_POSITION" | "REDUCE_POSITION" | "ADJUST_STOPS" | "DO_NOTHING" | "HOLD" | "HOLD_POSITION" | "INCREASE_POSITION";
-    symbol: string | null;
-    side: "long" | "short" | null;
-    target_side: "long" | "short" | "flat" | null;
-    target_size_fraction_of_equity: number | null;
-    size_fraction_of_equity: number | null; // Deprecated
-    risk_plan: {
-        stop_loss_pct: number;
-        take_profit_pct_primary: number;
-    } | null;
-    playbook: string;
-    confidence: number;
-    reason_code: string;
-    notes: string;
-    audit?: {
-        spread_bps?: number | null;
-        cost_bps?: number | null;
-        edge_bps?: number | null;
-        book_pressure?: number | null;
-        depth_usd?: number | null;
-        vol_ratio_5m_vs_1h?: number | null;
-        ret_sigma_5m_vs_1h?: number | null;
-        anchor_key?: string | null;
-        anchor_value?: number | null;
-        regime?: string;
-        computed_stop_loss_pct?: number | null;
-        computed_take_profit_pct_primary?: number | null;
-        computed_size_fraction_of_equity?: number | null;
-    };
-};
-
-export type RiskAssessment = {
-    approved: boolean;
-    reason: string;
-    modifiedOrder?: ApprovedOrder;
-};
-
-export type RiskContext = {
-    newPositionsCount: number;
-};
+// Re-export types for backward compatibility
+export type { TradeDecision, RiskAssessment, RiskContext } from "@/types/trading";
 
 export class RiskCheckModule {
 
@@ -353,92 +321,22 @@ export class RiskCheckModule {
     }
 
     private clampRiskPlan(decision: TradeDecision) {
-        if (!decision.risk_plan) return;
-        const minSl = 0.005;
-        const maxSl = 0.05;
-        const minTp = 0.01;
-        const minRr = 1.5;
-
-        const sl = decision.risk_plan.stop_loss_pct;
-        if (sl === undefined || sl === null) return;
-        const clampedSl = Math.min(maxSl, Math.max(minSl, Math.abs(sl)));
-        decision.risk_plan.stop_loss_pct = clampedSl;
-
-        const tp = decision.risk_plan.take_profit_pct_primary;
-        const floorTp = Math.max(minTp, minRr * clampedSl);
-        if (tp === undefined || tp === null || tp < floorTp) {
-            decision.risk_plan.take_profit_pct_primary = floorTp;
-        }
+        sharedClampRiskPlan(decision);
     }
 
     private computeSizeFraction(confidence: number, config: AgentConfig, equity: number): number | null {
-        if (!equity || equity <= 0) return null;
-
-        // New sizing: absolute USD target = 10 * (1 + risk_factor)
-        const riskFactor = Math.max(0, Math.min(1, confidence ?? 0));
-        const targetUsd = 10 * (1 + riskFactor);
-
-        const perTradeCap = config.risk.max_position_fraction ?? config.risk.max_position_fraction_per_symbol ?? 0;
-        const perSymbolCap = config.risk.max_position_fraction_per_symbol ?? perTradeCap;
-        const usableCap = perTradeCap > 0 ? Math.min(perTradeCap, perSymbolCap) : perSymbolCap;
-        if (usableCap <= 0) return null;
-
-        const targetFraction = targetUsd / equity;
-        return Math.min(targetFraction, usableCap);
+        return sharedComputeSizeFraction(confidence, config, equity);
     }
 
     private buildRiskPlanFromSnapshot(decision: TradeDecision, market: any, snapshot: StateSnapshot) {
         const config = snapshot.presets?.agent;
         if (!config) return null;
 
-        const anchor = this.resolveAnchor(market, config);
-        if (!anchor.value || anchor.value <= 0) return null;
-
-        const basePlaybook = (decision.playbook || "").split(":")[0]?.trim() || "Discretionary Edge";
-        const multipliers = config.risk_plan_model.multipliers_by_playbook?.[basePlaybook] || { sl_mult: 1, tp_mult: 2 };
-        const regimeAdj = config.risk_plan_model.regime_adjustments?.[snapshot.global_regime.current] || { sl_mult_factor: 1, tp_mult_factor: 1 };
-        const amplification = 1.5; // widen both SL and TP; exits are managed in subsequent cycles
-
         const currentPosition = snapshot.account.current_positions.find(p => p.symbol === decision.symbol);
         const effectiveLeverage = currentPosition?.leverage && currentPosition.leverage > 0
             ? currentPosition.leverage
             : (config.risk.default_leverage ?? 1);
-        const lev = Math.max(1, effectiveLeverage || 1);
 
-        const stop_loss_pct = anchor.value * (multipliers.sl_mult ?? 1) * (regimeAdj.sl_mult_factor ?? 1) * amplification * lev;
-        const take_profit_pct_primary = anchor.value * (multipliers.tp_mult ?? 2) * (regimeAdj.tp_mult_factor ?? 1) * amplification * lev;
-
-        return { stop_loss_pct, take_profit_pct_primary };
-    }
-
-    private resolveAnchor(market: any, config: AgentConfig): { key: string | null, value: number | null } {
-        if (market?.derived?.risk?.best_anchor_key && market?.derived?.risk?.best_anchor_value !== undefined && market?.derived?.risk?.best_anchor_value !== null) {
-            return { key: market.derived.risk.best_anchor_key, value: market.derived.risk.best_anchor_value };
-        }
-
-        for (const key of config.risk_plan_model.vol_anchor_priority) {
-            const raw = this.getValueByPath(market, key);
-            if (raw === null) continue;
-            const value = key.includes("bps") ? raw / 10000 : raw;
-            return { key, value };
-        }
-
-        return { key: null, value: null };
-    }
-
-    private getValueByPath(obj: any, path: string): number | null {
-        const parts = path.split(".");
-        let current: any = obj;
-
-        for (const part of parts) {
-            if (current && Object.prototype.hasOwnProperty.call(current, part)) {
-                current = current[part];
-            } else {
-                return null;
-            }
-        }
-
-        if (typeof current !== "number" || Number.isNaN(current)) return null;
-        return current;
+        return sharedComputeRiskPlan(decision.playbook, market, config, snapshot.global_regime.current, effectiveLeverage);
     }
 }

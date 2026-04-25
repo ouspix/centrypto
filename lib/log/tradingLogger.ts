@@ -1,4 +1,4 @@
-import fs from 'fs';
+import { promises as fs } from 'fs';
 import path from 'path';
 
 export type LogEntry = {
@@ -11,15 +11,15 @@ export type LogEntry = {
 
 export class TradingLogger {
     private logDir: string;
+    private dirReady: Promise<void>;
 
     constructor() {
         this.logDir = path.join(process.cwd(), 'logs', 'trading');
-        if (!fs.existsSync(this.logDir)) {
-            fs.mkdirSync(this.logDir, { recursive: true });
-        }
+        this.dirReady = fs.mkdir(this.logDir, { recursive: true }).then(() => undefined);
     }
 
     public async logDecision(entry: LogEntry) {
+        await this.dirReady;
         const date = new Date().toISOString().split('T')[0];
         const logFile = path.join(this.logDir, `trade_log_${date}.jsonl`);
 
@@ -29,7 +29,7 @@ export class TradingLogger {
         });
 
         try {
-            fs.appendFileSync(logFile, logLine + '\n');
+            await fs.appendFile(logFile, logLine + '\n');
         } catch (error) {
             console.error("Failed to write to trade log:", error);
         }

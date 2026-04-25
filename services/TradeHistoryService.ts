@@ -2,6 +2,7 @@ import { getUserFills } from "@/lib/hyperliquid";
 
 export type TradeStatus = 'open' | 'closed';
 export type TradeSide = 'long' | 'short';
+export type TradeAction = 'buy' | 'sell';
 
 export type Trade = {
     id: string;
@@ -18,6 +19,7 @@ export type Trade = {
     closedAt?: Date;
     userAddress: string;
     strategyName?: string;
+    action: TradeAction;
     type: string; // 'Open Long', 'Close Short', etc.
 };
 
@@ -53,6 +55,7 @@ export class TradeHistoryService {
                 const pnl = parseFloat(fill.closedPnl || '0');
                 const fee = parseFloat(fill.fee || '0');
                 const timestamp = new Date(fill.time).getTime();
+                const action: TradeAction = isBuy ? 'buy' : 'sell';
 
                 // Determine side based on direction if available, otherwise guess
                 // dir examples: "Open Long", "Close Long", "Open Short", "Close Short"
@@ -79,6 +82,7 @@ export class TradeHistoryService {
                     openedAt: new Date(fill.time),
                     closedAt: isClose ? new Date(fill.time) : undefined,
                     userAddress: userAddress,
+                    action,
                     type: fill.dir || (isBuy ? 'Buy' : 'Sell'),
                     __timestamp: timestamp // internal: helps filter by time
                 };

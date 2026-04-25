@@ -41,6 +41,13 @@ export function SentimentPanel() {
             const res = await fetch(`/api/sentiment/${symbol}`)
             const json = await res.json()
 
+            // Validate that we received valid sentiment data
+            if (!res.ok || json.error || typeof json.score !== 'number') {
+                console.error("Invalid sentiment data received:", json)
+                setData(null)
+                return
+            }
+
             // Calculate trend based on history
             if (history.length > 0) {
                 const lastValue = history[history.length - 1].value
@@ -58,6 +65,7 @@ export function SentimentPanel() {
             })
         } catch (error) {
             console.error("Failed to fetch sentiment", error)
+            setData(null)
         } finally {
             setLoading(false)
         }
@@ -92,10 +100,10 @@ export function SentimentPanel() {
                 </Button>
             </CardHeader>
             <CardContent>
-                {!data ? (
+                {!data || typeof data.score !== 'number' ? (
                     <div className="text-center text-slate-500 py-8">
-                        <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" />
-                        Analyzing market sentiment...
+                        {loading ? <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" /> : null}
+                        {loading ? 'Analyzing market sentiment...' : 'Sentiment data unavailable'}
                     </div>
                 ) : (
                     <div className="space-y-4">
@@ -106,7 +114,7 @@ export function SentimentPanel() {
                                         data.score < -0.05 ? 'text-red-400' :
                                             'text-yellow-400'
                                     }`}>
-                                    {data.score.toFixed(3)}
+                                    {data.score?.toFixed(3) ?? '0.000'}
                                 </span>
                             </div>
                             <div className="flex flex-col items-end gap-2">
@@ -131,13 +139,13 @@ export function SentimentPanel() {
                         <div className="grid grid-cols-2 gap-2">
                             <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
                                 <p className="text-xs text-slate-400 uppercase tracking-wide">Attention</p>
-                                <p className="text-lg font-semibold text-slate-100">{data.mentions} msgs</p>
-                                <p className="text-xs text-slate-400">vs baseline: {data.mentions_vs_baseline.toFixed(2)}x</p>
+                                <p className="text-lg font-semibold text-slate-100">{data.mentions ?? 0} msgs</p>
+                                <p className="text-xs text-slate-400">vs baseline: {data.mentions_vs_baseline?.toFixed(2) ?? '0.00'}x</p>
                             </div>
                             <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
                                 <p className="text-xs text-slate-400 uppercase tracking-wide">Disagreement</p>
-                                <p className="text-lg font-semibold text-slate-100">{(data.disagreement * 100).toFixed(0)}%</p>
-                                <p className="text-xs text-slate-400">{data.change_2h !== null ? `Change 2h ${data.change_2h >= 0 ? '+' : ''}${data.change_2h.toFixed(2)}` : 'Change 2h n/a'}</p>
+                                <p className="text-lg font-semibold text-slate-100">{((data.disagreement ?? 0) * 100).toFixed(0)}%</p>
+                                <p className="text-xs text-slate-400">{data.change_2h !== null && data.change_2h !== undefined ? `Change 2h ${data.change_2h >= 0 ? '+' : ''}${data.change_2h.toFixed(2)}` : 'Change 2h n/a'}</p>
                             </div>
                         </div>
 
