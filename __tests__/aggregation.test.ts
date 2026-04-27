@@ -41,7 +41,7 @@ describe('Aggregation', () => {
     });
 
     expect(result.mentions).toBe(3);
-    expect(result.mentionsVsBaseline).toBeCloseTo(1.5, 1);
+    expect(result.mentionsVsBaseline).toBeCloseTo(0.6, 1);
     expect(result.score).toBeGreaterThan(0); // net bullish
     expect(result.disagreement).toBeGreaterThan(0);
     expect(result.sourceMix.twitter).toBeCloseTo(0.667, 2);

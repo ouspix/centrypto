@@ -71,9 +71,9 @@ export function computeSizeFraction(confidence: number, config: AgentConfig, equ
  */
 export function clampRiskPlan(decision: TradeDecision): void {
     if (!decision.risk_plan) return;
-    const minSl = 0.005; // 0.5% of equity
+    const minSl = 0.001; // 0.1% price move
     const maxSl = 0.05;  // 5% of equity
-    const minTp = 0.01;  // 1% target floor to avoid tiny profits
+    const minTp = 0.002;  // 0.2% target floor to avoid tiny profits
     const minRr = 1.5;
 
     const sl = decision.risk_plan.stop_loss_pct;
@@ -96,7 +96,7 @@ export function computeRiskPlan(
     market: MarketEntry | any,
     config: AgentConfig,
     regime: GlobalRegime["current"],
-    leverage: number
+    _exchangeLeverageCeiling: number
 ): { stop_loss_pct: number; take_profit_pct_primary: number } | null {
     const anchor = resolveAnchor(market, config);
     if (!anchor.value || anchor.value <= 0) return null;
@@ -105,10 +105,9 @@ export function computeRiskPlan(
     const multipliers = config.risk_plan_model.multipliers_by_playbook?.[basePlaybook] || { sl_mult: 1, tp_mult: 2 };
     const regimeAdj = config.risk_plan_model.regime_adjustments?.[regime] || { sl_mult_factor: 1, tp_mult_factor: 1 };
     const amplification = 1.5; // push both SL and TP wider; agent can exit on next tick if needed
-    const lev = Math.max(1, leverage || 1);
 
-    const stop_loss_pct = anchor.value * (multipliers.sl_mult ?? 1) * (regimeAdj.sl_mult_factor ?? 1) * amplification * lev;
-    const take_profit_pct_primary = anchor.value * (multipliers.tp_mult ?? 2) * (regimeAdj.tp_mult_factor ?? 1) * amplification * lev;
+    const stop_loss_pct = anchor.value * (multipliers.sl_mult ?? 1) * (regimeAdj.sl_mult_factor ?? 1) * amplification;
+    const take_profit_pct_primary = anchor.value * (multipliers.tp_mult ?? 2) * (regimeAdj.tp_mult_factor ?? 1) * amplification;
 
     return { stop_loss_pct, take_profit_pct_primary };
 }

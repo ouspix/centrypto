@@ -124,6 +124,8 @@ export type MarketEntry = {
                 mr_ok_long: boolean;
                 mr_ok_short: boolean;
                 breakout_ok: boolean;
+                breakout_ok_long?: boolean;
+                breakout_ok_short?: boolean;
             };
             liquidity: {
                 min_depth_usd: number;
@@ -146,6 +148,12 @@ export type MarketEntry = {
                 eligible_playbooks: string[];
                 best_anchor_key: string | null;
                 best_anchor_value: number | null;
+                trigger_diagnostics?: {
+                    has_hard_trigger: boolean;
+                    triggered_playbooks: string[];
+                    trigger_profile: string;
+                    trigger_margin: Record<string, number>;
+                };
             };
             rank?: number;
         };

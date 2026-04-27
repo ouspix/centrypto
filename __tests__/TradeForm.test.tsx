@@ -24,10 +24,10 @@ vi.mock('@/context/TradingContext', () => ({
     useTrading: () => mockUseTrading(),
 }))
 
-// Mock placeOrder
-const mockPlaceOrder = vi.fn()
-vi.mock('@/lib/hyperliquid', () => ({
-    placeOrder: (...args: any[]) => mockPlaceOrder(...args),
+// Mock server-side order action
+const mockPlaceOrderAction = vi.fn()
+vi.mock('@/app/actions/trade', () => ({
+    placeOrderAction: (...args: any[]) => mockPlaceOrderAction(...args),
 }))
 
 describe('TradeForm', () => {
@@ -40,14 +40,21 @@ describe('TradeForm', () => {
         mockUseSwitchChain.mockReturnValue({ switchChainAsync: vi.fn() })
         mockUseTrading.mockReturnValue({
             selectedPair: 'SOL',
-            marketState: { pair: 'SOL', price: 100 },
-            isTestnet: true
+            marketState: { pair: 'SOL', price: 2000 },
+            isTestnet: true,
+            assetMetadata: {
+                SOL: {
+                    index: 0,
+                    szDecimals: 2,
+                    minSz: 0.01
+                }
+            }
         })
     })
 
     it('renders form fields', () => {
         render(<TradeForm />)
-        expect(screen.getByLabelText('Size')).toBeDefined()
+        expect(screen.getByLabelText(/Size/)).toBeDefined()
         expect(screen.getByLabelText('Price (USDC)')).toBeDefined()
         expect(screen.getByLabelText('Leverage')).toBeDefined()
         expect(screen.getByText('Long')).toBeDefined()
@@ -57,7 +64,7 @@ describe('TradeForm', () => {
     it('updates form state on input', () => {
         render(<TradeForm />)
 
-        const sizeInput = screen.getByLabelText('Size')
+        const sizeInput = screen.getByLabelText(/Size/)
         fireEvent.change(sizeInput, { target: { value: '1.5' } })
         expect((sizeInput as HTMLInputElement).value).toBe('1.5')
 
@@ -67,9 +74,12 @@ describe('TradeForm', () => {
     })
 
     it('calls placeOrder when Execute Order is clicked', async () => {
-        mockPlaceOrder.mockResolvedValue({
-            status: 'ok',
-            response: { data: { statuses: [{ oid: 123 }] } }
+        mockPlaceOrderAction.mockResolvedValue({
+            success: true,
+            data: {
+                status: 'ok',
+                response: { data: { statuses: [{ oid: 123 }] } }
+            }
         })
 
         render(<TradeForm />)
@@ -78,7 +88,7 @@ describe('TradeForm', () => {
         fireEvent.click(executeBtn)
 
         await waitFor(() => {
-            expect(mockPlaceOrder).toHaveBeenCalled()
+            expect(mockPlaceOrderAction).toHaveBeenCalled()
         })
 
         expect(screen.getByText('Order Submitted!')).toBeDefined()
@@ -97,9 +107,12 @@ describe('TradeForm', () => {
     })
 
     it('displays error when placeOrder fails', async () => {
-        mockPlaceOrder.mockResolvedValue({
-            status: 'err',
-            response: { data: { statuses: [{ error: 'Insufficient funds' }] } }
+        mockPlaceOrderAction.mockResolvedValue({
+            success: true,
+            data: {
+                status: 'err',
+                response: { data: { statuses: [{ error: 'Insufficient funds' }] } }
+            }
         })
 
         render(<TradeForm />)

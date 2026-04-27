@@ -5,7 +5,7 @@
  * Extracted from OrchestratorService to isolate parsing concerns.
  */
 
-import { TradeDecision } from "@/types/trading";
+import { TraderDecision, TradeDecision } from "@/types/trading";
 
 /**
  * Extract a JSON string from raw LLM output.
@@ -156,7 +156,7 @@ export function normalizeDecisionArray(parsed: any): any[] {
  * Filters out DO_NOTHING, invalid symbols, and invalid actions.
  */
 export function validateDecisions(decisionsArray: any[]): TradeDecision[] {
-    const validActions = ["OPEN_POSITION", "INCREASE_POSITION", "REDUCE_POSITION", "CLOSE_POSITION", "HOLD_POSITION", "HOLD"];
+    const validActions = ["OPEN_POSITION", "INCREASE_POSITION", "REDUCE_POSITION", "CLOSE_POSITION", "HOLD_POSITION", "HOLD", "SKIP"];
     const decisions: TradeDecision[] = [];
 
     for (const d of decisionsArray) {
@@ -202,4 +202,34 @@ export function parseLlmResponse(rawOutput: string): TradeDecision[] {
     const parsed = parseJsonWithRepair(jsonStr);
     const normalized = normalizeDecisionArray(parsed);
     return validateDecisions(normalized);
+}
+
+export function validateTraderDecisions(decisionsArray: any[]): TraderDecision[] {
+    const decisions: TraderDecision[] = [];
+
+    for (const d of decisionsArray) {
+        decisions.push({
+            scope: d.scope,
+            action: d.action,
+            candidate_id: d.candidate_id ?? null,
+            symbol: d.symbol ?? "",
+            target_side: d.target_side ?? "flat",
+            target_size_fraction_of_equity: typeof d.target_size_fraction_of_equity === "number"
+                ? d.target_size_fraction_of_equity
+                : 0,
+            playbook: d.playbook ?? null,
+            confidence: typeof d.confidence === "number" ? d.confidence : 0,
+            reason_code: (d.reason_code ?? "skip") as TraderDecision["reason_code"],
+            notes: d.notes ?? ""
+        });
+    }
+
+    return decisions;
+}
+
+export function parseTraderResponse(rawOutput: string): TraderDecision[] {
+    const jsonStr = extractJson(rawOutput);
+    const parsed = parseJsonWithRepair(jsonStr);
+    const normalized = normalizeDecisionArray(parsed);
+    return validateTraderDecisions(normalized);
 }

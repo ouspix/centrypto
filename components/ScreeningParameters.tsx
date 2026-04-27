@@ -14,7 +14,7 @@ export function ScreeningParameters() {
     const [config, setConfig] = useState<ScreenerConfig>(DEFAULT_SCREENER_CONFIG)
     const [expanded, setExpanded] = useState(true)
     const [loaded, setLoaded] = useState(false)
-    const [preset, setPreset] = useState<string>('Scalper Strict')
+    const [preset, setPreset] = useState<string>('Momentum Moderate')
 
     // Load from localStorage on mount
     useEffect(() => {
@@ -23,7 +23,14 @@ export function ScreeningParameters() {
             try {
                 const loaded = JSON.parse(saved)
                 // Merge with default to ensure new fields exist
-                setConfig({ ...DEFAULT_SCREENER_CONFIG, ...loaded })
+                setConfig({
+                    ...DEFAULT_SCREENER_CONFIG,
+                    ...loaded,
+                    quality_weights: {
+                        ...DEFAULT_SCREENER_CONFIG.quality_weights,
+                        ...(loaded.quality_weights || {})
+                    }
+                })
                 setPreset('custom')
             } catch (e) {
                 console.error('Failed to load screening config', e)
@@ -414,6 +421,21 @@ export function ScreeningParameters() {
                                                 step="0.1"
                                                 value={config.quality_weights.illiquidity_penalty}
                                                 onChange={(e) => updateQualityWeight('illiquidity_penalty', Number(e.target.value))}
+                                                className="h-7 bg-slate-900 border-slate-700 text-slate-200 text-xs px-2"
+                                            />
+                                        </div>
+                                        <div>
+                                            <LabelWithTooltip
+                                                label="Cost/Edge Pen."
+                                                tooltip="Penalty weight for weak edge relative to spread, fees, and slippage."
+                                                labelClassName="text-[10px] text-slate-400"
+                                                className="block mb-1"
+                                            />
+                                            <Input
+                                                type="number"
+                                                step="0.1"
+                                                value={config.quality_weights.cost_to_edge_penalty}
+                                                onChange={(e) => updateQualityWeight('cost_to_edge_penalty', Number(e.target.value))}
                                                 className="h-7 bg-slate-900 border-slate-700 text-slate-200 text-xs px-2"
                                             />
                                         </div>

@@ -43,20 +43,37 @@ export class MarketDerivedMetricsService {
             const volRatio = m.vol_zscores?.vol_5m_vs_1h ?? 0;
 
             const bp = m.orderbook?.book_pressure ?? 0;
-            const momOkLong = trendAligned && (dirH1 === 1 || (isTestnet && dirM15 === 1)) &&
+            const trendOkForMomentum = config.triggers.momentum.trend_aligned_required === false || trendAligned;
+            const momOkLong = trendOkForMomentum &&
+                retSigma > 0 &&
                 bp >= config.triggers.momentum.book_pressure_min &&
                 volRatio >= config.triggers.momentum.vol_ratio_min;
-            const momOkShort = trendAligned && (dirH1 === -1 || (isTestnet && dirM15 === -1)) &&
+            const momOkShort = trendOkForMomentum &&
+                retSigma < 0 &&
                 bp <= -config.triggers.momentum.book_pressure_min &&
                 volRatio >= config.triggers.momentum.vol_ratio_min;
 
-            const mrOkLong = retSigma <= -config.triggers.mean_reversion.ret_sigma_threshold &&
+            const meanReversionRegimeOk = this.meanReversionRegimeOk(
+                regime,
+                Math.abs(retSigma),
+                config.triggers.mean_reversion.ret_sigma_threshold,
+                config.triggers.mean_reversion.chop_regime
+            );
+            const mrOkLong = meanReversionRegimeOk &&
+                retSigma <= -config.triggers.mean_reversion.ret_sigma_threshold &&
                 bp >= config.triggers.mean_reversion.book_pressure_min;
-            const mrOkShort = retSigma >= config.triggers.mean_reversion.ret_sigma_threshold &&
+            const mrOkShort = meanReversionRegimeOk &&
+                retSigma >= config.triggers.mean_reversion.ret_sigma_threshold &&
                 bp <= -config.triggers.mean_reversion.book_pressure_min;
 
             const volSpike = volRatio >= config.triggers.breakout.vol_ratio_min;
-            const breakoutOk = volSpike && Math.abs(bp) >= config.triggers.breakout.book_pressure_min;
+            const breakoutOkLong = volSpike &&
+                retSigma > 0 &&
+                bp >= config.triggers.breakout.book_pressure_min;
+            const breakoutOkShort = volSpike &&
+                retSigma < 0 &&
+                bp <= -config.triggers.breakout.book_pressure_min;
+            const breakoutOk = breakoutOkLong || breakoutOkShort;
 
             const minDepth = Math.min(m.orderbook?.bid_liquidity_usd ?? 0, m.orderbook?.ask_liquidity_usd ?? 0);
             const depthOk = minDepth >= config.gates.depth_usd_min;
@@ -69,8 +86,22 @@ export class MarketDerivedMetricsService {
             if (edgeToCostMult < edgeMult) entryReasonsFailed.push("EDGE_TO_COST_BELOW_MULT");
 
             const { bestAnchorKey, bestAnchorValue } = this.findBestAnchor(m, config);
-            const eligiblePlaybooks = this.buildEligiblePlaybooks(m, { breakoutOk, momOkLong, momOkShort, mrOkLong, mrOkShort, edgeOk, tradeable });
-            const eligible = tradeable && edgeOk && eligiblePlaybooks.length > 0;
+            const eligiblePlaybooks = this.buildEligiblePlaybooks({
+                breakoutOkLong,
+                breakoutOkShort,
+                momOkLong,
+                momOkShort,
+                mrOkLong,
+                mrOkShort
+            });
+            const eligible = entryOk && eligiblePlaybooks.length > 0;
+            const triggerMargins = this.buildTriggerMargins({
+                volRatio,
+                bookPressure: bp,
+                retSigma,
+                config,
+                playbooks: eligiblePlaybooks
+            });
 
             m.derived = {
                 costs: {
@@ -96,7 +127,9 @@ export class MarketDerivedMetricsService {
                     momentum_ok_short: momOkShort,
                     mr_ok_long: mrOkLong,
                     mr_ok_short: mrOkShort,
-                    breakout_ok: breakoutOk
+                    breakout_ok: breakoutOk,
+                    breakout_ok_long: breakoutOkLong,
+                    breakout_ok_short: breakoutOkShort
                 },
                 liquidity: {
                     min_depth_usd: minDepth,
@@ -116,7 +149,13 @@ export class MarketDerivedMetricsService {
                     eligible,
                     eligible_playbooks: eligiblePlaybooks,
                     best_anchor_key: bestAnchorKey,
-                    best_anchor_value: bestAnchorValue
+                    best_anchor_value: bestAnchorValue,
+                    trigger_diagnostics: {
+                        has_hard_trigger: eligiblePlaybooks.length > 0,
+                        triggered_playbooks: eligiblePlaybooks,
+                        trigger_profile: config.preset_name ?? "active",
+                        trigger_margin: triggerMargins
+                    }
                 }
             };
         }
@@ -175,28 +214,64 @@ export class MarketDerivedMetricsService {
     }
 
     private buildEligiblePlaybooks(
-        market: MarketEntry,
-        triggers: { breakoutOk: boolean; momOkLong: boolean; momOkShort: boolean; mrOkLong: boolean; mrOkShort: boolean; edgeOk: boolean; tradeable: boolean }
+        triggers: {
+            breakoutOkLong: boolean;
+            breakoutOkShort: boolean;
+            momOkLong: boolean;
+            momOkShort: boolean;
+            mrOkLong: boolean;
+            mrOkShort: boolean;
+        }
     ): string[] {
         const playbooks = new Set<string>();
-        const bp = market.orderbook?.book_pressure ?? 0;
-        const directionBias = bp > 0 ? "long" : bp < 0 ? "short" : (market.returns?.h1 ?? 0) >= 0 ? "long" : "short";
 
         if (triggers.momOkLong) playbooks.add("Momentum:long");
         if (triggers.momOkShort) playbooks.add("Momentum:short");
         if (triggers.mrOkLong) playbooks.add("Mean Reversion:long");
         if (triggers.mrOkShort) playbooks.add("Mean Reversion:short");
-        if (triggers.breakoutOk) {
-            if (bp >= 0) playbooks.add("Breakout/Squeeze:long");
-            if (bp <= 0) playbooks.add("Breakout/Squeeze:short");
-        }
-
-        // Only add fallback discretionary playbooks when core gates pass
-        if (triggers.edgeOk && triggers.tradeable) {
-            playbooks.add(`Liquidity Grab:${directionBias}`);
-            playbooks.add(`Discretionary Edge:${directionBias}`);
-        }
+        if (triggers.breakoutOkLong) playbooks.add("Breakout:long");
+        if (triggers.breakoutOkShort) playbooks.add("Breakout:short");
 
         return Array.from(playbooks);
+    }
+
+    private meanReversionRegimeOk(
+        regime: GlobalRegime["current"],
+        absRetSigma: number,
+        threshold: number,
+        chopRegime: "required" | "preferred" | "none" = "required"
+    ): boolean {
+        if (chopRegime === "none") return true;
+        if (regime === "CHOP") return true;
+        if (chopRegime === "preferred") return absRetSigma >= threshold + 0.75;
+        return false;
+    }
+
+    private buildTriggerMargins(input: {
+        volRatio: number;
+        bookPressure: number;
+        retSigma: number;
+        config: AgentConfig;
+        playbooks: string[];
+    }): Record<string, number> {
+        const margins: Record<string, number> = {};
+        const { volRatio, bookPressure, retSigma, config, playbooks } = input;
+
+        if (playbooks.some(p => p.startsWith("Momentum"))) {
+            margins.vol_ratio_margin = parseFloat((volRatio - config.triggers.momentum.vol_ratio_min).toFixed(4));
+            margins.book_pressure_margin = parseFloat((Math.abs(bookPressure) - config.triggers.momentum.book_pressure_min).toFixed(4));
+        }
+
+        if (playbooks.some(p => p.startsWith("Breakout"))) {
+            margins.vol_ratio_margin = parseFloat((volRatio - config.triggers.breakout.vol_ratio_min).toFixed(4));
+            margins.book_pressure_margin = parseFloat((Math.abs(bookPressure) - config.triggers.breakout.book_pressure_min).toFixed(4));
+        }
+
+        if (playbooks.some(p => p.startsWith("Mean Reversion"))) {
+            margins.ret_sigma_margin = parseFloat((Math.abs(retSigma) - config.triggers.mean_reversion.ret_sigma_threshold).toFixed(4));
+            margins.book_pressure_margin = parseFloat((Math.abs(bookPressure) - config.triggers.mean_reversion.book_pressure_min).toFixed(4));
+        }
+
+        return margins;
     }
 }

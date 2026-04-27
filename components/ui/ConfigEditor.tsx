@@ -18,18 +18,28 @@ interface ConfigEditorProps {
 }
 
 export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorProps) {
+    const cloneConfig = (value: AgentConfig): AgentConfig => JSON.parse(JSON.stringify(value));
     const [config, setConfig] = useState<AgentConfig>(() => {
         // Deep merge initialConfig with defaults to ensure new fields (like triggers) exist
         const merged: AgentConfig = {
             ...DEFAULT_AGENT_CONFIG,
             ...initialConfig,
             triggers: {
-                ...DEFAULT_AGENT_CONFIG.triggers,
-                ...(initialConfig?.triggers || {})
+                momentum: { ...DEFAULT_AGENT_CONFIG.triggers.momentum, ...(initialConfig?.triggers?.momentum || {}) },
+                mean_reversion: { ...DEFAULT_AGENT_CONFIG.triggers.mean_reversion, ...(initialConfig?.triggers?.mean_reversion || {}) },
+                breakout: { ...DEFAULT_AGENT_CONFIG.triggers.breakout, ...(initialConfig?.triggers?.breakout || {}) }
             },
             risk: {
                 ...DEFAULT_AGENT_CONFIG.risk,
                 ...(initialConfig?.risk || {})
+            },
+            cost_sanity: {
+                ...DEFAULT_AGENT_CONFIG.cost_sanity,
+                ...(initialConfig?.cost_sanity || {})
+            },
+            correlation: {
+                ...DEFAULT_AGENT_CONFIG.correlation,
+                ...(initialConfig?.correlation || {})
             },
             regime: {
                 ...DEFAULT_AGENT_CONFIG.regime,
@@ -51,14 +61,14 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
         };
         merged.risk.max_position_fraction = merged.risk.max_position_fraction ?? merged.risk.max_position_fraction_per_symbol;
         merged.risk.max_position_fraction_per_symbol = merged.risk.max_position_fraction_per_symbol ?? merged.risk.max_position_fraction;
-        return merged;
+        return cloneConfig(merged);
     });
     const [preset, setPreset] = useState<string>('default');
 
     // Helper to update nested state
     const updateConfig = (path: string, value: any) => {
         setConfig(prev => {
-            const newConfig = { ...prev };
+            const newConfig = cloneConfig(prev);
             const keys = path.split('.');
             let current: any = newConfig;
             for (let i = 0; i < keys.length - 1; i++) {
@@ -76,7 +86,7 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
     };
 
     const handleReset = () => {
-        setConfig(DEFAULT_AGENT_CONFIG);
+        setConfig(cloneConfig(DEFAULT_AGENT_CONFIG));
         toast.info("Reset to defaults");
         setPreset('default');
     };
@@ -89,12 +99,33 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
         const presetCfg = AGENT_PRESETS[key];
         if (!presetCfg) return;
 
-        setConfig(prev => ({
+        setConfig(cloneConfig({
             ...DEFAULT_AGENT_CONFIG,
             ...presetCfg,
-            gates: { ...DEFAULT_AGENT_CONFIG.gates, ...(presetCfg.gates || {}) },
+            gates: {
+                ...DEFAULT_AGENT_CONFIG.gates,
+                ...(presetCfg.gates || {}),
+                cost_bps_max_by_regime: {
+                    ...DEFAULT_AGENT_CONFIG.gates.cost_bps_max_by_regime,
+                    ...(presetCfg.gates?.cost_bps_max_by_regime || {})
+                },
+                edge_to_cost_mult_by_regime: {
+                    ...DEFAULT_AGENT_CONFIG.gates.edge_to_cost_mult_by_regime,
+                    ...(presetCfg.gates?.edge_to_cost_mult_by_regime || {})
+                },
+                per_symbol_cost_override: {
+                    ...DEFAULT_AGENT_CONFIG.gates.per_symbol_cost_override,
+                    ...(presetCfg.gates?.per_symbol_cost_override || {})
+                }
+            },
             risk: { ...DEFAULT_AGENT_CONFIG.risk, ...(presetCfg.risk || {}) },
-            triggers: { ...DEFAULT_AGENT_CONFIG.triggers, ...(presetCfg.triggers || {}) },
+            triggers: {
+                momentum: { ...DEFAULT_AGENT_CONFIG.triggers.momentum, ...(presetCfg.triggers?.momentum || {}) },
+                mean_reversion: { ...DEFAULT_AGENT_CONFIG.triggers.mean_reversion, ...(presetCfg.triggers?.mean_reversion || {}) },
+                breakout: { ...DEFAULT_AGENT_CONFIG.triggers.breakout, ...(presetCfg.triggers?.breakout || {}) }
+            },
+            cost_sanity: { ...DEFAULT_AGENT_CONFIG.cost_sanity, ...(presetCfg.cost_sanity || {}) },
+            correlation: { ...DEFAULT_AGENT_CONFIG.correlation, ...(presetCfg.correlation || {}) },
             regime: { ...DEFAULT_AGENT_CONFIG.regime, ...(presetCfg.regime || {}) },
             risk_plan_model: {
                 ...DEFAULT_AGENT_CONFIG.risk_plan_model,
@@ -144,7 +175,9 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
                             >
                                 <option value="default">Default</option>
                                 {Object.keys(AGENT_PRESETS).map(key => (
-                                    <option key={key} value={key}>{key}</option>
+                                    <option key={key} value={key}>
+                                        {key}{AGENT_PRESETS[key].preset_live_mode === "limited_manual" ? " (manual)" : AGENT_PRESETS[key].preset_live_mode === "non_live" ? " (non-live)" : ""}
+                                    </option>
                                 ))}
                                 <option value="custom">Custom (edited)</option>
                             </select>
@@ -223,6 +256,81 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
                                         value={config.risk.max_total_exposure_fraction}
                                         onChange={e => updateConfig('risk.max_total_exposure_fraction', Number(e.target.value))}
                                     />
+                                </div>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div className="space-y-1.5">
+                                        <LabelWithTooltip
+                                            label="Risk Per Trade"
+                                            tooltip="Equity fraction risked at the stop. Example: 0.005 means 0.50% of equity."
+                                            labelClassName="text-xs text-slate-300 font-medium"
+                                        />
+                                        <Input
+                                            className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
+                                            type="number"
+                                            step="0.0005"
+                                            value={config.risk.risk_per_trade_pct}
+                                            onChange={e => updateConfig('risk.risk_per_trade_pct', Number(e.target.value))}
+                                        />
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <LabelWithTooltip
+                                            label="Max Effective Leverage"
+                                            tooltip="Hard cap on notional divided by equity. This is not the exchange leverage setting."
+                                            labelClassName="text-xs text-slate-300 font-medium"
+                                        />
+                                        <Input
+                                            className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
+                                            type="number"
+                                            step="0.5"
+                                            value={config.risk.max_effective_leverage}
+                                            onChange={e => updateConfig('risk.max_effective_leverage', Number(e.target.value))}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div className="space-y-1.5">
+                                        <LabelWithTooltip
+                                            label="Max Corr. Exposure"
+                                            tooltip="Same-direction CRYPTO_BETA exposure cap as a fraction of equity."
+                                            labelClassName="text-xs text-slate-300 font-medium"
+                                        />
+                                        <Input
+                                            className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
+                                            type="number"
+                                            step="0.05"
+                                            value={config.risk.max_correlation_group_exposure_fraction}
+                                            onChange={e => updateConfig('risk.max_correlation_group_exposure_fraction', Number(e.target.value))}
+                                        />
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <LabelWithTooltip
+                                            label="Slippage Tolerance"
+                                            tooltip="Limit order price tolerance as a fraction. Example: 0.005 means 0.50%."
+                                            labelClassName="text-xs text-slate-300 font-medium"
+                                        />
+                                        <Input
+                                            className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
+                                            type="number"
+                                            step="0.001"
+                                            value={config.risk.slippage_pct ?? 0}
+                                            onChange={e => updateConfig('risk.slippage_pct', Number(e.target.value))}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="space-y-1.5">
+                                    <LabelWithTooltip
+                                        label="Margin Mode"
+                                        tooltip="Isolated margin is the v1 default for bot-managed derivatives positions."
+                                        labelClassName="text-xs text-slate-300 font-medium"
+                                    />
+                                    <select
+                                        value={config.risk.margin_mode}
+                                        onChange={e => updateConfig('risk.margin_mode', e.target.value)}
+                                        className="w-full bg-slate-900/50 border border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 transition-all h-8 text-sm rounded-md px-2"
+                                    >
+                                        <option value="isolated">isolated</option>
+                                        <option value="cross">cross</option>
+                                    </select>
                                 </div>
                                 <div className="space-y-1.5">
                                     <LabelWithTooltip
@@ -444,6 +552,53 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
 
                             {/* GATES */}
                             <TabsContent value="gates" className="space-y-4 mt-0">
+                                <div className="space-y-3">
+                                    <h4 className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Cost Sanity</h4>
+                                    <div className="grid grid-cols-3 gap-3">
+                                        <div className="space-y-1.5">
+                                            <LabelWithTooltip
+                                                label="Edge/Cost"
+                                                tooltip="Reject candidates when edge-to-cost is below this multiple before the LLM sees them."
+                                                labelClassName="text-[10px] font-medium text-slate-400"
+                                            />
+                                            <Input
+                                                className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
+                                                type="number"
+                                                step="0.1"
+                                                value={config.cost_sanity.min_edge_to_cost_mult}
+                                                onChange={e => updateConfig('cost_sanity.min_edge_to_cost_mult', Number(e.target.value))}
+                                            />
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <LabelWithTooltip
+                                                label="Stop/Cost"
+                                                tooltip="Reject candidates whose deterministic stop is too small relative to fees, spread, and slippage."
+                                                labelClassName="text-[10px] font-medium text-slate-400"
+                                            />
+                                            <Input
+                                                className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
+                                                type="number"
+                                                step="0.1"
+                                                value={config.cost_sanity.min_stop_to_cost_mult}
+                                                onChange={e => updateConfig('cost_sanity.min_stop_to_cost_mult', Number(e.target.value))}
+                                            />
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <LabelWithTooltip
+                                                label="TP/Cost"
+                                                tooltip="Reject candidates whose deterministic take-profit is too small relative to trading costs."
+                                                labelClassName="text-[10px] font-medium text-slate-400"
+                                            />
+                                            <Input
+                                                className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
+                                                type="number"
+                                                step="0.1"
+                                                value={config.cost_sanity.min_tp_to_cost_mult}
+                                                onChange={e => updateConfig('cost_sanity.min_tp_to_cost_mult', Number(e.target.value))}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className="space-y-1.5">
                                     <LabelWithTooltip
                                         label="Min Depth (USD)"

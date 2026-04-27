@@ -81,7 +81,7 @@ export function useAccountData(): AccountData {
                     }
                 }
 
-                const totals = openPositions.reduce((acc, pos) => {
+                const totals = (openPositions as any[]).reduce((acc: { exposureUsd: number; marginUsd: number }, pos: any) => {
                     const price = priceData[pos.coin] ? parseFloat(priceData[pos.coin]) : pos.entryPx
                     if (!Number.isFinite(price)) return acc
 

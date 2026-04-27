@@ -48,6 +48,36 @@ model ScreeningSnapshot {
   createdAt DateTime @default(now())
 }
 
+model CandidateJournal {
+  id                Int      @id @default(autoincrement())
+  snapshotId        Int?
+  timestamp         Int
+  profile           String?
+  regime            String
+  candidateId       String?
+  symbol            String
+  side              String?
+  playbook          String?
+  scope             String
+  status            String
+  llmAction         String?
+  llmConfidence     Float?
+  llmNotes          String?
+  validatorStatus   String?
+  validatorReason   String?
+  executed          Boolean  @default(false)
+  metadataJson      String?
+  outcome5mBps      Float?
+  outcome15mBps     Float?
+  outcome1hBps      Float?
+  createdAt         DateTime @default(now())
+
+  @@index([snapshotId])
+  @@index([symbol, createdAt])
+  @@index([status, createdAt])
+  @@index([candidateId])
+}
+
 // Sentiment & Social Data Models
 model Message {
   id             Int      @id @default(autoincrement())

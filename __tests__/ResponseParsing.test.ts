@@ -1,116 +1,72 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { OrchestratorService } from '@/services/OrchestratorService';
-import { ScreenerService } from '@/services/ScreenerService';
-import * as HyperliquidLib from '@/lib/hyperliquid';
+import { describe, expect, it } from 'vitest';
+import { parseTraderResponse } from '@/lib/llm/LlmResponseParser';
 
-// Mock Dependencies
-vi.mock('@/services/ScreenerService', () => ({
-    ScreenerService: vi.fn().mockImplementation(() => ({
-        getScreenedSymbols: vi.fn().mockResolvedValue([]),
-        getLatestSnapshot: vi.fn().mockResolvedValue([])
-    }))
-}));
-
-vi.mock('@/lib/hyperliquid', async (importOriginal) => {
-    const actual = await importOriginal<typeof HyperliquidLib>();
-    return {
-        ...actual,
-        getClearinghouseState: vi.fn().mockResolvedValue({
-            marginSummary: { accountValue: '10000' },
-            assetPositions: []
-        }),
-        getMetaAndAssetCtxs: vi.fn(),
-        getOHLCV: vi.fn(),
-        getL2Book: vi.fn()
-    };
-});
-
-describe('OrchestratorService Parsing Robustness', () => {
-    let orchestrator: OrchestratorService;
-    let mockScreenerInstance: any;
-
-    beforeEach(() => {
-        vi.clearAllMocks();
-
-        // Setup mock ScreenerService instance
-        mockScreenerInstance = {
-            getScreenedSymbols: vi.fn().mockResolvedValue([]),
-            getLatestSnapshot: vi.fn().mockResolvedValue(null)
-        };
-        (ScreenerService as any).mockImplementation(() => mockScreenerInstance);
-
-        global.fetch = vi.fn();
-        orchestrator = new OrchestratorService();
-    });
-
-    afterEach(() => {
-        vi.restoreAllMocks();
-    });
-
-    const mockLLMResponse = (responseContent: string) => {
-        (global.fetch as any).mockResolvedValue({
-            ok: true,
-            json: async () => ({ response: responseContent })
-        });
-    };
-
-    it('should handle direct array of decisions', async () => {
+describe('Trader response parsing robustness', () => {
+    it('handles direct arrays of trader decisions', () => {
         const response = `[
             {
-                "symbol": "BTC-PERP",
+                "scope": "candidate",
                 "action": "OPEN_POSITION",
+                "candidate_id": "BTC-PERP:long:Momentum",
+                "symbol": "BTC-PERP",
                 "target_side": "long",
-                "target_size_fraction_of_equity": 0.1
+                "target_size_fraction_of_equity": 0.05,
+                "playbook": "Momentum:long",
+                "confidence": 0.64,
+                "reason_code": "momentum_edge",
+                "notes": "Hard trigger with modest size."
             }
         ]`;
-        mockLLMResponse(response);
 
-        const result = await orchestrator.analyzeMarket(null, false, 'test-model', true);
+        const result = parseTraderResponse(response);
 
-        expect(result.decisions).toHaveLength(1);
-        expect(result.decisions[0].symbol).toBe('BTC-PERP');
+        expect(result).toHaveLength(1);
+        expect(result[0].candidate_id).toBe('BTC-PERP:long:Momentum');
     });
 
-    it('should handle single decision object', async () => {
+    it('handles a single trader decision object', () => {
         const response = `{
-            "symbol": "ETH-PERP",
+            "scope": "position",
             "action": "CLOSE_POSITION",
+            "candidate_id": null,
+            "symbol": "ETH-PERP",
             "target_side": "flat",
-            "target_size_fraction_of_equity": 0
+            "target_size_fraction_of_equity": 0,
+            "playbook": null,
+            "confidence": 0.72,
+            "reason_code": "risk_reduction",
+            "notes": "Edge failed and close is allowed."
         }`;
-        mockLLMResponse(response);
 
-        const result = await orchestrator.analyzeMarket(null, false, 'test-model', true);
+        const result = parseTraderResponse(response);
 
-        expect(result.decisions).toHaveLength(1);
-        expect(result.decisions[0].symbol).toBe('ETH-PERP');
+        expect(result).toHaveLength(1);
+        expect(result[0].symbol).toBe('ETH-PERP');
+        expect(result[0].scope).toBe('position');
     });
 
-    it('should handle JSON wrapped in text without code blocks', async () => {
+    it('extracts JSON wrapped in extra text', () => {
         const response = `Here is the plan:
         {
             "decisions": [
                 {
+                    "scope": "position",
+                    "action": "HOLD_POSITION",
+                    "candidate_id": null,
                     "symbol": "SOL-PERP",
-                    "action": "HOLD",
                     "target_side": "long",
-                    "target_size_fraction_of_equity": 0.2
+                    "target_size_fraction_of_equity": 0.2,
+                    "playbook": null,
+                    "confidence": 0.58,
+                    "reason_code": "position_management",
+                    "notes": "Signals remain supportive."
                 }
             ]
-        }
-        Hope this helps!`;
-        mockLLMResponse(response);
+        }`;
 
-        const result = await orchestrator.analyzeMarket(null, false, 'test-model', true);
+        const result = parseTraderResponse(response);
 
-        expect(result.decisions).toHaveLength(1);
-        expect(result.decisions[0].symbol).toBe('SOL-PERP');
-    });
-
-    it('should handle JSON with missing decisions key (root object is the decision map?)', async () => {
-        // Some models might return { "BTC-PERP": { ... } } or similar, but let's stick to the most common errors first.
-        // The most common is returning the list directly or a single object.
-        // Let's test a case where it returns { "decision": [...] } (singular) just in case? 
-        // No, let's stick to the ones we identified.
+        expect(result).toHaveLength(1);
+        expect(result[0].action).toBe('HOLD_POSITION');
     });
 });

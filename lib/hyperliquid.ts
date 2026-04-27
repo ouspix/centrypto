@@ -1,5 +1,5 @@
 import { signL1Action } from "@nktkas/hyperliquid/signing";
-import { OrderRequest, CancelRequest, parser } from "@nktkas/hyperliquid/api/exchange";
+import { OrderRequest, CancelRequest, UpdateLeverageRequest, parser } from "@nktkas/hyperliquid/api/exchange";
 import { privateKeyToAccount } from "viem/accounts";
 
 type Hex = `0x${string} `;
@@ -84,6 +84,7 @@ export type PlaceOrderRequest = {
     limitPx: number;
     sz: number;
     reduceOnly: boolean;
+    tif?: "Gtc" | "Ioc" | "Alo" | "FrontendMarket" | "LiquidationMarket";
     stopLossPrice?: number;
     takeProfitPrice?: number;
 };
@@ -128,7 +129,7 @@ export async function placeOrder(
             p: priceStr, // Must be string
             s: sizeStr, // Must be string
             r: order.reduceOnly,
-            t: { limit: { tif: "Gtc" as const } },
+            t: { limit: { tif: order.tif ?? "Gtc" as const } },
         },
     ];
 
@@ -218,6 +219,56 @@ export async function placeOrder(
     }
 
     console.log("✅ API Response:", JSON.stringify(data, null, 2));
+    return data;
+}
+
+export async function updateLeverage(
+    privateKey: string,
+    request: {
+        asset: number;
+        isCross: boolean;
+        leverage: number;
+    },
+    isTestnet = false,
+) {
+    const nonce = Date.now();
+    const rawAction = {
+        type: "updateLeverage" as const,
+        asset: request.asset,
+        isCross: request.isCross,
+        leverage: Math.max(1, Math.floor(request.leverage))
+    };
+    const action = parser(UpdateLeverageRequest.entries.action)(rawAction);
+
+    let cleanKey = privateKey.trim();
+    if ((cleanKey.startsWith('"') && cleanKey.endsWith('"')) || (cleanKey.startsWith("'") && cleanKey.endsWith("'"))) {
+        cleanKey = cleanKey.slice(1, -1);
+    }
+    const formattedKey = cleanKey.startsWith('0x') ? cleanKey : `0x${cleanKey}`;
+    const wallet = privateKeyToAccount(formattedKey as Hex);
+    const signature = await signL1Action({ wallet, action, nonce, isTestnet });
+    const payload = { action, nonce, signature };
+
+    const apiUrl = isTestnet
+        ? "https://api.hyperliquid-testnet.xyz/exchange"
+        : "https://api.hyperliquid.xyz/exchange";
+
+    const res = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`Update leverage API Error: ${text}`);
+    }
+
+    const data = await res.json();
+    if (data.status === "err") {
+        throw new Error(`Update leverage rejected: ${data.response}`);
+    }
+
     return data;
 }
 

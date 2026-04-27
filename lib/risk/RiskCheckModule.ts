@@ -44,7 +44,7 @@ export class RiskCheckModule {
             }
         }
 
-        if (decision.action === "DO_NOTHING" || decision.action === "HOLD" || decision.action === "HOLD_POSITION") {
+        if (decision.action === "DO_NOTHING" || decision.action === "HOLD" || decision.action === "HOLD_POSITION" || decision.action === "SKIP") {
             return { approved: true, reason: "No Trade Proposed" };
         }
 
@@ -69,7 +69,11 @@ export class RiskCheckModule {
         }
 
         // Dispatch based on action
-        if (decision.action === "OPEN_POSITION" || decision.action === "INCREASE_POSITION") {
+        if (decision.action === "INCREASE_POSITION") {
+            return { approved: false, reason: "INCREASE_POSITION disabled in trader-only v1" };
+        }
+
+        if (decision.action === "OPEN_POSITION") {
             return this.assessOpenPosition(decision, snapshot, context);
         }
 
@@ -152,8 +156,8 @@ export class RiskCheckModule {
         const slPct = Math.abs(decision.risk_plan.stop_loss_pct);
         const tpPct = Math.abs(decision.risk_plan.take_profit_pct_primary);
 
-        if (slPct < 0.005 || slPct > 0.05) {
-            return { approved: false, reason: `Stop Loss ${slPct} out of bounds (0.5% - 5%)` };
+        if (slPct < 0.001 || slPct > 0.05) {
+            return { approved: false, reason: `Stop Loss ${slPct} out of bounds (0.1% - 5%)` };
         }
 
         if (tpPct < 1.5 * slPct) {
@@ -191,14 +195,11 @@ export class RiskCheckModule {
             };
         }
 
-        // Post-LLM Validator: Clamp size using per-trade and per-symbol caps (fractions of equity)
         if (perTradeCap !== undefined && sizeFraction > perTradeCap) {
-            console.warn(`⚠️ Clamping position size for ${decision.symbol} from ${sizeFraction} to per-trade cap ${perTradeCap}`);
-            sizeFraction = perTradeCap;
+            return { approved: false, reason: `Size exceeds per-trade cap (${sizeFraction} > ${perTradeCap})` };
         }
         if (sizeFraction > perSymbolCap) {
-            console.warn(`⚠️ Clamping position size for ${decision.symbol} from ${sizeFraction} to per-symbol cap ${perSymbolCap}`);
-            sizeFraction = perSymbolCap;
+            return { approved: false, reason: `Size exceeds per-symbol cap (${sizeFraction} > ${perSymbolCap})` };
         }
 
         let proposedSizeUsd = equity * sizeFraction;
@@ -241,13 +242,7 @@ export class RiskCheckModule {
             if (remainingExposure < minTradeUsd) {
                 return { approved: false, reason: `Total exposure limit reached (${snapshot.constraints.max_total_exposure_pct_equity * 100}%)` };
             }
-            if (proposedSizeUsd > remainingExposure) {
-                console.warn(`⚠️ Clamping position size for ${decision.symbol} to remaining exposure: ${remainingExposure}`);
-                proposedSizeUsd = remainingExposure;
-                sizeFraction = remainingExposure / equity;
-                decision.target_size_fraction_of_equity = sizeFraction;
-                decision.size_fraction_of_equity = sizeFraction;
-            }
+            return { approved: false, reason: `Size exceeds remaining total exposure (${proposedSizeUsd.toFixed(2)} > ${remainingExposure.toFixed(2)})` };
         }
 
         // 13. Final min trade guard

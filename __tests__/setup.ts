@@ -16,6 +16,10 @@ vi.mock('lightweight-charts', () => ({
     createChart: vi.fn(() => ({
         addSeries: vi.fn(() => ({
             setData: vi.fn(),
+            applyOptions: vi.fn(),
+            priceScale: vi.fn(() => ({
+                applyOptions: vi.fn(),
+            })),
         })),
         applyOptions: vi.fn(),
         remove: vi.fn(),
@@ -25,6 +29,9 @@ vi.mock('lightweight-charts', () => ({
     })),
     ColorType: { Solid: 'Solid' },
     CandlestickSeries: 'CandlestickSeries',
+    HistogramSeries: 'HistogramSeries',
+    LineSeries: 'LineSeries',
+    TickMarkType: { Time: 0, TimeWithSeconds: 1, DayOfMonth: 2, Month: 3, Year: 4 },
 }))
 
 // Mock recharts

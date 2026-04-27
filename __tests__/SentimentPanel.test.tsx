@@ -17,6 +17,7 @@ describe('SentimentPanel', () => {
 
     it('fetches and displays sentiment data on mount', async () => {
         (global.fetch as any).mockResolvedValue({
+            ok: true,
             json: async () => ({
                 symbol: 'SOL',
                 score: 0.75,

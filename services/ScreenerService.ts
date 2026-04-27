@@ -335,8 +335,12 @@ export class ScreenerService {
 
             const minDepth = Math.min(candidate.bookMetrics.depth_usd.bid_1pct, candidate.bookMetrics.depth_usd.ask_1pct);
             const illiquidityPenalty = weights.illiquidity_penalty * (config.minDepthUsd / (minDepth + 1));
+            const expectedMoveBps = 10000 * Math.max(Math.abs(candidate.metrics.returns.m15), Math.abs(candidate.metrics.returns.h1));
+            const estimatedCostBps = 3.5 + candidate.bookMetrics.spread_bps;
+            const edgeToCost = estimatedCostBps > 0 ? Math.max(0, (expectedMoveBps - estimatedCostBps) / estimatedCostBps) : 0;
+            const costToEdgePenalty = (weights.cost_to_edge_penalty ?? 0) * (1 / Math.max(edgeToCost, 0.1));
 
-            const totalScore = volScore + moveScore + trendAlign - spreadPenalty - illiquidityPenalty;
+            const totalScore = volScore + moveScore + trendAlign - spreadPenalty - illiquidityPenalty - costToEdgePenalty;
 
             scored.push({
                 ...candidate,

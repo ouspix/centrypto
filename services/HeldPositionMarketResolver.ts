@@ -77,7 +77,7 @@ export class HeldPositionMarketResolver {
                         score: sentiment.score,
                         mentionsVsBaseline: sentiment.mentions_vs_baseline,
                         disagreement: sentiment.disagreement,
-                        change2h: sentiment.change_2h
+                        change2h: sentiment.change_2h ?? 0
                     },
                     regime_tags: metrics.regime_tags,
                     data_source: "fallback_on_demand",

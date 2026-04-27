@@ -25,7 +25,8 @@ describe('TechnicalChart', () => {
 
         render(<TechnicalChart />)
 
-        expect(screen.getByText('SOL / USD - Technical Analysis')).toBeDefined()
+        expect(screen.getByText('SOL / USD')).toBeDefined()
+        expect(screen.getByText('Technical Analysis')).toBeDefined()
 
         await waitFor(() => {
             expect(createChart).toHaveBeenCalled()

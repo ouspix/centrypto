@@ -1,190 +1,220 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { DEFAULT_AGENT_CONFIG } from '@/lib/agent-config';
 import { OrchestratorService } from '@/services/OrchestratorService';
-import { ScreenerService } from '@/services/ScreenerService';
-import * as HyperliquidLib from '@/lib/hyperliquid';
 
-// Mock ScreenerService
-vi.mock('@/services/ScreenerService', () => {
+const mockBuildSnapshot = vi.fn();
+const mockAssess = vi.fn();
+const mockPlaceOrder = vi.fn();
+
+vi.mock('@/services/SnapshotBuilder', () => ({
+    SnapshotBuilder: vi.fn().mockImplementation(() => ({
+        buildSnapshot: mockBuildSnapshot,
+    })),
+}));
+
+vi.mock('@/lib/db', () => ({
+    prisma: {
+        marketStateSnapshot: {
+            create: vi.fn().mockResolvedValue({ id: 77 }),
+            update: vi.fn().mockResolvedValue({ id: 77 }),
+        },
+        llmQuery: { create: vi.fn().mockResolvedValue({ id: 'llm-1' }) },
+        candidateJournal: { createMany: vi.fn().mockResolvedValue({ count: 1 }) },
+        analysisJob: {
+            create: vi.fn(),
+            update: vi.fn(),
+            findUnique: vi.fn(),
+        },
+    },
+}));
+
+vi.mock('@/lib/risk/RiskCheckModule', () => ({
+    RiskCheckModule: vi.fn().mockImplementation(() => ({
+        assess: mockAssess,
+    })),
+}));
+
+vi.mock('@/lib/log/tradingLogger', () => ({
+    TradingLogger: vi.fn().mockImplementation(() => ({
+        logDecision: vi.fn().mockResolvedValue(undefined),
+    })),
+}));
+
+vi.mock('@/lib/hyperliquid', () => ({
+    placeOrder: (...args: any[]) => mockPlaceOrder(...args),
+    updateLeverage: vi.fn().mockResolvedValue({ status: 'ok' }),
+}));
+
+function snapshotWithCandidateAndPosition() {
     return {
-        ScreenerService: vi.fn().mockImplementation(() => ({
-            getScreenedSymbols: vi.fn(),
-            getLatestSnapshot: vi.fn()
-        }))
-    };
-});
+        timestamp: 1777231828,
+        account: {
+            equity_usd: 10000,
+            daily_realized_pnl: 0,
+            daily_total_pnl_usd: 0,
+            max_daily_loss: 300,
+            current_positions: [{
+                symbol: 'ETH-PERP',
+                side: 'long',
+                size_usd: 1000,
+                fraction_of_equity: 0.1,
+                entry_price: 3000,
+                unrealized_pnl: 25,
+                leverage: 1,
+            }],
+            derived_portfolio: {
+                total_exposure_fraction: 0.1,
+                remaining_capacity: 0.4,
+                position_slots_used: 1,
+                slots_remaining: 2,
+            },
+        },
+        markets: {
+            'BTC-PERP': {
+                symbol: 'BTC-PERP',
+                assetIndex: 0,
+                price: 50000,
+                spread_bps: 1,
+                orderbook: {
+                    book_pressure: 0.55,
+                    bid_liquidity_usd: 100000,
+                    ask_liquidity_usd: 80000,
+                },
+                atr_pct: { m5: 0.01, h1: 0.02 },
+                derived: {
+                    rank: 1,
+                    costs: { cost_bps: 2 },
+                    edge: { edge_ok: true, edge_bps: 50 },
+                    entry: { entry_ok: true, edge_to_cost_mult: 25, reasons_failed: [] },
+                    liquidity: { tradeable: true, min_depth_usd: 80000 },
+                    normalized: { vol_ratio_5m_vs_1h: 2.4, ret_sigma_5m_vs_1h: 2.1 },
+                    triggers: { trend_aligned: true },
+                    risk: {
+                        eligible: true,
+                        eligible_playbooks: ['Momentum:long', 'Breakout:long'],
+                        best_anchor_key: 'atr_pct.m5',
+                        best_anchor_value: 0.01,
+                        trigger_diagnostics: {
+                            has_hard_trigger: true,
+                            triggered_playbooks: ['Momentum:long', 'Breakout:long'],
+                            trigger_profile: 'test',
+                            trigger_margin: { vol_ratio_margin: 0.9, book_pressure_margin: 0.25 },
+                        },
+                    },
+                },
+            },
+            'ETH-PERP': {
+                symbol: 'ETH-PERP',
+                assetIndex: 1,
+                price: 3000,
+                spread_bps: 1,
+                orderbook: {
+                    book_pressure: 0.2,
+                    bid_liquidity_usd: 70000,
+                    ask_liquidity_usd: 60000,
+                },
+                atr_pct: { m5: 0.01, h1: 0.02 },
+                derived: {
+                    rank: 2,
+                    costs: { cost_bps: 2 },
+                    edge: { edge_ok: true, edge_bps: 30 },
+                    entry: { entry_ok: true, edge_to_cost_mult: 15, reasons_failed: [] },
+                    liquidity: { tradeable: true, min_depth_usd: 60000 },
+                    normalized: { vol_ratio_5m_vs_1h: 1.3, ret_sigma_5m_vs_1h: 0.8 },
+                    triggers: { trend_aligned: true },
+                    risk: {
+                        eligible: true,
+                        eligible_playbooks: [],
+                        best_anchor_key: 'atr_pct.m5',
+                        best_anchor_value: 0.01,
+                    },
+                },
+            },
+        },
+        constraints: {
+            max_position_pct_equity: 0.1,
+            max_position_pct_equity_per_symbol: 0.1,
+            max_total_exposure_pct_equity: 0.5,
+            min_trade_notional_usd: 10,
+            kill_switch: false,
+            no_flip_same_tick: true,
+            max_new_positions_per_cycle: 1,
+            daily_loss_kill_switch_fraction: 0.03,
+            max_new_trades_allowed: 1,
+        },
+        allowed_actions: ['OPEN_POSITION', 'REDUCE_POSITION', 'CLOSE_POSITION', 'HOLD_POSITION', 'SKIP'],
+        meta: { note: 'test' },
+        global_regime: { current: 'RISK_ON', score: 1, reason: 'test' },
+        presets: { agent: DEFAULT_AGENT_CONFIG, screening: {} },
+    } as any;
+}
 
-// Mock Hyperliquid lib
-vi.mock('@/lib/hyperliquid', async (importOriginal) => {
-    const actual = await importOriginal<typeof HyperliquidLib>();
-    return {
-        ...actual,
-        getClearinghouseState: vi.fn(),
-        getMetaAndAssetCtxs: vi.fn(), // Mock if needed by other parts
-        getOHLCV: vi.fn(),
-        getL2Book: vi.fn()
-    };
-});
-
-describe('OrchestratorService Integration', () => {
-    let orchestrator: OrchestratorService;
-    let mockScreenerInstance: any;
-
+describe('OrchestratorService trader-only loop', () => {
     beforeEach(() => {
         vi.clearAllMocks();
-
-        // Setup mock ScreenerService instance
-        mockScreenerInstance = {
-            getScreenedSymbols: vi.fn(),
-            getLatestSnapshot: vi.fn().mockResolvedValue(null)
-        };
-        (ScreenerService as any).mockImplementation(() => mockScreenerInstance);
-
-        // Mock global fetch for Ollama
+        mockBuildSnapshot.mockResolvedValue(snapshotWithCandidateAndPosition());
+        mockAssess.mockReturnValue({ approved: true, reason: 'Approved' });
         global.fetch = vi.fn();
-
-        orchestrator = new OrchestratorService();
     });
 
-    afterEach(() => {
-        vi.restoreAllMocks();
-    });
-
-    it('should pass screened values AND existing positions to LLM and return decisions for entire portfolio', async () => {
-        // 1. Setup Mock Data
-        const mockScreenedSymbols = [
-            {
-                symbol: 'BTC',
-                price: 50000,
-                metrics: {
-                    returns: { m1: 0.01, m5: 0.02, m15: 0.03, h1: 0.04, h4: 0.05 },
-                    realized_vol: { m1: 0.01, m5: 0.01, m15: 0.01, h1: 0.01, h4: 0.01 },
-                    vol_zscores: { vol_5m_vs_1h: 2.5, ret_5m_vs_1h: 1.5 },
-                    regime_tags: ['high_vol']
-                },
-                bookMetrics: {
-                    spread_bps: 2,
-                    depth_usd: { bid_1pct: 100000, ask_1pct: 100000 },
-                    imbalance: 1.2
-                },
-                funding: 0.0001,
-                openInterest: 1000000,
-                sentiment: { score: 0.8 }
-            },
-            {
-                symbol: 'ETH',
-                price: 3000,
-                metrics: {
-                    returns: { m1: -0.01, m5: -0.02, m15: -0.03, h1: -0.04, h4: -0.05 },
-                    realized_vol: { m1: 0.02, m5: 0.02, m15: 0.02, h1: 0.02, h4: 0.02 },
-                    vol_zscores: { vol_5m_vs_1h: 1.0, ret_5m_vs_1h: -1.5 },
-                    regime_tags: []
-                },
-                bookMetrics: {
-                    spread_bps: 3,
-                    depth_usd: { bid_1pct: 50000, ask_1pct: 50000 },
-                    imbalance: 0.8
-                },
-                funding: 0.0002,
-                openInterest: 500000,
-                sentiment: { score: -0.2 }
-            },
-            {
-                symbol: 'SOL',
-                price: 155,
-                metrics: {
-                    returns: { m1: 0.005, m5: 0.01, m15: 0.01, h1: 0.02, h4: 0.03 },
-                    realized_vol: { m1: 0.015, m5: 0.015, m15: 0.015, h1: 0.015, h4: 0.015 },
-                    vol_zscores: { vol_5m_vs_1h: 1.2, ret_5m_vs_1h: 0.8 },
-                    regime_tags: []
-                },
-                bookMetrics: {
-                    spread_bps: 4,
-                    depth_usd: { bid_1pct: 20000, ask_1pct: 20000 },
-                    imbalance: 1.0
-                },
-                funding: 0.0003,
-                openInterest: 200000,
-                sentiment: { score: 0.5 }
-            }
-        ];
-
-        mockScreenerInstance.getScreenedSymbols.mockResolvedValue(mockScreenedSymbols);
-
-        // Mock Existing Position (SOL)
-        (HyperliquidLib.getClearinghouseState as any).mockResolvedValue({
-            marginSummary: { accountValue: '10000' },
-            assetPositions: [
-                {
-                    position: {
-                        coin: 'SOL',
-                        szi: '10.0', // Size
-                        entryPx: '150.0',
-                        unrealizedPnl: '50.0',
-                        leverage: { value: '5' }
-                    }
-                }
-            ]
-        });
-
-        // Mock LLM Response covering both new opportunities and existing positions
-        const mockLLMResponse = {
-            decisions: [
-                {
-                    symbol: 'BTC',
-                    action: 'OPEN_POSITION',
-                    target_side: 'long',
-                    target_size_fraction_of_equity: 0.1,
-                    confidence: 0.9,
-                    reason_code: 'high_vol_breakout',
-                    notes: 'BTC showing high volatility and positive momentum.'
-                },
-                {
-                    symbol: 'ETH',
-                    action: 'DO_NOTHING',
-                    target_side: 'flat',
-                    target_size_fraction_of_equity: 0,
-                    confidence: 0.5,
-                    reason_code: 'neutral',
-                    notes: 'ETH is chopping.'
-                },
-                {
-                    symbol: 'SOL',
-                    action: 'HOLD', // Decision for existing position
-                    target_side: 'long',
-                    target_size_fraction_of_equity: 0.15,
-                    confidence: 0.8,
-                    reason_code: 'trend_continuation',
-                    notes: 'Holding SOL long as trend is still intact.'
-                }
-            ]
-        };
-
+    it('sends TraderContext instead of raw market snapshots to the LLM', async () => {
         (global.fetch as any).mockResolvedValue({
             ok: true,
             json: async () => ({
-                response: JSON.stringify(mockLLMResponse)
-            })
+                response: JSON.stringify({
+                    decisions: [{
+                        scope: 'candidate',
+                        action: 'SKIP',
+                        candidate_id: 'BTC-PERP:long:Momentum',
+                        symbol: 'BTC-PERP',
+                        target_side: 'flat',
+                        target_size_fraction_of_equity: 0,
+                        playbook: null,
+                        confidence: 0.4,
+                        reason_code: 'skip',
+                        notes: 'Hard trigger exists but position exposure argues for skipping.',
+                    }],
+                }),
+            }),
         });
 
-        // 2. Execute
-        const result = await orchestrator.analyzeMarket('0xUserAddress', false, 'test-model', true);
+        const result = await new OrchestratorService().analyzeMarket('0xUser', false, 'test-model', true);
+        const requestBody = JSON.parse((global.fetch as any).mock.calls[0][1].body);
 
-        // 3. Verify
-        // Check if Screener was called
-        expect(mockScreenerInstance.getScreenedSymbols).toHaveBeenCalled();
+        expect(requestBody.prompt).toContain('TRADER_CONTEXT');
+        expect(requestBody.prompt).toContain('"eligible_candidates"');
+        expect(requestBody.prompt).toContain('"existing_positions"');
+        expect(requestBody.prompt).not.toContain('MARKET SNAPSHOT');
+        expect(result.decisions[0].action).toBe('SKIP');
+    });
 
-        // Check if LLM was called with correct prompt containing screened values AND existing positions
-        // Verify Result Prompt (Concatenation of System + User)
-        expect(result.prompt).toContain('You are a fast Scalping Intraday Operator'); // System Prompt start
-        expect(result.prompt).toContain('MARKET SNAPSHOT:'); // User Prompt start
-        expect(result.prompt).toContain('BTC');
-        expect(result.prompt).toContain('150'); // Entry Price
+    it('rejects invalid LLM output before risk assessment or execution', async () => {
+        (global.fetch as any).mockResolvedValue({
+            ok: true,
+            json: async () => ({
+                response: JSON.stringify({
+                    decisions: [{
+                        scope: 'candidate',
+                        action: 'OPEN_POSITION',
+                        candidate_id: 'BTC-PERP:long:Momentum',
+                        symbol: 'BTC-PERP',
+                        target_side: 'long',
+                        target_size_fraction_of_equity: 99,
+                        playbook: 'Momentum:long',
+                        confidence: 0.9,
+                        reason_code: 'momentum_edge',
+                        notes: 'Oversized invalid decision.',
+                    }],
+                }),
+            }),
+        });
 
-        // Check if result matches filtered LLM decision set (no HOLD/DO_NOTHING)
-        const btcDecision = result.decisions.find(d => d.symbol === 'BTC');
-        expect(btcDecision).toBeDefined();
-        expect(btcDecision?.action).toBe('OPEN_POSITION');
+        const result = await new OrchestratorService().analyzeMarket('0xUser', true, 'test-model', true);
 
-        expect(result.decisions.some(d => d.action === 'DO_NOTHING' || d.action === 'HOLD')).toBe(false);
+        expect(result.decisions).toEqual([]);
+        expect(result.riskAssessments[0].approved).toBe(false);
+        expect(result.riskAssessments[0].reason).toContain('size_exceeds_max');
+        expect(mockAssess).not.toHaveBeenCalled();
+        expect(mockPlaceOrder).not.toHaveBeenCalled();
     });
 });
