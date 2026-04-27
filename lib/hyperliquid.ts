@@ -172,7 +172,12 @@ export async function placeOrder(
     const action = parser(OrderRequest.entries.action)(rawAction);
 
     // Create wallet from private key - no MetaMask needed!
-    const wallet = privateKeyToAccount(privateKey as Hex);
+    let cleanKey = privateKey.trim();
+    if ((cleanKey.startsWith('"') && cleanKey.endsWith('"')) || (cleanKey.startsWith("'") && cleanKey.endsWith("'"))) {
+        cleanKey = cleanKey.slice(1, -1);
+    }
+    const formattedKey = cleanKey.startsWith('0x') ? cleanKey : `0x${cleanKey}`;
+    const wallet = privateKeyToAccount(formattedKey as Hex);
 
     console.log("🔑 Signing with address:", wallet.address);
     console.log("🔑 isTestnet:", isTestnet);
@@ -239,7 +244,12 @@ export async function cancelOrder(
 
     // Use SDK parser to ensure proper formatting
     const action = parser(CancelRequest.entries.action)(rawAction);
-    const wallet = privateKeyToAccount(privateKey as Hex);
+    let cleanKey = privateKey.trim();
+    if ((cleanKey.startsWith('"') && cleanKey.endsWith('"')) || (cleanKey.startsWith("'") && cleanKey.endsWith("'"))) {
+        cleanKey = cleanKey.slice(1, -1);
+    }
+    const formattedKey = cleanKey.startsWith('0x') ? cleanKey : `0x${cleanKey}`;
+    const wallet = privateKeyToAccount(formattedKey as Hex);
 
     console.log("🚫 Cancelling order:", cancelRequest.oid);
 

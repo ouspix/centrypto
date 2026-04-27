@@ -26,6 +26,7 @@ export async function GET() {
         models.push({ name: "deepseek/deepseek-v3.2-exp:reasoning" });
         models.push({ name: "deepseek/deepseek-r1" });
         models.push({ name: "deepseek/deepseek-chat" });
+        models.push({ name: "deepseek/deepseek-v4-flash" });
         models.push({ name: "anthropic/claude-3-opus" });
         models.push({ name: "anthropic/claude-3-sonnet" });
     }

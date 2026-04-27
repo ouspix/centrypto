@@ -181,36 +181,9 @@ export class OrchestratorService {
             // I will duplicate the orchestration logic here for safety and isolation, 
             // reusing the helper methods.
 
-            // --- COPY OF ORCHESTRATION LOGIC ---
+            // --- ORCHESTRATION LOGIC ---
             // Merge config
-            const config: AgentConfig = {
-                ...DEFAULT_AGENT_CONFIG,
-                ...configOverride,
-                network_profiles: { ...DEFAULT_AGENT_CONFIG.network_profiles, ...configOverride?.network_profiles },
-                gates: { ...DEFAULT_AGENT_CONFIG.gates, ...configOverride?.gates },
-                risk: { ...DEFAULT_AGENT_CONFIG.risk, ...configOverride?.risk },
-                risk_plan_model: {
-                    ...DEFAULT_AGENT_CONFIG.risk_plan_model,
-                    ...configOverride?.risk_plan_model,
-                    vol_anchor_priority: configOverride?.risk_plan_model?.vol_anchor_priority ?? DEFAULT_AGENT_CONFIG.risk_plan_model.vol_anchor_priority,
-                    multipliers_by_playbook: {
-                        ...DEFAULT_AGENT_CONFIG.risk_plan_model.multipliers_by_playbook,
-                        ...configOverride?.risk_plan_model?.multipliers_by_playbook
-                    },
-                    regime_adjustments: {
-                        ...DEFAULT_AGENT_CONFIG.risk_plan_model.regime_adjustments,
-                        ...configOverride?.risk_plan_model?.regime_adjustments
-                    }
-                },
-                sentiment_policy: { ...DEFAULT_AGENT_CONFIG.sentiment_policy, ...configOverride?.sentiment_policy }
-            };
-            config.risk.max_position_fraction = config.risk.max_position_fraction ?? config.risk.max_position_fraction_per_symbol;
-            config.risk.max_position_fraction_per_symbol = config.risk.max_position_fraction_per_symbol ?? config.risk.max_position_fraction;
-
-            const screenerConfig: ScreenerConfig = {
-                ...DEFAULT_SCREENER_CONFIG,
-                ...configOverride?.screener
-            };
+            const { config, screenerConfig } = this.mergeConfig(configOverride);
 
             // 1. Build Snapshot
             if (controller.signal.aborted) throw new Error('Aborted');
@@ -284,7 +257,7 @@ export class OrchestratorService {
                 const riskAssessment = this.riskModule.assess(decision, snapshot, { newPositionsCount });
                 riskAssessments.push(riskAssessment);
 
-                if (riskAssessment.approved && (decision.action === 'OPEN_POSITION' || (decision.action === 'INCREASE_POSITION' && riskAssessment.modifiedOrder?.clientTag === 'AI_TRADER_INCREASE_NEW'))) {
+                if (riskAssessment.approved && decision.action === 'OPEN_POSITION') {
                     newPositionsCount++;
                 }
             }
@@ -340,35 +313,7 @@ export class OrchestratorService {
     ): Promise<{ decisions: TradeDecision[], riskAssessments: RiskAssessment[], snapshot: StateSnapshot, prompt: string, rawOutput: string }> {
 
         // Merge config
-        // Basic deep merge for top-level sections
-        const config: AgentConfig = {
-            ...DEFAULT_AGENT_CONFIG,
-            ...configOverride,
-            network_profiles: { ...DEFAULT_AGENT_CONFIG.network_profiles, ...configOverride?.network_profiles },
-            gates: { ...DEFAULT_AGENT_CONFIG.gates, ...configOverride?.gates },
-            risk: { ...DEFAULT_AGENT_CONFIG.risk, ...configOverride?.risk },
-            risk_plan_model: {
-                ...DEFAULT_AGENT_CONFIG.risk_plan_model,
-                ...configOverride?.risk_plan_model,
-                vol_anchor_priority: configOverride?.risk_plan_model?.vol_anchor_priority ?? DEFAULT_AGENT_CONFIG.risk_plan_model.vol_anchor_priority,
-                multipliers_by_playbook: {
-                    ...DEFAULT_AGENT_CONFIG.risk_plan_model.multipliers_by_playbook,
-                    ...configOverride?.risk_plan_model?.multipliers_by_playbook
-                },
-                regime_adjustments: {
-                    ...DEFAULT_AGENT_CONFIG.risk_plan_model.regime_adjustments,
-                    ...configOverride?.risk_plan_model?.regime_adjustments
-                }
-            },
-            sentiment_policy: { ...DEFAULT_AGENT_CONFIG.sentiment_policy, ...configOverride?.sentiment_policy }
-        };
-        config.risk.max_position_fraction = config.risk.max_position_fraction ?? config.risk.max_position_fraction_per_symbol;
-        config.risk.max_position_fraction_per_symbol = config.risk.max_position_fraction_per_symbol ?? config.risk.max_position_fraction;
-
-        const screenerConfig: ScreenerConfig = {
-            ...DEFAULT_SCREENER_CONFIG,
-            ...configOverride?.screener
-        };
+        const { config, screenerConfig } = this.mergeConfig(configOverride);
 
         // 1. Build Snapshot
         const snapshot = await this.snapshotBuilder.buildSnapshot(userAddress, isTestnet, config, screenerConfig);
@@ -460,7 +405,7 @@ export class OrchestratorService {
                     console.warn(`⚠️ Risk Rejected ${decision.symbol} (${decision.action} ${decision.target_side || ""}) | Reason: ${riskAssessment.reason || "unknown"} | Playbook: ${decision.playbook} | Confidence: ${decision.confidence}`);
                 }
 
-                if (riskAssessment.approved && (decision.action === 'OPEN_POSITION' || (decision.action === 'INCREASE_POSITION' && riskAssessment.modifiedOrder?.clientTag === 'AI_TRADER_INCREASE_NEW'))) {
+                if (riskAssessment.approved && decision.action === 'OPEN_POSITION') {
                     newPositionsCount++;
                 }
 
@@ -477,7 +422,7 @@ export class OrchestratorService {
                         // Log the failure
                         await this.logger.logDecision({
                             timestamp: new Date().toISOString(),
-                            snapshot: "SNAPSHOT_HASH",
+                            snapshot: snapshot.meta?.snapshot_id?.toString() || "UNKNOWN",
                             decision,
                             riskAssessment,
                             executionResult: { success: false, error: "Asset index not found" }
@@ -501,11 +446,26 @@ export class OrchestratorService {
                         const sz = riskAssessment.modifiedOrder.sizeUsd / currentPrice;
                         const reduceOnly = decision.action === 'CLOSE_POSITION' || decision.action === 'REDUCE_POSITION';
 
-                        // 5% Slippage for "Market" execution
-                        const slippage = 0.05;
+                        // Use profile-driven slippage (Fix 2)
+                        const slippage = config.risk.slippage_pct ?? 0.005;
                         const limitPx = isBuy
                             ? currentPrice * (1 + slippage)
                             : currentPrice * (1 - slippage);
+
+                        // Compute exchange-native SL/TP prices from the validated risk plan (Fix 1)
+                        let stopLossPrice: number | undefined;
+                        let takeProfitPrice: number | undefined;
+                        if (!reduceOnly && decision.risk_plan) {
+                            const slPct = Math.abs(decision.risk_plan.stop_loss_pct);
+                            const tpPct = Math.abs(decision.risk_plan.take_profit_pct_primary);
+                            if (isBuy) {
+                                stopLossPrice = currentPrice * (1 - slPct);
+                                takeProfitPrice = currentPrice * (1 + tpPct);
+                            } else {
+                                stopLossPrice = currentPrice * (1 + slPct);
+                                takeProfitPrice = currentPrice * (1 - tpPct);
+                            }
+                        }
 
                         console.log(`🚀 Sending Order: ${isBuy ? 'BUY' : 'SELL'} ${decision.symbol} sz=${sz.toFixed(4)} px=${limitPx.toFixed(4)} reduce=${reduceOnly}`);
 
@@ -516,7 +476,9 @@ export class OrchestratorService {
                                 isBuy,
                                 limitPx,
                                 sz,
-                                reduceOnly
+                                reduceOnly,
+                                stopLossPrice,
+                                takeProfitPrice
                             },
                             isTestnet
                         );
@@ -550,7 +512,7 @@ export class OrchestratorService {
                 // 5. Log
                 await this.logger.logDecision({
                     timestamp: new Date().toISOString(),
-                    snapshot: "SNAPSHOT_HASH", // Optimize logging
+                    snapshot: snapshot.meta?.snapshot_id?.toString() || "UNKNOWN", // Actual snapshot ID
                     decision,
                     riskAssessment,
                     executionResult
@@ -866,9 +828,9 @@ ${JSON.stringify(llmPayload, null, 2)}${debugPresets ? `\n\nDEBUG_PRESETS (for i
                     action: d.action,
                     symbol: d.symbol,
                     side: d.side ?? null,
-                    size_fraction_of_equity: null,
+                    size_fraction_of_equity: d.size_fraction_of_equity ?? d.sizeFraction ?? null,
                     target_side: d.target_side ?? d.side ?? null,
-                    target_size_fraction_of_equity: null,
+                    target_size_fraction_of_equity: d.target_size_fraction_of_equity ?? d.size_fraction_of_equity ?? d.targetSize ?? d.sizeFraction ?? null,
                     risk_plan: null,
                     playbook: d.playbook || "none",
                     confidence: d.confidence ?? 0.5,
@@ -993,9 +955,19 @@ ${JSON.stringify(llmPayload, null, 2)}${debugPresets ? `\n\nDEBUG_PRESETS (for i
 
             return {
                 symbol: market.symbol || symbol,
+                price: market.price,
                 news_blocked: market.news_blocked ?? false,
                 derived: {
                     rank: market.derived?.rank ?? null,
+                    costs: market.derived?.costs ? {
+                        cost_bps: market.derived.costs.cost_bps,
+                        cost_ok: !!market.derived.costs.cost_ok
+                    } : undefined,
+                    edge: market.derived?.edge ? {
+                        expected_move_bps: market.derived.edge.expected_move_bps,
+                        edge_bps: market.derived.edge.edge_bps,
+                        edge_ok: !!market.derived.edge.edge_ok
+                    } : undefined,
                     entry: {
                         entry_ok: !!market.derived?.entry?.entry_ok,
                         edge_to_cost_mult: market.derived?.entry?.edge_to_cost_mult ?? null,
@@ -1003,14 +975,29 @@ ${JSON.stringify(llmPayload, null, 2)}${debugPresets ? `\n\nDEBUG_PRESETS (for i
                         confidence_hint: (market.derived?.entry as any)?.confidence_hint ?? null,
                         reasons_failed: market.derived?.entry?.reasons_failed ?? []
                     },
+                    triggers: market.derived?.triggers ? {
+                        momentum_ok_long: !!market.derived.triggers.momentum_ok_long,
+                        momentum_ok_short: !!market.derived.triggers.momentum_ok_short,
+                        mr_ok_long: !!market.derived.triggers.mr_ok_long,
+                        mr_ok_short: !!market.derived.triggers.mr_ok_short,
+                        breakout_ok: !!market.derived.triggers.breakout_ok,
+                        trend_aligned: !!market.derived.triggers.trend_aligned
+                    } : undefined,
+                    liquidity: {
+                        tradeable: !!market.derived?.liquidity?.tradeable,
+                        min_depth_usd: market.derived?.liquidity?.min_depth_usd
+                    },
+                    normalized: market.derived?.normalized ? {
+                        ret_sigma_5m_vs_1h: market.derived.normalized.ret_sigma_5m_vs_1h,
+                        vol_ratio_5m_vs_1h: market.derived.normalized.vol_ratio_5m_vs_1h
+                    } : undefined,
+                    orderbook: bookPressure === undefined ? undefined : { book_pressure: bookPressure },
                     risk: {
                         eligible: !!market.derived?.risk?.eligible,
-                        eligible_playbooks: market.derived?.risk?.eligible_playbooks ?? []
-                    },
-                    liquidity: {
-                        tradeable: !!market.derived?.liquidity?.tradeable
-                    },
-                    orderbook: bookPressure === undefined ? undefined : { book_pressure: bookPressure }
+                        eligible_playbooks: market.derived?.risk?.eligible_playbooks ?? [],
+                        best_anchor_key: market.derived?.risk?.best_anchor_key,
+                        best_anchor_value: market.derived?.risk?.best_anchor_value
+                    }
                 },
                 position_state: {
                     has_position: !!position,
@@ -1039,18 +1026,32 @@ ${JSON.stringify(llmPayload, null, 2)}${debugPresets ? `\n\nDEBUG_PRESETS (for i
                 timestamp: snapshot.timestamp,
                 global_regime: { current: snapshot.global_regime?.current },
                 constraints: {
+                    kill_switch: snapshot.constraints.kill_switch ?? false,
+                    max_total_exposure_pct_equity: snapshot.constraints.max_total_exposure_pct_equity,
+                    max_position_pct_equity: snapshot.constraints.max_position_pct_equity,
+                    max_position_pct_equity_per_symbol: snapshot.constraints.max_position_pct_equity_per_symbol,
+                    min_trade_notional_usd: snapshot.constraints.min_trade_notional_usd,
+                    max_new_positions_per_cycle: snapshot.constraints.max_new_positions_per_cycle,
+                    max_new_trades_allowed: snapshot.constraints.max_new_trades_allowed,
                     max_new_entries_allowed: maxNewEntries,
-                    max_increases_allowed: maxIncreases
+                    max_increases_allowed: maxIncreases,
+                    no_flip_same_tick: snapshot.constraints.no_flip_same_tick
                 },
                 veto: {
-                    kill_switch: snapshot.constraints.kill_switch ?? false,
                     risk_reduction_priority: (snapshot as any)?.veto?.risk_reduction_priority ?? false
                 },
                 policy: {
                     min_confidence: minConfidence
                 },
-                open_positions: openPositions,
-                symbols
+                account: {
+                    equity_usd: snapshot.account.equity_usd,
+                    derived_portfolio: {
+                        remaining_capacity: snapshot.account.derived_portfolio?.remaining_capacity,
+                        slots_remaining: snapshot.account.derived_portfolio?.slots_remaining
+                    },
+                    current_positions: openPositions
+                },
+                markets: symbols
             }
         };
     }
@@ -1086,11 +1087,24 @@ ${JSON.stringify(llmPayload, null, 2)}${debugPresets ? `\n\nDEBUG_PRESETS (for i
 
             if (decision.action === "OPEN_POSITION" || decision.action === "INCREASE_POSITION") {
                 if (!normalizedDecision.target_side || normalizedDecision.target_side === "flat") return [];
-                if (isNewPosition && riskInfo && !riskInfo.eligible) return [];
-                if (riskInfo?.eligible_playbooks?.length && !this.isPlaybookAllowed(decision.playbook, riskInfo.eligible_playbooks)) return [];
-                if (isNewPosition && maxNewTrades !== undefined && newTradeCount >= maxNewTrades) return [];
+                if (riskInfo && !riskInfo.eligible) {
+                    console.log(`[enrichDecisions] Dropped ${decision.action} for ${symbol}: riskInfo not eligible.`);
+                    return [];
+                }
+                if (riskInfo?.eligible_playbooks?.length && !this.isPlaybookAllowed(decision.playbook, riskInfo.eligible_playbooks)) {
+                    console.log(`[enrichDecisions] Dropped ${decision.action} for ${symbol}: playbook ${decision.playbook} not allowed.`);
+                    return [];
+                }
 
-                const sizeFraction = this.computeSizeFraction(decision.confidence ?? 0, config, snapshot.account.equity_usd);
+                // Fix: if INCREASE targets a symbol with no open position, treat as OPEN.
+                // This prevents ambiguity in sizing math and newPositionsCount tracking.
+                const resolvedAction = (decision.action === "INCREASE_POSITION" && isNewPosition)
+                    ? "OPEN_POSITION"
+                    : decision.action;
+
+                if (resolvedAction === "OPEN_POSITION" && maxNewTrades !== undefined && newTradeCount >= maxNewTrades) return [];
+
+                const sizeFraction = decision.target_size_fraction_of_equity ?? this.computeSizeFraction(decision.confidence ?? 0, config, snapshot.account.equity_usd);
                 if (sizeFraction === null) return [];
 
                 const riskPlan = this.computeRiskPlan(decision.playbook, market, config, snapshot.global_regime.current, effectiveLeverage);
@@ -1098,13 +1112,14 @@ ${JSON.stringify(llmPayload, null, 2)}${debugPresets ? `\n\nDEBUG_PRESETS (for i
 
                 const enriched: TradeDecision = {
                     ...normalizedDecision,
+                    action: resolvedAction,
                     target_size_fraction_of_equity: sizeFraction,
                     size_fraction_of_equity: sizeFraction,
                     risk_plan: riskPlan,
                     audit: this.buildAudit(market, snapshot, riskPlan, sizeFraction)
                 };
 
-                if (isNewPosition) newTradeCount += 1;
+                if (resolvedAction === "OPEN_POSITION") newTradeCount += 1;
                 return [enriched];
             }
 
@@ -1165,6 +1180,45 @@ ${JSON.stringify(llmPayload, null, 2)}${debugPresets ? `\n\nDEBUG_PRESETS (for i
             computed_take_profit_pct_primary: riskPlan?.take_profit_pct_primary ?? null,
             computed_size_fraction_of_equity: sizeFraction ?? null
         };
+    }
+
+    /**
+     * Deep-merge configOverride onto DEFAULT_AGENT_CONFIG.
+     * Extracted to eliminate the duplicate merge block that used to live in both
+     * runAnalysisJob and analyzeMarket.
+     */
+    private mergeConfig(configOverride?: any): { config: AgentConfig; screenerConfig: ScreenerConfig } {
+        const config: AgentConfig = {
+            ...DEFAULT_AGENT_CONFIG,
+            ...configOverride,
+            network_profiles: { ...DEFAULT_AGENT_CONFIG.network_profiles, ...configOverride?.network_profiles },
+            gates: { ...DEFAULT_AGENT_CONFIG.gates, ...configOverride?.gates },
+            risk: { ...DEFAULT_AGENT_CONFIG.risk, ...configOverride?.risk },
+            risk_plan_model: {
+                ...DEFAULT_AGENT_CONFIG.risk_plan_model,
+                ...configOverride?.risk_plan_model,
+                vol_anchor_priority: configOverride?.risk_plan_model?.vol_anchor_priority ?? DEFAULT_AGENT_CONFIG.risk_plan_model.vol_anchor_priority,
+                multipliers_by_playbook: {
+                    ...DEFAULT_AGENT_CONFIG.risk_plan_model.multipliers_by_playbook,
+                    ...configOverride?.risk_plan_model?.multipliers_by_playbook
+                },
+                regime_adjustments: {
+                    ...DEFAULT_AGENT_CONFIG.risk_plan_model.regime_adjustments,
+                    ...configOverride?.risk_plan_model?.regime_adjustments
+                }
+            },
+            sentiment_policy: { ...DEFAULT_AGENT_CONFIG.sentiment_policy, ...configOverride?.sentiment_policy }
+        };
+        // Ensure both fraction fields are populated from each other when only one is provided
+        config.risk.max_position_fraction = config.risk.max_position_fraction ?? config.risk.max_position_fraction_per_symbol;
+        config.risk.max_position_fraction_per_symbol = config.risk.max_position_fraction_per_symbol ?? config.risk.max_position_fraction;
+
+        const screenerConfig: ScreenerConfig = {
+            ...DEFAULT_SCREENER_CONFIG,
+            ...configOverride?.screener
+        };
+
+        return { config, screenerConfig };
     }
 
     private async persistSnapshot(snapshot: StateSnapshot): Promise<number | null> {

@@ -29,6 +29,9 @@ export interface AgentConfig {
         daily_loss_kill_switch_fraction: number;
         // Target leverage used for risk plan sizing when no position leverage is known
         default_leverage?: number;
+        // Slippage ceiling for limit orders (fraction, e.g. 0.005 = 0.5%).
+        // Wider values guarantee fills; tighter values preserve edge on mainnet.
+        slippage_pct?: number;
 
         // Stop Loss Templates (kept for reference/defaults)
         stop_loss_templates: {
@@ -123,6 +126,7 @@ export const DEFAULT_AGENT_CONFIG: AgentConfig = {
         max_new_positions_per_cycle: 1,
         daily_loss_kill_switch_fraction: 0.03,
         default_leverage: 1,
+        slippage_pct: 0.005, // 0.5% — mainnet default: tight to preserve scalp edge
         stop_loss_templates: {
             default: { stop_loss_pct: 0.02, rr_min: 1.5 },
             scalp: { stop_loss_pct: 0.015, rr_min: 1.5, time_stop_minutes: 15 },
@@ -183,7 +187,8 @@ export const AGENT_PRESETS: Record<string, Partial<AgentConfig>> = {
             min_trade_notional_usd: 50,
             no_flip_same_tick: true,
             max_new_positions_per_cycle: 1,
-            daily_loss_kill_switch_fraction: 0.03
+            daily_loss_kill_switch_fraction: 0.03,
+            slippage_pct: 0.003 // 0.3% — scalper: tightest, every bp counts
         },
         triggers: {
             momentum: { book_pressure_min: 0.35, vol_ratio_min: 1.4 },
@@ -201,7 +206,8 @@ export const AGENT_PRESETS: Record<string, Partial<AgentConfig>> = {
             min_trade_notional_usd: 10,
             no_flip_same_tick: true,
             max_new_positions_per_cycle: 2,
-            daily_loss_kill_switch_fraction: 0.05
+            daily_loss_kill_switch_fraction: 0.05,
+            slippage_pct: 0.005 // 0.5% — moderate fills
         },
         triggers: {
             momentum: { book_pressure_min: 0.20, vol_ratio_min: 1.0 },
@@ -219,7 +225,8 @@ export const AGENT_PRESETS: Record<string, Partial<AgentConfig>> = {
             min_trade_notional_usd: 5,
             no_flip_same_tick: false,
             max_new_positions_per_cycle: 2,
-            daily_loss_kill_switch_fraction: 0.07
+            daily_loss_kill_switch_fraction: 0.07,
+            slippage_pct: 0.008 // 0.8% — swing: wider entries acceptable
         },
         triggers: {
             momentum: { book_pressure_min: 0.10, vol_ratio_min: 0.8 },
@@ -237,7 +244,8 @@ export const AGENT_PRESETS: Record<string, Partial<AgentConfig>> = {
             min_trade_notional_usd: 1,
             no_flip_same_tick: false,
             max_new_positions_per_cycle: 4,
-            daily_loss_kill_switch_fraction: 0.20
+            daily_loss_kill_switch_fraction: 0.20,
+            slippage_pct: 0.05 // 5% — testnet: fill guarantee over precision
         },
         triggers: {
             momentum: { book_pressure_min: 0.05, vol_ratio_min: 0.5 },

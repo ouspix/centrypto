@@ -127660,3 +127660,2092 @@ Response:
 }
 ```
 -----------------------------------
+
+
+--- 2026-04-26T16:37:26.523Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1112,
+    "timestamp": 1777221434,
+    "global_regime": {
+      "current": "CHOP"
+    },
+    "constraints": {
+      "max_new_entries_allowed": 2,
+      "max_increases_allowed": 2
+    },
+    "veto": {
+      "kill_switch": false,
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.36
+    },
+    "open_positions": [
+      {
+        "symbol": "BTC-PERP",
+        "side": "long",
+        "size_usd": 237.05008,
+        "fraction_of_equity": 0.2620288547028041,
+        "entry_price": 77977,
+        "leverage": 20,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      }
+    ],
+    "symbols": [
+      {
+        "symbol": "BTC-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 1,
+          "entry": {
+            "entry_ok": false,
+            "edge_to_cost_mult": -0.246,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": [
+              "EDGE_GATE",
+              "EDGE_TO_COST_BELOW_MULT"
+            ]
+          },
+          "risk": {
+            "eligible": false,
+            "eligible_playbooks": []
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.26
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "long",
+          "pnl_unrealized_usd": 0.0456,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+```json
+{
+    "decisions": [
+        {
+            "action": "CLOSE_POSITION",
+            "symbol": "BTC-PERP",
+            "target_side": "flat",
+            "target_size_fraction_of_equity": 0.0,
+            "playbook": "position_management",
+            "risk_plan": {},
+            "confidence": 0.36,
+            "reason_code": "position_management",
+            "notes": "entry_ok false, edge_ok missing, eligible false, no valid anchors for risk plan",
+            "audit": {}
+        }
+    ]
+}
+```
+-----------------------------------
+
+
+--- 2026-04-26T16:50:19.434Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1113,
+    "timestamp": 1777222194,
+    "global_regime": {
+      "current": "CHOP"
+    },
+    "constraints": {
+      "max_new_entries_allowed": 2,
+      "max_increases_allowed": 2
+    },
+    "veto": {
+      "kill_switch": false,
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.36
+    },
+    "open_positions": [
+      {
+        "symbol": "BTC-PERP",
+        "side": "long",
+        "size_usd": 779.77,
+        "fraction_of_equity": 0.8620866374063779,
+        "entry_price": 77977,
+        "leverage": 20,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      }
+    ],
+    "symbols": [
+      {
+        "symbol": "BTC-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 3,
+          "entry": {
+            "entry_ok": false,
+            "edge_to_cost_mult": -0.386,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": [
+              "EDGE_GATE",
+              "EDGE_TO_COST_BELOW_MULT"
+            ]
+          },
+          "risk": {
+            "eligible": false,
+            "eligible_playbooks": []
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.04
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "long",
+          "pnl_unrealized_usd": -0.03,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+{
+  "decisions": [
+    {
+      "action": "CLOSE_POSITION",
+      "symbol": "BTC-PERP",
+      "target_side": "flat",
+      "target_size_fraction_of_equity": 0.0,
+      "playbook": "position_management",
+      "risk_plan": null,
+      "confidence": 1.0,
+      "reason_code": "risk_reduction",
+      "notes": "Entry conditions failed and book pressure bearish, closing long."
+    }
+  ]
+}
+-----------------------------------
+
+
+--- 2026-04-26T18:22:29.607Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1114,
+    "timestamp": 1777227716,
+    "global_regime": {
+      "current": "RISK_ON"
+    },
+    "constraints": {
+      "max_new_entries_allowed": 2,
+      "max_increases_allowed": 2
+    },
+    "veto": {
+      "kill_switch": false,
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.3
+    },
+    "open_positions": [
+      {
+        "symbol": "BTC-PERP",
+        "side": "long",
+        "size_usd": 779.77,
+        "fraction_of_equity": 0.8597668671524318,
+        "entry_price": 77977,
+        "leverage": 20,
+        "position_age_min": null,
+        "playbook_when_opened": null,
+        "llm_reason_when_opened": null
+      }
+    ],
+    "symbols": [
+      {
+        "symbol": "ETH-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 1,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 9.015,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.31
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "DOGE-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 2,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 5.41,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Mean Reversion:short",
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.15
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "BNB-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 3,
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 3.077,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ]
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": -0.29
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "BTC-PERP",
+        "news_blocked": false,
+        "derived": {
+          "rank": 5,
+          "entry": {
+            "entry_ok": false,
+            "edge_to_cost_mult": 1.159,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": [
+              "EDGE_GATE",
+              "EDGE_TO_COST_BELOW_MULT"
+            ]
+          },
+          "risk": {
+            "eligible": false,
+            "eligible_playbooks": []
+          },
+          "liquidity": {
+            "tradeable": true
+          },
+          "orderbook": {
+            "book_pressure": 0.26
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "long",
+          "pnl_unrealized_usd": 2.43,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+{
+  "decisions": [
+    {
+      "action": "CLOSE_POSITION",
+      "symbol": "BTC-PERP",
+      "target_side": "flat",
+      "target_size_fraction_of_equity": 0.0,
+      "playbook": "position_management",
+      "risk_plan": null,
+      "confidence": 0.0,
+      "reason_code": "position_management",
+      "notes": "Entry gate failed (EDGE_GATE, EDGE_TO_COST_BELOW_MULT); closing long position.",
+      "audit": {
+        "book_pressure": 0.26
+      }
+    }
+  ]
+}
+-----------------------------------
+
+
+--- 2026-04-26T18:47:57.176Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1115,
+    "timestamp": 1777229260,
+    "global_regime": {
+      "current": "CHOP"
+    },
+    "constraints": {
+      "kill_switch": false,
+      "max_total_exposure_pct_equity": 3,
+      "max_position_pct_equity": 0.3,
+      "max_position_pct_equity_per_symbol": 0.3,
+      "min_trade_notional_usd": 10,
+      "max_new_positions_per_cycle": 2,
+      "max_new_trades_allowed": 2,
+      "max_new_entries_allowed": 2,
+      "max_increases_allowed": 2,
+      "no_flip_same_tick": true
+    },
+    "veto": {
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.36
+    },
+    "account": {
+      "equity_usd": 905.993449,
+      "derived_portfolio": {
+        "remaining_capacity": 3,
+        "slots_remaining": 5
+      },
+      "current_positions": []
+    },
+    "markets": [
+      {
+        "symbol": "AVAX-PERP",
+        "price": 9.4784,
+        "news_blocked": false,
+        "derived": {
+          "rank": 1,
+          "costs": {
+            "cost_bps": 8.6,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 63.7,
+            "edge_bps": 55.1,
+            "edge_ok": true
+          },
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 6.439,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": true
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 15935.730773
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": -0.9835870664339265,
+            "vol_ratio_5m_vs_1h": 0.8671967672454045
+          },
+          "orderbook": {
+            "book_pressure": -0.01
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.0013125376732971864
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "ETH-PERP",
+        "price": 2362.7,
+        "news_blocked": false,
+        "derived": {
+          "rank": 2,
+          "costs": {
+            "cost_bps": 6.7,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 53.2,
+            "edge_bps": 46.5,
+            "edge_ok": true
+          },
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 6.969,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": true
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 15324.488529999999
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": 0.78712692746999,
+            "vol_ratio_5m_vs_1h": 0.8109439467717585
+          },
+          "orderbook": {
+            "book_pressure": 0.37
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.0009129990507228358
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+{
+  "decisions": []
+}
+-----------------------------------
+
+
+--- 2026-04-26T18:56:08.667Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1116,
+    "timestamp": 1777229736,
+    "global_regime": {
+      "current": "CHOP"
+    },
+    "constraints": {
+      "kill_switch": false,
+      "max_total_exposure_pct_equity": 3,
+      "max_position_pct_equity": 0.3,
+      "max_position_pct_equity_per_symbol": 0.3,
+      "min_trade_notional_usd": 10,
+      "max_new_positions_per_cycle": 2,
+      "max_new_trades_allowed": 2,
+      "max_new_entries_allowed": 2,
+      "max_increases_allowed": 2,
+      "no_flip_same_tick": true
+    },
+    "veto": {
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.36
+    },
+    "account": {
+      "equity_usd": 905.993449,
+      "derived_portfolio": {
+        "remaining_capacity": 3,
+        "slots_remaining": 5
+      },
+      "current_positions": []
+    },
+    "markets": [
+      {
+        "symbol": "ETH-PERP",
+        "price": 2364,
+        "news_blocked": false,
+        "derived": {
+          "rank": 1,
+          "costs": {
+            "cost_bps": 8.6,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 54.4,
+            "edge_bps": 45.9,
+            "edge_ok": true
+          },
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 5.349,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": true
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 18344.37264
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": -0.4982827555783711,
+            "vol_ratio_5m_vs_1h": 0.3914682683934516
+          },
+          "orderbook": {
+            "book_pressure": 0.31
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.0009820748673443624
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+{
+  "decisions": [
+    {
+      "action": "OPEN_POSITION",
+      "symbol": "ETH-PERP",
+      "target_side": "long",
+      "target_size_fraction_of_equity": 0.2,
+      "playbook": "Discretionary Edge:long",
+      "risk_plan": {
+        "stop_loss_pct": 0.0009820748673443624,
+        "take_profit_pct_primary": 0.0019641497346887248
+      },
+      "confidence": 0.5,
+      "reason_code": "discretionary_edge",
+      "notes": "CHOP regime but edge strong, cost low, book pressure slightly bullish, trend aligned. Open moderate size for discretionary long.",
+      "audit": {
+        "cost_bps": 8.6,
+        "edge_bps": 45.9,
+        "book_pressure": 0.31,
+        "vol_ratio_5m_vs_1h": 0.3914682683934516,
+        "ret_sigma_5m_vs_1h": -0.4982827555783711,
+        "anchor_key": "atr_pct.m5",
+        "anchor_value": 0.0009820748673443624,
+        "computed_stop_loss_pct": 0.0009820748673443624,
+        "computed_take_profit_pct_primary": 0.0019641497346887248,
+        "computed_size_fraction_of_equity": 0.2
+      }
+    }
+  ]
+}
+-----------------------------------
+
+
+--- 2026-04-26T19:12:03.725Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1117,
+    "timestamp": 1777230708,
+    "global_regime": {
+      "current": "CHOP"
+    },
+    "constraints": {
+      "kill_switch": false,
+      "max_total_exposure_pct_equity": 3,
+      "max_position_pct_equity": 0.3,
+      "max_position_pct_equity_per_symbol": 0.3,
+      "min_trade_notional_usd": 10,
+      "max_new_positions_per_cycle": 2,
+      "max_new_trades_allowed": 2,
+      "max_new_entries_allowed": 2,
+      "max_increases_allowed": 2,
+      "no_flip_same_tick": true
+    },
+    "veto": {
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.36
+    },
+    "account": {
+      "equity_usd": 907.029543,
+      "derived_portfolio": {
+        "remaining_capacity": 1.0751,
+        "slots_remaining": 3
+      },
+      "current_positions": [
+        {
+          "symbol": "BTC-PERP",
+          "side": "long",
+          "size_usd": 1564.76,
+          "fraction_of_equity": 1.725147777242797,
+          "entry_price": 78238,
+          "leverage": 20,
+          "position_age_min": null,
+          "playbook_when_opened": null,
+          "llm_reason_when_opened": null
+        },
+        {
+          "symbol": "ETH-PERP",
+          "side": "long",
+          "size_usd": 181.13602,
+          "fraction_of_equity": 0.1997024478396731,
+          "entry_price": 2364.7,
+          "leverage": 20,
+          "position_age_min": null,
+          "playbook_when_opened": null,
+          "llm_reason_when_opened": null
+        }
+      ]
+    },
+    "markets": [
+      {
+        "symbol": "ETH-PERP",
+        "price": 2364.4,
+        "news_blocked": false,
+        "derived": {
+          "rank": 1,
+          "costs": {
+            "cost_bps": 6.2,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 35.2,
+            "edge_bps": 29,
+            "edge_ok": true
+          },
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 4.69,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": true
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 17944.989279999998
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": 1.7289421535445837,
+            "vol_ratio_5m_vs_1h": 1.0474546408829886
+          },
+          "orderbook": {
+            "book_pressure": 0.39
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.0009606786378905935
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "long",
+          "pnl_unrealized_usd": -0.02298,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "BTC-PERP",
+        "price": 78297,
+        "news_blocked": false,
+        "derived": {
+          "rank": 2,
+          "costs": {
+            "cost_bps": 7.1,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 31.9,
+            "edge_bps": 24.8,
+            "edge_ok": false
+          },
+          "entry": {
+            "entry_ok": false,
+            "edge_to_cost_mult": 3.468,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": [
+              "EDGE_GATE",
+              "EDGE_TO_COST_BELOW_MULT"
+            ]
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": true
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 13737.91589
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": 3.8148388812544534,
+            "vol_ratio_5m_vs_1h": 0.6045963837568535
+          },
+          "orderbook": {
+            "book_pressure": 0.3
+          },
+          "risk": {
+            "eligible": false,
+            "eligible_playbooks": [],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.0006594922183566877
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "long",
+          "pnl_unrealized_usd": 1.38,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+```json
+{
+    "decisions": [
+        {
+            "action": "HOLD_POSITION",
+            "symbol": "ETH-PERP",
+            "target_side": "long",
+            "target_size_fraction_of_equity": 0.1997024478396731,
+            "playbook": null,
+            "risk_plan": null,
+            "confidence": 0.6,
+            "reason_code": "position_management",
+            "notes": "Position intact: edge_ok=true, entry_ok=true, eligible=true, book_pressure positive, trend_aligned. No hard triggers but discretionary edge possible. Global regime CHOP suggests caution.",
+            "audit": null
+        },
+        {
+            "action": "CLOSE_POSITION",
+            "symbol": "BTC-PERP",
+            "target_side": "flat",
+            "target_size_fraction_of_equity": 0,
+            "playbook": null,
+            "risk_plan": null,
+            "confidence": 0.7,
+            "reason_code": "risk_reduction",
+            "notes": "edge_ok=false, entry_ok=false, eligible=false, reasons_failed include EDGE_GATE and EDGE_TO_COST_BELOW_MULT. Multiple failure signals warrant closure.",
+            "audit": null
+        }
+    ]
+}
+```
+-----------------------------------
+
+
+--- 2026-04-26T19:30:16.311Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1118,
+    "timestamp": 1777231792,
+    "global_regime": {
+      "current": "CHOP"
+    },
+    "constraints": {
+      "kill_switch": false,
+      "max_total_exposure_pct_equity": 3,
+      "max_position_pct_equity": 0.3,
+      "max_position_pct_equity_per_symbol": 0.3,
+      "min_trade_notional_usd": 10,
+      "max_new_positions_per_cycle": 2,
+      "max_new_trades_allowed": 2,
+      "max_new_entries_allowed": 2,
+      "max_increases_allowed": 2,
+      "no_flip_same_tick": true
+    },
+    "veto": {
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.36
+    },
+    "account": {
+      "equity_usd": 907.537129,
+      "derived_portfolio": {
+        "remaining_capacity": 2.8004,
+        "slots_remaining": 4
+      },
+      "current_positions": [
+        {
+          "symbol": "ETH-PERP",
+          "side": "long",
+          "size_usd": 181.13602,
+          "fraction_of_equity": 0.19959075415414765,
+          "entry_price": 2364.7,
+          "leverage": 20,
+          "position_age_min": null,
+          "playbook_when_opened": null,
+          "llm_reason_when_opened": null
+        }
+      ]
+    },
+    "markets": [
+      {
+        "symbol": "ETH-PERP",
+        "price": 2367.4,
+        "news_blocked": false,
+        "derived": {
+          "rank": 4,
+          "costs": {
+            "cost_bps": 6.7,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 12.7,
+            "edge_bps": 6,
+            "edge_ok": false
+          },
+          "entry": {
+            "entry_ok": false,
+            "edge_to_cost_mult": 0.905,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": [
+              "EDGE_GATE",
+              "EDGE_TO_COST_BELOW_MULT"
+            ]
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": true
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 19087.10109
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": -1.7093057351430656,
+            "vol_ratio_5m_vs_1h": 1.8030774512132481
+          },
+          "orderbook": {
+            "book_pressure": 0.27
+          },
+          "risk": {
+            "eligible": false,
+            "eligible_playbooks": [],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.0008325641164866178
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "long",
+          "pnl_unrealized_usd": 0.2298,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+```json
+{
+    "decisions": [
+        {
+            "action": "HOLD_POSITION",
+            "symbol": "ETH-PERP",
+            "target_side": "long",
+            "target_size_fraction_of_equity": 0.19959075415414765,
+            "playbook": null,
+            "risk_plan": null,
+            "confidence": 0.4,
+            "reason_code": "position_management",
+            "notes": "Edge not OK, entry not OK, but risk reduction not prioritized. Holding existing position.",
+            "audit": null
+        }
+    ]
+}
+```
+-----------------------------------
+
+
+--- 2026-04-26T19:31:25.614Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1119,
+    "timestamp": 1777231828,
+    "global_regime": {
+      "current": "RISK_OFF"
+    },
+    "constraints": {
+      "kill_switch": false,
+      "max_total_exposure_pct_equity": 3,
+      "max_position_pct_equity": 0.3,
+      "max_position_pct_equity_per_symbol": 0.3,
+      "min_trade_notional_usd": 10,
+      "max_new_positions_per_cycle": 2,
+      "max_new_trades_allowed": 2,
+      "max_new_entries_allowed": 2,
+      "max_increases_allowed": 2,
+      "no_flip_same_tick": true
+    },
+    "veto": {
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.3
+    },
+    "account": {
+      "equity_usd": 907.529469,
+      "derived_portfolio": {
+        "remaining_capacity": 2.8004,
+        "slots_remaining": 4
+      },
+      "current_positions": [
+        {
+          "symbol": "ETH-PERP",
+          "side": "long",
+          "size_usd": 181.13602,
+          "fraction_of_equity": 0.19959243879936203,
+          "entry_price": 2364.7,
+          "leverage": 20,
+          "position_age_min": null,
+          "playbook_when_opened": null,
+          "llm_reason_when_opened": null
+        }
+      ]
+    },
+    "markets": [
+      {
+        "symbol": "BTC-PERP",
+        "price": 78198,
+        "news_blocked": false,
+        "derived": {
+          "rank": 2,
+          "costs": {
+            "cost_bps": 6.3,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 32.1,
+            "edge_bps": 25.8,
+            "edge_ok": true
+          },
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 4.109,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": true
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 21469.46695
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": 2.7698444193537326,
+            "vol_ratio_5m_vs_1h": 1.1012315887892297
+          },
+          "orderbook": {
+            "book_pressure": 0.1
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.001044966440500853
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "AVAX-PERP",
+        "price": 9.4682,
+        "news_blocked": false,
+        "derived": {
+          "rank": 3,
+          "costs": {
+            "cost_bps": 6.1,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 29.7,
+            "edge_bps": 23.6,
+            "edge_ok": true
+          },
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 3.881,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": true
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 14630.28063
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": -0.07482945027448284,
+            "vol_ratio_5m_vs_1h": 0.21019941052851876
+          },
+          "orderbook": {
+            "book_pressure": 0.18
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.0010840570438813075
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "ETH-PERP",
+        "price": 2367.6,
+        "news_blocked": false,
+        "derived": {
+          "rank": 4,
+          "costs": {
+            "cost_bps": 6.7,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 29.5,
+            "edge_bps": 22.8,
+            "edge_ok": true
+          },
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 3.426,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": true
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 19087.10109
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": 1.3667916707467587,
+            "vol_ratio_5m_vs_1h": 1.099060475302123
+          },
+          "orderbook": {
+            "book_pressure": 0.27
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.0013425289020828535
+          }
+        },
+        "position_state": {
+          "has_position": true,
+          "position_side": "long",
+          "pnl_unrealized_usd": 0.22214,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+{
+  "decisions": [
+    {
+      "action": "HOLD_POSITION",
+      "symbol": "ETH-PERP",
+      "target_side": "long",
+      "target_size_fraction_of_equity": 0.19959243879936203,
+      "playbook": null,
+      "risk_plan": null,
+      "confidence": 0.6,
+      "reason_code": "position_management",
+      "notes": "Existing ETH long is in small profit, edge intact, no adverse signals. Holding in RISK_OFF regime.",
+      "audit": {
+        "cost_bps": 6.7,
+        "edge_bps": 22.8,
+        "book_pressure": 0.27,
+        "vol_ratio_5m_vs_1h": 1.099060475302123,
+        "ret_sigma_5m_vs_1h": 1.3667916707467587,
+        "anchor_key": "atr_pct.m5",
+        "anchor_value": 0.0013425289020828535,
+        "computed_stop_loss_pct": 0.0013425289020828535,
+        "computed_take_profit_pct_primary": 0.002685057804165707,
+        "computed_size_fraction_of_equity": 0.19959243879936203
+      }
+    },
+    {
+      "action": "OPEN_POSITION",
+      "symbol": "BTC-PERP",
+      "target_side": "long",
+      "target_size_fraction_of_equity": 0.1,
+      "playbook": "Discretionary Edge:long",
+      "risk_plan": {
+        "stop_loss_pct": 0.001044966440500853,
+        "take_profit_pct_primary": 0.002089932881001706
+      },
+      "confidence": 0.4,
+      "reason_code": "discretionary_edge",
+      "notes": "Discretionary long on BTC due to positive edge, high ret_sigma, trend aligned, but RISK_OFF regime warrants moderate size and confidence.",
+      "audit": {
+        "cost_bps": 6.3,
+        "edge_bps": 25.8,
+        "book_pressure": 0.1,
+        "vol_ratio_5m_vs_1h": 1.1012315887892297,
+        "ret_sigma_5m_vs_1h": 2.7698444193537326,
+        "anchor_key": "atr_pct.m5",
+        "anchor_value": 0.001044966440500853,
+        "computed_stop_loss_pct": 0.001044966440500853,
+        "computed_take_profit_pct_primary": 0.002089932881001706,
+        "computed_size_fraction_of_equity": 0.1
+      }
+    }
+  ]
+}
+-----------------------------------
+
+
+--- 2026-04-27T04:31:29.682Z ---
+Prompt:
+SNAPSHOT (minimal schema; use provided fields only):
+{
+  "debug_context": false,
+  "snapshot": {
+    "snapshot_id": 1120,
+    "timestamp": 1777264199,
+    "global_regime": {
+      "current": "CHOP"
+    },
+    "constraints": {
+      "kill_switch": false,
+      "max_total_exposure_pct_equity": 3,
+      "max_position_pct_equity": 0.3,
+      "max_position_pct_equity_per_symbol": 0.3,
+      "min_trade_notional_usd": 10,
+      "max_new_positions_per_cycle": 2,
+      "max_new_trades_allowed": 2,
+      "max_new_entries_allowed": 2,
+      "max_increases_allowed": 2,
+      "no_flip_same_tick": true
+    },
+    "veto": {
+      "risk_reduction_priority": false
+    },
+    "policy": {
+      "min_confidence": 0.36
+    },
+    "account": {
+      "equity_usd": 101.931377,
+      "derived_portfolio": {
+        "remaining_capacity": 3,
+        "slots_remaining": 5
+      },
+      "current_positions": []
+    },
+    "markets": [
+      {
+        "symbol": "CHIP-PERP",
+        "price": 0.08544,
+        "news_blocked": false,
+        "derived": {
+          "rank": 1,
+          "costs": {
+            "cost_bps": 7.4,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 679.6,
+            "edge_bps": 672.2,
+            "edge_ok": true
+          },
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 90.763,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": true
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 16921.601313
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": 2.995700949018781,
+            "vol_ratio_5m_vs_1h": 0.6225366156758722
+          },
+          "orderbook": {
+            "book_pressure": 0.06
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.02168816433475872
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "PENGU-PERP",
+        "price": 0.01012,
+        "news_blocked": false,
+        "derived": {
+          "rank": 3,
+          "costs": {
+            "cost_bps": 8,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 148.3,
+            "edge_bps": 140.4,
+            "edge_ok": true
+          },
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 17.632,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": false
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 105537.00659399999
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": 2.8598523839202197,
+            "vol_ratio_5m_vs_1h": 0.7275159650689361
+          },
+          "orderbook": {
+            "book_pressure": 0.09
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.01041430835408648
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "FARTCOIN-PERP",
+        "price": 0.21203,
+        "news_blocked": false,
+        "derived": {
+          "rank": 8,
+          "costs": {
+            "cost_bps": 5.9,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 81.8,
+            "edge_bps": 75.9,
+            "edge_ok": true
+          },
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 12.835,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": true
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 54519.92343100001
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": 1.7668202564574396,
+            "vol_ratio_5m_vs_1h": 0.3205678239805711
+          },
+          "orderbook": {
+            "book_pressure": -0.1
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.003920168661552031
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "NEAR-PERP",
+        "price": 1.3986,
+        "news_blocked": false,
+        "derived": {
+          "rank": 9,
+          "costs": {
+            "cost_bps": 8.9,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 71.7,
+            "edge_bps": 62.8,
+            "edge_ok": true
+          },
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 7.082,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": true
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 88322.29552999999
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": 3.435575846251865,
+            "vol_ratio_5m_vs_1h": 0.23086602945587614
+          },
+          "orderbook": {
+            "book_pressure": 0.23
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.0013628289675167334
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "kPEPE-PERP",
+        "price": 0.003993,
+        "news_blocked": false,
+        "derived": {
+          "rank": 10,
+          "costs": {
+            "cost_bps": 7.3,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 64.7,
+            "edge_bps": 57.4,
+            "edge_ok": true
+          },
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 7.909,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": false
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 706067.128683
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": 3.650202614370963,
+            "vol_ratio_5m_vs_1h": 0.6661211642329695
+          },
+          "orderbook": {
+            "book_pressure": 0.13
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.0021997281636740953
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "ZEC-PERP",
+        "price": 359.39,
+        "news_blocked": false,
+        "derived": {
+          "rank": 11,
+          "costs": {
+            "cost_bps": 5.6,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 50.1,
+            "edge_bps": 44.5,
+            "edge_ok": true
+          },
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 7.928,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": false
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 155951.9184
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": 2.76726167471167,
+            "vol_ratio_5m_vs_1h": 0.7112875655561768
+          },
+          "orderbook": {
+            "book_pressure": -0.06
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.002089263847585108
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "ADA-PERP",
+        "price": 0.25422,
+        "news_blocked": false,
+        "derived": {
+          "rank": 12,
+          "costs": {
+            "cost_bps": 5.3,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 43.9,
+            "edge_bps": 38.6,
+            "edge_ok": true
+          },
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 7.298,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": false
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 92906.53945000001
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": 6.055714970245036,
+            "vol_ratio_5m_vs_1h": 2.7268899802487248
+          },
+          "orderbook": {
+            "book_pressure": 0.04
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.0015597598812896573
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "TAO-PERP",
+        "price": 256.31,
+        "news_blocked": false,
+        "derived": {
+          "rank": 13,
+          "costs": {
+            "cost_bps": 6.4,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 44.6,
+            "edge_bps": 38.2,
+            "edge_ok": true
+          },
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 5.92,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": true
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 130209.04488999999
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": 2.9940100980276827,
+            "vol_ratio_5m_vs_1h": 0.860087978063763
+          },
+          "orderbook": {
+            "book_pressure": -0.2
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.0014672717654592561
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "SUI-PERP",
+        "price": 0.95985,
+        "news_blocked": false,
+        "derived": {
+          "rank": 14,
+          "costs": {
+            "cost_bps": 4.8,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 39.8,
+            "edge_bps": 35,
+            "edge_ok": true
+          },
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 7.27,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": true
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 46186.766738
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": 3.640838280332844,
+            "vol_ratio_5m_vs_1h": 0.7028959546383893
+          },
+          "orderbook": {
+            "book_pressure": 0.42
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.0012670965133665683
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "XMR-PERP",
+        "price": 387.32,
+        "news_blocked": false,
+        "derived": {
+          "rank": 15,
+          "costs": {
+            "cost_bps": 6,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 38.6,
+            "edge_bps": 32.5,
+            "edge_ok": true
+          },
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 5.379,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": false
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 44960.92013999999
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": 2.0543589031645104,
+            "vol_ratio_5m_vs_1h": 0.6981048778607916
+          },
+          "orderbook": {
+            "book_pressure": -0.22
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.0017784271619696872
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "AAVE-PERP",
+        "price": 99.481,
+        "news_blocked": false,
+        "derived": {
+          "rank": 16,
+          "costs": {
+            "cost_bps": 5.1,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 31.2,
+            "edge_bps": 26.1,
+            "edge_ok": true
+          },
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 5.105,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": true
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 46454.520039999996
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": 1.8954797341096985,
+            "vol_ratio_5m_vs_1h": 0.5142565971536254
+          },
+          "orderbook": {
+            "book_pressure": -0.02
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:short",
+              "Discretionary Edge:short"
+            ],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.0040401458071817825
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      },
+      {
+        "symbol": "LTC-PERP",
+        "price": 56.593,
+        "news_blocked": false,
+        "derived": {
+          "rank": 17,
+          "costs": {
+            "cost_bps": 5.6,
+            "cost_ok": true
+          },
+          "edge": {
+            "expected_move_bps": 28.2,
+            "edge_bps": 22.6,
+            "edge_ok": true
+          },
+          "entry": {
+            "entry_ok": true,
+            "edge_to_cost_mult": 4.071,
+            "entry_score": null,
+            "confidence_hint": null,
+            "reasons_failed": []
+          },
+          "triggers": {
+            "momentum_ok_long": false,
+            "momentum_ok_short": false,
+            "mr_ok_long": false,
+            "mr_ok_short": false,
+            "breakout_ok": false,
+            "trend_aligned": true
+          },
+          "liquidity": {
+            "tradeable": true,
+            "min_depth_usd": 74185.73259
+          },
+          "normalized": {
+            "ret_sigma_5m_vs_1h": 2.5870773754883816,
+            "vol_ratio_5m_vs_1h": 0.5787487328781996
+          },
+          "orderbook": {
+            "book_pressure": 0.17
+          },
+          "risk": {
+            "eligible": true,
+            "eligible_playbooks": [
+              "Liquidity Grab:long",
+              "Discretionary Edge:long"
+            ],
+            "best_anchor_key": "atr_pct.m5",
+            "best_anchor_value": 0.0008040858162796636
+          }
+        },
+        "position_state": {
+          "has_position": false,
+          "position_side": null,
+          "pnl_unrealized_usd": null,
+          "position_age_min": null
+        }
+      }
+    ]
+  }
+}
+
+Response:
+```json
+{
+    "decisions": [
+        {
+            "action": "OPEN_POSITION",
+            "symbol": "CHIP-PERP",
+            "target_side": "long",
+            "target_size_fraction_of_equity": 0.003,
+            "playbook": "Liquidity Grab:long",
+            "risk_plan": {
+                "stop_loss_pct": 0.02168816433475872,
+                "take_profit_pct_primary": 0.04337632866951744
+            },
+            "confidence": 0.65,
+            "reason_code": "liquidity_grab",
+            "notes": "Rank 1, high edge_bps (672.2), strong edge_to_cost_mult (90.8), book_pressure slightly positive, global regime CHOP, acceptable liquidity",
+            "audit": {
+                "cost_bps": 7.4,
+                "edge_bps": 672.2,
+                "book_pressure": 0.06,
+                "vol_ratio_5m_vs_1h": 0.6225366156758722,
+                "ret_sigma_5m_vs_1h": 2.995700949018781,
+                "anchor_key": "atr_pct.m5",
+                "anchor_value": 0.02168816433475872,
+                "computed_stop_loss_pct": 0.02168816433475872,
+                "computed_take_profit_pct_primary": 0.04337632866951744,
+                "computed_size_fraction_of_equity": 0.003
+            }
+        }
+    ]
+}
+```
+-----------------------------------

@@ -572,7 +572,7 @@ export function PositionsTable() {
                                                         </Badge>
                                                     </TableCell>
                                                     <TableCell className="text-center font-mono text-slate-300 text-base py-4">
-                                                        {leverageMap[order.coin] || '-'}x
+                                                        {leverageMap[order.coin] ? `${leverageMap[order.coin]}x` : '-'}
                                                     </TableCell>
                                                     <TableCell className="text-right font-mono text-slate-200 text-base py-4">
                                                         {order.sz}
