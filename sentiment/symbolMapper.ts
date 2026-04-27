@@ -7,6 +7,10 @@ type SymbolMatcher = {
 
 let matchersCache: SymbolMatcher[] | null = null;
 
+export function clearMatchersCache() {
+  matchersCache = null;
+}
+
 function escapeRegex(input: string) {
   return input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }

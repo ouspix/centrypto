@@ -1,6 +1,7 @@
 import Vader from 'vader-sentiment';
 import { prisma } from '../lib/db';
-import { getSymbolConfig } from '../sentiment/config';
+import { getSymbolConfig, addSymbolToConfig } from '../sentiment/config';
+import { clearMatchersCache } from '../sentiment/symbolMapper';
 
 export type SentimentMessage = {
     id: string;
@@ -74,7 +75,9 @@ export class SentimentService {
     private async fetchLatestSnapshot(symbol: string) {
         const known = Object.keys(getSymbolConfig());
         if (!known.includes(symbol)) {
-            console.warn(`Unknown symbol for sentiment lookup: ${symbol}`);
+            console.warn(`Unknown symbol for sentiment lookup: ${symbol}. Automatically adding to config.`);
+            addSymbolToConfig(symbol);
+            clearMatchersCache();
             return null;
         }
         return prisma.symbolSentimentSnapshot.findFirst({

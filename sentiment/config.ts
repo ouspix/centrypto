@@ -131,6 +131,30 @@ export function getSymbolConfig(): SymbolConfig {
   return symbolCache;
 }
 
+export function addSymbolToConfig(symbol: string): void {
+  const symbolUpper = symbol.toUpperCase();
+  const config = getSymbolConfig();
+  
+  if (config[symbolUpper]) {
+    return;
+  }
+
+  // Add the symbol and it's base string
+  config[symbolUpper] = [symbolUpper];
+
+  try {
+    const target = path.join(rootDir, 'config', 'symbols.json');
+    // Using 2 spaces for JSON indentation as in typical json files
+    fs.writeFileSync(target, JSON.stringify(config, null, 2), 'utf-8');
+    console.log(`[Config] Automatically added ${symbolUpper} to symbols.json`);
+    
+    // Invalidate caches that depend on symbolConfig?
+    // They will pick up the mutated object because `config` is a reference to `symbolCache`
+  } catch (err) {
+    console.error(`[Config] Failed to automatically add ${symbolUpper} to symbols.json:`, err);
+  }
+}
+
 export function getFeedConfig(): FeedConfig {
   if (!feedsCache) {
     try {
