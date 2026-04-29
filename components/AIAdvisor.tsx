@@ -13,12 +13,12 @@ import { Switch } from "@/components/ui/switch"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-import { BrainCircuit, Play, Pause, AlertOctagon, Loader2, Activity, ShieldAlert, Settings } from "lucide-react"
+import { BrainCircuit, Play, Pause, AlertOctagon, Loader2, Activity, ShieldAlert, Settings, Info, Ban } from "lucide-react"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { useTrading } from "@/context/TradingContext"
 import { ConfigEditor } from "@/components/ui/ConfigEditor"
 import { AgentConfig, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config"
-import { TradeDecision, RiskAssessment } from "@/types/trading"
+import { LlmRunStatus, TradeDecision, RiskAssessment } from "@/types/trading"
 
 type AnalysisResult = {
     decisions: TradeDecision[];
@@ -26,6 +26,7 @@ type AnalysisResult = {
     snapshot: any;
     prompt: string;
     rawOutput: string;
+    llmStatus?: LlmRunStatus;
 };
 
 export function AIAdvisor() {
@@ -191,6 +192,7 @@ export function AIAdvisor() {
     const [killSwitch, setKillSwitch] = useState(false)
     const [showConfig, setShowConfig] = useState(false)
     const [customConfig, setCustomConfig] = useState<AgentConfig | undefined>(undefined)
+    const [agentPreset, setAgentPreset] = useState<string>('default')
 
     // Load Auto Trading State & Settings
     useEffect(() => {
@@ -302,11 +304,17 @@ export function AIAdvisor() {
                 console.error("Failed to parse saved config", e);
             }
         }
+        const savedPreset = localStorage.getItem('agentPreset');
+        if (savedPreset) {
+            setAgentPreset(savedPreset);
+        }
     }, [])
 
-    const handleSaveConfig = (newConfig: AgentConfig) => {
+    const handleSaveConfig = (newConfig: AgentConfig, newPreset: string) => {
         setCustomConfig(newConfig);
         localStorage.setItem('agentConfig', JSON.stringify(newConfig));
+        setAgentPreset(newPreset);
+        localStorage.setItem('agentPreset', newPreset);
         setShowConfig(false);
     }
 
@@ -456,6 +464,24 @@ export function AIAdvisor() {
         console.log("KILL SWITCH ACTIVATED");
     }
 
+    const formatDiagnosticLabel = (value: string) =>
+        value.replace(/_/g, " ").toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
+
+    const formatBps = (value: number | null | undefined) =>
+        value === null || value === undefined ? "--" : `${value.toFixed(1)} bps`;
+
+    const formatUsd = (value: number | null | undefined) =>
+        value === null || value === undefined ? "--" : `$${Math.round(value).toLocaleString()}`;
+
+    const llmStatus = result?.llmStatus;
+    const llmSkipped = llmStatus?.status === "skipped";
+    const diagnostics = llmStatus?.diagnostics;
+    const topRejectionCounts = diagnostics
+        ? Object.entries(diagnostics.rejection_counts)
+            .sort(([, a], [, b]) => b - a)
+            .slice(0, 6)
+        : [];
+
     return (
         <Card className="bg-slate-900 border-slate-800 flex flex-col flex-1 h-full border-0 rounded-none">
             <CardHeader className="pb-3 border-b border-slate-800/50 space-y-3" >
@@ -481,6 +507,7 @@ export function AIAdvisor() {
                                 <div className="mt-6">
                                     <ConfigEditor
                                         initialConfig={customConfig || DEFAULT_AGENT_CONFIG}
+                                        initialPreset={agentPreset}
                                         onSave={handleSaveConfig}
                                         onCancel={() => setShowConfig(false)}
                                     />
@@ -564,7 +591,7 @@ export function AIAdvisor() {
                     {loading && !result && (
                         <div className="flex flex-col items-center justify-center h-32 text-slate-500 gap-3">
                             <Loader2 className="h-6 w-6 animate-spin text-purple-500" />
-                            <span className="text-xs animate-pulse">Calling LLM with model: {selectedModel}</span>
+                            <span className="text-xs animate-pulse">Analyzing market with model: {selectedModel}</span>
                             <Button
                                 onClick={cancelAnalysis}
                                 variant="outline"
@@ -605,6 +632,102 @@ export function AIAdvisor() {
                                     </Badge>
                                 </div>
                             </div>
+
+                            {llmSkipped && (
+                                <div className="p-3 rounded-lg border border-amber-500/30 bg-amber-500/10 space-y-3">
+                                    <div className="flex items-start gap-2">
+                                        <Ban className="h-4 w-4 text-amber-300 mt-0.5 shrink-0" />
+                                        <div className="min-w-0 space-y-1">
+                                            <div className="flex flex-wrap items-center gap-2">
+                                                <span className="text-xs font-semibold text-amber-200">LLM Skipped</span>
+                                                {llmStatus?.reason_code && (
+                                                    <Badge variant="outline" className="text-[10px] border-amber-400/30 text-amber-200 bg-amber-400/10">
+                                                        {formatDiagnosticLabel(llmStatus.reason_code)}
+                                                    </Badge>
+                                                )}
+                                            </div>
+                                            <p className="text-xs text-amber-100/80 leading-relaxed">
+                                                {llmStatus?.reason || "The trader context had no actionable work for the model."}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {diagnostics && (
+                                        <>
+                                            <div className="grid grid-cols-2 gap-2">
+                                                <div className="rounded border border-slate-700/70 bg-slate-950/40 px-2 py-1.5">
+                                                    <span className="block text-[10px] uppercase text-slate-500">Screened</span>
+                                                    <span className="text-xs font-mono text-slate-100">{diagnostics.screened_market_count}</span>
+                                                </div>
+                                                <div className="rounded border border-slate-700/70 bg-slate-950/40 px-2 py-1.5">
+                                                    <span className="block text-[10px] uppercase text-slate-500">Eligible</span>
+                                                    <span className="text-xs font-mono text-slate-100">{diagnostics.eligible_candidate_count}</span>
+                                                </div>
+                                                <div className="rounded border border-slate-700/70 bg-slate-950/40 px-2 py-1.5">
+                                                    <span className="block text-[10px] uppercase text-slate-500">Positions</span>
+                                                    <span className="text-xs font-mono text-slate-100">{diagnostics.held_position_count}</span>
+                                                </div>
+                                                <div className="rounded border border-slate-700/70 bg-slate-950/40 px-2 py-1.5">
+                                                    <span className="block text-[10px] uppercase text-slate-500">Regime</span>
+                                                    <span className="text-xs font-mono text-slate-100">{diagnostics.regime}</span>
+                                                </div>
+                                            </div>
+
+                                            {topRejectionCounts.length > 0 && (
+                                                <div className="space-y-1.5">
+                                                    <div className="flex items-center gap-1.5">
+                                                        <Info className="h-3.5 w-3.5 text-slate-400" />
+                                                        <span className="text-[11px] font-semibold text-slate-300">Gate Blockers</span>
+                                                    </div>
+                                                    <div className="flex flex-wrap gap-1.5">
+                                                        {topRejectionCounts.map(([reason, count]) => (
+                                                            <Badge key={reason} variant="outline" className="text-[10px] border-slate-600/70 text-slate-300 bg-slate-950/40">
+                                                                {formatDiagnosticLabel(reason)}: {count}
+                                                            </Badge>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {diagnostics.top_rejections.length > 0 && (
+                                                <div className="space-y-1.5">
+                                                    <span className="text-[11px] font-semibold text-slate-300">Closest Rejected Markets</span>
+                                                    <div className="space-y-1.5">
+                                                        {diagnostics.top_rejections.slice(0, 4).map(rejection => (
+                                                            <div key={`${rejection.symbol}-${rejection.reasons.join("-")}`} className="rounded border border-slate-700/60 bg-slate-950/40 px-2 py-1.5 space-y-1">
+                                                                <div className="flex items-center justify-between gap-2">
+                                                                    <span className="text-xs font-mono font-semibold text-slate-100 truncate">{rejection.symbol}</span>
+                                                                    {rejection.rank !== null && (
+                                                                        <span className="text-[10px] text-slate-500 shrink-0">Rank {rejection.rank}</span>
+                                                                    )}
+                                                                </div>
+                                                                <div className="flex flex-wrap gap-1">
+                                                                    {rejection.reasons.slice(0, 3).map(reason => (
+                                                                        <Badge key={reason} variant="outline" className="text-[10px] border-red-500/30 text-red-300 bg-red-500/10">
+                                                                            {formatDiagnosticLabel(reason)}
+                                                                        </Badge>
+                                                                    ))}
+                                                                </div>
+                                                                <div className="grid grid-cols-3 gap-1 text-[10px] text-slate-400">
+                                                                    <span>Edge {formatBps(rejection.edge_bps)}</span>
+                                                                    <span>Cost {formatBps(rejection.cost_bps)}</span>
+                                                                    <span>Depth {formatUsd(rejection.min_depth_usd)}</span>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </>
+                                    )}
+                                </div>
+                            )}
+
+                            {result.decisions.length === 0 && !llmSkipped && (
+                                <div className="p-3 rounded-lg border border-slate-800 bg-slate-950/40 text-xs text-slate-400">
+                                    No trade decisions were returned for this run.
+                                </div>
+                            )}
 
                             {/* Decisions List */}
                             <div className="space-y-2 pr-1">

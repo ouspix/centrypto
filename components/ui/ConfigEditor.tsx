@@ -13,11 +13,12 @@ import { toast } from "sonner";
 
 interface ConfigEditorProps {
     initialConfig?: AgentConfig;
-    onSave: (config: AgentConfig) => void;
+    initialPreset?: string;
+    onSave: (config: AgentConfig, presetName: string) => void;
     onCancel: () => void;
 }
 
-export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorProps) {
+export function ConfigEditor({ initialConfig, initialPreset, onSave, onCancel }: ConfigEditorProps) {
     const cloneConfig = (value: AgentConfig): AgentConfig => JSON.parse(JSON.stringify(value));
     const [config, setConfig] = useState<AgentConfig>(() => {
         // Deep merge initialConfig with defaults to ensure new fields (like triggers) exist
@@ -63,7 +64,7 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
         merged.risk.max_position_fraction_per_symbol = merged.risk.max_position_fraction_per_symbol ?? merged.risk.max_position_fraction;
         return cloneConfig(merged);
     });
-    const [preset, setPreset] = useState<string>('default');
+    const [preset, setPreset] = useState<string>(initialPreset || 'default');
 
     // Helper to update nested state
     const updateConfig = (path: string, value: any) => {
@@ -81,7 +82,7 @@ export function ConfigEditor({ initialConfig, onSave, onCancel }: ConfigEditorPr
     };
 
     const handleSave = () => {
-        onSave(config);
+        onSave(config, preset);
         toast.success("Configuration saved");
     };
 

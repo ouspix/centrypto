@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { mode } from 'viem/chains';
 
 export async function GET() {
     const models = [];
@@ -27,6 +28,8 @@ export async function GET() {
         models.push({ name: "deepseek/deepseek-r1" });
         models.push({ name: "deepseek/deepseek-chat" });
         models.push({ name: "deepseek/deepseek-v4-flash" });
+        models.push({ name: "deepseek/deepseek-v4-pro" });
+        models.push({ name: "moonshotai/kimi-k2.6" });
         models.push({ name: "anthropic/claude-3-opus" });
         models.push({ name: "anthropic/claude-3-sonnet" });
     }

@@ -44,6 +44,9 @@ const DEFAULT_AVG_MENTIONS_24H = 48;
 const DEFAULT_WINDOW_MINUTES = 120;
 
 export class SentimentService {
+    private static snapshotTableAvailable: boolean | null = null;
+    private static warnedMissingSnapshotTable = false;
+
     /**
      * Public entry-point used across the app. It reads the latest snapshot from
      * the DB without triggering any fresh downloads. Ingestion is handled by the
@@ -57,7 +60,9 @@ export class SentimentService {
                 return this.mapRowToSnapshot(snapshot);
             }
         } catch (error) {
-            console.error('Sentiment Service Error:', error);
+            if (!this.isMissingTableError(error)) {
+                console.error('Sentiment Service Error:', error);
+            }
         }
         return {
             symbol,
@@ -68,7 +73,7 @@ export class SentimentService {
             change_2h: previousScore !== null ? 0 - previousScore : null,
             source_mix: {},
             tags: [],
-            notes: 'Failed to compute sentiment; defaulting to neutral.'
+            notes: 'No sentiment snapshot available; defaulting to neutral.'
         };
     }
 
@@ -80,10 +85,41 @@ export class SentimentService {
             clearMatchersCache();
             return null;
         }
+        if (!(await this.hasSnapshotTable())) return null;
         return prisma.symbolSentimentSnapshot.findFirst({
             where: { symbol },
             orderBy: { updatedAt: 'desc' }
         });
+    }
+
+    private async hasSnapshotTable(): Promise<boolean> {
+        if (SentimentService.snapshotTableAvailable !== null) {
+            return SentimentService.snapshotTableAvailable;
+        }
+
+        try {
+            const rows = await prisma.$queryRawUnsafe<Array<{ name: string }>>(
+                "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'SymbolSentimentSnapshot'"
+            );
+            SentimentService.snapshotTableAvailable = rows.length > 0;
+        } catch (error) {
+            if (!this.isMissingTableError(error)) {
+                console.error('Sentiment table availability check failed:', error);
+            }
+            SentimentService.snapshotTableAvailable = false;
+        }
+
+        if (!SentimentService.snapshotTableAvailable && !SentimentService.warnedMissingSnapshotTable) {
+            console.warn('Sentiment snapshot table missing; using neutral sentiment defaults.');
+            SentimentService.warnedMissingSnapshotTable = true;
+        }
+
+        return SentimentService.snapshotTableAvailable;
+    }
+
+    private isMissingTableError(error: unknown): boolean {
+        const code = (error as { code?: string } | null)?.code;
+        return code === 'P2021';
     }
 
     private mapRowToSnapshot(row: any): SentimentSnapshot {

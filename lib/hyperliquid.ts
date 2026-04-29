@@ -376,6 +376,10 @@ export async function getMetaAndAssetCtxs(isTestnet: boolean = false): Promise<M
             });
 
             if (res.status === 429) {
+                if (attempt >= maxRetries) {
+                    console.error(`[Hyperliquid] Max retries reached for 429 on metaAndAssetCtxs.`);
+                    return null;
+                }
                 const waitTime = Math.pow(2, attempt) * 1000; // 1s, 2s, 4s
                 console.warn(`[Hyperliquid] Rate limited(429) for metaAndAssetCtxs. Retrying in ${waitTime}ms...`);
                 await new Promise(resolve => setTimeout(resolve, waitTime));
@@ -510,6 +514,10 @@ export async function getOHLCV(coin: string, interval: string, isTestnet: boolea
             });
 
             if (res.status === 429) {
+                if (attempt >= maxRetries) {
+                    console.error(`[Hyperliquid] Max retries reached for 429 on ${coin}.`);
+                    return [];
+                }
                 const waitTime = Math.min(Math.pow(2, attempt) * 1000, 30000); // Cap at 30s
                 console.warn(`[Hyperliquid] Rate limited(429) for ${coin}. Retrying in ${waitTime}ms...`);
                 await new Promise(resolve => setTimeout(resolve, waitTime));
@@ -554,6 +562,10 @@ export async function getL2Book(coin: string, isTestnet: boolean = false) {
             });
 
             if (res.status === 429) {
+                if (attempt >= maxRetries) {
+                    console.error(`[Hyperliquid] Max retries reached for 429 on L2Book ${coin}.`);
+                    return null;
+                }
                 const waitTime = Math.pow(2, attempt) * 1000; // 1s, 2s, 4s
                 console.warn(`[Hyperliquid] Rate limited(429) for L2Book ${coin}. Retrying in ${waitTime}ms...`);
                 await new Promise(resolve => setTimeout(resolve, waitTime));

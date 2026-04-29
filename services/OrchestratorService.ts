@@ -1,6 +1,6 @@
 import { SnapshotBuilder, StateSnapshot } from "./SnapshotBuilder";
 import { MarketEntry, GlobalRegime } from "@/types/snapshot";
-import { CandidateJournalStatus, EligibleCandidate, ManagedPosition, TraderContext, TraderDecision, TradeDecision, RiskAssessment } from "@/types/trading";
+import { CandidateJournalStatus, EligibleCandidate, LlmRunStatus, ManagedPosition, TraderContext, TraderContextDiagnostics, TraderDecision, TradeDecision, RiskAssessment } from "@/types/trading";
 import { RiskCheckModule } from "@/lib/risk/RiskCheckModule";
 import {
     computeSizeFraction,
@@ -25,6 +25,15 @@ import { TraderDecisionValidator } from "@/lib/trader/TraderDecisionValidator";
 import OpenAI from "openai";
 
 import { TRADER_AGENT_SYSTEM_PROMPT } from "@/prompts/TraderAgent";
+
+type AnalysisResult = {
+    decisions: TradeDecision[];
+    riskAssessments: RiskAssessment[];
+    snapshot: StateSnapshot;
+    prompt: string;
+    rawOutput: string;
+    llmStatus?: LlmRunStatus;
+};
 
 export class OrchestratorService {
     private static instance: OrchestratorService;
@@ -208,7 +217,7 @@ export class OrchestratorService {
         model: string,
         isTestnet: boolean,
         configOverride?: any
-    ): Promise<{ decisions: TradeDecision[], riskAssessments: RiskAssessment[], snapshot: StateSnapshot, prompt: string, rawOutput: string }> {
+    ): Promise<AnalysisResult> {
         this.currentAbortController = new AbortController();
         try {
             return await this.runTraderCycle(userAddress, autoTrading, model, isTestnet, configOverride, this.currentAbortController.signal);
@@ -224,7 +233,7 @@ export class OrchestratorService {
         isTestnet: boolean,
         configOverride?: any,
         signal?: AbortSignal
-    ): Promise<{ decisions: TradeDecision[], riskAssessments: RiskAssessment[], snapshot: StateSnapshot, prompt: string, rawOutput: string }> {
+    ): Promise<AnalysisResult> {
         const { config, screenerConfig } = this.mergeConfig(configOverride);
         if (signal?.aborted) throw new Error("Aborted");
         if (autoTrading && config.preset_live_mode === "limited_manual") {
@@ -251,12 +260,20 @@ export class OrchestratorService {
         if (snapshotId) snapshot.meta.snapshot_id = snapshotId;
 
         const profile = this.resolveProfileName(configOverride);
-        const { context } = await this.traderContextBuilder.build(snapshot, config, isTestnet, profile);
+        const { context, diagnostics } = await this.traderContextBuilder.build(snapshot, config, isTestnet, profile);
         const hasWork = context.eligible_candidates.length > 0 || context.existing_positions.length > 0;
 
         if (!hasWork) {
-            console.log("💤 Early Exit: No eligible candidates and no positions to manage. Skipping LLM.");
-            return { decisions: [], riskAssessments: [], snapshot, prompt: "SKIPPED", rawOutput: "SKIPPED" };
+            const llmStatus = this.buildLlmSkippedStatus(context, diagnostics);
+            console.log(`[LLM] Skipped: ${llmStatus.reason}`);
+            return {
+                decisions: [],
+                riskAssessments: [],
+                snapshot,
+                prompt: "SKIPPED_LLM_NO_WORK",
+                rawOutput: JSON.stringify(llmStatus, null, 2),
+                llmStatus
+            };
         }
 
         console.log(`✨ Trader context: ${context.eligible_candidates.length} candidates, ${context.existing_positions.length} positions.`);
@@ -274,7 +291,8 @@ export class OrchestratorService {
                 riskAssessments: [{ approved: false, reason: `Validator rejected batch: ${validation.reason}` }],
                 snapshot,
                 prompt: llmResult.prompt,
-                rawOutput: llmResult.rawOutput
+                rawOutput: llmResult.rawOutput,
+                llmStatus: this.buildLlmCalledStatus(context, diagnostics)
             };
         }
 
@@ -322,7 +340,41 @@ export class OrchestratorService {
         }
 
         await this.journalTraderContext(context, llmResult.decisions, validation, executionResults);
-        return { decisions, riskAssessments, snapshot, prompt: llmResult.prompt, rawOutput: llmResult.rawOutput };
+        return {
+            decisions,
+            riskAssessments,
+            snapshot,
+            prompt: llmResult.prompt,
+            rawOutput: llmResult.rawOutput,
+            llmStatus: this.buildLlmCalledStatus(context, diagnostics)
+        };
+    }
+
+    private buildLlmSkippedStatus(context: TraderContext, diagnostics: TraderContextDiagnostics): LlmRunStatus {
+        return {
+            status: "skipped",
+            reason_code: "NO_ELIGIBLE_CANDIDATES_NO_POSITIONS",
+            reason: "No eligible candidates and no positions to manage. LLM call skipped.",
+            diagnostics: {
+                ...diagnostics,
+                regime: context.global_regime,
+                profile: context.profile,
+                snapshot_id: context.snapshot_id
+            }
+        };
+    }
+
+    private buildLlmCalledStatus(context: TraderContext, diagnostics: TraderContextDiagnostics): LlmRunStatus {
+        return {
+            status: "called",
+            reason: `LLM called with ${context.eligible_candidates.length} eligible candidates and ${context.existing_positions.length} managed positions.`,
+            diagnostics: {
+                ...diagnostics,
+                regime: context.global_regime,
+                profile: context.profile,
+                snapshot_id: context.snapshot_id
+            }
+        };
     }
 
     private buildBackendDecisions(traderDecisions: TraderDecision[], context: TraderContext, validatorReason: string): TradeDecision[] {

@@ -76,6 +76,39 @@ export type RiskAssessment = {
     modifiedOrder?: ApprovedOrder;
 };
 
+export type CandidateRejectionDiagnostic = {
+    symbol: string;
+    rank: number | null;
+    reasons: string[];
+    edge_bps: number | null;
+    cost_bps: number | null;
+    edge_to_cost_mult: number | null;
+    min_depth_usd: number | null;
+    tradeable: boolean | null;
+    eligible_playbooks: string[];
+    triggered_playbooks: string[];
+};
+
+export type TraderContextDiagnostics = {
+    screened_market_count: number;
+    held_position_count: number;
+    eligible_candidate_count: number;
+    max_new_trades_allowed: number;
+    rejection_counts: Record<string, number>;
+    top_rejections: CandidateRejectionDiagnostic[];
+};
+
+export type LlmRunStatus = {
+    status: "called" | "skipped";
+    reason_code?: string;
+    reason?: string;
+    diagnostics?: TraderContextDiagnostics & {
+        regime: TraderContext["global_regime"];
+        profile: string;
+        snapshot_id: number | null;
+    };
+};
+
 export type RiskContext = {
     newPositionsCount: number;
 };

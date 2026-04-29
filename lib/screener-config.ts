@@ -36,11 +36,11 @@ const DEPTH_BANDS = ["0.10", "0.25", "0.50", "1.00"];
 export const SCREENER_PRESETS: Record<string, ScreenerConfig> = {
     "Scalper Strict": {
         maxSpreadBps: 8,
-        minDepthUsd: 50_000,
-        minRecentVolume: 250_000,
-        recentVolumeMinutes: 10,
+        minDepthUsd: 75_000,
+        minRecentVolume: 20_000,
+        recentVolumeMinutes: 15,
         minRealizedVol: 0.0008,
-        minVolume24h: 5_000_000,
+        minVolume24h: 10_000_000,
         topN: 8,
         depthBandsPct: DEPTH_BANDS,
         quality_weights: {
@@ -59,11 +59,11 @@ export const SCREENER_PRESETS: Record<string, ScreenerConfig> = {
     "Momentum Moderate": {
         maxSpreadBps: 15,
         minDepthUsd: 25_000,
-        minRecentVolume: 100_000,
+        minRecentVolume: 750,
         recentVolumeMinutes: 15,
-        minRealizedVol: 0.0005,
-        minVolume24h: 2_000_000,
-        topN: 12,
+        minRealizedVol: 0.0006,
+        minVolume24h: 1_000_000,
+        topN: 16,
         depthBandsPct: DEPTH_BANDS,
         quality_weights: {
             vol_score: 1.5,
@@ -79,13 +79,13 @@ export const SCREENER_PRESETS: Record<string, ScreenerConfig> = {
         layer4Enabled: true
     },
     "Swing Relaxed": {
-        maxSpreadBps: 30,
-        minDepthUsd: 10_000,
-        minRecentVolume: 50_000,
+        maxSpreadBps: 25,
+        minDepthUsd: 15_000,
+        minRecentVolume: 500,
         recentVolumeMinutes: 20,
-        minRealizedVol: 0.0003,
-        minVolume24h: 750_000,
-        topN: 15,
+        minRealizedVol: 0.0004,
+        minVolume24h: 500_000,
+        topN: 20,
         depthBandsPct: DEPTH_BANDS,
         quality_weights: {
             vol_score: 1.0,
@@ -101,11 +101,11 @@ export const SCREENER_PRESETS: Record<string, ScreenerConfig> = {
         layer4Enabled: true
     },
     "Testnet Aggressive": {
-        maxSpreadBps: 120,
-        minDepthUsd: 1_000,
-        minRecentVolume: 10_000,
+        maxSpreadBps: 300,
+        minDepthUsd: 0,
+        minRecentVolume: 0,
         recentVolumeMinutes: 20,
-        minRealizedVol: 0.0001,
+        minRealizedVol: 0,
         minVolume24h: 0,
         topN: 25,
         depthBandsPct: DEPTH_BANDS,

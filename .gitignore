@@ -46,3 +46,4 @@ sentiment/venv/
 *.pyc
 __pycache__/
 logs/*
+prisma/market/dev.db

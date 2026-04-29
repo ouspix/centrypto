@@ -149,6 +149,37 @@ function snapshotWithCandidateAndPosition() {
     } as any;
 }
 
+function snapshotWithoutWork() {
+    const snapshot = snapshotWithCandidateAndPosition();
+    snapshot.account.current_positions = [];
+    snapshot.account.derived_portfolio = {
+        total_exposure_fraction: 0,
+        remaining_capacity: 0.5,
+        position_slots_used: 0,
+        slots_remaining: 2,
+    };
+
+    for (const market of Object.values(snapshot.markets) as any[]) {
+        market.derived.edge.edge_ok = false;
+        market.derived.edge.edge_bps = 1;
+        market.derived.entry = { entry_ok: false, edge_to_cost_mult: 0.5, reasons_failed: ['EDGE_GATE'] };
+        market.derived.risk = {
+            eligible: false,
+            eligible_playbooks: [],
+            best_anchor_key: null,
+            best_anchor_value: null,
+            trigger_diagnostics: {
+                has_hard_trigger: false,
+                triggered_playbooks: [],
+                trigger_profile: 'test',
+                trigger_margin: {},
+            },
+        };
+    }
+
+    return snapshot;
+}
+
 describe('OrchestratorService trader-only loop', () => {
     beforeEach(() => {
         vi.clearAllMocks();
@@ -216,5 +247,19 @@ describe('OrchestratorService trader-only loop', () => {
         expect(result.riskAssessments[0].reason).toContain('size_exceeds_max');
         expect(mockAssess).not.toHaveBeenCalled();
         expect(mockPlaceOrder).not.toHaveBeenCalled();
+    });
+
+    it('returns skip diagnostics without calling the LLM when there is no trader work', async () => {
+        mockBuildSnapshot.mockResolvedValue(snapshotWithoutWork());
+
+        const result = await new OrchestratorService().analyzeMarket('0xUser', false, 'test-model', true);
+
+        expect(global.fetch).not.toHaveBeenCalled();
+        expect(result.decisions).toEqual([]);
+        expect(result.llmStatus?.status).toBe('skipped');
+        expect(result.llmStatus?.reason_code).toBe('NO_ELIGIBLE_CANDIDATES_NO_POSITIONS');
+        expect(result.llmStatus?.diagnostics?.screened_market_count).toBe(2);
+        expect(result.llmStatus?.diagnostics?.rejection_counts.EDGE_GATE).toBe(2);
+        expect(result.rawOutput).toContain('EDGE_GATE');
     });
 });

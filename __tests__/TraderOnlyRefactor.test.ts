@@ -75,6 +75,7 @@ describe("Trader-only v1 trigger scope", () => {
             "Scalper Strict",
             "Momentum Moderate",
             "Swing Relaxed",
+            "LLM Permissive",
             "Testnet Aggressive"
         ]);
 
@@ -84,6 +85,7 @@ describe("Trader-only v1 trigger scope", () => {
         expect(SCREENER_PRESETS["Momentum Moderate"].quality_weights.cost_to_edge_penalty).toBe(1.5);
         expect(AGENT_PRESETS["Scalper Strict"].risk.max_correlation_group_exposure_fraction).toBe(0.3);
         expect(AGENT_PRESETS["Swing Relaxed"].preset_live_mode).toBe("limited_manual");
+        expect(AGENT_PRESETS["LLM Permissive"].gates.edge_to_cost_mult_by_regime.CHOP).toBe(6);
         expect(AGENT_PRESETS["Testnet Aggressive"].preset_live_mode).toBe("non_live");
         expect(AGENT_PRESETS["Momentum Moderate"].cost_sanity.min_edge_to_cost_mult).toBe(4);
     });

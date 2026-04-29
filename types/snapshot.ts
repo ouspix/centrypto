@@ -62,6 +62,7 @@ export type MarketEntry = {
         m5: number;
         m15: number;
         h1: number;
+        h4?: number;
     };
     vol_zscores: {
         vol_5m_vs_1h: number;
@@ -96,6 +97,11 @@ export type MarketEntry = {
     high_low?: any;
     bbands?: any;
     assetIndex?: number;
+    volume24h?: number;
+    regime?: {
+        group: "major" | "core" | "alt";
+        weight: number;
+    };
     data_source?: string;
     data_unavailable?: boolean;
     news_blocked?: boolean;
@@ -188,6 +194,7 @@ export type StateSnapshot = {
         fallback_markets?: string[];
         missing_markets?: string[];
         duplicate_markets?: string[];
+        regime_markets?: string[];
         snapshot_id?: number;
     };
     presets?: {

@@ -1,7 +1,15 @@
 import { AgentConfig } from "@/lib/agent-config";
 import { marketDbMain, marketDbTest } from "@/lib/market-db";
 import { computeRiskPlan, inferSideFromPlaybook } from "@/lib/risk/shared";
-import { EligibleCandidate, ManagedPosition, Playbook, TraderContext, TradeSide } from "@/types/trading";
+import {
+    CandidateRejectionDiagnostic,
+    EligibleCandidate,
+    ManagedPosition,
+    Playbook,
+    TraderContext,
+    TraderContextDiagnostics,
+    TradeSide
+} from "@/types/trading";
 import { GlobalRegime, MarketEntry, Position, StateSnapshot } from "@/types/snapshot";
 
 const V1_PLAYBOOKS = new Set<Playbook>([
@@ -16,6 +24,12 @@ const V1_PLAYBOOKS = new Set<Playbook>([
 type CandidateBuildResult = {
     context: TraderContext;
     candidateMap: Map<string, EligibleCandidate>;
+    diagnostics: TraderContextDiagnostics;
+};
+
+type CandidateSelectionResult = {
+    candidates: EligibleCandidate[];
+    diagnostics: TraderContextDiagnostics;
 };
 
 export class TraderContextBuilder {
@@ -26,7 +40,8 @@ export class TraderContextBuilder {
         profile = "active"
     ): Promise<CandidateBuildResult> {
         const existingPositions = this.buildManagedPositions(snapshot);
-        const eligibleCandidates = await this.buildEligibleCandidates(snapshot, config, isTestnet, profile);
+        const selection = await this.buildEligibleCandidates(snapshot, config, isTestnet, profile, existingPositions.length);
+        const eligibleCandidates = selection.candidates;
         const candidateMap = new Map(eligibleCandidates.map(candidate => [candidate.candidate_id, candidate]));
 
         return {
@@ -47,7 +62,8 @@ export class TraderContextBuilder {
                 existing_positions: existingPositions,
                 eligible_candidates: eligibleCandidates
             },
-            candidateMap
+            candidateMap,
+            diagnostics: selection.diagnostics
         };
     }
 
@@ -55,43 +71,102 @@ export class TraderContextBuilder {
         snapshot: StateSnapshot,
         config: AgentConfig,
         isTestnet: boolean,
-        profile: string
-    ): Promise<EligibleCandidate[]> {
-        if (snapshot.constraints.kill_switch) return [];
+        profile: string,
+        heldPositionCount: number
+    ): Promise<CandidateSelectionResult> {
+        const markets = Object.values(snapshot.markets || {})
+            .sort((a, b) => (a.derived?.rank ?? Number.POSITIVE_INFINITY) - (b.derived?.rank ?? Number.POSITIVE_INFINITY));
+        const rejectionCounts: Record<string, number> = {};
+        const rejections: CandidateRejectionDiagnostic[] = [];
+        const maxNewTrades = snapshot.constraints.max_new_trades_allowed ?? snapshot.constraints.max_new_positions_per_cycle;
+
+        const reject = (market: MarketEntry, reasons: string[]) => {
+            const uniqueReasons = Array.from(new Set(reasons.length ? reasons : ["UNKNOWN_FILTER"]));
+            uniqueReasons.forEach(reason => {
+                rejectionCounts[reason] = (rejectionCounts[reason] ?? 0) + 1;
+            });
+            rejections.push(this.buildRejectionDiagnostic(market, uniqueReasons));
+        };
+
+        if (snapshot.constraints.kill_switch) {
+            markets.forEach(market => reject(market, ["KILL_SWITCH"]));
+            return {
+                candidates: [],
+                diagnostics: this.buildDiagnostics(markets.length, heldPositionCount, 0, maxNewTrades, rejectionCounts, rejections)
+            };
+        }
 
         const heldSymbols = new Set((snapshot.account.current_positions || []).map(position => position.symbol));
         const candidates: EligibleCandidate[] = [];
-        const markets = Object.values(snapshot.markets || {})
-            .sort((a, b) => (a.derived?.rank ?? Number.POSITIVE_INFINITY) - (b.derived?.rank ?? Number.POSITIVE_INFINITY));
 
         for (const market of markets) {
-            if (heldSymbols.has(market.symbol)) continue;
-            if (market.news_blocked) continue;
-            if (!market.derived?.entry?.entry_ok || !market.derived?.liquidity?.tradeable || !market.derived?.risk?.eligible) continue;
+            if (heldSymbols.has(market.symbol)) {
+                reject(market, ["HELD_POSITION"]);
+                continue;
+            }
+            if (market.news_blocked) {
+                reject(market, ["NEWS_BLOCKED"]);
+                continue;
+            }
+            if (!market.derived) {
+                reject(market, ["DERIVED_DATA_MISSING"]);
+                continue;
+            }
 
-            const playbooks = (market.derived.risk.eligible_playbooks || [])
+            const baseReasons: string[] = [];
+            if (!market.derived.entry?.entry_ok) {
+                baseReasons.push(...(market.derived.entry?.reasons_failed?.length ? market.derived.entry.reasons_failed : ["ENTRY_GATE"]));
+            }
+            if (!market.derived.liquidity?.tradeable) baseReasons.push("TRADEABLE_GATE");
+            if (!market.derived.risk?.eligible) {
+                const playbooks = market.derived.risk?.eligible_playbooks ?? [];
+                baseReasons.push(playbooks.length > 0 ? "RISK_NOT_ELIGIBLE" : "NO_PLAYBOOK_TRIGGER");
+            }
+            if (baseReasons.length > 0) {
+                reject(market, baseReasons);
+                continue;
+            }
+
+            const playbooks = (market.derived.risk?.eligible_playbooks || [])
                 .filter((playbook): playbook is Playbook => V1_PLAYBOOKS.has(playbook as Playbook));
-            if (playbooks.length === 0) continue;
+            if (playbooks.length === 0) {
+                reject(market, ["NO_V1_PLAYBOOK"]);
+                continue;
+            }
 
             const playbooksBySide = this.groupPlaybooksBySide(playbooks);
+            let addedForMarket = false;
+            const sideRejections: string[] = [];
             for (const [side, sidePlaybooks] of Object.entries(playbooksBySide) as [TradeSide, Playbook[]][]) {
                 if (sidePlaybooks.length === 0) continue;
                 const regime = this.applyRegimePolicy(snapshot.global_regime.current, side, sidePlaybooks, market, config);
-                if (!regime.allowed) continue;
+                if (!regime.allowed) {
+                    sideRejections.push(`${side.toUpperCase()}_REGIME_BLOCK`);
+                    continue;
+                }
 
                 const primaryPlaybook = sidePlaybooks[0];
                 const riskPlan = computeRiskPlan(primaryPlaybook, market, config, snapshot.global_regime.current, config.risk.max_effective_leverage);
-                if (!riskPlan) continue;
+                if (!riskPlan) {
+                    sideRejections.push("RISK_PLAN_MISSING");
+                    continue;
+                }
 
                 const risk = this.buildRiskFields(riskPlan, market);
-                if (!this.costSanityOk(primaryPlaybook, risk, market, config)) continue;
+                if (!this.costSanityOk(primaryPlaybook, risk, market, config)) {
+                    sideRejections.push("COST_SANITY_GATE");
+                    continue;
+                }
 
                 const correlation = await this.buildCorrelation(snapshot, market.symbol, side, isTestnet, config);
                 const sizing = this.buildSizing(snapshot, config, market, side, riskPlan.stop_loss_pct, regime.multiplier, correlation);
-                if (sizing.max_allowed_size_fraction <= 0 || sizing.suggested_size_fraction <= 0) continue;
+                if (sizing.max_allowed_size_fraction <= 0 || sizing.suggested_size_fraction <= 0) {
+                    sideRejections.push("SIZE_GATE");
+                    continue;
+                }
 
                 const triggerMargin = {
-                    ...(market.derived.risk.trigger_diagnostics?.trigger_margin ?? {}),
+                    ...(market.derived.risk?.trigger_diagnostics?.trigger_margin ?? {}),
                     regime_size_multiplier: regime.multiplier
                 };
 
@@ -110,7 +185,7 @@ export class TraderContextBuilder {
                         rank: market.derived.rank ?? null,
                         cost_bps: market.derived.costs.cost_bps,
                         edge_bps: market.derived.edge.edge_bps,
-                        edge_to_cost_mult: market.derived.entry.edge_to_cost_mult,
+                        edge_to_cost_mult: market.derived.entry?.edge_to_cost_mult ?? 0,
                         book_pressure: market.orderbook.book_pressure,
                         vol_ratio_5m_vs_1h: market.derived.normalized.vol_ratio_5m_vs_1h,
                         ret_sigma_5m_vs_1h: market.derived.normalized.ret_sigma_5m_vs_1h,
@@ -124,11 +199,59 @@ export class TraderContextBuilder {
                 };
 
                 candidates.push(candidate);
+                addedForMarket = true;
+            }
+
+            if (!addedForMarket) {
+                reject(market, sideRejections.length ? sideRejections : ["NO_SIDE_CANDIDATE"]);
             }
         }
 
-        const maxNewTrades = snapshot.constraints.max_new_trades_allowed ?? snapshot.constraints.max_new_positions_per_cycle;
-        return candidates.slice(0, Math.max(0, maxNewTrades));
+        const limitedCandidates = candidates.slice(0, Math.max(0, maxNewTrades));
+        return {
+            candidates: limitedCandidates,
+            diagnostics: this.buildDiagnostics(
+                markets.length,
+                heldPositionCount,
+                limitedCandidates.length,
+                maxNewTrades,
+                rejectionCounts,
+                rejections
+            )
+        };
+    }
+
+    private buildDiagnostics(
+        screenedMarketCount: number,
+        heldPositionCount: number,
+        eligibleCandidateCount: number,
+        maxNewTradesAllowed: number,
+        rejectionCounts: Record<string, number>,
+        rejections: CandidateRejectionDiagnostic[]
+    ): TraderContextDiagnostics {
+        return {
+            screened_market_count: screenedMarketCount,
+            held_position_count: heldPositionCount,
+            eligible_candidate_count: eligibleCandidateCount,
+            max_new_trades_allowed: maxNewTradesAllowed,
+            rejection_counts: rejectionCounts,
+            top_rejections: rejections.slice(0, 8)
+        };
+    }
+
+    private buildRejectionDiagnostic(market: MarketEntry, reasons: string[]): CandidateRejectionDiagnostic {
+        return {
+            symbol: market.symbol,
+            rank: Number.isFinite(market.derived?.rank) ? market.derived!.rank! : null,
+            reasons,
+            edge_bps: market.derived?.edge?.edge_bps ?? null,
+            cost_bps: market.derived?.costs?.cost_bps ?? null,
+            edge_to_cost_mult: market.derived?.entry?.edge_to_cost_mult ?? null,
+            min_depth_usd: market.derived?.liquidity?.min_depth_usd ?? null,
+            tradeable: market.derived?.liquidity?.tradeable ?? null,
+            eligible_playbooks: market.derived?.risk?.eligible_playbooks ?? [],
+            triggered_playbooks: market.derived?.risk?.trigger_diagnostics?.triggered_playbooks ?? []
+        };
     }
 
     private buildManagedPositions(snapshot: StateSnapshot): ManagedPosition[] {
