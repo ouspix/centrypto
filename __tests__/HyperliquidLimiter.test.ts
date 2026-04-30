@@ -65,4 +65,17 @@ describe("Hyperliquid limiter", () => {
             .rejects.toThrow(/rate limited/i);
         expect(global.fetch).toHaveBeenCalledTimes(1);
     });
+
+    it("uses separate cache and limiter buckets for account state and fills", async () => {
+        (global.fetch as any)
+            .mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ marginSummary: {} }) })
+            .mockResolvedValueOnce({ ok: true, status: 200, json: async () => [] });
+
+        await hyperliquidInfoPost("hl:info:clearinghouseState", "https://example.test/info", { type: "clearinghouseState", user: "0xabc" }, { ttlMs: 1000 });
+        await hyperliquidInfoPost("hl:info:userFills", "https://example.test/info", { type: "userFills", user: "0xabc" }, { ttlMs: 1000 });
+
+        expect(global.fetch).toHaveBeenCalledTimes(2);
+        expect(JSON.parse((global.fetch as any).mock.calls[0][1].body).type).toBe("clearinghouseState");
+        expect(JSON.parse((global.fetch as any).mock.calls[1][1].body).type).toBe("userFills");
+    });
 });

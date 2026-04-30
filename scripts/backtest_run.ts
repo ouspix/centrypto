@@ -1,6 +1,9 @@
 import { AGENT_PRESETS } from "@/lib/agent-config";
 import { SCREENER_PRESETS } from "@/lib/screener-config";
 import { BacktestRunner } from "@/src/backtest/BacktestRunner";
+import { BacktestRunConfig } from "@/src/backtest/BacktestTypes";
+
+type SlTpExecution = NonNullable<BacktestRunConfig["slTpExecution"]>;
 
 async function main() {
     const args = parseArgs(process.argv.slice(2));
@@ -48,7 +51,8 @@ async function main() {
                 keepTmp: args["keep-tmp"] === "true"
             }
             : undefined,
-        llm
+        llm,
+        slTpExecution: buildSlTpExecution(args, agentConfig, (args.network ?? "mainnet") as "mainnet" | "testnet")
     });
 
     console.log(JSON.stringify({
@@ -88,6 +92,14 @@ function buildLlmConfig(args: Record<string, string>, policyName: string) {
         decisionsPath: args["llm-decisions"],
         tracePath: args["llm-trace"],
         ollamaBaseUrl: args["ollama-url"]
+    };
+}
+
+function buildSlTpExecution(args: Record<string, string>, agentConfig: typeof AGENT_PRESETS[string], network: "mainnet" | "testnet"): SlTpExecution {
+    return {
+        ordering: (args["sl-tp-ordering"] ?? "stop_first") as SlTpExecution["ordering"],
+        slippageMode: (args["sl-tp-slippage-mode"] ?? "fallback") as SlTpExecution["slippageMode"],
+        fallbackSlippageBps: Number(args["sl-tp-fallback-slippage-bps"] ?? agentConfig.network_profiles[network].slippage_model.min_bps)
     };
 }
 

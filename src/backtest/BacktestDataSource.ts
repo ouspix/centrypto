@@ -620,7 +620,7 @@ function mapFeatureToEnriched(row: MarketFeatureRow, tick: TickRow | undefined, 
             best_ask: row.best_ask,
             mid: row.mid_price,
             spread_bps: row.spread_bps,
-            depth_usd: mapBacktestOnePercentDepth(),
+            depth_usd: mapBacktestOnePercentDepth(row),
             imbalance: row.book_pressure_10bps,
             book_pressure: row.book_pressure_10bps,
             cost_bps: row.cost_bps_100 ?? row.spread_bps,
@@ -654,8 +654,33 @@ export function mapBacktestDepthBands(row: Pick<MarketFeatureRow,
     };
 }
 
-export function mapBacktestOnePercentDepth(): { bid_1pct: number; ask_1pct: number } {
-    return { bid_1pct: 0, ask_1pct: 0 };
+export function mapBacktestOnePercentDepth(row: Pick<MarketFeatureRow,
+    "bid_depth_25bps_usd" |
+    "ask_depth_25bps_usd" |
+    "bid_depth_10bps_usd" |
+    "ask_depth_10bps_usd" |
+    "bid_depth_5bps_usd" |
+    "ask_depth_5bps_usd"
+>): {
+    bid_1pct: number;
+    ask_1pct: number;
+    proxy_source: "deepest_available_historical_depth_band";
+    proxy_band_pct: string;
+} {
+    const bands: Array<{ pct: string; bid: number; ask: number }> = [
+        { pct: "0.25", bid: row.bid_depth_25bps_usd, ask: row.ask_depth_25bps_usd },
+        { pct: "0.10", bid: row.bid_depth_10bps_usd, ask: row.ask_depth_10bps_usd },
+        { pct: "0.05", bid: row.bid_depth_5bps_usd, ask: row.ask_depth_5bps_usd }
+    ];
+    const deepest = bands.find(band => band.bid > 0 && band.ask > 0) ??
+        bands.find(band => band.bid > 0 || band.ask > 0) ??
+        bands[0];
+    return {
+        bid_1pct: deepest.bid,
+        ask_1pct: deepest.ask,
+        proxy_source: "deepest_available_historical_depth_band",
+        proxy_band_pct: deepest.pct
+    };
 }
 
 function asDate(value: Date | string): Date {

@@ -63,6 +63,8 @@ export type OrderBookMetrics = {
     depth_usd: {
         bid_1pct: number;
         ask_1pct: number;
+        proxy_source?: "deepest_available_historical_depth_band";
+        proxy_band_pct?: string;
     };
     imbalance: number; // bid/ask ratio
     book_pressure: number; // (bid - ask) / (bid + ask) - range [-1, 1]

@@ -5,6 +5,15 @@ import { OrchestratorService } from '@/services/OrchestratorService';
 const mockBuildSnapshot = vi.fn();
 const mockAssess = vi.fn();
 const mockPlaceOrder = vi.fn();
+const mockPlaceOrderWithPrivateKey = vi.fn();
+const mockUpdateLeverageWithPrivateKey = vi.fn();
+const mockAssertWalletExecutionAllowed = vi.fn();
+const mockGetUserHyperliquidApiWalletCredential = vi.fn();
+const mockMarkHyperliquidApiWalletUsed = vi.fn();
+const analysisJobState = vi.hoisted(() => ({
+    jobs: new Map<string, any>(),
+    nextId: 1
+}));
 
 vi.mock('@/services/SnapshotBuilder', () => ({
     SnapshotBuilder: vi.fn().mockImplementation(() => ({
@@ -21,9 +30,42 @@ vi.mock('@/lib/db', () => ({
         llmQuery: { create: vi.fn().mockResolvedValue({ id: 'llm-1' }) },
         candidateJournal: { createMany: vi.fn().mockResolvedValue({ count: 1 }) },
         analysisJob: {
-            create: vi.fn(),
-            update: vi.fn(),
-            findUnique: vi.fn(),
+            count: vi.fn(({ where }) => Promise.resolve(Array.from(analysisJobState.jobs.values()).filter(job => {
+                if (where.userAddress !== undefined && job.userAddress !== where.userAddress) return false;
+                if (where.status !== undefined && job.status !== where.status) return false;
+                return true;
+            }).length)),
+            create: vi.fn(({ data }) => {
+                const job = {
+                    id: `job-${analysisJobState.nextId++}`,
+                    createdAt: new Date(`2026-04-30T00:00:0${analysisJobState.nextId}Z`),
+                    updatedAt: new Date("2026-04-30T00:00:00Z"),
+                    completedAt: null,
+                    result: null,
+                    error: null,
+                    ...data
+                };
+                analysisJobState.jobs.set(job.id, job);
+                return Promise.resolve(job);
+            }),
+            update: vi.fn(({ where, data }) => {
+                const job = analysisJobState.jobs.get(where.id);
+                if (!job) return Promise.reject(new Error("job not found"));
+                const updated = { ...job, ...data, updatedAt: new Date("2026-04-30T00:01:00Z") };
+                analysisJobState.jobs.set(where.id, updated);
+                return Promise.resolve(updated);
+            }),
+            findUnique: vi.fn(({ where }) => Promise.resolve(analysisJobState.jobs.get(where.id) ?? null)),
+            findFirst: vi.fn(({ where }) => {
+                const job = Array.from(analysisJobState.jobs.values())
+                    .filter(item => {
+                        if (where.userAddress !== undefined && item.userAddress !== where.userAddress) return false;
+                        if (where.status !== undefined && item.status !== where.status) return false;
+                        return true;
+                    })
+                    .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())[0] ?? null;
+                return Promise.resolve(job);
+            }),
         },
     },
 }));
@@ -43,6 +85,27 @@ vi.mock('@/lib/log/tradingLogger', () => ({
 vi.mock('@/lib/hyperliquid', () => ({
     placeOrder: (...args: any[]) => mockPlaceOrder(...args),
     updateLeverage: vi.fn().mockResolvedValue({ status: 'ok' }),
+}));
+
+vi.mock('@/lib/hyperliquid-execution', () => ({
+    placeOrderWithPrivateKey: (...args: any[]) => mockPlaceOrderWithPrivateKey(...args),
+    updateLeverageWithPrivateKey: (...args: any[]) => mockUpdateLeverageWithPrivateKey(...args),
+}));
+
+vi.mock('@/lib/risk/execution-safety', () => ({
+    assertWalletExecutionAllowed: (...args: any[]) => mockAssertWalletExecutionAllowed(...args),
+}));
+
+vi.mock('@/lib/hyperliquid-api-wallet', () => ({
+    HyperliquidApiWalletError: class HyperliquidApiWalletError extends Error {
+        status: number;
+        constructor(message: string, status = 400) {
+            super(message);
+            this.status = status;
+        }
+    },
+    getUserHyperliquidApiWalletCredential: (...args: any[]) => mockGetUserHyperliquidApiWalletCredential(...args),
+    markHyperliquidApiWalletUsed: (...args: any[]) => mockMarkHyperliquidApiWalletUsed(...args),
 }));
 
 function snapshotWithCandidateAndPosition() {
@@ -183,8 +246,15 @@ function snapshotWithoutWork() {
 describe('OrchestratorService trader-only loop', () => {
     beforeEach(() => {
         vi.clearAllMocks();
+        analysisJobState.jobs.clear();
+        analysisJobState.nextId = 1;
         mockBuildSnapshot.mockResolvedValue(snapshotWithCandidateAndPosition());
         mockAssess.mockReturnValue({ approved: true, reason: 'Approved' });
+        mockAssertWalletExecutionAllowed.mockResolvedValue(undefined);
+        mockGetUserHyperliquidApiWalletCredential.mockResolvedValue({ privateKey: '0xapi-key' });
+        mockUpdateLeverageWithPrivateKey.mockResolvedValue({ status: 'ok' });
+        mockPlaceOrderWithPrivateKey.mockResolvedValue({ status: 'ok', response: { data: { statuses: [{ oid: 123 }] } } });
+        mockMarkHyperliquidApiWalletUsed.mockResolvedValue(undefined);
         global.fetch = vi.fn();
     });
 
@@ -261,5 +331,59 @@ describe('OrchestratorService trader-only loop', () => {
         expect(result.llmStatus?.diagnostics?.screened_market_count).toBe(2);
         expect(result.llmStatus?.diagnostics?.rejection_counts.EDGE_GATE).toBe(2);
         expect(result.rawOutput).toContain('EDGE_GATE');
+    });
+
+    it.each([
+        ['mainnet', false],
+        ['testnet', true],
+    ] as const)('routes auto-trading execution to %s network', async (_network, isTestnet) => {
+        (global.fetch as any).mockResolvedValue({
+            ok: true,
+            json: async () => ({
+                response: JSON.stringify({
+                    decisions: [{
+                        scope: 'candidate',
+                        action: 'OPEN_POSITION',
+                        candidate_id: 'BTC-PERP:long:Momentum',
+                        symbol: 'BTC-PERP',
+                        target_side: 'long',
+                        target_size_fraction_of_equity: 0.005,
+                        playbook: 'Momentum:long',
+                        confidence: 0.9,
+                        reason_code: 'momentum_edge',
+                        notes: 'Hard trigger with approved risk.',
+                    }],
+                }),
+            }),
+        });
+        mockAssess.mockReturnValue({
+            approved: true,
+            reason: 'Approved',
+            modifiedOrder: { side: 'buy', sizeUsd: 500 }
+        });
+
+        await new OrchestratorService().analyzeMarket('0xUser', true, 'test-model', isTestnet);
+
+        expect(mockAssess).toHaveBeenCalled();
+        expect(mockAssertWalletExecutionAllowed).toHaveBeenCalledWith('0xUser', isTestnet);
+        expect(mockUpdateLeverageWithPrivateKey.mock.calls[0][2]).toBe(isTestnet);
+        expect(mockPlaceOrderWithPrivateKey.mock.calls[0][2]).toBe(isTestnet);
+    });
+
+    it('allows one running and one queued analysis job per wallet during bursts', async () => {
+        const service = new OrchestratorService();
+        (service as any).runAnalysisJob = vi.fn().mockResolvedValue(undefined);
+        const userAddress = '0x1234567890abcdef1234567890abcdef12345678';
+
+        const results = await Promise.allSettled([
+            service.analyzeMarketWithJobTracking(userAddress, 'model-v1', true),
+            service.analyzeMarketWithJobTracking(userAddress, 'model-v1', true),
+            service.analyzeMarketWithJobTracking(userAddress, 'model-v1', true)
+        ]);
+
+        expect(results.filter(result => result.status === 'fulfilled')).toHaveLength(2);
+        expect(results.filter(result => result.status === 'rejected')).toHaveLength(1);
+        expect(Array.from(analysisJobState.jobs.values()).map(job => job.status).sort()).toEqual(['pending', 'running']);
+        expect((service as any).runAnalysisJob).toHaveBeenCalledTimes(1);
     });
 });

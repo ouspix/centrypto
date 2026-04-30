@@ -28,6 +28,11 @@ export async function POST(request: NextRequest) {
         if (!body?.privateKey || typeof body.privateKey !== "string") {
             return NextResponse.json({ error: "privateKey is required" }, { status: 400 });
         }
+        if (body.acknowledgeDelegatedKeyWarning !== true) {
+            return NextResponse.json({
+                error: "Confirm this is a delegated Hyperliquid API wallet key and never the connected wallet private key"
+            }, { status: 400 });
+        }
 
         const status = await registerHyperliquidApiWallet({
             userAddress: session.address,

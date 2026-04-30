@@ -5,7 +5,13 @@ import { getWalletKillSwitch } from "@/lib/risk/kill-switch";
 import { AccountStateService } from "@/services/AccountStateService";
 
 export async function assertWalletExecutionAllowed(userAddress: string, isTestnet: boolean): Promise<void> {
-    const killSwitch = await getWalletKillSwitch(userAddress, isTestnet);
+    let killSwitch: boolean;
+    try {
+        killSwitch = await getWalletKillSwitch(userAddress, isTestnet);
+    } catch (error) {
+        const detail = error instanceof Error ? error.message : "wallet risk controls are unavailable";
+        throw new Error(`Execution blocked: ${detail}`);
+    }
     if (killSwitch) {
         throw new Error("Backend kill switch is active for this wallet");
     }

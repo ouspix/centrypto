@@ -165,6 +165,7 @@ export interface SimPosition {
     stop_loss_pct: number;
     take_profit_pct: number;
     time_stop_minutes?: number;
+    confidence?: number;
 
     entry_regime: unknown;
     entry_signal: {
@@ -204,6 +205,7 @@ export interface SimTrade {
     max_favorable_excursion_bps: number;
     max_adverse_excursion_bps: number;
     entry_regime?: unknown;
+    confidence?: number;
 }
 
 export interface BacktestMetrics {

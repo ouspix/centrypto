@@ -28,16 +28,20 @@ export class ExecutionSimulator {
             slippageMode: "fallback",
             fallbackSlippageBps: config.network_profiles[network].slippage_model.min_bps
         }
-    ) {}
+    ) {
+        validateSlTpOptions(slTpOptions);
+    }
 
     public advancePositionWithCandles(
         position: SimPosition,
         candles: BacktestCandle[],
-        portfolio: BacktestPortfolio
+        portfolio: BacktestPortfolio,
+        resolveBook?: ExecutionBookResolver
     ): void {
         for (const candle of candles) {
             const high = Number(candle.high);
             const low = Number(candle.low);
+            const open = Number(candle.open);
             const close = Number(candle.close);
             this.updateExcursions(position, high, low);
 
@@ -50,12 +54,12 @@ export class ExecutionSimulator {
 
             const stopTouched = position.side === "long" ? low <= stop : high >= stop;
             const takeProfitTouched = position.side === "long" ? high >= takeProfit : low <= takeProfit;
-            const trigger = this.resolveSlTpTrigger(stopTouched, takeProfitTouched);
+            const trigger = this.resolveSlTpTrigger(stopTouched, takeProfitTouched, open, stop, takeProfit);
             if (trigger) {
                 const triggerPrice = trigger === "stop_loss" ? stop : takeProfit;
-                const slippageBps = this.slTpOptions.fallbackSlippageBps;
-                const exitPrice = this.applyExitSlippage(triggerPrice, position.side, slippageBps);
-                this.closeAtPrice(position.symbol, exitPrice, asDate(candle.openTime), trigger, portfolio, slippageBps);
+                const candleTs = asDate(candle.openTime);
+                const fill = this.resolveSlTpExitFill(position, triggerPrice, candleTs, resolveBook);
+                this.closeAtPrice(position.symbol, fill.price, candleTs, trigger, portfolio, fill.slippageBps);
                 return;
             }
 
@@ -125,6 +129,7 @@ export class ExecutionSimulator {
             stop_loss_pct: Math.abs(riskPlan.stop_loss_pct),
             take_profit_pct: Math.abs(riskPlan.take_profit_pct_primary),
             time_stop_minutes: timeStopForPlaybook(decision.playbook, this.config),
+            confidence: decision.confidence,
             entry_regime: market.regime_tags ?? null,
             entry_signal: {
                 ret_sigma_5m_vs_1h: market.derived?.normalized.ret_sigma_5m_vs_1h ?? null,
@@ -190,8 +195,19 @@ export class ExecutionSimulator {
         portfolio.closePosition(symbol, price, ts, reason, feeUsd, slippageBps);
     }
 
-    private resolveSlTpTrigger(stopTouched: boolean, takeProfitTouched: boolean): "stop_loss" | "take_profit" | null {
+    private resolveSlTpTrigger(
+        stopTouched: boolean,
+        takeProfitTouched: boolean,
+        open: number,
+        stop: number,
+        takeProfit: number
+    ): "stop_loss" | "take_profit" | null {
         if (stopTouched && takeProfitTouched) {
+            if (this.slTpOptions.ordering === "path_aware" && Number.isFinite(open) && open > 0) {
+                const stopDistance = Math.abs(open - stop);
+                const takeProfitDistance = Math.abs(takeProfit - open);
+                return takeProfitDistance < stopDistance ? "take_profit" : "stop_loss";
+            }
             return this.slTpOptions.ordering === "take_profit_first" ? "take_profit" : "stop_loss";
         }
         if (stopTouched) return "stop_loss";
@@ -274,6 +290,30 @@ export class ExecutionSimulator {
         return { price: this.exitPrice(market, positionSide, slippageBps), slippageBps, usedBook: false };
     }
 
+    private resolveSlTpExitFill(
+        position: SimPosition,
+        triggerPrice: number,
+        ts: Date,
+        resolveBook?: ExecutionBookResolver
+    ): Fill {
+        if (this.slTpOptions.slippageMode === "book_or_fallback") {
+            const book = resolveBook?.(position.symbol, ts);
+            const fill = book
+                ? position.side === "long"
+                    ? walkBook(book.bids, position.notional_usd, triggerPrice, "sell")
+                    : walkBook(book.asks, position.notional_usd, triggerPrice, "buy")
+                : null;
+            if (fill) return fill;
+        }
+
+        const slippageBps = this.slTpOptions.fallbackSlippageBps;
+        return {
+            price: this.applyExitSlippage(triggerPrice, position.side, slippageBps),
+            slippageBps,
+            usedBook: false
+        };
+    }
+
     private feeBps(): number {
         return this.config.network_profiles[this.network].fees_bps;
     }
@@ -302,6 +342,15 @@ export class ExecutionSimulator {
 
 function fee(notionalUsd: number, feeBps: number): number {
     return notionalUsd * feeBps / 10000;
+}
+
+function validateSlTpOptions(options: SlTpExecutionOptions): void {
+    if (options.ordering !== "stop_first" && options.ordering !== "take_profit_first" && options.ordering !== "path_aware") {
+        throw new Error(`Unsupported SL/TP ordering: ${(options as any).ordering}`);
+    }
+    if (options.slippageMode !== "fallback" && options.slippageMode !== "book_or_fallback") {
+        throw new Error(`Unsupported SL/TP slippage mode: ${(options as any).slippageMode}`);
+    }
 }
 
 function walkBook(levels: L2BookLevel[], notionalUsd: number, referencePrice: number | undefined, side: "buy" | "sell"): Fill | null {

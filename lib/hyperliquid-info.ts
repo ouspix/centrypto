@@ -49,7 +49,7 @@ export async function getMeta(isTestnet: boolean): Promise<AssetMeta[]> {
 export async function getClearinghouseState(userAddress: string, isTestnet: boolean = false) {
     try {
         return await hyperliquidInfoPost<any>(
-            "hl:info:metaAndAssetCtxs",
+            "hl:info:clearinghouseState",
             hyperliquidInfoUrl(isTestnet),
             {
                 type: "clearinghouseState",
@@ -138,7 +138,7 @@ export async function getL2Book(coin: string, isTestnet: boolean = false) {
 export async function getUserFills(userAddress: string, isTestnet: boolean = false) {
     try {
         return await hyperliquidInfoPost<any[]>(
-            "hl:info:metaAndAssetCtxs",
+            "hl:info:userFills",
             hyperliquidInfoUrl(isTestnet),
             {
                 type: "userFills",

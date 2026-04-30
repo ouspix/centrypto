@@ -3,7 +3,9 @@ import path from "path";
 import { AGENT_PRESETS } from "@/lib/agent-config";
 import { SCREENER_PRESETS } from "@/lib/screener-config";
 import { BacktestRunConfig } from "@/src/backtest/BacktestTypes";
-import { WalkForwardOptimizer } from "@/src/backtest/WalkForwardOptimizer";
+import { DEFAULT_OPTIMIZER_SCORE_GATES, OptimizerScoreGates, WalkForwardOptimizer } from "@/src/backtest/WalkForwardOptimizer";
+
+type SlTpExecution = NonNullable<BacktestRunConfig["slTpExecution"]>;
 
 async function main() {
     const args = parseArgs(process.argv.slice(2));
@@ -41,18 +43,33 @@ async function main() {
                 keepTmp: args["keep-tmp"] === "true"
             }
             : undefined,
-        llm: buildLlmConfig(args, policyName)
+        llm: buildLlmConfig(args, policyName),
+        slTpExecution: buildSlTpExecution(args, base, (args.network ?? "mainnet") as "mainnet" | "testnet")
     };
 
-    const results = await optimizer.walkForward(runConfig, Number(args["train-days"] ?? 30), Number(args["test-days"] ?? 7), Number(args.trials ?? 100));
+    const scoreGates = buildScoreGates(args);
+    const results = await optimizer.walkForward(
+        runConfig,
+        Number(args["train-days"] ?? 30),
+        Number(args["test-days"] ?? 7),
+        Number(args.trials ?? 100),
+        scoreGates
+    );
     const outDir = args["output-dir"] ?? path.join("data", "backtests", args["run-id"] ?? "walkforward");
     const out = args.output ?? path.join(outDir, "walkforward_results.json");
     await fs.mkdir(path.dirname(out), { recursive: true });
     await fs.writeFile(out, JSON.stringify(results, null, 2));
     await fs.writeFile(path.join(path.dirname(out), "top_configs.json"), JSON.stringify(results.filter(r => !r.rejected).slice(0, 20), null, 2));
     await fs.writeFile(path.join(path.dirname(out), "coverage_summary.json"), JSON.stringify(buildCoverageSummary(results), null, 2));
-    await fs.writeFile(path.join(path.dirname(out), "champion_challenger.json"), JSON.stringify(buildWalkForwardRecommendation(runConfig, results), null, 2));
-    console.log(JSON.stringify(results.slice(0, 10).map(r => ({ score: r.score, rejected: r.rejected, rejection_reason: r.rejection_reason, metrics: r.metrics })), null, 2));
+    await fs.writeFile(path.join(path.dirname(out), "champion_challenger.json"), JSON.stringify(buildWalkForwardRecommendation(runConfig, results, scoreGates), null, 2));
+    console.log(JSON.stringify(results.slice(0, 10).map(r => ({
+        config_hash: r.config_hash,
+        fold_count: r.fold_count,
+        score: r.score,
+        rejected: r.rejected,
+        rejection_reason: r.rejection_reason,
+        metrics: r.metrics
+    })), null, 2));
 }
 
 function parseArgs(argv: string[]): Record<string, string> {
@@ -86,6 +103,27 @@ function buildLlmConfig(args: Record<string, string>, policyName: string) {
     };
 }
 
+function buildSlTpExecution(args: Record<string, string>, agentConfig: typeof AGENT_PRESETS[string], network: "mainnet" | "testnet"): SlTpExecution {
+    return {
+        ordering: (args["sl-tp-ordering"] ?? "stop_first") as SlTpExecution["ordering"],
+        slippageMode: (args["sl-tp-slippage-mode"] ?? "fallback") as SlTpExecution["slippageMode"],
+        fallbackSlippageBps: Number(args["sl-tp-fallback-slippage-bps"] ?? agentConfig.network_profiles[network].slippage_model.min_bps)
+    };
+}
+
+function buildScoreGates(args: Record<string, string>): OptimizerScoreGates {
+    return {
+        ...DEFAULT_OPTIMIZER_SCORE_GATES,
+        minTrades: Number(args["min-trades"] ?? DEFAULT_OPTIMIZER_SCORE_GATES.minTrades),
+        maxDrawdownBps: Number(args["max-drawdown-bps"] ?? DEFAULT_OPTIMIZER_SCORE_GATES.maxDrawdownBps),
+        minProfitFactor: Number(args["min-profit-factor"] ?? DEFAULT_OPTIMIZER_SCORE_GATES.minProfitFactor),
+        maxStopHitRate: Number(args["max-stop-hit-rate"] ?? DEFAULT_OPTIMIZER_SCORE_GATES.maxStopHitRate),
+        maxSymbolConcentration: Number(args["max-symbol-concentration"] ?? DEFAULT_OPTIMIZER_SCORE_GATES.maxSymbolConcentration),
+        maxRegimeConcentration: Number(args["max-regime-concentration"] ?? DEFAULT_OPTIMIZER_SCORE_GATES.maxRegimeConcentration),
+        allowSyntheticCandles: args["allow-synthetic-candles"] === "true"
+    };
+}
+
 function buildCoverageSummary(results: Array<{ rejected: boolean; rejection_reason?: string; coverage: unknown }>) {
     const rejectionCounts: Record<string, number> = {};
     for (const result of results) {
@@ -102,33 +140,47 @@ function buildCoverageSummary(results: Array<{ rejected: boolean; rejection_reas
     };
 }
 
-function buildWalkForwardRecommendation(runConfig: BacktestRunConfig, results: Awaited<ReturnType<WalkForwardOptimizer["walkForward"]>>) {
+function buildWalkForwardRecommendation(
+    runConfig: BacktestRunConfig,
+    results: Awaited<ReturnType<WalkForwardOptimizer["walkForward"]>>,
+    scoreGates: OptimizerScoreGates
+) {
     const challenger = results.find(result => !result.rejected) ?? null;
     if (!challenger) {
         return {
             accepted: false,
-            reason: "no viable out-of-sample challenger configs",
+            reason: "no viable aggregate out-of-sample challenger configs",
+            score_gates: scoreGates,
             challenger_score: null,
             challenger_metrics: null,
-            challenger_config: null
+            challenger_agent_config: null,
+            challenger_screener_config: null
         };
     }
 
     const accepted = challenger.score > 0 &&
-        challenger.metrics.trade_count >= 30 &&
-        challenger.metrics.one_symbol_concentration < 0.35 &&
-        challenger.metrics.one_regime_concentration < 0.70;
+        challenger.metrics.trade_count >= scoreGates.minTrades &&
+        challenger.metrics.max_drawdown_bps <= scoreGates.maxDrawdownBps &&
+        challenger.metrics.profit_factor >= scoreGates.minProfitFactor &&
+        challenger.metrics.stop_hit_rate <= scoreGates.maxStopHitRate &&
+        challenger.metrics.one_symbol_concentration <= scoreGates.maxSymbolConcentration &&
+        challenger.metrics.one_regime_concentration <= scoreGates.maxRegimeConcentration;
 
     return {
         champion: runConfig.agentConfig,
-        challenger: challenger.config,
+        challenger: challenger.agentConfig,
+        challenger_screener: challenger.screenerConfig,
         accepted,
         reason: accepted
-            ? "challenger passes out-of-sample trade count and concentration gates"
-            : "challenger does not pass positive-score/trade-count/concentration gates",
+            ? "aggregate challenger passes out-of-sample score gates"
+            : "aggregate challenger does not pass positive-score/gate checks",
+        score_gates: scoreGates,
+        config_hash: challenger.config_hash,
+        fold_count: challenger.fold_count,
         challenger_score: challenger.score,
         challenger_metrics: challenger.metrics,
-        challenger_config: challenger.config,
+        challenger_agent_config: challenger.agentConfig,
+        challenger_screener_config: challenger.screenerConfig,
         note: "Recommendation only. This script never mutates production preset files."
     };
 }

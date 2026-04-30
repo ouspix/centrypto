@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
-import { OrchestratorService } from '@/services/OrchestratorService';
-import { ensureCollectorReady } from '@/services/CollectorRunner';
+import { AnalysisJobLimitError, OrchestratorService } from '@/services/OrchestratorService';
+import { ensureCollectorReady, MarketDataStaleError } from '@/services/CollectorRunner';
 import { requireWalletSession, WalletSessionError } from '@/lib/auth/wallet-session';
-import { prisma } from '@/lib/db';
 
 export async function POST(request: Request) {
     try {
@@ -30,13 +29,6 @@ export async function POST(request: Request) {
 
         // Check if this is a manual analysis request
         if (body.isManual) {
-            const [running, queued] = await Promise.all([
-                prisma.analysisJob.count({ where: { userAddress, status: 'running' } }),
-                prisma.analysisJob.count({ where: { userAddress, status: 'pending' } })
-            ]);
-            if (running >= 1 && queued >= 1) {
-                return NextResponse.json({ error: 'Only one running and one queued AI job are allowed per wallet' }, { status: 429 });
-            }
             await ensureCollectorReady(isTestnet);
             const jobId = await orchestrator.analyzeMarketWithJobTracking(
                 userAddress,
@@ -62,6 +54,12 @@ export async function POST(request: Request) {
     } catch (error) {
         if (error instanceof WalletSessionError) {
             return NextResponse.json({ error: error.message }, { status: error.status });
+        }
+        if (error instanceof AnalysisJobLimitError) {
+            return NextResponse.json({ error: error.message }, { status: error.status });
+        }
+        if (error instanceof MarketDataStaleError) {
+            return NextResponse.json({ error: 'Stale market data', details: error.message }, { status: error.status });
         }
         // Handle abort errors gracefully
         if (error instanceof Error && error.name === 'AbortError') {

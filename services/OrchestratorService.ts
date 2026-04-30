@@ -41,8 +41,18 @@ type AnalysisResult = {
     llmStatus?: LlmRunStatus;
 };
 
+export class AnalysisJobLimitError extends Error {
+    public readonly status = 429;
+
+    constructor(message = "Only one running and one queued AI job are allowed per wallet") {
+        super(message);
+        this.name = "AnalysisJobLimitError";
+    }
+}
+
 export class OrchestratorService {
     private static instance: OrchestratorService;
+    private static readonly jobSchedulingLocks = new Map<string, Promise<void>>();
     private ollamaUrl: string;
     private openRouterClient: OpenAI | null = null;
     private snapshotBuilder: SnapshotBuilder;
@@ -140,25 +150,52 @@ export class OrchestratorService {
         isTestnet: boolean,
         configOverride?: any
     ): Promise<string> {
-        // 1. Create Job Record
-        const job = await prisma.analysisJob.create({
-            data: {
-                status: 'pending',
-                userAddress,
-                isTestnet,
-                model,
-                config: configOverride ? JSON.stringify(configOverride) : null
+        let shouldStart = false;
+        const normalizedUserAddress = userAddress?.toLowerCase() ?? null;
+
+        const job = await this.withWalletJobLock(normalizedUserAddress, async () => {
+            const [running, queued] = await Promise.all([
+                prisma.analysisJob.count({ where: { userAddress: normalizedUserAddress, status: 'running' } }),
+                prisma.analysisJob.count({ where: { userAddress: normalizedUserAddress, status: 'pending' } })
+            ]);
+
+            if (running >= 1 && queued >= 1) {
+                throw new AnalysisJobLimitError();
             }
+
+            const initialStatus = running === 0 ? 'running' : 'pending';
+            shouldStart = initialStatus === 'running';
+
+            return prisma.analysisJob.create({
+                data: {
+                    status: initialStatus,
+                    userAddress: normalizedUserAddress,
+                    isTestnet,
+                    model,
+                    config: configOverride ? JSON.stringify(configOverride) : null
+                }
+            });
         });
 
         console.log(`📝 Created analysis job: ${job.id}`);
 
-        // 2. Start Analysis in Background (Fire & Forget)
-        this.runAnalysisJob(job.id, userAddress, model, isTestnet, configOverride).catch(err => {
-            console.error(`❌ Background job ${job.id} failed unhandled:`, err);
-        });
+        if (shouldStart) {
+            this.startAnalysisJob(job.id, normalizedUserAddress, model, isTestnet, configOverride);
+        }
 
         return job.id;
+    }
+
+    private startAnalysisJob(
+        jobId: string,
+        userAddress: string | null,
+        model: string,
+        isTestnet: boolean,
+        configOverride?: any
+    ) {
+        this.runAnalysisJob(jobId, userAddress, model, isTestnet, configOverride).catch(err => {
+            console.error(`❌ Background job ${jobId} failed unhandled:`, err);
+        });
     }
 
     private async runAnalysisJob(
@@ -211,6 +248,61 @@ export class OrchestratorService {
             }
         } finally {
             this.activeJobs.delete(jobId);
+            try {
+                await this.startNextQueuedJob(userAddress);
+            } catch (error) {
+                console.error(`Failed to start next queued analysis job for ${userAddress ?? "unknown wallet"}:`, error);
+            }
+        }
+    }
+
+    private async startNextQueuedJob(userAddress: string | null): Promise<void> {
+        const normalizedUserAddress = userAddress?.toLowerCase() ?? null;
+        await this.withWalletJobLock(normalizedUserAddress, async () => {
+            const running = await prisma.analysisJob.count({
+                where: { userAddress: normalizedUserAddress, status: 'running' }
+            });
+            if (running >= 1) return;
+
+            const queued = await prisma.analysisJob.findFirst({
+                where: { userAddress: normalizedUserAddress, status: 'pending' },
+                orderBy: { createdAt: 'asc' }
+            });
+            if (!queued) return;
+
+            await prisma.analysisJob.update({
+                where: { id: queued.id },
+                data: { status: 'running' }
+            });
+
+            this.startAnalysisJob(
+                queued.id,
+                queued.userAddress,
+                queued.model,
+                queued.isTestnet,
+                parseJobConfig(queued.config)
+            );
+        });
+    }
+
+    private async withWalletJobLock<T>(userAddress: string | null, work: () => Promise<T>): Promise<T> {
+        const key = userAddress ?? "anonymous";
+        const previous = OrchestratorService.jobSchedulingLocks.get(key) ?? Promise.resolve();
+        let release!: () => void;
+        const current = new Promise<void>(resolve => {
+            release = resolve;
+        });
+        const chained = previous.then(() => current, () => current);
+        OrchestratorService.jobSchedulingLocks.set(key, chained);
+
+        await previous.catch(() => {});
+        try {
+            return await work();
+        } finally {
+            release();
+            if (OrchestratorService.jobSchedulingLocks.get(key) === chained) {
+                OrchestratorService.jobSchedulingLocks.delete(key);
+            }
         }
     }
 
@@ -508,7 +600,7 @@ export class OrchestratorService {
                         isCross: config.risk.margin_mode !== "isolated",
                         leverage: config.risk.exchange_max_leverage_allowed
                     },
-                    true
+                    isTestnet
                 );
             }
 
@@ -533,7 +625,7 @@ export class OrchestratorService {
                     takeProfitPrice,
                     tif: reduceOnly ? "Ioc" : "Ioc"
                 },
-                true
+                isTestnet
             );
 
             if (result.status === "ok") {
@@ -1178,5 +1270,14 @@ async function resolveExecutionCredential(userAddress: string, isTestnet: boolea
         }
         const devKey = getDevTestnetExecutionKey(isTestnet);
         return devKey ? { privateKey: devKey, mode: "server_dev_testnet_bot" } : null;
+    }
+}
+
+function parseJobConfig(serialized: string | null | undefined): any {
+    if (!serialized) return undefined;
+    try {
+        return JSON.parse(serialized);
+    } catch {
+        return undefined;
     }
 }

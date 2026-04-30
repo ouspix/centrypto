@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { AgentConfig, DEFAULT_AGENT_CONFIG } from '@/lib/agent-config';
 import { DEFAULT_SCREENER_CONFIG, ScreenerConfig } from '@/lib/screener-config';
 import { ScreenerService } from '@/services/ScreenerService';
-import { ensureCollectorReady } from '@/services/CollectorRunner';
+import { ensureCollectorReady, MarketDataStaleError } from '@/services/CollectorRunner';
 
 type ScreenedSymbols = Awaited<ReturnType<ScreenerService['getScreenedSymbols']>>;
 type ScreeningResponse = {
@@ -259,6 +259,12 @@ export async function POST(request: Request) {
 
         return NextResponse.json(result);
     } catch (error) {
+        if (error instanceof MarketDataStaleError) {
+            return NextResponse.json({
+                error: 'Stale market data',
+                details: error.message
+            }, { status: error.status });
+        }
         console.error('Screener API Error:', error);
         return NextResponse.json({
             error: 'Screening failed',

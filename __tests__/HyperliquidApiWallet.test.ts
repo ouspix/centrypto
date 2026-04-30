@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
+import { createWalletChallenge, verifyWalletChallenge, WALLET_SESSION_COOKIE } from "@/lib/auth/wallet-session";
 
 const mockGetExtraAgents = vi.hoisted(() => vi.fn());
 const records = vi.hoisted(() => new Map<string, any>());
@@ -132,6 +133,35 @@ describe("Hyperliquid API wallet storage", () => {
             isTestnet: false,
             privateKey: apiPrivateKey
         })).rejects.toThrow(/ENCRYPTION_KEY/i);
+    });
+
+    it("requires explicit confirmation before accepting a user-supplied delegated key", async () => {
+        const user = privateKeyToAccount(generatePrivateKey());
+        const challenge = createWalletChallenge(user.address);
+        const signature = await user.signMessage({ message: challenge.message });
+        const verified = await verifyWalletChallenge({
+            challengeToken: challenge.token,
+            message: challenge.message,
+            signature
+        });
+        const { POST } = await import("@/app/api/hyperliquid/api-wallet/route");
+
+        const response = await POST(new Request("http://localhost/api/hyperliquid/api-wallet", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                cookie: `${WALLET_SESSION_COOKIE}=${encodeURIComponent(verified.sessionToken)}`
+            },
+            body: JSON.stringify({
+                isTestnet: true,
+                privateKey: generatePrivateKey()
+            })
+        }) as any);
+
+        expect(response.status).toBe(400);
+        await expect(response.json()).resolves.toEqual({
+            error: expect.stringMatching(/confirm/i)
+        });
     });
 });
 

@@ -8,6 +8,13 @@ import {
     WALLET_SESSION_COOKIE
 } from "@/lib/auth/wallet-session";
 import { GET as getTrades } from "@/app/api/trades/route";
+import { POST as postAnalyze } from "@/app/api/ai/analyze/route";
+import { POST as postCancel } from "@/app/api/ai/cancel/route";
+import { GET as getJobStatus } from "@/app/api/ai/job-status/route";
+import { GET as getAlerts, POST as postAlerts, DELETE as deleteAlerts, PATCH as patchAlerts } from "@/app/api/alerts/route";
+import { GET as getApiWallet, POST as postApiWallet, DELETE as deleteApiWallet } from "@/app/api/hyperliquid/api-wallet/route";
+import { GET as getKillSwitch, PUT as putKillSwitch } from "@/app/api/risk/kill-switch/route";
+import { POST as postTrades, PATCH as patchTrades } from "@/app/api/trades/route";
 
 describe("wallet session auth", () => {
     beforeEach(() => {
@@ -81,4 +88,37 @@ describe("wallet session auth", () => {
         const response = await getTrades(request as any);
         expect(response.status).toBe(403);
     });
+
+    it("returns 401 without a wallet session on wallet-required API routes", async () => {
+        const cases: Array<[string, (request: any) => Promise<Response>, Request]> = [
+            ["POST /api/ai/analyze", postAnalyze, jsonRequest("http://localhost/api/ai/analyze", "POST", { isManual: true })],
+            ["POST /api/ai/cancel", postCancel, jsonRequest("http://localhost/api/ai/cancel", "POST", {})],
+            ["GET /api/ai/job-status", getJobStatus, new Request("http://localhost/api/ai/job-status?jobId=job-1")],
+            ["GET /api/alerts", getAlerts, new Request("http://localhost/api/alerts")],
+            ["POST /api/alerts", postAlerts, jsonRequest("http://localhost/api/alerts", "POST", {})],
+            ["DELETE /api/alerts", deleteAlerts, new Request("http://localhost/api/alerts?alertId=alert-1", { method: "DELETE" })],
+            ["PATCH /api/alerts", patchAlerts, jsonRequest("http://localhost/api/alerts", "PATCH", {})],
+            ["GET /api/hyperliquid/api-wallet", getApiWallet, new Request("http://localhost/api/hyperliquid/api-wallet?network=testnet")],
+            ["POST /api/hyperliquid/api-wallet", postApiWallet, jsonRequest("http://localhost/api/hyperliquid/api-wallet", "POST", {})],
+            ["DELETE /api/hyperliquid/api-wallet", deleteApiWallet, jsonRequest("http://localhost/api/hyperliquid/api-wallet", "DELETE", {})],
+            ["GET /api/risk/kill-switch", getKillSwitch, new Request("http://localhost/api/risk/kill-switch?network=testnet")],
+            ["PUT /api/risk/kill-switch", putKillSwitch, jsonRequest("http://localhost/api/risk/kill-switch", "PUT", {})],
+            ["GET /api/trades", getTrades, new Request("http://localhost/api/trades")],
+            ["POST /api/trades", postTrades, jsonRequest("http://localhost/api/trades", "POST", {})],
+            ["PATCH /api/trades", patchTrades, jsonRequest("http://localhost/api/trades", "PATCH", {})],
+        ];
+
+        for (const [name, handler, request] of cases) {
+            const response = await handler(request as any);
+            expect(response.status, name).toBe(401);
+        }
+    });
 });
+
+function jsonRequest(url: string, method: string, body: unknown): Request {
+    return new Request(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+    });
+}

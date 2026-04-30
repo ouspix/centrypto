@@ -3,18 +3,19 @@ import os from "os";
 import path from "path";
 import { PrismaClient } from "@prisma/market-client";
 import { describe, expect, it } from "vitest";
-import { DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
+import { AGENT_PRESETS, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
 import { SCREENER_PRESETS } from "@/lib/screener-config";
 import { FeatureStore } from "@/src/backtest/FeatureStore";
 import { buildMarketFeaturesFromSnapshots, parseHyperliquidL2File } from "@/src/backtest/L2FeatureBuilder";
 import { BacktestDataSource, classifyExecutionCandleSource, mapBacktestDepthBands, mapBacktestOnePercentDepth } from "@/src/backtest/BacktestDataSource";
 import { BacktestPortfolio } from "@/src/backtest/BacktestPortfolio";
+import { BacktestRunner } from "@/src/backtest/BacktestRunner";
 import { ExecutionSimulator } from "@/src/backtest/ExecutionSimulator";
 import { ExecutionBookStore } from "@/src/backtest/ExecutionBookStore";
 import { MetricsReporter } from "@/src/backtest/MetricsReporter";
 import { RecordedLLMTrader, buildManagementPolicy, buildTraderPolicy } from "@/src/backtest/TraderPolicies";
-import { acceptChallenger, sampleRandomConfig, scoreMetrics } from "@/src/backtest/WalkForwardOptimizer";
-import { BacktestMetrics, L2BookSnapshot, MarketFeatureRow, SimPosition, SimTrade } from "@/src/backtest/BacktestTypes";
+import { acceptChallenger, aggregateScoredConfigs, configHash, optimizerRejectionReason, sampleRandomConfig, sampleRandomScreenerConfig, scoreMetrics } from "@/src/backtest/WalkForwardOptimizer";
+import { BacktestMetrics, CoverageReport, L2BookSnapshot, MarketFeatureRow, SimPosition, SimTrade } from "@/src/backtest/BacktestTypes";
 import { TradeDecision, TraderContext } from "@/types/trading";
 
 describe("backtest stack", () => {
@@ -146,7 +147,7 @@ describe("backtest stack", () => {
         await db.$disconnect();
     });
 
-    it("does not return the currently-forming 1m candle for stop and take-profit simulation", async () => {
+    it("includes candles whose open time equals the replay timestamp", async () => {
         const dbPath = path.join(await fs.mkdtemp(path.join(os.tmpdir(), "bt-db-")), "market.db");
         const db = new PrismaClient({ datasources: { db: { url: `file:${dbPath}` } } });
         const store = new FeatureStore({ db });
@@ -175,7 +176,70 @@ describe("backtest stack", () => {
 
         expect(source.getCandles("BTC-PERP", first, new Date(second.getTime() - 1)).map(c => new Date(c.openTime).toISOString()))
             .toEqual([]);
+        expect(source.getCandles("BTC-PERP", first, second).map(c => new Date(c.openTime).toISOString()))
+            .toEqual([second.toISOString()]);
         await db.$disconnect();
+    });
+
+    it("fires SL/TP when a candle openTime equals the replay timestamp", async () => {
+        const dbPath = path.join(await fs.mkdtemp(path.join(os.tmpdir(), "bt-runner-")), "market.db");
+        const db = new PrismaClient({ datasources: { db: { url: `file:${dbPath}` } } });
+        const store = new FeatureStore({ db });
+        await store.ensureSchema();
+
+        const first = new Date("2026-04-11T10:00:00Z");
+        const second = new Date("2026-04-11T10:01:00Z");
+        const agentConfig = structuredClone(AGENT_PRESETS["Testnet Aggressive"]);
+        agentConfig.risk.max_positions = 1;
+        agentConfig.risk.max_new_positions_per_cycle = 1;
+
+        const rowOverrides: Partial<MarketFeatureRow> = {
+            intervalSeconds: 60,
+            book_pressure_5bps: -0.2,
+            book_pressure_10bps: -0.2,
+            book_pressure_25bps: -0.2,
+            ret_sigma_5m_vs_1h: 2,
+            vol_ratio_5m_vs_1h: 1.2,
+            ret_5m: 0.02,
+            ret_15m: 0.10,
+            ret_1h: 0.10
+        };
+        await store.upsertRows([
+            featureRow(first, "BTC-PERP", rowOverrides),
+            featureRow(second, "BTC-PERP", rowOverrides)
+        ]);
+        await db.$executeRawUnsafe(
+            `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume") VALUES (?, '1m', ?, 100, 101, 99, 100, 1)`,
+            "BTC",
+            first
+        );
+        await db.$executeRawUnsafe(
+            `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume") VALUES (?, '1m', ?, 100, 100, 80, 90, 1)`,
+            "BTC",
+            second
+        );
+        await db.$disconnect();
+
+        const result = await new BacktestRunner().run({
+            network: "testnet",
+            start: first,
+            end: second,
+            intervalSeconds: 60,
+            initialCapitalUsd: 10000,
+            screeningPresetName: "Testnet Aggressive",
+            agentPresetName: "Testnet Aggressive",
+            screeningConfig: SCREENER_PRESETS["Testnet Aggressive"],
+            agentConfig,
+            policyName: "take_top_rank",
+            managementPolicyName: "never_close",
+            seed: 1,
+            featureDbPath: dbPath,
+            runId: `runner_equal_ts_${Date.now()}`
+        });
+
+        expect(result.trades).toHaveLength(1);
+        expect(result.trades[0].exit_ts.toISOString()).toBe(second.toISOString());
+        expect(result.trades[0].exit_reason).toBe("take_profit");
     });
 
     it("checks execution coverage at replay feature timestamps instead of minute floors", async () => {
@@ -220,14 +284,53 @@ describe("backtest stack", () => {
         await db.$disconnect();
     });
 
-    it("does not label 25 bps depth as 1 percent depth", () => {
+    it("labels the deepest historical depth band as a 1 percent proxy", () => {
         const row = featureRow(new Date("2026-04-11T10:00:00Z"), "BTC-PERP");
         const bands = mapBacktestDepthBands(row);
+        const onePercentProxy = mapBacktestOnePercentDepth(row);
 
         expect(bands.bid["0.25"]).toBe(row.bid_depth_25bps_usd);
         expect(bands.bid["1.00"]).toBeUndefined();
         expect(bands.ask["1.00"]).toBeUndefined();
-        expect(mapBacktestOnePercentDepth()).toEqual({ bid_1pct: 0, ask_1pct: 0 });
+        expect(onePercentProxy).toEqual({
+            bid_1pct: row.bid_depth_25bps_usd,
+            ask_1pct: row.ask_depth_25bps_usd,
+            proxy_source: "deepest_available_historical_depth_band",
+            proxy_band_pct: "0.25"
+        });
+    });
+
+    it("keeps backtest candidates when layer2 liquidity filtering uses historical depth proxies", async () => {
+        const dbPath = path.join(await fs.mkdtemp(path.join(os.tmpdir(), "bt-db-")), "market.db");
+        const db = new PrismaClient({ datasources: { db: { url: `file:${dbPath}` } } });
+        const store = new FeatureStore({ db });
+        await store.ensureSchema();
+        await createMarketTables(db);
+
+        const ts = new Date("2026-04-11T10:00:00Z");
+        await store.upsertRows([featureRow(ts, "BTC-PERP")]);
+        await db.$executeRawUnsafe(
+            `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume") VALUES (?, '1m', ?, 100, 101, 99, 100, 1)`,
+            "BTC",
+            ts
+        );
+
+        const source = await BacktestDataSource.create({
+            network: "mainnet",
+            start: ts,
+            end: ts,
+            intervalSeconds: 10,
+            agentConfig: DEFAULT_AGENT_CONFIG,
+            screenerConfig: {
+                ...SCREENER_PRESETS["Testnet Aggressive"],
+                layer2Enabled: true,
+                minDepthUsd: 50_000
+            },
+            featureDbPath: dbPath
+        });
+
+        expect(Object.keys(source.getMarkets(ts))).toContain("BTC-PERP");
+        await db.$disconnect();
     });
 
     it("classifies synthetic and mixed execution candles", () => {
@@ -355,6 +458,63 @@ describe("backtest stack", () => {
         const position = portfolio.positions.get("BTC-PERP");
         expect(position).toBeDefined();
         expect(position!.entry_price).toBeCloseTo(100.4975, 4);
+        expect(position!.confidence).toBe(0.7);
+
+        const trade = portfolio.closePosition("BTC-PERP", 102, new Date("2026-04-11T10:05:00Z"), "test_exit", 1, 0);
+        expect(trade?.confidence).toBe(0.7);
+        const metrics = MetricsReporter.build(10000, portfolio.equityCurve, portfolio.trades);
+        expect(metrics.confidence_buckets["0.60-0.79"].trade_count).toBe(1);
+    });
+
+    it("supports path-aware SL/TP ordering and book-or-fallback SL/TP fills", () => {
+        const config = DEFAULT_AGENT_CONFIG;
+        const portfolio = new BacktestPortfolio(10000, config);
+        const simulator = new ExecutionSimulator(config, "mainnet", {
+            ordering: "path_aware",
+            slippageMode: "book_or_fallback",
+            fallbackSlippageBps: 10
+        });
+        const position: SimPosition = {
+            id: "p-book",
+            symbol: "BTC-PERP",
+            side: "long",
+            playbook: "Momentum:long",
+            entry_ts: new Date("2026-04-11T10:00:00Z"),
+            entry_price: 100,
+            size_fraction: 0.1,
+            notional_usd: 1000,
+            size_coin: 10,
+            stop_loss_pct: 0.02,
+            take_profit_pct: 0.02,
+            entry_regime: "CHOP",
+            entry_signal: { ret_sigma_5m_vs_1h: null, vol_ratio_5m_vs_1h: null, book_pressure: null, trend_alignment_score: null, edge_to_cost_mult: null },
+            highest_price: 100,
+            lowest_price: 100,
+            max_favorable_excursion_bps: 0,
+            max_adverse_excursion_bps: 0
+        };
+        portfolio.positions.set(position.symbol, position);
+
+        simulator.advancePositionWithCandles(position, [{
+            symbol: "BTC",
+            openTime: new Date("2026-04-11T10:01:00Z"),
+            open: 101.9,
+            high: 103,
+            low: 97,
+            close: 102,
+            volume: 1
+        }], portfolio, () => ({
+            ts: new Date("2026-04-11T10:01:00Z"),
+            symbol: "BTC-PERP",
+            intervalSeconds: 60,
+            bids: [{ price: 101.5, size: 20 }],
+            asks: [{ price: 102.5, size: 20 }]
+        }));
+
+        expect(portfolio.trades).toHaveLength(1);
+        expect(portfolio.trades[0].exit_reason).toBe("take_profit");
+        expect(portfolio.trades[0].exit_price).toBe(101.5);
+        expect(portfolio.trades[0].slippage_bps).toBeCloseTo(49.0196, 4);
     });
 
     it("resets daily PnL accounting at UTC day boundaries", () => {
@@ -390,12 +550,101 @@ describe("backtest stack", () => {
     it("samples optimizer parameters within safe ranges deterministically", () => {
         const a = sampleRandomConfig(DEFAULT_AGENT_CONFIG, 123);
         const b = sampleRandomConfig(DEFAULT_AGENT_CONFIG, 123);
+        const screenerA = sampleRandomScreenerConfig(SCREENER_PRESETS["Momentum Moderate"], 123);
+        const screenerB = sampleRandomScreenerConfig(SCREENER_PRESETS["Momentum Moderate"], 123);
 
         expect(a.triggers.momentum.vol_ratio_min).toBe(b.triggers.momentum.vol_ratio_min);
         expect(a.triggers.momentum.vol_ratio_min).toBeGreaterThanOrEqual(0.5);
         expect(a.triggers.momentum.vol_ratio_min).toBeLessThanOrEqual(1.5);
         expect(a.cost_sanity.min_edge_to_cost_mult).toBeGreaterThanOrEqual(3);
         expect(a.cost_sanity.min_edge_to_cost_mult).toBeLessThanOrEqual(8);
+        expect(a.gates.edge_to_cost_mult_by_regime).toEqual({
+            RISK_ON: a.cost_sanity.min_edge_to_cost_mult,
+            RISK_OFF: a.cost_sanity.min_edge_to_cost_mult,
+            CHOP: a.cost_sanity.min_edge_to_cost_mult
+        });
+        expect(a.management_policy.playbook_aware.momentum.opposite_pressure_cycles).toBeGreaterThanOrEqual(2);
+        expect(a.management_policy.playbook_aware.momentum.opposite_pressure_cycles).toBeLessThanOrEqual(5);
+        expect(screenerA).toEqual(screenerB);
+        expect(screenerA.topN).toBeGreaterThanOrEqual(8);
+        expect(screenerA.topN).toBeLessThanOrEqual(30);
+        expect(screenerA.minDepthUsd).toBeGreaterThanOrEqual(0);
+    });
+
+    it("uses explicit optimizer gates and keeps coverage penalties from becoming absolute rejections", () => {
+        const baseCoverage = coverage({
+            missing_feature_rows_by_symbol: { "BTC-PERP": 12 },
+            missing_execution_books_by_symbol: { "BTC-PERP": 0 }
+        });
+        const goodMetrics = metrics({ netPnlBps: 100, maxDrawdownBps: 10, trades: 40, symbolConcentration: 0.2, regimeConcentration: 0.4 });
+
+        expect(optimizerRejectionReason(goodMetrics, baseCoverage, {
+            minTrades: 30,
+            maxDrawdownBps: 100,
+            minProfitFactor: 1,
+            maxStopHitRate: 0.7,
+            maxSymbolConcentration: 0.5,
+            maxRegimeConcentration: 0.8,
+            allowSyntheticCandles: false
+        }, ["BTC-PERP"])).toBeNull();
+
+        expect(optimizerRejectionReason(goodMetrics, coverage({ synthetic_execution_candles: true, candle_source: "synthetic_from_features" }), undefined, ["BTC-PERP"]))
+            .toBe("synthetic_execution_candles");
+        expect(optimizerRejectionReason(
+            metrics({ netPnlBps: 100, maxDrawdownBps: 10, trades: 3, symbolConcentration: 0.2, regimeConcentration: 0.4 }),
+            baseCoverage
+        )).toMatch(/^min_trades/);
+        expect(optimizerRejectionReason(goodMetrics, coverage({
+            missing_candle_intervals: [{ symbol: "BTC-PERP", start: "2026-04-11T10:00:00.000Z", end: "2026-04-11T10:01:00.000Z" }]
+        }), undefined, ["BTC-PERP"])).toMatch(/^missing_execution_candles_for_traded_symbols/);
+    });
+
+    it("aggregates walk-forward folds by config hash before ranking", () => {
+        const agentConfig = sampleRandomConfig(DEFAULT_AGENT_CONFIG, 1);
+        const screenerConfig = sampleRandomScreenerConfig(SCREENER_PRESETS["Momentum Moderate"], 1);
+        const otherAgentConfig = sampleRandomConfig(DEFAULT_AGENT_CONFIG, 2);
+        const otherScreenerConfig = sampleRandomScreenerConfig(SCREENER_PRESETS["Momentum Moderate"], 2);
+        const sharedHash = configHash(agentConfig, screenerConfig);
+
+        const results = aggregateScoredConfigs([{
+            config_hash: sharedHash,
+            agentConfig,
+            screenerConfig,
+            metrics: metrics({ netPnlBps: 80, maxDrawdownBps: 10, trades: 40, symbolConcentration: 0.2, regimeConcentration: 0.4 }),
+            coverage: coverage(),
+            score: 80,
+            rejected: false
+        }, {
+            config_hash: sharedHash,
+            agentConfig,
+            screenerConfig,
+            metrics: metrics({ netPnlBps: 60, maxDrawdownBps: 20, trades: 50, symbolConcentration: 0.3, regimeConcentration: 0.5 }),
+            coverage: coverage(),
+            score: 60,
+            rejected: false
+        }, {
+            config_hash: configHash(otherAgentConfig, otherScreenerConfig),
+            agentConfig: otherAgentConfig,
+            screenerConfig: otherScreenerConfig,
+            metrics: metrics({ netPnlBps: 90, maxDrawdownBps: 15, trades: 35, symbolConcentration: 0.2, regimeConcentration: 0.4 }),
+            coverage: coverage(),
+            score: 90,
+            rejected: false
+        }], {
+            minTrades: 1,
+            maxDrawdownBps: 1000,
+            minProfitFactor: 1,
+            maxStopHitRate: 1,
+            maxSymbolConcentration: 1,
+            maxRegimeConcentration: 1,
+            allowSyntheticCandles: true
+        });
+
+        const aggregate = results.find(result => result.config_hash === sharedHash);
+        expect(results).toHaveLength(2);
+        expect(aggregate?.fold_count).toBe(2);
+        expect(aggregate?.metrics.trade_count).toBe(90);
+        expect(aggregate?.metrics.net_pnl_bps).toBe(140);
     });
 
     it("reports concentration and preset breakdowns for optimizer gates", () => {
@@ -536,7 +785,7 @@ async function createMarketTables(db: PrismaClient) {
     )`);
 }
 
-function featureRow(ts: Date, symbol: string): MarketFeatureRow {
+function featureRow(ts: Date, symbol: string, overrides: Partial<MarketFeatureRow> = {}): MarketFeatureRow {
     return {
         ts,
         symbol,
@@ -573,7 +822,8 @@ function featureRow(ts: Date, symbol: string): MarketFeatureRow {
         vol_ratio_5m_vs_1h: 0.5,
         ret_sigma_5m_vs_1h: 2,
         trend_side: "long",
-        trend_alignment_score: 1
+        trend_alignment_score: 1,
+        ...overrides
     };
 }
 
@@ -599,6 +849,21 @@ function trade(args: { symbol: string; regime: string; pnl: number }): SimTrade 
         max_favorable_excursion_bps: 100,
         max_adverse_excursion_bps: 0,
         entry_regime: { current: args.regime }
+    };
+}
+
+function coverage(overrides: Partial<CoverageReport> = {}): CoverageReport {
+    return {
+        expected_timestamps: 10,
+        available_timestamps: 10,
+        candle_source: "real_1m" as const,
+        synthetic_execution_candles: false,
+        missing_feature_rows_by_symbol: {},
+        missing_execution_books_by_symbol: {},
+        missing_candle_intervals: [],
+        symbols_dropped_insufficient_history: [],
+        skipped_timestamps: [],
+        ...overrides
     };
 }
 

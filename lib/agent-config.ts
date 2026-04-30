@@ -98,6 +98,31 @@ export interface AgentConfig {
         };
     };
 
+    management_policy: {
+        hold_confidence: number;
+        close_confidence: number;
+        playbook_aware: {
+            momentum: {
+                opposite_pressure_threshold: number;
+                opposite_pressure_cycles: number;
+                unprofitable_max_age_minutes: number;
+            };
+            breakout: {
+                opposite_pressure_threshold: number;
+                unprofitable_max_age_minutes: number;
+            };
+            mean_reversion: {
+                sigma_worsening_threshold: number;
+                opposite_pressure_threshold: number;
+                unprofitable_max_age_minutes: number;
+            };
+            fallback: {
+                opposite_pressure_threshold: number;
+                unprofitable_max_age_minutes: number;
+            };
+        };
+    };
+
     gates: {
         depth_usd_min: number;
         cost_bps_max_by_regime: {
@@ -161,6 +186,31 @@ const REGIME: AgentConfig["regime"] = {
     },
     risk_on_off: {
         sizing_mult: 1.2
+    }
+};
+
+const MANAGEMENT_POLICY: AgentConfig["management_policy"] = {
+    hold_confidence: 0.5,
+    close_confidence: 0.65,
+    playbook_aware: {
+        momentum: {
+            opposite_pressure_threshold: 0.08,
+            opposite_pressure_cycles: 3,
+            unprofitable_max_age_minutes: 180
+        },
+        breakout: {
+            opposite_pressure_threshold: 0.08,
+            unprofitable_max_age_minutes: 90
+        },
+        mean_reversion: {
+            sigma_worsening_threshold: 1.0,
+            opposite_pressure_threshold: 0.05,
+            unprofitable_max_age_minutes: 45
+        },
+        fallback: {
+            opposite_pressure_threshold: 0.03,
+            unprofitable_max_age_minutes: 30
+        }
     }
 };
 
@@ -230,6 +280,7 @@ function preset(input: {
             ...input.correlation
         },
         regime: REGIME,
+        management_policy: MANAGEMENT_POLICY,
         gates: {
             ...defaultGates,
             ...input.gates,

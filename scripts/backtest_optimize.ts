@@ -2,9 +2,10 @@ import fs from "fs/promises";
 import path from "path";
 import { AGENT_PRESETS } from "@/lib/agent-config";
 import { SCREENER_PRESETS } from "@/lib/screener-config";
-import { BacktestRunner } from "@/src/backtest/BacktestRunner";
 import { BacktestRunConfig } from "@/src/backtest/BacktestTypes";
-import { acceptChallenger, scoreMetrics, WalkForwardOptimizer } from "@/src/backtest/WalkForwardOptimizer";
+import { DEFAULT_OPTIMIZER_SCORE_GATES, OptimizerScoreGates, WalkForwardOptimizer } from "@/src/backtest/WalkForwardOptimizer";
+
+type SlTpExecution = NonNullable<BacktestRunConfig["slTpExecution"]>;
 
 async function main() {
     const args = parseArgs(process.argv.slice(2));
@@ -43,19 +44,26 @@ async function main() {
                 keepTmp: args["keep-tmp"] === "true"
             }
             : undefined,
-        llm: buildLlmConfig(args, policyName)
+        llm: buildLlmConfig(args, policyName),
+        slTpExecution: buildSlTpExecution(args, base, (args.network ?? "mainnet") as "mainnet" | "testnet")
     };
 
-    const results = await optimizer.randomSearch(runConfig, trials);
+    const scoreGates = buildScoreGates(args);
+    const results = await optimizer.randomSearch(runConfig, trials, scoreGates);
     const outDir = args["output-dir"] ?? path.join("data", "backtests", args["run-id"] ?? "optimize");
     const out = args.output ?? path.join(outDir, "optimizer_results.json");
     await fs.mkdir(path.dirname(out), { recursive: true });
     await fs.writeFile(out, JSON.stringify(results, null, 2));
     await fs.writeFile(path.join(path.dirname(out), "top_configs.json"), JSON.stringify(results.filter(r => !r.rejected).slice(0, 20), null, 2));
     await fs.writeFile(path.join(path.dirname(out), "coverage_summary.json"), JSON.stringify(buildCoverageSummary(results), null, 2));
-    const recommendation = await buildRecommendation(runConfig, results);
-    await fs.writeFile(path.join(path.dirname(out), "champion_challenger.json"), JSON.stringify(recommendation, null, 2));
-    console.log(JSON.stringify(results.slice(0, 10).map(r => ({ score: r.score, rejected: r.rejected, rejection_reason: r.rejection_reason, metrics: r.metrics })), null, 2));
+    await fs.writeFile(path.join(path.dirname(out), "in_sample_summary.json"), JSON.stringify(buildInSampleSummary(results, scoreGates), null, 2));
+    console.log(JSON.stringify(results.slice(0, 10).map(r => ({
+        config_hash: r.config_hash,
+        score: r.score,
+        rejected: r.rejected,
+        rejection_reason: r.rejection_reason,
+        metrics: r.metrics
+    })), null, 2));
 }
 
 function parseArgs(argv: string[]): Record<string, string> {
@@ -89,6 +97,27 @@ function buildLlmConfig(args: Record<string, string>, policyName: string) {
     };
 }
 
+function buildSlTpExecution(args: Record<string, string>, agentConfig: typeof AGENT_PRESETS[string], network: "mainnet" | "testnet"): SlTpExecution {
+    return {
+        ordering: (args["sl-tp-ordering"] ?? "stop_first") as SlTpExecution["ordering"],
+        slippageMode: (args["sl-tp-slippage-mode"] ?? "fallback") as SlTpExecution["slippageMode"],
+        fallbackSlippageBps: Number(args["sl-tp-fallback-slippage-bps"] ?? agentConfig.network_profiles[network].slippage_model.min_bps)
+    };
+}
+
+function buildScoreGates(args: Record<string, string>): OptimizerScoreGates {
+    return {
+        ...DEFAULT_OPTIMIZER_SCORE_GATES,
+        minTrades: Number(args["min-trades"] ?? DEFAULT_OPTIMIZER_SCORE_GATES.minTrades),
+        maxDrawdownBps: Number(args["max-drawdown-bps"] ?? DEFAULT_OPTIMIZER_SCORE_GATES.maxDrawdownBps),
+        minProfitFactor: Number(args["min-profit-factor"] ?? DEFAULT_OPTIMIZER_SCORE_GATES.minProfitFactor),
+        maxStopHitRate: Number(args["max-stop-hit-rate"] ?? DEFAULT_OPTIMIZER_SCORE_GATES.maxStopHitRate),
+        maxSymbolConcentration: Number(args["max-symbol-concentration"] ?? DEFAULT_OPTIMIZER_SCORE_GATES.maxSymbolConcentration),
+        maxRegimeConcentration: Number(args["max-regime-concentration"] ?? DEFAULT_OPTIMIZER_SCORE_GATES.maxRegimeConcentration),
+        allowSyntheticCandles: args["allow-synthetic-candles"] === "true"
+    };
+}
+
 function buildCoverageSummary(results: Array<{ rejected: boolean; rejection_reason?: string; coverage: unknown }>) {
     const rejectionCounts: Record<string, number> = {};
     for (const result of results) {
@@ -105,33 +134,17 @@ function buildCoverageSummary(results: Array<{ rejected: boolean; rejection_reas
     };
 }
 
-async function buildRecommendation(runConfig: BacktestRunConfig, results: Awaited<ReturnType<WalkForwardOptimizer["randomSearch"]>>) {
-    const challenger = results.find(result => !result.rejected) ?? null;
-    if (!challenger) {
-        return {
-            accepted: false,
-            reason: "no viable challenger configs",
-            champion_score: null,
-            challenger_score: null,
-            champion_metrics: null,
-            challenger_metrics: null,
-            challenger_config: null
-        };
-    }
-
-    const championRun = await new BacktestRunner().run({
-        ...runConfig,
-        runId: `${runConfig.runId ?? "optimize"}_champion`
-    });
-    const comparison = acceptChallenger(runConfig.agentConfig, challenger.config, championRun.metrics, challenger.metrics);
+function buildInSampleSummary(results: Awaited<ReturnType<WalkForwardOptimizer["randomSearch"]>>, scoreGates: OptimizerScoreGates) {
+    const best = results.find(result => !result.rejected) ?? null;
     return {
-        ...comparison,
-        champion_score: scoreMetrics(championRun.metrics),
-        challenger_score: challenger.score,
-        champion_metrics: championRun.metrics,
-        challenger_metrics: challenger.metrics,
-        challenger_config: challenger.config,
-        note: "Recommendation only. This script never mutates production preset files."
+        mode: "in_sample_random_search",
+        note: "backtest_optimize searches and ranks on the same window. It does not emit champion/challenger recommendations; use backtest_walkforward for out-of-sample aggregation.",
+        score_gates: scoreGates,
+        best_config_hash: best?.config_hash ?? null,
+        best_score: best?.score ?? null,
+        best_metrics: best?.metrics ?? null,
+        best_agent_config: best?.agentConfig ?? null,
+        best_screener_config: best?.screenerConfig ?? null
     };
 }
 

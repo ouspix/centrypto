@@ -145,6 +145,8 @@ Hyperliquid REST calls use keyed buckets and short caches:
 
 - `hl:info:meta`
 - `hl:info:metaAndAssetCtxs`
+- `hl:info:clearinghouseState`
+- `hl:info:userFills`
 - `hl:info:candleSnapshot`
 - `hl:info:l2Book`
 - `hl:info:extraAgents`

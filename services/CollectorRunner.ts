@@ -13,6 +13,7 @@ const UPSERT_BATCH_SIZE = 500;
 const BACKFILL_FETCH_MAX_ATTEMPTS = 5;
 const BACKFILL_PRIORITY_SYMBOL_LIMIT = parseInt(process.env.COLLECTOR_PRIORITY_BACKFILL_SYMBOLS || "15", 10);
 const BACKFILL_READY_TIMEOUT_MS = parseInt(process.env.COLLECTOR_READY_BACKFILL_TIMEOUT_MS || "30000", 10);
+const DEFAULT_MARKET_DATA_MAX_STALE_MS = 5 * 60 * 1000;
 const BACKFILL_PRIORITY_SYMBOLS = (process.env.COLLECTOR_PRIORITY_SYMBOLS || "BTC,ETH,SOL,HYPE,BNB,XRP,DOGE,LINK")
     .split(",")
     .map(symbol => symbol.trim().toUpperCase())
@@ -21,6 +22,15 @@ const BACKFILL_PRIORITY_SYMBOLS = (process.env.COLLECTOR_PRIORITY_SYMBOLS || "BT
 declare global {
     // eslint-disable-next-line no-var
     var __collectorRunners: Record<string, CollectorRunner> | undefined;
+}
+
+export class MarketDataStaleError extends Error {
+    public readonly status = 503;
+
+    constructor(message: string) {
+        super(message);
+        this.name = "MarketDataStaleError";
+    }
 }
 
 class CollectorRunner {
@@ -356,7 +366,8 @@ export function ensureCollectorRunning(isTestnet: boolean) {
 export async function ensureCollectorReady(isTestnet: boolean) {
     const runner = getCollectorRunner(isTestnet);
     if (!canStartCollectorFromApi()) {
-        console.warn("[CollectorRunner] Collector readiness from API path disabled; using cached DB state only.");
+        await assertCachedMarketDataFresh(isTestnet);
+        console.warn("[CollectorRunner] Collector readiness from API path disabled; cached DB state is fresh.");
         return runner;
     }
     runner.start();
@@ -368,4 +379,52 @@ export async function ensureCollectorReady(isTestnet: boolean) {
 function canStartCollectorFromApi(): boolean {
     if (process.env.NODE_ENV !== "production") return process.env.ALLOW_API_COLLECTOR_START === "true";
     return process.env.ALLOW_API_COLLECTOR_START === "true";
+}
+
+async function assertCachedMarketDataFresh(isTestnet: boolean): Promise<void> {
+    const db = isTestnet ? marketDbTest : marketDbMain;
+    const maxAgeMs = Number(process.env.MARKET_DATA_MAX_STALE_MS ?? DEFAULT_MARKET_DATA_MAX_STALE_MS);
+    const network = isTestnet ? "testnet" : "mainnet";
+    const [latestTick, latestCandle] = await Promise.all([
+        db.marketTick.findFirst({
+            orderBy: { ts: "desc" },
+            select: { ts: true, symbol: true }
+        }),
+        db.marketCandle.findFirst({
+            where: { timeframe: "1m" },
+            orderBy: { openTime: "desc" },
+            select: { openTime: true, symbol: true }
+        })
+    ]);
+
+    const stale = staleReasons(latestTick?.ts ?? null, latestCandle?.openTime ?? null, maxAgeMs);
+    if (stale.length === 0) return;
+
+    throw new MarketDataStaleError(
+        `Cached ${network} market data is stale (${stale.join("; ")}). ` +
+        "Run `npm run collector` or set ALLOW_API_COLLECTOR_START=true for local API-start fallback."
+    );
+}
+
+function staleReasons(latestTickTs: Date | null, latestCandleTs: Date | null, maxAgeMs: number): string[] {
+    const now = Date.now();
+    const reasons: string[] = [];
+    if (!latestTickTs) {
+        reasons.push("no MarketTick rows");
+    } else {
+        const ageMs = now - latestTickTs.getTime();
+        if (ageMs > maxAgeMs) {
+            reasons.push(`latest MarketTick ${latestTickTs.toISOString()} is ${Math.round(ageMs / 1000)}s old`);
+        }
+    }
+
+    if (!latestCandleTs) {
+        reasons.push("no 1m MarketCandle rows");
+    } else {
+        const ageMs = now - latestCandleTs.getTime();
+        if (ageMs > maxAgeMs) {
+            reasons.push(`latest 1m MarketCandle ${latestCandleTs.toISOString()} is ${Math.round(ageMs / 1000)}s old`);
+        }
+    }
+    return reasons;
 }

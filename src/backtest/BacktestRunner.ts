@@ -62,7 +62,7 @@ export class BacktestRunner {
             slippageMode: "fallback",
             fallbackSlippageBps: config.agentConfig.network_profiles[config.network].slippage_model.min_bps
         });
-        const management = buildManagementPolicy(config.managementPolicyName);
+        const management = buildManagementPolicy(config.managementPolicyName, config.agentConfig);
         const llmConfig = config.llm
             ? {
                 ...config.llm,
@@ -92,8 +92,8 @@ export class BacktestRunner {
             if (ts < config.start || ts > config.end) continue;
 
             for (const position of [...portfolio.positions.values()]) {
-                const candles = dataSource.getCandles(position.symbol, previousTs, new Date(ts.getTime() - 1));
-                execution.advancePositionWithCandles(position, candles, portfolio);
+                const candles = dataSource.getCandles(position.symbol, previousTs, ts);
+                execution.advancePositionWithCandles(position, candles, portfolio, (symbol, timestamp) => dataSource.getExecutionBook(symbol, timestamp));
             }
 
             const heldSymbols = Array.from(portfolio.positions.keys());
@@ -160,6 +160,12 @@ export class BacktestRunner {
         });
         metrics.candle_source = coverage.candle_source;
         metrics.synthetic_execution_candles = coverage.synthetic_execution_candles;
+        if (coverage.missing_candle_intervals.length > 0) {
+            metrics.warnings = [
+                ...(metrics.warnings ?? []),
+                `Execution candle coverage has ${coverage.missing_candle_intervals.length} missing interval(s); SL/TP advancement may miss exits for affected symbols.`
+            ];
+        }
         if (coverage.synthetic_execution_candles) {
             metrics.warnings = [
                 ...(metrics.warnings ?? []),
@@ -241,9 +247,6 @@ export class BacktestRunner {
 function assertCoverageUsable(coverage: CoverageReport): void {
     if (coverage.available_timestamps === 0) {
         throw new Error("No MarketFeature timestamps available for requested run window.");
-    }
-    if (coverage.missing_candle_intervals.length > 0) {
-        throw new Error(`Missing required execution candle coverage; first missing interval: ${JSON.stringify(coverage.missing_candle_intervals[0])}`);
     }
 }
 

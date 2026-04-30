@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+import { DEFAULT_AGENT_CONFIG, AgentConfig } from "@/lib/agent-config";
 import { EligibleCandidate, TraderContext, TraderDecision } from "@/types/trading";
 import { parseTraderResponse } from "@/lib/llm/LlmResponseParser";
 import { TRADER_AGENT_SYSTEM_PROMPT } from "@/prompts/TraderAgent";
@@ -134,6 +135,8 @@ export class RealLLMTrader implements TraderPolicy {
 }
 
 export class NeverClosePolicy implements PositionManagementPolicy {
+    constructor(private readonly confidence = DEFAULT_AGENT_CONFIG.management_policy.hold_confidence) {}
+
     public decide(position: SimPosition, ctx: TraderContext): TraderDecision {
         return {
             scope: "position",
@@ -143,7 +146,7 @@ export class NeverClosePolicy implements PositionManagementPolicy {
             target_side: position.side,
             target_size_fraction_of_equity: position.size_fraction,
             playbook: position.playbook,
-            confidence: 0.5,
+            confidence: this.confidence,
             reason_code: "position_management",
             notes: `${ctx.global_regime}: never_close baseline`
         };
@@ -151,39 +154,46 @@ export class NeverClosePolicy implements PositionManagementPolicy {
 }
 
 export class PlaybookAwarePolicy implements PositionManagementPolicy {
+    constructor(private readonly config: AgentConfig["management_policy"] = DEFAULT_AGENT_CONFIG.management_policy) {}
+
     public decide(position: SimPosition, ctx: TraderContext): TraderDecision {
         const managed = ctx.existing_positions.find(p => p.symbol === position.symbol);
         const pressure = managed?.market_signal.book_pressure ?? null;
         const ageMinutes = Math.max(0, (ctx.timestamp * 1000 - position.entry_ts.getTime()) / 60_000);
         const profitable = (position.unrealized_pnl_usd ?? 0) > 0;
         const playbook = position.playbook.toLowerCase();
+        const policy = this.config.playbook_aware;
 
         let close = false;
         let reason = "hold_thesis_intact";
 
         if (playbook.includes("momentum")) {
-            const opposite = isOppositePressure(position.side, pressure, 0.08);
+            const opposite = isOppositePressure(position.side, pressure, policy.momentum.opposite_pressure_threshold);
             position.opposite_pressure_cycles = opposite ? (position.opposite_pressure_cycles ?? 0) + 1 : 0;
             close = managed?.market_signal.regime_conflict === true ||
-                (position.opposite_pressure_cycles >= 3) ||
-                (ageMinutes >= 180 && !profitable);
+                (position.opposite_pressure_cycles >= policy.momentum.opposite_pressure_cycles) ||
+                (ageMinutes >= policy.momentum.unprofitable_max_age_minutes && !profitable);
             reason = close ? "momentum_thesis_break" : reason;
         } else if (playbook.includes("breakout")) {
-            close = (ageMinutes >= 90 && !profitable) || isOppositePressure(position.side, pressure, 0.08);
+            close = (ageMinutes >= policy.breakout.unprofitable_max_age_minutes && !profitable) ||
+                isOppositePressure(position.side, pressure, policy.breakout.opposite_pressure_threshold);
             reason = close ? "breakout_no_follow_through" : reason;
         } else if (playbook.includes("mean reversion")) {
             const currentSigma = managed?.market_signal.ret_sigma_5m_vs_1h;
             const entrySigma = position.entry_signal.ret_sigma_5m_vs_1h;
             const worsened = currentSigma !== null && currentSigma !== undefined && entrySigma !== null &&
-                Math.abs(currentSigma) >= Math.abs(entrySigma) + 1.0;
-            close = worsened || (ageMinutes >= 45 && !profitable) || isOppositePressure(position.side, pressure, 0.05);
+                Math.abs(currentSigma) >= Math.abs(entrySigma) + policy.mean_reversion.sigma_worsening_threshold;
+            close = worsened ||
+                (ageMinutes >= policy.mean_reversion.unprofitable_max_age_minutes && !profitable) ||
+                isOppositePressure(position.side, pressure, policy.mean_reversion.opposite_pressure_threshold);
             reason = close ? "mean_reversion_failed_snapback" : reason;
         } else {
-            close = (ageMinutes >= 30 && !profitable) || isOppositePressure(position.side, pressure, 0.03);
+            close = (ageMinutes >= policy.fallback.unprofitable_max_age_minutes && !profitable) ||
+                isOppositePressure(position.side, pressure, policy.fallback.opposite_pressure_threshold);
             reason = close ? "scout_deterioration" : reason;
         }
 
-        if (!close) return new NeverClosePolicy().decide(position, ctx);
+        if (!close) return new NeverClosePolicy(this.config.hold_confidence).decide(position, ctx);
         return {
             scope: "position",
             action: "CLOSE_POSITION",
@@ -192,7 +202,7 @@ export class PlaybookAwarePolicy implements PositionManagementPolicy {
             target_side: "flat",
             target_size_fraction_of_equity: 0,
             playbook: position.playbook,
-            confidence: 0.65,
+            confidence: this.config.close_confidence,
             reason_code: "position_management",
             notes: reason
         };
@@ -219,8 +229,10 @@ export function buildTraderPolicy(
     return new TakeTopRankTrader(managementPolicy, positions);
 }
 
-export function buildManagementPolicy(name: string): PositionManagementPolicy {
-    return name === "playbook_aware" ? new PlaybookAwarePolicy() : new NeverClosePolicy();
+export function buildManagementPolicy(name: string, config: AgentConfig = DEFAULT_AGENT_CONFIG): PositionManagementPolicy {
+    return name === "playbook_aware"
+        ? new PlaybookAwarePolicy(config.management_policy)
+        : new NeverClosePolicy(config.management_policy.hold_confidence);
 }
 
 function manageExisting(

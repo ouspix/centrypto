@@ -122,7 +122,8 @@ export class BacktestPortfolio {
             exit_reason: exitReason,
             max_favorable_excursion_bps: position.max_favorable_excursion_bps,
             max_adverse_excursion_bps: position.max_adverse_excursion_bps,
-            entry_regime: position.entry_regime
+            entry_regime: position.entry_regime,
+            confidence: position.confidence
         };
         this.trades.push(trade);
 

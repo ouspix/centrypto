@@ -1,19 +1,34 @@
 import "server-only";
 
 import { prisma } from "@/lib/db";
+import { safeError } from "@/lib/log/safeLogger";
 
 export async function getWalletKillSwitch(userAddress: string, isTestnet: boolean): Promise<boolean> {
     const walletRiskControl = (prisma as any).walletRiskControl;
-    if (!walletRiskControl) return false;
-    const control = await walletRiskControl.findUnique({
-        where: {
-            userAddress_isTestnet: {
-                userAddress: userAddress.toLowerCase(),
-                isTestnet
-            }
+    if (!walletRiskControl) {
+        if (isProductionRuntime()) {
+            throw new Error("WalletRiskControl Prisma model is unavailable; execution is blocked until Prisma is generated");
         }
-    });
-    return !!control?.killSwitch;
+        return false;
+    }
+
+    try {
+        const control = await walletRiskControl.findUnique({
+            where: {
+                userAddress_isTestnet: {
+                    userAddress: userAddress.toLowerCase(),
+                    isTestnet
+                }
+            }
+        });
+        return !!control?.killSwitch;
+    } catch (error) {
+        safeError("Wallet kill-switch lookup failed", error);
+        if (isProductionRuntime()) {
+            throw new Error("Wallet kill-switch lookup failed; execution is blocked");
+        }
+        return false;
+    }
 }
 
 export async function setWalletKillSwitch(userAddress: string, isTestnet: boolean, enabled: boolean): Promise<boolean> {
@@ -37,4 +52,8 @@ export async function setWalletKillSwitch(userAddress: string, isTestnet: boolea
         }
     });
     return enabled;
+}
+
+function isProductionRuntime(): boolean {
+    return process.env.NODE_ENV === "production";
 }

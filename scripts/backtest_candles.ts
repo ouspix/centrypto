@@ -34,31 +34,34 @@ async function main() {
             : await fetchCandles(symbol, network, start, end);
         for (let i = 0; i < candles.length; i += batchSize) {
             const batch = candles.slice(i, i + batchSize);
-            await db.$transaction(batch.map(candle => db.marketCandle.upsert({
-                where: {
-                    symbol_timeframe_openTime: {
+            await db.$transaction(batch.map(candle => fromFeatures
+                ? insertSyntheticCandleIfAbsent(db, symbol, candle)
+                : db.marketCandle.upsert({
+                    where: {
+                        symbol_timeframe_openTime: {
+                            symbol,
+                            timeframe: "1m",
+                            openTime: new Date(candle.t)
+                        }
+                    },
+                    update: {
+                        open: Number(candle.o),
+                        high: Number(candle.h),
+                        low: Number(candle.l),
+                        close: Number(candle.c),
+                        volume: Number(candle.v)
+                    },
+                    create: {
                         symbol,
                         timeframe: "1m",
-                        openTime: new Date(candle.t)
+                        openTime: new Date(candle.t),
+                        open: Number(candle.o),
+                        high: Number(candle.h),
+                        low: Number(candle.l),
+                        close: Number(candle.c),
+                        volume: Number(candle.v)
                     }
-                },
-                update: {
-                    high: Number(candle.h),
-                    low: Number(candle.l),
-                    close: Number(candle.c),
-                    volume: Number(candle.v)
-                },
-                create: {
-                    symbol,
-                    timeframe: "1m",
-                    openTime: new Date(candle.t),
-                    open: Number(candle.o),
-                    high: Number(candle.h),
-                    low: Number(candle.l),
-                    close: Number(candle.c),
-                    volume: Number(candle.v)
-                }
-            })));
+                })));
         }
         console.log(`[backtest:candles] ${symbol}: upserted ${candles.length} 1m candles${fromFeatures ? " from features" : ""}`);
     }
@@ -66,6 +69,21 @@ async function main() {
 
 function createDb(dbPath?: string): PrismaClient {
     return createBacktestDbClient(dbPath);
+}
+
+function insertSyntheticCandleIfAbsent(db: PrismaClient, symbol: string, candle: Candle) {
+    return db.$executeRawUnsafe(
+        `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume")
+         VALUES (?, '1m', ?, ?, ?, ?, ?, ?)
+         ON CONFLICT("symbol", "timeframe", "openTime") DO NOTHING`,
+        symbol,
+        new Date(candle.t),
+        Number(candle.o),
+        Number(candle.h),
+        Number(candle.l),
+        Number(candle.c),
+        Number(candle.v)
+    );
 }
 
 async function fetchCandles(symbol: string, network: "mainnet" | "testnet", start: Date, end: Date): Promise<Candle[]> {
