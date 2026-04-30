@@ -14,8 +14,14 @@ type ApiWalletStatus = {
     updatedAt: string | null
 }
 
-export function HyperliquidApiWalletSettings({ isTestnet }: { isTestnet: boolean }) {
-    const { isConnected } = useAccount()
+export function HyperliquidApiWalletSettings({
+    isTestnet,
+    walletSessionAddress
+}: {
+    isTestnet: boolean
+    walletSessionAddress?: string | null
+}) {
+    const { address, isConnected } = useAccount()
     const [status, setStatus] = useState<ApiWalletStatus | null>(null)
     const [privateKey, setPrivateKey] = useState("")
     const [loading, setLoading] = useState(false)
@@ -26,6 +32,7 @@ export function HyperliquidApiWalletSettings({ isTestnet }: { isTestnet: boolean
     const [acknowledgedDelegatedKeyWarning, setAcknowledgedDelegatedKeyWarning] = useState(false)
 
     const network = isTestnet ? "testnet" : "mainnet"
+    const hasWalletSession = !address || walletSessionAddress === undefined || walletSessionAddress === address.toLowerCase()
 
     const loadStatus = useCallback(async () => {
         setLoading(true)
@@ -44,7 +51,7 @@ export function HyperliquidApiWalletSettings({ isTestnet }: { isTestnet: boolean
     }, [network])
 
     useEffect(() => {
-        if (!isConnected) {
+        if (!isConnected || !hasWalletSession) {
             setStatus(null)
             setLoadError(null)
             setFormError(null)
@@ -52,9 +59,10 @@ export function HyperliquidApiWalletSettings({ isTestnet }: { isTestnet: boolean
             return
         }
         void loadStatus()
-    }, [isConnected, loadStatus])
+    }, [isConnected, hasWalletSession, loadStatus])
 
     const saveWallet = async () => {
+        if (!hasWalletSession) return
         setSaving(true)
         setFormError(null)
         try {
@@ -76,6 +84,7 @@ export function HyperliquidApiWalletSettings({ isTestnet }: { isTestnet: boolean
     }
 
     const deleteWallet = async () => {
+        if (!hasWalletSession) return
         setSaving(true)
         setDeleteError(null)
         try {

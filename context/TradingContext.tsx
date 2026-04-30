@@ -10,6 +10,8 @@ type TradingContextType = {
     setMarketState: (state: { pair: string, price: number }) => void
     isTestnet: boolean
     setIsTestnet: (isTestnet: boolean) => void
+    walletSessionAddress: string | null
+    setWalletSessionAddress: (address: string | null) => void
     assetMetadata: Record<string, AssetMeta & { index: number }>
 }
 
@@ -19,6 +21,7 @@ export function TradingProvider({ children }: { children: ReactNode }) {
     const [selectedPair, setSelectedPair] = useState<string>("BTC")
     const [marketState, setMarketState] = useState<{ pair: string, price: number }>({ pair: "BTC", price: 0 })
     const [isTestnet, setIsTestnetState] = useState<boolean>(false)
+    const [walletSessionAddress, setWalletSessionAddress] = useState<string | null>(null)
     const [isNetworkPreferenceReady, setIsNetworkPreferenceReady] = useState(false)
     const [assetMetadata, setAssetMetadata] = useState<Record<string, AssetMeta & { index: number }>>({})
     const [metadataCache, setMetadataCache] = useState<{ mainnet: AssetMeta[] | null, testnet: AssetMeta[] | null }>({
@@ -88,6 +91,8 @@ export function TradingProvider({ children }: { children: ReactNode }) {
             setMarketState,
             isTestnet,
             setIsTestnet: setIsTestnetState,
+            walletSessionAddress,
+            setWalletSessionAddress,
             assetMetadata
         }}>
             {children}

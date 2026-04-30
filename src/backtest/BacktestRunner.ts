@@ -28,6 +28,8 @@ export class BacktestRunner {
                 start: config.start,
                 end: config.end,
                 symbols: config.hydration.symbols,
+                universeSize: config.hydration.universeSize,
+                downloadConcurrency: config.hydration.downloadConcurrency,
                 intervalSeconds: config.intervalSeconds,
                 dbPath: config.featureDbPath,
                 lookbackHours: config.hydration.lookbackHours,
@@ -51,7 +53,7 @@ export class BacktestRunner {
         });
         const coverage = dataSource.getCoverageReport();
         await writeJson(path.join(outDir, "coverage.json"), coverage);
-        if (coverage.synthetic_execution_candles) {
+        if (coverage.synthetic_execution_candles && !config.suppressConsoleWarnings) {
             console.warn(`[backtest] Execution candles are ${coverage.candle_source}; SL/TP path simulation is approximate.`);
         }
         assertCoverageUsable(coverage);

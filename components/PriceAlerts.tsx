@@ -26,7 +26,7 @@ type PriceAlert = {
 
 export function PriceAlerts() {
     const { address } = useAccount()
-    const { isTestnet } = useTrading()
+    const { walletSessionAddress } = useTrading()
     const [alerts, setAlerts] = useState<PriceAlert[]>([])
     const [loading, setLoading] = useState(false)
     const [creating, setCreating] = useState(false)
@@ -35,15 +35,18 @@ export function PriceAlerts() {
     const [symbol, setSymbol] = useState("BTC")
     const [condition, setCondition] = useState<AlertCondition>("above")
     const [targetPrice, setTargetPrice] = useState("")
+    const hasWalletSession = !!address && walletSessionAddress === address.toLowerCase()
 
     useEffect(() => {
-        if (address) {
+        if (hasWalletSession) {
             fetchAlerts()
+        } else {
+            setAlerts([])
         }
-    }, [address])
+    }, [hasWalletSession])
 
     const fetchAlerts = async () => {
-        if (!address) return
+        if (!address || !hasWalletSession) return
 
         setLoading(true)
         try {
@@ -60,7 +63,7 @@ export function PriceAlerts() {
     }
 
     const createAlert = async () => {
-        if (!address || !targetPrice) return
+        if (!address || !hasWalletSession || !targetPrice) return
 
         setCreating(true)
         try {
@@ -87,7 +90,7 @@ export function PriceAlerts() {
     }
 
     const deleteAlert = async (alertId: string) => {
-        if (!address) return
+        if (!address || !hasWalletSession) return
 
         try {
             await fetch(`/api/alerts?alertId=${alertId}&userAddress=${address}`, {
@@ -100,7 +103,7 @@ export function PriceAlerts() {
     }
 
     const toggleAlert = async (alertId: string) => {
-        if (!address) return
+        if (!address || !hasWalletSession) return
 
         try {
             await fetch('/api/alerts', {
@@ -169,7 +172,7 @@ export function PriceAlerts() {
                         />
                         <Button
                             onClick={createAlert}
-                            disabled={!address || !targetPrice || creating}
+                            disabled={!address || !hasWalletSession || !targetPrice || creating}
                             className="h-10 px-4 bg-amber-600 hover:bg-amber-700 text-white text-base"
                         >
                             {creating ? <Loader2 className="h-3 w-3 animate-spin" /> : <Plus className="h-3 w-3" />}

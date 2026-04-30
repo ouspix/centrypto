@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { useTrading } from "@/context/TradingContext"
 import { cn } from "@/lib/utils"
 import { readActiveScreeningConfig, SCREENING_CONFIG_APPLIED_EVENT } from "@/lib/screening-storage"
-import { TrendingUp, TrendingDown } from "lucide-react"
+import { AlertCircle, TrendingUp, TrendingDown } from "lucide-react"
 
 type Ticker = {
     coin: string
@@ -30,6 +30,7 @@ export function HyperliquidFeed() {
     const wsRef = useRef<WebSocket | null>(null)
     const pingIntervalRef = useRef<NodeJS.Timeout | null>(null)
     const { selectedPair, setSelectedPair, setMarketState, isTestnet } = useTrading()
+    const [screenerNotice, setScreenerNotice] = useState<string | null>(null)
 
     // Load applied screening config. Draft edits do not trigger screening.
     useEffect(() => {
@@ -195,6 +196,7 @@ export function HyperliquidFeed() {
 
         if (!screeningConfig) {
             setAllowedSymbols(null)
+            setScreenerNotice(null)
             return
         }
 
@@ -211,16 +213,20 @@ export function HyperliquidFeed() {
                 })
 
                 if (!response.ok) {
+                    const payload = await response.json().catch(() => ({}))
+                    setScreenerNotice(payload.readiness?.message || payload.details || 'Market data not ready')
                     console.error('Failed to fetch screened symbols:', response.statusText)
                     setAllowedSymbols(null)
                     return
                 }
 
                 const data = await response.json()
+                setScreenerNotice(null)
                 console.log('[HyperliquidFeed] Screened symbols fetched:', data.symbols.length)
                 setAllowedSymbols(new Set(data.symbols.map((s: any) => s.symbol)))
             } catch (error) {
                 console.error('Failed to fetch screened symbols', error)
+                setScreenerNotice('Screener is unavailable')
                 setAllowedSymbols(null)
             }
         }
@@ -266,6 +272,12 @@ export function HyperliquidFeed() {
                 </div>
             </CardHeader>
             <CardContent className="flex-1 overflow-y-auto p-3 min-h-0">
+                {screenerNotice && (
+                    <div className="mb-3 flex items-start gap-2 rounded border border-amber-900/60 bg-amber-950/30 px-3 py-2 text-xs text-amber-200">
+                        <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                        <span>{screenerNotice}</span>
+                    </div>
+                )}
                 <div className="space-y-1">
                     {/* Header */}
                     <div className="grid grid-cols-12 gap-2 text-sm font-semibold text-slate-400 mb-2 px-2 sticky top-0 bg-slate-900 pb-2 z-10">

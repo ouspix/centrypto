@@ -17,7 +17,9 @@ export type BacktestPolicyName =
 
 export type HydrationConfig = {
     enabled: boolean;
-    symbols: string[];
+    symbols?: string[];
+    universeSize?: number;
+    downloadConcurrency?: number;
     lookbackHours: number;
     tmpRoot?: string;
     keepTmp?: boolean;
@@ -121,6 +123,7 @@ export interface BacktestRunConfig {
     seed: number;
     featureDbPath?: string;
     runId?: string;
+    suppressConsoleWarnings?: boolean;
     hydration?: HydrationConfig;
     llm?: BacktestLlmConfig;
     slTpExecution?: {

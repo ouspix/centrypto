@@ -10,9 +10,11 @@ async function main() {
     const agentPresetName = args.agent ?? args["base-agent"] ?? "Momentum Moderate";
     const screeningPresetName = args.screening ?? "Momentum Moderate";
     const agentConfig = AGENT_PRESETS[agentPresetName];
-    const screeningConfig = SCREENER_PRESETS[screeningPresetName];
+    const screeningPreset = SCREENER_PRESETS[screeningPresetName];
     if (!agentConfig) throw new Error(`Unknown agent preset: ${agentPresetName}`);
-    if (!screeningConfig) throw new Error(`Unknown screening preset: ${screeningPresetName}`);
+    if (!screeningPreset) throw new Error(`Unknown screening preset: ${screeningPresetName}`);
+    if (args.symbols) throw new Error("--symbols was removed from backtest runs. Hydration automatically selects the top historical universe; use --top-symbols to change the default 15.");
+    const screeningConfig = buildScreeningConfig(screeningPreset, args);
 
     const start = new Date(required(args.start, "--start is required"));
     const end = new Date(required(args.end, "--end is required"));
@@ -21,9 +23,6 @@ async function main() {
         throw new Error("Invalid --start/--end window");
     }
 
-    if (args["hydrate-archive"] === "true" || args.hydrate === "true") {
-        required(args.symbols, "--symbols BTC,ETH,SOL is required when --hydrate-archive true");
-    }
     const policyName = (args.policy ?? "take_top_rank") as any;
     const llm = buildLlmConfig(args, policyName);
 
@@ -45,7 +44,8 @@ async function main() {
         hydration: args["hydrate-archive"] === "true" || args.hydrate === "true"
             ? {
                 enabled: true,
-                symbols: parseSymbols(args.symbols),
+                universeSize: Number(args["universe-size"] ?? args["top-symbols"] ?? 15),
+                downloadConcurrency: Number(args["download-concurrency"] ?? 6),
                 lookbackHours: Number(args["lookback-hours"] ?? 1),
                 tmpRoot: args["tmp-root"],
                 keepTmp: args["keep-tmp"] === "true"
@@ -77,10 +77,6 @@ function required(value: string | undefined, message: string): string {
     return value;
 }
 
-function parseSymbols(value: string): string[] {
-    return value.split(",").map(symbol => symbol.trim()).filter(Boolean);
-}
-
 function buildLlmConfig(args: Record<string, string>, policyName: string) {
     if (policyName !== "real_llm" && policyName !== "recorded_llm") return undefined;
     if (args["llm-enabled"] !== "true") {
@@ -93,6 +89,12 @@ function buildLlmConfig(args: Record<string, string>, policyName: string) {
         tracePath: args["llm-trace"],
         ollamaBaseUrl: args["ollama-url"]
     };
+}
+
+function buildScreeningConfig(baseConfig: typeof SCREENER_PRESETS[string], args: Record<string, string>): typeof SCREENER_PRESETS[string] {
+    const clone = structuredClone(baseConfig);
+    clone.topN = Number(args["screening-top-n"] ?? args["top-symbols"] ?? 15);
+    return clone;
 }
 
 function buildSlTpExecution(args: Record<string, string>, agentConfig: typeof AGENT_PRESETS[string], network: "mainnet" | "testnet"): SlTpExecution {

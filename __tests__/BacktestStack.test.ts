@@ -566,8 +566,7 @@ describe("backtest stack", () => {
         expect(a.management_policy.playbook_aware.momentum.opposite_pressure_cycles).toBeGreaterThanOrEqual(2);
         expect(a.management_policy.playbook_aware.momentum.opposite_pressure_cycles).toBeLessThanOrEqual(5);
         expect(screenerA).toEqual(screenerB);
-        expect(screenerA.topN).toBeGreaterThanOrEqual(8);
-        expect(screenerA.topN).toBeLessThanOrEqual(30);
+        expect(screenerA.topN).toBe(SCREENER_PRESETS["Momentum Moderate"].topN);
         expect(screenerA.minDepthUsd).toBeGreaterThanOrEqual(0);
     });
 

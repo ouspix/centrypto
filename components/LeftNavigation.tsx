@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from "react"
-import { Filter, RefreshCw } from "lucide-react"
+import { AlertCircle, Filter, RefreshCw } from "lucide-react"
 import {
     Popover,
     PopoverContent,
@@ -33,6 +33,7 @@ export function LeftNavigation() {
     const [filterOpen, setFilterOpen] = useState(false)
     const [screeningConfig, setScreeningConfig] = useState<any>(null)
     const [isLoading, setIsLoading] = useState(false)
+    const [screenerNotice, setScreenerNotice] = useState<string | null>(null)
     const lastFetchRef = useRef<number>(0)
 
     // Load applied screening config. The filter sheet edits a draft until refresh/update applies it.
@@ -71,11 +72,14 @@ export function LeftNavigation() {
             })
 
             if (!response.ok) {
+                const payload = await response.json().catch(() => ({}))
+                setScreenerNotice(payload.readiness?.message || payload.details || "Market data not ready")
                 setIsLoading(false)
                 return
             }
 
             const data = await response.json()
+            setScreenerNotice(null)
 
             // Fetch current prices for these symbols
             const apiUrl = isTestnet
@@ -137,6 +141,7 @@ export function LeftNavigation() {
             setTokens(tokenList)
         } catch (error) {
             console.error('Failed to fetch tokens', error)
+            setScreenerNotice("Screener is unavailable")
         } finally {
             setIsLoading(false)
         }
@@ -167,12 +172,20 @@ export function LeftNavigation() {
                 <Button
                     variant="ghost"
                     size="sm"
-                    className="w-14 h-10 hover:bg-slate-800 text-slate-400 hover:text-slate-100 shrink-0 transition-colors"
+                    className={`w-14 h-10 hover:bg-slate-800 shrink-0 transition-colors ${
+                        screenerNotice
+                            ? "text-amber-300 hover:text-amber-200"
+                            : "text-slate-400 hover:text-slate-100"
+                    }`}
                     onClick={() => applyDraftScreeningConfig()}
                     disabled={isLoading}
-                    title="Apply screening parameters"
+                    title={screenerNotice || "Apply screening parameters"}
                 >
-                    <RefreshCw className={`h-5 w-5 ${isLoading ? 'animate-spin' : ''}`} />
+                    {screenerNotice ? (
+                        <AlertCircle className="h-5 w-5" />
+                    ) : (
+                        <RefreshCw className={`h-5 w-5 ${isLoading ? 'animate-spin' : ''}`} />
+                    )}
                 </Button>
 
                 <Sheet open={filterOpen} onOpenChange={setFilterOpen}>
@@ -205,6 +218,13 @@ export function LeftNavigation() {
             {isLoading && tokens.length === 0 && (
                 <div className="text-xs text-slate-500 px-2 text-center">
                     Loading...
+                </div>
+            )}
+
+            {screenerNotice && (
+                <div className="flex w-full items-start gap-1.5 px-2 text-[11px] leading-snug text-amber-300">
+                    <AlertCircle className="mt-0.5 h-3 w-3 shrink-0" />
+                    <span>{screenerNotice}</span>
                 </div>
             )}
 
@@ -253,7 +273,7 @@ export function LeftNavigation() {
                 ))}
             </div>
 
-            {tokens.length === 0 && !isLoading && (
+            {tokens.length === 0 && !isLoading && !screenerNotice && (
                 <div className="text-center text-xs text-slate-500 px-2 mt-4">
                     No tokens screened
                 </div>

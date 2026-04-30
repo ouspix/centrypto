@@ -30,8 +30,9 @@ type AnalysisResult = {
 };
 
 export function AIAdvisor() {
-    const { isTestnet } = useTrading()
+    const { isTestnet, walletSessionAddress } = useTrading()
     const { address } = useAccount()
+    const hasWalletSession = !!address && walletSessionAddress === address.toLowerCase()
     const [loading, setLoading] = useState(false)
     const [result, setResult] = useState<AnalysisResult | null>(null)
     const [executing, setExecuting] = useState<number | null>(null)
@@ -328,7 +329,7 @@ export function AIAdvisor() {
     }, [])
 
     useEffect(() => {
-        if (!address) return;
+        if (!address || !hasWalletSession) return;
         const network = isTestnet ? 'testnet' : 'mainnet';
         fetch(`/api/risk/kill-switch?network=${network}`)
             .then(res => res.ok ? res.json() : null)
@@ -336,9 +337,13 @@ export function AIAdvisor() {
                 if (data) setKillSwitch(!!data.killSwitch);
             })
             .catch(() => {});
-    }, [address, isTestnet])
+    }, [address, hasWalletSession, isTestnet])
 
     const analyzeMarket = async () => {
+        if (!hasWalletSession) {
+            toast.error('Authenticate wallet session before running analysis');
+            return;
+        }
         if (killSwitch) return;
 
         setLoading(true)
@@ -417,6 +422,8 @@ export function AIAdvisor() {
         }
 
         // 2. Cancel Job if active
+        if (!hasWalletSession) return;
+
         if (currentJobId) {
             try {
                 await fetch('/api/ai/cancel', {
@@ -446,7 +453,7 @@ export function AIAdvisor() {
 
     // Auto Trading Loop
     useEffect(() => {
-        if (autoTrading && !killSwitch) {
+        if (autoTrading && !killSwitch && hasWalletSession) {
             // Initial call
             analyzeMarket();
 
@@ -462,9 +469,13 @@ export function AIAdvisor() {
         return () => {
             if (timerRef.current) clearInterval(timerRef.current);
         }
-    }, [autoTrading, frequency, killSwitch, selectedModel, address, isTestnet])
+    }, [autoTrading, frequency, killSwitch, selectedModel, address, hasWalletSession, isTestnet])
 
     const handleKillSwitch = async () => {
+        if (!hasWalletSession) {
+            toast.error('Authenticate wallet session before changing the kill switch');
+            return;
+        }
         setKillSwitch(true);
         setAutoTrading(false);
         try {
@@ -549,7 +560,7 @@ export function AIAdvisor() {
                             : "bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-900/30"
                     }`}
                     onClick={handleKillSwitch}
-                    disabled={killSwitch}
+                    disabled={killSwitch || !hasWalletSession}
                 >
                     <AlertOctagon className="h-3 w-3 mr-2" />
                     {killSwitch ? "SYSTEM HALTED" : "EMERGENCY STOP"}
@@ -562,7 +573,7 @@ export function AIAdvisor() {
                         <Switch
                             checked={autoTrading}
                             onCheckedChange={setAutoTrading}
-                            disabled={killSwitch}
+                            disabled={killSwitch || !hasWalletSession}
                             className="data-[state=checked]:bg-emerald-500 data-[state=unchecked]:bg-slate-700"
                         />
                     </div>
@@ -632,7 +643,7 @@ export function AIAdvisor() {
                                     Enable Auto Trading or run a manual analysis to generate trading signals.
                                 </p>
                             </div>
-                            <Button onClick={analyzeMarket} className="w-full bg-purple-600 hover:bg-purple-700 text-white text-xs h-8">
+                            <Button onClick={analyzeMarket} disabled={!hasWalletSession} className="w-full bg-purple-600 hover:bg-purple-700 text-white text-xs h-8">
                                 <Play className="h-3 w-3 mr-2" />
                                 Run Manual Analysis
                             </Button>
@@ -886,7 +897,7 @@ export function AIAdvisor() {
                         <Button
                             onClick={analyzeMarket}
                             variant="outline"
-                            disabled={loading}
+                            disabled={loading || !hasWalletSession}
                             className="w-full h-10 text-xs border border-sky-400/60 bg-gradient-to-r from-sky-600 to-blue-700 text-white hover:from-sky-500 hover:to-blue-600 shadow-lg shadow-sky-900/50 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {loading ? (

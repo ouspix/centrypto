@@ -30,7 +30,6 @@ export const PARAM_RANGES = {
         recentVolumeMinutes: [5, 30],
         minRealizedVol: [0, 0.0015],
         minVolume24h: [0, 15_000_000],
-        topN: [8, 30],
         qualityWeight: [0.5, 2.5]
     },
     management_policy: {
@@ -139,7 +138,6 @@ export function sampleRandomScreenerConfig(baseConfig: ScreenerConfig, seed = 1)
     clone.recentVolumeMinutes = sampleInt(rng, PARAM_RANGES.screener.recentVolumeMinutes);
     clone.minRealizedVol = sample(rng, PARAM_RANGES.screener.minRealizedVol);
     clone.minVolume24h = sample(rng, PARAM_RANGES.screener.minVolume24h);
-    clone.topN = sampleInt(rng, PARAM_RANGES.screener.topN);
     clone.quality_weights = {
         vol_score: sample(rng, PARAM_RANGES.screener.qualityWeight),
         move_score: sample(rng, PARAM_RANGES.screener.qualityWeight),

@@ -6,17 +6,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { TradeForm } from "@/components/TradeForm"
 import { AIAdvisor } from "@/components/AIAdvisor"
 import { LlmDecisionsLog } from "@/components/LlmDecisionsLog"
+import { HyperliquidApiWalletSettings } from "@/components/HyperliquidApiWalletSettings"
+import { useTrading } from "@/context/TradingContext"
 import { Zap, BrainCircuit, ScrollText } from "lucide-react"
 
 export function TradingAndRisk({ className }: { className?: string }) {
     const [activeTab, setActiveTab] = useState<string>("manual")
+    const { isTestnet, walletSessionAddress } = useTrading()
 
     return (
         <Card className={`bg-gradient-to-br from-slate-900 to-slate-800 border-slate-700 flex flex-col h-full overflow-hidden ${className}`}>
-            <CardHeader className="pb-3 flex-none">
+            <CardHeader className="pb-3 flex-none space-y-3">
                 <CardTitle className="text-lg font-semibold text-slate-100">
                     Trading & Risk
                 </CardTitle>
+                <HyperliquidApiWalletSettings isTestnet={isTestnet} walletSessionAddress={walletSessionAddress} />
             </CardHeader>
             <CardContent className="p-0 flex-1 flex flex-col min-h-0 overflow-hidden">
                 <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full flex flex-col flex-1 h-full">

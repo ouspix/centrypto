@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import fs from "fs/promises";
 import path from "path";
-import { spawnSync } from "child_process";
+import { spawn, spawnSync } from "child_process";
 import { PrismaClient } from "@prisma/market-client";
 import { createBacktestDbClient, ensureBacktestDbSchema } from "./BacktestDb";
 import { ExecutionBookStore } from "./ExecutionBookStore";
@@ -11,6 +11,8 @@ import { MarketFeatureRow } from "./BacktestTypes";
 
 const BUCKET_URL = "https://hyperliquid-archive.s3.amazonaws.com";
 const AWS_REGION = process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || "us-east-1";
+const DEFAULT_UNIVERSE_SIZE = 15;
+const DEFAULT_DOWNLOAD_CONCURRENCY = 6;
 
 type ArchiveHour = {
     date: string;
@@ -42,7 +44,9 @@ type AssetCtxRow = {
 export type HydrateArchiveOptions = {
     start: Date;
     end: Date;
-    symbols: string[];
+    symbols?: string[];
+    universeSize?: number;
+    downloadConcurrency?: number;
     intervalSeconds: number;
     dbPath?: string;
     lookbackHours?: number;
@@ -51,59 +55,164 @@ export type HydrateArchiveOptions = {
 };
 
 export async function hydrateArchiveForBacktest(options: HydrateArchiveOptions): Promise<void> {
-    const symbols = options.symbols.map(baseSymbol).filter(Boolean);
-    if (symbols.length === 0) throw new Error("--symbols is required for archive hydration");
-
     const lookbackHours = options.lookbackHours ?? 1;
     const hydrateStart = floorHour(new Date(options.start.getTime() - lookbackHours * 60 * 60_000));
     const hydrateEnd = options.end;
-    const downloadPlan = await buildDownloadPlan({
-        ...options,
-        start: hydrateStart,
-        end: hydrateEnd,
-        symbols
-    });
-    const assetCtxDatePlan = await buildAssetCtxDatePlan({
-        ...options,
-        start: hydrateStart,
-        end: hydrateEnd,
-        symbols
-    });
+    const tmpRoot = options.tmpRoot ?? path.join(process.cwd(), "data", "tmp", `backtest-${Date.now()}`);
+    const universeSize = positiveInt(options.universeSize, DEFAULT_UNIVERSE_SIZE);
+    const downloadConcurrency = positiveInt(options.downloadConcurrency, DEFAULT_DOWNLOAD_CONCURRENCY);
+    let symbols = (options.symbols ?? []).map(baseSymbol).filter(Boolean);
+    let assetCtxAlreadyHydrated = false;
 
-    if (downloadPlan.length === 0 && assetCtxDatePlan.length === 0) {
-        console.log("[backtest:hydrate] Feature coverage already present; skipping S3 download.");
-    } else {
-        const tmpRoot = options.tmpRoot ?? path.join(process.cwd(), "data", "tmp", `backtest-${Date.now()}`);
-        try {
+    try {
+        if (symbols.length === 0) {
+            const universe = await selectHydrationUniverse({
+                dbPath: options.dbPath,
+                start: hydrateStart,
+                end: hydrateEnd,
+                limit: universeSize,
+                tmpRoot,
+                downloadConcurrency
+            });
+            symbols = universe.symbols;
+            assetCtxAlreadyHydrated = universe.assetCtxHydrated;
+        }
+
+        if (symbols.length === 0) throw new Error("Unable to select a historical hydration universe.");
+        console.log(`[backtest:hydrate] Using top ${symbols.length} historical symbols: ${symbols.join(",")}`);
+
+        const downloadPlan = await buildDownloadPlan({
+            ...options,
+            start: hydrateStart,
+            end: hydrateEnd,
+            symbols
+        });
+        const assetCtxDatePlan = assetCtxAlreadyHydrated
+            ? []
+            : await buildAssetCtxDatePlan({
+                ...options,
+                start: hydrateStart,
+                end: hydrateEnd,
+                symbols
+            });
+
+        if (downloadPlan.length === 0 && assetCtxDatePlan.length === 0) {
+            console.log("[backtest:hydrate] Feature coverage already present; skipping S3 download.");
+        } else {
             if (downloadPlan.length > 0) {
                 await downloadArchiveWindow({
                     ...options,
                     start: hydrateStart,
                     end: hydrateEnd,
                     symbols,
-                    tmpRoot
+                    tmpRoot,
+                    downloadConcurrency
                 }, downloadPlan);
                 await ingestDownloadedFeatures(tmpRoot, symbols, options.intervalSeconds, options.dbPath);
             }
 
             if (assetCtxDatePlan.length > 0) {
-                await downloadAssetCtxDates(tmpRoot, assetCtxDatePlan);
+                await downloadAssetCtxDates(tmpRoot, assetCtxDatePlan, downloadConcurrency);
                 await ingestDownloadedAssetCtxs(tmpRoot, symbols, hydrateStart, hydrateEnd, options.dbPath);
             }
-        } finally {
-            if (!options.keepTmp) {
-                await fs.rm(tmpRoot, { recursive: true, force: true });
-                console.log(`[backtest:hydrate] Cleaned tmp ${tmpRoot}`);
-            }
+        }
+
+        await upsertSyntheticCandlesFromFeatures({
+            ...options,
+            start: hydrateStart,
+            end: hydrateEnd,
+            symbols
+        });
+    } finally {
+        if (!options.keepTmp) {
+            await fs.rm(tmpRoot, { recursive: true, force: true });
+            console.log(`[backtest:hydrate] Cleaned tmp ${tmpRoot}`);
+        }
+    }
+}
+
+async function selectHydrationUniverse(options: {
+    dbPath?: string;
+    start: Date;
+    end: Date;
+    limit: number;
+    tmpRoot: string;
+    downloadConcurrency: number;
+}): Promise<{ symbols: string[]; assetCtxHydrated: boolean }> {
+    const fromDb = await selectTopSymbolsFromMarketTicks(options.dbPath, options.start, options.end, options.limit);
+    if (fromDb.length >= options.limit) {
+        console.log(`[backtest:hydrate] Selected historical universe from existing MarketTick rows.`);
+        return { symbols: fromDb, assetCtxHydrated: false };
+    }
+
+    const dates = dateKeys(options.start, options.end);
+    await downloadAssetCtxDates(options.tmpRoot, dates, options.downloadConcurrency);
+    const fromArchive = await selectTopSymbolsFromDownloadedAssetCtxs(options.tmpRoot, options.start, options.end, options.limit);
+    if (fromArchive.length === 0) return { symbols: fromDb, assetCtxHydrated: false };
+
+    await ingestDownloadedAssetCtxs(options.tmpRoot, fromArchive, options.start, options.end, options.dbPath);
+    console.log(`[backtest:hydrate] Selected historical universe from archived asset context rows.`);
+    return { symbols: fromArchive, assetCtxHydrated: true };
+}
+
+async function selectTopSymbolsFromMarketTicks(dbPath: string | undefined, start: Date, end: Date, limit: number): Promise<string[]> {
+    const db = createBacktestDbClient(dbPath);
+    try {
+        await ensureBacktestDbSchema(db);
+        const rows = await db.$queryRawUnsafe<Array<{
+            symbol: string;
+            avgVolume24h: number | null;
+            avgOpenInterest: number | null;
+        }>>(
+            `SELECT
+                "symbol" as symbol,
+                AVG(COALESCE("volume24h", 0)) as avgVolume24h,
+                AVG(COALESCE("openInterest", 0)) as avgOpenInterest
+             FROM "MarketTick"
+             WHERE "ts" >= ? AND "ts" <= ?
+             GROUP BY "symbol"
+             HAVING COUNT(*) > 0
+             ORDER BY avgVolume24h DESC, avgOpenInterest DESC, symbol ASC
+             LIMIT ?`,
+            start,
+            end,
+            limit
+        );
+        return rows.map(row => baseSymbol(row.symbol)).filter(Boolean);
+    } finally {
+        await db.$disconnect();
+    }
+}
+
+async function selectTopSymbolsFromDownloadedAssetCtxs(tmpRoot: string, start: Date, end: Date, limit: number): Promise<string[]> {
+    const files = (await collectFiles(path.join(tmpRoot, "asset_ctxs"))).filter(file => file.endsWith(".csv")).sort();
+    const stats = new Map<string, { volume24h: number; openInterest: number; samples: number }>();
+    for (const file of files) {
+        const rows = await parseAssetCtxCsvFile(file, null, start, end);
+        for (const row of rows) {
+            const symbol = baseSymbol(row.symbol);
+            if (!symbol) continue;
+            const stat = stats.get(symbol) ?? { volume24h: 0, openInterest: 0, samples: 0 };
+            stat.volume24h += row.volume24h;
+            stat.openInterest += row.openInterest;
+            stat.samples++;
+            stats.set(symbol, stat);
         }
     }
 
-    await upsertSyntheticCandlesFromFeatures({
-        ...options,
-        start: hydrateStart,
-        end: hydrateEnd,
-        symbols
-    });
+    return Array.from(stats.entries())
+        .filter(([, stat]) => stat.samples > 0)
+        .sort(([aSymbol, a], [bSymbol, b]) => {
+            const aVolume = a.volume24h / a.samples;
+            const bVolume = b.volume24h / b.samples;
+            if (bVolume !== aVolume) return bVolume - aVolume;
+            const aOi = a.openInterest / a.samples;
+            const bOi = b.openInterest / b.samples;
+            if (bOi !== aOi) return bOi - aOi;
+            return aSymbol.localeCompare(bSymbol);
+        })
+        .slice(0, limit)
+        .map(([symbol]) => symbol);
 }
 
 async function buildAssetCtxDatePlan(options: Required<Pick<HydrateArchiveOptions, "start" | "end" | "symbols">> & Pick<HydrateArchiveOptions, "dbPath">): Promise<string[]> {
@@ -194,6 +303,7 @@ async function buildDownloadPlan(options: Required<Pick<HydrateArchiveOptions, "
 }
 
 async function downloadArchiveWindow(options: HydrateArchiveOptions & { tmpRoot: string }, plan: ArchiveDownloadRequest[]): Promise<void> {
+    const concurrency = positiveInt(options.downloadConcurrency, DEFAULT_DOWNLOAD_CONCURRENCY);
     for (const request of plan) {
         const prefix = `market_data/${request.date}/${request.hour}/l2Book/`;
         console.log(`[backtest:hydrate] Listing s3://hyperliquid-archive/${prefix}`);
@@ -201,34 +311,34 @@ async function downloadArchiveWindow(options: HydrateArchiveOptions & { tmpRoot:
         if (objects.length === 0) {
             throw new Error(`No L2 archive objects found at ${prefix}`);
         }
-        for (const symbol of request.symbols) {
+        const localDir = path.join(options.tmpRoot, "market_data", request.date, String(request.hour), "l2Book");
+        await fs.mkdir(localDir, { recursive: true });
+        await runWithConcurrency(request.symbols, concurrency, async symbol => {
             const object = objects.find(obj => symbolFromKey(obj.key) === symbol);
             if (!object) {
                 const sample = objects.slice(0, 10).map(obj => `${symbolFromKey(obj.key)}<-${path.basename(obj.key)}`).join(", ");
                 throw new Error(`No L2 archive object found for ${symbol} at ${prefix}. Sample objects: ${sample}`);
             }
-            const localDir = path.join(options.tmpRoot, "market_data", request.date, String(request.hour), "l2Book");
-            await fs.mkdir(localDir, { recursive: true });
             const compressedPath = path.join(localDir, `${symbol}.lz4`);
             const finalPath = path.join(localDir, symbol);
             console.log(`[backtest:hydrate] Downloading ${symbol} ${request.date}/${request.hour} (${formatBytes(object.size)})`);
             await downloadObject(object.key, compressedPath);
-            decompressLz4(compressedPath, finalPath);
-        }
+            await decompressLz4(compressedPath, finalPath);
+        });
     }
 }
 
-async function downloadAssetCtxDates(tmpRoot: string, dates: string[]): Promise<void> {
+async function downloadAssetCtxDates(tmpRoot: string, dates: string[], concurrency = DEFAULT_DOWNLOAD_CONCURRENCY): Promise<void> {
     const localDir = path.join(tmpRoot, "asset_ctxs");
     await fs.mkdir(localDir, { recursive: true });
-    for (const date of dates) {
+    await runWithConcurrency(dates, concurrency, async date => {
         const key = `asset_ctxs/${date}.csv.lz4`;
         const compressedPath = path.join(localDir, `${date}.csv.lz4`);
         const finalPath = path.join(localDir, `${date}.csv`);
         console.log(`[backtest:hydrate] Downloading asset ctx ${date}`);
         await downloadObject(key, compressedPath);
-        decompressLz4(compressedPath, finalPath);
-    }
+        await decompressLz4(compressedPath, finalPath);
+    });
 }
 
 async function ingestDownloadedFeatures(tmpRoot: string, symbols: string[], intervalSeconds: number, dbPath?: string): Promise<void> {
@@ -392,11 +502,40 @@ async function downloadObject(key: string, localPath: string): Promise<void> {
     await fs.writeFile(localPath, Buffer.from(await res.arrayBuffer()));
 }
 
-function decompressLz4(input: string, output: string): void {
+function decompressLz4(input: string, output: string): Promise<void> {
     const decompressor = findLz4();
     if (!decompressor) throw new Error("lz4/unlz4 is required for archive hydration. Install it with: sudo apt install lz4");
-    const result = spawnSync(decompressor, decompressor.includes("unlz4") ? ["-f", input, output] : ["-d", "-f", input, output], { stdio: "inherit" });
-    if (result.status !== 0) throw new Error(`Failed to decompress ${input}`);
+    const args = decompressor.includes("unlz4") ? ["-f", input, output] : ["-d", "-f", input, output];
+    return new Promise((resolve, reject) => {
+        const child = spawn(decompressor, args, { stdio: "inherit" });
+        child.on("error", reject);
+        child.on("close", code => {
+            if (code === 0) resolve();
+            else reject(new Error(`Failed to decompress ${input}`));
+        });
+    });
+}
+
+async function runWithConcurrency<T>(
+    items: T[],
+    concurrency: number,
+    worker: (item: T, index: number) => Promise<void>
+): Promise<void> {
+    if (items.length === 0) return;
+    let next = 0;
+    const workers = Array.from({ length: Math.min(positiveInt(concurrency, DEFAULT_DOWNLOAD_CONCURRENCY), items.length) }, async () => {
+        while (true) {
+            const index = next++;
+            if (index >= items.length) return;
+            await worker(items[index], index);
+        }
+    });
+    await Promise.all(workers);
+}
+
+function positiveInt(value: number | undefined, fallback: number): number {
+    if (!Number.isFinite(value)) return fallback;
+    return Math.max(1, Math.floor(value as number));
 }
 
 async function collectFiles(input: string): Promise<string[]> {
@@ -412,7 +551,7 @@ async function collectFiles(input: string): Promise<string[]> {
     return result;
 }
 
-async function parseAssetCtxCsvFile(filePath: string, symbols: Set<string>, start: Date, end: Date): Promise<AssetCtxRow[]> {
+async function parseAssetCtxCsvFile(filePath: string, symbols: Set<string> | null, start: Date, end: Date): Promise<AssetCtxRow[]> {
     const content = await fs.readFile(filePath, "utf8");
     const lines = content.split(/\r?\n/).filter(Boolean);
     if (lines.length < 2) return [];
@@ -423,7 +562,7 @@ async function parseAssetCtxCsvFile(filePath: string, symbols: Set<string>, star
     for (let i = 1; i < lines.length; i++) {
         const fields = parseCsvLine(lines[i]);
         const symbol = fields[index.get("coin") ?? -1];
-        if (!symbol || !symbols.has(symbol)) continue;
+        if (!symbol || (symbols && !symbols.has(symbol))) continue;
 
         const ts = new Date(fields[index.get("time") ?? -1]);
         if (!Number.isFinite(ts.getTime()) || ts < start || ts > end) continue;

@@ -63,7 +63,7 @@ export const SCREENER_PRESETS: Record<string, ScreenerConfig> = {
         recentVolumeMinutes: 15,
         minRealizedVol: 0.0006,
         minVolume24h: 1_000_000,
-        topN: 16,
+        topN: 15,
         depthBandsPct: DEPTH_BANDS,
         quality_weights: {
             vol_score: 1.5,

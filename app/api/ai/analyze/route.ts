@@ -59,7 +59,11 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: error.message }, { status: error.status });
         }
         if (error instanceof MarketDataStaleError) {
-            return NextResponse.json({ error: 'Stale market data', details: error.message }, { status: error.status });
+            return NextResponse.json({
+                error: 'Market data not ready',
+                details: error.message,
+                readiness: error.readiness
+            }, { status: error.status });
         }
         // Handle abort errors gracefully
         if (error instanceof Error && error.name === 'AbortError') {

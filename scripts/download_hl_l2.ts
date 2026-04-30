@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import crypto from "crypto";
-import { spawnSync } from "child_process";
+import { spawn, spawnSync } from "child_process";
 
 const BUCKET_URL = "https://hyperliquid-archive.s3.amazonaws.com";
 const AWS_REGION = process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || "us-east-1";
@@ -17,6 +17,7 @@ async function main() {
     const hour = required(args.hour, "--hour H is required");
     const outRoot = args.out ?? "data/hyperliquid";
     const decompress = args.decompress !== "false";
+    const concurrency = positiveInt(Number(args.concurrency ?? 6), 6);
     const prefix = `market_data/${date}/${Number(hour)}/l2Book/`;
     const selectedSymbols = parseSymbols(args.symbols);
 
@@ -39,7 +40,7 @@ async function main() {
         console.warn("[download:hl-l2] lz4/unlz4 not found. Downloading .lz4 files only. Install lz4 to decompress automatically.");
     }
 
-    for (const obj of filtered) {
+    await runWithConcurrency(filtered, concurrency, async obj => {
         const symbol = symbolFromKey(obj.key);
         const compressedPath = path.join(localDir, `${symbol}.lz4`);
         const finalPath = path.join(localDir, symbol);
@@ -47,12 +48,9 @@ async function main() {
         await downloadObject(obj.key, compressedPath);
 
         if (decompress && decompressor) {
-            const result = spawnSync(decompressor, decompressor.includes("unlz4")
-                ? ["-f", compressedPath, finalPath]
-                : ["-d", "-f", compressedPath, finalPath], { stdio: "inherit" });
-            if (result.status !== 0) throw new Error(`Failed to decompress ${compressedPath}`);
+            await decompressLz4(decompressor, compressedPath, finalPath);
         }
-    }
+    });
 
     console.log(`[download:hl-l2] Done. Files are under ${localDir}`);
 }
@@ -100,6 +98,40 @@ async function downloadObject(key: string, localPath: string): Promise<void> {
     if (!res.ok) throw new Error(`Download failed for ${key}: ${res.status} ${await res.text()}`);
     const bytes = Buffer.from(await res.arrayBuffer());
     await fs.writeFile(localPath, bytes);
+}
+
+function decompressLz4(decompressor: string, input: string, output: string): Promise<void> {
+    const args = decompressor.includes("unlz4") ? ["-f", input, output] : ["-d", "-f", input, output];
+    return new Promise((resolve, reject) => {
+        const child = spawn(decompressor, args, { stdio: "inherit" });
+        child.on("error", reject);
+        child.on("close", code => {
+            if (code === 0) resolve();
+            else reject(new Error(`Failed to decompress ${input}`));
+        });
+    });
+}
+
+async function runWithConcurrency<T>(
+    items: T[],
+    concurrency: number,
+    worker: (item: T, index: number) => Promise<void>
+): Promise<void> {
+    if (items.length === 0) return;
+    let next = 0;
+    const workers = Array.from({ length: Math.min(concurrency, items.length) }, async () => {
+        while (true) {
+            const index = next++;
+            if (index >= items.length) return;
+            await worker(items[index], index);
+        }
+    });
+    await Promise.all(workers);
+}
+
+function positiveInt(value: number, fallback: number): number {
+    if (!Number.isFinite(value)) return fallback;
+    return Math.max(1, Math.floor(value));
 }
 
 function symbolFromKey(key: string): string {

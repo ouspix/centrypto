@@ -261,8 +261,9 @@ export async function POST(request: Request) {
     } catch (error) {
         if (error instanceof MarketDataStaleError) {
             return NextResponse.json({
-                error: 'Stale market data',
-                details: error.message
+                error: 'Market data not ready',
+                details: error.message,
+                readiness: error.readiness
             }, { status: error.status });
         }
         console.error('Screener API Error:', error);

@@ -105,6 +105,8 @@ Collector worker:
 npm run collector
 ```
 
+The collector starts tick/candle streams and runs a startup 48h backfill in 5-symbol batches. The screener is considered ready once at least 5 symbols have two days of 1m candle coverage and live ticks/candles are fresh.
+
 Sentiment:
 
 ```bash
@@ -128,6 +130,8 @@ npm run backtest:walkforward
 ```
 
 `examples/backtest_runner_demo.py` is only a synthetic SMA demo and is not the Centrypto backtester.
+
+Run/optimizer/walk-forward commands do not take a strategy symbol list. The backtest starts from historical market data, applies the screener, and keeps the best 15 screened symbols by default. When archive hydration is enabled, the hydrator selects the top historical universe automatically from archived asset context data; use `--top-symbols N` only to change that count. S3 archive downloads are concurrency-limited and can be tuned with `--download-concurrency N`.
 
 Backtest runs write reports under `data/backtests/<runId>/`. Reports label execution candle source as `real_1m`, `synthetic_from_features`, or `mixed`. If synthetic candles are used, `synthetic_execution_candles: true` is written to coverage/config/metrics and results should be treated as approximate SL/TP path simulations.
 

@@ -1,48 +1,17 @@
-import { MarketCollectorService } from "@/services/MarketCollectorService";
+import { startCollectorWorker } from "@/services/CollectorRunner";
 
-const collector = new MarketCollectorService();
-const INTERVAL_MS = 15 * 1000; // 15 seconds
+console.log("Starting Market Data Collector...");
+console.log("Starting testnet and mainnet collectors with startup backfill.");
 
-async function runCollection() {
-    console.log("🚀 Starting Market Data Collector...");
+startCollectorWorker(true);
+startCollectorWorker(false);
 
-    // 1. Start WebSocket Streams (Live Candles)
-    console.log("🚀 Starting WebSocket streams...");
-    collector.startCandleStream(true); // Testnet
-    collector.startCandleStream(false); // Mainnet
-
-    console.log("🚀 Starting tick snapshot loop...");
-
-    // 2. Start Tick Snapshot Loop (Polling)
-    while (true) {
-        try {
-            await collectTicksOnly();
-        } catch (error) {
-            console.error("❌ Error in tick collection cycle:", error);
-        }
-
-        // Wait for interval BEFORE starting next cycle
-        await new Promise(resolve => setTimeout(resolve, INTERVAL_MS));
-    }
-}
-
-async function collectTicksOnly() {
-    const start = Date.now();
-
-    // Run in parallel
-    await Promise.all([
-        collector.collectTicks(true),
-        collector.collectTicks(false)
-    ]);
-
-    const duration = Date.now() - start;
-    console.log(`⏱️ Tick snapshot finished in ${duration}ms`);
-}
-
-// Handle shutdown
-process.on('SIGINT', () => {
-    console.log("🛑 Stopping collector...");
+process.on("SIGINT", () => {
+    console.log("Stopping collector...");
     process.exit(0);
 });
 
-runCollection().catch(console.error);
+process.on("SIGTERM", () => {
+    console.log("Stopping collector...");
+    process.exit(0);
+});

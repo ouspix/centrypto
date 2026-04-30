@@ -16,11 +16,12 @@ export function WalletConnect() {
     const { data: balance } = useBalance({ address })
     const { data: walletClient } = useWalletClient()
     const { switchChainAsync } = useSwitchChain()
-    const { isTestnet, setIsTestnet } = useTrading()
+    const trading = useTrading()
+    const { isTestnet, setIsTestnet, walletSessionAddress } = trading
+    const setWalletSessionAddress = trading.setWalletSessionAddress ?? (() => {})
 
     // Prevent hydration errors by only rendering after client-side mount
     const [mounted, setMounted] = useState(false)
-    const [sessionAddress, setSessionAddress] = useState<string | null>(null)
     const [authenticating, setAuthenticating] = useState(false)
     const [authError, setAuthError] = useState<string | null>(null)
 
@@ -31,13 +32,38 @@ export function WalletConnect() {
     useEffect(() => {
         if (!mounted || !isConnected || !address || !walletClient) return;
         const normalized = address.toLowerCase();
-        if (sessionAddress === normalized || authenticating) return;
-        void authenticateWallet();
-    }, [mounted, isConnected, address, walletClient, sessionAddress, authenticating])
+        if (walletSessionAddress === normalized || authenticating) return;
+        void ensureWalletSession();
+    }, [mounted, isConnected, address, walletClient, walletSessionAddress, authenticating])
+
+    useEffect(() => {
+        if (!isConnected) {
+            setWalletSessionAddress(null)
+            setAuthError(null)
+        }
+    }, [isConnected, setWalletSessionAddress])
+
+    const ensureWalletSession = async () => {
+        if (!address || !walletClient) return;
+        setAuthenticating(true)
+        setAuthError(null)
+        try {
+            const session = await Promise.resolve(fetch('/api/auth/session')).catch(() => null)
+            if (session?.ok) {
+                const payload = await session.json()
+                if (payload.address?.toLowerCase() === address.toLowerCase()) {
+                    setWalletSessionAddress(payload.address.toLowerCase())
+                    return
+                }
+            }
+            await authenticateWallet()
+        } finally {
+            setAuthenticating(false)
+        }
+    }
 
     const authenticateWallet = async () => {
         if (!address || !walletClient) return;
-        setAuthenticating(true)
         setAuthError(null)
         try {
             const challenge = await fetch('/api/auth/challenge', {
@@ -61,18 +87,16 @@ export function WalletConnect() {
                 throw new Error(payload.error || 'Wallet authentication failed')
             }
             const payload = await verified.json()
-            setSessionAddress(payload.address)
+            setWalletSessionAddress(payload.address?.toLowerCase() ?? null)
         } catch (error) {
-            setSessionAddress(null)
+            setWalletSessionAddress(null)
             setAuthError(error instanceof Error ? error.message : 'Wallet authentication failed')
-        } finally {
-            setAuthenticating(false)
         }
     }
 
     const disconnectWallet = () => {
         void fetch('/api/auth/logout', { method: 'POST' }).catch(() => {})
-        setSessionAddress(null)
+        setWalletSessionAddress(null)
         disconnect()
     }
 
@@ -113,11 +137,11 @@ export function WalletConnect() {
                         <span className="text-xs text-amber-400">Signing session...</span>
                     )}
                     {!authenticating && authError && (
-                        <button className="text-xs text-red-400 hover:text-red-300" onClick={authenticateWallet}>
+                        <button className="text-xs text-red-400 hover:text-red-300" onClick={ensureWalletSession}>
                             Auth required
                         </button>
                     )}
-                    {!authenticating && !authError && sessionAddress && (
+                    {!authenticating && !authError && walletSessionAddress && (
                         <span className="text-xs text-emerald-400">Authenticated</span>
                     )}
                     {balance && (

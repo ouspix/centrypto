@@ -2,6 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 import { AGENT_PRESETS } from "@/lib/agent-config";
 import { SCREENER_PRESETS } from "@/lib/screener-config";
+import { hydrateArchiveForBacktest } from "@/src/backtest/ArchiveHydrator";
 import { BacktestRunConfig } from "@/src/backtest/BacktestTypes";
 import { DEFAULT_OPTIMIZER_SCORE_GATES, OptimizerScoreGates, WalkForwardOptimizer } from "@/src/backtest/WalkForwardOptimizer";
 
@@ -12,18 +13,34 @@ async function main() {
     const agentPresetName = args["base-agent"] ?? args.agent ?? "Momentum Moderate";
     const screeningPresetName = args.screening ?? "Momentum Moderate";
     const base = AGENT_PRESETS[agentPresetName];
-    const screening = SCREENER_PRESETS[screeningPresetName];
-    if (!base || !screening) throw new Error("Unknown preset");
+    const screeningPreset = SCREENER_PRESETS[screeningPresetName];
+    if (!base || !screeningPreset) throw new Error("Unknown preset");
+    if (args.symbols) throw new Error("--symbols was removed from walk-forward runs. Hydration automatically selects the top historical universe; use --top-symbols to change the default 15.");
+    const screening = buildScreeningConfig(screeningPreset, args);
     const optimizer = new WalkForwardOptimizer();
     const start = new Date(required(args.start, "--start is required"));
     const end = new Date(required(args.end, "--end is required"));
+    const intervalSeconds = Number(args["interval-seconds"] ?? 10);
     const policyName = (args.policy ?? "take_top_rank") as any;
     if (policyName === "real_llm") throw new Error("real_llm is disabled for walk-forward search. Use deterministic or recorded_llm policies.");
+    if (args["hydrate-archive"] === "true" || args.hydrate === "true") {
+        await hydrateArchiveForBacktest({
+            start,
+            end,
+            intervalSeconds,
+            dbPath: args.db,
+            universeSize: Number(args["universe-size"] ?? args["top-symbols"] ?? 15),
+            downloadConcurrency: Number(args["download-concurrency"] ?? 6),
+            lookbackHours: Number(args["lookback-hours"] ?? 1),
+            tmpRoot: args["tmp-root"],
+            keepTmp: args["keep-tmp"] === "true"
+        });
+    }
     const runConfig: BacktestRunConfig = {
         network: (args.network ?? "mainnet") as "mainnet" | "testnet",
         start,
         end,
-        intervalSeconds: Number(args["interval-seconds"] ?? 10),
+        intervalSeconds,
         initialCapitalUsd: Number(args.capital ?? 10000),
         screeningPresetName,
         agentPresetName,
@@ -34,15 +51,7 @@ async function main() {
         seed: Number(args.seed ?? 1),
         featureDbPath: args.db,
         runId: args["run-id"] ?? "walkforward",
-        hydration: args["hydrate-archive"] === "true" || args.hydrate === "true"
-            ? {
-                enabled: true,
-                symbols: parseSymbols(required(args.symbols, "--symbols BTC,ETH,SOL is required when --hydrate-archive true")),
-                lookbackHours: Number(args["lookback-hours"] ?? 1),
-                tmpRoot: args["tmp-root"],
-                keepTmp: args["keep-tmp"] === "true"
-            }
-            : undefined,
+        suppressConsoleWarnings: true,
         llm: buildLlmConfig(args, policyName),
         slTpExecution: buildSlTpExecution(args, base, (args.network ?? "mainnet") as "mainnet" | "testnet")
     };
@@ -87,10 +96,6 @@ function required(value: string | undefined, message: string): string {
     return value;
 }
 
-function parseSymbols(value: string): string[] {
-    return value.split(",").map(symbol => symbol.trim()).filter(Boolean);
-}
-
 function buildLlmConfig(args: Record<string, string>, policyName: string) {
     if (policyName !== "recorded_llm") return undefined;
     if (args["llm-enabled"] !== "true") throw new Error("recorded_llm requires --llm-enabled true");
@@ -101,6 +106,12 @@ function buildLlmConfig(args: Record<string, string>, policyName: string) {
         tracePath: args["llm-trace"],
         ollamaBaseUrl: args["ollama-url"]
     };
+}
+
+function buildScreeningConfig(baseConfig: typeof SCREENER_PRESETS[string], args: Record<string, string>): typeof SCREENER_PRESETS[string] {
+    const clone = structuredClone(baseConfig);
+    clone.topN = Number(args["screening-top-n"] ?? args["top-symbols"] ?? 15);
+    return clone;
 }
 
 function buildSlTpExecution(args: Record<string, string>, agentConfig: typeof AGENT_PRESETS[string], network: "mainnet" | "testnet"): SlTpExecution {

@@ -26,7 +26,7 @@ describe("CollectorRunner readiness", () => {
 
         const { ensureCollectorReady } = await import("@/services/CollectorRunner");
 
-        await expect(ensureCollectorReady(false)).rejects.toThrow(/Cached mainnet market data is stale/i);
+        await expect(ensureCollectorReady(false)).rejects.toThrow(/Backfilling market history/i);
         vi.useRealTimers();
     });
 });
@@ -37,7 +37,8 @@ function marketDb(ts: Date) {
             findFirst: vi.fn().mockResolvedValue({ ts, symbol: "BTC" })
         },
         marketCandle: {
-            findFirst: vi.fn().mockResolvedValue({ openTime: ts, symbol: "BTC" })
+            findFirst: vi.fn().mockResolvedValue({ openTime: ts, symbol: "BTC" }),
+            groupBy: vi.fn().mockResolvedValue([])
         }
     };
 }

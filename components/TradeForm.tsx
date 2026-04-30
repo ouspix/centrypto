@@ -10,7 +10,6 @@ import { Loader2, ArrowUpRight, ArrowDownRight, Zap } from "lucide-react"
 
 import { useTrading } from "@/context/TradingContext"
 import { placeOrderAction } from "@/app/actions/trade"
-import { HyperliquidApiWalletSettings } from "@/components/HyperliquidApiWalletSettings"
 
 export function TradeForm() {
     const [loading, setLoading] = useState(false)
@@ -181,7 +180,6 @@ export function TradeForm() {
             <div className="bg-slate-950/70 border border-slate-800 text-[11px] text-slate-400 p-2 rounded">
                 Orders use your verified wallet session and stored Hyperliquid API wallet. Server-key execution is dev/testnet-only and opt-in.
             </div>
-            <HyperliquidApiWalletSettings isTestnet={isTestnet} />
             {!currentMeta && (
                 <div className="bg-yellow-900/20 border border-yellow-700 text-yellow-400 text-xs p-2 rounded">
                     Loading market data...

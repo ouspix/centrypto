@@ -170,7 +170,7 @@ function PnlChart({ trades }: { trades: Trade[] }) {
 
 export function PositionsTable() {
     const { address, isConnected } = useAccount()
-    const { isTestnet, assetMetadata } = useTrading()
+    const { isTestnet, assetMetadata, walletSessionAddress } = useTrading()
     const [positions, setPositions] = useState<Position[]>([])
     const [orders, setOrders] = useState<OpenOrder[]>([])
     const [trades, setTrades] = useState<Trade[]>([])
@@ -183,6 +183,7 @@ export function PositionsTable() {
     const [mounted, setMounted] = useState(false)
     const [activeTab, setActiveTab] = useState("positions")
     const [selectedRange, setSelectedRange] = useState<TradeRange>('7d')
+    const hasWalletSession = !!address && walletSessionAddress === address.toLowerCase()
 
     useEffect(() => {
         setMounted(true)
@@ -261,7 +262,7 @@ export function PositionsTable() {
     }
 
     const fetchTrades = async (range: TradeRange = selectedRange) => {
-        if (!address) return
+        if (!address || !hasWalletSession) return
 
         setHistoryLoading(true)
         try {
@@ -279,7 +280,7 @@ export function PositionsTable() {
     }
 
     const fetchAnalytics = async () => {
-        if (!address) return
+        if (!address || !hasWalletSession) return
 
         try {
             const network = isTestnet ? 'testnet' : 'mainnet'
@@ -296,6 +297,9 @@ export function PositionsTable() {
     useEffect(() => {
         if (isConnected && address) {
             fetchData()
+        }
+
+        if (isConnected && address && hasWalletSession) {
             fetchTrades(selectedRange)
             fetchAnalytics()
             const interval = setInterval(() => {
@@ -307,13 +311,16 @@ export function PositionsTable() {
                 }
             }, 5000)
             return () => clearInterval(interval)
-        } else {
+        } else if (!isConnected || !address) {
             setPositions([])
             setOrders([])
             setTrades([])
             setAnalytics(null)
+        } else {
+            setTrades([])
+            setAnalytics(null)
         }
-    }, [address, isConnected, isTestnet, selectedRange])
+    }, [address, isConnected, isTestnet, selectedRange, hasWalletSession])
 
     const handleClosePosition = async (coin: string, size: string, entryPrice: number) => {
         if (!assetMetadata[coin]) {
