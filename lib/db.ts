@@ -6,7 +6,7 @@ if (!process.env.DATABASE_URL) {
   // Use an absolute path to avoid Next.js working-directory surprises (.next/server).
   const dbPath = path.join(process.cwd(), 'prisma', 'backend.db');
   process.env.DATABASE_URL = `file:${dbPath}`;
-  console.warn(`DATABASE_URL not set; defaulting to ${process.env.DATABASE_URL}`);
+  console.warn('DATABASE_URL not set; defaulting to local prisma/backend.db');
 }
 
 const globalForPrisma = globalThis as unknown as {

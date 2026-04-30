@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
+import { InternalAuthError, requireInternalRequest } from '@/lib/auth/internal';
 
 export async function POST(request: Request) {
     try {
+        requireInternalRequest(request);
         const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
         const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
@@ -40,6 +42,9 @@ export async function POST(request: Request) {
         });
 
     } catch (error) {
+        if (error instanceof InternalAuthError) {
+            return NextResponse.json({ error: error.message }, { status: error.status });
+        }
         console.error('Cleanup Error:', error);
         return NextResponse.json({
             error: 'Cleanup failed',

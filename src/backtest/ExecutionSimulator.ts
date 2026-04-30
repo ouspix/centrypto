@@ -5,6 +5,12 @@ import { BacktestCandle } from "./BacktestDataSource";
 import { BacktestPortfolio } from "./BacktestPortfolio";
 import { ExecutionBookSnapshot, ExecutionResult, L2BookLevel, SimPosition } from "./BacktestTypes";
 
+type SlTpExecutionOptions = {
+    ordering: "stop_first" | "take_profit_first" | "path_aware";
+    slippageMode: "fallback" | "book_or_fallback";
+    fallbackSlippageBps: number;
+};
+
 export type ExecutionBookResolver = (symbol: string, ts: Date) => ExecutionBookSnapshot | null;
 
 type Fill = {
@@ -16,7 +22,12 @@ type Fill = {
 export class ExecutionSimulator {
     constructor(
         private readonly config: AgentConfig,
-        private readonly network: "mainnet" | "testnet" = "mainnet"
+        private readonly network: "mainnet" | "testnet" = "mainnet",
+        private readonly slTpOptions: SlTpExecutionOptions = {
+            ordering: "stop_first",
+            slippageMode: "fallback",
+            fallbackSlippageBps: config.network_profiles[network].slippage_model.min_bps
+        }
     ) {}
 
     public advancePositionWithCandles(
@@ -37,24 +48,15 @@ export class ExecutionSimulator {
                 ? position.entry_price * (1 + position.take_profit_pct)
                 : position.entry_price * (1 - position.take_profit_pct);
 
-            if (position.side === "long") {
-                if (low <= stop) {
-                    this.closeAtPrice(position.symbol, stop, asDate(candle.openTime), "stop_loss", portfolio, 0);
-                    return;
-                }
-                if (high >= takeProfit) {
-                    this.closeAtPrice(position.symbol, takeProfit, asDate(candle.openTime), "take_profit", portfolio, 0);
-                    return;
-                }
-            } else {
-                if (high >= stop) {
-                    this.closeAtPrice(position.symbol, stop, asDate(candle.openTime), "stop_loss", portfolio, 0);
-                    return;
-                }
-                if (low <= takeProfit) {
-                    this.closeAtPrice(position.symbol, takeProfit, asDate(candle.openTime), "take_profit", portfolio, 0);
-                    return;
-                }
+            const stopTouched = position.side === "long" ? low <= stop : high >= stop;
+            const takeProfitTouched = position.side === "long" ? high >= takeProfit : low <= takeProfit;
+            const trigger = this.resolveSlTpTrigger(stopTouched, takeProfitTouched);
+            if (trigger) {
+                const triggerPrice = trigger === "stop_loss" ? stop : takeProfit;
+                const slippageBps = this.slTpOptions.fallbackSlippageBps;
+                const exitPrice = this.applyExitSlippage(triggerPrice, position.side, slippageBps);
+                this.closeAtPrice(position.symbol, exitPrice, asDate(candle.openTime), trigger, portfolio, slippageBps);
+                return;
             }
 
             if (position.time_stop_minutes && asDate(candle.openTime).getTime() - position.entry_ts.getTime() >= position.time_stop_minutes * 60_000) {
@@ -186,6 +188,20 @@ export class ExecutionSimulator {
         if (!position) return;
         const feeUsd = fee(position.notional_usd, this.feeBps());
         portfolio.closePosition(symbol, price, ts, reason, feeUsd, slippageBps);
+    }
+
+    private resolveSlTpTrigger(stopTouched: boolean, takeProfitTouched: boolean): "stop_loss" | "take_profit" | null {
+        if (stopTouched && takeProfitTouched) {
+            return this.slTpOptions.ordering === "take_profit_first" ? "take_profit" : "stop_loss";
+        }
+        if (stopTouched) return "stop_loss";
+        if (takeProfitTouched) return "take_profit";
+        return null;
+    }
+
+    private applyExitSlippage(triggerPrice: number, side: "long" | "short", slippageBps: number): number {
+        if (side === "long") return triggerPrice * (1 - slippageBps / 10000);
+        return triggerPrice * (1 + slippageBps / 10000);
     }
 
     private updateExcursions(position: SimPosition, high: number, low: number): void {

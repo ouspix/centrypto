@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { useAccount } from "wagmi"
 import { placeOrderAction } from "@/app/actions/trade"
-import { getMeta } from "@/lib/hyperliquid"
+import { getMeta } from "@/lib/hyperliquid-info"
 import { getCloseOrderParams } from "@/lib/trade-utils"
 import { toast } from "sonner"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -43,14 +43,11 @@ export function AIAdvisor() {
         setExecuting(index);
 
         try {
-            // If risk check flagged it, ask for manual override confirmation (manual only)
             const risk = result.riskAssessments?.[index];
             if (risk && risk.approved === false) {
-                const proceed = window.confirm(`Risk check did NOT approve this trade (${risk.reason}). Execute anyway?`);
-                if (!proceed) {
-                    setExecuting(null);
-                    return;
-                }
+                toast.error(`Risk check blocked execution: ${risk.reason}`);
+                setExecuting(null);
+                return;
             }
 
             const market = result.snapshot.markets[decision.symbol!];
@@ -330,6 +327,17 @@ export function AIAdvisor() {
             .catch(err => console.error("Failed to fetch models", err));
     }, [])
 
+    useEffect(() => {
+        if (!address) return;
+        const network = isTestnet ? 'testnet' : 'mainnet';
+        fetch(`/api/risk/kill-switch?network=${network}`)
+            .then(res => res.ok ? res.json() : null)
+            .then(data => {
+                if (data) setKillSwitch(!!data.killSwitch);
+            })
+            .catch(() => {});
+    }, [address, isTestnet])
+
     const analyzeMarket = async () => {
         if (killSwitch) return;
 
@@ -354,7 +362,6 @@ export function AIAdvisor() {
             }
 
             const body = {
-                userAddress: address || null,
                 autoTrading: autoTrading,
                 screeningConfig,
                 configOverride: customConfig,
@@ -457,11 +464,22 @@ export function AIAdvisor() {
         }
     }, [autoTrading, frequency, killSwitch, selectedModel, address, isTestnet])
 
-    const handleKillSwitch = () => {
+    const handleKillSwitch = async () => {
         setKillSwitch(true);
         setAutoTrading(false);
-        // Ideally call backend to cancel all orders here
-        console.log("KILL SWITCH ACTIVATED");
+        try {
+            const res = await fetch('/api/risk/kill-switch', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ killSwitch: true, isTestnet })
+            });
+            if (!res.ok) {
+                const payload = await res.json().catch(() => ({}));
+                throw new Error(payload.error || 'Failed to persist kill switch');
+            }
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : 'Failed to persist kill switch');
+        }
     }
 
     const formatDiagnosticLabel = (value: string) =>

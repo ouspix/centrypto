@@ -10,6 +10,7 @@ import { Loader2, ArrowUpRight, ArrowDownRight, Zap } from "lucide-react"
 
 import { useTrading } from "@/context/TradingContext"
 import { placeOrderAction } from "@/app/actions/trade"
+import { HyperliquidApiWalletSettings } from "@/components/HyperliquidApiWalletSettings"
 
 export function TradeForm() {
     const [loading, setLoading] = useState(false)
@@ -66,6 +67,12 @@ export function TradeForm() {
             return
         }
 
+        const maxLeverage = Math.min(currentMeta.maxLeverage ?? 20, 20)
+        if (!Number.isFinite(formData.leverage) || formData.leverage < 1 || formData.leverage > maxLeverage) {
+            setResult({ success: false, error: `Leverage must be between 1x and ${maxLeverage}x` })
+            return
+        }
+
         // Minimum order value check
         const totalValue = formData.size * formData.price
         if (totalValue < 10) {
@@ -86,6 +93,7 @@ export function TradeForm() {
                 limitPx: formData.price,
                 sz: formData.size,
                 reduceOnly: false,
+                leverage: formData.leverage,
                 stopLossPrice: formData.sl,
                 takeProfitPrice: formData.tp
             }
@@ -115,7 +123,9 @@ export function TradeForm() {
                         setResult({
                             success: true,
                             orderId: oid,
-                            txHash: "Signed & Sent to API"
+                            txHash: response.executionMode === "server_dev_testnet_bot"
+                                ? "Submitted through dev/testnet bot execution path"
+                                : "Submitted with user API wallet"
                         })
                     }
                 } else {
@@ -168,6 +178,10 @@ export function TradeForm() {
 
     return (
         <div className="space-y-4">
+            <div className="bg-slate-950/70 border border-slate-800 text-[11px] text-slate-400 p-2 rounded">
+                Orders use your verified wallet session and stored Hyperliquid API wallet. Server-key execution is dev/testnet-only and opt-in.
+            </div>
+            <HyperliquidApiWalletSettings isTestnet={isTestnet} />
             {!currentMeta && (
                 <div className="bg-yellow-900/20 border border-yellow-700 text-yellow-400 text-xs p-2 rounded">
                     Loading market data...
@@ -243,11 +257,17 @@ export function TradeForm() {
                     <Input
                         id="leverage"
                         type="number"
-                        max="20"
+                        min="1"
+                        max={currentMeta ? Math.min(currentMeta.maxLeverage ?? 20, 20) : 20}
                         className="bg-slate-950 border-slate-700 text-slate-200 focus:border-blue-500 transition-colors"
                         value={formData.leverage}
                         onChange={(e) => setFormData({ ...formData, leverage: parseInt(e.target.value) })}
                     />
+                    {currentMeta && (
+                        <div className="text-[10px] text-slate-500 text-right">
+                            Max: {Math.min(currentMeta.maxLeverage ?? 20, 20)}x
+                        </div>
+                    )}
                 </div>
             </div>
 

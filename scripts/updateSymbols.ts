@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { getMetaAndAssetCtxs } from '../lib/hyperliquid';
+import { getMetaAndAssetCtxs } from '../lib/hyperliquid-info';
 
 async function updateSymbols() {
     console.log("🚀 Starting symbol update...");

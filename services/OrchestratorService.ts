@@ -12,8 +12,12 @@ import {
     isPlaybookAllowed,
 } from "@/lib/risk/shared";
 import { parseTraderResponse } from "@/lib/llm/LlmResponseParser";
-import { ExecutionEngine } from "@/lib/hyperliquidExecution";
-import { placeOrder, updateLeverage } from "@/lib/hyperliquid";
+import { placeOrderWithPrivateKey, updateLeverageWithPrivateKey } from "@/lib/hyperliquid-execution";
+import {
+    getUserHyperliquidApiWalletCredential,
+    HyperliquidApiWalletError,
+    markHyperliquidApiWalletUsed
+} from "@/lib/hyperliquid-api-wallet";
 import { TradingLogger } from "@/lib/log/tradingLogger";
 import { AgentConfig, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
 import { ScreenerConfig, DEFAULT_SCREENER_CONFIG } from "@/lib/screener-config";
@@ -21,6 +25,8 @@ import { prisma } from "@/lib/db";
 import { promises as fs } from "fs";
 import { TraderContextBuilder } from "@/services/TraderContextBuilder";
 import { TraderDecisionValidator } from "@/lib/trader/TraderDecisionValidator";
+import { assertWalletExecutionAllowed } from "@/lib/risk/execution-safety";
+import { redactSensitive, safeError } from "@/lib/log/safeLogger";
 
 import OpenAI from "openai";
 
@@ -43,7 +49,6 @@ export class OrchestratorService {
     private traderContextBuilder: TraderContextBuilder;
     private traderDecisionValidator: TraderDecisionValidator;
     private riskModule: RiskCheckModule;
-    private executionEngine: ExecutionEngine;
     private logger: TradingLogger;
     private currentAbortController: AbortController | null = null;
     private activeJobs: Map<string, AbortController> = new Map();
@@ -67,8 +72,6 @@ export class OrchestratorService {
         this.traderContextBuilder = new TraderContextBuilder();
         this.traderDecisionValidator = new TraderDecisionValidator();
         this.riskModule = new RiskCheckModule();
-        // Note: Private key should be securely managed. For this demo, using env var.
-        this.executionEngine = new ExecutionEngine(process.env.HYPERLIQUID_PRIVATE_KEY || "", true);
         this.logger = new TradingLogger();
     }
 
@@ -318,7 +321,7 @@ export class OrchestratorService {
 
             let executionResult: any = null;
             if (autoTrading && riskAssessment.approved && riskAssessment.modifiedOrder) {
-                executionResult = await this.executeApprovedDecision(decision, riskAssessment, snapshot, config, isTestnet);
+                executionResult = await this.executeApprovedDecision(decision, riskAssessment, snapshot, config, isTestnet, userAddress);
                 const key = decision.candidate_id ?? decision.symbol ?? "";
                 executionResults.set(key, {
                     attempted: true,
@@ -456,7 +459,8 @@ export class OrchestratorService {
         riskAssessment: RiskAssessment,
         snapshot: StateSnapshot,
         config: AgentConfig,
-        isTestnet: boolean
+        isTestnet: boolean,
+        userAddress: string | null
     ) {
         const marketData = decision.symbol ? snapshot.markets[decision.symbol] : undefined;
         const assetIndex = marketData?.assetIndex;
@@ -464,10 +468,29 @@ export class OrchestratorService {
             return { success: false, status: "failed", error: "Asset index or order missing" };
         }
 
-        const privateKey = isTestnet
-            ? process.env.HYPERLIQUID_TESTNET_PRIVATE_KEY
-            : process.env.HYPERLIQUID_PRIVATE_KEY;
-        if (!privateKey) return { success: false, status: "failed", error: "Private key not found in env" };
+        if (!userAddress) {
+            return { success: false, status: "failed", error: "Wallet session required for execution" };
+        }
+
+        try {
+            await assertWalletExecutionAllowed(userAddress, isTestnet);
+        } catch (error) {
+            return { success: false, status: "failed", error: error instanceof Error ? error.message : "Execution blocked by risk controls" };
+        }
+
+        let credential: { privateKey: string; mode: "user_api_wallet" | "server_dev_testnet_bot" } | null;
+        try {
+            credential = await resolveExecutionCredential(userAddress, isTestnet);
+        } catch (error) {
+            return { success: false, status: "failed", error: error instanceof Error ? error.message : "Hyperliquid API wallet is not available" };
+        }
+        if (!credential) {
+            return {
+                success: false,
+                status: "failed",
+                error: `Hyperliquid API wallet is not configured for this wallet on ${isTestnet ? "testnet" : "mainnet"}`
+            };
+        }
 
         try {
             const currentPrice = marketData.price || 0;
@@ -478,14 +501,14 @@ export class OrchestratorService {
             const limitPx = isBuy ? currentPrice * (1 + slippage) : currentPrice * (1 - slippage);
 
             if (!reduceOnly && decision.action === "OPEN_POSITION") {
-                await updateLeverage(
-                    privateKey,
+                await updateLeverageWithPrivateKey(
+                    credential.privateKey,
                     {
                         asset: assetIndex,
                         isCross: config.risk.margin_mode !== "isolated",
                         leverage: config.risk.exchange_max_leverage_allowed
                     },
-                    isTestnet
+                    true
                 );
             }
 
@@ -498,8 +521,8 @@ export class OrchestratorService {
                 takeProfitPrice = isBuy ? currentPrice * (1 + tpPct) : currentPrice * (1 - tpPct);
             }
 
-            const result = await placeOrder(
-                privateKey,
+            const result = await placeOrderWithPrivateKey(
+                credential.privateKey,
                 {
                     asset: assetIndex,
                     isBuy,
@@ -510,10 +533,13 @@ export class OrchestratorService {
                     takeProfitPrice,
                     tif: reduceOnly ? "Ioc" : "Ioc"
                 },
-                isTestnet
+                true
             );
 
             if (result.status === "ok") {
+                if (credential.mode === "user_api_wallet") {
+                    await markHyperliquidApiWalletUsed(userAddress, isTestnet);
+                }
                 await new Promise(resolve => setTimeout(resolve, 500));
                 return {
                     success: true,
@@ -524,7 +550,7 @@ export class OrchestratorService {
 
             return { success: false, status: "failed", error: JSON.stringify(result.response) };
         } catch (error: any) {
-            console.error("❌ Auto-Trading Execution Failed:", error);
+            safeError("Auto-trading execution failed", error);
             return { success: false, status: "error", error: error.message || String(error) };
         }
     }
@@ -746,11 +772,12 @@ ${JSON.stringify(context, null, 2)}`;
             console.log("   Eligible Candidates:", context.eligible_candidates.length);
             console.log("   Existing Positions:", context.existing_positions.length);
 
-            console.log("📦 Raw LLM Response (first 300 chars):", rawOutput.substring(0, 300));
-            if (process.env.LLM_DEBUG_LOG === "true") {
-                fs.appendFile('debug_llm_response.log', `\n\n--- ${new Date().toISOString()} ---\nPrompt:\n${USER_PROMPT}\n\nResponse:\n${rawOutput}\n-----------------------------------\n`).catch(e => console.warn('⚠️ Debug log write failed:', e));
+            if (process.env.CENTRYPT_DEBUG_LOGS === "true") {
+                console.log("Raw LLM response length:", rawOutput.length);
             }
-            console.log("🔍 Debug: rawOutput length:", rawOutput.length);
+            if (process.env.CENTRYPT_DEBUG_LLM_TRANSCRIPTS === "true") {
+                fs.appendFile('debug_llm_response.log', `\n\n--- ${new Date().toISOString()} ---\nPrompt:\n${redactSensitive(USER_PROMPT)}\n\nResponse:\n${redactSensitive(rawOutput)}\n-----------------------------------\n`).catch(e => console.warn('⚠️ Debug log write failed:', e));
+            }
             const decisions = parseTraderResponse(rawOutput);
             return { decisions, prompt: SYSTEM_PROMPT + "\n\n" + USER_PROMPT, rawOutput };
 
@@ -1099,10 +1126,11 @@ ${JSON.stringify(context, null, 2)}`;
 
     private async saveLlmInteraction(prompt: string, response: string, decisions: TradeDecision[], isTestnet: boolean) {
         try {
+            const storeTranscripts = process.env.CENTRYPT_STORE_LLM_TRANSCRIPTS === "true";
             await prisma.llmQuery.create({
                 data: {
-                    prompt,
-                    response,
+                    prompt: storeTranscripts ? prompt : "[redacted: set CENTRYPT_STORE_LLM_TRANSCRIPTS=true to store prompts]",
+                    response: storeTranscripts ? response : "[redacted: set CENTRYPT_STORE_LLM_TRANSCRIPTS=true to store responses]",
                     decisions: {
                         create: decisions.map(d => ({
                             action: d.action,
@@ -1128,4 +1156,27 @@ ${JSON.stringify(context, null, 2)}`;
     }
 
     private clampDecisionRiskPlan(decision: TradeDecision) { clampRiskPlan(decision); }
+}
+
+function getDevTestnetExecutionKey(isTestnet: boolean): string | null {
+    if (process.env.NODE_ENV === "production") return null;
+    if (!isTestnet) return null;
+    if (process.env.ALLOW_SERVER_DEV_BOT_EXECUTION !== "true") return null;
+    return process.env.HYPERLIQUID_TESTNET_PRIVATE_KEY ?? null;
+}
+
+async function resolveExecutionCredential(userAddress: string, isTestnet: boolean): Promise<{
+    privateKey: string;
+    mode: "user_api_wallet" | "server_dev_testnet_bot";
+} | null> {
+    try {
+        const credential = await getUserHyperliquidApiWalletCredential(userAddress, isTestnet);
+        return { privateKey: credential.privateKey, mode: "user_api_wallet" };
+    } catch (error) {
+        if (!(error instanceof HyperliquidApiWalletError) || error.status !== 412) {
+            throw error;
+        }
+        const devKey = getDevTestnetExecutionKey(isTestnet);
+        return devKey ? { privateKey: devKey, mode: "server_dev_testnet_bot" } : null;
+    }
 }

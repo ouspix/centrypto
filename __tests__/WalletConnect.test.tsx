@@ -8,6 +8,7 @@ const mockUseConnect = vi.fn()
 const mockUseDisconnect = vi.fn()
 const mockUseBalance = vi.fn()
 const mockUseSwitchChain = vi.fn()
+const mockUseWalletClient = vi.fn()
 
 vi.mock('wagmi', async () => {
     const actual = await vi.importActual('wagmi')
@@ -18,6 +19,7 @@ vi.mock('wagmi', async () => {
         useDisconnect: () => mockUseDisconnect(),
         useBalance: () => mockUseBalance(),
         useSwitchChain: () => mockUseSwitchChain(),
+        useWalletClient: () => mockUseWalletClient(),
         injected: vi.fn(),
     }
 })
@@ -40,6 +42,7 @@ describe('WalletConnect', () => {
         mockUseDisconnect.mockReturnValue({ disconnect: vi.fn() })
         mockUseBalance.mockReturnValue({ data: undefined })
         mockUseSwitchChain.mockReturnValue({ switchChainAsync: vi.fn() })
+        mockUseWalletClient.mockReturnValue({ data: undefined })
         mockUseTrading.mockReturnValue({ isTestnet: true, setIsTestnet: mockSetIsTestnet })
     })
 
@@ -60,6 +63,7 @@ describe('WalletConnect', () => {
 
     it('renders address and balance when connected', () => {
         mockUseAccount.mockReturnValue({ address: '0x1234567890123456789012345678901234567890', isConnected: true })
+        mockUseWalletClient.mockReturnValue({ data: { signMessage: vi.fn() } })
         mockUseBalance.mockReturnValue({
             data: { formatted: '1.23456789', symbol: 'ETH' }
         })
@@ -73,6 +77,7 @@ describe('WalletConnect', () => {
 
     it('toggles network switch', async () => {
         mockUseAccount.mockReturnValue({ address: '0x123', isConnected: true })
+        mockUseWalletClient.mockReturnValue({ data: { signMessage: vi.fn() } })
         const switchChainMock = vi.fn()
         mockUseSwitchChain.mockReturnValue({ switchChainAsync: switchChainMock })
 

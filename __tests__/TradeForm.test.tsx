@@ -124,4 +124,28 @@ describe('TradeForm', () => {
             expect(screen.getByText('Error: Insufficient funds')).toBeDefined()
         })
     })
+
+    it('rejects leverage above asset max before submitting', async () => {
+        mockUseTrading.mockReturnValue({
+            selectedPair: 'SOL',
+            marketState: { pair: 'SOL', price: 2000 },
+            isTestnet: true,
+            assetMetadata: {
+                SOL: {
+                    index: 0,
+                    szDecimals: 2,
+                    minSz: 0.01,
+                    maxLeverage: 3
+                }
+            }
+        })
+
+        render(<TradeForm />)
+
+        fireEvent.change(screen.getByLabelText('Leverage'), { target: { value: '4' } })
+        fireEvent.click(screen.getByText('Execute Order'))
+
+        expect(screen.getByText('Error: Leverage must be between 1x and 3x')).toBeDefined()
+        expect(mockPlaceOrderAction).not.toHaveBeenCalled()
+    })
 })

@@ -1,4 +1,4 @@
-import { getOHLCV, getL2Book } from "@/lib/hyperliquid";
+import { getOHLCV, getL2Book } from "@/lib/hyperliquid-info";
 import { DEFAULT_SCREENER_CONFIG } from "@/lib/screener-config";
 
 import { marketDbMain, marketDbTest } from "@/lib/market-db";

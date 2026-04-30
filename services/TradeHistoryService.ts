@@ -1,4 +1,4 @@
-import { getUserFills } from "@/lib/hyperliquid";
+import { getUserFills } from "@/lib/hyperliquid-info";
 
 export type TradeStatus = 'open' | 'closed';
 export type TradeSide = 'long' | 'short';

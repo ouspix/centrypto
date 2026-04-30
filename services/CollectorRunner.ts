@@ -1,6 +1,6 @@
 import { MarketCollectorService } from "@/services/MarketCollectorService";
 import { marketDbMain, marketDbTest } from "@/lib/market-db";
-import { getMetaAndAssetCtxs, waitForHyperliquidSlot } from "@/lib/hyperliquid";
+import { getMetaAndAssetCtxs, waitForHyperliquidSlot } from "@/lib/hyperliquid-info";
 import { activeMarketAssets, prioritizeBackfillSymbols, volume24hFromCtx } from "@/services/MarketUniverse";
 
 const DEFAULT_TICK_INTERVAL_MS = 15 * 1000;
@@ -346,13 +346,26 @@ export function getCollectorRunner(isTestnet: boolean): CollectorRunner {
 }
 
 export function ensureCollectorRunning(isTestnet: boolean) {
+    if (!canStartCollectorFromApi()) {
+        console.warn("[CollectorRunner] Collector start from API path disabled; run collector as a worker process.");
+        return;
+    }
     getCollectorRunner(isTestnet).start();
 }
 
 export async function ensureCollectorReady(isTestnet: boolean) {
     const runner = getCollectorRunner(isTestnet);
+    if (!canStartCollectorFromApi()) {
+        console.warn("[CollectorRunner] Collector readiness from API path disabled; using cached DB state only.");
+        return runner;
+    }
     runner.start();
     await runner.waitForFirstTick();
     await runner.waitForPriorityBackfill();
     return runner;
+}
+
+function canStartCollectorFromApi(): boolean {
+    if (process.env.NODE_ENV !== "production") return process.env.ALLOW_API_COLLECTOR_START === "true";
+    return process.env.ALLOW_API_COLLECTOR_START === "true";
 }

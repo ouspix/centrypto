@@ -1,4 +1,4 @@
-import { getMetaAndAssetCtxs } from "@/lib/hyperliquid";
+import { getMetaAndAssetCtxs } from "@/lib/hyperliquid-info";
 import { MarketAnalysisService, MarketMetrics, OrderBookMetrics } from "./MarketAnalysisService";
 import { SentimentService, SentimentSnapshot } from "./SentimentService";
 import { prisma } from "@/lib/db";

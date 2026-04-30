@@ -7,7 +7,7 @@ import { DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
 import { SCREENER_PRESETS } from "@/lib/screener-config";
 import { FeatureStore } from "@/src/backtest/FeatureStore";
 import { buildMarketFeaturesFromSnapshots, parseHyperliquidL2File } from "@/src/backtest/L2FeatureBuilder";
-import { BacktestDataSource } from "@/src/backtest/BacktestDataSource";
+import { BacktestDataSource, classifyExecutionCandleSource, mapBacktestDepthBands, mapBacktestOnePercentDepth } from "@/src/backtest/BacktestDataSource";
 import { BacktestPortfolio } from "@/src/backtest/BacktestPortfolio";
 import { ExecutionSimulator } from "@/src/backtest/ExecutionSimulator";
 import { ExecutionBookStore } from "@/src/backtest/ExecutionBookStore";
@@ -215,7 +215,25 @@ describe("backtest stack", () => {
         expect(coverage.missing_feature_rows_by_symbol["BTC-PERP"]).toBe(0);
         expect(coverage.missing_execution_books_by_symbol?.["BTC-PERP"]).toBe(0);
         expect(coverage.missing_candle_intervals).toEqual([]);
+        expect(coverage.candle_source).toBe("synthetic_from_features");
+        expect(coverage.synthetic_execution_candles).toBe(true);
         await db.$disconnect();
+    });
+
+    it("does not label 25 bps depth as 1 percent depth", () => {
+        const row = featureRow(new Date("2026-04-11T10:00:00Z"), "BTC-PERP");
+        const bands = mapBacktestDepthBands(row);
+
+        expect(bands.bid["0.25"]).toBe(row.bid_depth_25bps_usd);
+        expect(bands.bid["1.00"]).toBeUndefined();
+        expect(bands.ask["1.00"]).toBeUndefined();
+        expect(mapBacktestOnePercentDepth()).toEqual({ bid_1pct: 0, ask_1pct: 0 });
+    });
+
+    it("classifies synthetic and mixed execution candles", () => {
+        expect(classifyExecutionCandleSource([{ volume: 0 }])).toBe("synthetic_from_features");
+        expect(classifyExecutionCandleSource([{ volume: 12 }])).toBe("real_1m");
+        expect(classifyExecutionCandleSource([{ volume: 0 }, { volume: 12 }])).toBe("mixed");
     });
 
     it("assumes stop loss before take profit inside the same candle", () => {
@@ -255,7 +273,52 @@ describe("backtest stack", () => {
 
         expect(portfolio.trades).toHaveLength(1);
         expect(portfolio.trades[0].exit_reason).toBe("stop_loss");
-        expect(portfolio.trades[0].exit_price).toBe(98);
+        expect(portfolio.trades[0].exit_price).toBe(98 * (1 - 1 / 10000));
+    });
+
+    it("supports deterministic take-profit-first same-candle ordering for shorts with slippage", () => {
+        const config = DEFAULT_AGENT_CONFIG;
+        const portfolio = new BacktestPortfolio(10000, config);
+        const simulator = new ExecutionSimulator(config, "mainnet", {
+            ordering: "take_profit_first",
+            slippageMode: "fallback",
+            fallbackSlippageBps: 2
+        });
+        const position: SimPosition = {
+            id: "p2",
+            symbol: "ETH-PERP",
+            side: "short",
+            playbook: "Momentum:short",
+            entry_ts: new Date("2026-04-11T10:00:00Z"),
+            entry_price: 100,
+            size_fraction: 0.1,
+            notional_usd: 1000,
+            size_coin: 10,
+            stop_loss_pct: 0.02,
+            take_profit_pct: 0.02,
+            entry_regime: "CHOP",
+            entry_signal: { ret_sigma_5m_vs_1h: null, vol_ratio_5m_vs_1h: null, book_pressure: null, trend_alignment_score: null, edge_to_cost_mult: null },
+            highest_price: 100,
+            lowest_price: 100,
+            max_favorable_excursion_bps: 0,
+            max_adverse_excursion_bps: 0
+        };
+        portfolio.positions.set(position.symbol, position);
+
+        simulator.advancePositionWithCandles(position, [{
+            symbol: "ETH",
+            openTime: new Date("2026-04-11T10:01:00Z"),
+            open: 100,
+            high: 103,
+            low: 97,
+            close: 99,
+            volume: 1
+        }], portfolio);
+
+        expect(portfolio.trades).toHaveLength(1);
+        expect(portfolio.trades[0].exit_reason).toBe("take_profit");
+        expect(portfolio.trades[0].exit_price).toBe(98 * (1 + 2 / 10000));
+        expect(portfolio.trades[0].slippage_bps).toBe(2);
     });
 
     it("walks historical L2 books for simulated entry fills", () => {
@@ -350,6 +413,14 @@ describe("backtest stack", () => {
 
         expect(metrics.one_symbol_concentration).toBeCloseTo(2 / 3, 4);
         expect(metrics.one_regime_concentration).toBeCloseTo(2 / 3, 4);
+        expect(metrics.max_consecutive_losses).toBe(1);
+        expect(metrics.avg_slippage_bps).toBe(0);
+        expect(metrics.avg_fees_usd_per_trade).toBe(1);
+        expect(metrics.avg_mfe_bps).toBe(100);
+        expect(metrics.expectancy_per_trade_usd).toBeCloseTo(25 / 3, 4);
+        expect(metrics.pnl_by_hour_utc["10"]).toBe(25);
+        expect(metrics.pnl_by_weekday.sat).toBe(25);
+        expect(metrics.confidence_buckets.unknown.trade_count).toBe(3);
         expect(metrics.breakdowns.regime_current.RISK_ON.trade_count).toBe(2);
         expect(metrics.breakdowns.screening_preset["Momentum Moderate"].trade_count).toBe(3);
         expect(metrics.breakdowns.trader_policy.take_top_rank.trade_count).toBe(3);
@@ -549,6 +620,15 @@ function metrics(args: {
         avg_win_usd: 10,
         avg_loss_usd: -5,
         avg_trade_net_bps: 1,
+        expectancy_per_trade_usd: 1,
+        max_consecutive_losses: 1,
+        avg_slippage_bps: 0,
+        avg_fees_usd_per_trade: 1,
+        avg_mfe_bps: 100,
+        avg_mae_bps: 0,
+        pnl_by_hour_utc: {},
+        pnl_by_weekday: {},
+        confidence_buckets: {},
         turnover_usd: 10000,
         turnover_cost_usd: 10,
         stop_hit_rate: 0,

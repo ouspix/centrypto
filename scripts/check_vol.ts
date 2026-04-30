@@ -1,4 +1,4 @@
-import { getMetaAndAssetCtxs } from "@/lib/hyperliquid";
+import { getMetaAndAssetCtxs } from "@/lib/hyperliquid-info";
 
 async function checkVolChange() {
     console.log("Fetching meta 1...");

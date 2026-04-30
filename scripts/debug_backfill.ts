@@ -7,7 +7,7 @@ async function debugBackfill() {
     // Hack: We can't easily call backfill for one symbol because it iterates universe.
     // But we can instantiate the service and call a modified version or just check getOHLCV directly.
 
-    const { getOHLCV } = await import("@/lib/hyperliquid");
+    const { getOHLCV } = await import("@/lib/hyperliquid-info");
     const startTime = Date.now() - (48 * 60 * 60 * 1000);
 
     console.log(`Fetching BTC candles since ${new Date(startTime).toISOString()}...`);

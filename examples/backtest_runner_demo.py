@@ -1,3 +1,10 @@
+"""
+Demo-only Python SMA backtester.
+
+This is not the real Centrypto backtester. The production backtest stack lives
+under src/backtest and is run with npm run backtest:run.
+"""
+
 import pandas as pd
 import numpy as np
 import json

@@ -29,6 +29,13 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+debug_llm_response.log
+history.json
+sentiment.log
+sentiment_service.log
+chrome_console.log
+chrome_output.txt
+test_output.txt
 
 # env files (can opt-in for committing if needed)
 .env*

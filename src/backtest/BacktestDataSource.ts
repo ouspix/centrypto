@@ -411,11 +411,15 @@ function buildCoverage(
     }
 
     const candleTimesBySymbol = new Map<string, Set<number>>();
+    let syntheticCandles = 0;
+    let realCandles = 0;
     for (const candle of candles) {
         const symbol = toPerpSymbol(candle.symbol);
         const bucket = candleTimesBySymbol.get(symbol) ?? new Set<number>();
         bucket.add(asDate(candle.openTime).getTime());
         candleTimesBySymbol.set(symbol, bucket);
+        if (Number(candle.volume) === 0) syntheticCandles++;
+        else realCandles++;
     }
     const missingCandleIntervals: CoverageReport["missing_candle_intervals"] = [];
     for (const symbol of symbols) {
@@ -434,15 +438,35 @@ function buildCoverage(
         }
     }
 
+    const candleSource = classifyExecutionCandleSourceFromCounts(realCandles, syntheticCandles);
+
     return {
         expected_timestamps: expectedTimestamps.length,
         available_timestamps: timestamps.size,
+        candle_source: candleSource,
+        synthetic_execution_candles: syntheticCandles > 0,
         missing_feature_rows_by_symbol: missingFeatureRows,
         missing_execution_books_by_symbol: missingExecutionBooks,
         missing_candle_intervals: missingCandleIntervals.slice(0, 1000),
         symbols_dropped_insufficient_history: Array.from(dropped).sort(),
         skipped_timestamps: []
     };
+}
+
+export function classifyExecutionCandleSource(candles: Array<Pick<BacktestCandle, "volume">>): CoverageReport["candle_source"] {
+    let syntheticCandles = 0;
+    let realCandles = 0;
+    for (const candle of candles) {
+        if (Number(candle.volume) === 0) syntheticCandles++;
+        else realCandles++;
+    }
+    return classifyExecutionCandleSourceFromCounts(realCandles, syntheticCandles);
+}
+
+function classifyExecutionCandleSourceFromCounts(realCandles: number, syntheticCandles: number): CoverageReport["candle_source"] {
+    if (syntheticCandles > 0 && realCandles > 0) return "mixed";
+    if (syntheticCandles > 0) return "synthetic_from_features";
+    return "real_1m";
 }
 
 function expectedReplayTimestamps(start: Date, end: Date, intervalSeconds: number): number[] {
@@ -494,20 +518,7 @@ function mapFeatureToMarketEntry(row: MarketFeatureRow, tick?: TickRow): MarketE
             book_pressure: row.book_pressure_10bps,
             bid_liquidity_usd: row.bid_depth_10bps_usd,
             ask_liquidity_usd: row.ask_depth_10bps_usd,
-            depth_bands_usd: {
-                bid: {
-                    "0.05": row.bid_depth_5bps_usd,
-                    "0.10": row.bid_depth_10bps_usd,
-                    "0.25": row.bid_depth_25bps_usd,
-                    "1.00": row.bid_depth_25bps_usd
-                },
-                ask: {
-                    "0.05": row.ask_depth_5bps_usd,
-                    "0.10": row.ask_depth_10bps_usd,
-                    "0.25": row.ask_depth_25bps_usd,
-                    "1.00": row.ask_depth_25bps_usd
-                }
-            }
+            depth_bands_usd: mapBacktestDepthBands(row)
         },
         returns: {
             m5: ret5,
@@ -609,32 +620,42 @@ function mapFeatureToEnriched(row: MarketFeatureRow, tick: TickRow | undefined, 
             best_ask: row.best_ask,
             mid: row.mid_price,
             spread_bps: row.spread_bps,
-            depth_usd: {
-                bid_1pct: row.bid_depth_25bps_usd,
-                ask_1pct: row.ask_depth_25bps_usd
-            },
+            depth_usd: mapBacktestOnePercentDepth(),
             imbalance: row.book_pressure_10bps,
             book_pressure: row.book_pressure_10bps,
             cost_bps: row.cost_bps_100 ?? row.spread_bps,
-            depth_bands_usd: {
-                bid: {
-                    "0.05": row.bid_depth_5bps_usd,
-                    "0.10": row.bid_depth_10bps_usd,
-                    "0.25": row.bid_depth_25bps_usd,
-                    "1.00": row.bid_depth_25bps_usd
-                },
-                ask: {
-                    "0.05": row.ask_depth_5bps_usd,
-                    "0.10": row.ask_depth_10bps_usd,
-                    "0.25": row.ask_depth_25bps_usd,
-                    "1.00": row.ask_depth_25bps_usd
-                }
-            }
+            depth_bands_usd: mapBacktestDepthBands(row)
         },
         sentiment: { score: 0, mentions_vs_baseline: 0, disagreement: 0, change_2h: 0 },
         isTestnet,
         score: 0
     } as EnrichedMarketData;
+}
+
+export function mapBacktestDepthBands(row: Pick<MarketFeatureRow,
+    "bid_depth_5bps_usd" |
+    "ask_depth_5bps_usd" |
+    "bid_depth_10bps_usd" |
+    "ask_depth_10bps_usd" |
+    "bid_depth_25bps_usd" |
+    "ask_depth_25bps_usd"
+>): { bid: Record<string, number>; ask: Record<string, number> } {
+    return {
+        bid: {
+            "0.05": row.bid_depth_5bps_usd,
+            "0.10": row.bid_depth_10bps_usd,
+            "0.25": row.bid_depth_25bps_usd
+        },
+        ask: {
+            "0.05": row.ask_depth_5bps_usd,
+            "0.10": row.ask_depth_10bps_usd,
+            "0.25": row.ask_depth_25bps_usd
+        }
+    };
+}
+
+export function mapBacktestOnePercentDepth(): { bid_1pct: number; ask_1pct: number } {
+    return { bid_1pct: 0, ask_1pct: 0 };
 }
 
 function asDate(value: Date | string): Date {

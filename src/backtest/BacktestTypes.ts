@@ -123,11 +123,18 @@ export interface BacktestRunConfig {
     runId?: string;
     hydration?: HydrationConfig;
     llm?: BacktestLlmConfig;
+    slTpExecution?: {
+        ordering: "stop_first" | "take_profit_first" | "path_aware";
+        slippageMode: "fallback" | "book_or_fallback";
+        fallbackSlippageBps: number;
+    };
 }
 
 export interface CoverageReport {
     expected_timestamps: number;
     available_timestamps: number;
+    candle_source: "real_1m" | "synthetic_from_features" | "mixed";
+    synthetic_execution_candles: boolean;
     missing_feature_rows_by_symbol: Record<string, number>;
     missing_execution_books_by_symbol?: Record<string, number>;
     missing_candle_intervals: Array<{ symbol: string; start: string; end: string }>;
@@ -210,6 +217,19 @@ export interface BacktestMetrics {
     avg_win_usd: number;
     avg_loss_usd: number;
     avg_trade_net_bps: number;
+    expectancy_per_trade_usd: number;
+    max_consecutive_losses: number;
+    avg_slippage_bps: number;
+    avg_fees_usd_per_trade: number;
+    avg_mfe_bps: number;
+    avg_mae_bps: number;
+    pnl_by_hour_utc: Record<string, number>;
+    pnl_by_weekday: Record<string, number>;
+    confidence_buckets: Record<string, {
+        trade_count: number;
+        net_pnl_usd: number;
+        win_rate: number;
+    }>;
     turnover_usd: number;
     turnover_cost_usd: number;
     stop_hit_rate: number;
@@ -218,6 +238,9 @@ export interface BacktestMetrics {
     avg_holding_minutes: number;
     one_symbol_concentration: number;
     one_regime_concentration: number;
+    candle_source?: "real_1m" | "synthetic_from_features" | "mixed";
+    synthetic_execution_candles?: boolean;
+    warnings?: string[];
     breakdowns: Record<string, Record<string, Partial<BacktestMetrics>>>;
 }
 

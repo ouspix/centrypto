@@ -18,21 +18,21 @@ model LlmQuery {
 }
 
 model LlmDecision {
-  id             Int      @id @default(autoincrement())
-  queryId        Int
-  query          LlmQuery @relation(fields: [queryId], references: [id])
-  action         String
-  symbol         String
-  confidence     Float
-  reasonCode     String?
-  notes          String?
-  side           String?
-  sizeFraction   Float?
-  targetSide     String?
-  targetSize     Float?
-  playbook       String?
-  riskPlan       String? // JSON
-  createdAt      DateTime @default(now())
+  id           Int      @id @default(autoincrement())
+  queryId      Int
+  query        LlmQuery @relation(fields: [queryId], references: [id])
+  action       String
+  symbol       String
+  confidence   Float
+  reasonCode   String?
+  notes        String?
+  side         String?
+  sizeFraction Float?
+  targetSide   String?
+  targetSize   Float?
+  playbook     String?
+  riskPlan     String? // JSON
+  createdAt    DateTime @default(now())
 }
 
 // Market Data Models
@@ -49,28 +49,28 @@ model ScreeningSnapshot {
 }
 
 model CandidateJournal {
-  id                Int      @id @default(autoincrement())
-  snapshotId        Int?
-  timestamp         Int
-  profile           String?
-  regime            String
-  candidateId       String?
-  symbol            String
-  side              String?
-  playbook          String?
-  scope             String
-  status            String
-  llmAction         String?
-  llmConfidence     Float?
-  llmNotes          String?
-  validatorStatus   String?
-  validatorReason   String?
-  executed          Boolean  @default(false)
-  metadataJson      String?
-  outcome5mBps      Float?
-  outcome15mBps     Float?
-  outcome1hBps      Float?
-  createdAt         DateTime @default(now())
+  id              Int      @id @default(autoincrement())
+  snapshotId      Int?
+  timestamp       Int
+  profile         String?
+  regime          String
+  candidateId     String?
+  symbol          String
+  side            String?
+  playbook        String?
+  scope           String
+  status          String
+  llmAction       String?
+  llmConfidence   Float?
+  llmNotes        String?
+  validatorStatus String?
+  validatorReason String?
+  executed        Boolean  @default(false)
+  metadataJson    String?
+  outcome5mBps    Float?
+  outcome15mBps   Float?
+  outcome1hBps    Float?
+  createdAt       DateTime @default(now())
 
   @@index([snapshotId])
   @@index([symbol, createdAt])
@@ -162,18 +162,50 @@ model PriceAlert {
 
 // Analysis Job Tracking
 model AnalysisJob {
-  id            String    @id @default(uuid())
-  status        String    // 'pending', 'running', 'completed', 'failed', 'cancelled'
-  userAddress   String?
-  isTestnet     Boolean   @default(true)
-  model         String
-  config        String?   // JSON serialized config
-  result        String?   // JSON serialized result
-  error         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  completedAt   DateTime?
-  
+  id          String    @id @default(uuid())
+  status      String // 'pending', 'running', 'completed', 'failed', 'cancelled'
+  userAddress String?
+  isTestnet   Boolean   @default(true)
+  model       String
+  config      String? // JSON serialized config
+  result      String? // JSON serialized result
+  error       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  completedAt DateTime?
+
   @@index([status, createdAt])
   @@index([userAddress, status])
+}
+
+model WalletRiskControl {
+  id          String   @id @default(uuid())
+  userAddress String
+  isTestnet   Boolean  @default(true)
+  killSwitch  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userAddress, isTestnet])
+  @@index([userAddress, killSwitch])
+}
+
+model UserHyperliquidApiWallet {
+  id                   String    @id @default(uuid())
+  userAddress          String
+  isTestnet            Boolean   @default(true)
+  apiWalletAddress     String
+  encryptedPrivateKey  String
+  iv                   String
+  authTag              String
+  keyVersion           String    @default("v1")
+  lastVerifiedAt       DateTime?
+  delegationValidUntil DateTime?
+  lastUsedAt           DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  @@unique([userAddress, isTestnet])
+  @@index([apiWalletAddress])
+  @@index([userAddress, isTestnet, apiWalletAddress])
 }

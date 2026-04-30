@@ -1,4 +1,4 @@
-import { getMetaAndAssetCtxs } from "@/lib/hyperliquid";
+import { getMetaAndAssetCtxs } from "@/lib/hyperliquid-info";
 import { AgentConfig, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
 import { ScreenerConfig, DEFAULT_SCREENER_CONFIG } from "@/lib/screener-config";
 import { StateSnapshot } from "@/types/snapshot";
@@ -11,6 +11,7 @@ import { HeldPositionMarketResolver } from "./HeldPositionMarketResolver";
 import { RegimeService } from "./RegimeService";
 import { MarketDerivedMetricsService } from "./MarketDerivedMetricsService";
 import { RegimeUniverseService } from "./RegimeUniverseService";
+import { getWalletKillSwitch } from "@/lib/risk/kill-switch";
 
 export class SnapshotBuilder {
     private screenerServices: Record<string, ScreenerService>;
@@ -71,6 +72,7 @@ export class SnapshotBuilder {
         }
 
         const { account, heldSymbols } = await this.accountStateService.buildAccountState(userAddress, isTestnet, config.risk);
+        const backendKillSwitch = userAddress ? await getWalletKillSwitch(userAddress, isTestnet) : false;
 
         console.log("📊 Fetching Screened Market Data...");
         const screenedSymbols = await this.getScreener(isTestnet).getScreenedSymbols(isTestnet, heldSymbols, config, screenerConfig);
@@ -109,7 +111,7 @@ export class SnapshotBuilder {
                 max_position_pct_equity_per_symbol: config.risk.max_position_fraction_per_symbol,
                 max_total_exposure_pct_equity: config.risk.max_total_exposure_fraction,
                 min_trade_notional_usd: effectiveMinNotional,
-                kill_switch: false,
+                kill_switch: backendKillSwitch,
                 no_flip_same_tick: config.risk.no_flip_same_tick,
                 max_new_positions_per_cycle: config.risk.max_new_positions_per_cycle,
                 daily_loss_kill_switch_fraction: config.risk.daily_loss_kill_switch_fraction,

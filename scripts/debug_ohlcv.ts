@@ -1,4 +1,4 @@
-import { getOHLCV } from "@/lib/hyperliquid";
+import { getOHLCV } from "@/lib/hyperliquid-info";
 
 async function debugOHLCV() {
     console.log("Fetching OHLCV for BTC...");

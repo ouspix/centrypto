@@ -3,6 +3,7 @@ import { AGENT_PRESETS } from "@/lib/agent-config";
 import { SCREENER_PRESETS } from "@/lib/screener-config";
 import { BacktestRunner } from "@/src/backtest/BacktestRunner";
 import { BacktestPolicyName } from "@/src/backtest/BacktestTypes";
+import { InternalAuthError, requireInternalRequest } from "@/lib/auth/internal";
 
 type BacktestRequestBody = {
     start?: string;
@@ -22,6 +23,7 @@ type BacktestRequestBody = {
 
 export async function POST(request: Request) {
     try {
+        requireInternalRequest(request);
         const body = await request.json() as BacktestRequestBody;
         const start = parseDate(body.start, "start");
         const end = parseDate(body.end, "end");
@@ -68,6 +70,9 @@ export async function POST(request: Request) {
             }))
         });
     } catch (error) {
+        if (error instanceof InternalAuthError) {
+            return NextResponse.json({ error: error.message }, { status: error.status });
+        }
         const message = error instanceof Error ? error.message : String(error);
         const status = /start is required|end is required|Invalid .* date/.test(message) ? 400 : 500;
         console.error("Backtest API Error:", error);

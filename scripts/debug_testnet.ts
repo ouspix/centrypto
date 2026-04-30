@@ -1,4 +1,4 @@
-import { getMetaAndAssetCtxs, getOHLCV } from "@/lib/hyperliquid";
+import { getMetaAndAssetCtxs, getOHLCV } from "@/lib/hyperliquid-info";
 
 async function debugTestnet() {
     console.log("🔍 Testing Testnet Connection...");

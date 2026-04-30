@@ -35,6 +35,15 @@ export class MetricsReporter {
             avg_win_usd: wins.length ? average(wins.map(trade => trade.net_pnl_usd)) : 0,
             avg_loss_usd: losses.length ? average(losses.map(trade => trade.net_pnl_usd)) : 0,
             avg_trade_net_bps: trades.length ? average(trades.map(trade => bps(trade.net_pnl_usd, trade.notional_usd))) : 0,
+            expectancy_per_trade_usd: trades.length ? round(netPnl / trades.length) : 0,
+            max_consecutive_losses: maxConsecutiveLosses(trades),
+            avg_slippage_bps: trades.length ? round(average(trades.map(trade => trade.slippage_bps))) : 0,
+            avg_fees_usd_per_trade: trades.length ? round(fees / trades.length) : 0,
+            avg_mfe_bps: trades.length ? round(average(trades.map(trade => trade.max_favorable_excursion_bps))) : 0,
+            avg_mae_bps: trades.length ? round(average(trades.map(trade => trade.max_adverse_excursion_bps))) : 0,
+            pnl_by_hour_utc: pnlByHourUtc(trades),
+            pnl_by_weekday: pnlByWeekday(trades),
+            confidence_buckets: confidenceBuckets(trades),
             turnover_usd: round(turnover),
             turnover_cost_usd: round(fees),
             stop_hit_rate: rate(trades, "stop_loss"),
@@ -55,6 +64,69 @@ export class MetricsReporter {
             }
         };
     }
+}
+
+function maxConsecutiveLosses(trades: SimTrade[]): number {
+    let current = 0;
+    let max = 0;
+    for (const trade of trades) {
+        if (trade.net_pnl_usd < 0) {
+            current++;
+            max = Math.max(max, current);
+        } else {
+            current = 0;
+        }
+    }
+    return max;
+}
+
+function pnlByHourUtc(trades: SimTrade[]): Record<string, number> {
+    const out = initBuckets(24);
+    for (const trade of trades) {
+        const key = String(trade.exit_ts.getUTCHours()).padStart(2, "0");
+        out[key] = round((out[key] ?? 0) + trade.net_pnl_usd);
+    }
+    return out;
+}
+
+function pnlByWeekday(trades: SimTrade[]): Record<string, number> {
+    const labels = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+    const out = Object.fromEntries(labels.map(label => [label, 0])) as Record<string, number>;
+    for (const trade of trades) {
+        const key = labels[trade.exit_ts.getUTCDay()];
+        out[key] = round((out[key] ?? 0) + trade.net_pnl_usd);
+    }
+    return out;
+}
+
+function confidenceBuckets(trades: SimTrade[]): BacktestMetrics["confidence_buckets"] {
+    const groups = new Map<string, SimTrade[]>();
+    for (const trade of trades) {
+        const confidence = Number((trade as any).confidence ?? (trade as any).llm_confidence);
+        const key = Number.isFinite(confidence)
+            ? confidence >= 0.8 ? "0.80-1.00" : confidence >= 0.6 ? "0.60-0.79" : confidence >= 0.4 ? "0.40-0.59" : "0.00-0.39"
+            : "unknown";
+        const bucket = groups.get(key) ?? [];
+        bucket.push(trade);
+        groups.set(key, bucket);
+    }
+
+    const out: BacktestMetrics["confidence_buckets"] = {};
+    for (const [key, group] of groups) {
+        const wins = group.filter(trade => trade.net_pnl_usd > 0);
+        out[key] = {
+            trade_count: group.length,
+            net_pnl_usd: round(group.reduce((sum, trade) => sum + trade.net_pnl_usd, 0)),
+            win_rate: group.length ? wins.length / group.length : 0
+        };
+    }
+    return out;
+}
+
+function initBuckets(count: number): Record<string, number> {
+    const out: Record<string, number> = {};
+    for (let i = 0; i < count; i++) out[String(i).padStart(2, "0")] = 0;
+    return out;
 }
 
 function breakdown(trades: SimTrade[], keyFn: (trade: SimTrade) => string, initialEquityUsd: number): Record<string, Partial<BacktestMetrics>> {

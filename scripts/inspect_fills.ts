@@ -1,5 +1,5 @@
 
-import { getUserFills } from "./lib/hyperliquid";
+import { getUserFills } from "@/lib/hyperliquid-info";
 import dotenv from "dotenv";
 
 dotenv.config({ path: ".env.local" });

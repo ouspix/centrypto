@@ -1,25 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { requireWalletSession, WalletSessionError, normalizeWalletAddress } from '@/lib/auth/wallet-session';
 import { PriceAlertsService } from '@/services/PriceAlertsService';
 
 const alertsService = new PriceAlertsService();
 
 export async function GET(request: NextRequest) {
     try {
+        const session = requireWalletSession(request);
         const { searchParams } = new URL(request.url);
         const userAddress = searchParams.get('userAddress');
         const activeOnly = searchParams.get('activeOnly') === 'true';
 
-        if (!userAddress) {
-            return NextResponse.json(
-                { error: 'userAddress parameter is required' },
-                { status: 400 }
-            );
+        if (userAddress && normalizeWalletAddress(userAddress) !== session.address) {
+            return NextResponse.json({ error: 'userAddress does not match wallet session' }, { status: 403 });
         }
 
-        const alerts = await alertsService.getAlerts(userAddress, activeOnly);
+        const alerts = await alertsService.getAlerts(session.address, activeOnly);
 
         return NextResponse.json({ alerts });
     } catch (error) {
+        if (error instanceof WalletSessionError) {
+            return NextResponse.json({ error: error.message }, { status: error.status });
+        }
         console.error('[API] Error fetching alerts:', error);
         return NextResponse.json(
             { error: 'Failed to fetch alerts' },
@@ -30,10 +32,15 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
     try {
+        const session = requireWalletSession(request);
         const body = await request.json();
         const { symbol, condition, targetPrice, percentChange, userAddress } = body;
 
-        if (!symbol || !condition || !targetPrice || !userAddress) {
+        if (userAddress && normalizeWalletAddress(userAddress) !== session.address) {
+            return NextResponse.json({ error: 'userAddress does not match wallet session' }, { status: 403 });
+        }
+
+        if (!symbol || !condition || !targetPrice) {
             return NextResponse.json(
                 { error: 'Missing required fields' },
                 { status: 400 }
@@ -45,11 +52,14 @@ export async function POST(request: NextRequest) {
             condition,
             targetPrice,
             percentChange,
-            userAddress
+            userAddress: session.address
         });
 
         return NextResponse.json({ alert }, { status: 201 });
     } catch (error) {
+        if (error instanceof WalletSessionError) {
+            return NextResponse.json({ error: error.message }, { status: error.status });
+        }
         console.error('[API] Error creating alert:', error);
         return NextResponse.json(
             { error: 'Failed to create alert' },
@@ -60,18 +70,23 @@ export async function POST(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
     try {
+        const session = requireWalletSession(request);
         const { searchParams } = new URL(request.url);
         const alertId = searchParams.get('alertId');
         const userAddress = searchParams.get('userAddress');
 
-        if (!alertId || !userAddress) {
+        if (userAddress && normalizeWalletAddress(userAddress) !== session.address) {
+            return NextResponse.json({ error: 'userAddress does not match wallet session' }, { status: 403 });
+        }
+
+        if (!alertId) {
             return NextResponse.json(
-                { error: 'alertId and userAddress parameters are required' },
+                { error: 'alertId parameter is required' },
                 { status: 400 }
             );
         }
 
-        const success = await alertsService.deleteAlert(alertId, userAddress);
+        const success = await alertsService.deleteAlert(alertId, session.address);
 
         if (!success) {
             return NextResponse.json(
@@ -82,6 +97,9 @@ export async function DELETE(request: NextRequest) {
 
         return NextResponse.json({ success: true });
     } catch (error) {
+        if (error instanceof WalletSessionError) {
+            return NextResponse.json({ error: error.message }, { status: error.status });
+        }
         console.error('[API] Error deleting alert:', error);
         return NextResponse.json(
             { error: 'Failed to delete alert' },
@@ -92,10 +110,15 @@ export async function DELETE(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
     try {
+        const session = requireWalletSession(request);
         const body = await request.json();
         const { alertId, userAddress, action } = body;
 
-        if (!alertId || !userAddress || !action) {
+        if (userAddress && normalizeWalletAddress(userAddress) !== session.address) {
+            return NextResponse.json({ error: 'userAddress does not match wallet session' }, { status: 403 });
+        }
+
+        if (!alertId || !action) {
             return NextResponse.json(
                 { error: 'Missing required fields' },
                 { status: 400 }
@@ -105,9 +128,9 @@ export async function PATCH(request: NextRequest) {
         let alert = null;
 
         if (action === 'toggle') {
-            alert = await alertsService.toggleAlert(alertId, userAddress);
+            alert = await alertsService.toggleAlert(alertId, session.address);
         } else if (action === 'reset') {
-            alert = await alertsService.resetAlert(alertId, userAddress);
+            alert = await alertsService.resetAlert(alertId, session.address);
         } else {
             return NextResponse.json(
                 { error: 'Invalid action' },
@@ -124,6 +147,9 @@ export async function PATCH(request: NextRequest) {
 
         return NextResponse.json({ alert });
     } catch (error) {
+        if (error instanceof WalletSessionError) {
+            return NextResponse.json({ error: error.message }, { status: error.status });
+        }
         console.error('[API] Error updating alert:', error);
         return NextResponse.json(
             { error: 'Failed to update alert' },

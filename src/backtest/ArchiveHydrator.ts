@@ -316,15 +316,19 @@ async function upsertSyntheticCandlesFromFeatures(options: Required<Pick<Hydrate
             const rows = await store.getRows(options.start, options.end, options.intervalSeconds, [`${symbol}-PERP`]);
             const candles = deriveCandles(rows);
             for (const candle of candles) {
+                const where = {
+                    symbol_timeframe_openTime: {
+                        symbol,
+                        timeframe: "1m",
+                        openTime: new Date(candle.t)
+                    }
+                };
+                const existing = await db.marketCandle.findUnique({ where });
+                if (existing && existing.volume !== 0) continue;
                 await db.marketCandle.upsert({
-                    where: {
-                        symbol_timeframe_openTime: {
-                            symbol,
-                            timeframe: "1m",
-                            openTime: new Date(candle.t)
-                        }
-                    },
+                    where,
                     update: {
+                        open: candle.o,
                         high: candle.h,
                         low: candle.l,
                         close: candle.c,

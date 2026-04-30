@@ -1,4 +1,6 @@
-import { placeOrder as hlPlaceOrder, cancelOrder as hlCancelOrder } from "./hyperliquid";
+import "server-only";
+
+import { placeOrderWithPrivateKey as hlPlaceOrder, cancelOrderWithPrivateKey as hlCancelOrder } from "./hyperliquid-execution";
 import { ApprovedOrder } from "@/types/trading";
 
 // Re-export for backward compatibility

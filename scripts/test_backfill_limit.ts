@@ -1,4 +1,4 @@
-import { getOHLCV } from "../lib/hyperliquid";
+import { getOHLCV } from "../lib/hyperliquid-info";
 
 async function testLimit() {
     const now = Date.now();

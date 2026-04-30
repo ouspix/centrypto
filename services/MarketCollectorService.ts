@@ -1,4 +1,4 @@
-import { getMetaAndAssetCtxs, getOHLCV } from "@/lib/hyperliquid";
+import { getMetaAndAssetCtxs, getOHLCV } from "@/lib/hyperliquid-info";
 import { marketDbMain, marketDbTest } from "@/lib/market-db";
 import { HyperliquidWS } from "@/lib/hyperliquid-ws";
 import { ActiveMarket, activeMarketAssets, buildMarketTickRow } from "./MarketUniverse";

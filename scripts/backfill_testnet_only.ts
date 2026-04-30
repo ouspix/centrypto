@@ -1,4 +1,4 @@
-import { getMetaAndAssetCtxs, getOHLCV } from "@/lib/hyperliquid";
+import { getMetaAndAssetCtxs, getOHLCV } from "@/lib/hyperliquid-info";
 import { marketDbTest } from "@/lib/market-db";
 
 async function runTestnetBackfill() {

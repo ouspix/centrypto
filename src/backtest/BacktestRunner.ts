@@ -51,10 +51,17 @@ export class BacktestRunner {
         });
         const coverage = dataSource.getCoverageReport();
         await writeJson(path.join(outDir, "coverage.json"), coverage);
+        if (coverage.synthetic_execution_candles) {
+            console.warn(`[backtest] Execution candles are ${coverage.candle_source}; SL/TP path simulation is approximate.`);
+        }
         assertCoverageUsable(coverage);
 
         const portfolio = new BacktestPortfolio(config.initialCapitalUsd, config.agentConfig);
-        const execution = new ExecutionSimulator(config.agentConfig, config.network);
+        const execution = new ExecutionSimulator(config.agentConfig, config.network, config.slTpExecution ?? {
+            ordering: "stop_first",
+            slippageMode: "fallback",
+            fallbackSlippageBps: config.agentConfig.network_profiles[config.network].slippage_model.min_bps
+        });
         const management = buildManagementPolicy(config.managementPolicyName);
         const llmConfig = config.llm
             ? {
@@ -68,7 +75,16 @@ export class BacktestRunner {
         await writeJson(path.join(outDir, "config.json"), {
             ...serializableConfig(config),
             run_id: runId,
-            git_commit: gitCommit()
+            git_commit: gitCommit(),
+            execution_candles: {
+                candle_source: coverage.candle_source,
+                synthetic_execution_candles: coverage.synthetic_execution_candles
+            },
+            sl_tp_execution: config.slTpExecution ?? {
+                ordering: "stop_first",
+                slippageMode: "fallback",
+                fallbackSlippageBps: config.agentConfig.network_profiles[config.network].slippage_model.min_bps
+            }
         });
 
         let previousTs = new Date(config.start.getTime() - config.intervalSeconds * 1000);
@@ -142,6 +158,14 @@ export class BacktestRunner {
             agentPresetName: config.agentPresetName,
             traderPolicyName: config.policyName
         });
+        metrics.candle_source = coverage.candle_source;
+        metrics.synthetic_execution_candles = coverage.synthetic_execution_candles;
+        if (coverage.synthetic_execution_candles) {
+            metrics.warnings = [
+                ...(metrics.warnings ?? []),
+                "Execution candles include synthetic candles derived from feature rows; SL/TP path results are approximate."
+            ];
+        }
         await writeJson(path.join(outDir, "metrics.json"), metrics);
 
         return {

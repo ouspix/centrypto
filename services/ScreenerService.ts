@@ -4,7 +4,7 @@ import { marketDbMain, marketDbTest } from "@/lib/market-db";
 import { AgentConfig, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
 import { ScreenerConfig, DEFAULT_SCREENER_CONFIG } from "@/lib/screener-config";
 import { OrderBookManager } from "./OrderBookManager";
-import { HyperliquidWS } from "@/lib/hyperliquid-ws";
+import { HyperliquidWS, getSharedHyperliquidWS } from "@/lib/hyperliquid-ws";
 
 type CacheEntry<T> = {
     expiresAt: number;
@@ -61,7 +61,7 @@ export class ScreenerService {
 
         // Initialize WS and OrderBookManager
         // We default to Mainnet for now. Ideally, we should support switching or multiple instances.
-        this.ws = new HyperliquidWS(this.isTestnet);
+        this.ws = getSharedHyperliquidWS(this.isTestnet);
         this.orderBookManager = new OrderBookManager(this.ws);
         if (!options.disableLive) {
             this.ws.connect();
@@ -100,6 +100,10 @@ export class ScreenerService {
         const allTicks = Array.from(latestTicksMap.values());
 
         if (allTicks.length === 0) {
+            if (process.env.NODE_ENV === "production") {
+                console.warn("No recent market ticks found in DB; collector is not ready.");
+                return [];
+            }
             console.warn("⚠️ No recent market ticks found in DB. Falling back to live fetch for a small default universe.");
             const fallbackSymbols = ["BTC", "ETH", "SOL", "LINK", "DOGE", "XRP"];
             const fallbackCandidates: ScreenedSymbol[] = [];

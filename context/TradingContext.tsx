@@ -1,7 +1,7 @@
 "use client"
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
-import { getMeta, AssetMeta } from '@/lib/hyperliquid'
+import { getMeta, AssetMeta } from '@/lib/hyperliquid-info'
 
 type TradingContextType = {
     selectedPair: string

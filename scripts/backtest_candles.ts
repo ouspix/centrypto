@@ -1,4 +1,4 @@
-import { waitForHyperliquidSlot } from "@/lib/hyperliquid";
+import { waitForHyperliquidSlot } from "@/lib/hyperliquid-info";
 import { FeatureStore } from "@/src/backtest/FeatureStore";
 import { MarketFeatureRow } from "@/src/backtest/BacktestTypes";
 import { PrismaClient } from "@prisma/market-client";

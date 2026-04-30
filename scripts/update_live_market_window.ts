@@ -1,4 +1,4 @@
-import { waitForHyperliquidSlot } from "@/lib/hyperliquid";
+import { waitForHyperliquidSlot } from "@/lib/hyperliquid-info";
 import { marketDbMain, marketDbTest } from "@/lib/market-db";
 import { createBacktestDbClient, ensureBacktestDbSchema } from "@/src/backtest/BacktestDb";
 

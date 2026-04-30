@@ -1,27 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { requireWalletSession, WalletSessionError, normalizeWalletAddress } from '@/lib/auth/wallet-session';
 import { TradeHistoryService } from '@/services/TradeHistoryService';
 
 const tradeService = new TradeHistoryService();
 
 export async function GET(request: NextRequest) {
     try {
+        const session = requireWalletSession(request);
         const { searchParams } = new URL(request.url);
-        const userAddress = searchParams.get('userAddress');
+        const requestedUserAddress = searchParams.get('userAddress');
         const analytics = searchParams.get('analytics') === 'true';
         const limit = parseInt(searchParams.get('limit') || '100');
         const range = searchParams.get('range'); // e.g., 24h,3d,7d,1m,1y
         const network = searchParams.get('network');
         const isTestnet = network === 'testnet';
 
-        if (!userAddress) {
-            return NextResponse.json(
-                { error: 'userAddress parameter is required' },
-                { status: 400 }
-            );
+        if (requestedUserAddress && normalizeWalletAddress(requestedUserAddress) !== session.address) {
+            return NextResponse.json({ error: 'userAddress does not match wallet session' }, { status: 403 });
         }
 
         if (analytics) {
-            const analyticsData = await tradeService.getAnalytics(userAddress, isTestnet);
+            const analyticsData = await tradeService.getAnalytics(session.address, isTestnet);
             return NextResponse.json({ analytics: analyticsData });
         }
 
@@ -41,10 +40,13 @@ export async function GET(request: NextRequest) {
             }
         }
 
-        const trades = await tradeService.getTrades(userAddress, isTestnet, limit, sinceMs);
+        const trades = await tradeService.getTrades(session.address, isTestnet, limit, sinceMs);
 
         return NextResponse.json({ trades });
     } catch (error) {
+        if (error instanceof WalletSessionError) {
+            return NextResponse.json({ error: error.message }, { status: error.status });
+        }
         console.error('[API] Error fetching trades:', error);
         return NextResponse.json(
             { error: 'Failed to fetch trades' },
@@ -55,10 +57,15 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
     try {
+        const session = requireWalletSession(request);
         const body = await request.json();
         const { symbol, side, entryPrice, size, leverage, userAddress, strategyName } = body;
 
-        if (!symbol || !side || !entryPrice || !size || !userAddress) {
+        if (userAddress && normalizeWalletAddress(userAddress) !== session.address) {
+            return NextResponse.json({ error: 'userAddress does not match wallet session' }, { status: 403 });
+        }
+
+        if (!symbol || !side || !entryPrice || !size) {
             return NextResponse.json(
                 { error: 'Missing required fields' },
                 { status: 400 }
@@ -71,12 +78,15 @@ export async function POST(request: NextRequest) {
             entryPrice,
             size,
             leverage,
-            userAddress,
+            userAddress: session.address,
             strategyName
         });
 
         return NextResponse.json({ trade }, { status: 201 });
     } catch (error) {
+        if (error instanceof WalletSessionError) {
+            return NextResponse.json({ error: error.message }, { status: error.status });
+        }
         console.error('[API] Error creating trade:', error);
         return NextResponse.json(
             { error: 'Failed to create trade' },
@@ -87,6 +97,7 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
     try {
+        requireWalletSession(request);
         const body = await request.json();
         const { tradeId, exitPrice, fees } = body;
 
@@ -112,6 +123,9 @@ export async function PATCH(request: NextRequest) {
 
         return NextResponse.json({ trade });
     } catch (error) {
+        if (error instanceof WalletSessionError) {
+            return NextResponse.json({ error: error.message }, { status: error.status });
+        }
         console.error('[API] Error closing trade:', error);
         return NextResponse.json(
             { error: 'Failed to close trade' },

@@ -1,4 +1,4 @@
-import { getClearinghouseState } from "@/lib/hyperliquid";
+import { getClearinghouseState } from "@/lib/hyperliquid-info";
 import { AgentConfig } from "@/lib/agent-config";
 import { AccountState, DerivedPortfolio, Position } from "@/types/snapshot";
 
@@ -27,7 +27,7 @@ export class AccountStateService {
         const heldSymbols: string[] = [];
 
         if (userAddress) {
-            console.log(`🔍 Fetching clearinghouse state for ${userAddress}...`);
+            console.log("Fetching clearinghouse state for authenticated wallet.");
             const clearinghouseState = await getClearinghouseState(userAddress, isTestnet);
 
             if (clearinghouseState) {
@@ -65,7 +65,7 @@ export class AccountStateService {
                         };
                     });
 
-                console.log(`✅ Found ${account.current_positions.length} open positions:`, account.current_positions.map((p: any) => p.symbol).join(", "));
+                console.log(`Found ${account.current_positions.length} open position(s).`);
             } else {
                 console.warn("⚠️ Failed to fetch clearinghouse state or it was null.");
             }

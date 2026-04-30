@@ -1,6 +1,8 @@
 import { vi } from 'vitest'
 import '@testing-library/jest-dom'
 
+vi.mock('server-only', () => ({}))
+
 // Mock ResizeObserver
 global.ResizeObserver = class ResizeObserver {
     observe() { }
