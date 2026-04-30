@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { useTrading } from "@/context/TradingContext"
 import { cn } from "@/lib/utils"
+import { readActiveScreeningConfig, SCREENING_CONFIG_APPLIED_EVENT } from "@/lib/screening-storage"
 import { TrendingUp, TrendingDown } from "lucide-react"
 
 type Ticker = {
@@ -30,29 +31,17 @@ export function HyperliquidFeed() {
     const pingIntervalRef = useRef<NodeJS.Timeout | null>(null)
     const { selectedPair, setSelectedPair, setMarketState, isTestnet } = useTrading()
 
-    // Load screening config from localStorage
+    // Load applied screening config. Draft edits do not trigger screening.
     useEffect(() => {
-        const loadConfig = () => {
-            try {
-                const saved = localStorage.getItem('screeningConfig')
-                if (saved) {
-                    setScreeningConfig(JSON.parse(saved))
-                }
-            } catch (e) {
-                console.error('Failed to load screening config', e)
-            }
-        }
+        setScreeningConfig(readActiveScreeningConfig())
 
-        loadConfig()
-
-        // Listen for config changes
-        const handleConfigChange = (e: any) => {
-            console.log('[HyperliquidFeed] Config change event received', e.detail)
+        const handleConfigApplied = (e: any) => {
+            console.log('[HyperliquidFeed] Config applied event received', e.detail)
             setScreeningConfig(e.detail)
         }
 
-        window.addEventListener('screeningConfigChanged', handleConfigChange)
-        return () => window.removeEventListener('screeningConfigChanged', handleConfigChange)
+        window.addEventListener(SCREENING_CONFIG_APPLIED_EVENT, handleConfigApplied)
+        return () => window.removeEventListener(SCREENING_CONFIG_APPLIED_EVENT, handleConfigApplied)
     }, [])
 
     // Fetch enriched market data (screening metrics)

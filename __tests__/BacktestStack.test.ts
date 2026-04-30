@@ -1,0 +1,580 @@
+import fs from "fs/promises";
+import os from "os";
+import path from "path";
+import { PrismaClient } from "@prisma/market-client";
+import { describe, expect, it } from "vitest";
+import { DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
+import { SCREENER_PRESETS } from "@/lib/screener-config";
+import { FeatureStore } from "@/src/backtest/FeatureStore";
+import { buildMarketFeaturesFromSnapshots, parseHyperliquidL2File } from "@/src/backtest/L2FeatureBuilder";
+import { BacktestDataSource } from "@/src/backtest/BacktestDataSource";
+import { BacktestPortfolio } from "@/src/backtest/BacktestPortfolio";
+import { ExecutionSimulator } from "@/src/backtest/ExecutionSimulator";
+import { ExecutionBookStore } from "@/src/backtest/ExecutionBookStore";
+import { MetricsReporter } from "@/src/backtest/MetricsReporter";
+import { RecordedLLMTrader, buildManagementPolicy, buildTraderPolicy } from "@/src/backtest/TraderPolicies";
+import { acceptChallenger, sampleRandomConfig, scoreMetrics } from "@/src/backtest/WalkForwardOptimizer";
+import { BacktestMetrics, L2BookSnapshot, MarketFeatureRow, SimPosition, SimTrade } from "@/src/backtest/BacktestTypes";
+import { TradeDecision, TraderContext } from "@/types/trading";
+
+describe("backtest stack", () => {
+    it("parses Hyperliquid l2Book JSONL rows with object and tuple levels", async () => {
+        const dir = await fs.mkdtemp(path.join(os.tmpdir(), "bt-l2-"));
+        const file = path.join(dir, "BTC");
+        await fs.writeFile(file, [
+            JSON.stringify({ time: 1770000000000, levels: [[{ px: "100", sz: "2" }], [{ px: "101", sz: "3" }]] }),
+            JSON.stringify({ data: { ts: 1770000001000, levels: [[["99", "1"]], [["102", "2"]]] } }),
+            JSON.stringify({ time: 1770000002000, levels: [[], []] })
+        ].join("\n"));
+
+        const snapshots = await parseHyperliquidL2File(file, "BTC");
+
+        expect(snapshots).toHaveLength(2);
+        expect(snapshots[0].symbol).toBe("BTC");
+        expect(snapshots[0].bids[0]).toEqual({ price: 100, size: 2 });
+        expect(snapshots[1].asks[0]).toEqual({ price: 102, size: 2 });
+    });
+
+    it("computes spread, depth, pressure, slippage, and costs from L2 snapshots", () => {
+        const snapshots: L2BookSnapshot[] = [{
+            ts: new Date("2026-04-11T10:00:00Z"),
+            symbol: "BTC",
+            bids: [{ price: 100.4, size: 10 }, { price: 100.3, size: 10 }],
+            asks: [{ price: 100.6, size: 10 }, { price: 100.7, size: 10 }]
+        }];
+
+        const rows = buildMarketFeaturesFromSnapshots(snapshots, { intervalSeconds: 10, takerFeeBps: 3.5 });
+
+        expect(rows).toHaveLength(1);
+        expect(rows[0].symbol).toBe("BTC-PERP");
+        expect(rows[0].mid_price).toBe(100.5);
+        expect(rows[0].spread_bps).toBeCloseTo(19.9005, 4);
+        expect(rows[0].bid_depth_25bps_usd).toBe(2007);
+        expect(rows[0].ask_depth_25bps_usd).toBe(2013);
+        expect(rows[0].book_pressure_25bps).toBeCloseTo(-0.001493, 5);
+        expect(rows[0].cost_bps_100).not.toBeNull();
+    });
+
+    it("does not timestamp L2-derived features before the source snapshot was observable", () => {
+        const rows = buildMarketFeaturesFromSnapshots([{
+            ts: new Date("2026-04-11T10:00:09Z"),
+            symbol: "BTC",
+            bids: [{ price: 100, size: 10 }],
+            asks: [{ price: 101, size: 10 }]
+        }], { intervalSeconds: 10 });
+
+        expect(rows).toHaveLength(1);
+        expect(rows[0].ts.toISOString()).toBe("2026-04-11T10:00:10.000Z");
+    });
+
+    it("does not use future ticks when mapping a historical snapshot", async () => {
+        const dbPath = path.join(await fs.mkdtemp(path.join(os.tmpdir(), "bt-db-")), "market.db");
+        const db = new PrismaClient({ datasources: { db: { url: `file:${dbPath}` } } });
+        const store = new FeatureStore({ db });
+        await store.ensureSchema();
+        await createMarketTables(db);
+
+        const ts = new Date("2026-04-11T10:00:00Z");
+        await store.upsertRows([featureRow(ts, "BTC-PERP")]);
+        await db.$executeRawUnsafe(
+            `INSERT INTO "MarketTick" ("ts", "symbol", "markPrice", "openInterest", "fundingRate", "volume24h") VALUES (?, ?, ?, ?, ?, ?)`,
+            new Date("2026-04-11T09:59:00Z"),
+            "BTC",
+            100,
+            11,
+            0.01,
+            10_000_000
+        );
+        await db.$executeRawUnsafe(
+            `INSERT INTO "MarketTick" ("ts", "symbol", "markPrice", "openInterest", "fundingRate", "volume24h") VALUES (?, ?, ?, ?, ?, ?)`,
+            new Date("2026-04-11T10:00:10Z"),
+            "BTC",
+            100,
+            999,
+            0.99,
+            9999
+        );
+        await db.$executeRawUnsafe(
+            `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume") VALUES (?, '1m', ?, 100, 101, 99, 100, 1)`,
+            "BTC",
+            ts
+        );
+
+        const source = await BacktestDataSource.create({
+            network: "mainnet",
+            start: ts,
+            end: ts,
+            intervalSeconds: 10,
+            agentConfig: DEFAULT_AGENT_CONFIG,
+            screenerConfig: SCREENER_PRESETS["Testnet Aggressive"],
+            featureDbPath: dbPath
+        });
+        const markets = source.getMarkets(ts);
+
+        expect(markets["BTC-PERP"].funding.current_8h).toBe(0.01);
+        expect(markets["BTC-PERP"].open_interest.current).toBe(11);
+        await db.$disconnect();
+    });
+
+    it("keeps held symbols in historical market snapshots even when screener gates would drop them", async () => {
+        const dbPath = path.join(await fs.mkdtemp(path.join(os.tmpdir(), "bt-db-")), "market.db");
+        const db = new PrismaClient({ datasources: { db: { url: `file:${dbPath}` } } });
+        const store = new FeatureStore({ db });
+        await store.ensureSchema();
+        await createMarketTables(db);
+
+        const ts = new Date("2026-04-11T10:00:00Z");
+        await store.upsertRows([featureRow(ts, "BTC-PERP")]);
+        await db.$executeRawUnsafe(
+            `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume") VALUES (?, '1m', ?, 100, 101, 99, 100, 1)`,
+            "BTC",
+            ts
+        );
+
+        const source = await BacktestDataSource.create({
+            network: "mainnet",
+            start: ts,
+            end: ts,
+            intervalSeconds: 10,
+            agentConfig: DEFAULT_AGENT_CONFIG,
+            screenerConfig: { ...SCREENER_PRESETS["Momentum Moderate"], minRealizedVol: 1 },
+            featureDbPath: dbPath
+        });
+
+        expect(source.getMarkets(ts)["BTC-PERP"]).toBeUndefined();
+        expect(source.getMarkets(ts, ["BTC-PERP"])["BTC-PERP"]).toBeDefined();
+        await db.$disconnect();
+    });
+
+    it("does not return the currently-forming 1m candle for stop and take-profit simulation", async () => {
+        const dbPath = path.join(await fs.mkdtemp(path.join(os.tmpdir(), "bt-db-")), "market.db");
+        const db = new PrismaClient({ datasources: { db: { url: `file:${dbPath}` } } });
+        const store = new FeatureStore({ db });
+        await store.ensureSchema();
+
+        const first = new Date("2026-04-11T10:00:00Z");
+        const second = new Date("2026-04-11T10:01:00Z");
+        await store.upsertRows([featureRow(first, "BTC-PERP"), featureRow(second, "BTC-PERP")]);
+        for (const ts of [first, second]) {
+            await db.$executeRawUnsafe(
+                `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume") VALUES (?, '1m', ?, 100, 101, 99, 100, 0)`,
+                "BTC",
+                ts
+            );
+        }
+
+        const source = await BacktestDataSource.create({
+            network: "mainnet",
+            start: first,
+            end: second,
+            intervalSeconds: 10,
+            agentConfig: DEFAULT_AGENT_CONFIG,
+            screenerConfig: SCREENER_PRESETS["Testnet Aggressive"],
+            featureDbPath: dbPath
+        });
+
+        expect(source.getCandles("BTC-PERP", first, new Date(second.getTime() - 1)).map(c => new Date(c.openTime).toISOString()))
+            .toEqual([]);
+        await db.$disconnect();
+    });
+
+    it("checks execution coverage at replay feature timestamps instead of minute floors", async () => {
+        const dbPath = path.join(await fs.mkdtemp(path.join(os.tmpdir(), "bt-db-")), "market.db");
+        const db = new PrismaClient({ datasources: { db: { url: `file:${dbPath}` } } });
+        const store = new FeatureStore({ db });
+        const bookStore = new ExecutionBookStore({ db });
+        await store.ensureSchema();
+
+        const first = new Date("2026-04-11T10:00:10Z");
+        const second = new Date("2026-04-11T10:00:20Z");
+        await store.upsertRows([featureRow(first, "BTC-PERP"), featureRow(second, "BTC-PERP")]);
+        await bookStore.upsertBooks([
+            { ts: first, symbol: "BTC-PERP", intervalSeconds: 10, bids: [{ price: 99, size: 1 }], asks: [{ price: 101, size: 1 }] },
+            { ts: second, symbol: "BTC-PERP", intervalSeconds: 10, bids: [{ price: 99, size: 1 }], asks: [{ price: 101, size: 1 }] }
+        ]);
+        for (const ts of [first, second]) {
+            await db.$executeRawUnsafe(
+                `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume") VALUES (?, '1m', ?, 100, 101, 99, 100, 0)`,
+                "BTC",
+                ts
+            );
+        }
+
+        const source = await BacktestDataSource.create({
+            network: "mainnet",
+            start: new Date("2026-04-11T10:00:05Z"),
+            end: new Date("2026-04-11T10:00:25Z"),
+            intervalSeconds: 10,
+            agentConfig: DEFAULT_AGENT_CONFIG,
+            screenerConfig: SCREENER_PRESETS["Testnet Aggressive"],
+            featureDbPath: dbPath
+        });
+        const coverage = source.getCoverageReport();
+
+        expect(coverage.expected_timestamps).toBe(2);
+        expect(coverage.missing_feature_rows_by_symbol["BTC-PERP"]).toBe(0);
+        expect(coverage.missing_execution_books_by_symbol?.["BTC-PERP"]).toBe(0);
+        expect(coverage.missing_candle_intervals).toEqual([]);
+        await db.$disconnect();
+    });
+
+    it("assumes stop loss before take profit inside the same candle", () => {
+        const config = DEFAULT_AGENT_CONFIG;
+        const portfolio = new BacktestPortfolio(10000, config);
+        const simulator = new ExecutionSimulator(config, "mainnet");
+        const position: SimPosition = {
+            id: "p1",
+            symbol: "BTC-PERP",
+            side: "long",
+            playbook: "Momentum:long",
+            entry_ts: new Date("2026-04-11T10:00:00Z"),
+            entry_price: 100,
+            size_fraction: 0.1,
+            notional_usd: 1000,
+            size_coin: 10,
+            stop_loss_pct: 0.02,
+            take_profit_pct: 0.02,
+            entry_regime: "CHOP",
+            entry_signal: { ret_sigma_5m_vs_1h: null, vol_ratio_5m_vs_1h: null, book_pressure: null, trend_alignment_score: null, edge_to_cost_mult: null },
+            highest_price: 100,
+            lowest_price: 100,
+            max_favorable_excursion_bps: 0,
+            max_adverse_excursion_bps: 0
+        };
+        portfolio.positions.set(position.symbol, position);
+
+        simulator.advancePositionWithCandles(position, [{
+            symbol: "BTC",
+            openTime: new Date("2026-04-11T10:01:00Z"),
+            open: 100,
+            high: 103,
+            low: 97,
+            close: 101,
+            volume: 1
+        }], portfolio);
+
+        expect(portfolio.trades).toHaveLength(1);
+        expect(portfolio.trades[0].exit_reason).toBe("stop_loss");
+        expect(portfolio.trades[0].exit_price).toBe(98);
+    });
+
+    it("walks historical L2 books for simulated entry fills", () => {
+        const config = DEFAULT_AGENT_CONFIG;
+        const portfolio = new BacktestPortfolio(10000, config);
+        const simulator = new ExecutionSimulator(config, "mainnet");
+        const ts = new Date("2026-04-11T10:00:00Z");
+        const decision: TradeDecision = {
+            scope: "candidate",
+            candidate_id: "BTC-PERP:long:Momentum",
+            action: "OPEN_POSITION",
+            symbol: "BTC-PERP",
+            side: "long",
+            target_side: "long",
+            target_size_fraction_of_equity: 0.1,
+            size_fraction_of_equity: 0.1,
+            risk_plan: { stop_loss_pct: 0.02, take_profit_pct_primary: 0.03 },
+            playbook: "Momentum:long",
+            confidence: 0.7,
+            reason_code: "momentum_edge",
+            notes: "test"
+        };
+
+        simulator.apply([decision], {
+            "BTC-PERP": marketEntry()
+        }, portfolio, ts, () => ({
+            ts,
+            symbol: "BTC-PERP",
+            intervalSeconds: 10,
+            bids: [{ price: 99, size: 20 }],
+            asks: [{ price: 100, size: 5 }, { price: 101, size: 10 }]
+        }));
+
+        const position = portfolio.positions.get("BTC-PERP");
+        expect(position).toBeDefined();
+        expect(position!.entry_price).toBeCloseTo(100.4975, 4);
+    });
+
+    it("resets daily PnL accounting at UTC day boundaries", () => {
+        const portfolio = new BacktestPortfolio(10000, DEFAULT_AGENT_CONFIG);
+        const position: SimPosition = {
+            id: "p1",
+            symbol: "BTC-PERP",
+            side: "long",
+            playbook: "Momentum:long",
+            entry_ts: new Date("2026-04-11T10:00:00Z"),
+            entry_price: 100,
+            size_fraction: 0.1,
+            notional_usd: 1000,
+            size_coin: 10,
+            stop_loss_pct: 0.02,
+            take_profit_pct: 0.03,
+            entry_regime: "CHOP",
+            entry_signal: { ret_sigma_5m_vs_1h: null, vol_ratio_5m_vs_1h: null, book_pressure: null, trend_alignment_score: null, edge_to_cost_mult: null },
+            highest_price: 100,
+            lowest_price: 100,
+            max_favorable_excursion_bps: 0,
+            max_adverse_excursion_bps: 0
+        };
+
+        portfolio.addPosition(position, 0, new Date("2026-04-11T10:00:00Z"));
+        portfolio.buildAccountState({}, new Date("2026-04-11T10:00:00Z"));
+        portfolio.closePosition("BTC-PERP", 90, new Date("2026-04-11T11:00:00Z"), "test", 0, 0);
+
+        expect(portfolio.buildAccountState({}, new Date("2026-04-11T11:00:00Z")).daily_total_pnl_usd).toBe(-100);
+        expect(portfolio.buildAccountState({}, new Date("2026-04-12T00:00:00Z")).daily_total_pnl_usd).toBe(0);
+    });
+
+    it("samples optimizer parameters within safe ranges deterministically", () => {
+        const a = sampleRandomConfig(DEFAULT_AGENT_CONFIG, 123);
+        const b = sampleRandomConfig(DEFAULT_AGENT_CONFIG, 123);
+
+        expect(a.triggers.momentum.vol_ratio_min).toBe(b.triggers.momentum.vol_ratio_min);
+        expect(a.triggers.momentum.vol_ratio_min).toBeGreaterThanOrEqual(0.5);
+        expect(a.triggers.momentum.vol_ratio_min).toBeLessThanOrEqual(1.5);
+        expect(a.cost_sanity.min_edge_to_cost_mult).toBeGreaterThanOrEqual(3);
+        expect(a.cost_sanity.min_edge_to_cost_mult).toBeLessThanOrEqual(8);
+    });
+
+    it("reports concentration and preset breakdowns for optimizer gates", () => {
+        const trades = [
+            trade({ symbol: "BTC-PERP", regime: "RISK_ON", pnl: 20 }),
+            trade({ symbol: "BTC-PERP", regime: "RISK_ON", pnl: -5 }),
+            trade({ symbol: "ETH-PERP", regime: "CHOP", pnl: 10 })
+        ];
+
+        const metrics = MetricsReporter.build(10000, [{ ts: new Date("2026-04-11T10:30:00Z"), equity_usd: 10025 }], trades, {
+            screeningPresetName: "Momentum Moderate",
+            agentPresetName: "Momentum Moderate",
+            traderPolicyName: "take_top_rank"
+        });
+
+        expect(metrics.one_symbol_concentration).toBeCloseTo(2 / 3, 4);
+        expect(metrics.one_regime_concentration).toBeCloseTo(2 / 3, 4);
+        expect(metrics.breakdowns.regime_current.RISK_ON.trade_count).toBe(2);
+        expect(metrics.breakdowns.screening_preset["Momentum Moderate"].trade_count).toBe(3);
+        expect(metrics.breakdowns.trader_policy.take_top_rank.trade_count).toBe(3);
+    });
+
+    it("penalizes concentrated optimizer results and rejects concentrated challengers", () => {
+        const champion = metrics({ netPnlBps: 100, maxDrawdownBps: 10, trades: 40, symbolConcentration: 0.25, regimeConcentration: 0.5 });
+        const diversified = metrics({ netPnlBps: 150, maxDrawdownBps: 10, trades: 40, symbolConcentration: 0.25, regimeConcentration: 0.5 });
+        const concentrated = metrics({ netPnlBps: 150, maxDrawdownBps: 10, trades: 40, symbolConcentration: 0.8, regimeConcentration: 0.8 });
+
+        expect(scoreMetrics(concentrated)).toBeLessThan(scoreMetrics(diversified));
+        expect(acceptChallenger(DEFAULT_AGENT_CONFIG, DEFAULT_AGENT_CONFIG, champion, diversified).accepted).toBe(true);
+        expect(acceptChallenger(DEFAULT_AGENT_CONFIG, DEFAULT_AGENT_CONFIG, champion, concentrated).accepted).toBe(false);
+    });
+
+    it("replays recorded LLM decisions from JSONL by timestamp", async () => {
+        const dir = await fs.mkdtemp(path.join(os.tmpdir(), "bt-llm-"));
+        const decisionsPath = path.join(dir, "llm_decisions.jsonl");
+        const timestamp = Math.floor(new Date("2026-04-11T10:00:00Z").getTime() / 1000);
+        await fs.writeFile(decisionsPath, `${JSON.stringify({
+            timestamp,
+            decisions: [{
+                scope: "candidate",
+                action: "SKIP",
+                candidate_id: "BTC-PERP:long:Momentum",
+                symbol: "BTC-PERP",
+                target_side: "flat",
+                target_size_fraction_of_equity: 0,
+                playbook: null,
+                confidence: 0.4,
+                reason_code: "skip",
+                notes: "recorded skip"
+            }]
+        })}\n`);
+
+        const trader = new RecordedLLMTrader({ enabled: true, model: "recorded", decisionsPath });
+        const decisions = await trader.decide(traderContext(timestamp));
+
+        expect(decisions).toHaveLength(1);
+        expect(decisions[0].action).toBe("SKIP");
+        expect(decisions[0].notes).toBe("recorded skip");
+    });
+
+    it("requires explicit LLM enablement for LLM policies", () => {
+        expect(() => buildTraderPolicy("real_llm", buildManagementPolicy("never_close"), new Map())).toThrow(/llm.enabled/);
+        expect(() => buildTraderPolicy("recorded_llm", buildManagementPolicy("never_close"), new Map())).toThrow(/llm.enabled/);
+    });
+});
+
+function marketEntry() {
+    return {
+        symbol: "BTC-PERP",
+        price: 100,
+        spread_bps: 100,
+        orderbook: {
+            best_bid: 99,
+            best_ask: 100,
+            mid: 99.5,
+            book_pressure: 0,
+            bid_liquidity_usd: 100000,
+            ask_liquidity_usd: 100000
+        },
+        returns: { m5: 0.01, m15: 0.02, h1: 0.03 },
+        vol_zscores: { vol_5m_vs_1h: 1, ret_5m_vs_1h: 1 },
+        funding: { current_8h: 0 },
+        open_interest: { current: 0 },
+        sentiment: { score: 0, mentionsVsBaseline: 0, disagreement: 0, change2h: 0 },
+        volume24h: 10_000_000,
+        derived: {
+            costs: { fees_bps: 3.5, slippage_bps_est: 0, cost_bps: 10, cost_ok: true },
+            edge: { expected_move_bps: 100, edge_bps: 90, edge_ok: true },
+            technicals: { high_low: {}, bb_width_m5: 0 },
+            triggers: {
+                direction_m15: 1,
+                direction_h1: 1,
+                trend_aligned: true,
+                momentum_ok_long: true,
+                momentum_ok_short: false,
+                mr_ok_long: false,
+                mr_ok_short: false,
+                breakout_ok: false
+            },
+            liquidity: { min_depth_usd: 100000, depth_ok: true, tradeable: true },
+            normalized: { ret_sigma_5m_vs_1h: 1, vol_ratio_5m_vs_1h: 1 },
+            entry: { entry_ok: true, edge_to_cost_mult: 9 },
+            risk: { eligible: true, eligible_playbooks: ["Momentum:long"], best_anchor_key: null, best_anchor_value: null },
+            rank: 1
+        }
+    };
+}
+
+async function createMarketTables(db: PrismaClient) {
+    await db.$executeRawUnsafe(`CREATE TABLE IF NOT EXISTS "MarketTick" (
+        "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        "ts" DATETIME NOT NULL,
+        "symbol" TEXT NOT NULL,
+        "markPrice" REAL NOT NULL,
+        "indexPrice" REAL,
+        "openInterest" REAL,
+        "fundingRate" REAL,
+        "volume24h" REAL
+    )`);
+    await db.$executeRawUnsafe(`CREATE TABLE IF NOT EXISTS "MarketCandle" (
+        "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+        "symbol" TEXT NOT NULL,
+        "timeframe" TEXT NOT NULL,
+        "openTime" DATETIME NOT NULL,
+        "open" REAL NOT NULL,
+        "high" REAL NOT NULL,
+        "low" REAL NOT NULL,
+        "close" REAL NOT NULL,
+        "volume" REAL NOT NULL
+    )`);
+}
+
+function featureRow(ts: Date, symbol: string): MarketFeatureRow {
+    return {
+        ts,
+        symbol,
+        intervalSeconds: 10,
+        best_bid: 99,
+        best_ask: 101,
+        mid_price: 100,
+        spread_bps: 200,
+        bid_depth_5bps_usd: 100000,
+        ask_depth_5bps_usd: 100000,
+        bid_depth_10bps_usd: 100000,
+        ask_depth_10bps_usd: 100000,
+        bid_depth_25bps_usd: 100000,
+        ask_depth_25bps_usd: 100000,
+        depth_5bps_usd: 100000,
+        depth_10bps_usd: 100000,
+        depth_25bps_usd: 100000,
+        book_pressure_5bps: 0,
+        book_pressure_10bps: 0,
+        book_pressure_25bps: 0,
+        buy_slippage_bps_100: 0,
+        sell_slippage_bps_100: 0,
+        buy_slippage_bps_500: 0,
+        sell_slippage_bps_500: 0,
+        cost_bps_100: 207,
+        cost_bps_500: 207,
+        ret_1m: 0.01,
+        ret_5m: 0.02,
+        ret_15m: 0.03,
+        ret_1h: 0.04,
+        ret_4h: 0.05,
+        realized_vol_5m: 0.01,
+        realized_vol_1h: 0.02,
+        vol_ratio_5m_vs_1h: 0.5,
+        ret_sigma_5m_vs_1h: 2,
+        trend_side: "long",
+        trend_alignment_score: 1
+    };
+}
+
+function trade(args: { symbol: string; regime: string; pnl: number }): SimTrade {
+    const entry = new Date("2026-04-11T10:00:00Z");
+    const exit = new Date("2026-04-11T10:30:00Z");
+    return {
+        trade_id: `${args.symbol}:${args.regime}:${args.pnl}`,
+        entry_ts: entry,
+        exit_ts: exit,
+        symbol: args.symbol,
+        side: "long",
+        playbook: "Momentum:long",
+        entry_price: 100,
+        exit_price: 101,
+        size_fraction: 0.1,
+        notional_usd: 1000,
+        fees_usd: 1,
+        slippage_bps: 0,
+        gross_pnl_usd: args.pnl + 1,
+        net_pnl_usd: args.pnl,
+        exit_reason: "take_profit",
+        max_favorable_excursion_bps: 100,
+        max_adverse_excursion_bps: 0,
+        entry_regime: { current: args.regime }
+    };
+}
+
+function metrics(args: {
+    netPnlBps: number;
+    maxDrawdownBps: number;
+    trades: number;
+    symbolConcentration: number;
+    regimeConcentration: number;
+}): BacktestMetrics {
+    return {
+        net_pnl_usd: args.netPnlBps,
+        net_pnl_bps: args.netPnlBps,
+        max_drawdown_usd: args.maxDrawdownBps,
+        max_drawdown_bps: args.maxDrawdownBps,
+        trade_count: args.trades,
+        win_rate: 0.5,
+        profit_factor: 1.5,
+        avg_win_usd: 10,
+        avg_loss_usd: -5,
+        avg_trade_net_bps: 1,
+        turnover_usd: 10000,
+        turnover_cost_usd: 10,
+        stop_hit_rate: 0,
+        take_profit_hit_rate: 0,
+        time_stop_rate: 0,
+        avg_holding_minutes: 30,
+        one_symbol_concentration: args.symbolConcentration,
+        one_regime_concentration: args.regimeConcentration,
+        breakdowns: {}
+    };
+}
+
+function traderContext(timestamp: number): TraderContext {
+    return {
+        snapshot_id: 1,
+        timestamp,
+        global_regime: "CHOP",
+        profile: "test",
+        portfolio: {
+            equity_usd: 10000,
+            gross_exposure_fraction: 0,
+            remaining_capacity_fraction: 1,
+            daily_pnl_pct: 0,
+            kill_switch: false
+        },
+        existing_positions: [],
+        eligible_candidates: []
+    };
+}

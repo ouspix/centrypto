@@ -9,6 +9,7 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 import { LabelWithTooltip } from "@/components/ui/label-with-tooltip"
 import { Filter, ChevronDown, ChevronUp } from "lucide-react"
 import { ScreenerConfig, DEFAULT_SCREENER_CONFIG, SCREENER_PRESETS } from "@/lib/screener-config"
+import { readDraftScreeningConfig, saveDraftScreeningConfig } from "@/lib/screening-storage"
 
 export function ScreeningParameters() {
     const [config, setConfig] = useState<ScreenerConfig>(DEFAULT_SCREENER_CONFIG)
@@ -16,36 +17,17 @@ export function ScreeningParameters() {
     const [loaded, setLoaded] = useState(false)
     const [preset, setPreset] = useState<string>('Momentum Moderate')
 
-    // Load from localStorage on mount
+    // Load editable draft on mount. The refresh/update button applies the draft.
     useEffect(() => {
-        const saved = localStorage.getItem('screeningConfig')
-        if (saved) {
-            try {
-                const loaded = JSON.parse(saved)
-                // Merge with default to ensure new fields exist
-                setConfig({
-                    ...DEFAULT_SCREENER_CONFIG,
-                    ...loaded,
-                    quality_weights: {
-                        ...DEFAULT_SCREENER_CONFIG.quality_weights,
-                        ...(loaded.quality_weights || {})
-                    }
-                })
-                setPreset('custom')
-            } catch (e) {
-                console.error('Failed to load screening config', e)
-            }
-        }
+        setConfig(readDraftScreeningConfig())
+        setPreset('custom')
         setLoaded(true)
     }, [])
 
-    // Save to localStorage on change (only after loaded)
+    // Save draft only. Do not trigger screening until the refresh/update button applies it.
     useEffect(() => {
         if (!loaded) return
-
-        localStorage.setItem('screeningConfig', JSON.stringify(config))
-        // Also emit event for other components to listen
-        window.dispatchEvent(new CustomEvent('screeningConfigChanged', { detail: config }))
+        saveDraftScreeningConfig(config)
     }, [config, loaded])
 
     const updateConfig = (key: keyof ScreenerConfig, value: any) => {

@@ -1,90 +1,83 @@
-import { NextResponse } from 'next/server';
-import { spawn } from 'child_process';
-import path from 'path';
+import { NextResponse } from "next/server";
+import { AGENT_PRESETS } from "@/lib/agent-config";
+import { SCREENER_PRESETS } from "@/lib/screener-config";
+import { BacktestRunner } from "@/src/backtest/BacktestRunner";
+import { BacktestPolicyName } from "@/src/backtest/BacktestTypes";
+
+type BacktestRequestBody = {
+    start?: string;
+    end?: string;
+    initialCapital?: number;
+    capital?: number;
+    network?: "mainnet" | "testnet";
+    intervalSeconds?: number;
+    screeningPresetName?: string;
+    agentPresetName?: string;
+    policyName?: BacktestPolicyName;
+    managementPolicyName?: "never_close" | "playbook_aware";
+    seed?: number;
+    featureDbPath?: string;
+    runId?: string;
+};
 
 export async function POST(request: Request) {
     try {
-        const body = await request.json();
-        const { asset, initialCapital, strategy } = body;
+        const body = await request.json() as BacktestRequestBody;
+        const start = parseDate(body.start, "start");
+        const end = parseDate(body.end, "end");
+        if (end <= start) {
+            return NextResponse.json({ error: "end must be after start" }, { status: 400 });
+        }
 
-        // Path to the Python backtester
-        const pythonScript = path.join(process.cwd(), 'backtest_runner.py');
+        const agentPresetName = body.agentPresetName ?? "Momentum Moderate";
+        const screeningPresetName = body.screeningPresetName ?? "Momentum Moderate";
+        const agentConfig = AGENT_PRESETS[agentPresetName];
+        const screeningConfig = SCREENER_PRESETS[screeningPresetName];
+        if (!agentConfig) {
+            return NextResponse.json({ error: `Unknown agent preset: ${agentPresetName}` }, { status: 400 });
+        }
+        if (!screeningConfig) {
+            return NextResponse.json({ error: `Unknown screening preset: ${screeningPresetName}` }, { status: 400 });
+        }
 
-        // Run Python script
-        const pythonProcess = spawn('python3', [pythonScript]);
-
-        let dataString = '';
-        let errorString = '';
-
-        pythonProcess.stdout.on('data', (data) => {
-            dataString += data.toString();
+        const result = await new BacktestRunner().run({
+            network: body.network ?? "mainnet",
+            start,
+            end,
+            intervalSeconds: body.intervalSeconds ?? 10,
+            initialCapitalUsd: body.initialCapital ?? body.capital ?? 10000,
+            screeningPresetName,
+            agentPresetName,
+            screeningConfig,
+            agentConfig,
+            policyName: body.policyName ?? "take_top_rank",
+            managementPolicyName: body.managementPolicyName ?? "playbook_aware",
+            seed: body.seed ?? 1,
+            featureDbPath: body.featureDbPath,
+            runId: body.runId
         });
 
-        pythonProcess.stderr.on('data', (data) => {
-            errorString += data.toString();
+        return NextResponse.json({
+            run_id: result.run_id,
+            metrics: result.metrics,
+            coverage: result.coverage,
+            trades: result.trades,
+            equity_curve: result.equity_curve.map(point => ({
+                ts: point.ts.toISOString(),
+                equity_usd: point.equity_usd
+            }))
         });
-
-        const result = await new Promise((resolve, reject) => {
-            pythonProcess.on('close', (code) => {
-                if (code !== 0) {
-                    console.error('Python Error:', errorString);
-                    reject(new Error('Backtest execution failed'));
-                } else {
-                    // Try to read the generated JSON file
-                    const fs = require('fs');
-                    const resultsPath = path.join(process.cwd(), 'backtest_results.json');
-
-                    try {
-                        const resultsData = fs.readFileSync(resultsPath, 'utf8');
-                        const results = JSON.parse(resultsData);
-
-                        // Generate mock equity curve for visualization
-                        const equityCurve = generateEquityCurve(
-                            results["Initial Capital"],
-                            results["Final Capital"],
-                            results["Total Trades"]
-                        );
-
-                        resolve({ ...results, equity_curve: equityCurve });
-                    } catch (err) {
-                        console.error('Failed to read results file:', err);
-                        reject(new Error('Failed to read backtest results'));
-                    }
-                }
-            });
-        });
-
-        return NextResponse.json(result);
-
     } catch (error) {
-        console.error('Backtest API Error:', error);
-
-        // Return mock data if Python execution fails
-        const mockResult = {
-            "Initial Capital": 10000,
-            "Final Capital": 11500,
-            "Total PnL": 1500,
-            "Total Trades": 42,
-            "Win Rate": "64.29%",
-            equity_curve: generateEquityCurve(10000, 11500, 42)
-        };
-
-        return NextResponse.json(mockResult);
+        const message = error instanceof Error ? error.message : String(error);
+        const status = /start is required|end is required|Invalid .* date/.test(message) ? 400 : 500;
+        console.error("Backtest API Error:", error);
+        return NextResponse.json({ error: message }, { status });
     }
 }
 
-function generateEquityCurve(initial: number, final: number, trades: number): number[] {
-    const points = Math.min(trades, 50);
-    const curve = [];
-    const totalReturn = (final - initial) / initial;
-
-    for (let i = 0; i <= points; i++) {
-        const progress = i / points;
-        const baseValue = initial * (1 + totalReturn * progress);
-        // Add some realistic volatility
-        const volatility = baseValue * 0.05 * (Math.random() - 0.5);
-        curve.push(baseValue + volatility);
-    }
-
-    return curve;
+function parseDate(value: string | undefined, name: string): Date {
+    if (!value) throw new Error(`${name} is required`);
+    const date = new Date(value);
+    if (!Number.isFinite(date.getTime())) throw new Error(`Invalid ${name} date`);
+    return date;
 }

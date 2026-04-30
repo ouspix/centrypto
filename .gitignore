@@ -47,3 +47,7 @@ sentiment/venv/
 __pycache__/
 logs/*
 prisma/market/dev.db
+data/hyperliquid/
+data/features/
+data/backtests/
+data/tmp/

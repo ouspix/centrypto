@@ -53,7 +53,7 @@ export class ScreenerService {
     private readonly isTestnet: boolean;
     private readonly queryCache = new Map<string, CacheEntry<unknown>>();
 
-    constructor(isTestnet: boolean = true) {
+    constructor(isTestnet: boolean = true, options: { disableLive?: boolean } = {}) {
         this.marketAnalysisService = new MarketAnalysisService();
         this.sentimentService = new SentimentService();
 
@@ -63,7 +63,9 @@ export class ScreenerService {
         // We default to Mainnet for now. Ideally, we should support switching or multiple instances.
         this.ws = new HyperliquidWS(this.isTestnet);
         this.orderBookManager = new OrderBookManager(this.ws);
-        this.ws.connect();
+        if (!options.disableLive) {
+            this.ws.connect();
+        }
     }
 
     public async getScreenedSymbols(

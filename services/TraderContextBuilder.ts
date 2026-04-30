@@ -32,7 +32,11 @@ type CandidateSelectionResult = {
     diagnostics: TraderContextDiagnostics;
 };
 
+export type CorrelationProvider = (symbolA: string, symbolB: string, isTestnet: boolean) => Promise<number>;
+
 export class TraderContextBuilder {
+    constructor(private readonly correlationProvider?: CorrelationProvider) {}
+
     public async build(
         snapshot: StateSnapshot,
         config: AgentConfig,
@@ -235,7 +239,7 @@ export class TraderContextBuilder {
             eligible_candidate_count: eligibleCandidateCount,
             max_new_trades_allowed: maxNewTradesAllowed,
             rejection_counts: rejectionCounts,
-            top_rejections: rejections.slice(0, 8)
+            top_rejections: rejections
         };
     }
 
@@ -560,6 +564,9 @@ export class TraderContextBuilder {
 
     private async computeRecentCorrelation(symbolA: string, symbolB: string, isTestnet: boolean): Promise<number> {
         if (symbolA === symbolB) return 1;
+        if (this.correlationProvider) {
+            return this.correlationProvider(symbolA, symbolB, isTestnet);
+        }
 
         try {
             const db = isTestnet ? marketDbTest : marketDbMain;

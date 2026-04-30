@@ -1,6 +1,7 @@
 import { MarketCollectorService } from "@/services/MarketCollectorService";
 import { marketDbMain, marketDbTest } from "@/lib/market-db";
 import { getMetaAndAssetCtxs, waitForHyperliquidSlot } from "@/lib/hyperliquid";
+import { activeMarketAssets, prioritizeBackfillSymbols, volume24hFromCtx } from "@/services/MarketUniverse";
 
 const DEFAULT_TICK_INTERVAL_MS = 15 * 1000;
 const BACKFILL_LOOKBACK_MS = 48 * 60 * 60 * 1000;
@@ -10,6 +11,12 @@ const BACKFILL_SYMBOL_DELAY_MS = 200;
 const RATE_LIMIT_DELAY_MS = 2000;
 const UPSERT_BATCH_SIZE = 500;
 const BACKFILL_FETCH_MAX_ATTEMPTS = 5;
+const BACKFILL_PRIORITY_SYMBOL_LIMIT = parseInt(process.env.COLLECTOR_PRIORITY_BACKFILL_SYMBOLS || "15", 10);
+const BACKFILL_READY_TIMEOUT_MS = parseInt(process.env.COLLECTOR_READY_BACKFILL_TIMEOUT_MS || "30000", 10);
+const BACKFILL_PRIORITY_SYMBOLS = (process.env.COLLECTOR_PRIORITY_SYMBOLS || "BTC,ETH,SOL,HYPE,BNB,XRP,DOGE,LINK")
+    .split(",")
+    .map(symbol => symbol.trim().toUpperCase())
+    .filter(Boolean);
 
 declare global {
     // eslint-disable-next-line no-var
@@ -23,6 +30,7 @@ class CollectorRunner {
     private tickTimer: NodeJS.Timeout | null = null;
     private started = false;
     private firstTickPromise: Promise<void> | null = null;
+    private priorityBackfillPromise: Promise<void> | null = null;
     private lastTickAt = 0;
     private backfillStarted = false;
 
@@ -80,14 +88,14 @@ class CollectorRunner {
     private startRankedBackfill() {
         if (this.backfillStarted) return;
         this.backfillStarted = true;
-        void (async () => {
+        this.priorityBackfillPromise = (async () => {
             // Let the first tick land before starting heavier backfill work
             await this.firstTickPromise?.catch(() => {});
-            await this.runRankedBackfill();
+            await this.runPriorityBackfillThenContinue();
         })();
     }
 
-    private async runRankedBackfill() {
+    private async runPriorityBackfillThenContinue() {
         try {
             const symbols = await this.rankSymbolsByRecentVolume();
             if (!symbols.length) {
@@ -95,25 +103,41 @@ class CollectorRunner {
                 return;
             }
 
-            console.log(`[CollectorRunner] Ranked backfill start: ${symbols.length} symbols, batch ${BACKFILL_BATCH_SIZE}, delay ${BACKFILL_BATCH_DELAY_MS}ms.`);
+            const { prioritySymbols, remainingSymbols } = prioritizeBackfillSymbols(
+                symbols,
+                BACKFILL_PRIORITY_SYMBOLS,
+                BACKFILL_PRIORITY_SYMBOL_LIMIT
+            );
 
-            for (let i = 0; i < symbols.length; i += BACKFILL_BATCH_SIZE) {
-                const batch = symbols.slice(i, i + BACKFILL_BATCH_SIZE);
-                console.log(`[CollectorRunner] Backfill batch ${Math.floor(i / BACKFILL_BATCH_SIZE) + 1}: ${batch.join(", ")}`);
-                for (const sym of batch) {
-                    await this.backfillSymbol(sym);
-                    if (BACKFILL_SYMBOL_DELAY_MS > 0) {
-                        await this.sleep(BACKFILL_SYMBOL_DELAY_MS);
-                    }
-                }
-                if (i + BACKFILL_BATCH_SIZE < symbols.length) {
-                    await this.sleep(BACKFILL_BATCH_DELAY_MS);
-                }
-            }
+            console.log(`[CollectorRunner] Smart backfill start: ${symbols.length} symbols; priority ${prioritySymbols.length} first (${prioritySymbols.join(", ")}).`);
+            await this.runBackfillPhase("Priority backfill", prioritySymbols, 1);
+            console.log("[CollectorRunner] Priority backfill complete; continuing ranked backfill in background.");
 
-            console.log("[CollectorRunner] Ranked backfill complete.");
+            const startingBatch = Math.floor((prioritySymbols.length + BACKFILL_BATCH_SIZE - 1) / BACKFILL_BATCH_SIZE) + 1;
+            void this.runBackfillPhase("Backfill", remainingSymbols, startingBatch)
+                .then(() => console.log("[CollectorRunner] Ranked backfill complete."))
+                .catch(err => console.error("[CollectorRunner] Ranked backfill error:", err));
         } catch (err) {
             console.error("[CollectorRunner] Ranked backfill error:", err);
+        }
+    }
+
+    private async runBackfillPhase(label: string, symbols: string[], startingBatchNumber: number) {
+        if (symbols.length === 0) return;
+
+        for (let i = 0; i < symbols.length; i += BACKFILL_BATCH_SIZE) {
+            const batch = symbols.slice(i, i + BACKFILL_BATCH_SIZE);
+            const batchNumber = startingBatchNumber + Math.floor(i / BACKFILL_BATCH_SIZE);
+            console.log(`[CollectorRunner] ${label} batch ${batchNumber}: ${batch.join(", ")}`);
+            for (const sym of batch) {
+                await this.backfillSymbol(sym);
+                if (BACKFILL_SYMBOL_DELAY_MS > 0) {
+                    await this.sleep(BACKFILL_SYMBOL_DELAY_MS);
+                }
+            }
+            if (i + BACKFILL_BATCH_SIZE < symbols.length) {
+                await this.sleep(BACKFILL_BATCH_DELAY_MS);
+            }
         }
     }
 
@@ -137,10 +161,13 @@ class CollectorRunner {
             return ranked.map((t) => t.symbol);
         }
 
-        // Fallback: default universe order from API
+        // Fallback: active universe order from API. Delisted assets can remain in Hyperliquid meta
+        // but return no recent candles, so exclude them from startup backfill.
         const meta = await getMetaAndAssetCtxs(this.isTestnet);
         if (meta?.universe?.length) {
-            return meta.universe.map((u: any) => u.name).filter((s: any): s is string => typeof s === "string");
+            return activeMarketAssets(meta.universe, meta.assetCtxs)
+                .sort((a, b) => volume24hFromCtx(b.ctx) - volume24hFromCtx(a.ctx))
+                .map(({ asset }) => asset.name);
         }
 
         return [];
@@ -155,9 +182,24 @@ class CollectorRunner {
                 orderBy: { openTime: "desc" }
             });
 
-            let startTime = Date.now() - BACKFILL_LOOKBACK_MS;
+            const now = Date.now();
+            let startTime = now - BACKFILL_LOOKBACK_MS;
             if (latestCandle) {
-                startTime = Math.max(startTime, latestCandle.openTime.getTime() + 60000);
+                const candleCount = await db.marketCandle.count({
+                    where: {
+                        symbol,
+                        timeframe: "1m",
+                        openTime: { gte: new Date(startTime) }
+                    }
+                });
+                const expectedCount = BACKFILL_LOOKBACK_MS / 60000;
+                const hasCoverage = candleCount >= expectedCount * 0.90;
+                if (hasCoverage) {
+                    startTime = Math.max(startTime, latestCandle.openTime.getTime() + 60000);
+                    if (now - startTime < 2 * 60000) {
+                        return;
+                    }
+                }
             }
 
             const candles = await this.fetchCandlesWithRetry(symbol, startTime);
@@ -261,6 +303,22 @@ class CollectorRunner {
         ]);
     }
 
+    public async waitForPriorityBackfill(timeoutMs: number = BACKFILL_READY_TIMEOUT_MS) {
+        this.start();
+        const p = this.priorityBackfillPromise;
+        if (!p) return;
+
+        if (!timeoutMs || timeoutMs <= 0) {
+            await p.catch(() => {});
+            return;
+        }
+
+        await Promise.race([
+            p.catch(() => {}),
+            new Promise<void>((resolve) => setTimeout(resolve, timeoutMs))
+        ]);
+    }
+
     public async ensureFreshTick(maxAgeMs: number = 30000) {
         const age = this.lastTickAt === 0 ? Infinity : Date.now() - this.lastTickAt;
         if (age > maxAgeMs) {
@@ -295,5 +353,6 @@ export async function ensureCollectorReady(isTestnet: boolean) {
     const runner = getCollectorRunner(isTestnet);
     runner.start();
     await runner.waitForFirstTick();
+    await runner.waitForPriorityBackfill();
     return runner;
 }

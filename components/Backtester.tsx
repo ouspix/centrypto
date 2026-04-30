@@ -10,21 +10,23 @@ import { Loader2, Play, Download, BarChart3 } from "lucide-react"
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts'
 
 type BacktestResult = {
-    "Initial Capital": number
-    "Final Capital": number
-    "Total PnL": number
-    "Total Trades": number
-    "Win Rate": string
-    equity_curve?: number[]
+    run_id: string
+    metrics: {
+        net_pnl_usd: number
+        trade_count: number
+        win_rate: number
+    }
+    equity_curve?: Array<{ ts: string; equity_usd: number }>
 }
 
 export function Backtester() {
     const [loading, setLoading] = useState(false)
     const [result, setResult] = useState<BacktestResult | null>(null)
     const [config, setConfig] = useState({
-        asset: "BTC",
+        start: "",
+        end: "",
         initialCapital: 10000,
-        strategy: "SMA_Crossover"
+        policyName: "take_top_rank"
     })
 
     const runBacktest = async () => {
@@ -45,17 +47,6 @@ export function Backtester() {
             setResult(data)
         } catch (error) {
             console.error("Backtest error:", error)
-            // Fallback demo result
-            setResult({
-                "Initial Capital": config.initialCapital,
-                "Final Capital": config.initialCapital * 1.15,
-                "Total PnL": config.initialCapital * 0.15,
-                "Total Trades": 42,
-                "Win Rate": "64.29%",
-                equity_curve: Array.from({ length: 20 }, (_, i) =>
-                    config.initialCapital * (1 + (0.15 * i / 20) + (Math.random() - 0.5) * 0.05)
-                )
-            })
         } finally {
             setLoading(false)
         }
@@ -65,7 +56,7 @@ export function Backtester() {
         if (!result) return
         const dataStr = JSON.stringify(result, null, 2)
         const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr)
-        const exportFileDefaultName = `backtest_${config.asset}_${Date.now()}.json`
+        const exportFileDefaultName = `backtest_${result.run_id}_${Date.now()}.json`
 
         const linkElement = document.createElement('a')
         linkElement.setAttribute('href', dataUri)
@@ -73,13 +64,14 @@ export function Backtester() {
         linkElement.click()
     }
 
-    const chartData = result?.equity_curve?.map((value, index) => ({
+    const chartData = result?.equity_curve?.map((point, index) => ({
         index,
-        value
+        value: point.equity_usd
     })) || []
 
-    const pnl = result ? result["Total PnL"] : 0
-    const winRate = result ? parseFloat(result["Win Rate"]) : 0
+    const pnl = result ? result.metrics.net_pnl_usd : 0
+    const winRate = result ? result.metrics.win_rate * 100 : 0
+    const finalEquity = result?.equity_curve?.[result.equity_curve.length - 1]?.equity_usd ?? config.initialCapital
 
     return (
         <Card className="bg-slate-900 border-slate-800 hover-lift">
@@ -92,30 +84,24 @@ export function Backtester() {
             <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <Label htmlFor="asset" className="text-slate-400">Asset</Label>
-                        <select
-                            id="asset"
-                            className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-md text-slate-200"
-                            value={config.asset}
-                            onChange={(e) => setConfig({ ...config, asset: e.target.value })}
-                        >
-                            <option value="BTC">BTC</option>
-                            <option value="ETH">ETH</option>
-                            <option value="SOL">SOL</option>
-                        </select>
+                        <Label htmlFor="start" className="text-slate-400">Start</Label>
+                        <Input
+                            id="start"
+                            type="datetime-local"
+                            className="bg-slate-950 border-slate-800 text-slate-200"
+                            value={config.start}
+                            onChange={(e) => setConfig({ ...config, start: e.target.value })}
+                        />
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="strategy" className="text-slate-400">Strategy</Label>
-                        <select
-                            id="strategy"
-                            className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-md text-slate-200"
-                            value={config.strategy}
-                            onChange={(e) => setConfig({ ...config, strategy: e.target.value })}
-                        >
-                            <option value="SMA_Crossover">SMA Crossover</option>
-                            <option value="RSI_Mean_Reversion">RSI Mean Reversion</option>
-                            <option value="Breakout">Breakout</option>
-                        </select>
+                        <Label htmlFor="end" className="text-slate-400">End</Label>
+                        <Input
+                            id="end"
+                            type="datetime-local"
+                            className="bg-slate-950 border-slate-800 text-slate-200"
+                            value={config.end}
+                            onChange={(e) => setConfig({ ...config, end: e.target.value })}
+                        />
                     </div>
                 </div>
 
@@ -130,10 +116,25 @@ export function Backtester() {
                     />
                 </div>
 
+                <div className="space-y-2">
+                    <Label htmlFor="policy" className="text-slate-400">Policy</Label>
+                    <select
+                        id="policy"
+                        className="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-md text-slate-200"
+                        value={config.policyName}
+                        onChange={(e) => setConfig({ ...config, policyName: e.target.value })}
+                    >
+                        <option value="take_top_rank">Top Rank</option>
+                        <option value="take_best_edge_cost">Best Edge/Cost</option>
+                        <option value="clean_only">Clean Only</option>
+                        <option value="take_none">Take None</option>
+                    </select>
+                </div>
+
                 <Button
                     className="w-full bg-cyan-600 hover:bg-cyan-700"
                     onClick={runBacktest}
-                    disabled={loading}
+                    disabled={loading || !config.start || !config.end}
                 >
                     {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     <Play className="mr-2 h-4 w-4" />
@@ -152,19 +153,19 @@ export function Backtester() {
                             <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
                                 <span className="text-xs text-slate-500">Win Rate</span>
                                 <p className={`text-xl font-bold ${winRate >= 50 ? 'text-green-400' : 'text-yellow-400'}`}>
-                                    {result["Win Rate"]}
+                                    {winRate.toFixed(2)}%
                                 </p>
                             </div>
                             <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
                                 <span className="text-xs text-slate-500">Total Trades</span>
                                 <p className="text-xl font-bold text-slate-200">
-                                    {result["Total Trades"]}
+                                    {result.metrics.trade_count}
                                 </p>
                             </div>
                             <div className="p-3 rounded-lg bg-slate-950 border border-slate-800">
                                 <span className="text-xs text-slate-500">Final Capital</span>
                                 <p className="text-xl font-bold text-slate-200">
-                                    ${result["Final Capital"].toFixed(2)}
+                                    ${finalEquity.toFixed(2)}
                                 </p>
                             </div>
                         </div>

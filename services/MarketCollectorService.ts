@@ -1,6 +1,9 @@
 import { getMetaAndAssetCtxs, getOHLCV } from "@/lib/hyperliquid";
 import { marketDbMain, marketDbTest } from "@/lib/market-db";
 import { HyperliquidWS } from "@/lib/hyperliquid-ws";
+import { ActiveMarket, activeMarketAssets, buildMarketTickRow } from "./MarketUniverse";
+
+type MarketDb = typeof marketDbMain;
 
 export class MarketCollectorService {
     // Backfill 48 hours of history on startup
@@ -23,32 +26,7 @@ export class MarketCollectorService {
             }
 
             const { universe, assetCtxs } = metaAndCtxs;
-            const now = new Date();
-
-            const rows = universe.map((asset, i) => {
-                const ctx = assetCtxs[i];
-                // Safety check for missing data
-                if (!ctx) return null;
-
-                return {
-                    ts: now,
-                    symbol: asset.name,
-                    markPrice: parseFloat(ctx.markPx),
-                    indexPrice: ctx.indexPx ? parseFloat(ctx.indexPx) : parseFloat(ctx.markPx),
-                    openInterest: ctx.openInterest ? parseFloat(ctx.openInterest) * parseFloat(ctx.markPx) : 0,
-                    fundingRate: ctx.funding ? parseFloat(ctx.funding) : 0,
-                    volume24h: ctx.dayNtlVlm ? parseFloat(ctx.dayNtlVlm) : 0,
-                    // Optional book data if available in this context (usually not in metaAndAssetCtxs, requires L2)
-                    // We leave them null for now as per "thin row" requirement
-                };
-            }).filter((row): row is NonNullable<typeof row> => row !== null);
-
-            if (rows.length > 0) {
-                await db.marketTick.createMany({
-                    data: rows,
-                });
-                console.log(`[MarketCollector] Saved ${rows.length} ticks for ${isTestnet ? 'Testnet' : 'Mainnet'}`);
-            }
+            await this.writeTickSnapshot(db, activeMarketAssets(universe, assetCtxs), isTestnet);
         } catch (error) {
             console.error(`[MarketCollector] Error collecting ticks for ${isTestnet ? 'Testnet' : 'Mainnet'}:`, error);
         }
@@ -68,7 +46,7 @@ export class MarketCollectorService {
         }
 
         const { universe } = metaAndCtxs;
-        const symbols = universe.map(u => u.name);
+        const symbols = activeMarketAssets(universe, metaAndCtxs.assetCtxs).map(({ asset }) => asset.name);
 
         const ws = new HyperliquidWS(isTestnet);
 
@@ -151,10 +129,19 @@ export class MarketCollectorService {
             return;
         }
 
-        const { universe } = metaAndCtxs;
+        const { universe, assetCtxs } = metaAndCtxs;
+        const activeMarkets = activeMarketAssets(universe, assetCtxs);
+        const skippedCount = universe.length - activeMarkets.length;
+        if (skippedCount > 0) {
+            console.log(`[MarketCollector] Backfill universe: ${activeMarkets.length} active symbols, skipped ${skippedCount} delisted symbols.`);
+        }
+
+        // A purged market DB needs ticks as well as candles; screeners and regime selection use ticks as the live universe.
+        await this.writeTickSnapshot(db, activeMarkets, isTestnet);
+
         // Process strictly sequentially to avoid API burst 429s and SQLite writer contention
         let processedCount = 0;
-        for (const asset of universe) {
+        for (const { asset } of activeMarkets) {
             const symbol = asset.name;
             let didFetch = false;
             try {
@@ -234,8 +221,8 @@ export class MarketCollectorService {
                 console.error(`[Backfill] Error processing ${symbol}:`, error);
             } finally {
                 processedCount++;
-                if (processedCount % 5 === 0 || processedCount === universe.length) {
-                    console.log(`[Backfill] Processed ${processedCount}/${universe.length} symbols...`);
+                if (processedCount % 5 === 0 || processedCount === activeMarkets.length) {
+                    console.log(`[Backfill] Processed ${processedCount}/${activeMarkets.length} symbols...`);
                 }
 
                 // Space out successive API requests to stay below burst limits
@@ -247,7 +234,21 @@ export class MarketCollectorService {
                 }
             }
         }
+        // Leave manual backfills immediately usable even when the DB was empty at the start.
+        await this.collectTicks(isTestnet);
         console.log(`[MarketCollector] Backfill complete for ${isTestnet ? 'Testnet' : 'Mainnet'}.`);
+    }
+
+    private async writeTickSnapshot(db: MarketDb, activeMarkets: ActiveMarket[], isTestnet: boolean): Promise<void> {
+        const now = new Date();
+        const rows = activeMarkets
+            .map(({ asset, ctx }) => buildMarketTickRow(asset.name, ctx, now))
+            .filter((row): row is NonNullable<typeof row> => row !== null);
+
+        if (rows.length === 0) return;
+
+        await db.marketTick.createMany({ data: rows });
+        console.log(`[MarketCollector] Saved ${rows.length} ticks for ${isTestnet ? 'Testnet' : 'Mainnet'}`);
     }
 
     private sleep(ms: number) {

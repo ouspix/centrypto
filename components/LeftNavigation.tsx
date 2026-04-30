@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/sheet"
 import { ScreeningParameters } from "@/components/ScreeningParameters"
 import { useTrading } from "@/context/TradingContext"
+import { applyDraftScreeningConfig, readActiveScreeningConfig, SCREENING_CONFIG_APPLIED_EVENT } from "@/lib/screening-storage"
 
 type TokenData = {
     symbol: string
@@ -32,33 +33,21 @@ export function LeftNavigation() {
     const [filterOpen, setFilterOpen] = useState(false)
     const [screeningConfig, setScreeningConfig] = useState<any>(null)
     const [isLoading, setIsLoading] = useState(false)
-    const fetchTimeoutRef = useRef<NodeJS.Timeout | null>(null)
     const lastFetchRef = useRef<number>(0)
 
-    // Load screening config
+    // Load applied screening config. The filter sheet edits a draft until refresh/update applies it.
     useEffect(() => {
-        const loadConfig = () => {
-            try {
-                const saved = localStorage.getItem('screeningConfig')
-                if (saved) {
-                    setScreeningConfig(JSON.parse(saved))
-                }
-            } catch (e) {
-                console.error('Failed to load screening config', e)
-            }
-        }
+        setScreeningConfig(readActiveScreeningConfig())
 
-        loadConfig()
-
-        const handleConfigChange = (e: any) => {
+        const handleConfigApplied = (e: any) => {
             setScreeningConfig(e.detail)
         }
 
-        window.addEventListener('screeningConfigChanged', handleConfigChange)
-        return () => window.removeEventListener('screeningConfigChanged', handleConfigChange)
+        window.addEventListener(SCREENING_CONFIG_APPLIED_EVENT, handleConfigApplied)
+        return () => window.removeEventListener(SCREENING_CONFIG_APPLIED_EVENT, handleConfigApplied)
     }, [])
 
-    // Debounced fetch function
+    // Fetch function for the currently applied config only.
     const fetchTokens = useCallback(async (force = false) => {
         if (!screeningConfig) return
 
@@ -153,39 +142,15 @@ export function LeftNavigation() {
         }
     }, [screeningConfig, isTestnet])
 
-    // Separate effect for network changes - immediate fetch, no debounce
+    // Fetch on startup, network change, or explicit config apply.
     useEffect(() => {
         if (!screeningConfig) return
 
-        // Clear tokens immediately when network changes to prevent showing wrong data
         setTokens([])
         setIsLoading(true)
-
-        // Fetch immediately on network change (bypass rate limiting)
         lastFetchRef.current = 0 // Reset rate limit
         fetchTokens(true)
-    }, [isTestnet]) // ONLY isTestnet - no other dependencies
-
-    // Debounced effect for config changes only
-    useEffect(() => {
-        if (!screeningConfig) return
-
-        // Clear any pending fetch
-        if (fetchTimeoutRef.current) {
-            clearTimeout(fetchTimeoutRef.current)
-        }
-
-        // Debounce: wait 1 second after config change before fetching
-        fetchTimeoutRef.current = setTimeout(() => {
-            fetchTokens(true)
-        }, 1000)
-
-        return () => {
-            if (fetchTimeoutRef.current) {
-                clearTimeout(fetchTimeoutRef.current)
-            }
-        }
-    }, [screeningConfig]) // ONLY screeningConfig - no network dependency
+    }, [screeningConfig, isTestnet, fetchTokens])
 
 
 
@@ -203,8 +168,9 @@ export function LeftNavigation() {
                     variant="ghost"
                     size="sm"
                     className="w-14 h-10 hover:bg-slate-800 text-slate-400 hover:text-slate-100 shrink-0 transition-colors"
-                    onClick={() => fetchTokens(true)}
-                    title="Refresh Feed"
+                    onClick={() => applyDraftScreeningConfig()}
+                    disabled={isLoading}
+                    title="Apply screening parameters"
                 >
                     <RefreshCw className={`h-5 w-5 ${isLoading ? 'animate-spin' : ''}`} />
                 </Button>
