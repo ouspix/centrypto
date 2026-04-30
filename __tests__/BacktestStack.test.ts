@@ -17,6 +17,10 @@ import { RecordedLLMTrader, buildManagementPolicy, buildTraderPolicy } from "@/s
 import { acceptChallenger, aggregateScoredConfigs, configHash, optimizerRejectionReason, sampleRandomConfig, sampleRandomScreenerConfig, scoreMetrics } from "@/src/backtest/WalkForwardOptimizer";
 import { BacktestMetrics, CoverageReport, L2BookSnapshot, MarketFeatureRow, SimPosition, SimTrade } from "@/src/backtest/BacktestTypes";
 import { TradeDecision, TraderContext } from "@/types/trading";
+import { deriveRealCandlesFromNodeFillsLines, getRealCandleCoverageReport, upsertRealCandles } from "@/src/backtest/RealCandleHydrator";
+import { upsertSyntheticCandlesFromFeatures } from "@/src/backtest/ArchiveHydrator";
+import { assertOptimizerCandlePreflight, hydrateBacktestDataForRun } from "@/src/backtest/BacktestHydration";
+import { ensureBacktestDbSchema } from "@/src/backtest/BacktestDb";
 
 describe("backtest stack", () => {
     it("parses Hyperliquid l2Book JSONL rows with object and tuple levels", async () => {
@@ -144,6 +148,178 @@ describe("backtest stack", () => {
 
         expect(source.getMarkets(ts)["BTC-PERP"]).toBeUndefined();
         expect(source.getMarkets(ts, ["BTC-PERP"])["BTC-PERP"]).toBeDefined();
+        await db.$disconnect();
+    });
+
+    it("overwrites synthetic execution candles with real 1m candles", async () => {
+        const dbPath = path.join(await fs.mkdtemp(path.join(os.tmpdir(), "bt-db-")), "market.db");
+        const db = new PrismaClient({ datasources: { db: { url: `file:${dbPath}` } } });
+        await ensureBacktestDbSchema(db);
+        const minute = new Date("2026-04-11T10:00:00Z");
+        const tenSeconds = new Date("2026-04-11T10:00:10Z");
+        for (const ts of [minute, tenSeconds]) {
+            await db.$executeRawUnsafe(
+                `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume")
+                 VALUES ('BTC', '1m', ?, 100, 101, 99, 100, 0)`,
+                ts
+            );
+        }
+
+        await upsertRealCandles(db, "BTC", [{ t: minute.getTime(), o: 101, h: 105, l: 98, c: 104, v: 42 }]);
+
+        const rows = await db.marketCandle.findMany({ where: { symbol: "BTC" }, orderBy: { openTime: "asc" } });
+        expect(rows).toHaveLength(2);
+        expect(rows.map(row => row.volume)).toEqual([42, 42]);
+        expect(rows.map(row => row.close)).toEqual([104, 104]);
+        await db.$disconnect();
+    });
+
+    it("derives real candles from node fills without double-counting both trade sides", () => {
+        const start = new Date("2026-04-11T10:00:00Z");
+        const end = new Date("2026-04-11T10:01:00Z");
+        const lines = [
+            JSON.stringify({
+                block_time: "2026-04-11T10:00:12.000000000",
+                events: [
+                    ["0x1", { coin: "BTC", px: "100", sz: "2", side: "B", time: start.getTime() + 12_000, tid: 1 }],
+                    ["0x2", { coin: "BTC", px: "100", sz: "2", side: "A", time: start.getTime() + 12_000, tid: 1 }],
+                    ["0x3", { coin: "BTC", px: "99", sz: "1", side: "B", time: start.getTime() + 45_000, tid: 2 }],
+                    ["0x4", { coin: "ETH", px: "2000", sz: "3", side: "B", time: start.getTime() + 45_000, tid: 3 }]
+                ]
+            }),
+            JSON.stringify({
+                block_time: "2026-04-11T10:01:05.000000000",
+                events: [
+                    ["0x5", { coin: "BTC", px: "101", sz: "0.5", side: "B", time: start.getTime() + 65_000, tid: 4 }]
+                ]
+            })
+        ];
+
+        const candles = deriveRealCandlesFromNodeFillsLines(lines, ["BTC"], start, end);
+
+        expect(candles.BTC).toEqual([
+            { t: start.getTime(), o: 100, h: 100, l: 99, c: 99, v: 3 },
+            { t: start.getTime() + 60_000, o: 101, h: 101, l: 101, c: 101, v: 0.5 }
+        ]);
+        expect(candles.ETH).toBeUndefined();
+    });
+
+    it("counts zero-volume real candles as real coverage", async () => {
+        const dbPath = path.join(await fs.mkdtemp(path.join(os.tmpdir(), "bt-db-")), "market.db");
+        const db = new PrismaClient({ datasources: { db: { url: `file:${dbPath}` } } });
+        await ensureBacktestDbSchema(db);
+        const ts = new Date("2026-04-11T10:00:00Z");
+
+        await upsertRealCandles(db, "BTC", [{ t: ts.getTime(), o: 100, h: 100, l: 100, c: 100, v: 0 }]);
+
+        const coverage = await getRealCandleCoverageReport({
+            symbols: ["BTC"],
+            start: ts,
+            end: ts,
+            dbPath
+        });
+        const rows = await db.$queryRawUnsafe<Array<{ source: string | null; volume: number }>>(
+            `SELECT "source", "volume" FROM "MarketCandle" WHERE "symbol" = 'BTC'`
+        );
+
+        expect(coverage.complete).toBe(true);
+        expect(rows).toEqual([{ source: "real_1m", volume: 0 }]);
+        await db.$disconnect();
+    });
+
+    it("does not let synthetic candles overwrite existing real candles", async () => {
+        const dbPath = path.join(await fs.mkdtemp(path.join(os.tmpdir(), "bt-db-")), "market.db");
+        const db = new PrismaClient({ datasources: { db: { url: `file:${dbPath}` } } });
+        const store = new FeatureStore({ db });
+        await store.ensureSchema();
+        const ts = new Date("2026-04-11T10:00:00Z");
+        await store.upsertRows([featureRow(ts, "BTC-PERP")]);
+        await db.$executeRawUnsafe(
+            `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume")
+             VALUES ('BTC', '1m', ?, 90, 110, 80, 105, 99)`,
+            ts
+        );
+
+        await upsertSyntheticCandlesFromFeatures({
+            start: ts,
+            end: ts,
+            symbols: ["BTC"],
+            intervalSeconds: 10,
+            dbPath
+        });
+
+        const candle = await db.marketCandle.findFirstOrThrow({ where: { symbol: "BTC", openTime: ts } });
+        expect(candle.volume).toBe(99);
+        expect(candle.close).toBe(105);
+        await store.close();
+        await db.$disconnect();
+    });
+
+    it("hydrates real candles for the selected archive universe before optimizer runs", async () => {
+        const start = new Date("2026-04-11T10:00:00Z");
+        const end = new Date("2026-04-11T11:00:00Z");
+        let realCandleSymbols: string[] = [];
+
+        await hydrateBacktestDataForRun({
+            hydrateArchive: false,
+            hydrateRealCandles: true,
+            network: "mainnet",
+            preferNodeFillArchiveForRealCandles: true,
+            archive: {
+                start,
+                end,
+                intervalSeconds: 10,
+                universeSize: 15
+            }
+        }, {
+            hydrateArchive: async () => ({
+                symbols: ["BTC", "ETH"],
+                hydrateStart: start,
+                hydrateEnd: end,
+                syntheticCandlesInserted: 2
+            }),
+            hydrateRealCandles: async options => {
+                realCandleSymbols = options.symbols;
+                expect(options.preferNodeFillArchive).toBe(true);
+                return {
+                    symbols: options.symbols,
+                    candlesFetched: 2,
+                    candlesUpserted: 2,
+                    coverage: { expectedMinutes: 61, missingBySymbol: {}, complete: true }
+                };
+            }
+        });
+
+        expect(realCandleSymbols).toEqual(["BTC", "ETH"]);
+    });
+
+    it("fails optimizer preflight before trials when synthetic candles remain and synthetic candles are disallowed", async () => {
+        const dbPath = path.join(await fs.mkdtemp(path.join(os.tmpdir(), "bt-db-")), "market.db");
+        const db = new PrismaClient({ datasources: { db: { url: `file:${dbPath}` } } });
+        await ensureBacktestDbSchema(db);
+        const ts = new Date("2026-04-11T10:00:00Z");
+        await db.$executeRawUnsafe(
+            `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume")
+             VALUES ('BTC', '1m', ?, 100, 101, 99, 100, 0)`,
+            ts
+        );
+
+        await expect(assertOptimizerCandlePreflight({
+            dbPath,
+            start: ts,
+            end: ts,
+            symbols: ["BTC"],
+            hydrateRealCandlesRequested: false,
+            scoreGates: {
+                minTrades: 1,
+                maxDrawdownBps: 1000,
+                minProfitFactor: 0,
+                maxStopHitRate: 1,
+                maxSymbolConcentration: 1,
+                maxRegimeConcentration: 1,
+                allowSyntheticCandles: false
+            }
+        })).rejects.toThrow(/Synthetic execution candles remain/);
         await db.$disconnect();
     });
 
@@ -335,6 +511,7 @@ describe("backtest stack", () => {
 
     it("classifies synthetic and mixed execution candles", () => {
         expect(classifyExecutionCandleSource([{ volume: 0 }])).toBe("synthetic_from_features");
+        expect(classifyExecutionCandleSource([{ volume: 0, source: "real_1m" }])).toBe("real_1m");
         expect(classifyExecutionCandleSource([{ volume: 12 }])).toBe("real_1m");
         expect(classifyExecutionCandleSource([{ volume: 0 }, { volume: 12 }])).toBe("mixed");
     });

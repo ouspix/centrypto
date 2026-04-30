@@ -54,7 +54,14 @@ export type HydrateArchiveOptions = {
     keepTmp?: boolean;
 };
 
-export async function hydrateArchiveForBacktest(options: HydrateArchiveOptions): Promise<void> {
+export type HydrateArchiveResult = {
+    symbols: string[];
+    hydrateStart: Date;
+    hydrateEnd: Date;
+    syntheticCandlesInserted: number;
+};
+
+export async function hydrateArchiveForBacktest(options: HydrateArchiveOptions): Promise<HydrateArchiveResult> {
     const lookbackHours = options.lookbackHours ?? 1;
     const hydrateStart = floorHour(new Date(options.start.getTime() - lookbackHours * 60 * 60_000));
     const hydrateEnd = options.end;
@@ -117,12 +124,19 @@ export async function hydrateArchiveForBacktest(options: HydrateArchiveOptions):
             }
         }
 
-        await upsertSyntheticCandlesFromFeatures({
+        const syntheticCandlesInserted = await upsertSyntheticCandlesFromFeatures({
             ...options,
             start: hydrateStart,
             end: hydrateEnd,
             symbols
         });
+
+        return {
+            symbols,
+            hydrateStart,
+            hydrateEnd,
+            syntheticCandlesInserted
+        };
     } finally {
         if (!options.keepTmp) {
             await fs.rm(tmpRoot, { recursive: true, force: true });
@@ -417,11 +431,12 @@ async function ingestDownloadedAssetCtxs(tmpRoot: string, symbols: string[], sta
     }
 }
 
-async function upsertSyntheticCandlesFromFeatures(options: Required<Pick<HydrateArchiveOptions, "start" | "end" | "symbols" | "intervalSeconds">> & Pick<HydrateArchiveOptions, "dbPath">): Promise<void> {
+export async function upsertSyntheticCandlesFromFeatures(options: Required<Pick<HydrateArchiveOptions, "start" | "end" | "symbols" | "intervalSeconds">> & Pick<HydrateArchiveOptions, "dbPath">): Promise<number> {
     const db = createBacktestDbClient(options.dbPath);
     const store = new FeatureStore({ dbPath: options.dbPath });
     try {
         await ensureBacktestDbSchema(db);
+        let inserted = 0;
         for (const symbol of options.symbols) {
             const rows = await store.getRows(options.start, options.end, options.intervalSeconds, [`${symbol}-PERP`]);
             const candles = deriveCandles(rows);
@@ -455,9 +470,11 @@ async function upsertSyntheticCandlesFromFeatures(options: Required<Pick<Hydrate
                         volume: candle.v
                     }
                 });
+                inserted++;
             }
-            console.log(`[backtest:hydrate] ${symbol}: upserted ${candles.length} feature-interval execution candles`);
+            console.log(`[backtest:hydrate] ${symbol}: upserted feature-interval execution candles where real candles were absent`);
         }
+        return inserted;
     } finally {
         await store.close();
         await db.$disconnect();

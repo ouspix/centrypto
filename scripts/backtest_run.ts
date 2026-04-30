@@ -1,5 +1,6 @@
 import { AGENT_PRESETS } from "@/lib/agent-config";
 import { SCREENER_PRESETS } from "@/lib/screener-config";
+import { hydrateBacktestDataForRun } from "@/src/backtest/BacktestHydration";
 import { BacktestRunner } from "@/src/backtest/BacktestRunner";
 import { BacktestRunConfig } from "@/src/backtest/BacktestTypes";
 
@@ -25,6 +26,25 @@ async function main() {
 
     const policyName = (args.policy ?? "take_top_rank") as any;
     const llm = buildLlmConfig(args, policyName);
+    const hydrateArchive = args["hydrate-archive"] === "true" || args.hydrate === "true";
+    const hydrateRealCandles = args["hydrate-real-candles"] === "true";
+    await hydrateBacktestDataForRun({
+        hydrateArchive,
+        hydrateRealCandles,
+        network: (args.network ?? "mainnet") as "mainnet" | "testnet",
+        realCandleConcurrency: Number(args["candle-concurrency"] ?? args["download-concurrency"] ?? 4),
+        archive: {
+            start,
+            end,
+            intervalSeconds,
+            dbPath: args.db,
+            universeSize: Number(args["universe-size"] ?? args["top-symbols"] ?? 15),
+            downloadConcurrency: Number(args["download-concurrency"] ?? 6),
+            lookbackHours: Number(args["lookback-hours"] ?? 1),
+            tmpRoot: args["tmp-root"],
+            keepTmp: args["keep-tmp"] === "true"
+        }
+    });
 
     const result = await new BacktestRunner().run({
         network: (args.network ?? "mainnet") as "mainnet" | "testnet",
@@ -41,16 +61,6 @@ async function main() {
         seed: Number(args.seed ?? 1),
         featureDbPath: args.db,
         runId: args["run-id"],
-        hydration: args["hydrate-archive"] === "true" || args.hydrate === "true"
-            ? {
-                enabled: true,
-                universeSize: Number(args["universe-size"] ?? args["top-symbols"] ?? 15),
-                downloadConcurrency: Number(args["download-concurrency"] ?? 6),
-                lookbackHours: Number(args["lookback-hours"] ?? 1),
-                tmpRoot: args["tmp-root"],
-                keepTmp: args["keep-tmp"] === "true"
-            }
-            : undefined,
         llm,
         slTpExecution: buildSlTpExecution(args, agentConfig, (args.network ?? "mainnet") as "mainnet" | "testnet")
     });

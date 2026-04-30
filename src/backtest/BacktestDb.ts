@@ -45,8 +45,15 @@ export async function ensureBacktestDbSchema(db: RawDbClient): Promise<void> {
             "high" REAL NOT NULL,
             "low" REAL NOT NULL,
             "close" REAL NOT NULL,
-            "volume" REAL NOT NULL
+            "volume" REAL NOT NULL,
+            "source" TEXT
         )
+    `);
+    await addColumnIfMissing(db, `"MarketCandle"`, `"source" TEXT`);
+    await db.$executeRawUnsafe(`
+        UPDATE "MarketCandle"
+        SET "source" = CASE WHEN "volume" = 0 THEN 'synthetic_from_features' ELSE 'real_1m' END
+        WHERE "source" IS NULL
     `);
     await db.$executeRawUnsafe(`CREATE UNIQUE INDEX IF NOT EXISTS "MarketCandle_symbol_timeframe_openTime_key" ON "MarketCandle"("symbol", "timeframe", "openTime")`);
     await db.$executeRawUnsafe(`CREATE INDEX IF NOT EXISTS "MarketCandle_symbol_timeframe_openTime_idx" ON "MarketCandle"("symbol", "timeframe", "openTime")`);
@@ -116,6 +123,15 @@ export async function ensureBacktestDbSchema(db: RawDbClient): Promise<void> {
     await db.$executeRawUnsafe(`CREATE UNIQUE INDEX IF NOT EXISTS "MarketBook_symbol_intervalSeconds_ts_key" ON "MarketBook"("symbol", "intervalSeconds", "ts")`);
     await db.$executeRawUnsafe(`CREATE INDEX IF NOT EXISTS "MarketBook_ts_idx" ON "MarketBook"("ts")`);
     await db.$executeRawUnsafe(`CREATE INDEX IF NOT EXISTS "MarketBook_symbol_ts_idx" ON "MarketBook"("symbol", "ts")`);
+}
+
+async function addColumnIfMissing(db: RawDbClient, table: string, columnDefinition: string): Promise<void> {
+    try {
+        await db.$executeRawUnsafe(`ALTER TABLE ${table} ADD COLUMN ${columnDefinition}`);
+    } catch (error) {
+        if (error instanceof Error && /duplicate column name/i.test(error.message)) return;
+        throw error;
+    }
 }
 
 export function assertNotMarketDb(dbPath: string): void {

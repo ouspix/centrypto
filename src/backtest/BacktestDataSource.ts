@@ -29,6 +29,7 @@ export type BacktestCandle = {
     low: number;
     close: number;
     volume: number;
+    source?: string | null;
 };
 
 export type BacktestDataSourceOptions = {
@@ -361,7 +362,7 @@ async function loadCandles(db: DbClient, start: Date, end: Date, symbols: string
          WHERE "timeframe" = '1m' AND "openTime" >= ? AND "openTime" <= ?
          AND "symbol" IN (${symbols.map(() => "?").join(",")})
          ORDER BY "openTime" ASC`,
-        new Date(start.getTime() - 4 * 60 * 60_000),
+        start,
         end,
         ...symbols
     );
@@ -418,7 +419,7 @@ function buildCoverage(
         const bucket = candleTimesBySymbol.get(symbol) ?? new Set<number>();
         bucket.add(asDate(candle.openTime).getTime());
         candleTimesBySymbol.set(symbol, bucket);
-        if (Number(candle.volume) === 0) syntheticCandles++;
+        if (isSyntheticCandle(candle)) syntheticCandles++;
         else realCandles++;
     }
     const missingCandleIntervals: CoverageReport["missing_candle_intervals"] = [];
@@ -453,14 +454,20 @@ function buildCoverage(
     };
 }
 
-export function classifyExecutionCandleSource(candles: Array<Pick<BacktestCandle, "volume">>): CoverageReport["candle_source"] {
+export function classifyExecutionCandleSource(candles: Array<Pick<BacktestCandle, "volume"> & { source?: string | null }>): CoverageReport["candle_source"] {
     let syntheticCandles = 0;
     let realCandles = 0;
     for (const candle of candles) {
-        if (Number(candle.volume) === 0) syntheticCandles++;
+        if (isSyntheticCandle(candle)) syntheticCandles++;
         else realCandles++;
     }
     return classifyExecutionCandleSourceFromCounts(realCandles, syntheticCandles);
+}
+
+function isSyntheticCandle(candle: Pick<BacktestCandle, "volume"> & { source?: string | null }): boolean {
+    if (candle.source === "synthetic_from_features") return true;
+    if (candle.source === "real_1m") return false;
+    return Number(candle.volume) === 0;
 }
 
 function classifyExecutionCandleSourceFromCounts(realCandles: number, syntheticCandles: number): CoverageReport["candle_source"] {

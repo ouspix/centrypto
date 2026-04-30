@@ -2,7 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 import { AGENT_PRESETS } from "@/lib/agent-config";
 import { SCREENER_PRESETS } from "@/lib/screener-config";
-import { hydrateArchiveForBacktest } from "@/src/backtest/ArchiveHydrator";
+import { assertOptimizerCandlePreflight, hydrateBacktestDataForRun } from "@/src/backtest/BacktestHydration";
 import { BacktestRunConfig } from "@/src/backtest/BacktestTypes";
 import { DEFAULT_OPTIMIZER_SCORE_GATES, OptimizerScoreGates, WalkForwardOptimizer } from "@/src/backtest/WalkForwardOptimizer";
 
@@ -24,8 +24,16 @@ async function main() {
     const intervalSeconds = Number(args["interval-seconds"] ?? 10);
     const policyName = (args.policy ?? "take_top_rank") as any;
     if (policyName === "real_llm") throw new Error("real_llm is disabled for optimizer search. Use deterministic or recorded_llm policies.");
-    if (args["hydrate-archive"] === "true" || args.hydrate === "true") {
-        await hydrateArchiveForBacktest({
+    const scoreGates = buildScoreGates(args);
+    const hydrateArchive = args["hydrate-archive"] === "true" || args.hydrate === "true";
+    const hydrateRealCandles = args["hydrate-real-candles"] === "true";
+    const hydration = await hydrateBacktestDataForRun({
+        hydrateArchive,
+        hydrateRealCandles,
+        network: (args.network ?? "mainnet") as "mainnet" | "testnet",
+        realCandleConcurrency: Number(args["candle-concurrency"] ?? args["download-concurrency"] ?? 4),
+        preferNodeFillArchiveForRealCandles: true,
+        archive: {
             start,
             end,
             intervalSeconds,
@@ -35,8 +43,16 @@ async function main() {
             lookbackHours: Number(args["lookback-hours"] ?? 1),
             tmpRoot: args["tmp-root"],
             keepTmp: args["keep-tmp"] === "true"
-        });
-    }
+        }
+    });
+    await assertOptimizerCandlePreflight({
+        dbPath: args.db,
+        start,
+        end,
+        symbols: hydration.archive?.symbols,
+        scoreGates,
+        hydrateRealCandlesRequested: hydrateRealCandles
+    });
     const runConfig: BacktestRunConfig = {
         network: (args.network ?? "mainnet") as "mainnet" | "testnet",
         start,
@@ -57,7 +73,6 @@ async function main() {
         slTpExecution: buildSlTpExecution(args, base, (args.network ?? "mainnet") as "mainnet" | "testnet")
     };
 
-    const scoreGates = buildScoreGates(args);
     const results = await optimizer.randomSearch(runConfig, trials, scoreGates);
     const outDir = args["output-dir"] ?? path.join("data", "backtests", args["run-id"] ?? "optimize");
     const out = args.output ?? path.join(outDir, "optimizer_results.json");

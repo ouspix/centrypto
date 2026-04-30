@@ -133,6 +133,8 @@ npm run backtest:walkforward
 
 Run/optimizer/walk-forward commands do not take a strategy symbol list. The backtest starts from historical market data, applies the screener, and keeps the best 15 screened symbols by default. When archive hydration is enabled, the hydrator selects the top historical universe automatically from archived asset context data; use `--top-symbols N` only to change that count. S3 archive downloads are concurrency-limited and can be tuned with `--download-concurrency N`.
 
+Add `--hydrate-real-candles true` to automatically hydrate real 1m candles for the selected historical universe before running. Optimizer and walk-forward runs use `hl-mainnet-node-data/node_fills_by_block/hourly/YYYYMMDD/H.lz4` first and derive OHLCV from deduplicated trade fills; any remaining gaps are checked with Hyperliquid `candleSnapshot`. Other real-candle hydration paths use `candleSnapshot` first and fall back to node fills for older mainnet windows. Optimizer and walk-forward preflight fail fast if synthetic execution candles remain while synthetic candles are disallowed.
+
 Backtest runs write reports under `data/backtests/<runId>/`. Reports label execution candle source as `real_1m`, `synthetic_from_features`, or `mixed`. If synthetic candles are used, `synthetic_execution_candles: true` is written to coverage/config/metrics and results should be treated as approximate SL/TP path simulations.
 
 Archive hydration requires access to Hyperliquid requester-pays S3 archive data and `lz4`/`unlz4` installed locally. Configure AWS credentials/region as needed:
@@ -141,6 +143,8 @@ Archive hydration requires access to Hyperliquid requester-pays S3 archive data 
 AWS_ACCESS_KEY_ID="..."
 AWS_SECRET_ACCESS_KEY="..."
 AWS_REGION="us-east-1"
+# Optional override for the node-fill archive bucket; defaults to ap-northeast-1.
+HYPERLIQUID_NODE_DATA_AWS_REGION="ap-northeast-1"
 ```
 
 ## Throttling

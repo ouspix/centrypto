@@ -59,9 +59,11 @@ export class ScreenerService {
 
         this.isTestnet = isTestnet;
 
-        // Initialize WS and OrderBookManager
-        // We default to Mainnet for now. Ideally, we should support switching or multiple instances.
-        this.ws = getSharedHyperliquidWS(this.isTestnet);
+        // Backtests and comparison scripts use disableLive and should not attach listeners
+        // to the shared application websocket.
+        this.ws = options.disableLive
+            ? new HyperliquidWS(this.isTestnet)
+            : getSharedHyperliquidWS(this.isTestnet);
         this.orderBookManager = new OrderBookManager(this.ws);
         if (!options.disableLive) {
             this.ws.connect();
