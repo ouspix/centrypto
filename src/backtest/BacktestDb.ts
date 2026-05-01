@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/market-client";
 
 export const DEFAULT_BACKTEST_DB_PATH = "prisma/backtest.db";
 
-type RawDbClient = Pick<PrismaClient, "$executeRawUnsafe">;
+type RawDbClient = Pick<PrismaClient, "$executeRawUnsafe" | "$queryRawUnsafe">;
 
 export function createBacktestDbClient(dbPath: string = DEFAULT_BACKTEST_DB_PATH): PrismaClient {
     assertNotMarketDb(dbPath);
@@ -16,6 +16,7 @@ export function createBacktestDbClient(dbPath: string = DEFAULT_BACKTEST_DB_PATH
 }
 
 export async function ensureBacktestDbSchema(db: RawDbClient): Promise<void> {
+    await configureBacktestDbConnection(db);
     await db.$executeRawUnsafe(`
         CREATE TABLE IF NOT EXISTS "MarketTick" (
             "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -123,6 +124,30 @@ export async function ensureBacktestDbSchema(db: RawDbClient): Promise<void> {
     await db.$executeRawUnsafe(`CREATE UNIQUE INDEX IF NOT EXISTS "MarketBook_symbol_intervalSeconds_ts_key" ON "MarketBook"("symbol", "intervalSeconds", "ts")`);
     await db.$executeRawUnsafe(`CREATE INDEX IF NOT EXISTS "MarketBook_ts_idx" ON "MarketBook"("ts")`);
     await db.$executeRawUnsafe(`CREATE INDEX IF NOT EXISTS "MarketBook_symbol_ts_idx" ON "MarketBook"("symbol", "ts")`);
+
+    await db.$executeRawUnsafe(`
+        CREATE TABLE IF NOT EXISTS "BacktestArchiveIngest" (
+            "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            "dataType" TEXT NOT NULL,
+            "symbol" TEXT NOT NULL,
+            "sourceDate" TEXT NOT NULL,
+            "sourceHour" INTEGER NOT NULL,
+            "intervalSeconds" INTEGER NOT NULL,
+            "rowCount" INTEGER NOT NULL,
+            "bookCount" INTEGER NOT NULL DEFAULT 0,
+            "completedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )
+    `);
+    await db.$executeRawUnsafe(`CREATE UNIQUE INDEX IF NOT EXISTS "BacktestArchiveIngest_unique_key" ON "BacktestArchiveIngest"("dataType", "symbol", "sourceDate", "sourceHour", "intervalSeconds")`);
+    await db.$executeRawUnsafe(`CREATE INDEX IF NOT EXISTS "BacktestArchiveIngest_source_idx" ON "BacktestArchiveIngest"("sourceDate", "sourceHour")`);
+}
+
+async function configureBacktestDbConnection(db: RawDbClient): Promise<void> {
+    await db.$queryRawUnsafe(`PRAGMA busy_timeout = 30000`);
+    await db.$queryRawUnsafe(`PRAGMA synchronous = NORMAL`);
+    await db.$queryRawUnsafe(`PRAGMA temp_store = MEMORY`);
+    await db.$queryRawUnsafe(`PRAGMA cache_size = -200000`);
+    await db.$queryRawUnsafe(`PRAGMA journal_mode = WAL`);
 }
 
 async function addColumnIfMissing(db: RawDbClient, table: string, columnDefinition: string): Promise<void> {

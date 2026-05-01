@@ -14,8 +14,8 @@ import { ExecutionSimulator } from "@/src/backtest/ExecutionSimulator";
 import { ExecutionBookStore } from "@/src/backtest/ExecutionBookStore";
 import { MetricsReporter } from "@/src/backtest/MetricsReporter";
 import { RecordedLLMTrader, buildManagementPolicy, buildTraderPolicy } from "@/src/backtest/TraderPolicies";
-import { acceptChallenger, aggregateScoredConfigs, configHash, optimizerRejectionReason, sampleRandomConfig, sampleRandomScreenerConfig, scoreMetrics } from "@/src/backtest/WalkForwardOptimizer";
-import { BacktestMetrics, CoverageReport, L2BookSnapshot, MarketFeatureRow, SimPosition, SimTrade } from "@/src/backtest/BacktestTypes";
+import { WalkForwardOptimizer, acceptChallenger, aggregateScoredConfigs, configHash, isHardOptimizerReject, isNearMissRejection, optimizerRejectionReason, sampleRandomConfig, sampleRandomScreenerConfig, scoreMetrics } from "@/src/backtest/WalkForwardOptimizer";
+import { BacktestMetrics, BacktestRunConfig, CoverageReport, L2BookSnapshot, MarketFeatureRow, SimPosition, SimTrade } from "@/src/backtest/BacktestTypes";
 import { TradeDecision, TraderContext } from "@/types/trading";
 import { deriveRealCandlesFromNodeFillsLines, getRealCandleCoverageReport, upsertRealCandles } from "@/src/backtest/RealCandleHydrator";
 import { upsertSyntheticCandlesFromFeatures } from "@/src/backtest/ArchiveHydrator";
@@ -159,8 +159,8 @@ describe("backtest stack", () => {
         const tenSeconds = new Date("2026-04-11T10:00:10Z");
         for (const ts of [minute, tenSeconds]) {
             await db.$executeRawUnsafe(
-                `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume")
-                 VALUES ('BTC', '1m', ?, 100, 101, 99, 100, 0)`,
+                `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume", "source")
+                 VALUES ('BTC', '1m', ?, 100, 101, 99, 100, 0, 'synthetic_from_features')`,
                 ts
             );
         }
@@ -169,8 +169,9 @@ describe("backtest stack", () => {
 
         const rows = await db.marketCandle.findMany({ where: { symbol: "BTC" }, orderBy: { openTime: "asc" } });
         expect(rows).toHaveLength(2);
-        expect(rows.map(row => row.volume)).toEqual([42, 42]);
-        expect(rows.map(row => row.close)).toEqual([104, 104]);
+        expect(rows.map(row => row.volume)).toEqual([42, 0]);
+        expect(rows.map(row => row.close)).toEqual([104, 100]);
+        expect(rows.map(row => row.source)).toEqual(["real_1m", "synthetic_from_features"]);
         await db.$disconnect();
     });
 
@@ -198,8 +199,7 @@ describe("backtest stack", () => {
         const candles = deriveRealCandlesFromNodeFillsLines(lines, ["BTC"], start, end);
 
         expect(candles.BTC).toEqual([
-            { t: start.getTime(), o: 100, h: 100, l: 99, c: 99, v: 3 },
-            { t: start.getTime() + 60_000, o: 101, h: 101, l: 101, c: 101, v: 0.5 }
+            { t: start.getTime(), o: 100, h: 100, l: 99, c: 99, v: 3 }
         ]);
         expect(candles.ETH).toBeUndefined();
     });
@@ -235,8 +235,8 @@ describe("backtest stack", () => {
         const ts = new Date("2026-04-11T10:00:00Z");
         await store.upsertRows([featureRow(ts, "BTC-PERP")]);
         await db.$executeRawUnsafe(
-            `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume")
-             VALUES ('BTC', '1m', ?, 90, 110, 80, 105, 99)`,
+            `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume", "source")
+             VALUES ('BTC', '1m', ?, 90, 110, 80, 105, 0, 'real_1m')`,
             ts
         );
 
@@ -249,8 +249,9 @@ describe("backtest stack", () => {
         });
 
         const candle = await db.marketCandle.findFirstOrThrow({ where: { symbol: "BTC", openTime: ts } });
-        expect(candle.volume).toBe(99);
+        expect(candle.volume).toBe(0);
         expect(candle.close).toBe(105);
+        expect(candle.source).toBe("real_1m");
         await store.close();
         await db.$disconnect();
     });
@@ -285,7 +286,7 @@ describe("backtest stack", () => {
                     symbols: options.symbols,
                     candlesFetched: 2,
                     candlesUpserted: 2,
-                    coverage: { expectedMinutes: 61, missingBySymbol: {}, complete: true }
+                    coverage: { expectedMinutes: 60, missingBySymbol: {}, complete: true }
                 };
             }
         });
@@ -323,6 +324,48 @@ describe("backtest stack", () => {
         await db.$disconnect();
     });
 
+    it("does not reject suppressed synthetic rows when real candle coverage is complete", async () => {
+        const dbPath = path.join(await fs.mkdtemp(path.join(os.tmpdir(), "bt-db-")), "market.db");
+        const db = new PrismaClient({ datasources: { db: { url: `file:${dbPath}` } } });
+        await ensureBacktestDbSchema(db);
+        const start = new Date("2026-04-11T10:00:00Z");
+        const nextMinute = new Date("2026-04-11T10:01:00Z");
+        const end = new Date("2026-04-11T10:02:00Z");
+        await upsertRealCandles(db, "BTC", [
+            { t: start.getTime(), o: 100, h: 101, l: 99, c: 100, v: 0 },
+            { t: nextMinute.getTime(), o: 100, h: 102, l: 98, c: 101, v: 0 }
+        ]);
+        for (const ts of [
+            new Date("2026-04-11T10:00:10Z"),
+            new Date("2026-04-11T10:01:10Z"),
+            end
+        ]) {
+            await db.$executeRawUnsafe(
+                `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume", "source")
+                 VALUES ('BTC', '1m', ?, 100, 101, 99, 100, 0, 'synthetic_from_features')`,
+                ts
+            );
+        }
+
+        await expect(assertOptimizerCandlePreflight({
+            dbPath,
+            start,
+            end,
+            symbols: ["BTC"],
+            hydrateRealCandlesRequested: true,
+            scoreGates: {
+                minTrades: 1,
+                maxDrawdownBps: 1000,
+                minProfitFactor: 0,
+                maxStopHitRate: 1,
+                maxSymbolConcentration: 1,
+                maxRegimeConcentration: 1,
+                allowSyntheticCandles: false
+            }
+        })).resolves.toBeUndefined();
+        await db.$disconnect();
+    });
+
     it("includes candles whose open time equals the replay timestamp", async () => {
         const dbPath = path.join(await fs.mkdtemp(path.join(os.tmpdir(), "bt-db-")), "market.db");
         const db = new PrismaClient({ datasources: { db: { url: `file:${dbPath}` } } });
@@ -357,6 +400,73 @@ describe("backtest stack", () => {
         await db.$disconnect();
     });
 
+    it("processes real 1m candles once at close and suppresses same-minute synthetic rows", async () => {
+        const dbPath = path.join(await fs.mkdtemp(path.join(os.tmpdir(), "bt-db-")), "market.db");
+        const db = new PrismaClient({ datasources: { db: { url: `file:${dbPath}` } } });
+        const store = new FeatureStore({ db });
+        await store.ensureSchema();
+
+        const first = new Date("2026-04-11T10:00:00Z");
+        const tenSeconds = new Date("2026-04-11T10:00:10Z");
+        const twentySeconds = new Date("2026-04-11T10:00:20Z");
+        const nextMinute = new Date("2026-04-11T10:01:00Z");
+        await store.upsertRows([
+            featureRow(first, "BTC-PERP"),
+            featureRow(tenSeconds, "BTC-PERP"),
+            featureRow(twentySeconds, "BTC-PERP"),
+            featureRow(nextMinute, "BTC-PERP")
+        ]);
+        await db.$executeRawUnsafe(
+            `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume", "source")
+             VALUES ('BTC', '1m', ?, 100, 110, 90, 105, 10, 'real_1m')`,
+            first
+        );
+        for (const ts of [tenSeconds, twentySeconds, nextMinute]) {
+            await db.$executeRawUnsafe(
+                `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume", "source")
+                 VALUES ('BTC', '1m', ?, 100, 101, 99, 100, 0, 'synthetic_from_features')`,
+                ts
+            );
+        }
+        await db.$executeRawUnsafe(
+            `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume", "source")
+             VALUES ('BTC', '1m', ?, 101, 102, 100, 101, 10, 'real_1m')`,
+            new Date("2026-04-11T10:00:30Z")
+        );
+
+        const source = await BacktestDataSource.create({
+            network: "mainnet",
+            start: first,
+            end: nextMinute,
+            intervalSeconds: 10,
+            agentConfig: DEFAULT_AGENT_CONFIG,
+            screenerConfig: SCREENER_PRESETS["Testnet Aggressive"],
+            featureDbPath: dbPath
+        });
+
+        expect(source.getCandles("BTC-PERP", first, tenSeconds)).toEqual([]);
+        expect(source.getCandles("BTC-PERP", first, nextMinute).map(c => new Date(c.openTime).toISOString()))
+            .toEqual([nextMinute.toISOString()]);
+        expect(source.getCoverageReport().candle_source).toBe("real_1m");
+        expect(source.getCoverageReport().synthetic_execution_candles).toBe(false);
+        expect(optimizerRejectionReason(
+            metrics({ netPnlBps: 10, maxDrawdownBps: 1, trades: 1, symbolConcentration: 0.1, regimeConcentration: 0.1 }),
+            source.getCoverageReport(),
+            {
+                minTrades: 1,
+                maxDrawdownBps: 100,
+                minProfitFactor: 1,
+                maxStopHitRate: 1,
+                maxSymbolConcentration: 1,
+                maxRegimeConcentration: 1,
+                allowSyntheticCandles: false
+            },
+            ["BTC-PERP"]
+        )).toBeNull();
+        await store.close();
+        await db.$disconnect();
+    });
+
     it("fires SL/TP when a candle openTime equals the replay timestamp", async () => {
         const dbPath = path.join(await fs.mkdtemp(path.join(os.tmpdir(), "bt-runner-")), "market.db");
         const db = new PrismaClient({ datasources: { db: { url: `file:${dbPath}` } } });
@@ -385,12 +495,12 @@ describe("backtest stack", () => {
             featureRow(second, "BTC-PERP", rowOverrides)
         ]);
         await db.$executeRawUnsafe(
-            `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume") VALUES (?, '1m', ?, 100, 101, 99, 100, 1)`,
+            `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume", "source") VALUES (?, '1m', ?, 100, 101, 99, 100, 0, 'synthetic_from_features')`,
             "BTC",
             first
         );
         await db.$executeRawUnsafe(
-            `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume") VALUES (?, '1m', ?, 100, 100, 80, 90, 1)`,
+            `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume", "source") VALUES (?, '1m', ?, 100, 100, 80, 90, 0, 'synthetic_from_features')`,
             "BTC",
             second
         );
@@ -512,6 +622,7 @@ describe("backtest stack", () => {
     it("classifies synthetic and mixed execution candles", () => {
         expect(classifyExecutionCandleSource([{ volume: 0 }])).toBe("synthetic_from_features");
         expect(classifyExecutionCandleSource([{ volume: 0, source: "real_1m" }])).toBe("real_1m");
+        expect(classifyExecutionCandleSource([{ volume: 0, source: "synthetic_from_features" }])).toBe("synthetic_from_features");
         expect(classifyExecutionCandleSource([{ volume: 12 }])).toBe("real_1m");
         expect(classifyExecutionCandleSource([{ volume: 0 }, { volume: 12 }])).toBe("mixed");
     });
@@ -773,6 +884,151 @@ describe("backtest stack", () => {
         expect(optimizerRejectionReason(goodMetrics, coverage({
             missing_candle_intervals: [{ symbol: "BTC-PERP", start: "2026-04-11T10:00:00.000Z", end: "2026-04-11T10:01:00.000Z" }]
         }), undefined, ["BTC-PERP"])).toMatch(/^missing_execution_candles_for_traded_symbols/);
+    });
+
+    it("adaptiveSearch improves sampling around elite parameter values", async () => {
+        const dir = await fs.mkdtemp(path.join(os.tmpdir(), "adaptive-opt-"));
+        const targetVolRatio = 1.23;
+        const runner = fakeOptimizerRunner(config => {
+            const vol = config.agentConfig.triggers.momentum.vol_ratio_min;
+            return metrics({
+                netPnlBps: 1000 - Math.abs(vol - targetVolRatio) * 1000,
+                maxDrawdownBps: 10,
+                trades: 40,
+                symbolConcentration: 0.2,
+                regimeConcentration: 0.4
+            });
+        });
+        const optimizer = new WalkForwardOptimizer(runner as never);
+        await optimizer.adaptiveSearch(adaptiveRunConfig(77), {
+            generations: 3,
+            explorationTrials: 24,
+            generationTrials: 24,
+            eliteCount: 4,
+            nearMissCount: 0,
+            successiveHalving: false,
+            outputDir: dir,
+            finalists: 10
+        }, permissiveOptimizerGates());
+
+        const gen1 = JSON.parse(await fs.readFile(path.join(dir, "generation_1_results.json"), "utf8")) as Array<{ agentConfig: typeof DEFAULT_AGENT_CONFIG }>;
+        const gen2 = JSON.parse(await fs.readFile(path.join(dir, "generation_2_results.json"), "utf8")) as Array<{ agentConfig: typeof DEFAULT_AGENT_CONFIG }>;
+        const avgDistance = (rows: Array<{ agentConfig: typeof DEFAULT_AGENT_CONFIG }>) =>
+            rows.reduce((total, row) => total + Math.abs(row.agentConfig.triggers.momentum.vol_ratio_min - targetVolRatio), 0) / rows.length;
+
+        expect(avgDistance(gen2)).toBeLessThan(avgDistance(gen1));
+    });
+
+    it("keeps near-miss configs available for mutation without accepting them as winners", async () => {
+        const runner = fakeOptimizerRunner(config => {
+            const vol = config.agentConfig.triggers.momentum.vol_ratio_min;
+            return metrics({
+                netPnlBps: vol < 1 ? 500 : 50,
+                maxDrawdownBps: 10,
+                trades: vol < 1 ? 5 : 40,
+                symbolConcentration: 0.2,
+                regimeConcentration: 0.4
+            });
+        });
+        const optimizer = new WalkForwardOptimizer(runner as never);
+        const results = await optimizer.adaptiveSearch(adaptiveRunConfig(11), {
+            generations: 3,
+            explorationTrials: 16,
+            generationTrials: 16,
+            eliteCount: 2,
+            nearMissCount: 4,
+            successiveHalving: false,
+            finalists: 10
+        }, { ...permissiveOptimizerGates(), minTrades: 30 });
+
+        const trace = optimizer.getLastAdaptiveTrace();
+        expect(trace?.near_miss_config_hashes.length).toBeGreaterThan(0);
+        expect(results[0]?.rejected).toBe(false);
+        expect(results.filter(result => !result.rejected).every(result => !isNearMissRejection(result.rejection_reason))).toBe(true);
+    });
+
+    it("excludes hard rejects from mutation parent eligibility", () => {
+        expect(isNearMissRejection("min_trades:5<30")).toBe(true);
+        expect(isHardOptimizerReject("runner_error:boom")).toBe(true);
+        expect(isHardOptimizerReject("no_feature_timestamps")).toBe(true);
+        expect(isHardOptimizerReject("missing_execution_candles_for_traded_symbols:BTC-PERP")).toBe(true);
+        expect(isHardOptimizerReject("synthetic_execution_candles")).toBe(true);
+        expect(isNearMissRejection("runner_error:boom")).toBe(false);
+    });
+
+    it("deterministic seed produces repeatable adaptive config hashes", async () => {
+        const runner = fakeOptimizerRunner(config => metrics({
+            netPnlBps: config.agentConfig.triggers.momentum.vol_ratio_min * 100,
+            maxDrawdownBps: 10,
+            trades: 40,
+            symbolConcentration: 0.2,
+            regimeConcentration: 0.4
+        }));
+        const options = {
+            generations: 3,
+            explorationTrials: 12,
+            generationTrials: 12,
+            eliteCount: 3,
+            nearMissCount: 2,
+            successiveHalving: false,
+            finalists: 12
+        };
+
+        const a = await new WalkForwardOptimizer(runner as never).adaptiveSearch(adaptiveRunConfig(1234), options, permissiveOptimizerGates());
+        const b = await new WalkForwardOptimizer(runner as never).adaptiveSearch(adaptiveRunConfig(1234), options, permissiveOptimizerGates());
+
+        expect(a.map(result => result.config_hash)).toEqual(b.map(result => result.config_hash));
+    });
+
+    it("successive halving reduces full-window runs", async () => {
+        const base = adaptiveRunConfig(44);
+        let totalRuns = 0;
+        let fullRuns = 0;
+        const runner = fakeOptimizerRunner(config => {
+            totalRuns++;
+            if (config.start.getTime() === base.start.getTime() && config.end.getTime() === base.end.getTime()) fullRuns++;
+            return metrics({
+                netPnlBps: config.agentConfig.triggers.momentum.vol_ratio_min * 100,
+                maxDrawdownBps: 10,
+                trades: 40,
+                symbolConcentration: 0.2,
+                regimeConcentration: 0.4
+            });
+        });
+
+        await new WalkForwardOptimizer(runner as never).adaptiveSearch(base, {
+            generations: 2,
+            explorationTrials: 20,
+            generationTrials: 0,
+            eliteCount: 3,
+            nearMissCount: 0,
+            successiveHalving: true,
+            halvingKeepRatio: 0.25,
+            sliceCount: 4,
+            finalists: 10
+        }, permissiveOptimizerGates());
+
+        expect(fullRuns).toBeLessThan(totalRuns);
+    });
+
+    it("adaptive mode still respects optimizer gates", async () => {
+        const runner = fakeOptimizerRunner(() => metrics({
+            netPnlBps: 1000,
+            maxDrawdownBps: 10,
+            trades: 1,
+            symbolConcentration: 0.2,
+            regimeConcentration: 0.4
+        }));
+        const results = await new WalkForwardOptimizer(runner as never).adaptiveSearch(adaptiveRunConfig(9), {
+            generations: 2,
+            explorationTrials: 8,
+            generationTrials: 8,
+            successiveHalving: false,
+            finalists: 20
+        }, { ...permissiveOptimizerGates(), minTrades: 30 });
+
+        expect(results.every(result => result.rejected)).toBe(true);
+        expect(results.every(result => result.rejection_reason?.startsWith("min_trades"))).toBe(true);
     });
 
     it("aggregates walk-forward folds by config hash before ranking", () => {
@@ -1079,6 +1335,50 @@ function metrics(args: {
         one_symbol_concentration: args.symbolConcentration,
         one_regime_concentration: args.regimeConcentration,
         breakdowns: {}
+    };
+}
+
+function adaptiveRunConfig(seed: number): BacktestRunConfig {
+    return {
+        network: "mainnet",
+        start: new Date("2026-04-11T00:00:00Z"),
+        end: new Date("2026-04-12T00:00:00Z"),
+        intervalSeconds: 60,
+        initialCapitalUsd: 10_000,
+        screeningPresetName: "Momentum Moderate",
+        agentPresetName: "Momentum Moderate",
+        screeningConfig: SCREENER_PRESETS["Momentum Moderate"],
+        agentConfig: DEFAULT_AGENT_CONFIG,
+        policyName: "take_top_rank",
+        managementPolicyName: "playbook_aware",
+        seed,
+        runId: `adaptive-test-${seed}`,
+        suppressConsoleWarnings: true
+    };
+}
+
+function permissiveOptimizerGates() {
+    return {
+        minTrades: 1,
+        maxDrawdownBps: 10_000,
+        minProfitFactor: 0,
+        maxStopHitRate: 1,
+        maxSymbolConcentration: 1,
+        maxRegimeConcentration: 1,
+        allowSyntheticCandles: true
+    };
+}
+
+function fakeOptimizerRunner(metricFn: (config: BacktestRunConfig) => BacktestMetrics) {
+    return {
+        run: async (config: BacktestRunConfig) => {
+            const metric = metricFn(config);
+            return {
+                metrics: metric,
+                coverage: coverage(),
+                trades: metric.trade_count > 0 ? [trade({ symbol: "BTC-PERP", regime: "RISK_ON", pnl: metric.net_pnl_usd })] : []
+            };
+        }
     };
 }
 

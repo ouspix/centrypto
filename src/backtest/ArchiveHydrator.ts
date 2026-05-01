@@ -2,17 +2,25 @@ import crypto from "crypto";
 import fs from "fs/promises";
 import path from "path";
 import { spawn, spawnSync } from "child_process";
+import { createInterface } from "readline";
+import { Readable } from "stream";
 import { PrismaClient } from "@prisma/market-client";
 import { createBacktestDbClient, ensureBacktestDbSchema } from "./BacktestDb";
 import { ExecutionBookStore } from "./ExecutionBookStore";
 import { FeatureStore } from "./FeatureStore";
-import { buildExecutionBooksFromSnapshots, buildMarketFeaturesFromSnapshots, parseHyperliquidL2File } from "./L2FeatureBuilder";
-import { MarketFeatureRow } from "./BacktestTypes";
+import { buildExecutionBooksFromSnapshots, buildMarketFeaturesFromSnapshots, parseHyperliquidL2File, parseHyperliquidL2Stream } from "./L2FeatureBuilder";
+import { L2BookSnapshot, MarketFeatureRow } from "./BacktestTypes";
 
 const BUCKET_URL = "https://hyperliquid-archive.s3.amazonaws.com";
 const AWS_REGION = process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || "us-east-1";
 const DEFAULT_UNIVERSE_SIZE = 15;
 const DEFAULT_DOWNLOAD_CONCURRENCY = 6;
+const MARKET_TICK_INSERT_BATCH_SIZE = 1000;
+const SYNTHETIC_CANDLE_UPSERT_BATCH_SIZE = 1000;
+const ARCHIVE_INGEST_INSERT_BATCH_SIZE = 100;
+const ASSET_CTX_INGEST_SOURCE_HOUR = -1;
+const ASSET_CTX_INGEST_INTERVAL_SECONDS = 60;
+const SQLITE_WRITE_TRANSACTION_TIMEOUT_MS = 600_000;
 
 type ArchiveHour = {
     date: string;
@@ -29,6 +37,16 @@ type ArchiveDownloadRequest = ArchiveHour & {
     symbols: string[];
 };
 
+type ArchiveIngestRecord = {
+    dataType: "l2Book" | "assetCtx";
+    symbol: string;
+    sourceDate: string;
+    sourceHour: number;
+    intervalSeconds: number;
+    rowCount: number;
+    bookCount: number;
+};
+
 type AssetCtxRow = {
     ts: Date;
     symbol: string;
@@ -40,6 +58,8 @@ type AssetCtxRow = {
     bookBidPx: number | null;
     bookAskPx: number | null;
 };
+
+type ExecuteDbClient = Pick<PrismaClient, "$executeRawUnsafe">;
 
 export type HydrateArchiveOptions = {
     start: Date;
@@ -107,7 +127,7 @@ export async function hydrateArchiveForBacktest(options: HydrateArchiveOptions):
             console.log("[backtest:hydrate] Feature coverage already present; skipping S3 download.");
         } else {
             if (downloadPlan.length > 0) {
-                await downloadArchiveWindow({
+                await streamAndIngestArchiveWindow({
                     ...options,
                     start: hydrateStart,
                     end: hydrateEnd,
@@ -115,12 +135,10 @@ export async function hydrateArchiveForBacktest(options: HydrateArchiveOptions):
                     tmpRoot,
                     downloadConcurrency
                 }, downloadPlan);
-                await ingestDownloadedFeatures(tmpRoot, symbols, options.intervalSeconds, options.dbPath);
             }
 
             if (assetCtxDatePlan.length > 0) {
-                await downloadAssetCtxDates(tmpRoot, assetCtxDatePlan, downloadConcurrency);
-                await ingestDownloadedAssetCtxs(tmpRoot, symbols, hydrateStart, hydrateEnd, options.dbPath);
+                await streamAndIngestAssetCtxDates(assetCtxDatePlan, symbols, hydrateStart, hydrateEnd, options.dbPath);
             }
         }
 
@@ -160,11 +178,10 @@ async function selectHydrationUniverse(options: {
     }
 
     const dates = dateKeys(options.start, options.end);
-    await downloadAssetCtxDates(options.tmpRoot, dates, options.downloadConcurrency);
-    const fromArchive = await selectTopSymbolsFromDownloadedAssetCtxs(options.tmpRoot, options.start, options.end, options.limit);
+    const fromArchive = await selectTopSymbolsFromAssetCtxArchive(dates, options.start, options.end, options.limit);
     if (fromArchive.length === 0) return { symbols: fromDb, assetCtxHydrated: false };
 
-    await ingestDownloadedAssetCtxs(options.tmpRoot, fromArchive, options.start, options.end, options.dbPath);
+    await streamAndIngestAssetCtxDates(dates, fromArchive, options.start, options.end, options.dbPath);
     console.log(`[backtest:hydrate] Selected historical universe from archived asset context rows.`);
     return { symbols: fromArchive, assetCtxHydrated: true };
 }
@@ -229,12 +246,54 @@ async function selectTopSymbolsFromDownloadedAssetCtxs(tmpRoot: string, start: D
         .map(([symbol]) => symbol);
 }
 
+async function selectTopSymbolsFromAssetCtxArchive(dates: string[], start: Date, end: Date, limit: number): Promise<string[]> {
+    const stats = new Map<string, { volume24h: number; openInterest: number; samples: number }>();
+    for (const date of dates) {
+        console.log(`[backtest:hydrate] Streaming asset ctx ${date}`);
+        await forEachAssetCtxArchiveRow(date, null, start, end, row => {
+            const symbol = baseSymbol(row.symbol);
+            if (!symbol) return;
+            const stat = stats.get(symbol) ?? { volume24h: 0, openInterest: 0, samples: 0 };
+            stat.volume24h += row.volume24h;
+            stat.openInterest += row.openInterest;
+            stat.samples++;
+            stats.set(symbol, stat);
+        });
+    }
+
+    return rankAssetCtxStats(stats, limit);
+}
+
+function rankAssetCtxStats(stats: Map<string, { volume24h: number; openInterest: number; samples: number }>, limit: number): string[] {
+    return Array.from(stats.entries())
+        .filter(([, stat]) => stat.samples > 0)
+        .sort(([aSymbol, a], [bSymbol, b]) => {
+            const aVolume = a.volume24h / a.samples;
+            const bVolume = b.volume24h / b.samples;
+            if (bVolume !== aVolume) return bVolume - aVolume;
+            const aOi = a.openInterest / a.samples;
+            const bOi = b.openInterest / b.samples;
+            if (bOi !== aOi) return bOi - aOi;
+            return aSymbol.localeCompare(bSymbol);
+        })
+        .slice(0, limit)
+        .map(([symbol]) => symbol);
+}
+
 async function buildAssetCtxDatePlan(options: Required<Pick<HydrateArchiveOptions, "start" | "end" | "symbols">> & Pick<HydrateArchiveOptions, "dbPath">): Promise<string[]> {
     const dates = dateKeys(options.start, options.end);
     const missingDates = new Set<string>();
     const db = createBacktestDbClient(options.dbPath);
     try {
         await ensureBacktestDbSchema(db);
+        const completed = await readCompletedArchiveIngests(
+            db,
+            "assetCtx",
+            options.symbols,
+            dates,
+            ASSET_CTX_INGEST_INTERVAL_SECONDS
+        );
+        let sparseCompleted = 0;
         for (const date of dates) {
             const window = dateWindow(date, options.start, options.end);
             if (!window) continue;
@@ -249,10 +308,17 @@ async function buildAssetCtxDatePlan(options: Required<Pick<HydrateArchiveOption
                 );
                 const count = Number(rows[0]?.count ?? 0);
                 if (count < expected * 0.95) {
+                    if (completed.has(archiveIngestKey("assetCtx", symbol, date, ASSET_CTX_INGEST_SOURCE_HOUR, ASSET_CTX_INGEST_INTERVAL_SECONDS))) {
+                        sparseCompleted++;
+                        continue;
+                    }
                     missingDates.add(date);
                     break;
                 }
             }
+        }
+        if (sparseCompleted > 0) {
+            console.log(`[backtest:hydrate] Skipping ${sparseCompleted} sparse asset ctx symbol-days already processed from archive.`);
         }
     } finally {
         await db.$disconnect();
@@ -266,16 +332,32 @@ async function buildAssetCtxDatePlan(options: Required<Pick<HydrateArchiveOption
 async function buildDownloadPlan(options: Required<Pick<HydrateArchiveOptions, "start" | "end" | "symbols" | "intervalSeconds">> & Pick<HydrateArchiveOptions, "dbPath" | "lookbackHours">): Promise<ArchiveDownloadRequest[]> {
     const hours = archiveHours(options.start, options.end);
     const missingByHour = new Map<string, Set<string>>();
-    const store = new FeatureStore({ dbPath: options.dbPath });
-    const bookStore = new ExecutionBookStore({ dbPath: options.dbPath });
+    const db = createBacktestDbClient(options.dbPath);
     try {
+        await ensureBacktestDbSchema(db);
+        const completed = await readCompletedArchiveIngests(
+            db,
+            "l2Book",
+            options.symbols,
+            Array.from(new Set(hours.map(hour => hour.date))),
+            options.intervalSeconds
+        );
+        let sparseCompleted = 0;
         for (const hour of hours) {
             const window = featureWindowForHour(hour, options.start, options.end, options.intervalSeconds);
             if (!window) continue;
+            const perpSymbols = options.symbols.map(symbol => `${symbol}-PERP`);
+            const featureCounts = await countArchiveRowsBySymbol(db, "MarketFeature", window.start, window.end, options.intervalSeconds, perpSymbols);
+            const bookCounts = await countArchiveRowsBySymbol(db, "MarketBook", window.start, window.end, options.intervalSeconds, perpSymbols);
             for (const symbol of options.symbols) {
-                const rows = await store.getRows(window.start, window.end, options.intervalSeconds, [`${symbol}-PERP`]);
-                const books = await bookStore.getBooks(window.start, window.end, options.intervalSeconds, [`${symbol}-PERP`]);
-                if (rows.length < window.expected * 0.95 || books.length < window.expected * 0.95) {
+                const perpSymbol = `${symbol}-PERP`;
+                const rows = featureCounts.get(perpSymbol) ?? 0;
+                const books = bookCounts.get(perpSymbol) ?? 0;
+                if (rows < window.expected * 0.95 || books < window.expected * 0.95) {
+                    if (completed.has(archiveIngestKey("l2Book", symbol, hour.date, hour.hour, options.intervalSeconds))) {
+                        sparseCompleted++;
+                        continue;
+                    }
                     const key = archiveHourKey(hour);
                     const bucket = missingByHour.get(key) ?? new Set<string>();
                     bucket.add(symbol);
@@ -283,9 +365,11 @@ async function buildDownloadPlan(options: Required<Pick<HydrateArchiveOptions, "
                 }
             }
         }
+        if (sparseCompleted > 0) {
+            console.log(`[backtest:hydrate] Skipping ${sparseCompleted} sparse L2 symbol-hours already processed from archive.`);
+        }
     } finally {
-        await store.close();
-        await bookStore.close();
+        await db.$disconnect();
     }
 
     if (missingByHour.size === 0) return [];
@@ -316,29 +400,141 @@ async function buildDownloadPlan(options: Required<Pick<HydrateArchiveOptions, "
     return plan;
 }
 
-async function downloadArchiveWindow(options: HydrateArchiveOptions & { tmpRoot: string }, plan: ArchiveDownloadRequest[]): Promise<void> {
+async function countArchiveRowsBySymbol(
+    db: PrismaClient,
+    table: "MarketFeature" | "MarketBook",
+    start: Date,
+    end: Date,
+    intervalSeconds: number,
+    symbols: string[]
+): Promise<Map<string, number>> {
+    if (symbols.length === 0) return new Map();
+    const tableName = table === "MarketFeature" ? `"MarketFeature"` : `"MarketBook"`;
+    const placeholders = symbols.map(() => "?").join(",");
+    const rows = await db.$queryRawUnsafe<Array<{ symbol: string; count: bigint | number }>>(
+        `SELECT "symbol" as symbol, COUNT(*) as count
+         FROM ${tableName}
+         WHERE "ts" >= ? AND "ts" <= ? AND "intervalSeconds" = ? AND "symbol" IN (${placeholders})
+         GROUP BY "symbol"`,
+        start,
+        end,
+        intervalSeconds,
+        ...symbols
+    );
+    return new Map(rows.map(row => [row.symbol, Number(row.count)]));
+}
+
+async function streamAndIngestArchiveWindow(options: HydrateArchiveOptions & { tmpRoot: string }, plan: ArchiveDownloadRequest[]): Promise<void> {
     const concurrency = positiveInt(options.downloadConcurrency, DEFAULT_DOWNLOAD_CONCURRENCY);
+    const objectsBySymbol = new Map<string, Array<ListedObject & Pick<ArchiveHour, "date" | "hour" | "start">>>();
     for (const request of plan) {
         const prefix = `market_data/${request.date}/${request.hour}/l2Book/`;
         console.log(`[backtest:hydrate] Listing s3://hyperliquid-archive/${prefix}`);
         const objects = await listObjects(prefix);
         if (objects.length === 0) {
-            throw new Error(`No L2 archive objects found at ${prefix}`);
+            throw new Error(await missingL2ArchiveObjectsMessage(prefix));
         }
-        const localDir = path.join(options.tmpRoot, "market_data", request.date, String(request.hour), "l2Book");
-        await fs.mkdir(localDir, { recursive: true });
-        await runWithConcurrency(request.symbols, concurrency, async symbol => {
+        for (const symbol of request.symbols) {
             const object = objects.find(obj => symbolFromKey(obj.key) === symbol);
             if (!object) {
                 const sample = objects.slice(0, 10).map(obj => `${symbolFromKey(obj.key)}<-${path.basename(obj.key)}`).join(", ");
                 throw new Error(`No L2 archive object found for ${symbol} at ${prefix}. Sample objects: ${sample}`);
             }
-            const compressedPath = path.join(localDir, `${symbol}.lz4`);
-            const finalPath = path.join(localDir, symbol);
-            console.log(`[backtest:hydrate] Downloading ${symbol} ${request.date}/${request.hour} (${formatBytes(object.size)})`);
-            await downloadObject(object.key, compressedPath);
-            await decompressLz4(compressedPath, finalPath);
-        });
+            const bucket = objectsBySymbol.get(symbol) ?? [];
+            bucket.push({ ...object, date: request.date, hour: request.hour, start: request.start });
+            objectsBySymbol.set(symbol, bucket);
+        }
+    }
+
+    const store = new FeatureStore({ dbPath: options.dbPath });
+    const bookStore = new ExecutionBookStore({ dbPath: options.dbPath });
+    const db = createBacktestDbClient(options.dbPath);
+    try {
+        await ensureBacktestDbSchema(db);
+        let total = 0;
+        let totalBooks = 0;
+        for (const symbol of options.symbols ?? []) {
+            const objects = (objectsBySymbol.get(symbol) ?? []).sort((a, b) =>
+                a.date.localeCompare(b.date) || a.hour - b.hour
+            );
+            if (objects.length === 0) continue;
+
+            const chunks: L2BookSnapshot[][] = [];
+            await runWithConcurrency(objects, concurrency, async object => {
+                console.log(`[backtest:hydrate] Streaming ${symbol} ${object.date}/${object.hour} (${formatBytes(object.size)})`);
+                chunks.push(await parseL2ArchiveObject(object.key, symbol));
+            });
+            const snapshots = chunks.flat().sort((a, b) => a.ts.getTime() - b.ts.getTime());
+            const sourceFile = `s3://hyperliquid-archive/market_data/${objects[0].date}..${objects[objects.length - 1].date}/${symbol}`;
+            const rows = buildMarketFeaturesFromSnapshots(snapshots, {
+                intervalSeconds: options.intervalSeconds,
+                sourceFile
+            });
+            total += await store.upsertRows(rows);
+            const books = buildExecutionBooksFromSnapshots(snapshots, { intervalSeconds: options.intervalSeconds });
+            totalBooks += await bookStore.upsertBooks(books, sourceFile);
+            await recordArchiveIngests(db, objects.map(object => ({
+                dataType: "l2Book",
+                symbol,
+                sourceDate: object.date,
+                sourceHour: object.hour,
+                intervalSeconds: options.intervalSeconds,
+                rowCount: countItemsInHour(rows, object.start),
+                bookCount: countItemsInHour(books, object.start)
+            })));
+            console.log(`[backtest:hydrate] ${symbol}: parsed ${snapshots.length}, upserted ${rows.length} features, ${books.length} books`);
+        }
+        console.log(`[backtest:hydrate] Upserted ${total} feature rows`);
+        console.log(`[backtest:hydrate] Upserted ${totalBooks} execution book rows`);
+    } finally {
+        await store.close();
+        await bookStore.close();
+        await db.$disconnect();
+    }
+}
+
+async function streamAndIngestAssetCtxDates(dates: string[], symbols: string[], start: Date, end: Date, dbPath?: string): Promise<void> {
+    const db = createBacktestDbClient(dbPath);
+    try {
+        await ensureBacktestDbSchema(db);
+        const symbolSet = new Set(symbols);
+
+        let total = 0;
+        for (const date of dates) {
+            const window = dateWindow(date, start, end);
+            if (!window) continue;
+            const rows: AssetCtxRow[] = [];
+            console.log(`[backtest:hydrate] Streaming asset ctx ${date}`);
+            await forEachAssetCtxArchiveRow(date, symbolSet, window.start, window.end, row => {
+                rows.push(row);
+            });
+            const counts = countRowsBySymbol(rows);
+            await db.$transaction(async tx => {
+                for (const symbol of symbols) {
+                    await tx.$executeRawUnsafe(
+                        `DELETE FROM "MarketTick" WHERE "symbol" = ? AND "ts" >= ? AND "ts" <= ?`,
+                        symbol,
+                        window.start,
+                        window.end
+                    );
+                }
+                await insertMarketTickRows(tx, rows);
+                await recordArchiveIngests(tx, symbols.map(symbol => ({
+                    dataType: "assetCtx",
+                    symbol,
+                    sourceDate: date,
+                    sourceHour: ASSET_CTX_INGEST_SOURCE_HOUR,
+                    intervalSeconds: ASSET_CTX_INGEST_INTERVAL_SECONDS,
+                    rowCount: counts.get(symbol) ?? 0,
+                    bookCount: 0
+                })));
+            }, { maxWait: 60_000, timeout: SQLITE_WRITE_TRANSACTION_TIMEOUT_MS });
+            total += rows.length;
+            console.log(`[backtest:hydrate] ${date}.csv: upserted ${rows.length} asset ctx ticks`);
+        }
+        console.log(`[backtest:hydrate] Upserted ${total} asset ctx ticks`);
+    } finally {
+        await db.$disconnect();
     }
 }
 
@@ -405,23 +601,7 @@ async function ingestDownloadedAssetCtxs(tmpRoot: string, symbols: string[], sta
         let total = 0;
         for (const file of files) {
             const rows = await parseAssetCtxCsvFile(file, symbolSet, start, end);
-            for (const row of rows) {
-                await db.$executeRawUnsafe(
-                    `INSERT INTO "MarketTick" (
-                        "ts", "symbol", "markPrice", "indexPrice", "openInterest", "fundingRate", "volume24h",
-                        "bookBidPx", "bookAskPx"
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-                    row.ts,
-                    row.symbol,
-                    row.markPrice,
-                    row.indexPrice,
-                    row.openInterest,
-                    row.fundingRate,
-                    row.volume24h,
-                    row.bookBidPx,
-                    row.bookAskPx
-                );
-            }
+            await insertMarketTickRows(db, rows);
             total += rows.length;
             console.log(`[backtest:hydrate] ${path.basename(file)}: upserted ${rows.length} asset ctx ticks`);
         }
@@ -429,6 +609,121 @@ async function ingestDownloadedAssetCtxs(tmpRoot: string, symbols: string[], sta
     } finally {
         await db.$disconnect();
     }
+}
+
+async function insertMarketTickRows(db: ExecuteDbClient, rows: AssetCtxRow[]): Promise<void> {
+    for (let i = 0; i < rows.length; i += MARKET_TICK_INSERT_BATCH_SIZE) {
+        const batch = rows.slice(i, i + MARKET_TICK_INSERT_BATCH_SIZE);
+        const placeholders = batch.map(() => "(?, ?, ?, ?, ?, ?, ?, ?, ?)").join(",");
+        await db.$executeRawUnsafe(
+            `INSERT INTO "MarketTick" (
+                "ts", "symbol", "markPrice", "indexPrice", "openInterest", "fundingRate", "volume24h",
+                "bookBidPx", "bookAskPx"
+            ) VALUES ${placeholders}`,
+            ...batch.flatMap(row => [
+                row.ts,
+                row.symbol,
+                row.markPrice,
+                row.indexPrice,
+                row.openInterest,
+                row.fundingRate,
+                row.volume24h,
+                row.bookBidPx,
+                row.bookAskPx
+            ])
+        );
+    }
+}
+
+async function readCompletedArchiveIngests(
+    db: PrismaClient,
+    dataType: ArchiveIngestRecord["dataType"],
+    symbols: string[],
+    sourceDates: string[],
+    intervalSeconds: number
+): Promise<Set<string>> {
+    if (symbols.length === 0 || sourceDates.length === 0) return new Set();
+    const uniqueSymbols = Array.from(new Set(symbols)).sort();
+    const uniqueDates = Array.from(new Set(sourceDates)).sort();
+    const symbolPlaceholders = uniqueSymbols.map(() => "?").join(",");
+    const datePlaceholders = uniqueDates.map(() => "?").join(",");
+    const rows = await db.$queryRawUnsafe<Array<{
+        symbol: string;
+        sourceDate: string;
+        sourceHour: number;
+        intervalSeconds: number;
+    }>>(
+        `SELECT "symbol" as symbol, "sourceDate" as sourceDate, "sourceHour" as sourceHour, "intervalSeconds" as intervalSeconds
+         FROM "BacktestArchiveIngest"
+         WHERE "dataType" = ?
+            AND "intervalSeconds" = ?
+            AND "symbol" IN (${symbolPlaceholders})
+            AND "sourceDate" IN (${datePlaceholders})`,
+        dataType,
+        intervalSeconds,
+        ...uniqueSymbols,
+        ...uniqueDates
+    );
+    return new Set(rows.map(row => archiveIngestKey(
+        dataType,
+        row.symbol,
+        row.sourceDate,
+        Number(row.sourceHour),
+        Number(row.intervalSeconds)
+    )));
+}
+
+async function recordArchiveIngests(db: ExecuteDbClient, records: ArchiveIngestRecord[]): Promise<void> {
+    if (records.length === 0) return;
+    for (let i = 0; i < records.length; i += ARCHIVE_INGEST_INSERT_BATCH_SIZE) {
+        const batch = records.slice(i, i + ARCHIVE_INGEST_INSERT_BATCH_SIZE);
+        const placeholders = batch.map(() => "(?, ?, ?, ?, ?, ?, ?)").join(",");
+        await db.$executeRawUnsafe(
+            `INSERT INTO "BacktestArchiveIngest" (
+                "dataType", "symbol", "sourceDate", "sourceHour", "intervalSeconds", "rowCount", "bookCount"
+            ) VALUES ${placeholders}
+            ON CONFLICT("dataType", "symbol", "sourceDate", "sourceHour", "intervalSeconds") DO UPDATE SET
+                "rowCount" = excluded."rowCount",
+                "bookCount" = excluded."bookCount",
+                "completedAt" = CURRENT_TIMESTAMP`,
+            ...batch.flatMap(record => [
+                record.dataType,
+                record.symbol,
+                record.sourceDate,
+                record.sourceHour,
+                record.intervalSeconds,
+                record.rowCount,
+                record.bookCount
+            ])
+        );
+    }
+}
+
+function archiveIngestKey(
+    dataType: ArchiveIngestRecord["dataType"],
+    symbol: string,
+    sourceDate: string,
+    sourceHour: number,
+    intervalSeconds: number
+): string {
+    return `${dataType}:${symbol}:${sourceDate}/${sourceHour}:${intervalSeconds}`;
+}
+
+function countItemsInHour(items: Array<{ ts: Date }>, hourStart: Date): number {
+    const startMs = hourStart.getTime();
+    const endMs = startMs + 60 * 60_000;
+    return items.reduce((count, item) => {
+        const ts = item.ts.getTime();
+        return ts >= startMs && ts < endMs ? count + 1 : count;
+    }, 0);
+}
+
+function countRowsBySymbol(rows: AssetCtxRow[]): Map<string, number> {
+    const counts = new Map<string, number>();
+    for (const row of rows) {
+        counts.set(row.symbol, (counts.get(row.symbol) ?? 0) + 1);
+    }
+    return counts;
 }
 
 export async function upsertSyntheticCandlesFromFeatures(options: Required<Pick<HydrateArchiveOptions, "start" | "end" | "symbols" | "intervalSeconds">> & Pick<HydrateArchiveOptions, "dbPath">): Promise<number> {
@@ -440,38 +735,8 @@ export async function upsertSyntheticCandlesFromFeatures(options: Required<Pick<
         for (const symbol of options.symbols) {
             const rows = await store.getRows(options.start, options.end, options.intervalSeconds, [`${symbol}-PERP`]);
             const candles = deriveCandles(rows);
-            for (const candle of candles) {
-                const where = {
-                    symbol_timeframe_openTime: {
-                        symbol,
-                        timeframe: "1m",
-                        openTime: new Date(candle.t)
-                    }
-                };
-                const existing = await db.marketCandle.findUnique({ where });
-                if (existing && existing.volume !== 0) continue;
-                await db.marketCandle.upsert({
-                    where,
-                    update: {
-                        open: candle.o,
-                        high: candle.h,
-                        low: candle.l,
-                        close: candle.c,
-                        volume: candle.v
-                    },
-                    create: {
-                        symbol,
-                        timeframe: "1m",
-                        openTime: new Date(candle.t),
-                        open: candle.o,
-                        high: candle.h,
-                        low: candle.l,
-                        close: candle.c,
-                        volume: candle.v
-                    }
-                });
-                inserted++;
-            }
+            await upsertSyntheticCandleBatch(db, symbol, candles);
+            inserted += candles.length;
             console.log(`[backtest:hydrate] ${symbol}: upserted feature-interval execution candles where real candles were absent`);
         }
         return inserted;
@@ -479,6 +744,41 @@ export async function upsertSyntheticCandlesFromFeatures(options: Required<Pick<
         await store.close();
         await db.$disconnect();
     }
+}
+
+async function upsertSyntheticCandleBatch(
+    db: PrismaClient,
+    symbol: string,
+    candles: Array<{ t: number; o: number; h: number; l: number; c: number; v: number }>
+): Promise<void> {
+    if (candles.length === 0) return;
+    await db.$transaction(async tx => {
+        for (let i = 0; i < candles.length; i += SYNTHETIC_CANDLE_UPSERT_BATCH_SIZE) {
+            const batch = candles.slice(i, i + SYNTHETIC_CANDLE_UPSERT_BATCH_SIZE);
+            const placeholders = batch.map(() => "(?, '1m', ?, ?, ?, ?, ?, ?, 'synthetic_from_features')").join(",");
+            await tx.$executeRawUnsafe(
+                `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume", "source")
+                 VALUES ${placeholders}
+                 ON CONFLICT("symbol", "timeframe", "openTime") DO UPDATE SET
+                    "open" = excluded."open",
+                    "high" = excluded."high",
+                    "low" = excluded."low",
+                    "close" = excluded."close",
+                    "volume" = excluded."volume",
+                    "source" = excluded."source"
+                 WHERE COALESCE("MarketCandle"."source", CASE WHEN "MarketCandle"."volume" = 0 THEN 'synthetic_from_features' ELSE 'real_1m' END) != 'real_1m'`,
+                ...batch.flatMap(candle => [
+                    symbol,
+                    new Date(candle.t),
+                    candle.o,
+                    candle.h,
+                    candle.l,
+                    candle.c,
+                    candle.v
+                ])
+            );
+        }
+    }, { maxWait: 60_000, timeout: SQLITE_WRITE_TRANSACTION_TIMEOUT_MS });
 }
 
 function deriveCandles(rows: MarketFeatureRow[]): Array<{ t: number; o: number; h: number; l: number; c: number; v: number }> {
@@ -512,11 +812,101 @@ async function listObjects(prefix: string): Promise<ListedObject[]> {
     return objects;
 }
 
+async function listCommonPrefixes(prefix: string, delimiter = "/"): Promise<string[]> {
+    const prefixes: string[] = [];
+    let continuation: string | null = null;
+    do {
+        const url = new URL(BUCKET_URL);
+        url.searchParams.set("list-type", "2");
+        url.searchParams.set("prefix", prefix);
+        url.searchParams.set("delimiter", delimiter);
+        if (continuation) url.searchParams.set("continuation-token", continuation);
+        const res = await signedFetch(url);
+        if (!res.ok) throw new Error(`S3 list failed: ${res.status} ${await res.text()}`);
+        const xml = await res.text();
+        prefixes.push(...parseCommonPrefixes(xml));
+        continuation = parseTag(xml, "NextContinuationToken");
+    } while (continuation);
+    return prefixes;
+}
+
+async function missingL2ArchiveObjectsMessage(prefix: string): Promise<string> {
+    const latest = await latestMarketDataAvailability().catch(() => null);
+    return [
+        `No L2 archive objects found at ${prefix}`,
+        latest ? `Latest Date: ${latest.date}${latest.hour === null ? "" : ` (latest hour: ${latest.hour} UTC)`}` : "Latest Date: unknown"
+    ].join(". ");
+}
+
+async function latestMarketDataAvailability(): Promise<{ date: string; hour: number | null }> {
+    const dates = (await listCommonPrefixes("market_data/"))
+        .map(prefix => prefix.match(/^market_data\/(\d{8})\/$/)?.[1])
+        .filter((date): date is string => !!date)
+        .sort();
+    const latestDate = dates[dates.length - 1];
+    if (!latestDate) return { date: "unknown", hour: null };
+
+    const hours = (await listCommonPrefixes(`market_data/${latestDate}/`))
+        .map(prefix => Number(prefix.match(/^market_data\/\d{8}\/(\d{1,2})\/$/)?.[1]))
+        .filter(hour => Number.isInteger(hour) && hour >= 0 && hour <= 23)
+        .sort((a, b) => a - b);
+
+    return {
+        date: formatArchiveDate(latestDate),
+        hour: hours[hours.length - 1] ?? null
+    };
+}
+
+async function parseL2ArchiveObject(key: string, symbol: string): Promise<L2BookSnapshot[]> {
+    return withDecodedLz4ObjectStream(key, stream => parseHyperliquidL2Stream(stream, symbol));
+}
+
 async function downloadObject(key: string, localPath: string): Promise<void> {
     const url = `${BUCKET_URL}/${key.split("/").map(encodeURIComponent).join("/")}`;
     const res = await signedFetch(url);
     if (!res.ok) throw new Error(`Download failed for ${key}: ${res.status} ${await res.text()}`);
     await fs.writeFile(localPath, Buffer.from(await res.arrayBuffer()));
+}
+
+async function withDecodedLz4ObjectStream<T>(key: string, consumer: (stream: NodeJS.ReadableStream) => Promise<T>): Promise<T> {
+    const decompressor = findLz4();
+    if (!decompressor) throw new Error("lz4/unlz4 is required for archive hydration. Install it with: sudo apt install lz4");
+
+    const url = `${BUCKET_URL}/${key.split("/").map(encodeURIComponent).join("/")}`;
+    const res = await signedFetch(url);
+    if (!res.ok) throw new Error(`Download failed for ${key}: ${res.status} ${await res.text()}`);
+    if (!res.body) throw new Error(`Download failed for ${key}: empty response body`);
+
+    const args = decompressor.includes("unlz4") ? ["-c"] : ["-d", "-c"];
+    const child = spawn(decompressor, args, { stdio: ["pipe", "pipe", "pipe"] });
+    let stderr = "";
+    child.stderr?.on("data", chunk => {
+        if (stderr.length < 4000) stderr += String(chunk);
+    });
+    child.stdin?.on("error", () => {
+        // The decompressor owns failure reporting through its exit code.
+    });
+
+    const source = Readable.fromWeb(res.body as any);
+    source.on("error", error => child.stdin?.destroy(error));
+    source.pipe(child.stdin!);
+
+    const exit = new Promise<void>((resolve, reject) => {
+        child.on("error", reject);
+        child.on("close", code => {
+            if (code === 0) resolve();
+            else reject(new Error(`Failed to decompress ${key}${stderr ? `: ${stderr.trim()}` : ""}`));
+        });
+    });
+
+    try {
+        const result = await consumer(child.stdout!);
+        await exit;
+        return result;
+    } catch (error) {
+        child.kill();
+        throw error;
+    }
 }
 
 function decompressLz4(input: string, output: string): Promise<void> {
@@ -568,6 +958,42 @@ async function collectFiles(input: string): Promise<string[]> {
     return result;
 }
 
+async function forEachAssetCtxArchiveRow(
+    date: string,
+    symbols: Set<string> | null,
+    start: Date,
+    end: Date,
+    onRow: (row: AssetCtxRow) => void | Promise<void>
+): Promise<number> {
+    const key = `asset_ctxs/${date}.csv.lz4`;
+    return withDecodedLz4ObjectStream(key, stream => parseAssetCtxCsvStream(stream, symbols, start, end, onRow));
+}
+
+async function parseAssetCtxCsvStream(
+    input: NodeJS.ReadableStream,
+    symbols: Set<string> | null,
+    start: Date,
+    end: Date,
+    onRow: (row: AssetCtxRow) => void | Promise<void>
+): Promise<number> {
+    const rl = createInterface({ input, crlfDelay: Infinity });
+    let index: Map<string, number> | null = null;
+    let count = 0;
+    for await (const line of rl) {
+        if (!line.trim()) continue;
+        if (!index) {
+            const header = parseCsvLine(line);
+            index = new Map(header.map((name, i) => [name, i]));
+            continue;
+        }
+        const row = parseAssetCtxFields(parseCsvLine(line), index, symbols, start, end);
+        if (!row) continue;
+        await onRow(row);
+        count++;
+    }
+    return count;
+}
+
 async function parseAssetCtxCsvFile(filePath: string, symbols: Set<string> | null, start: Date, end: Date): Promise<AssetCtxRow[]> {
     const content = await fs.readFile(filePath, "utf8");
     const lines = content.split(/\r?\n/).filter(Boolean);
@@ -577,31 +1003,41 @@ async function parseAssetCtxCsvFile(filePath: string, symbols: Set<string> | nul
     const index = new Map(header.map((name, i) => [name, i]));
     const rows: AssetCtxRow[] = [];
     for (let i = 1; i < lines.length; i++) {
-        const fields = parseCsvLine(lines[i]);
-        const symbol = fields[index.get("coin") ?? -1];
-        if (!symbol || (symbols && !symbols.has(symbol))) continue;
-
-        const ts = new Date(fields[index.get("time") ?? -1]);
-        if (!Number.isFinite(ts.getTime()) || ts < start || ts > end) continue;
-
-        const markPrice = finiteNumber(fields[index.get("mark_px") ?? -1]) ?? finiteNumber(fields[index.get("mid_px") ?? -1]);
-        if (!markPrice || markPrice <= 0) continue;
-
-        const openInterestCoin = finiteNumber(fields[index.get("open_interest") ?? -1]) ?? 0;
-        rows.push({
-            ts,
-            symbol,
-            markPrice,
-            indexPrice: finiteNumber(fields[index.get("oracle_px") ?? -1]),
-            openInterest: openInterestCoin * markPrice,
-            fundingRate: finiteNumber(fields[index.get("funding") ?? -1]) ?? 0,
-            volume24h: finiteNumber(fields[index.get("day_ntl_vlm") ?? -1]) ?? 0,
-            bookBidPx: finiteNumber(fields[index.get("impact_bid_px") ?? -1]),
-            bookAskPx: finiteNumber(fields[index.get("impact_ask_px") ?? -1])
-        });
+        const row = parseAssetCtxFields(parseCsvLine(lines[i]), index, symbols, start, end);
+        if (row) rows.push(row);
     }
 
     return rows.sort((a, b) => a.ts.getTime() - b.ts.getTime() || a.symbol.localeCompare(b.symbol));
+}
+
+function parseAssetCtxFields(
+    fields: string[],
+    index: Map<string, number>,
+    symbols: Set<string> | null,
+    start: Date,
+    end: Date
+): AssetCtxRow | null {
+    const symbol = fields[index.get("coin") ?? -1];
+    if (!symbol || (symbols && !symbols.has(symbol))) return null;
+
+    const ts = new Date(fields[index.get("time") ?? -1]);
+    if (!Number.isFinite(ts.getTime()) || ts < start || ts > end) return null;
+
+    const markPrice = finiteNumber(fields[index.get("mark_px") ?? -1]) ?? finiteNumber(fields[index.get("mid_px") ?? -1]);
+    if (!markPrice || markPrice <= 0) return null;
+
+    const openInterestCoin = finiteNumber(fields[index.get("open_interest") ?? -1]) ?? 0;
+    return {
+        ts,
+        symbol,
+        markPrice,
+        indexPrice: finiteNumber(fields[index.get("oracle_px") ?? -1]),
+        openInterest: openInterestCoin * markPrice,
+        fundingRate: finiteNumber(fields[index.get("funding") ?? -1]) ?? 0,
+        volume24h: finiteNumber(fields[index.get("day_ntl_vlm") ?? -1]) ?? 0,
+        bookBidPx: finiteNumber(fields[index.get("impact_bid_px") ?? -1]),
+        bookAskPx: finiteNumber(fields[index.get("impact_ask_px") ?? -1])
+    };
 }
 
 function parseCsvLine(line: string): string[] {
@@ -669,6 +1105,10 @@ function dateWindow(date: string, start: Date, end: Date): { start: Date; end: D
 
 function archiveHourKey(hour: ArchiveHour): string {
     return `${hour.date}/${hour.hour}`;
+}
+
+function formatArchiveDate(date: string): string {
+    return `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`;
 }
 
 function featureWindowForHour(hour: ArchiveHour, start: Date, end: Date, intervalSeconds: number): { start: Date; end: Date; expected: number } | null {
@@ -749,6 +1189,17 @@ function parseObjectList(xml: string): ListedObject[] {
         const key = parseTag(match[1], "Key");
         const size = Number(parseTag(match[1], "Size") ?? 0);
         if (key) result.push({ key: decodeXml(key), size });
+    }
+    return result;
+}
+
+function parseCommonPrefixes(xml: string): string[] {
+    const result: string[] = [];
+    const prefixRe = /<CommonPrefixes>([\s\S]*?)<\/CommonPrefixes>/g;
+    let match: RegExpExecArray | null;
+    while ((match = prefixRe.exec(xml))) {
+        const prefix = parseTag(match[1], "Prefix");
+        if (prefix) result.push(prefix);
     }
     return result;
 }

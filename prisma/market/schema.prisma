@@ -40,6 +40,7 @@ model MarketCandle {
   low       Float
   close     Float
   volume    Float
+  source    String?
 
   @@unique([symbol, timeframe, openTime])
   @@index([symbol, timeframe, openTime])

@@ -5,6 +5,9 @@ import { createBacktestDbClient, ensureBacktestDbSchema } from "./BacktestDb";
 
 type DbClient = Pick<PrismaClient, "$executeRawUnsafe" | "$queryRawUnsafe">;
 
+const FEATURE_UPSERT_BATCH_SIZE = 1000;
+const WRITE_TRANSACTION_TIMEOUT_MS = 600_000;
+
 export type FeatureStoreOptions = {
     network?: "mainnet" | "testnet";
     db?: DbClient;
@@ -14,6 +17,7 @@ export type FeatureStoreOptions = {
 export class FeatureStore {
     private readonly db: DbClient;
     private readonly ownedClient: PrismaClient | null;
+    private schemaReady = false;
 
     constructor(options: FeatureStoreOptions = {}) {
         if (options.db) {
@@ -40,108 +44,86 @@ export class FeatureStore {
     }
 
     public async ensureSchema(): Promise<void> {
+        if (this.schemaReady) return;
         await ensureBacktestDbSchema(this.db as PrismaClient);
+        this.schemaReady = true;
     }
 
     public async upsertRows(rows: MarketFeatureRow[]): Promise<number> {
         if (rows.length === 0) return 0;
         await this.ensureSchema();
 
-        for (const row of rows) {
-            await this.db.$executeRawUnsafe(
-                `INSERT INTO "MarketFeature" (
-                    "ts", "symbol", "intervalSeconds",
-                    "bestBid", "bestAsk", "midPrice", "spreadBps",
-                    "bidDepth5BpsUsd", "askDepth5BpsUsd", "bidDepth10BpsUsd", "askDepth10BpsUsd", "bidDepth25BpsUsd", "askDepth25BpsUsd",
-                    "depth5BpsUsd", "depth10BpsUsd", "depth25BpsUsd",
-                    "bookPressure5Bps", "bookPressure10Bps", "bookPressure25Bps",
-                    "buySlippageBps100", "sellSlippageBps100", "buySlippageBps500", "sellSlippageBps500",
-                    "costBps100", "costBps500",
-                    "ret1m", "ret5m", "ret15m", "ret1h", "ret4h",
-                    "realizedVol5m", "realizedVol1h", "volRatio5mVs1h", "retSigma5mVs1h",
-                    "trendSide", "trendAlignmentScore", "sourceDate", "sourceHour", "sourceFile"
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                ON CONFLICT("symbol", "intervalSeconds", "ts") DO UPDATE SET
-                    "bestBid"=excluded."bestBid",
-                    "bestAsk"=excluded."bestAsk",
-                    "midPrice"=excluded."midPrice",
-                    "spreadBps"=excluded."spreadBps",
-                    "bidDepth5BpsUsd"=excluded."bidDepth5BpsUsd",
-                    "askDepth5BpsUsd"=excluded."askDepth5BpsUsd",
-                    "bidDepth10BpsUsd"=excluded."bidDepth10BpsUsd",
-                    "askDepth10BpsUsd"=excluded."askDepth10BpsUsd",
-                    "bidDepth25BpsUsd"=excluded."bidDepth25BpsUsd",
-                    "askDepth25BpsUsd"=excluded."askDepth25BpsUsd",
-                    "depth5BpsUsd"=excluded."depth5BpsUsd",
-                    "depth10BpsUsd"=excluded."depth10BpsUsd",
-                    "depth25BpsUsd"=excluded."depth25BpsUsd",
-                    "bookPressure5Bps"=excluded."bookPressure5Bps",
-                    "bookPressure10Bps"=excluded."bookPressure10Bps",
-                    "bookPressure25Bps"=excluded."bookPressure25Bps",
-                    "buySlippageBps100"=excluded."buySlippageBps100",
-                    "sellSlippageBps100"=excluded."sellSlippageBps100",
-                    "buySlippageBps500"=excluded."buySlippageBps500",
-                    "sellSlippageBps500"=excluded."sellSlippageBps500",
-                    "costBps100"=excluded."costBps100",
-                    "costBps500"=excluded."costBps500",
-                    "ret1m"=excluded."ret1m",
-                    "ret5m"=excluded."ret5m",
-                    "ret15m"=excluded."ret15m",
-                    "ret1h"=excluded."ret1h",
-                    "ret4h"=excluded."ret4h",
-                    "realizedVol5m"=excluded."realizedVol5m",
-                    "realizedVol1h"=excluded."realizedVol1h",
-                    "volRatio5mVs1h"=excluded."volRatio5mVs1h",
-                    "retSigma5mVs1h"=excluded."retSigma5mVs1h",
-                    "trendSide"=excluded."trendSide",
-                    "trendAlignmentScore"=excluded."trendAlignmentScore",
-                    "sourceDate"=excluded."sourceDate",
-                    "sourceHour"=excluded."sourceHour",
-                    "sourceFile"=excluded."sourceFile",
-                    "ingestedAt"=CURRENT_TIMESTAMP`,
-                row.ts,
-                row.symbol,
-                row.intervalSeconds,
-                row.best_bid,
-                row.best_ask,
-                row.mid_price,
-                row.spread_bps,
-                row.bid_depth_5bps_usd,
-                row.ask_depth_5bps_usd,
-                row.bid_depth_10bps_usd,
-                row.ask_depth_10bps_usd,
-                row.bid_depth_25bps_usd,
-                row.ask_depth_25bps_usd,
-                row.depth_5bps_usd,
-                row.depth_10bps_usd,
-                row.depth_25bps_usd,
-                row.book_pressure_5bps,
-                row.book_pressure_10bps,
-                row.book_pressure_25bps,
-                row.buy_slippage_bps_100,
-                row.sell_slippage_bps_100,
-                row.buy_slippage_bps_500,
-                row.sell_slippage_bps_500,
-                row.cost_bps_100,
-                row.cost_bps_500,
-                row.ret_1m,
-                row.ret_5m,
-                row.ret_15m,
-                row.ret_1h,
-                row.ret_4h,
-                row.realized_vol_5m,
-                row.realized_vol_1h,
-                row.vol_ratio_5m_vs_1h,
-                row.ret_sigma_5m_vs_1h,
-                row.trend_side,
-                row.trend_alignment_score,
-                row.source_date ?? null,
-                row.source_hour ?? null,
-                row.source_file ?? null
-            );
-        }
+        await this.withWriteClient(async db => {
+            for (let i = 0; i < rows.length; i += FEATURE_UPSERT_BATCH_SIZE) {
+                const batch = rows.slice(i, i + FEATURE_UPSERT_BATCH_SIZE);
+                const placeholders = batch.map(() =>
+                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                ).join(",");
+                await db.$executeRawUnsafe(
+                    `INSERT INTO "MarketFeature" (
+                        "ts", "symbol", "intervalSeconds",
+                        "bestBid", "bestAsk", "midPrice", "spreadBps",
+                        "bidDepth5BpsUsd", "askDepth5BpsUsd", "bidDepth10BpsUsd", "askDepth10BpsUsd", "bidDepth25BpsUsd", "askDepth25BpsUsd",
+                        "depth5BpsUsd", "depth10BpsUsd", "depth25BpsUsd",
+                        "bookPressure5Bps", "bookPressure10Bps", "bookPressure25Bps",
+                        "buySlippageBps100", "sellSlippageBps100", "buySlippageBps500", "sellSlippageBps500",
+                        "costBps100", "costBps500",
+                        "ret1m", "ret5m", "ret15m", "ret1h", "ret4h",
+                        "realizedVol5m", "realizedVol1h", "volRatio5mVs1h", "retSigma5mVs1h",
+                        "trendSide", "trendAlignmentScore", "sourceDate", "sourceHour", "sourceFile"
+                    ) VALUES ${placeholders}
+                    ON CONFLICT("symbol", "intervalSeconds", "ts") DO UPDATE SET
+                        "bestBid"=excluded."bestBid",
+                        "bestAsk"=excluded."bestAsk",
+                        "midPrice"=excluded."midPrice",
+                        "spreadBps"=excluded."spreadBps",
+                        "bidDepth5BpsUsd"=excluded."bidDepth5BpsUsd",
+                        "askDepth5BpsUsd"=excluded."askDepth5BpsUsd",
+                        "bidDepth10BpsUsd"=excluded."bidDepth10BpsUsd",
+                        "askDepth10BpsUsd"=excluded."askDepth10BpsUsd",
+                        "bidDepth25BpsUsd"=excluded."bidDepth25BpsUsd",
+                        "askDepth25BpsUsd"=excluded."askDepth25BpsUsd",
+                        "depth5BpsUsd"=excluded."depth5BpsUsd",
+                        "depth10BpsUsd"=excluded."depth10BpsUsd",
+                        "depth25BpsUsd"=excluded."depth25BpsUsd",
+                        "bookPressure5Bps"=excluded."bookPressure5Bps",
+                        "bookPressure10Bps"=excluded."bookPressure10Bps",
+                        "bookPressure25Bps"=excluded."bookPressure25Bps",
+                        "buySlippageBps100"=excluded."buySlippageBps100",
+                        "sellSlippageBps100"=excluded."sellSlippageBps100",
+                        "buySlippageBps500"=excluded."buySlippageBps500",
+                        "sellSlippageBps500"=excluded."sellSlippageBps500",
+                        "costBps100"=excluded."costBps100",
+                        "costBps500"=excluded."costBps500",
+                        "ret1m"=excluded."ret1m",
+                        "ret5m"=excluded."ret5m",
+                        "ret15m"=excluded."ret15m",
+                        "ret1h"=excluded."ret1h",
+                        "ret4h"=excluded."ret4h",
+                        "realizedVol5m"=excluded."realizedVol5m",
+                        "realizedVol1h"=excluded."realizedVol1h",
+                        "volRatio5mVs1h"=excluded."volRatio5mVs1h",
+                        "retSigma5mVs1h"=excluded."retSigma5mVs1h",
+                        "trendSide"=excluded."trendSide",
+                        "trendAlignmentScore"=excluded."trendAlignmentScore",
+                        "sourceDate"=excluded."sourceDate",
+                        "sourceHour"=excluded."sourceHour",
+                        "sourceFile"=excluded."sourceFile",
+                        "ingestedAt"=CURRENT_TIMESTAMP`,
+                    ...batch.flatMap(featureRowParams)
+                );
+            }
+        });
 
         return rows.length;
+    }
+
+    private async withWriteClient<T>(callback: (db: DbClient) => Promise<T>): Promise<T> {
+        if (!this.ownedClient) return callback(this.db);
+        return this.ownedClient.$transaction(
+            tx => callback(tx as unknown as DbClient),
+            { maxWait: 60_000, timeout: WRITE_TRANSACTION_TIMEOUT_MS }
+        );
     }
 
     public async getRows(start: Date, end: Date, intervalSeconds: number, symbols?: string[]): Promise<MarketFeatureRow[]> {
@@ -173,6 +155,50 @@ export class FeatureStore {
         );
         return rows.map(row => asDate(row.ts));
     }
+}
+
+function featureRowParams(row: MarketFeatureRow): unknown[] {
+    return [
+        row.ts,
+        row.symbol,
+        row.intervalSeconds,
+        row.best_bid,
+        row.best_ask,
+        row.mid_price,
+        row.spread_bps,
+        row.bid_depth_5bps_usd,
+        row.ask_depth_5bps_usd,
+        row.bid_depth_10bps_usd,
+        row.ask_depth_10bps_usd,
+        row.bid_depth_25bps_usd,
+        row.ask_depth_25bps_usd,
+        row.depth_5bps_usd,
+        row.depth_10bps_usd,
+        row.depth_25bps_usd,
+        row.book_pressure_5bps,
+        row.book_pressure_10bps,
+        row.book_pressure_25bps,
+        row.buy_slippage_bps_100,
+        row.sell_slippage_bps_100,
+        row.buy_slippage_bps_500,
+        row.sell_slippage_bps_500,
+        row.cost_bps_100,
+        row.cost_bps_500,
+        row.ret_1m,
+        row.ret_5m,
+        row.ret_15m,
+        row.ret_1h,
+        row.ret_4h,
+        row.realized_vol_5m,
+        row.realized_vol_1h,
+        row.vol_ratio_5m_vs_1h,
+        row.ret_sigma_5m_vs_1h,
+        row.trend_side,
+        row.trend_alignment_score,
+        row.source_date ?? null,
+        row.source_hour ?? null,
+        row.source_file ?? null
+    ];
 }
 
 function asDate(value: Date | string | number): Date {

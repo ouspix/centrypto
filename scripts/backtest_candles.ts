@@ -57,8 +57,8 @@ function createDb(dbPath?: string): PrismaClient {
 
 function insertSyntheticCandleIfAbsent(db: PrismaClient, symbol: string, candle: Candle) {
     return db.$executeRawUnsafe(
-        `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume")
-         VALUES (?, '1m', ?, ?, ?, ?, ?, ?)
+        `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume", "source")
+         VALUES (?, '1m', ?, ?, ?, ?, ?, ?, 'synthetic_from_features')
          ON CONFLICT("symbol", "timeframe", "openTime") DO NOTHING`,
         symbol,
         new Date(candle.t),

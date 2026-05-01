@@ -1,4 +1,5 @@
 import fs from "fs/promises";
+import os from "os";
 import path from "path";
 import { AGENT_PRESETS } from "@/lib/agent-config";
 import { SCREENER_PRESETS } from "@/lib/screener-config";
@@ -17,6 +18,7 @@ async function main() {
     if (!base || !screeningPreset) throw new Error("Unknown preset");
     if (args.symbols) throw new Error("--symbols was removed from walk-forward runs. Hydration automatically selects the top historical universe; use --top-symbols to change the default 15.");
     const screening = buildScreeningConfig(screeningPreset, args);
+    const optimizerConcurrency = parseConcurrency(args["optimizer-concurrency"] ?? args["trial-concurrency"], defaultOptimizerConcurrency());
     const optimizer = new WalkForwardOptimizer();
     const start = new Date(required(args.start, "--start is required"));
     const end = new Date(required(args.end, "--end is required"));
@@ -31,7 +33,7 @@ async function main() {
         hydrateRealCandles,
         network: (args.network ?? "mainnet") as "mainnet" | "testnet",
         realCandleConcurrency: Number(args["candle-concurrency"] ?? args["download-concurrency"] ?? 4),
-        preferNodeFillArchiveForRealCandles: true,
+        preferNodeFillArchiveForRealCandles: args["prefer-node-fill-archive"] === "true",
         archive: {
             start,
             end,
@@ -67,17 +69,25 @@ async function main() {
         seed: Number(args.seed ?? 1),
         featureDbPath: args.db,
         runId: args["run-id"] ?? "walkforward",
+        writeArtifacts: args["write-trial-artifacts"] === "true",
         suppressConsoleWarnings: true,
+        cacheDataSource: true,
         llm: buildLlmConfig(args, policyName),
         slTpExecution: buildSlTpExecution(args, base, (args.network ?? "mainnet") as "mainnet" | "testnet")
     };
 
+    console.log(`[backtest:walkforward] Running train trials with optimizer concurrency ${optimizerConcurrency}`);
+    const progress = buildProgressLogger("backtest:walkforward");
     const results = await optimizer.walkForward(
         runConfig,
         Number(args["train-days"] ?? 30),
         Number(args["test-days"] ?? 7),
         Number(args.trials ?? 100),
-        scoreGates
+        scoreGates,
+        {
+            concurrency: optimizerConcurrency,
+            onProgress: progress
+        }
     );
     const outDir = args["output-dir"] ?? path.join("data", "backtests", args["run-id"] ?? "walkforward");
     const out = args.output ?? path.join(outDir, "walkforward_results.json");
@@ -94,6 +104,37 @@ async function main() {
         rejection_reason: r.rejection_reason,
         metrics: r.metrics
     })), null, 2));
+}
+
+function defaultOptimizerConcurrency(): number {
+    const available = typeof os.availableParallelism === "function" ? os.availableParallelism() : os.cpus().length;
+    return Math.max(1, Math.min(4, available - 1));
+}
+
+function parseConcurrency(value: string | undefined, fallback: number): number {
+    if (!value || value === "auto") return fallback;
+    const parsed = Number(value);
+    if (!Number.isFinite(parsed) || parsed < 1) throw new Error("--optimizer-concurrency must be a positive number or auto");
+    return Math.floor(parsed);
+}
+
+function buildProgressLogger(label: string): (progress: { completed: number; total: number }) => void {
+    let lastLog = 0;
+    const started = Date.now();
+    return progress => {
+        const now = Date.now();
+        if (progress.completed < progress.total && now - lastLog < 5000) return;
+        lastLog = now;
+        const elapsedSeconds = Math.max(1, Math.round((now - started) / 1000));
+        const trialsPerSecond = progress.completed / elapsedSeconds;
+        const etaSeconds = trialsPerSecond > 0
+            ? Math.round((progress.total - progress.completed) / trialsPerSecond)
+            : null;
+        console.log(
+            `[${label}] completed ${progress.completed}/${progress.total} trials` +
+            ` (${trialsPerSecond.toFixed(2)}/s${etaSeconds === null ? "" : `, eta ${etaSeconds}s`})`
+        );
+    };
 }
 
 function parseArgs(argv: string[]): Record<string, string> {

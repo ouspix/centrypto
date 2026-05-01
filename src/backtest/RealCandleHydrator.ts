@@ -1,9 +1,7 @@
 import crypto from "crypto";
 import { spawn, spawnSync } from "child_process";
-import { createReadStream } from "fs";
-import fs from "fs/promises";
-import path from "path";
 import { createInterface } from "readline";
+import { Readable } from "stream";
 import { PrismaClient } from "@prisma/market-client";
 import { waitForHyperliquidSlot } from "@/lib/hyperliquid-info";
 import { createBacktestDbClient, ensureBacktestDbSchema } from "./BacktestDb";
@@ -180,27 +178,20 @@ async function hydrateRealCandlesFromNodeFillsArchive(options: {
     const symbols = uniqueSymbols(options.symbols);
     if (symbols.length === 0) return { candlesFetched: 0, candlesUpserted: 0 };
 
-    const tmpRoot = options.tmpRoot ?? path.join(process.cwd(), "data", "tmp", `backtest-real-candles-${Date.now()}`);
     const seedStart = new Date(options.start.getTime() - 60 * 60_000);
-    const hours = archiveHours(seedStart, options.end);
+    const hours = archiveHours(seedStart, new Date(options.end.getTime() - 1));
     let candlesFetched = 0;
     let candlesUpserted = 0;
 
     try {
-        const files = await runWithConcurrency(hours, options.concurrency, async hour => {
+        const parsedByHour = await runWithConcurrency(hours, options.concurrency, async hour => {
             const key = `node_fills_by_block/hourly/${hour.date}/${hour.hour}.lz4`;
-            const compressedPath = path.join(tmpRoot, "node_fills_by_block", "hourly", hour.date, `${hour.hour}.lz4`);
-            const finalPath = path.join(tmpRoot, "node_fills_by_block", "hourly", hour.date, String(hour.hour));
-            await fs.mkdir(path.dirname(compressedPath), { recursive: true });
-            console.log(`[backtest:candles] Downloading node fills ${hour.date}/${hour.hour}`);
-            await downloadNodeDataObject(key, compressedPath);
-            await decompressLz4(compressedPath, finalPath);
-            return finalPath;
+            console.log(`[backtest:candles] Streaming node fills ${hour.date}/${hour.hour}`);
+            return deriveRealCandlesFromNodeFillsObject(key, symbols, seedStart, options.end);
         });
 
         const candlesBySymbol = new Map<string, BacktestRealCandle[]>();
-        for (const file of files) {
-            const parsed = await deriveRealCandlesFromNodeFillsFile(file, symbols, seedStart, options.end);
+        for (const parsed of parsedByHour) {
             mergeCandles(candlesBySymbol, parsed);
         }
         for (const symbol of symbols) {
@@ -223,11 +214,6 @@ async function hydrateRealCandlesFromNodeFillsArchive(options: {
         throw new Error(
             `Real candle archive fallback failed for ${options.start.toISOString()}..${options.end.toISOString()}: ${errorMessage(error)}`
         );
-    } finally {
-        if (!options.keepTmp) {
-            await fs.rm(tmpRoot, { recursive: true, force: true });
-            console.log(`[backtest:candles] Cleaned tmp ${tmpRoot}`);
-        }
     }
 
     return { candlesFetched, candlesUpserted };
@@ -260,7 +246,7 @@ export async function fetchHyperliquidCandles(
     const payload = await res.json();
     return Array.isArray(payload)
         ? payload.map(normalizeCandle).filter((candle): candle is BacktestRealCandle =>
-            !!candle && candle.t >= start.getTime() && candle.t <= end.getTime()
+            !!candle && candle.t >= start.getTime() && candle.t < end.getTime()
         )
         : [];
 }
@@ -300,10 +286,9 @@ async function bulkUpsertRealCandleBatch(db: PrismaClient, symbol: string, candl
         candle.l,
         candle.c,
         candle.v,
-        "real_1m",
-        new Date(candle.t + 60_000)
+        "real_1m"
     ]);
-    const placeholders = rows.map(() => "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").join(",");
+    const placeholders = rows.map(() => "(?, ?, ?, ?, ?, ?, ?, ?, ?)").join(",");
     const params = rows.flat();
 
     await db.$transaction([
@@ -318,14 +303,13 @@ async function bulkUpsertRealCandleBatch(db: PrismaClient, symbol: string, candl
                 "close" REAL NOT NULL,
                 "volume" REAL NOT NULL,
                 "source" TEXT NOT NULL,
-                "minuteEnd" DATETIME NOT NULL,
                 PRIMARY KEY ("symbol", "timeframe", "openTime")
             )
         `),
         db.$executeRawUnsafe(`DELETE FROM "_BacktestRealCandleBulk"`),
         db.$executeRawUnsafe(
             `INSERT INTO "_BacktestRealCandleBulk" (
-                "symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume", "source", "minuteEnd"
+                "symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume", "source"
              ) VALUES ${placeholders}`,
             ...params
         ),
@@ -341,67 +325,6 @@ async function bulkUpsertRealCandleBatch(db: PrismaClient, symbol: string, candl
                 "close" = excluded."close",
                 "volume" = excluded."volume",
                 "source" = excluded."source"
-        `),
-        db.$executeRawUnsafe(`
-            UPDATE "MarketCandle"
-            SET
-                "open" = (
-                    SELECT r."open" FROM "_BacktestRealCandleBulk" r
-                    WHERE r."symbol" = "MarketCandle"."symbol"
-                      AND r."timeframe" = "MarketCandle"."timeframe"
-                      AND "MarketCandle"."openTime" >= r."openTime"
-                      AND "MarketCandle"."openTime" < r."minuteEnd"
-                    LIMIT 1
-                ),
-                "high" = (
-                    SELECT r."high" FROM "_BacktestRealCandleBulk" r
-                    WHERE r."symbol" = "MarketCandle"."symbol"
-                      AND r."timeframe" = "MarketCandle"."timeframe"
-                      AND "MarketCandle"."openTime" >= r."openTime"
-                      AND "MarketCandle"."openTime" < r."minuteEnd"
-                    LIMIT 1
-                ),
-                "low" = (
-                    SELECT r."low" FROM "_BacktestRealCandleBulk" r
-                    WHERE r."symbol" = "MarketCandle"."symbol"
-                      AND r."timeframe" = "MarketCandle"."timeframe"
-                      AND "MarketCandle"."openTime" >= r."openTime"
-                      AND "MarketCandle"."openTime" < r."minuteEnd"
-                    LIMIT 1
-                ),
-                "close" = (
-                    SELECT r."close" FROM "_BacktestRealCandleBulk" r
-                    WHERE r."symbol" = "MarketCandle"."symbol"
-                      AND r."timeframe" = "MarketCandle"."timeframe"
-                      AND "MarketCandle"."openTime" >= r."openTime"
-                      AND "MarketCandle"."openTime" < r."minuteEnd"
-                    LIMIT 1
-                ),
-                "volume" = (
-                    SELECT r."volume" FROM "_BacktestRealCandleBulk" r
-                    WHERE r."symbol" = "MarketCandle"."symbol"
-                      AND r."timeframe" = "MarketCandle"."timeframe"
-                      AND "MarketCandle"."openTime" >= r."openTime"
-                      AND "MarketCandle"."openTime" < r."minuteEnd"
-                    LIMIT 1
-                ),
-                "source" = (
-                    SELECT r."source" FROM "_BacktestRealCandleBulk" r
-                    WHERE r."symbol" = "MarketCandle"."symbol"
-                      AND r."timeframe" = "MarketCandle"."timeframe"
-                      AND "MarketCandle"."openTime" >= r."openTime"
-                      AND "MarketCandle"."openTime" < r."minuteEnd"
-                    LIMIT 1
-                )
-            WHERE "MarketCandle"."timeframe" = '1m'
-              AND COALESCE("MarketCandle"."source", CASE WHEN "MarketCandle"."volume" = 0 THEN 'synthetic_from_features' ELSE 'real_1m' END) = 'synthetic_from_features'
-              AND EXISTS (
-                  SELECT 1 FROM "_BacktestRealCandleBulk" r
-                  WHERE r."symbol" = "MarketCandle"."symbol"
-                    AND r."timeframe" = "MarketCandle"."timeframe"
-                    AND "MarketCandle"."openTime" >= r."openTime"
-                    AND "MarketCandle"."openTime" < r."minuteEnd"
-              )
         `)
     ]);
 }
@@ -413,7 +336,7 @@ export async function getRealCandleCoverageReport(options: {
     dbPath?: string;
 }): Promise<RealCandleCoverageReport> {
     const symbols = uniqueSymbols(options.symbols);
-    const expectedMinutes = minuteTimestamps(options.start, options.end);
+    const expectedMinutes = realCandleOpenTimestamps(options.start, options.end);
     const missingBySymbol: Record<string, string[]> = {};
     if (symbols.length === 0 || expectedMinutes.length === 0) {
         return { expectedMinutes: expectedMinutes.length, missingBySymbol, complete: true };
@@ -428,8 +351,8 @@ export async function getRealCandleCoverageReport(options: {
                AND COALESCE("source", CASE WHEN "volume" = 0 THEN 'synthetic_from_features' ELSE 'real_1m' END) = 'real_1m'
                AND "openTime" >= ? AND "openTime" <= ?
                AND "symbol" IN (${symbols.map(() => "?").join(",")})`,
-            options.start,
-            options.end,
+            new Date(expectedMinutes[0]),
+            new Date(expectedMinutes[expectedMinutes.length - 1]),
             ...symbols
         );
         const bySymbol = new Map<string, Set<number>>();
@@ -467,18 +390,39 @@ export async function getSyntheticCandleSymbols(options: {
     const db = createBacktestDbClient(options.dbPath);
     try {
         await ensureBacktestDbSchema(db);
-        const rows = await db.$queryRawUnsafe<Array<{ symbol: string }>>(
-            `SELECT DISTINCT "symbol" FROM "MarketCandle"
+        const rows = await db.$queryRawUnsafe<Array<{ symbol: string; openTime: Date | string; volume: number; source: string | null }>>(
+            `SELECT "symbol", "openTime", "volume", "source" FROM "MarketCandle"
              WHERE "timeframe" = '1m'
-               AND COALESCE("source", CASE WHEN "volume" = 0 THEN 'synthetic_from_features' ELSE 'real_1m' END) = 'synthetic_from_features'
                AND "openTime" >= ? AND "openTime" <= ?
-               AND "symbol" IN (${symbols.map(() => "?").join(",")})
-             ORDER BY "symbol" ASC`,
+             AND "symbol" IN (${symbols.map(() => "?").join(",")})
+             ORDER BY "symbol" ASC, "openTime" ASC`,
             options.start,
             options.end,
             ...symbols
         );
-        return rows.map(row => row.symbol);
+        const realMinutesBySymbol = new Map<string, Set<number>>();
+        const realCloseTimesBySymbol = new Map<string, Set<number>>();
+        for (const row of rows) {
+            if (candleSource(row) !== "real_1m") continue;
+            const ts = asDate(row.openTime).getTime();
+            if (ts % 60_000 !== 0) continue;
+            const realMinutes = realMinutesBySymbol.get(row.symbol) ?? new Set<number>();
+            const realCloseTimes = realCloseTimesBySymbol.get(row.symbol) ?? new Set<number>();
+            realMinutes.add(floorMinute(ts));
+            realCloseTimes.add(ts + 60_000);
+            realMinutesBySymbol.set(row.symbol, realMinutes);
+            realCloseTimesBySymbol.set(row.symbol, realCloseTimes);
+        }
+
+        const syntheticSymbols = new Set<string>();
+        for (const row of rows) {
+            if (candleSource(row) !== "synthetic_from_features") continue;
+            const ts = asDate(row.openTime).getTime();
+            const realMinutes = realMinutesBySymbol.get(row.symbol) ?? new Set<number>();
+            const realCloseTimes = realCloseTimesBySymbol.get(row.symbol) ?? new Set<number>();
+            if (!realMinutes.has(floorMinute(ts)) && !realCloseTimes.has(ts)) syntheticSymbols.add(row.symbol);
+        }
+        return Array.from(syntheticSymbols).sort();
     } finally {
         await db.$disconnect();
     }
@@ -508,8 +452,10 @@ export function deriveRealCandlesFromNodeFillsLines(
     end: Date
 ): Record<string, BacktestRealCandle[]> {
     const symbolSet = new Set(uniqueSymbols(symbols));
-    const startMs = start.getTime();
-    const lastCandleOpenMs = Math.floor(end.getTime() / 60_000) * 60_000;
+    const expectedMinutes = realCandleOpenTimestamps(start, end);
+    if (symbolSet.size === 0 || expectedMinutes.length === 0) return {};
+    const startMs = expectedMinutes[0];
+    const lastCandleOpenMs = expectedMinutes[expectedMinutes.length - 1];
     const sourceEndMs = lastCandleOpenMs + 60_000;
     const seenTrades = new Set<string>();
     const buckets = new Map<string, CandleAccumulator>();
@@ -519,20 +465,31 @@ export function deriveRealCandlesFromNodeFillsLines(
     return finalizeCandles(buckets);
 }
 
-async function deriveRealCandlesFromNodeFillsFile(
-    filePath: string,
+async function deriveRealCandlesFromNodeFillsObject(
+    key: string,
+    symbols: string[],
+    start: Date,
+    end: Date
+): Promise<Map<string, BacktestRealCandle[]>> {
+    return withDecodedNodeDataLz4ObjectStream(key, stream => deriveRealCandlesFromNodeFillsStream(stream, symbols, start, end));
+}
+
+async function deriveRealCandlesFromNodeFillsStream(
+    input: NodeJS.ReadableStream,
     symbols: string[],
     start: Date,
     end: Date
 ): Promise<Map<string, BacktestRealCandle[]>> {
     const symbolSet = new Set(uniqueSymbols(symbols));
-    const startMs = start.getTime();
-    const lastCandleOpenMs = Math.floor(end.getTime() / 60_000) * 60_000;
+    const expectedMinutes = realCandleOpenTimestamps(start, end);
+    if (symbolSet.size === 0 || expectedMinutes.length === 0) return new Map();
+    const startMs = expectedMinutes[0];
+    const lastCandleOpenMs = expectedMinutes[expectedMinutes.length - 1];
     const sourceEndMs = lastCandleOpenMs + 60_000;
     const seenTrades = new Set<string>();
     const buckets = new Map<string, CandleAccumulator>();
     const rl = createInterface({
-        input: createReadStream(filePath, { encoding: "utf8" }),
+        input,
         crlfDelay: Infinity
     });
     for await (const line of rl) {
@@ -645,12 +602,14 @@ function finalizeCandles(buckets: Map<string, CandleAccumulator>): Record<string
 
 function fillNoTradeCandles(candles: BacktestRealCandle[], start: Date, end: Date): BacktestRealCandle[] {
     const byMinute = new Map(candles.map(candle => [Math.floor(candle.t / 60_000) * 60_000, candle]));
+    const expectedMinutes = realCandleOpenTimestamps(start, end);
+    if (expectedMinutes.length === 0) return [];
     const filled: BacktestRealCandle[] = [];
-    const firstMinute = minuteTimestamps(start, start)[0] ?? start.getTime();
+    const firstMinute = expectedMinutes[0];
     let lastClose = candles
         .filter(candle => candle.t < firstMinute)
         .sort((a, b) => b.t - a.t)[0]?.c ?? null;
-    for (const minute of minuteTimestamps(start, end)) {
+    for (const minute of expectedMinutes) {
         const candle = byMinute.get(minute);
         if (candle) {
             lastClose = candle.c;
@@ -707,12 +666,22 @@ function normalizeCandle(candle: RawCandle): BacktestRealCandle | null {
     return Object.values(normalized).every(Number.isFinite) ? normalized : null;
 }
 
-function minuteTimestamps(start: Date, end: Date): number[] {
+function realCandleOpenTimestamps(start: Date, end: Date): number[] {
     const first = Math.ceil(start.getTime() / 60_000) * 60_000;
-    const last = Math.floor(end.getTime() / 60_000) * 60_000;
+    const last = Math.floor((end.getTime() - 60_000) / 60_000) * 60_000;
     const out: number[] = [];
     for (let ts = first; ts <= last; ts += 60_000) out.push(ts);
     return out;
+}
+
+function candleSource(row: { volume: number; source?: string | null }): "real_1m" | "synthetic_from_features" {
+    if (row.source === "real_1m") return "real_1m";
+    if (row.source === "synthetic_from_features") return "synthetic_from_features";
+    return Number(row.volume) === 0 ? "synthetic_from_features" : "real_1m";
+}
+
+function floorMinute(ts: number): number {
+    return Math.floor(ts / 60_000) * 60_000;
 }
 
 function uniqueSymbols(symbols: string[]): string[] {
@@ -746,13 +715,6 @@ function yyyymmdd(date: Date): string {
     return `${date.getUTCFullYear()}${String(date.getUTCMonth() + 1).padStart(2, "0")}${String(date.getUTCDate()).padStart(2, "0")}`;
 }
 
-async function downloadNodeDataObject(key: string, localPath: string): Promise<void> {
-    const url = `${NODE_DATA_BUCKET_URL}/${key.split("/").map(encodeURIComponent).join("/")}`;
-    const res = await signedNodeDataFetch(url);
-    if (!res.ok) throw new Error(`Download failed for s3://hl-mainnet-node-data/${key}: ${res.status} ${await res.text()}`);
-    await fs.writeFile(localPath, Buffer.from(await res.arrayBuffer()));
-}
-
 async function signedNodeDataFetch(url: URL | string): Promise<Response> {
     const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
     const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
@@ -765,18 +727,45 @@ async function signedNodeDataFetch(url: URL | string): Promise<Response> {
     return fetch(requestUrl, { headers: signS3Get(requestUrl, accessKeyId, secretAccessKey, NODE_DATA_AWS_REGION, process.env.AWS_SESSION_TOKEN) });
 }
 
-function decompressLz4(input: string, output: string): Promise<void> {
+async function withDecodedNodeDataLz4ObjectStream<T>(key: string, consumer: (stream: NodeJS.ReadableStream) => Promise<T>): Promise<T> {
     const decompressor = findLz4();
     if (!decompressor) throw new Error("lz4/unlz4 is required for real candle archive hydration. Install it with: sudo apt install lz4");
-    const args = decompressor.includes("unlz4") ? ["-f", input, output] : ["-d", "-f", input, output];
-    return new Promise((resolve, reject) => {
-        const child = spawn(decompressor, args, { stdio: "inherit" });
+
+    const url = `${NODE_DATA_BUCKET_URL}/${key.split("/").map(encodeURIComponent).join("/")}`;
+    const res = await signedNodeDataFetch(url);
+    if (!res.ok) throw new Error(`Download failed for s3://hl-mainnet-node-data/${key}: ${res.status} ${await res.text()}`);
+    if (!res.body) throw new Error(`Download failed for s3://hl-mainnet-node-data/${key}: empty response body`);
+
+    const args = decompressor.includes("unlz4") ? ["-c"] : ["-d", "-c"];
+    const child = spawn(decompressor, args, { stdio: ["pipe", "pipe", "pipe"] });
+    let stderr = "";
+    child.stderr?.on("data", chunk => {
+        if (stderr.length < 4000) stderr += String(chunk);
+    });
+    child.stdin?.on("error", () => {
+        // The decompressor owns failure reporting through its exit code.
+    });
+
+    const source = Readable.fromWeb(res.body as any);
+    source.on("error", error => child.stdin?.destroy(error));
+    source.pipe(child.stdin!);
+
+    const exit = new Promise<void>((resolve, reject) => {
         child.on("error", reject);
         child.on("close", code => {
             if (code === 0) resolve();
-            else reject(new Error(`Failed to decompress ${input}`));
+            else reject(new Error(`Failed to decompress s3://hl-mainnet-node-data/${key}${stderr ? `: ${stderr.trim()}` : ""}`));
         });
     });
+
+    try {
+        const result = await consumer(child.stdout!);
+        await exit;
+        return result;
+    } catch (error) {
+        child.kill();
+        throw error;
+    }
 }
 
 function findLz4(): string | null {

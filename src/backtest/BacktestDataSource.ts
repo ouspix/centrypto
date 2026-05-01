@@ -40,106 +40,51 @@ export type BacktestDataSourceOptions = {
     agentConfig: AgentConfig;
     screenerConfig: ScreenerConfig;
     featureDbPath?: string;
+    cache?: boolean;
 };
 
+type BacktestDataSourceDataset = {
+    rowsByTimestamp: Map<number, MarketFeatureRow[]>;
+    outcomeRowsBySymbol: Map<string, MarketFeatureRow[]>;
+    booksBySymbol: Map<string, ExecutionBookSnapshot[]>;
+    ticksBySymbol: Map<string, TickRow[]>;
+    candlesBySymbol: Map<string, BacktestCandle[]>;
+    timestamps: Date[];
+    coverage: CoverageReport;
+};
+
+const datasetCache = new Map<string, Promise<BacktestDataSourceDataset>>();
+
 export class BacktestDataSource {
-    private readonly rowsByTimestamp = new Map<number, MarketFeatureRow[]>();
-    private readonly outcomeRowsBySymbol = new Map<string, MarketFeatureRow[]>();
-    private readonly booksBySymbol = new Map<string, ExecutionBookSnapshot[]>();
-    private readonly ticksBySymbol = new Map<string, TickRow[]>();
-    private readonly candlesBySymbol = new Map<string, BacktestCandle[]>();
+    private readonly rowsByTimestamp: Map<number, MarketFeatureRow[]>;
+    private readonly outcomeRowsBySymbol: Map<string, MarketFeatureRow[]>;
+    private readonly booksBySymbol: Map<string, ExecutionBookSnapshot[]>;
+    private readonly ticksBySymbol: Map<string, TickRow[]>;
+    private readonly candlesBySymbol: Map<string, BacktestCandle[]>;
     private readonly timestamps: Date[];
+    private readonly coverage: CoverageReport;
     private snapshotId = 0;
     private readonly screener: ScreenerService;
 
     private constructor(
         private readonly options: BacktestDataSourceOptions,
-        rows: MarketFeatureRow[],
-        ticks: TickRow[],
-        candles: BacktestCandle[],
-        outcomeRows: MarketFeatureRow[],
-        books: ExecutionBookSnapshot[],
-        private readonly coverage: CoverageReport
+        dataset: BacktestDataSourceDataset
     ) {
         this.screener = new ScreenerService(options.network === "testnet", { disableLive: true });
-        for (const row of rows) {
-            const key = row.ts.getTime();
-            const bucket = this.rowsByTimestamp.get(key) ?? [];
-            bucket.push(row);
-            this.rowsByTimestamp.set(key, bucket);
-        }
-        for (const row of outcomeRows) {
-            const key = toPerpSymbol(row.symbol);
-            const bucket = this.outcomeRowsBySymbol.get(key) ?? [];
-            bucket.push(row);
-            this.outcomeRowsBySymbol.set(key, bucket);
-        }
-        for (const [symbol, bucket] of this.outcomeRowsBySymbol) {
-            bucket.sort((a, b) => a.ts.getTime() - b.ts.getTime());
-            this.outcomeRowsBySymbol.set(symbol, bucket);
-        }
-        for (const book of books) {
-            const key = toPerpSymbol(book.symbol);
-            const bucket = this.booksBySymbol.get(key) ?? [];
-            bucket.push(book);
-            this.booksBySymbol.set(key, bucket);
-        }
-        for (const [symbol, bucket] of this.booksBySymbol) {
-            bucket.sort((a, b) => a.ts.getTime() - b.ts.getTime());
-            this.booksBySymbol.set(symbol, bucket);
-        }
-        for (const tick of ticks) {
-            const key = toPerpSymbol(tick.symbol);
-            const bucket = this.ticksBySymbol.get(key) ?? [];
-            bucket.push(tick);
-            this.ticksBySymbol.set(key, bucket);
-        }
-        for (const [symbol, bucket] of this.ticksBySymbol) {
-            bucket.sort((a, b) => asDate(a.ts).getTime() - asDate(b.ts).getTime());
-            this.ticksBySymbol.set(symbol, bucket);
-        }
-        for (const candle of candles) {
-            const key = toPerpSymbol(candle.symbol);
-            const bucket = this.candlesBySymbol.get(key) ?? [];
-            bucket.push(candle);
-            this.candlesBySymbol.set(key, bucket);
-        }
-        for (const [symbol, bucket] of this.candlesBySymbol) {
-            bucket.sort((a, b) => asDate(a.openTime).getTime() - asDate(b.openTime).getTime());
-            this.candlesBySymbol.set(symbol, bucket);
-        }
-        this.timestamps = Array.from(this.rowsByTimestamp.keys()).sort((a, b) => a - b).map(ts => new Date(ts));
+        this.rowsByTimestamp = dataset.rowsByTimestamp;
+        this.outcomeRowsBySymbol = dataset.outcomeRowsBySymbol;
+        this.booksBySymbol = dataset.booksBySymbol;
+        this.ticksBySymbol = dataset.ticksBySymbol;
+        this.candlesBySymbol = dataset.candlesBySymbol;
+        this.timestamps = dataset.timestamps;
+        this.coverage = dataset.coverage;
     }
 
     public static async create(options: BacktestDataSourceOptions): Promise<BacktestDataSource> {
-        const featureStore = new FeatureStore({
-            dbPath: options.featureDbPath
-        });
-        const bookStore = new ExecutionBookStore({
-            dbPath: options.featureDbPath
-        });
-        const db = createDb(options);
-        try {
-            await ensureBacktestDbSchema(db as PrismaClient);
-            const rows = await featureStore.getRows(options.start, options.end, options.intervalSeconds);
-            const outcomeRows = await featureStore.getRows(
-                options.start,
-                new Date(options.end.getTime() + 60 * 60_000),
-                options.intervalSeconds
-            );
-            const books = await bookStore.getBooks(options.start, options.end, options.intervalSeconds);
-
-            const symbols = Array.from(new Set(rows.map(row => baseSymbol(row.symbol))));
-            const ticks = await loadTicks(db, options.start, options.end, symbols);
-            const candles = await loadCandles(db, options.start, options.end, symbols);
-            const coverage = buildCoverage(options, rows, candles, books, symbols);
-
-            return new BacktestDataSource(options, rows, ticks, candles, outcomeRows, books, coverage);
-        } finally {
-            await featureStore.close();
-            await bookStore.close();
-            await (db as PrismaClient).$disconnect?.();
-        }
+        const dataset = options.cache
+            ? await cachedDataset(options)
+            : await loadDataset(options);
+        return new BacktestDataSource(options, dataset);
     }
 
     public getTimestamps(): Date[] {
@@ -238,10 +183,26 @@ export class BacktestDataSource {
         const rows = this.candlesBySymbol.get(toPerpSymbol(symbol)) ?? [];
         const startMs = startExclusive.getTime();
         const endMs = endInclusive.getTime();
-        return rows.filter(row => {
-            const ts = asDate(row.openTime).getTime();
-            return ts > startMs && ts <= endMs;
+        const realMinutes = realCandleMinutes(rows);
+        const realCloseTimes = realCandleCloseTimes(rows);
+        const selected = rows.filter(row => {
+            const openTs = asDate(row.openTime).getTime();
+            if (isRealMinuteCandle(row)) {
+                const closeTs = openTs + 60_000;
+                return closeTs > startMs && closeTs <= endMs;
+            }
+            if (isRealCandle(row)) return false;
+
+            if (realMinutes.has(floorMinute(openTs)) || realCloseTimes.has(openTs)) return false;
+            return openTs > startMs && openTs <= endMs;
         });
+
+        return selected
+            .map(row => isRealMinuteCandle(row)
+                ? { ...row, openTime: new Date(asDate(row.openTime).getTime() + 60_000) }
+                : row
+            )
+            .sort((a, b) => asDate(a.openTime).getTime() - asDate(b.openTime).getTime());
     }
 
     public getForwardOutcome(symbol: string, ts: Date, side: "long" | "short" | null = null): ForwardOutcome {
@@ -297,6 +258,135 @@ export class BacktestDataSource {
         }
         return best;
     }
+}
+
+function indexDataset(
+    coverage: CoverageReport,
+    rows: MarketFeatureRow[],
+    ticks: TickRow[],
+    candles: BacktestCandle[],
+    outcomeRows: MarketFeatureRow[],
+    books: ExecutionBookSnapshot[]
+): BacktestDataSourceDataset {
+    const rowsByTimestamp = new Map<number, MarketFeatureRow[]>();
+    const outcomeRowsBySymbol = new Map<string, MarketFeatureRow[]>();
+    const booksBySymbol = new Map<string, ExecutionBookSnapshot[]>();
+    const ticksBySymbol = new Map<string, TickRow[]>();
+    const candlesBySymbol = new Map<string, BacktestCandle[]>();
+
+    for (const row of rows) {
+        const key = row.ts.getTime();
+        const bucket = rowsByTimestamp.get(key) ?? [];
+        bucket.push(row);
+        rowsByTimestamp.set(key, bucket);
+    }
+    for (const row of outcomeRows) {
+        const key = toPerpSymbol(row.symbol);
+        const bucket = outcomeRowsBySymbol.get(key) ?? [];
+        bucket.push(row);
+        outcomeRowsBySymbol.set(key, bucket);
+    }
+    for (const [symbol, bucket] of outcomeRowsBySymbol) {
+        bucket.sort((a, b) => a.ts.getTime() - b.ts.getTime());
+        outcomeRowsBySymbol.set(symbol, bucket);
+    }
+    for (const book of books) {
+        const key = toPerpSymbol(book.symbol);
+        const bucket = booksBySymbol.get(key) ?? [];
+        bucket.push(book);
+        booksBySymbol.set(key, bucket);
+    }
+    for (const [symbol, bucket] of booksBySymbol) {
+        bucket.sort((a, b) => a.ts.getTime() - b.ts.getTime());
+        booksBySymbol.set(symbol, bucket);
+    }
+    for (const tick of ticks) {
+        const key = toPerpSymbol(tick.symbol);
+        const bucket = ticksBySymbol.get(key) ?? [];
+        bucket.push(tick);
+        ticksBySymbol.set(key, bucket);
+    }
+    for (const [symbol, bucket] of ticksBySymbol) {
+        bucket.sort((a, b) => asDate(a.ts).getTime() - asDate(b.ts).getTime());
+        ticksBySymbol.set(symbol, bucket);
+    }
+    for (const candle of candles) {
+        const key = toPerpSymbol(candle.symbol);
+        const bucket = candlesBySymbol.get(key) ?? [];
+        bucket.push(candle);
+        candlesBySymbol.set(key, bucket);
+    }
+    for (const [symbol, bucket] of candlesBySymbol) {
+        bucket.sort((a, b) => asDate(a.openTime).getTime() - asDate(b.openTime).getTime());
+        candlesBySymbol.set(symbol, bucket);
+    }
+
+    return {
+        rowsByTimestamp,
+        outcomeRowsBySymbol,
+        booksBySymbol,
+        ticksBySymbol,
+        candlesBySymbol,
+        timestamps: Array.from(rowsByTimestamp.keys()).sort((a, b) => a - b).map(ts => new Date(ts)),
+        coverage
+    };
+}
+
+async function cachedDataset(options: BacktestDataSourceOptions): Promise<BacktestDataSourceDataset> {
+    const key = datasetCacheKey(options);
+    const cached = datasetCache.get(key);
+    if (cached) return cached;
+
+    const pending = loadDataset(options).catch(error => {
+        datasetCache.delete(key);
+        throw error;
+    });
+    datasetCache.set(key, pending);
+    return pending;
+}
+
+async function loadDataset(options: BacktestDataSourceOptions): Promise<BacktestDataSourceDataset> {
+    const featureStore = new FeatureStore({
+        dbPath: options.featureDbPath
+    });
+    const bookStore = new ExecutionBookStore({
+        dbPath: options.featureDbPath
+    });
+    const db = createDb(options);
+    try {
+        await ensureBacktestDbSchema(db as PrismaClient);
+        const rows = await featureStore.getRows(options.start, options.end, options.intervalSeconds);
+        const outcomeRows = await featureStore.getRows(
+            options.start,
+            new Date(options.end.getTime() + 60 * 60_000),
+            options.intervalSeconds
+        );
+        const books = await bookStore.getBooks(options.start, options.end, options.intervalSeconds);
+
+        const symbols = Array.from(new Set(rows.map(row => baseSymbol(row.symbol))));
+        const ticks = await loadTicks(db, options.start, options.end, symbols);
+        const candles = await loadCandles(db, options.start, options.end, symbols);
+        const coverage = buildCoverage(options, rows, candles, books, symbols);
+
+        return indexDataset(coverage, rows, ticks, candles, outcomeRows, books);
+    } finally {
+        await featureStore.close();
+        await bookStore.close();
+        await (db as PrismaClient).$disconnect?.();
+    }
+}
+
+function datasetCacheKey(options: BacktestDataSourceOptions): string {
+    const dbPath = options.featureDbPath
+        ? path.resolve(process.cwd(), options.featureDbPath)
+        : path.resolve(process.cwd(), "prisma/backtest.db");
+    return [
+        dbPath,
+        options.network,
+        options.start.getTime(),
+        options.end.getTime(),
+        options.intervalSeconds
+    ].join("|");
 }
 
 function emptyForwardOutcome(): ForwardOutcome {
@@ -358,7 +448,7 @@ async function loadTicks(db: DbClient, start: Date, end: Date, symbols: string[]
 async function loadCandles(db: DbClient, start: Date, end: Date, symbols: string[]): Promise<BacktestCandle[]> {
     if (symbols.length === 0) return [];
     return db.$queryRawUnsafe<BacktestCandle[]>(
-        `SELECT * FROM "MarketCandle"
+        `SELECT "symbol", "openTime", "open", "high", "low", "close", "volume", "source" FROM "MarketCandle"
          WHERE "timeframe" = '1m' AND "openTime" >= ? AND "openTime" <= ?
          AND "symbol" IN (${symbols.map(() => "?").join(",")})
          ORDER BY "openTime" ASC`,
@@ -411,25 +501,26 @@ function buildCoverage(
         missingExecutionBooks[normalized] = Array.from(rowTimes).reduce((missing, ts) => missing + (bookTimes.has(ts) ? 0 : 1), 0);
     }
 
-    const candleTimesBySymbol = new Map<string, Set<number>>();
+    const candleCoverageBySymbol = buildCandleCoverageBySymbol(candles);
     let syntheticCandles = 0;
     let realCandles = 0;
-    for (const candle of candles) {
-        const symbol = toPerpSymbol(candle.symbol);
-        const bucket = candleTimesBySymbol.get(symbol) ?? new Set<number>();
-        bucket.add(asDate(candle.openTime).getTime());
-        candleTimesBySymbol.set(symbol, bucket);
-        if (isSyntheticCandle(candle)) syntheticCandles++;
-        else realCandles++;
-    }
     const missingCandleIntervals: CoverageReport["missing_candle_intervals"] = [];
     for (const symbol of symbols) {
         const normalized = toPerpSymbol(symbol);
         const rowTimes = rowsBySymbol.get(normalized) ?? new Set<number>();
-        const candleTimes = candleTimesBySymbol.get(normalized) ?? new Set<number>();
+        const candleCoverage = candleCoverageBySymbol.get(normalized) ?? {
+            realMinutes: new Set<number>(),
+            realCloseTimes: new Set<number>(),
+            syntheticTimes: new Set<number>()
+        };
         for (const ts of Array.from(rowTimes).sort((a, b) => a - b)) {
             if (!expectedSet.has(ts)) continue;
-            if (!candleTimes.has(ts)) {
+            const source = executionCandleSourceForTimestamp(candleCoverage, ts);
+            if (source === "real_1m") {
+                realCandles++;
+            } else if (source === "synthetic_from_features") {
+                syntheticCandles++;
+            } else {
                 missingCandleIntervals.push({
                     symbol: normalized,
                     start: new Date(ts).toISOString(),
@@ -464,10 +555,67 @@ export function classifyExecutionCandleSource(candles: Array<Pick<BacktestCandle
     return classifyExecutionCandleSourceFromCounts(realCandles, syntheticCandles);
 }
 
+function isRealCandle(candle: Pick<BacktestCandle, "volume"> & { source?: string | null }): boolean {
+    if (candle.source === "real_1m") return true;
+    if (candle.source === "synthetic_from_features") return false;
+    return Number(candle.volume) !== 0;
+}
+
 function isSyntheticCandle(candle: Pick<BacktestCandle, "volume"> & { source?: string | null }): boolean {
     if (candle.source === "synthetic_from_features") return true;
     if (candle.source === "real_1m") return false;
     return Number(candle.volume) === 0;
+}
+
+function buildCandleCoverageBySymbol(candles: BacktestCandle[]): Map<string, { realMinutes: Set<number>; realCloseTimes: Set<number>; syntheticTimes: Set<number> }> {
+    const bySymbol = new Map<string, { realMinutes: Set<number>; realCloseTimes: Set<number>; syntheticTimes: Set<number> }>();
+    for (const candle of candles) {
+        const symbol = toPerpSymbol(candle.symbol);
+        const bucket = bySymbol.get(symbol) ?? { realMinutes: new Set<number>(), realCloseTimes: new Set<number>(), syntheticTimes: new Set<number>() };
+        const openTs = asDate(candle.openTime).getTime();
+        if (isRealMinuteCandle(candle)) {
+            bucket.realMinutes.add(floorMinute(openTs));
+            bucket.realCloseTimes.add(openTs + 60_000);
+        } else if (isSyntheticCandle(candle)) {
+            bucket.syntheticTimes.add(openTs);
+        }
+        bySymbol.set(symbol, bucket);
+    }
+    return bySymbol;
+}
+
+function executionCandleSourceForTimestamp(
+    coverage: { realMinutes: Set<number>; realCloseTimes: Set<number>; syntheticTimes: Set<number> },
+    ts: number
+): CoverageReport["candle_source"] | null {
+    if (coverage.realCloseTimes.has(ts) || coverage.realMinutes.has(floorMinute(ts))) return "real_1m";
+    if (coverage.syntheticTimes.has(ts)) return "synthetic_from_features";
+    return null;
+}
+
+function realCandleMinutes(candles: BacktestCandle[]): Set<number> {
+    const minutes = new Set<number>();
+    for (const candle of candles) {
+        if (isRealMinuteCandle(candle)) minutes.add(floorMinute(asDate(candle.openTime).getTime()));
+    }
+    return minutes;
+}
+
+function realCandleCloseTimes(candles: BacktestCandle[]): Set<number> {
+    const closeTimes = new Set<number>();
+    for (const candle of candles) {
+        if (isRealMinuteCandle(candle)) closeTimes.add(asDate(candle.openTime).getTime() + 60_000);
+    }
+    return closeTimes;
+}
+
+function isRealMinuteCandle(candle: BacktestCandle): boolean {
+    const openTs = asDate(candle.openTime).getTime();
+    return isRealCandle(candle) && openTs % 60_000 === 0;
+}
+
+function floorMinute(ts: number): number {
+    return Math.floor(ts / 60_000) * 60_000;
 }
 
 function classifyExecutionCandleSourceFromCounts(realCandles: number, syntheticCandles: number): CoverageReport["candle_source"] {

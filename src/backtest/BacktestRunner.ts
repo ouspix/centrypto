@@ -39,8 +39,9 @@ export class BacktestRunner {
         }
 
         const runId = config.runId ?? buildRunId(config);
+        const writeArtifacts = config.writeArtifacts !== false;
         const outDir = path.join(process.cwd(), "data", "backtests", runId);
-        await fs.mkdir(outDir, { recursive: true });
+        if (writeArtifacts) await fs.mkdir(outDir, { recursive: true });
 
         const dataSource = await BacktestDataSource.create({
             network: config.network,
@@ -49,10 +50,11 @@ export class BacktestRunner {
             intervalSeconds: config.intervalSeconds,
             agentConfig: config.agentConfig,
             screenerConfig: config.screeningConfig,
-            featureDbPath: config.featureDbPath
+            featureDbPath: config.featureDbPath,
+            cache: config.cacheDataSource === true && !config.hydration?.enabled
         });
         const coverage = dataSource.getCoverageReport();
-        await writeJson(path.join(outDir, "coverage.json"), coverage);
+        if (writeArtifacts) await writeJson(path.join(outDir, "coverage.json"), coverage);
         if (coverage.synthetic_execution_candles && !config.suppressConsoleWarnings) {
             console.warn(`[backtest] Execution candles are ${coverage.candle_source}; SL/TP path simulation is approximate.`);
         }
@@ -71,10 +73,13 @@ export class BacktestRunner {
                 tracePath: config.llm.tracePath ?? path.join(outDir, "llm_decisions.jsonl")
             }
             : undefined;
+        if (!writeArtifacts && llmConfig?.tracePath) {
+            await fs.mkdir(path.dirname(llmConfig.tracePath), { recursive: true });
+        }
         const policy = buildTraderPolicy(config.policyName, management, portfolio.positions, llmConfig);
         const timestamps = dataSource.getTimestamps();
 
-        await writeJson(path.join(outDir, "config.json"), {
+        if (writeArtifacts) await writeJson(path.join(outDir, "config.json"), {
             ...serializableConfig(config),
             run_id: runId,
             git_commit: gitCommit(),
@@ -138,23 +143,25 @@ export class BacktestRunner {
 
             const executionResults = execution.apply(approved, snapshot.markets, portfolio, ts, (symbol, timestamp) => dataSource.getExecutionBook(symbol, timestamp));
             portfolio.markToMarket(ts, snapshot.markets);
-            await appendJsonl(path.join(outDir, "equity.jsonl"), { ts: ts.toISOString(), equity_usd: portfolio.equityUsd });
-            await appendCandidateJournal(path.join(outDir, "candidates.jsonl"), {
-                context,
-                decisions: traderDecisions,
-                validatorReason: validation.reason,
-                validationAccepted: validation.accepted,
-                executionResults,
-                diagnostics,
-                config,
-                dataSource,
-                ts
-            });
+            if (writeArtifacts) {
+                await appendJsonl(path.join(outDir, "equity.jsonl"), { ts: ts.toISOString(), equity_usd: portfolio.equityUsd });
+                await appendCandidateJournal(path.join(outDir, "candidates.jsonl"), {
+                    context,
+                    decisions: traderDecisions,
+                    validatorReason: validation.reason,
+                    validationAccepted: validation.accepted,
+                    executionResults,
+                    diagnostics,
+                    config,
+                    dataSource,
+                    ts
+                });
+            }
 
             previousTs = ts;
         }
 
-        await writeJsonl(path.join(outDir, "trades.jsonl"), portfolio.trades.map(serializeTrade));
+        if (writeArtifacts) await writeJsonl(path.join(outDir, "trades.jsonl"), portfolio.trades.map(serializeTrade));
         const metrics = MetricsReporter.build(config.initialCapitalUsd, portfolio.equityCurve, portfolio.trades, {
             screeningPresetName: config.screeningPresetName,
             agentPresetName: config.agentPresetName,
@@ -174,7 +181,7 @@ export class BacktestRunner {
                 "Execution candles include synthetic candles derived from feature rows; SL/TP path results are approximate."
             ];
         }
-        await writeJson(path.join(outDir, "metrics.json"), metrics);
+        if (writeArtifacts) await writeJson(path.join(outDir, "metrics.json"), metrics);
 
         return {
             run_id: runId,

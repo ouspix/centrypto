@@ -13,9 +13,13 @@ type FeatureBuildOptions = {
 };
 
 export async function parseHyperliquidL2File(filePath: string, symbol: string): Promise<L2BookSnapshot[]> {
+    return parseHyperliquidL2Stream(fs.createReadStream(filePath, { encoding: "utf8" }), symbol);
+}
+
+export async function parseHyperliquidL2Stream(input: NodeJS.ReadableStream, symbol: string): Promise<L2BookSnapshot[]> {
     const snapshots: L2BookSnapshot[] = [];
     const rl = readline.createInterface({
-        input: fs.createReadStream(filePath, { encoding: "utf8" }),
+        input,
         crlfDelay: Infinity
     });
 

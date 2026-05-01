@@ -5,6 +5,9 @@ import { ExecutionBookSnapshot, L2BookLevel } from "./BacktestTypes";
 
 type DbClient = Pick<PrismaClient, "$executeRawUnsafe" | "$queryRawUnsafe">;
 
+const BOOK_UPSERT_BATCH_SIZE = 1000;
+const WRITE_TRANSACTION_TIMEOUT_MS = 600_000;
+
 export type ExecutionBookStoreOptions = {
     db?: DbClient;
     dbPath?: string;
@@ -13,6 +16,7 @@ export type ExecutionBookStoreOptions = {
 export class ExecutionBookStore {
     private readonly db: DbClient;
     private readonly ownedClient: PrismaClient | null;
+    private schemaReady = false;
 
     constructor(options: ExecutionBookStoreOptions = {}) {
         if (options.db) {
@@ -39,33 +43,49 @@ export class ExecutionBookStore {
     }
 
     public async ensureSchema(): Promise<void> {
+        if (this.schemaReady) return;
         await ensureBacktestDbSchema(this.db as PrismaClient);
+        this.schemaReady = true;
     }
 
     public async upsertBooks(books: ExecutionBookSnapshot[], sourceFile?: string): Promise<number> {
         if (books.length === 0) return 0;
         await this.ensureSchema();
 
-        for (const book of books) {
-            await this.db.$executeRawUnsafe(
-                `INSERT INTO "MarketBook" (
-                    "ts", "symbol", "intervalSeconds", "bidsJson", "asksJson", "sourceFile"
-                ) VALUES (?, ?, ?, ?, ?, ?)
-                ON CONFLICT("symbol", "intervalSeconds", "ts") DO UPDATE SET
-                    "bidsJson"=excluded."bidsJson",
-                    "asksJson"=excluded."asksJson",
-                    "sourceFile"=excluded."sourceFile",
-                    "ingestedAt"=CURRENT_TIMESTAMP`,
-                book.ts,
-                book.symbol,
-                book.intervalSeconds,
-                JSON.stringify(book.bids),
-                JSON.stringify(book.asks),
-                sourceFile ?? null
-            );
-        }
+        await this.withWriteClient(async db => {
+            for (let i = 0; i < books.length; i += BOOK_UPSERT_BATCH_SIZE) {
+                const batch = books.slice(i, i + BOOK_UPSERT_BATCH_SIZE);
+                const placeholders = batch.map(() => "(?, ?, ?, ?, ?, ?)").join(",");
+                await db.$executeRawUnsafe(
+                    `INSERT INTO "MarketBook" (
+                        "ts", "symbol", "intervalSeconds", "bidsJson", "asksJson", "sourceFile"
+                    ) VALUES ${placeholders}
+                    ON CONFLICT("symbol", "intervalSeconds", "ts") DO UPDATE SET
+                        "bidsJson"=excluded."bidsJson",
+                        "asksJson"=excluded."asksJson",
+                        "sourceFile"=excluded."sourceFile",
+                        "ingestedAt"=CURRENT_TIMESTAMP`,
+                    ...batch.flatMap(book => [
+                        book.ts,
+                        book.symbol,
+                        book.intervalSeconds,
+                        JSON.stringify(book.bids),
+                        JSON.stringify(book.asks),
+                        sourceFile ?? null
+                    ])
+                );
+            }
+        });
 
         return books.length;
+    }
+
+    private async withWriteClient<T>(callback: (db: DbClient) => Promise<T>): Promise<T> {
+        if (!this.ownedClient) return callback(this.db);
+        return this.ownedClient.$transaction(
+            tx => callback(tx as unknown as DbClient),
+            { maxWait: 60_000, timeout: WRITE_TRANSACTION_TIMEOUT_MS }
+        );
     }
 
     public async getBooks(start: Date, end: Date, intervalSeconds: number, symbols?: string[]): Promise<ExecutionBookSnapshot[]> {

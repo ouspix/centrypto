@@ -123,7 +123,9 @@ export interface BacktestRunConfig {
     seed: number;
     featureDbPath?: string;
     runId?: string;
+    writeArtifacts?: boolean;
     suppressConsoleWarnings?: boolean;
+    cacheDataSource?: boolean;
     hydration?: HydrationConfig;
     llm?: BacktestLlmConfig;
     slTpExecution?: {
