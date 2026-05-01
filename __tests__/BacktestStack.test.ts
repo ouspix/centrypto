@@ -1,12 +1,13 @@
 import fs from "fs/promises";
 import os from "os";
 import path from "path";
+import { Readable } from "stream";
 import { PrismaClient } from "@prisma/market-client";
 import { describe, expect, it } from "vitest";
 import { AGENT_PRESETS, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
 import { SCREENER_PRESETS } from "@/lib/screener-config";
 import { FeatureStore } from "@/src/backtest/FeatureStore";
-import { buildMarketFeaturesFromSnapshots, parseHyperliquidL2File } from "@/src/backtest/L2FeatureBuilder";
+import { buildMarketFeaturesFromSnapshots, parseHyperliquidL2File, parseHyperliquidL2SampledStream } from "@/src/backtest/L2FeatureBuilder";
 import { BacktestDataSource, classifyExecutionCandleSource, mapBacktestDepthBands, mapBacktestOnePercentDepth } from "@/src/backtest/BacktestDataSource";
 import { BacktestPortfolio } from "@/src/backtest/BacktestPortfolio";
 import { BacktestRunner } from "@/src/backtest/BacktestRunner";
@@ -40,6 +41,23 @@ describe("backtest stack", () => {
         expect(snapshots[1].asks[0]).toEqual({ price: 102, size: 2 });
     });
 
+    it("samples Hyperliquid l2Book streams while parsing", async () => {
+        const input = Readable.from([
+            JSON.stringify({ time: 1770000000001, levels: [[{ px: "100", sz: "2" }], [{ px: "101", sz: "3" }]] }),
+            JSON.stringify({ time: 1770000005000, levels: [[{ px: "102", sz: "2" }], [{ px: "103", sz: "3" }]] }),
+            JSON.stringify({ time: 1770000011000, levels: [[{ px: "104", sz: "2" }], [{ px: "105", sz: "3" }]] })
+        ].join("\n"));
+
+        const snapshots = await parseHyperliquidL2SampledStream(input, "BTC", 10);
+
+        expect(snapshots).toHaveLength(2);
+        expect(snapshots.map(snapshot => snapshot.ts.toISOString())).toEqual([
+            "2026-02-02T02:40:10.000Z",
+            "2026-02-02T02:40:20.000Z"
+        ]);
+        expect(snapshots[0].bids[0]).toEqual({ price: 102, size: 2 });
+    });
+
     it("computes spread, depth, pressure, slippage, and costs from L2 snapshots", () => {
         const snapshots: L2BookSnapshot[] = [{
             ts: new Date("2026-04-11T10:00:00Z"),
@@ -70,6 +88,33 @@ describe("backtest stack", () => {
 
         expect(rows).toHaveLength(1);
         expect(rows[0].ts.toISOString()).toBe("2026-04-11T10:00:10.000Z");
+    });
+
+    it("loads execution books in chunks without duplicating boundary timestamps", async () => {
+        const dbPath = path.join(await fs.mkdtemp(path.join(os.tmpdir(), "bt-books-")), "market.db");
+        const db = new PrismaClient({ datasources: { db: { url: `file:${dbPath}` } } });
+        const bookStore = new ExecutionBookStore({ db });
+        const start = new Date("2026-04-11T00:00:00Z");
+        const middle = new Date("2026-04-11T06:00:00Z");
+        const end = new Date("2026-04-11T12:00:00Z");
+
+        await bookStore.upsertBooks([start, middle, end].map((ts, index) => ({
+            ts,
+            symbol: "BTC-PERP",
+            intervalSeconds: 10,
+            bids: [{ price: 100 + index, size: 1 }],
+            asks: [{ price: 101 + index, size: 1 }]
+        })));
+
+        const books = await bookStore.getBooks(start, end, 10);
+
+        expect(books.map(book => book.ts.toISOString())).toEqual([
+            start.toISOString(),
+            middle.toISOString(),
+            end.toISOString()
+        ]);
+        expect(books.map(book => book.bids[0].price)).toEqual([100, 101, 102]);
+        await db.$disconnect();
     });
 
     it("does not use future ticks when mapping a historical snapshot", async () => {

@@ -7,6 +7,7 @@ type DbClient = Pick<PrismaClient, "$executeRawUnsafe" | "$queryRawUnsafe">;
 
 const BOOK_UPSERT_BATCH_SIZE = 1000;
 const WRITE_TRANSACTION_TIMEOUT_MS = 600_000;
+const BOOK_QUERY_CHUNK_MS = 6 * 60 * 60_000;
 
 export type ExecutionBookStoreOptions = {
     db?: DbClient;
@@ -90,27 +91,65 @@ export class ExecutionBookStore {
 
     public async getBooks(start: Date, end: Date, intervalSeconds: number, symbols?: string[]): Promise<ExecutionBookSnapshot[]> {
         await this.ensureSchema();
+        if (start > end) return [];
+
         const symbolFilter = symbols?.length
             ? `AND "symbol" IN (${symbols.map(() => "?").join(",")})`
             : "";
-        const params = symbols?.length
-            ? [start, end, intervalSeconds, ...symbols]
-            : [start, end, intervalSeconds];
-        const rows = await this.db.$queryRawUnsafe<any[]>(
-            `SELECT * FROM "MarketBook"
-             WHERE "ts" >= ? AND "ts" <= ? AND "intervalSeconds" = ? ${symbolFilter}
-             ORDER BY "ts" ASC, "symbol" ASC`,
-            ...params
-        );
+        const books: ExecutionBookSnapshot[] = [];
+        for (const chunk of bookQueryChunks(start, end)) {
+            const endOperator = chunk.final ? "<=" : "<";
+            const params = symbols?.length
+                ? [chunk.start, chunk.end, intervalSeconds, ...symbols]
+                : [chunk.start, chunk.end, intervalSeconds];
+            const rows = await this.db.$queryRawUnsafe<any[]>(
+                `SELECT "ts", "symbol", "intervalSeconds", "bidsJson", "asksJson" FROM "MarketBook"
+                 WHERE "ts" >= ? AND "ts" ${endOperator} ? AND "intervalSeconds" = ? ${symbolFilter}
+                 ORDER BY "ts" ASC, "symbol" ASC`,
+                ...params
+            );
+            books.push(...rows.map(mapBookRow));
+        }
 
-        return rows.map(row => ({
-            ts: asDate(row.ts),
-            symbol: row.symbol,
-            intervalSeconds: Number(row.intervalSeconds),
-            bids: parseLevels(row.bidsJson),
-            asks: parseLevels(row.asksJson)
-        }));
+        return books;
     }
+}
+
+function mapBookRow(row: any): ExecutionBookSnapshot {
+    const bidsJson = String(row.bidsJson ?? "[]");
+    const asksJson = String(row.asksJson ?? "[]");
+    let bids: L2BookLevel[] | null = null;
+    let asks: L2BookLevel[] | null = null;
+    return {
+        ts: asDate(row.ts),
+        symbol: row.symbol,
+        intervalSeconds: Number(row.intervalSeconds),
+        get bids() {
+            bids ??= parseLevels(bidsJson);
+            return bids;
+        },
+        get asks() {
+            asks ??= parseLevels(asksJson);
+            return asks;
+        }
+    };
+}
+
+function bookQueryChunks(start: Date, end: Date): Array<{ start: Date; end: Date; final: boolean }> {
+    const chunks: Array<{ start: Date; end: Date; final: boolean }> = [];
+    let cursorMs = start.getTime();
+    const endMs = end.getTime();
+    while (cursorMs <= endMs) {
+        const chunkEndMs = Math.min(cursorMs + BOOK_QUERY_CHUNK_MS, endMs);
+        chunks.push({
+            start: new Date(cursorMs),
+            end: new Date(chunkEndMs),
+            final: chunkEndMs >= endMs
+        });
+        if (chunkEndMs >= endMs) break;
+        cursorMs = chunkEndMs;
+    }
+    return chunks;
 }
 
 function parseLevels(value: string): L2BookLevel[] {

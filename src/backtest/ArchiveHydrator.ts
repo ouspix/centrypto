@@ -8,7 +8,7 @@ import { PrismaClient } from "@prisma/market-client";
 import { createBacktestDbClient, ensureBacktestDbSchema } from "./BacktestDb";
 import { ExecutionBookStore } from "./ExecutionBookStore";
 import { FeatureStore } from "./FeatureStore";
-import { buildExecutionBooksFromSnapshots, buildMarketFeaturesFromSnapshots, parseHyperliquidL2File, parseHyperliquidL2Stream } from "./L2FeatureBuilder";
+import { buildExecutionBooksFromSnapshots, buildMarketFeaturesFromSnapshots, parseHyperliquidL2File, parseHyperliquidL2SampledStream } from "./L2FeatureBuilder";
 import { L2BookSnapshot, MarketFeatureRow } from "./BacktestTypes";
 
 const BUCKET_URL = "https://hyperliquid-archive.s3.amazonaws.com";
@@ -21,6 +21,22 @@ const ARCHIVE_INGEST_INSERT_BATCH_SIZE = 100;
 const ASSET_CTX_INGEST_SOURCE_HOUR = -1;
 const ASSET_CTX_INGEST_INTERVAL_SECONDS = 60;
 const SQLITE_WRITE_TRANSACTION_TIMEOUT_MS = 600_000;
+const ARCHIVE_FETCH_MAX_ATTEMPTS = positiveInt(Number(process.env.BACKTEST_ARCHIVE_FETCH_ATTEMPTS), 4);
+const ARCHIVE_FETCH_RETRY_BASE_DELAY_MS = 500;
+const ARCHIVE_FETCH_RETRY_MAX_DELAY_MS = 5_000;
+const RETRYABLE_HTTP_STATUSES = new Set([408, 429, 500, 502, 503, 504]);
+const RETRYABLE_FETCH_ERROR_CODES = new Set([
+    "EAI_AGAIN",
+    "ECONNRESET",
+    "ECONNREFUSED",
+    "EPIPE",
+    "ERR_STREAM_PREMATURE_CLOSE",
+    "ETIMEDOUT",
+    "UND_ERR_BODY_TIMEOUT",
+    "UND_ERR_CONNECT_TIMEOUT",
+    "UND_ERR_HEADERS_TIMEOUT",
+    "UND_ERR_SOCKET"
+]);
 
 type ArchiveHour = {
     date: string;
@@ -462,7 +478,7 @@ async function streamAndIngestArchiveWindow(options: HydrateArchiveOptions & { t
             const chunks: L2BookSnapshot[][] = [];
             await runWithConcurrency(objects, concurrency, async object => {
                 console.log(`[backtest:hydrate] Streaming ${symbol} ${object.date}/${object.hour} (${formatBytes(object.size)})`);
-                chunks.push(await parseL2ArchiveObject(object.key, symbol));
+                chunks.push(await parseL2ArchiveObject(object.key, symbol, options.intervalSeconds));
             });
             const snapshots = chunks.flat().sort((a, b) => a.ts.getTime() - b.ts.getTime());
             const sourceFile = `s3://hyperliquid-archive/market_data/${objects[0].date}..${objects[objects.length - 1].date}/${symbol}`;
@@ -803,9 +819,7 @@ async function listObjects(prefix: string): Promise<ListedObject[]> {
         url.searchParams.set("list-type", "2");
         url.searchParams.set("prefix", prefix);
         if (continuation) url.searchParams.set("continuation-token", continuation);
-        const res = await signedFetch(url);
-        if (!res.ok) throw new Error(`S3 list failed: ${res.status} ${await res.text()}`);
-        const xml = await res.text();
+        const xml = await fetchArchiveText(url, `list ${prefix}`);
         objects.push(...parseObjectList(xml));
         continuation = parseTag(xml, "NextContinuationToken");
     } while (continuation);
@@ -821,9 +835,7 @@ async function listCommonPrefixes(prefix: string, delimiter = "/"): Promise<stri
         url.searchParams.set("prefix", prefix);
         url.searchParams.set("delimiter", delimiter);
         if (continuation) url.searchParams.set("continuation-token", continuation);
-        const res = await signedFetch(url);
-        if (!res.ok) throw new Error(`S3 list failed: ${res.status} ${await res.text()}`);
-        const xml = await res.text();
+        const xml = await fetchArchiveText(url, `list ${prefix}`);
         prefixes.push(...parseCommonPrefixes(xml));
         continuation = parseTag(xml, "NextContinuationToken");
     } while (continuation);
@@ -857,15 +869,19 @@ async function latestMarketDataAvailability(): Promise<{ date: string; hour: num
     };
 }
 
-async function parseL2ArchiveObject(key: string, symbol: string): Promise<L2BookSnapshot[]> {
-    return withDecodedLz4ObjectStream(key, stream => parseHyperliquidL2Stream(stream, symbol));
+async function parseL2ArchiveObject(key: string, symbol: string, intervalSeconds: number): Promise<L2BookSnapshot[]> {
+    return withArchiveRetry(`stream ${key}`, () =>
+        withDecodedLz4ObjectStream(key, stream => parseHyperliquidL2SampledStream(stream, symbol, intervalSeconds))
+    );
 }
 
 async function downloadObject(key: string, localPath: string): Promise<void> {
-    const url = `${BUCKET_URL}/${key.split("/").map(encodeURIComponent).join("/")}`;
-    const res = await signedFetch(url);
-    if (!res.ok) throw new Error(`Download failed for ${key}: ${res.status} ${await res.text()}`);
-    await fs.writeFile(localPath, Buffer.from(await res.arrayBuffer()));
+    await withArchiveRetry(`download ${key}`, async () => {
+        const url = `${BUCKET_URL}/${key.split("/").map(encodeURIComponent).join("/")}`;
+        const res = await signedFetch(url);
+        if (!res.ok) throw new Error(`Download failed for ${key}: ${res.status} ${await res.text()}`);
+        await fs.writeFile(localPath, Buffer.from(await res.arrayBuffer()));
+    });
 }
 
 async function withDecodedLz4ObjectStream<T>(key: string, consumer: (stream: NodeJS.ReadableStream) => Promise<T>): Promise<T> {
@@ -966,7 +982,17 @@ async function forEachAssetCtxArchiveRow(
     onRow: (row: AssetCtxRow) => void | Promise<void>
 ): Promise<number> {
     const key = `asset_ctxs/${date}.csv.lz4`;
-    return withDecodedLz4ObjectStream(key, stream => parseAssetCtxCsvStream(stream, symbols, start, end, onRow));
+    const rows = await withArchiveRetry(`stream ${key}`, async () => {
+        const attemptRows: AssetCtxRow[] = [];
+        await withDecodedLz4ObjectStream(key, stream => parseAssetCtxCsvStream(stream, symbols, start, end, row => {
+            attemptRows.push(row);
+        }));
+        return attemptRows;
+    });
+    for (const row of rows) {
+        await onRow(row);
+    }
+    return rows.length;
 }
 
 async function parseAssetCtxCsvStream(
@@ -1156,7 +1182,86 @@ async function signedFetch(url: URL | string): Promise<Response> {
         throw new Error("Hyperliquid archive is a Requester Pays S3 bucket. Set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY.");
     }
     const requestUrl = typeof url === "string" ? new URL(url) : url;
-    return fetch(requestUrl, { headers: signS3Get(requestUrl, accessKeyId, secretAccessKey, process.env.AWS_SESSION_TOKEN) });
+    const res = await fetch(requestUrl, {
+        headers: signS3Get(requestUrl, accessKeyId, secretAccessKey, process.env.AWS_SESSION_TOKEN)
+    });
+    if (RETRYABLE_HTTP_STATUSES.has(res.status)) {
+        await res.body?.cancel().catch(() => undefined);
+        throw new RetryableArchiveFetchError(`S3 returned ${res.status}`);
+    }
+    return res;
+}
+
+async function fetchArchiveText(url: URL, label: string): Promise<string> {
+    return withArchiveRetry(label, async () => {
+        const res = await signedFetch(url);
+        const text = await res.text();
+        if (!res.ok) throw new Error(`S3 list failed: ${res.status} ${text}`);
+        return text;
+    });
+}
+
+class RetryableArchiveFetchError extends Error {
+    constructor(message: string, cause?: unknown) {
+        super(message);
+        this.name = "RetryableArchiveFetchError";
+        if (cause !== undefined) {
+            (this as Error & { cause?: unknown }).cause = cause;
+        }
+    }
+}
+
+async function withArchiveRetry<T>(label: string, operation: () => Promise<T>): Promise<T> {
+    for (let attempt = 1; attempt <= ARCHIVE_FETCH_MAX_ATTEMPTS; attempt++) {
+        try {
+            return await operation();
+        } catch (error) {
+            if (attempt >= ARCHIVE_FETCH_MAX_ATTEMPTS || !isRetryableArchiveFetchError(error)) {
+                throw error;
+            }
+
+            const delayMs = retryDelayMs(attempt);
+            console.warn(`[backtest:hydrate] ${label} failed (${formatError(error)}); retrying ${attempt + 1}/${ARCHIVE_FETCH_MAX_ATTEMPTS} in ${delayMs}ms`);
+            await sleep(delayMs);
+        }
+    }
+
+    throw new Error(`${label} failed after ${ARCHIVE_FETCH_MAX_ATTEMPTS} attempts`);
+}
+
+function isRetryableArchiveFetchError(error: unknown): boolean {
+    if (error instanceof RetryableArchiveFetchError) return true;
+    const code = errorCode(error);
+    if (code && RETRYABLE_FETCH_ERROR_CODES.has(code)) return true;
+    if (error instanceof Error && /^Failed to decompress /.test(error.message)) return true;
+    return error instanceof TypeError && /fetch failed|network|terminated/i.test(error.message);
+}
+
+function errorCode(error: unknown): string | null {
+    if (!error || typeof error !== "object") return null;
+    const directCode = (error as { code?: unknown }).code;
+    if (typeof directCode === "string") return directCode;
+    const cause = (error as { cause?: unknown }).cause;
+    if (!cause || typeof cause !== "object") return null;
+    const causeCode = (cause as { code?: unknown }).code;
+    return typeof causeCode === "string" ? causeCode : null;
+}
+
+function retryDelayMs(attempt: number): number {
+    const exponential = Math.min(
+        ARCHIVE_FETCH_RETRY_BASE_DELAY_MS * 2 ** (attempt - 1),
+        ARCHIVE_FETCH_RETRY_MAX_DELAY_MS
+    );
+    return exponential + Math.floor(Math.random() * ARCHIVE_FETCH_RETRY_BASE_DELAY_MS);
+}
+
+function formatError(error: unknown): string {
+    if (error instanceof Error) return error.message;
+    return String(error);
+}
+
+function sleep(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function signS3Get(url: URL, accessKeyId: string, secretAccessKey: string, sessionToken?: string): Record<string, string> {

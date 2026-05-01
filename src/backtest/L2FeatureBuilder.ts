@@ -28,14 +28,7 @@ export async function parseHyperliquidL2Stream(input: NodeJS.ReadableStream, sym
         if (!trimmed) continue;
 
         try {
-            const parsed = JSON.parse(trimmed);
-            const row = parsed?.raw?.data?.levels
-                ? parsed.raw.data
-                : parsed?.data?.levels
-                    ? parsed.data
-                    : parsed;
-            if (row && !row.time && parsed?.time) row.time = parsed.time;
-            const snapshot = parseL2Row(row, symbol);
+            const snapshot = parseL2Line(trimmed, symbol);
             if (snapshot) snapshots.push(snapshot);
         } catch {
             // Skip malformed JSONL rows. Archive files can contain partial/corrupt tails.
@@ -43,6 +36,43 @@ export async function parseHyperliquidL2Stream(input: NodeJS.ReadableStream, sym
     }
 
     return snapshots.sort((a, b) => a.ts.getTime() - b.ts.getTime());
+}
+
+export async function parseHyperliquidL2SampledStream(
+    input: NodeJS.ReadableStream,
+    symbol: string,
+    intervalSeconds: number
+): Promise<L2BookSnapshot[]> {
+    assertAllowedInterval(intervalSeconds);
+
+    const intervalMs = intervalSeconds * 1000;
+    const byBucket = new Map<number, { observedMs: number; snapshot: L2BookSnapshot }>();
+    const rl = readline.createInterface({
+        input,
+        crlfDelay: Infinity
+    });
+
+    for await (const line of rl) {
+        const trimmed = line.trim();
+        if (!trimmed) continue;
+
+        try {
+            const snapshot = parseL2Line(trimmed, symbol);
+            if (!snapshot) continue;
+            const bucketMs = Math.ceil(snapshot.ts.getTime() / intervalMs) * intervalMs;
+            const observedMs = snapshot.ts.getTime();
+            const existing = byBucket.get(bucketMs);
+            if (!existing || observedMs >= existing.observedMs) {
+                byBucket.set(bucketMs, { observedMs, snapshot: { ...snapshot, ts: new Date(bucketMs) } });
+            }
+        } catch {
+            // Skip malformed JSONL rows. Archive files can contain partial/corrupt tails.
+        }
+    }
+
+    return Array.from(byBucket.values())
+        .map(value => value.snapshot)
+        .sort((a, b) => a.ts.getTime() - b.ts.getTime());
 }
 
 export function buildMarketFeaturesFromSnapshots(
@@ -110,6 +140,17 @@ export function inferSourceFromPath(filePath: string): Pick<FeatureBuildOptions,
         sourceHour: hour,
         sourceFile: filePath
     };
+}
+
+function parseL2Line(line: string, symbol: string): L2BookSnapshot | null {
+    const parsed = JSON.parse(line);
+    const row = parsed?.raw?.data?.levels
+        ? parsed.raw.data
+        : parsed?.data?.levels
+            ? parsed.data
+            : parsed;
+    if (row && !row.time && parsed?.time) row.time = parsed.time;
+    return parseL2Row(row, symbol);
 }
 
 function parseL2Row(row: any, symbol: string): L2BookSnapshot | null {
