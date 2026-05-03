@@ -25,6 +25,8 @@
     "backtest:candles": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/backtest_candles.ts",
     "backtest:run": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/backtest_run.ts",
     "backtest:compare:screener": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/compare_screener_live_vs_s3.ts",
+    "backtest:parquet": ".venv-backtest/bin/python scripts/backtest_parquet.py",
+    "backtest:optimize:py": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/backtest_optimize_py.ts",
     "backtest:optimize": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/backtest_optimize.ts",
     "backtest:walkforward": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/backtest_walkforward.ts"
   },

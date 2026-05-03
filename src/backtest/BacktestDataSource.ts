@@ -41,6 +41,8 @@ export type BacktestDataSourceOptions = {
     screenerConfig: ScreenerConfig;
     featureDbPath?: string;
     cache?: boolean;
+    universeSymbols?: string[];
+    loadExecutionBooks?: boolean;
 };
 
 type BacktestDataSourceDataset = {
@@ -54,6 +56,9 @@ type BacktestDataSourceDataset = {
 };
 
 const datasetCache = new Map<string, Promise<BacktestDataSourceDataset>>();
+const DATASET_CACHE_MAX_ENTRIES = positiveInt(Number(process.env.BACKTEST_DATA_SOURCE_CACHE_MAX_ENTRIES), 1);
+const DATA_SOURCE_QUERY_CHUNK_MS = positiveInt(Number(process.env.BACKTEST_DATA_SOURCE_QUERY_CHUNK_MINUTES), 60) * 60_000;
+const DATA_SOURCE_QUERY_ROW_LIMIT = positiveInt(Number(process.env.BACKTEST_DATA_SOURCE_QUERY_ROW_LIMIT), 10000);
 
 export class BacktestDataSource {
     private readonly rowsByTimestamp: Map<number, MarketFeatureRow[]>;
@@ -342,7 +347,17 @@ async function cachedDataset(options: BacktestDataSourceOptions): Promise<Backte
         throw error;
     });
     datasetCache.set(key, pending);
+    trimDatasetCache(key);
     return pending;
+}
+
+function trimDatasetCache(protectedKey: string): void {
+    while (datasetCache.size > DATASET_CACHE_MAX_ENTRIES) {
+        const oldestKey = datasetCache.keys().next().value as string | undefined;
+        if (!oldestKey) return;
+        if (oldestKey === protectedKey) return;
+        datasetCache.delete(oldestKey);
+    }
 }
 
 async function loadDataset(options: BacktestDataSourceOptions): Promise<BacktestDataSourceDataset> {
@@ -355,18 +370,28 @@ async function loadDataset(options: BacktestDataSourceOptions): Promise<Backtest
     const db = createDb(options);
     try {
         await ensureBacktestDbSchema(db as PrismaClient);
-        const rows = await featureStore.getRows(options.start, options.end, options.intervalSeconds);
+        const featureSymbols = normalizeFeatureSymbols(options.universeSymbols);
         const outcomeRows = await featureStore.getRows(
             options.start,
             new Date(options.end.getTime() + 60 * 60_000),
-            options.intervalSeconds
+            options.intervalSeconds,
+            featureSymbols
         );
-        const books = await bookStore.getBooks(options.start, options.end, options.intervalSeconds);
+        const rows = outcomeRows.filter(row => row.ts >= options.start && row.ts <= options.end);
 
-        const symbols = Array.from(new Set(rows.map(row => baseSymbol(row.symbol))));
+        const symbols = featureSymbols?.length
+            ? featureSymbols.map(baseSymbol)
+            : Array.from(new Set(rows.map(row => baseSymbol(row.symbol))));
+        const loadExecutionBooks = options.loadExecutionBooks !== false;
+        const books = loadExecutionBooks
+            ? await bookStore.getBooks(options.start, options.end, options.intervalSeconds, featureSymbols)
+            : [];
+        const bookTimesBySymbol = loadExecutionBooks
+            ? bookTimeSetsFromBooks(books)
+            : await bookStore.getBookTimeSets(options.start, options.end, options.intervalSeconds, featureSymbols);
         const ticks = await loadTicks(db, options.start, options.end, symbols);
         const candles = await loadCandles(db, options.start, options.end, symbols);
-        const coverage = buildCoverage(options, rows, candles, books, symbols);
+        const coverage = buildCoverage(options, rows, candles, bookTimesBySymbol, symbols);
 
         return indexDataset(coverage, rows, ticks, candles, outcomeRows, books);
     } finally {
@@ -380,13 +405,21 @@ function datasetCacheKey(options: BacktestDataSourceOptions): string {
     const dbPath = options.featureDbPath
         ? path.resolve(process.cwd(), options.featureDbPath)
         : path.resolve(process.cwd(), "prisma/backtest.db");
+    const symbols = normalizeFeatureSymbols(options.universeSymbols)?.join(",") ?? "*";
     return [
         dbPath,
         options.network,
         options.start.getTime(),
         options.end.getTime(),
-        options.intervalSeconds
+        options.intervalSeconds,
+        symbols,
+        options.loadExecutionBooks === false ? "books:metadata" : "books:full"
     ].join("|");
+}
+
+function normalizeFeatureSymbols(symbols?: string[]): string[] | undefined {
+    if (!symbols?.length) return undefined;
+    return Array.from(new Set(symbols.map(toPerpSymbol))).sort();
 }
 
 function emptyForwardOutcome(): ForwardOutcome {
@@ -434,35 +467,101 @@ function createDb(options: BacktestDataSourceOptions): DbClient {
 
 async function loadTicks(db: DbClient, start: Date, end: Date, symbols: string[]): Promise<TickRow[]> {
     if (symbols.length === 0) return [];
-    return db.$queryRawUnsafe<TickRow[]>(
-        `SELECT * FROM "MarketTick"
-         WHERE "ts" <= ? AND "ts" >= ?
-         AND "symbol" IN (${symbols.map(() => "?").join(",")})
-         ORDER BY "ts" ASC`,
-        end,
-        new Date(start.getTime() - 60 * 60_000),
-        ...symbols
-    );
+    const rows: TickRow[] = [];
+    for (const chunk of dataSourceQueryChunks(new Date(start.getTime() - 60 * 60_000), end)) {
+        const endOperator = chunk.final ? "<=" : "<";
+        let afterTs: Date | null = null;
+        let afterSymbol = "";
+        while (true) {
+            const cursorFilter = afterTs
+                ? `AND ("ts" > ? OR ("ts" = ? AND "symbol" > ?))`
+                : "";
+            const page = await db.$queryRawUnsafe<TickRow[]>(
+                `SELECT * FROM "MarketTick"
+                 WHERE "ts" >= ? AND "ts" ${endOperator} ?
+                 AND "symbol" IN (${symbols.map(() => "?").join(",")})
+                 ${cursorFilter}
+                 ORDER BY "ts" ASC, "symbol" ASC
+                 LIMIT ?`,
+                chunk.start,
+                chunk.end,
+                ...symbols,
+                ...(afterTs ? [afterTs, afterTs, afterSymbol] : []),
+                DATA_SOURCE_QUERY_ROW_LIMIT
+            );
+            if (page.length === 0) break;
+            rows.push(...page);
+            const last = page[page.length - 1];
+            afterTs = asDate(last.ts);
+            afterSymbol = String(last.symbol);
+            if (page.length < DATA_SOURCE_QUERY_ROW_LIMIT) break;
+        }
+    }
+    return rows;
 }
 
 async function loadCandles(db: DbClient, start: Date, end: Date, symbols: string[]): Promise<BacktestCandle[]> {
     if (symbols.length === 0) return [];
-    return db.$queryRawUnsafe<BacktestCandle[]>(
-        `SELECT "symbol", "openTime", "open", "high", "low", "close", "volume", "source" FROM "MarketCandle"
-         WHERE "timeframe" = '1m' AND "openTime" >= ? AND "openTime" <= ?
-         AND "symbol" IN (${symbols.map(() => "?").join(",")})
-         ORDER BY "openTime" ASC`,
-        start,
-        end,
-        ...symbols
-    );
+    const rows: BacktestCandle[] = [];
+    for (const chunk of dataSourceQueryChunks(start, end)) {
+        const endOperator = chunk.final ? "<=" : "<";
+        let afterOpenTime: Date | null = null;
+        let afterSymbol = "";
+        while (true) {
+            const cursorFilter = afterOpenTime
+                ? `AND ("openTime" > ? OR ("openTime" = ? AND "symbol" > ?))`
+                : "";
+            const page = await db.$queryRawUnsafe<BacktestCandle[]>(
+                `SELECT "symbol", "openTime", "open", "high", "low", "close", "volume", "source" FROM "MarketCandle"
+                 WHERE "timeframe" = '1m' AND "openTime" >= ? AND "openTime" ${endOperator} ?
+                 AND "symbol" IN (${symbols.map(() => "?").join(",")})
+                 ${cursorFilter}
+                 ORDER BY "openTime" ASC, "symbol" ASC
+                 LIMIT ?`,
+                chunk.start,
+                chunk.end,
+                ...symbols,
+                ...(afterOpenTime ? [afterOpenTime, afterOpenTime, afterSymbol] : []),
+                DATA_SOURCE_QUERY_ROW_LIMIT
+            );
+            if (page.length === 0) break;
+            rows.push(...page);
+            const last = page[page.length - 1];
+            afterOpenTime = asDate(last.openTime);
+            afterSymbol = String(last.symbol);
+            if (page.length < DATA_SOURCE_QUERY_ROW_LIMIT) break;
+        }
+    }
+    return rows;
+}
+
+function dataSourceQueryChunks(start: Date, end: Date): Array<{ start: Date; end: Date; final: boolean }> {
+    const chunks: Array<{ start: Date; end: Date; final: boolean }> = [];
+    let cursorMs = start.getTime();
+    const endMs = end.getTime();
+    while (cursorMs <= endMs) {
+        const chunkEndMs = Math.min(cursorMs + DATA_SOURCE_QUERY_CHUNK_MS, endMs);
+        chunks.push({
+            start: new Date(cursorMs),
+            end: new Date(chunkEndMs),
+            final: chunkEndMs >= endMs
+        });
+        if (chunkEndMs >= endMs) break;
+        cursorMs = chunkEndMs;
+    }
+    return chunks;
+}
+
+function positiveInt(value: number | undefined, fallback: number): number {
+    if (!Number.isFinite(value)) return fallback;
+    return Math.max(1, Math.floor(value as number));
 }
 
 function buildCoverage(
     options: BacktestDataSourceOptions,
     rows: MarketFeatureRow[],
     candles: BacktestCandle[],
-    books: ExecutionBookSnapshot[],
+    bookTimesBySymbol: Map<string, Set<number>>,
     symbols: string[]
 ): CoverageReport {
     const expectedTimestamps = expectedReplayTimestamps(options.start, options.end, options.intervalSeconds);
@@ -487,17 +586,10 @@ function buildCoverage(
         missingFeatureRows[normalized] = expectedTimestamps.reduce((missing, ts) => missing + (rowTimes.has(ts) ? 0 : 1), 0);
     }
 
-    const booksBySymbol = new Map<string, Set<number>>();
-    for (const book of books) {
-        const symbol = toPerpSymbol(book.symbol);
-        const bucket = booksBySymbol.get(symbol) ?? new Set<number>();
-        bucket.add(book.ts.getTime());
-        booksBySymbol.set(symbol, bucket);
-    }
     for (const symbol of symbols) {
         const normalized = toPerpSymbol(symbol);
         const rowTimes = rowsBySymbol.get(normalized) ?? new Set<number>();
-        const bookTimes = booksBySymbol.get(normalized) ?? new Set<number>();
+        const bookTimes = bookTimesBySymbol.get(normalized) ?? new Set<number>();
         missingExecutionBooks[normalized] = Array.from(rowTimes).reduce((missing, ts) => missing + (bookTimes.has(ts) ? 0 : 1), 0);
     }
 
@@ -543,6 +635,17 @@ function buildCoverage(
         symbols_dropped_insufficient_history: Array.from(dropped).sort(),
         skipped_timestamps: []
     };
+}
+
+function bookTimeSetsFromBooks(books: ExecutionBookSnapshot[]): Map<string, Set<number>> {
+    const booksBySymbol = new Map<string, Set<number>>();
+    for (const book of books) {
+        const symbol = toPerpSymbol(book.symbol);
+        const bucket = booksBySymbol.get(symbol) ?? new Set<number>();
+        bucket.add(book.ts.getTime());
+        booksBySymbol.set(symbol, bucket);
+    }
+    return booksBySymbol;
 }
 
 export function classifyExecutionCandleSource(candles: Array<Pick<BacktestCandle, "volume"> & { source?: string | null }>): CoverageReport["candle_source"] {

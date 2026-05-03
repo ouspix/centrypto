@@ -6,14 +6,15 @@ import { MarketDerivedMetricsService } from "@/services/MarketDerivedMetricsServ
 import { TraderContextBuilder } from "@/services/TraderContextBuilder";
 import { TraderDecisionValidator } from "@/lib/trader/TraderDecisionValidator";
 import { RiskCheckModule } from "@/lib/risk/RiskCheckModule";
-import { CandidateRejectionDiagnostic, TradeDecision, TraderContext, TraderContextDiagnostics, TraderDecision } from "@/types/trading";
+import { assessDecisionsForRisk, buildBackendDecisions } from "@/lib/trader/TraderWorkflow";
+import { CandidateRejectionDiagnostic, TraderContext, TraderContextDiagnostics, TraderDecision } from "@/types/trading";
 import { hydrateArchiveForBacktest } from "./ArchiveHydrator";
 import { BacktestDataSource } from "./BacktestDataSource";
 import { BacktestPortfolio } from "./BacktestPortfolio";
 import { BacktestRunConfig, BacktestRunResult, CoverageReport, ExecutionResult, ForwardOutcome } from "./BacktestTypes";
 import { ExecutionSimulator } from "./ExecutionSimulator";
 import { MetricsReporter } from "./MetricsReporter";
-import { buildManagementPolicy, buildTraderPolicy } from "./TraderPolicies";
+import { buildDecisionProvider, buildManagementPolicy } from "./TraderPolicies";
 
 export class BacktestRunner {
     private readonly regimeService = new RegimeService();
@@ -51,7 +52,13 @@ export class BacktestRunner {
             agentConfig: config.agentConfig,
             screenerConfig: config.screeningConfig,
             featureDbPath: config.featureDbPath,
-            cache: config.cacheDataSource === true && !config.hydration?.enabled
+            cache: config.cacheDataSource === true && !config.hydration?.enabled,
+            universeSymbols: config.universeSymbols,
+            loadExecutionBooks: config.loadExecutionBooks ?? (
+                config.slTpExecution
+                    ? config.slTpExecution.slippageMode === "book_or_fallback"
+                    : true
+            )
         });
         const coverage = dataSource.getCoverageReport();
         if (writeArtifacts) await writeJson(path.join(outDir, "coverage.json"), coverage);
@@ -76,7 +83,14 @@ export class BacktestRunner {
         if (!writeArtifacts && llmConfig?.tracePath) {
             await fs.mkdir(path.dirname(llmConfig.tracePath), { recursive: true });
         }
-        const policy = buildTraderPolicy(config.policyName, management, portfolio.positions, llmConfig);
+        const policy = buildDecisionProvider({
+            decisionMode: config.decisionMode,
+            policyName: config.policyName,
+            managementPolicy: management,
+            positions: portfolio.positions,
+            llmConfig,
+            agentConfig: config.agentConfig
+        });
         const timestamps = dataSource.getTimestamps();
 
         if (writeArtifacts) await writeJson(path.join(outDir, "config.json"), {
@@ -119,7 +133,7 @@ export class BacktestRunner {
             );
             const traderDecisions = await policy.decide(context);
             const validation = this.validator.validateBatch(traderDecisions, context);
-            if (config.policyName === "real_llm" && llmConfig?.tracePath) {
+            if ((config.decisionMode ?? config.policyName) === "real_llm" && llmConfig?.tracePath) {
                 await appendJsonl(path.join(outDir, "llm_validation.jsonl"), {
                     ts: ts.toISOString(),
                     timestamp: Math.floor(ts.getTime() / 1000),
@@ -129,19 +143,10 @@ export class BacktestRunner {
                     decision_count: traderDecisions.length
                 });
             }
-            const executable = validation.accepted ? this.toTradeDecisions(traderDecisions, context, "accepted") : [];
-            const approved: TradeDecision[] = [];
-            let newPositionsCount = 0;
+            const executable = validation.accepted ? buildBackendDecisions(traderDecisions, context, "accepted") : [];
+            const { approvedDecisions } = assessDecisionsForRisk(executable, snapshot, this.risk);
 
-            for (const decision of executable) {
-                const assessment = this.risk.assess(decision, snapshot, { newPositionsCount });
-                if (assessment.approved) {
-                    approved.push(decision);
-                    if (decision.action === "OPEN_POSITION") newPositionsCount++;
-                }
-            }
-
-            const executionResults = execution.apply(approved, snapshot.markets, portfolio, ts, (symbol, timestamp) => dataSource.getExecutionBook(symbol, timestamp));
+            const executionResults = execution.apply(approvedDecisions, snapshot.markets, portfolio, ts, (symbol, timestamp) => dataSource.getExecutionBook(symbol, timestamp));
             portfolio.markToMarket(ts, snapshot.markets);
             if (writeArtifacts) {
                 await appendJsonl(path.join(outDir, "equity.jsonl"), { ts: ts.toISOString(), equity_usd: portfolio.equityUsd });
@@ -165,7 +170,7 @@ export class BacktestRunner {
         const metrics = MetricsReporter.build(config.initialCapitalUsd, portfolio.equityCurve, portfolio.trades, {
             screeningPresetName: config.screeningPresetName,
             agentPresetName: config.agentPresetName,
-            traderPolicyName: config.policyName
+            traderPolicyName: config.decisionMode ?? config.policyName
         });
         metrics.candle_source = coverage.candle_source;
         metrics.synthetic_execution_candles = coverage.synthetic_execution_candles;
@@ -193,64 +198,6 @@ export class BacktestRunner {
         };
     }
 
-    private toTradeDecisions(traderDecisions: TraderDecision[], context: TraderContext, validatorReason: string): TradeDecision[] {
-        return traderDecisions.map(decision => {
-            if (decision.scope === "candidate") {
-                const candidate = context.eligible_candidates.find(c => c.candidate_id === decision.candidate_id);
-                const side = decision.target_side === "flat" ? null : decision.target_side;
-                return {
-                    scope: decision.scope,
-                    candidate_id: decision.candidate_id,
-                    action: decision.action,
-                    symbol: decision.symbol || candidate?.symbol || null,
-                    side,
-                    target_side: decision.target_side,
-                    target_size_fraction_of_equity: decision.target_size_fraction_of_equity,
-                    size_fraction_of_equity: decision.target_size_fraction_of_equity,
-                    risk_plan: decision.action === "OPEN_POSITION" && candidate ? {
-                        stop_loss_pct: candidate.risk.stop_loss_pct,
-                        take_profit_pct_primary: candidate.risk.take_profit_pct_primary
-                    } : null,
-                    playbook: decision.playbook || candidate?.eligible_playbooks[0] || "none",
-                    confidence: decision.confidence,
-                    reason_code: decision.reason_code,
-                    notes: decision.notes,
-                    audit: candidate ? {
-                        candidate_id: candidate.candidate_id,
-                        cost_bps: candidate.market_quality.cost_bps,
-                        edge_bps: candidate.market_quality.edge_bps,
-                        book_pressure: candidate.market_quality.book_pressure,
-                        depth_usd: candidate.market_quality.min_depth_usd,
-                        vol_ratio_5m_vs_1h: candidate.market_quality.vol_ratio_5m_vs_1h,
-                        ret_sigma_5m_vs_1h: candidate.market_quality.ret_sigma_5m_vs_1h,
-                        computed_stop_loss_pct: candidate.risk.stop_loss_pct,
-                        computed_take_profit_pct_primary: candidate.risk.take_profit_pct_primary,
-                        computed_size_fraction_of_equity: decision.target_size_fraction_of_equity,
-                        max_allowed_size_fraction: candidate.sizing.max_allowed_size_fraction,
-                        suggested_size_fraction: candidate.sizing.suggested_size_fraction,
-                        validator_status: validatorReason,
-                        validator_reason: validatorReason
-                    } : undefined
-                };
-            }
-
-            return {
-                scope: decision.scope,
-                candidate_id: null,
-                action: decision.action,
-                symbol: decision.symbol,
-                side: decision.target_side === "flat" ? null : decision.target_side,
-                target_side: decision.target_side,
-                target_size_fraction_of_equity: decision.target_size_fraction_of_equity,
-                size_fraction_of_equity: decision.target_size_fraction_of_equity,
-                risk_plan: null,
-                playbook: decision.playbook || "none",
-                confidence: decision.confidence,
-                reason_code: decision.reason_code,
-                notes: decision.notes
-            };
-        });
-    }
 }
 
 function assertCoverageUsable(coverage: CoverageReport): void {
@@ -420,7 +367,8 @@ function isNearMissRejection(rejection: CandidateRejectionDiagnostic): boolean {
 }
 
 function buildRunId(config: BacktestRunConfig): string {
-    return `${config.policyName}_${config.start.toISOString().replace(/[:.]/g, "")}_${config.end.toISOString().replace(/[:.]/g, "")}_${config.seed}`;
+    const policy = config.decisionMode ?? config.policyName;
+    return `${policy}_${config.start.toISOString().replace(/[:.]/g, "")}_${config.end.toISOString().replace(/[:.]/g, "")}_${config.seed}`;
 }
 
 function gitCommit(): string | null {

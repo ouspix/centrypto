@@ -7,6 +7,8 @@ type DbClient = Pick<PrismaClient, "$executeRawUnsafe" | "$queryRawUnsafe">;
 
 const FEATURE_UPSERT_BATCH_SIZE = 1000;
 const WRITE_TRANSACTION_TIMEOUT_MS = 600_000;
+const FEATURE_QUERY_CHUNK_MS = positiveInt(Number(process.env.BACKTEST_FEATURE_QUERY_CHUNK_MINUTES), 60) * 60_000;
+const FEATURE_QUERY_ROW_LIMIT = positiveInt(Number(process.env.BACKTEST_FEATURE_QUERY_ROW_LIMIT), 10000);
 
 export type FeatureStoreOptions = {
     network?: "mainnet" | "testnet";
@@ -128,19 +130,45 @@ export class FeatureStore {
 
     public async getRows(start: Date, end: Date, intervalSeconds: number, symbols?: string[]): Promise<MarketFeatureRow[]> {
         await this.ensureSchema();
+        if (start > end) return [];
         const symbolFilter = symbols?.length
             ? `AND "symbol" IN (${symbols.map(() => "?").join(",")})`
             : "";
-        const params = symbols?.length
-            ? [start, end, intervalSeconds, ...symbols]
-            : [start, end, intervalSeconds];
-        const rows = await this.db.$queryRawUnsafe<any[]>(
-            `SELECT * FROM "MarketFeature"
-             WHERE "ts" >= ? AND "ts" <= ? AND "intervalSeconds" = ? ${symbolFilter}
-             ORDER BY "ts" ASC, "symbol" ASC`,
-            ...params
-        );
-        return rows.map(mapDbRow);
+        const mapped: MarketFeatureRow[] = [];
+        for (const chunk of featureQueryChunks(start, end)) {
+            const endOperator = chunk.final ? "<=" : "<";
+            let afterTs: Date | null = null;
+            let afterSymbol = "";
+
+            while (true) {
+                const cursorFilter = afterTs
+                    ? `AND ("ts" > ? OR ("ts" = ? AND "symbol" > ?))`
+                    : "";
+                const params = [
+                    chunk.start,
+                    chunk.end,
+                    intervalSeconds,
+                    ...(symbols ?? []),
+                    ...(afterTs ? [afterTs, afterTs, afterSymbol] : []),
+                    FEATURE_QUERY_ROW_LIMIT
+                ];
+                const rows = await this.db.$queryRawUnsafe<any[]>(
+                    `SELECT * FROM "MarketFeature"
+                     WHERE "ts" >= ? AND "ts" ${endOperator} ? AND "intervalSeconds" = ? ${symbolFilter} ${cursorFilter}
+                     ORDER BY "ts" ASC, "symbol" ASC
+                     LIMIT ?`,
+                    ...params
+                );
+                if (rows.length === 0) break;
+
+                mapped.push(...rows.map(mapDbRow));
+                const last = rows[rows.length - 1];
+                afterTs = asDate(last.ts);
+                afterSymbol = String(last.symbol);
+                if (rows.length < FEATURE_QUERY_ROW_LIMIT) break;
+            }
+        }
+        return mapped;
     }
 
     public async getTimestamps(start: Date, end: Date, intervalSeconds: number): Promise<Date[]> {
@@ -155,6 +183,28 @@ export class FeatureStore {
         );
         return rows.map(row => asDate(row.ts));
     }
+}
+
+function featureQueryChunks(start: Date, end: Date): Array<{ start: Date; end: Date; final: boolean }> {
+    const chunks: Array<{ start: Date; end: Date; final: boolean }> = [];
+    let cursorMs = start.getTime();
+    const endMs = end.getTime();
+    while (cursorMs <= endMs) {
+        const chunkEndMs = Math.min(cursorMs + FEATURE_QUERY_CHUNK_MS, endMs);
+        chunks.push({
+            start: new Date(cursorMs),
+            end: new Date(chunkEndMs),
+            final: chunkEndMs >= endMs
+        });
+        if (chunkEndMs >= endMs) break;
+        cursorMs = chunkEndMs;
+    }
+    return chunks;
+}
+
+function positiveInt(value: number | undefined, fallback: number): number {
+    if (!Number.isFinite(value)) return fallback;
+    return Math.max(1, Math.floor(value as number));
 }
 
 function featureRowParams(row: MarketFeatureRow): unknown[] {

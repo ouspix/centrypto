@@ -18,7 +18,7 @@ import { RecordedLLMTrader, buildManagementPolicy, buildTraderPolicy } from "@/s
 import { WalkForwardOptimizer, acceptChallenger, aggregateScoredConfigs, configHash, isHardOptimizerReject, isNearMissRejection, optimizerRejectionReason, sampleRandomConfig, sampleRandomScreenerConfig, scoreMetrics } from "@/src/backtest/WalkForwardOptimizer";
 import { BacktestMetrics, BacktestRunConfig, CoverageReport, L2BookSnapshot, MarketFeatureRow, SimPosition, SimTrade } from "@/src/backtest/BacktestTypes";
 import { TradeDecision, TraderContext } from "@/types/trading";
-import { deriveRealCandlesFromNodeFillsLines, getRealCandleCoverageReport, upsertRealCandles } from "@/src/backtest/RealCandleHydrator";
+import { deriveRealCandlesFromNodeFillsLines, fillMissingRealCandleGapsFromExisting, getRealCandleCoverageReport, upsertRealCandles } from "@/src/backtest/RealCandleHydrator";
 import { upsertSyntheticCandlesFromFeatures } from "@/src/backtest/ArchiveHydrator";
 import { assertOptimizerCandlePreflight, hydrateBacktestDataForRun } from "@/src/backtest/BacktestHydration";
 import { ensureBacktestDbSchema } from "@/src/backtest/BacktestDb";
@@ -104,9 +104,15 @@ describe("backtest stack", () => {
             intervalSeconds: 10,
             bids: [{ price: 100 + index, size: 1 }],
             asks: [{ price: 101 + index, size: 1 }]
-        })));
+        })).concat([{
+            ts: middle,
+            symbol: "ETH-PERP",
+            intervalSeconds: 10,
+            bids: [{ price: 200, size: 1 }],
+            asks: [{ price: 201, size: 1 }]
+        }]));
 
-        const books = await bookStore.getBooks(start, end, 10);
+        const books = await bookStore.getBooks(start, end, 10, ["BTC"]);
 
         expect(books.map(book => book.ts.toISOString())).toEqual([
             start.toISOString(),
@@ -114,6 +120,81 @@ describe("backtest stack", () => {
             end.toISOString()
         ]);
         expect(books.map(book => book.bids[0].price)).toEqual([100, 101, 102]);
+        await expect(bookStore.getBooks(start, end, 10, ["ETH-PERP"]))
+            .resolves.toHaveLength(1);
+        await db.$disconnect();
+    });
+
+    it("scopes backtest data loading to the configured universe", async () => {
+        const dbPath = path.join(await fs.mkdtemp(path.join(os.tmpdir(), "bt-universe-")), "market.db");
+        const db = new PrismaClient({ datasources: { db: { url: `file:${dbPath}` } } });
+        const store = new FeatureStore({ db });
+        const bookStore = new ExecutionBookStore({ db });
+        await store.ensureSchema();
+        const ts = new Date("2026-04-11T10:00:00Z");
+
+        await store.upsertRows([
+            featureRow(ts, "BTC-PERP"),
+            featureRow(ts, "ETH-PERP")
+        ]);
+        await bookStore.upsertBooks(["BTC-PERP", "ETH-PERP"].map(symbol => ({
+            ts,
+            symbol,
+            intervalSeconds: 10,
+            bids: [{ price: 99, size: 1 }],
+            asks: [{ price: 101, size: 1 }]
+        })));
+
+        const source = await BacktestDataSource.create({
+            network: "mainnet",
+            start: ts,
+            end: ts,
+            intervalSeconds: 10,
+            agentConfig: DEFAULT_AGENT_CONFIG,
+            screenerConfig: SCREENER_PRESETS["Testnet Aggressive"],
+            featureDbPath: dbPath,
+            universeSymbols: ["BTC"]
+        });
+
+        expect(Object.keys(source.getCoverageReport().missing_feature_rows_by_symbol)).toEqual(["BTC-PERP"]);
+        expect(source.getExecutionBook("BTC-PERP", ts)).toBeDefined();
+        expect(source.getExecutionBook("ETH-PERP", ts)).toBeNull();
+        await store.close();
+        await db.$disconnect();
+    });
+
+    it("can check execution-book coverage without loading full book JSON", async () => {
+        const dbPath = path.join(await fs.mkdtemp(path.join(os.tmpdir(), "bt-book-coverage-")), "market.db");
+        const db = new PrismaClient({ datasources: { db: { url: `file:${dbPath}` } } });
+        const store = new FeatureStore({ db });
+        const bookStore = new ExecutionBookStore({ db });
+        await store.ensureSchema();
+        const ts = new Date("2026-04-11T10:00:00Z");
+
+        await store.upsertRows([featureRow(ts, "BTC-PERP")]);
+        await bookStore.upsertBooks([{
+            ts,
+            symbol: "BTC-PERP",
+            intervalSeconds: 10,
+            bids: [{ price: 99, size: 1 }],
+            asks: [{ price: 101, size: 1 }]
+        }]);
+
+        const source = await BacktestDataSource.create({
+            network: "mainnet",
+            start: ts,
+            end: ts,
+            intervalSeconds: 10,
+            agentConfig: DEFAULT_AGENT_CONFIG,
+            screenerConfig: SCREENER_PRESETS["Testnet Aggressive"],
+            featureDbPath: dbPath,
+            universeSymbols: ["BTC"],
+            loadExecutionBooks: false
+        });
+
+        expect(source.getCoverageReport().missing_execution_books_by_symbol?.["BTC-PERP"]).toBe(0);
+        expect(source.getExecutionBook("BTC-PERP", ts)).toBeNull();
+        await store.close();
         await db.$disconnect();
     });
 
@@ -269,6 +350,32 @@ describe("backtest stack", () => {
 
         expect(coverage.complete).toBe(true);
         expect(rows).toEqual([{ source: "real_1m", volume: 0 }]);
+        await db.$disconnect();
+    });
+
+    it("fills missing real candle no-trade gaps from existing closes before archive fallback", async () => {
+        const dbPath = path.join(await fs.mkdtemp(path.join(os.tmpdir(), "bt-db-")), "market.db");
+        const db = new PrismaClient({ datasources: { db: { url: `file:${dbPath}` } } });
+        await ensureBacktestDbSchema(db);
+        const start = new Date("2026-04-11T10:00:00Z");
+        const end = new Date("2026-04-11T10:03:00Z");
+
+        await upsertRealCandles(db, "BTC", [
+            { t: start.getTime(), o: 100, h: 101, l: 99, c: 100, v: 10 },
+            { t: start.getTime() + 2 * 60_000, o: 102, h: 103, l: 101, c: 102, v: 5 }
+        ]);
+
+        expect((await getRealCandleCoverageReport({ symbols: ["BTC"], start, end, dbPath })).complete).toBe(false);
+        await expect(fillMissingRealCandleGapsFromExisting({ symbols: ["BTC"], start, end, dbPath })).resolves.toBe(1);
+        expect((await getRealCandleCoverageReport({ symbols: ["BTC"], start, end, dbPath })).complete).toBe(true);
+
+        const filled = await db.marketCandle.findFirstOrThrow({
+            where: { symbol: "BTC", openTime: new Date(start.getTime() + 60_000) }
+        });
+        expect(filled.source).toBe("real_1m");
+        expect(filled.volume).toBe(0);
+        expect(filled.open).toBe(100);
+        expect(filled.close).toBe(100);
         await db.$disconnect();
     });
 
@@ -887,6 +994,20 @@ describe("backtest stack", () => {
         const screenerB = sampleRandomScreenerConfig(SCREENER_PRESETS["Momentum Moderate"], 123);
 
         expect(a.triggers.momentum.vol_ratio_min).toBe(b.triggers.momentum.vol_ratio_min);
+        expect(a.risk.max_positions).toBeGreaterThanOrEqual(3);
+        expect(a.risk.max_positions).toBeLessThanOrEqual(8);
+        expect(a.risk.max_position_fraction).toBeGreaterThanOrEqual(0.08);
+        expect(a.risk.max_position_fraction).toBeLessThanOrEqual(0.35);
+        expect(a.risk.max_position_fraction_per_symbol).toBeGreaterThanOrEqual(0.08);
+        expect(a.risk.max_position_fraction_per_symbol).toBeLessThanOrEqual(0.35);
+        expect(a.risk.max_total_exposure_fraction).toBeGreaterThanOrEqual(0.5);
+        expect(a.risk.max_total_exposure_fraction).toBeLessThanOrEqual(1.5);
+        expect(a.risk.max_new_positions_per_cycle).toBeGreaterThanOrEqual(1);
+        expect(a.risk.max_new_positions_per_cycle).toBeLessThanOrEqual(4);
+        expect(a.risk.risk_per_trade_pct).toBeGreaterThanOrEqual(0.0025);
+        expect(a.risk.risk_per_trade_pct).toBeLessThanOrEqual(0.0125);
+        expect(a.risk.max_correlation_group_exposure_fraction).toBeGreaterThanOrEqual(0.25);
+        expect(a.risk.max_correlation_group_exposure_fraction).toBeLessThanOrEqual(1);
         expect(a.triggers.momentum.vol_ratio_min).toBeGreaterThanOrEqual(0.5);
         expect(a.triggers.momentum.vol_ratio_min).toBeLessThanOrEqual(1.5);
         expect(a.cost_sanity.min_edge_to_cost_mult).toBeGreaterThanOrEqual(3);
@@ -896,10 +1017,11 @@ describe("backtest stack", () => {
             RISK_OFF: a.cost_sanity.min_edge_to_cost_mult,
             CHOP: a.cost_sanity.min_edge_to_cost_mult
         });
-        expect(a.management_policy.playbook_aware.momentum.opposite_pressure_cycles).toBeGreaterThanOrEqual(2);
-        expect(a.management_policy.playbook_aware.momentum.opposite_pressure_cycles).toBeLessThanOrEqual(5);
+        expect(a.management_policy.close_confidence).toBeGreaterThanOrEqual(0.55);
+        expect(a.management_policy.close_confidence).toBeLessThanOrEqual(0.85);
         expect(screenerA).toEqual(screenerB);
-        expect(screenerA.topN).toBe(SCREENER_PRESETS["Momentum Moderate"].topN);
+        expect(screenerA.topN).toBeGreaterThanOrEqual(10);
+        expect(screenerA.topN).toBeLessThanOrEqual(30);
         expect(screenerA.minDepthUsd).toBeGreaterThanOrEqual(0);
     });
 

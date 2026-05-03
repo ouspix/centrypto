@@ -133,6 +133,26 @@ export async function hydrateRealCandlesForBacktest(options: HydrateRealCandlesO
         dbPath: options.dbPath
     });
 
+    if (!coverage.complete) {
+        const gapFillCount = await fillMissingRealCandleGapsFromExisting({
+            symbols: Object.keys(coverage.missingBySymbol),
+            start: options.start,
+            end: options.end,
+            dbPath: options.dbPath
+        });
+        if (gapFillCount > 0) {
+            candlesFetched += gapFillCount;
+            candlesUpserted += gapFillCount;
+            console.log(`[backtest:candles] filled ${gapFillCount} zero-volume real 1m candle gaps from existing closes`);
+            coverage = await getRealCandleCoverageReport({
+                symbols,
+                start: options.start,
+                end: options.end,
+                dbPath: options.dbPath
+            });
+        }
+    }
+
     if (!coverage.complete && archiveEnabled && !options.preferNodeFillArchive) {
         const missingSymbols = uniqueSymbols(Object.keys(coverage.missingBySymbol));
         console.log(
@@ -164,6 +184,80 @@ export async function hydrateRealCandlesForBacktest(options: HydrateRealCandlesO
         candlesUpserted,
         coverage
     };
+}
+
+export async function fillMissingRealCandleGapsFromExisting(options: {
+    symbols: string[];
+    start: Date;
+    end: Date;
+    dbPath?: string;
+}): Promise<number> {
+    const symbols = uniqueSymbols(options.symbols);
+    const expectedMinutes = realCandleOpenTimestamps(options.start, options.end);
+    if (symbols.length === 0 || expectedMinutes.length === 0) return 0;
+
+    const seedStart = new Date(options.start.getTime() - 24 * 60 * 60_000);
+    const db = createBacktestDbClient(options.dbPath);
+    try {
+        await ensureBacktestDbSchema(db);
+        let inserted = 0;
+        for (const symbol of symbols) {
+            const rows = await db.$queryRawUnsafe<Array<{ openTime: Date | string; close: number; source: string | null; volume: number }>>(
+                `SELECT "openTime", "close", "source", "volume"
+                 FROM "MarketCandle"
+                 WHERE "symbol" = ?
+                   AND "timeframe" = '1m'
+                   AND COALESCE("source", CASE WHEN "volume" = 0 THEN 'synthetic_from_features' ELSE 'real_1m' END) = 'real_1m'
+                   AND "openTime" >= ?
+                   AND "openTime" <= ?
+                 ORDER BY "openTime" ASC`,
+                symbol,
+                seedStart,
+                new Date(expectedMinutes[expectedMinutes.length - 1])
+            );
+            if (rows.length === 0) continue;
+
+            const existing = new Map<number, number>();
+            let hasInWindowCandle = false;
+            for (const row of rows) {
+                const ts = floorMinute(asDate(row.openTime).getTime());
+                const close = Number(row.close);
+                if (!Number.isFinite(close)) continue;
+                existing.set(ts, close);
+                if (ts >= expectedMinutes[0] && ts <= expectedMinutes[expectedMinutes.length - 1]) hasInWindowCandle = true;
+            }
+            if (!hasInWindowCandle) continue;
+
+            let lastClose: number | null = null;
+            for (const row of rows) {
+                const ts = floorMinute(asDate(row.openTime).getTime());
+                if (ts < expectedMinutes[0]) lastClose = Number(row.close);
+            }
+
+            const fills: BacktestRealCandle[] = [];
+            for (const minute of expectedMinutes) {
+                const close = existing.get(minute);
+                if (close !== undefined) {
+                    lastClose = close;
+                    continue;
+                }
+                if (lastClose === null) continue;
+                fills.push({
+                    t: minute,
+                    o: lastClose,
+                    h: lastClose,
+                    l: lastClose,
+                    c: lastClose,
+                    v: 0
+                });
+            }
+            if (fills.length === 0) continue;
+            inserted += await upsertRealCandles(db, symbol, fills);
+        }
+        return inserted;
+    } finally {
+        await db.$disconnect();
+    }
 }
 
 async function hydrateRealCandlesFromNodeFillsArchive(options: {

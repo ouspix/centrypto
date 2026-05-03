@@ -8,6 +8,15 @@ import { BacktestRunner } from "./BacktestRunner";
 import { BacktestMetrics, BacktestRunConfig, CoverageReport, SimTrade } from "./BacktestTypes";
 
 export const PARAM_RANGES = {
+    risk: {
+        max_positions: [3, 8],
+        max_position_fraction: [0.08, 0.35],
+        max_position_fraction_per_symbol: [0.08, 0.35],
+        max_total_exposure_fraction: [0.50, 1.50],
+        max_new_positions_per_cycle: [1, 4],
+        risk_per_trade_pct: [0.0025, 0.0125],
+        max_correlation_group_exposure_fraction: [0.25, 1.00]
+    },
     mean_reversion: {
         ret_sigma_threshold: [1.5, 3.5],
         book_pressure_min: [0.0, 0.12]
@@ -33,21 +42,12 @@ export const PARAM_RANGES = {
         recentVolumeMinutes: [5, 30],
         minRealizedVol: [0, 0.0015],
         minVolume24h: [0, 15_000_000],
+        topN: [10, 30],
         qualityWeight: [0.5, 2.5]
     },
     management_policy: {
         hold_confidence: [0.45, 0.65],
-        close_confidence: [0.55, 0.85],
-        momentum_opposite_pressure_threshold: [0.04, 0.14],
-        momentum_opposite_pressure_cycles: [2, 5],
-        momentum_unprofitable_max_age_minutes: [90, 240],
-        breakout_opposite_pressure_threshold: [0.04, 0.14],
-        breakout_unprofitable_max_age_minutes: [45, 150],
-        mean_reversion_sigma_worsening_threshold: [0.5, 2.0],
-        mean_reversion_opposite_pressure_threshold: [0.02, 0.10],
-        mean_reversion_unprofitable_max_age_minutes: [20, 90],
-        fallback_opposite_pressure_threshold: [0.01, 0.08],
-        fallback_unprofitable_max_age_minutes: [15, 75]
+        close_confidence: [0.55, 0.85]
     }
 } as const;
 
@@ -147,6 +147,7 @@ export type ScoredConfig = {
     coverage: CoverageReport;
     rejected: boolean;
     rejection_reason?: string;
+    evaluation_status?: "ok" | "optimizer_rejected" | "runner_failed";
     fold_count?: number;
     fold_scores?: number[];
     fold_rejection_reasons?: string[];
@@ -170,6 +171,13 @@ export type CandidateConfigPair = {
 };
 
 export const PARAM_SCHEMA: OptimizerParamSchema[] = [
+    { target: "agent", path: "risk.max_positions", type: "int", min: PARAM_RANGES.risk.max_positions[0], max: PARAM_RANGES.risk.max_positions[1], mutateScale: 0.20 },
+    { target: "agent", path: "risk.max_position_fraction", type: "float", min: PARAM_RANGES.risk.max_position_fraction[0], max: PARAM_RANGES.risk.max_position_fraction[1], mutateScale: 0.20 },
+    { target: "agent", path: "risk.max_position_fraction_per_symbol", type: "float", min: PARAM_RANGES.risk.max_position_fraction_per_symbol[0], max: PARAM_RANGES.risk.max_position_fraction_per_symbol[1], mutateScale: 0.20 },
+    { target: "agent", path: "risk.max_total_exposure_fraction", type: "float", min: PARAM_RANGES.risk.max_total_exposure_fraction[0], max: PARAM_RANGES.risk.max_total_exposure_fraction[1], mutateScale: 0.20 },
+    { target: "agent", path: "risk.max_new_positions_per_cycle", type: "int", min: PARAM_RANGES.risk.max_new_positions_per_cycle[0], max: PARAM_RANGES.risk.max_new_positions_per_cycle[1], mutateScale: 0.20 },
+    { target: "agent", path: "risk.risk_per_trade_pct", type: "float", min: PARAM_RANGES.risk.risk_per_trade_pct[0], max: PARAM_RANGES.risk.risk_per_trade_pct[1], mutateScale: 0.20 },
+    { target: "agent", path: "risk.max_correlation_group_exposure_fraction", type: "float", min: PARAM_RANGES.risk.max_correlation_group_exposure_fraction[0], max: PARAM_RANGES.risk.max_correlation_group_exposure_fraction[1], mutateScale: 0.20 },
     { target: "agent", path: "triggers.mean_reversion.ret_sigma_threshold", type: "float", min: PARAM_RANGES.mean_reversion.ret_sigma_threshold[0], max: PARAM_RANGES.mean_reversion.ret_sigma_threshold[1], mutateScale: 0.20 },
     { target: "agent", path: "triggers.mean_reversion.book_pressure_min", type: "float", min: PARAM_RANGES.mean_reversion.book_pressure_min[0], max: PARAM_RANGES.mean_reversion.book_pressure_min[1], mutateScale: 0.20 },
     { target: "agent", path: "triggers.momentum.vol_ratio_min", type: "float", min: PARAM_RANGES.momentum.vol_ratio_min[0], max: PARAM_RANGES.momentum.vol_ratio_min[1], mutateScale: 0.20 },
@@ -181,16 +189,6 @@ export const PARAM_SCHEMA: OptimizerParamSchema[] = [
     { target: "agent", path: "cost_sanity.min_tp_to_cost_mult", type: "float", min: PARAM_RANGES.cost_sanity.min_tp_to_cost_mult[0], max: PARAM_RANGES.cost_sanity.min_tp_to_cost_mult[1], mutateScale: 0.18 },
     { target: "agent", path: "management_policy.hold_confidence", type: "float", min: PARAM_RANGES.management_policy.hold_confidence[0], max: PARAM_RANGES.management_policy.hold_confidence[1], mutateScale: 0.18 },
     { target: "agent", path: "management_policy.close_confidence", type: "float", min: PARAM_RANGES.management_policy.close_confidence[0], max: PARAM_RANGES.management_policy.close_confidence[1], mutateScale: 0.18 },
-    { target: "agent", path: "management_policy.playbook_aware.momentum.opposite_pressure_threshold", type: "float", min: PARAM_RANGES.management_policy.momentum_opposite_pressure_threshold[0], max: PARAM_RANGES.management_policy.momentum_opposite_pressure_threshold[1], mutateScale: 0.20 },
-    { target: "agent", path: "management_policy.playbook_aware.momentum.opposite_pressure_cycles", type: "int", min: PARAM_RANGES.management_policy.momentum_opposite_pressure_cycles[0], max: PARAM_RANGES.management_policy.momentum_opposite_pressure_cycles[1], mutateScale: 0.35 },
-    { target: "agent", path: "management_policy.playbook_aware.momentum.unprofitable_max_age_minutes", type: "int", min: PARAM_RANGES.management_policy.momentum_unprofitable_max_age_minutes[0], max: PARAM_RANGES.management_policy.momentum_unprofitable_max_age_minutes[1], mutateScale: 0.20 },
-    { target: "agent", path: "management_policy.playbook_aware.breakout.opposite_pressure_threshold", type: "float", min: PARAM_RANGES.management_policy.breakout_opposite_pressure_threshold[0], max: PARAM_RANGES.management_policy.breakout_opposite_pressure_threshold[1], mutateScale: 0.20 },
-    { target: "agent", path: "management_policy.playbook_aware.breakout.unprofitable_max_age_minutes", type: "int", min: PARAM_RANGES.management_policy.breakout_unprofitable_max_age_minutes[0], max: PARAM_RANGES.management_policy.breakout_unprofitable_max_age_minutes[1], mutateScale: 0.20 },
-    { target: "agent", path: "management_policy.playbook_aware.mean_reversion.sigma_worsening_threshold", type: "float", min: PARAM_RANGES.management_policy.mean_reversion_sigma_worsening_threshold[0], max: PARAM_RANGES.management_policy.mean_reversion_sigma_worsening_threshold[1], mutateScale: 0.20 },
-    { target: "agent", path: "management_policy.playbook_aware.mean_reversion.opposite_pressure_threshold", type: "float", min: PARAM_RANGES.management_policy.mean_reversion_opposite_pressure_threshold[0], max: PARAM_RANGES.management_policy.mean_reversion_opposite_pressure_threshold[1], mutateScale: 0.20 },
-    { target: "agent", path: "management_policy.playbook_aware.mean_reversion.unprofitable_max_age_minutes", type: "int", min: PARAM_RANGES.management_policy.mean_reversion_unprofitable_max_age_minutes[0], max: PARAM_RANGES.management_policy.mean_reversion_unprofitable_max_age_minutes[1], mutateScale: 0.20 },
-    { target: "agent", path: "management_policy.playbook_aware.fallback.opposite_pressure_threshold", type: "float", min: PARAM_RANGES.management_policy.fallback_opposite_pressure_threshold[0], max: PARAM_RANGES.management_policy.fallback_opposite_pressure_threshold[1], mutateScale: 0.20 },
-    { target: "agent", path: "management_policy.playbook_aware.fallback.unprofitable_max_age_minutes", type: "int", min: PARAM_RANGES.management_policy.fallback_unprofitable_max_age_minutes[0], max: PARAM_RANGES.management_policy.fallback_unprofitable_max_age_minutes[1], mutateScale: 0.20 },
     { target: "screener", path: "maxSpreadBps", type: "float", min: PARAM_RANGES.screener.maxSpreadBps[0], max: PARAM_RANGES.screener.maxSpreadBps[1], mutateScale: 0.20 },
     { target: "screener", path: "minDepthUsd", type: "float", min: PARAM_RANGES.screener.minDepthUsd[0], max: PARAM_RANGES.screener.minDepthUsd[1], mutateScale: 0.20 },
     { target: "screener", path: "maxCostBps", type: "float", min: PARAM_RANGES.screener.maxCostBps[0], max: PARAM_RANGES.screener.maxCostBps[1], mutateScale: 0.20 },
@@ -198,6 +196,7 @@ export const PARAM_SCHEMA: OptimizerParamSchema[] = [
     { target: "screener", path: "recentVolumeMinutes", type: "int", min: PARAM_RANGES.screener.recentVolumeMinutes[0], max: PARAM_RANGES.screener.recentVolumeMinutes[1], mutateScale: 0.20 },
     { target: "screener", path: "minRealizedVol", type: "float", min: PARAM_RANGES.screener.minRealizedVol[0], max: PARAM_RANGES.screener.minRealizedVol[1], mutateScale: 0.20 },
     { target: "screener", path: "minVolume24h", type: "float", min: PARAM_RANGES.screener.minVolume24h[0], max: PARAM_RANGES.screener.minVolume24h[1], mutateScale: 0.20 },
+    { target: "screener", path: "topN", type: "int", min: PARAM_RANGES.screener.topN[0], max: PARAM_RANGES.screener.topN[1], mutateScale: 0.25 },
     { target: "screener", path: "quality_weights.vol_score", type: "float", min: PARAM_RANGES.screener.qualityWeight[0], max: PARAM_RANGES.screener.qualityWeight[1], mutateScale: 0.25 },
     { target: "screener", path: "quality_weights.move_score", type: "float", min: PARAM_RANGES.screener.qualityWeight[0], max: PARAM_RANGES.screener.qualityWeight[1], mutateScale: 0.25 },
     { target: "screener", path: "quality_weights.trend_align", type: "float", min: PARAM_RANGES.screener.qualityWeight[0], max: PARAM_RANGES.screener.qualityWeight[1], mutateScale: 0.25 },
@@ -229,6 +228,7 @@ export type OptimizerTrialWorkerResult = {
 };
 
 const REJECTED_SCORE = -1_000_000_000;
+const OPTIMIZER_WORKER_HEAP_MB = optionalPositiveInt(Number(process.env.BACKTEST_OPTIMIZER_WORKER_HEAP_MB));
 
 export interface ChampionChallengerResult {
     champion: AgentConfig;
@@ -354,8 +354,8 @@ export function scoreMetrics(metrics: BacktestMetrics, coverage?: CoverageReport
     const turnoverCostBps = metrics.turnover_usd > 0
         ? (metrics.turnover_cost_usd / metrics.turnover_usd) * 10000
         : 0;
-    return metrics.net_pnl_bps
-        - 2.0 * metrics.max_drawdown_bps
+    return 2.0 * metrics.net_pnl_bps
+        - metrics.max_drawdown_bps
         - 0.5 * turnoverCostBps
         - penalty;
 }
@@ -417,6 +417,23 @@ export class WalkForwardOptimizer {
             );
             allFullResults.push(...generationResults.fullResults);
 
+            if (settings.outputDir) {
+                await fs.writeFile(
+                    path.join(settings.outputDir, `generation_${generation}_results.json`),
+                    JSON.stringify(generationResults.fullResults, null, 2)
+                );
+            }
+
+            if (
+                generationResults.fullResults.length > 0 &&
+                generationResults.fullResults.every(isRunnerFailure)
+            ) {
+                throw new Error(
+                    `All full optimizer evaluations failed in generation ${generation}; ` +
+                    `first failure: ${generationResults.fullResults[0].rejection_reason}`
+                );
+            }
+
             const eligibleParents = selectMutationParents(allFullResults, settings);
             const summary = buildGenerationSummary(
                 generation,
@@ -426,13 +443,6 @@ export class WalkForwardOptimizer {
                 eligibleParents.nearMisses.map(result => result.config_hash)
             );
             generationSummaries.push(summary);
-
-            if (settings.outputDir) {
-                await fs.writeFile(
-                    path.join(settings.outputDir, `generation_${generation}_results.json`),
-                    JSON.stringify(generationResults.fullResults, null, 2)
-                );
-            }
         }
 
         const sorted = sortScoredConfigs(dedupeResultsByHash(allFullResults))
@@ -683,7 +693,7 @@ function runTrialsInWorkers(
         };
 
         for (let i = 0; i < workerCount; i++) {
-            const worker = new Worker(new URL("./OptimizerTrialWorker.cjs", import.meta.url));
+            const worker = createOptimizerWorker();
             workers.push(worker);
             worker.on("message", (message: OptimizerTrialWorkerResult) => {
                 if (message?.type !== "result") return;
@@ -944,7 +954,7 @@ function runCandidateTasksInWorkers(
         };
 
         for (let i = 0; i < workerCount; i++) {
-            const worker = new Worker(new URL("./OptimizerTrialWorker.cjs", import.meta.url));
+            const worker = createOptimizerWorker();
             workers.push(worker);
             worker.on("message", (message: OptimizerTrialWorkerResult) => {
                 if (message?.type !== "result") return;
@@ -1010,6 +1020,19 @@ export function isHardOptimizerReject(reason: string | undefined): boolean {
     );
 }
 
+function createOptimizerWorker(): Worker {
+    const workerUrl = new URL("./OptimizerTrialWorker.cjs", import.meta.url);
+    if (!OPTIMIZER_WORKER_HEAP_MB) return new Worker(workerUrl);
+    return new Worker(workerUrl, /* @vite-ignore */ {
+        resourceLimits: { maxOldGenerationSizeMb: OPTIMIZER_WORKER_HEAP_MB }
+    });
+}
+
+function optionalPositiveInt(value: number | undefined): number | undefined {
+    if (!Number.isFinite(value)) return undefined;
+    return Math.max(1, Math.floor(value as number));
+}
+
 function positiveInt(value: number | undefined, fallback: number): number {
     if (!Number.isFinite(value)) return fallback;
     return Math.max(1, Math.floor(value as number));
@@ -1033,7 +1056,8 @@ function scoreConfigRun(
         coverage,
         score: rejection ? REJECTED_SCORE : scoreMetrics(metrics, coverage),
         rejected: !!rejection,
-        rejection_reason: rejection ?? undefined
+        rejection_reason: rejection ?? undefined,
+        evaluation_status: rejection ? "optimizer_rejected" : "ok"
     };
 }
 
@@ -1247,8 +1271,13 @@ function failedScoredConfig(agentConfig: AgentConfig, screenerConfig: ScreenerCo
         coverage: emptyCoverage(),
         score: REJECTED_SCORE,
         rejected: true,
-        rejection_reason: reason
+        rejection_reason: reason,
+        evaluation_status: reason.startsWith("runner_error:") ? "runner_failed" : "optimizer_rejected"
     };
+}
+
+function isRunnerFailure(result: ScoredConfig): boolean {
+    return result.evaluation_status === "runner_failed" || result.rejection_reason?.startsWith("runner_error:") === true;
 }
 
 function emptyCoverage(): CoverageReport {

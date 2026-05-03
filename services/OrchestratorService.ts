@@ -1,7 +1,13 @@
 import { SnapshotBuilder, StateSnapshot } from "./SnapshotBuilder";
 import { MarketEntry, GlobalRegime } from "@/types/snapshot";
-import { CandidateJournalStatus, EligibleCandidate, LlmRunStatus, ManagedPosition, TraderContext, TraderContextDiagnostics, TraderDecision, TradeDecision, RiskAssessment } from "@/types/trading";
+import { EligibleCandidate, LlmRunStatus, ManagedPosition, TraderContext, TraderContextDiagnostics, TraderDecision, TradeDecision, RiskAssessment } from "@/types/trading";
 import { RiskCheckModule } from "@/lib/risk/RiskCheckModule";
+import {
+    assessDecisionsForRisk,
+    buildBackendDecisions,
+    isNoTradeAction,
+    resolveCandidateJournalStatus
+} from "@/lib/trader/TraderWorkflow";
 import {
     computeSizeFraction,
     clampRiskPlan,
@@ -378,7 +384,7 @@ export class OrchestratorService {
         const validation = this.traderDecisionValidator.validateBatch(llmResult.decisions, context);
 
         if (!validation.accepted) {
-            const invalidDecisions = this.buildBackendDecisions(llmResult.decisions, context, validation.reason);
+            const invalidDecisions = buildBackendDecisions(llmResult.decisions, context, validation.reason);
             await this.saveLlmInteraction(llmResult.prompt, llmResult.rawOutput, invalidDecisions, isTestnet);
             await this.journalTraderContext(context, llmResult.decisions, validation, new Map());
             return {
@@ -391,24 +397,18 @@ export class OrchestratorService {
             };
         }
 
-        const decisions = this.buildBackendDecisions(llmResult.decisions, context, "accepted");
+        const decisions = buildBackendDecisions(llmResult.decisions, context, "accepted");
         await this.saveLlmInteraction(llmResult.prompt, llmResult.rawOutput, decisions, isTestnet);
 
-        const riskAssessments: RiskAssessment[] = [];
+        const { riskAssessments } = assessDecisionsForRisk(decisions, snapshot, this.riskModule);
         const executionResults = new Map<string, { attempted: boolean; success: boolean; error?: string }>();
-        let newPositionsCount = 0;
 
-        for (const decision of decisions) {
-            if (decision.action === "SKIP" || decision.action === "HOLD_POSITION" || decision.action === "HOLD") {
-                riskAssessments.push({ approved: true, reason: "No trade proposed" });
+        for (let i = 0; i < decisions.length; i++) {
+            const decision = decisions[i];
+            const riskAssessment = riskAssessments[i];
+
+            if (isNoTradeAction(decision.action)) {
                 continue;
-            }
-
-            const riskAssessment = this.riskModule.assess(decision, snapshot, { newPositionsCount });
-            riskAssessments.push(riskAssessment);
-
-            if (riskAssessment.approved && decision.action === "OPEN_POSITION") {
-                newPositionsCount++;
             }
 
             let executionResult: any = null;
@@ -470,80 +470,6 @@ export class OrchestratorService {
                 snapshot_id: context.snapshot_id
             }
         };
-    }
-
-    private buildBackendDecisions(traderDecisions: TraderDecision[], context: TraderContext, validatorReason: string): TradeDecision[] {
-        return traderDecisions.map(decision => {
-            if (decision.scope === "candidate") {
-                const candidate = context.eligible_candidates.find(c => c.candidate_id === decision.candidate_id);
-                const side = decision.target_side === "flat" ? null : decision.target_side;
-
-                return {
-                    scope: decision.scope,
-                    candidate_id: decision.candidate_id,
-                    action: decision.action,
-                    symbol: decision.symbol || candidate?.symbol || null,
-                    side,
-                    target_side: decision.target_side,
-                    target_size_fraction_of_equity: decision.target_size_fraction_of_equity,
-                    size_fraction_of_equity: decision.target_size_fraction_of_equity,
-                    risk_plan: decision.action === "OPEN_POSITION" && candidate ? {
-                        stop_loss_pct: candidate.risk.stop_loss_pct,
-                        take_profit_pct_primary: candidate.risk.take_profit_pct_primary
-                    } : null,
-                    playbook: decision.playbook || candidate?.eligible_playbooks[0] || "none",
-                    confidence: decision.confidence,
-                    reason_code: decision.reason_code,
-                    notes: decision.notes,
-                    audit: candidate ? {
-                        candidate_id: candidate.candidate_id,
-                        cost_bps: candidate.market_quality.cost_bps,
-                        edge_bps: candidate.market_quality.edge_bps,
-                        book_pressure: candidate.market_quality.book_pressure,
-                        depth_usd: candidate.market_quality.min_depth_usd,
-                        vol_ratio_5m_vs_1h: candidate.market_quality.vol_ratio_5m_vs_1h,
-                        ret_sigma_5m_vs_1h: candidate.market_quality.ret_sigma_5m_vs_1h,
-                        computed_stop_loss_pct: candidate.risk.stop_loss_pct,
-                        computed_take_profit_pct_primary: candidate.risk.take_profit_pct_primary,
-                        computed_size_fraction_of_equity: decision.target_size_fraction_of_equity,
-                        max_allowed_size_fraction: candidate.sizing.max_allowed_size_fraction,
-                        suggested_size_fraction: candidate.sizing.suggested_size_fraction,
-                        validator_status: validatorReason === "accepted" ? "accepted" : "rejected",
-                        validator_reason: validatorReason
-                    } : {
-                        validator_status: "rejected",
-                        validator_reason: validatorReason
-                    }
-                };
-            }
-
-            const position = context.existing_positions.find(p => p.symbol === decision.symbol);
-            const targetSide = decision.action === "CLOSE_POSITION" ? "flat" : decision.target_side;
-            return {
-                scope: decision.scope,
-                candidate_id: null,
-                action: decision.action,
-                symbol: decision.symbol,
-                side: targetSide === "flat" ? null : targetSide,
-                target_side: targetSide,
-                target_size_fraction_of_equity: decision.target_size_fraction_of_equity,
-                size_fraction_of_equity: decision.target_size_fraction_of_equity,
-                risk_plan: null,
-                playbook: decision.playbook || "none",
-                confidence: decision.confidence,
-                reason_code: decision.reason_code,
-                notes: decision.notes,
-                audit: {
-                    validator_status: validatorReason === "accepted" ? "accepted" : "rejected",
-                    validator_reason: validatorReason,
-                    computed_size_fraction_of_equity: decision.target_size_fraction_of_equity,
-                    candidate_id: null,
-                    book_pressure: position?.market_signal.book_pressure ?? null,
-                    vol_ratio_5m_vs_1h: position?.market_signal.vol_ratio_5m_vs_1h ?? null,
-                    ret_sigma_5m_vs_1h: position?.market_signal.ret_sigma_5m_vs_1h ?? null
-                }
-            };
-        });
     }
 
     private async executeApprovedDecision(
@@ -668,7 +594,7 @@ export class OrchestratorService {
                 side: candidate.side,
                 playbook: candidate.eligible_playbooks[0],
                 scope: "candidate",
-                status: this.resolveCandidateJournalStatus(decision, validation, execution),
+                status: resolveCandidateJournalStatus(decision, validation, execution),
                 llmAction: decision?.action ?? null,
                 llmConfidence: decision?.confidence ?? null,
                 llmNotes: decision?.notes ?? null,
@@ -711,19 +637,6 @@ export class OrchestratorService {
         } catch (error) {
             console.warn("⚠️ Failed to write candidate journal:", error);
         }
-    }
-
-    private resolveCandidateJournalStatus(
-        decision: TraderDecision | undefined,
-        validation: { accepted: boolean; reason: string },
-        execution?: { attempted: boolean; success: boolean; error?: string }
-    ): CandidateJournalStatus {
-        if (!decision) return "no_llm_decision";
-        if (!validation.accepted && decision.action === "OPEN_POSITION") return "llm_approved_but_validator_rejected";
-        if (decision.action === "SKIP") return "eligible_but_llm_skipped";
-        if (execution?.success) return "executed";
-        if (execution?.attempted && !execution.success) return "validator_accepted_but_execution_failed";
-        return "validator_accepted";
     }
 
     private resolveProfileName(configOverride?: any): string {

@@ -50,6 +50,7 @@ prisma/*.db-*
 next-env.d.ts
 
 # python
+.venv-backtest/
 sentiment/venv/
 *.pyc
 __pycache__/
@@ -57,5 +58,4 @@ logs/*
 prisma/market/dev.db
 data/hyperliquid/
 data/features/
-data/backtests/
-data/tmp/
+data/*

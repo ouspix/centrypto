@@ -8,12 +8,15 @@ export const ALLOWED_FEATURE_INTERVALS = [1, 5, 10, 30, 60] as const;
 export type FeatureIntervalSeconds = typeof ALLOWED_FEATURE_INTERVALS[number];
 
 export type BacktestPolicyName =
+    | "main_app_deterministic"
     | "take_none"
     | "take_top_rank"
     | "take_best_edge_cost"
     | "clean_only"
     | "recorded_llm"
     | "real_llm";
+
+export type BacktestDecisionMode = "deterministic" | "recorded_llm" | "real_llm";
 
 export type HydrationConfig = {
     enabled: boolean;
@@ -119,13 +122,16 @@ export interface BacktestRunConfig {
     screeningConfig: ScreenerConfig;
     agentConfig: AgentConfig;
     policyName: BacktestPolicyName;
+    decisionMode?: BacktestDecisionMode;
     managementPolicyName: "never_close" | "playbook_aware";
     seed: number;
+    universeSymbols?: string[];
     featureDbPath?: string;
     runId?: string;
     writeArtifacts?: boolean;
     suppressConsoleWarnings?: boolean;
     cacheDataSource?: boolean;
+    loadExecutionBooks?: boolean;
     hydration?: HydrationConfig;
     llm?: BacktestLlmConfig;
     slTpExecution?: {

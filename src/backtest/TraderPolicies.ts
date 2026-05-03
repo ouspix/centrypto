@@ -1,9 +1,10 @@
 import fs from "fs/promises";
 import { DEFAULT_AGENT_CONFIG, AgentConfig } from "@/lib/agent-config";
+import { MainAppDeterministicProvider, TraderDecisionProvider } from "@/lib/trader/TraderWorkflow";
 import { EligibleCandidate, TraderContext, TraderDecision } from "@/types/trading";
 import { parseTraderResponse } from "@/lib/llm/LlmResponseParser";
 import { TRADER_AGENT_SYSTEM_PROMPT } from "@/prompts/TraderAgent";
-import { BacktestLlmConfig, PositionManagementPolicy, SimPosition, TraderPolicy } from "./BacktestTypes";
+import { BacktestDecisionMode, BacktestLlmConfig, PositionManagementPolicy, SimPosition, TraderPolicy } from "./BacktestTypes";
 
 export class TakeNoneTrader implements TraderPolicy {
     constructor(private readonly managementPolicy: PositionManagementPolicy = new NeverClosePolicy()) {}
@@ -72,15 +73,14 @@ export class RecordedLLMTrader implements TraderPolicy {
 
     constructor(
         private readonly config: BacktestLlmConfig,
-        private readonly managementPolicy: PositionManagementPolicy = new NeverClosePolicy(),
-        private readonly positions: Map<string, SimPosition> = new Map()
+        private readonly fallbackProvider: TraderDecisionProvider = new MainAppDeterministicProvider()
     ) {}
 
     public async decide(ctx: TraderContext): Promise<TraderDecision[]> {
         await this.load();
         const recorded = this.decisionsByTimestamp.get(ctx.timestamp) ?? [];
         if (recorded.length > 0) return recorded;
-        return manageExisting(ctx, this.managementPolicy, this.positions);
+        return this.fallbackProvider.decide(ctx);
     }
 
     private async load(): Promise<void> {
@@ -213,20 +213,38 @@ export function buildTraderPolicy(
     name: string,
     managementPolicy: PositionManagementPolicy,
     positions: Map<string, SimPosition>,
-    llmConfig?: BacktestLlmConfig
+    llmConfig?: BacktestLlmConfig,
+    agentConfig: AgentConfig = DEFAULT_AGENT_CONFIG
 ): TraderPolicy {
-    if (name === "take_none") return new TakeNoneTrader(managementPolicy);
-    if (name === "take_best_edge_cost") return new TakeBestEdgeCostTrader(managementPolicy, positions);
-    if (name === "clean_only") return new CleanOnlyTrader(managementPolicy, positions);
     if (name === "recorded_llm") {
         if (!llmConfig?.enabled) throw new Error("recorded_llm policy requires llm.enabled");
-        return new RecordedLLMTrader(llmConfig, managementPolicy, positions);
+        return new RecordedLLMTrader(llmConfig, new MainAppDeterministicProvider(agentConfig));
     }
     if (name === "real_llm") {
         if (!llmConfig?.enabled) throw new Error("real_llm policy requires explicit llm.enabled");
         return new RealLLMTrader(llmConfig);
     }
-    return new TakeTopRankTrader(managementPolicy, positions);
+    return new MainAppDeterministicProvider(agentConfig);
+}
+
+export function buildDecisionProvider(input: {
+    decisionMode?: BacktestDecisionMode;
+    policyName: string;
+    managementPolicy: PositionManagementPolicy;
+    positions: Map<string, SimPosition>;
+    llmConfig?: BacktestLlmConfig;
+    agentConfig: AgentConfig;
+}): TraderDecisionProvider {
+    const mode = input.decisionMode ?? decisionModeFromLegacyPolicy(input.policyName);
+    if (mode === "recorded_llm") {
+        if (!input.llmConfig?.enabled) throw new Error("recorded_llm policy requires llm.enabled");
+        return new RecordedLLMTrader(input.llmConfig, new MainAppDeterministicProvider(input.agentConfig));
+    }
+    if (mode === "real_llm") {
+        if (!input.llmConfig?.enabled) throw new Error("real_llm policy requires explicit llm.enabled");
+        return new RealLLMTrader(input.llmConfig);
+    }
+    return new MainAppDeterministicProvider(input.agentConfig);
 }
 
 export function buildManagementPolicy(name: string, config: AgentConfig = DEFAULT_AGENT_CONFIG): PositionManagementPolicy {
@@ -270,6 +288,12 @@ function manageExisting(
         decisions.push(policy.decide(sim, ctx));
     }
     return decisions;
+}
+
+function decisionModeFromLegacyPolicy(policyName: string): BacktestDecisionMode {
+    if (policyName === "recorded_llm") return "recorded_llm";
+    if (policyName === "real_llm") return "real_llm";
+    return "deterministic";
 }
 
 function openDecision(candidate: EligibleCandidate, notes: string): TraderDecision {

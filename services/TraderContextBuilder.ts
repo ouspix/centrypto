@@ -64,7 +64,8 @@ export class TraderContextBuilder {
                     kill_switch: snapshot.constraints.kill_switch
                 },
                 existing_positions: existingPositions,
-                eligible_candidates: eligibleCandidates
+                eligible_candidates: eligibleCandidates,
+                max_new_trades_allowed: selection.diagnostics.max_new_trades_allowed
             },
             candidateMap,
             diagnostics: selection.diagnostics

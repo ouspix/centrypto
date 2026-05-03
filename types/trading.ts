@@ -143,6 +143,7 @@ export type TraderContext = {
     };
     existing_positions: ManagedPosition[];
     eligible_candidates: EligibleCandidate[];
+    max_new_trades_allowed?: number;
 };
 
 export type ManagedPosition = {

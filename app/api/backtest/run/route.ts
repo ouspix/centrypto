@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { AGENT_PRESETS } from "@/lib/agent-config";
 import { SCREENER_PRESETS } from "@/lib/screener-config";
 import { BacktestRunner } from "@/src/backtest/BacktestRunner";
-import { BacktestPolicyName } from "@/src/backtest/BacktestTypes";
+import { BacktestDecisionMode, BacktestLlmConfig, BacktestPolicyName } from "@/src/backtest/BacktestTypes";
 import { InternalAuthError, requireInternalRequest } from "@/lib/auth/internal";
 
 type BacktestRequestBody = {
@@ -15,10 +15,17 @@ type BacktestRequestBody = {
     screeningPresetName?: string;
     agentPresetName?: string;
     policyName?: BacktestPolicyName;
+    decisionMode?: BacktestDecisionMode;
     managementPolicyName?: "never_close" | "playbook_aware";
     seed?: number;
     featureDbPath?: string;
     runId?: string;
+    llm?: BacktestLlmConfig;
+    llmEnabled?: boolean;
+    llmModel?: string;
+    llmDecisions?: string;
+    llmTrace?: string;
+    ollamaBaseUrl?: string;
 };
 
 export async function POST(request: Request) {
@@ -41,6 +48,7 @@ export async function POST(request: Request) {
         if (!screeningConfig) {
             return NextResponse.json({ error: `Unknown screening preset: ${screeningPresetName}` }, { status: 400 });
         }
+        const decisionMode = body.decisionMode ?? decisionModeFromPolicy(body.policyName);
 
         const result = await new BacktestRunner().run({
             network: body.network ?? "mainnet",
@@ -52,11 +60,13 @@ export async function POST(request: Request) {
             agentPresetName,
             screeningConfig,
             agentConfig,
-            policyName: body.policyName ?? "take_top_rank",
-            managementPolicyName: body.managementPolicyName ?? "playbook_aware",
+            policyName: body.policyName ?? "main_app_deterministic",
+            decisionMode,
+            managementPolicyName: body.managementPolicyName ?? "never_close",
             seed: body.seed ?? 1,
             featureDbPath: body.featureDbPath,
-            runId: body.runId
+            runId: body.runId,
+            llm: buildLlmConfig(body, decisionMode)
         });
 
         return NextResponse.json({
@@ -78,6 +88,25 @@ export async function POST(request: Request) {
         console.error("Backtest API Error:", error);
         return NextResponse.json({ error: message }, { status });
     }
+}
+
+function decisionModeFromPolicy(policyName: BacktestPolicyName | undefined): BacktestDecisionMode {
+    if (policyName === "recorded_llm" || policyName === "real_llm") return policyName;
+    return "deterministic";
+}
+
+function buildLlmConfig(body: BacktestRequestBody, decisionMode: BacktestDecisionMode): BacktestLlmConfig | undefined {
+    if (decisionMode !== "real_llm" && decisionMode !== "recorded_llm") return undefined;
+    if (body.llm) return body.llm;
+    if (!body.llmEnabled) throw new Error(`${decisionMode} requires llmEnabled`);
+    if (decisionMode === "recorded_llm" && !body.llmDecisions) throw new Error("recorded_llm requires llmDecisions");
+    return {
+        enabled: true,
+        model: body.llmModel ?? "llama3.1",
+        decisionsPath: body.llmDecisions,
+        tracePath: body.llmTrace,
+        ollamaBaseUrl: body.ollamaBaseUrl
+    };
 }
 
 function parseDate(value: string | undefined, name: string): Date {

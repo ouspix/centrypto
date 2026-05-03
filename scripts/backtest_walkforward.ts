@@ -3,9 +3,10 @@ import os from "os";
 import path from "path";
 import { AGENT_PRESETS } from "@/lib/agent-config";
 import { SCREENER_PRESETS } from "@/lib/screener-config";
+import { selectTopBacktestSymbolsFromDb } from "@/src/backtest/ArchiveHydrator";
 import { assertOptimizerCandlePreflight, hydrateBacktestDataForRun } from "@/src/backtest/BacktestHydration";
 import { BacktestRunConfig } from "@/src/backtest/BacktestTypes";
-import { DEFAULT_OPTIMIZER_SCORE_GATES, OptimizerScoreGates, WalkForwardOptimizer } from "@/src/backtest/WalkForwardOptimizer";
+import { DEFAULT_OPTIMIZER_SCORE_GATES, OptimizerProgress, OptimizerScoreGates, WalkForwardOptimizer } from "@/src/backtest/WalkForwardOptimizer";
 
 type SlTpExecution = NonNullable<BacktestRunConfig["slTpExecution"]>;
 
@@ -23,8 +24,9 @@ async function main() {
     const start = new Date(required(args.start, "--start is required"));
     const end = new Date(required(args.end, "--end is required"));
     const intervalSeconds = Number(args["interval-seconds"] ?? 10);
-    const policyName = (args.policy ?? "take_top_rank") as any;
-    if (policyName === "real_llm") throw new Error("real_llm is disabled for walk-forward search. Use deterministic or recorded_llm policies.");
+    const policyName = (args.policy ?? "main_app_deterministic") as any;
+    const decisionMode = parseDecisionMode(args["decision-mode"], policyName);
+    if (decisionMode === "real_llm") throw new Error("real_llm is disabled for walk-forward search. Use deterministic or recorded_llm policies.");
     const scoreGates = buildScoreGates(args);
     const hydrateArchive = args["hydrate-archive"] === "true" || args.hydrate === "true";
     const hydrateRealCandles = args["hydrate-real-candles"] === "true";
@@ -43,14 +45,16 @@ async function main() {
             downloadConcurrency: Number(args["download-concurrency"] ?? 6),
             lookbackHours: Number(args["lookback-hours"] ?? 1),
             tmpRoot: args["tmp-root"],
-            keepTmp: args["keep-tmp"] === "true"
+            keepTmp: args["keep-tmp"] === "true",
+            skipSyntheticCandles: args["skip-synthetic-candles"] === "true"
         }
     });
+    const optimizerUniverseSymbols = await resolveOptimizerUniverse(args, hydration.archive?.symbols, start, end, intervalSeconds);
     await assertOptimizerCandlePreflight({
         dbPath: args.db,
         start,
         end,
-        symbols: hydration.archive?.symbols,
+        symbols: optimizerUniverseSymbols,
         scoreGates,
         hydrateRealCandlesRequested: hydrateRealCandles
     });
@@ -65,14 +69,17 @@ async function main() {
         screeningConfig: screening,
         agentConfig: base,
         policyName,
-        managementPolicyName: (args.management ?? "playbook_aware") as any,
+        decisionMode,
+        managementPolicyName: (args.management ?? "never_close") as any,
         seed: Number(args.seed ?? 1),
+        universeSymbols: optimizerUniverseSymbols,
         featureDbPath: args.db,
         runId: args["run-id"] ?? "walkforward",
         writeArtifacts: args["write-trial-artifacts"] === "true",
         suppressConsoleWarnings: true,
         cacheDataSource: true,
-        llm: buildLlmConfig(args, policyName),
+        loadExecutionBooks: shouldLoadExecutionBooks(args),
+        llm: buildLlmConfig(args, decisionMode),
         slTpExecution: buildSlTpExecution(args, base, (args.network ?? "mainnet") as "mainnet" | "testnet")
     };
 
@@ -101,6 +108,7 @@ async function main() {
         fold_count: r.fold_count,
         score: r.score,
         rejected: r.rejected,
+        evaluation_status: r.evaluation_status,
         rejection_reason: r.rejection_reason,
         metrics: r.metrics
     })), null, 2));
@@ -118,10 +126,16 @@ function parseConcurrency(value: string | undefined, fallback: number): number {
     return Math.floor(parsed);
 }
 
-function buildProgressLogger(label: string): (progress: { completed: number; total: number }) => void {
+function buildProgressLogger(label: string): (progress: OptimizerProgress) => void {
     let lastLog = 0;
     const started = Date.now();
     return progress => {
+        if (progress.result?.evaluation_status === "runner_failed") {
+            console.error(
+                `[${label}] trial ${progress.trialIndex} runner failed: ` +
+                `${progress.result.rejection_reason ?? "unknown runner error"}`
+            );
+        }
         const now = Date.now();
         if (progress.completed < progress.total && now - lastLog < 5000) return;
         lastLog = now;
@@ -135,6 +149,35 @@ function buildProgressLogger(label: string): (progress: { completed: number; tot
             ` (${trialsPerSecond.toFixed(2)}/s${etaSeconds === null ? "" : `, eta ${etaSeconds}s`})`
         );
     };
+}
+
+async function resolveOptimizerUniverse(
+    args: Record<string, string>,
+    hydratedSymbols: string[] | undefined,
+    start: Date,
+    end: Date,
+    intervalSeconds: number
+): Promise<string[]> {
+    const hydrated = hydratedSymbols?.filter(Boolean) ?? [];
+    const requestedSize = Number(args["universe-size"] ?? args["top-symbols"] ?? 15);
+    const symbols = hydrated.length > 0
+        ? hydrated
+        : await selectTopBacktestSymbolsFromDb({
+            dbPath: args.db,
+            start,
+            end,
+            intervalSeconds,
+            limit: requestedSize
+        });
+    if (symbols.length === 0) {
+        throw new Error("Unable to select walk-forward universe from existing backtest DB. Run with --hydrate-archive true or hydrate the requested window first.");
+    }
+    console.log(`[backtest:walkforward] Using optimizer universe (${symbols.length}): ${symbols.join(",")}`);
+    return symbols;
+}
+
+function shouldLoadExecutionBooks(args: Record<string, string>): boolean {
+    return args["load-execution-books"] === "true" || args["sl-tp-slippage-mode"] === "book_or_fallback";
 }
 
 function parseArgs(argv: string[]): Record<string, string> {
@@ -152,9 +195,17 @@ function required(value: string | undefined, message: string): string {
     return value;
 }
 
-function buildLlmConfig(args: Record<string, string>, policyName: string) {
-    if (policyName !== "recorded_llm") return undefined;
+function parseDecisionMode(value: string | undefined, policyName: string): "deterministic" | "recorded_llm" | "real_llm" {
+    if (value === "deterministic" || value === "recorded_llm" || value === "real_llm") return value;
+    if (value) throw new Error("--decision-mode must be deterministic, recorded_llm, or real_llm");
+    if (policyName === "real_llm" || policyName === "recorded_llm") return policyName;
+    return "deterministic";
+}
+
+function buildLlmConfig(args: Record<string, string>, decisionMode: string) {
+    if (decisionMode !== "recorded_llm") return undefined;
     if (args["llm-enabled"] !== "true") throw new Error("recorded_llm requires --llm-enabled true");
+    if (!args["llm-decisions"]) throw new Error("recorded_llm requires --llm-decisions");
     return {
         enabled: true,
         model: args["llm-model"] ?? "recorded",

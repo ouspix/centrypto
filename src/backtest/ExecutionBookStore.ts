@@ -7,12 +7,15 @@ type DbClient = Pick<PrismaClient, "$executeRawUnsafe" | "$queryRawUnsafe">;
 
 const BOOK_UPSERT_BATCH_SIZE = 1000;
 const WRITE_TRANSACTION_TIMEOUT_MS = 600_000;
-const BOOK_QUERY_CHUNK_MS = 6 * 60 * 60_000;
+const BOOK_QUERY_CHUNK_MS = positiveInt(Number(process.env.BACKTEST_BOOK_QUERY_CHUNK_MINUTES), 60) * 60_000;
+const BOOK_QUERY_ROW_LIMIT = positiveInt(Number(process.env.BACKTEST_BOOK_QUERY_ROW_LIMIT), 5000);
 
 export type ExecutionBookStoreOptions = {
     db?: DbClient;
     dbPath?: string;
 };
+
+export type ExecutionBookKey = Pick<ExecutionBookSnapshot, "ts" | "symbol" | "intervalSeconds">;
 
 export class ExecutionBookStore {
     private readonly db: DbClient;
@@ -93,25 +96,149 @@ export class ExecutionBookStore {
         await this.ensureSchema();
         if (start > end) return [];
 
-        const symbolFilter = symbols?.length
-            ? `AND "symbol" IN (${symbols.map(() => "?").join(",")})`
+        const normalizedSymbols = symbols?.length
+            ? Array.from(new Set(symbols.map(toPerpSymbol))).sort()
+            : undefined;
+        const symbolFilter = normalizedSymbols?.length
+            ? `AND "symbol" IN (${normalizedSymbols.map(() => "?").join(",")})`
             : "";
         const books: ExecutionBookSnapshot[] = [];
         for (const chunk of bookQueryChunks(start, end)) {
             const endOperator = chunk.final ? "<=" : "<";
-            const params = symbols?.length
-                ? [chunk.start, chunk.end, intervalSeconds, ...symbols]
-                : [chunk.start, chunk.end, intervalSeconds];
-            const rows = await this.db.$queryRawUnsafe<any[]>(
-                `SELECT "ts", "symbol", "intervalSeconds", "bidsJson", "asksJson" FROM "MarketBook"
-                 WHERE "ts" >= ? AND "ts" ${endOperator} ? AND "intervalSeconds" = ? ${symbolFilter}
-                 ORDER BY "ts" ASC, "symbol" ASC`,
-                ...params
-            );
-            books.push(...rows.map(mapBookRow));
+            let afterTs: Date | null = null;
+            let afterSymbol = "";
+
+            while (true) {
+                const cursorFilter = afterTs
+                    ? `AND ("ts" > ? OR ("ts" = ? AND "symbol" > ?))`
+                    : "";
+                const params = [
+                    chunk.start,
+                    chunk.end,
+                    intervalSeconds,
+                    ...(normalizedSymbols ?? []),
+                    ...(afterTs ? [afterTs, afterTs, afterSymbol] : []),
+                    BOOK_QUERY_ROW_LIMIT
+                ];
+                const rows = await this.db.$queryRawUnsafe<any[]>(
+                    `SELECT "ts", "symbol", "intervalSeconds", "bidsJson", "asksJson" FROM "MarketBook"
+                     WHERE "ts" >= ? AND "ts" ${endOperator} ? AND "intervalSeconds" = ? ${symbolFilter} ${cursorFilter}
+                     ORDER BY "ts" ASC, "symbol" ASC
+                     LIMIT ?`,
+                    ...params
+                );
+                if (rows.length === 0) break;
+
+                books.push(...rows.map(mapBookRow));
+                const last = rows[rows.length - 1];
+                afterTs = asDate(last.ts);
+                afterSymbol = String(last.symbol);
+                if (rows.length < BOOK_QUERY_ROW_LIMIT) break;
+            }
         }
 
         return books;
+    }
+
+    public async getBookKeys(start: Date, end: Date, intervalSeconds: number, symbols?: string[]): Promise<ExecutionBookKey[]> {
+        await this.ensureSchema();
+        if (start > end) return [];
+
+        const normalizedSymbols = symbols?.length
+            ? Array.from(new Set(symbols.map(toPerpSymbol))).sort()
+            : undefined;
+        const symbolFilter = normalizedSymbols?.length
+            ? `AND "symbol" IN (${normalizedSymbols.map(() => "?").join(",")})`
+            : "";
+        const keys: ExecutionBookKey[] = [];
+        for (const chunk of bookQueryChunks(start, end)) {
+            const endOperator = chunk.final ? "<=" : "<";
+            let afterTs: Date | null = null;
+            let afterSymbol = "";
+
+            while (true) {
+                const cursorFilter = afterTs
+                    ? `AND ("ts" > ? OR ("ts" = ? AND "symbol" > ?))`
+                    : "";
+                const params = [
+                    chunk.start,
+                    chunk.end,
+                    intervalSeconds,
+                    ...(normalizedSymbols ?? []),
+                    ...(afterTs ? [afterTs, afterTs, afterSymbol] : []),
+                    BOOK_QUERY_ROW_LIMIT
+                ];
+                const rows = await this.db.$queryRawUnsafe<any[]>(
+                    `SELECT "ts", "symbol", "intervalSeconds" FROM "MarketBook"
+                     WHERE "ts" >= ? AND "ts" ${endOperator} ? AND "intervalSeconds" = ? ${symbolFilter} ${cursorFilter}
+                     ORDER BY "ts" ASC, "symbol" ASC
+                     LIMIT ?`,
+                    ...params
+                );
+                if (rows.length === 0) break;
+
+                keys.push(...rows.map(mapBookKeyRow));
+                const last = rows[rows.length - 1];
+                afterTs = asDate(last.ts);
+                afterSymbol = String(last.symbol);
+                if (rows.length < BOOK_QUERY_ROW_LIMIT) break;
+            }
+        }
+
+        return keys;
+    }
+
+    public async getBookTimeSets(start: Date, end: Date, intervalSeconds: number, symbols?: string[]): Promise<Map<string, Set<number>>> {
+        await this.ensureSchema();
+        if (start > end) return new Map();
+
+        const normalizedSymbols = symbols?.length
+            ? Array.from(new Set(symbols.map(toPerpSymbol))).sort()
+            : undefined;
+        const symbolFilter = normalizedSymbols?.length
+            ? `AND "symbol" IN (${normalizedSymbols.map(() => "?").join(",")})`
+            : "";
+        const timesBySymbol = new Map<string, Set<number>>();
+        for (const chunk of bookQueryChunks(start, end)) {
+            const endOperator = chunk.final ? "<=" : "<";
+            let afterTs: Date | null = null;
+            let afterSymbol = "";
+
+            while (true) {
+                const cursorFilter = afterTs
+                    ? `AND ("ts" > ? OR ("ts" = ? AND "symbol" > ?))`
+                    : "";
+                const params = [
+                    chunk.start,
+                    chunk.end,
+                    intervalSeconds,
+                    ...(normalizedSymbols ?? []),
+                    ...(afterTs ? [afterTs, afterTs, afterSymbol] : []),
+                    BOOK_QUERY_ROW_LIMIT
+                ];
+                const rows = await this.db.$queryRawUnsafe<any[]>(
+                    `SELECT "ts", "symbol" FROM "MarketBook"
+                     WHERE "ts" >= ? AND "ts" ${endOperator} ? AND "intervalSeconds" = ? ${symbolFilter} ${cursorFilter}
+                     ORDER BY "ts" ASC, "symbol" ASC
+                     LIMIT ?`,
+                    ...params
+                );
+                if (rows.length === 0) break;
+
+                for (const row of rows) {
+                    const symbol = String(row.symbol);
+                    const times = timesBySymbol.get(symbol) ?? new Set<number>();
+                    times.add(asDate(row.ts).getTime());
+                    timesBySymbol.set(symbol, times);
+                }
+                const last = rows[rows.length - 1];
+                afterTs = asDate(last.ts);
+                afterSymbol = String(last.symbol);
+                if (rows.length < BOOK_QUERY_ROW_LIMIT) break;
+            }
+        }
+
+        return timesBySymbol;
     }
 }
 
@@ -132,6 +259,14 @@ function mapBookRow(row: any): ExecutionBookSnapshot {
             asks ??= parseLevels(asksJson);
             return asks;
         }
+    };
+}
+
+function mapBookKeyRow(row: any): ExecutionBookKey {
+    return {
+        ts: asDate(row.ts),
+        symbol: String(row.symbol),
+        intervalSeconds: Number(row.intervalSeconds)
     };
 }
 
@@ -167,4 +302,13 @@ function parseLevels(value: string): L2BookLevel[] {
 
 function asDate(value: Date | string | number): Date {
     return value instanceof Date ? value : new Date(value);
+}
+
+function toPerpSymbol(symbol: string): string {
+    return symbol.endsWith("-PERP") ? symbol : `${symbol}-PERP`;
+}
+
+function positiveInt(value: number | undefined, fallback: number): number {
+    if (!Number.isFinite(value)) return fallback;
+    return Math.max(1, Math.floor(value as number));
 }

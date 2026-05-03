@@ -88,6 +88,7 @@ export type HydrateArchiveOptions = {
     lookbackHours?: number;
     tmpRoot?: string;
     keepTmp?: boolean;
+    skipSyntheticCandles?: boolean;
 };
 
 export type HydrateArchiveResult = {
@@ -158,12 +159,17 @@ export async function hydrateArchiveForBacktest(options: HydrateArchiveOptions):
             }
         }
 
-        const syntheticCandlesInserted = await upsertSyntheticCandlesFromFeatures({
-            ...options,
-            start: hydrateStart,
-            end: hydrateEnd,
-            symbols
-        });
+        const syntheticCandlesInserted = options.skipSyntheticCandles
+            ? 0
+            : await upsertSyntheticCandlesFromFeatures({
+                ...options,
+                start: hydrateStart,
+                end: hydrateEnd,
+                symbols
+            });
+        if (options.skipSyntheticCandles) {
+            console.log("[backtest:hydrate] Skipping feature-interval execution candle backfill.");
+        }
 
         return {
             symbols,
@@ -223,6 +229,62 @@ async function selectTopSymbolsFromMarketTicks(dbPath: string | undefined, start
              LIMIT ?`,
             start,
             end,
+            limit
+        );
+        return rows.map(row => baseSymbol(row.symbol)).filter(Boolean);
+    } finally {
+        await db.$disconnect();
+    }
+}
+
+export async function selectTopBacktestSymbolsFromDb(options: {
+    dbPath?: string;
+    start: Date;
+    end: Date;
+    intervalSeconds: number;
+    limit: number;
+}): Promise<string[]> {
+    const fromTicks = await selectTopSymbolsFromMarketTicks(options.dbPath, options.start, options.end, options.limit);
+    if (fromTicks.length >= options.limit) return fromTicks;
+
+    const fromFeatures = await selectTopSymbolsFromMarketFeatures(
+        options.dbPath,
+        options.start,
+        options.end,
+        options.intervalSeconds,
+        options.limit
+    );
+    return Array.from(new Set([...fromTicks, ...fromFeatures])).slice(0, options.limit);
+}
+
+async function selectTopSymbolsFromMarketFeatures(
+    dbPath: string | undefined,
+    start: Date,
+    end: Date,
+    intervalSeconds: number,
+    limit: number
+): Promise<string[]> {
+    const db = createBacktestDbClient(dbPath);
+    try {
+        await ensureBacktestDbSchema(db);
+        const rows = await db.$queryRawUnsafe<Array<{
+            symbol: string;
+            samples: number;
+            avgDepth: number | null;
+        }>>(
+            `SELECT
+                "symbol" as symbol,
+                COUNT(*) as samples,
+                AVG(COALESCE("depth10BpsUsd", 0)) as avgDepth
+             FROM "MarketFeature"
+             WHERE "ts" >= ? AND "ts" <= ? AND "intervalSeconds" = ?
+             GROUP BY "symbol"
+             HAVING COUNT(*) > 0
+             ORDER BY avgDepth DESC, samples DESC, symbol ASC
+             LIMIT ?`,
+            start,
+            end,
+            intervalSeconds,
             limit
         );
         return rows.map(row => baseSymbol(row.symbol)).filter(Boolean);
