@@ -78,6 +78,29 @@ export const SCREENER_PRESETS: Record<string, ScreenerConfig> = {
         layer3Enabled: true,
         layer4Enabled: true
     },
+    optimized: {
+        maxSpreadBps: 26.61267694253261,
+        minDepthUsd: 45_702.15407768414,
+        maxCostBps: 33.93082603940037,
+        minRecentVolume: 4_363.2916017309835,
+        recentVolumeMinutes: 12,
+        minRealizedVol: 0.0008400393593627017,
+        minVolume24h: 7_693_518.891104742,
+        topN: 26,
+        depthBandsPct: DEPTH_BANDS,
+        quality_weights: {
+            vol_score: 1.5,
+            move_score: 1.2,
+            trend_align: 0.7,
+            spread_penalty: 1.7,
+            illiquidity_penalty: 1.5,
+            cost_to_edge_penalty: 1.5
+        },
+        layer1Enabled: true,
+        layer2Enabled: true,
+        layer3Enabled: true,
+        layer4Enabled: true
+    },
     "Swing Relaxed": {
         maxSpreadBps: 25,
         minDepthUsd: 15_000,

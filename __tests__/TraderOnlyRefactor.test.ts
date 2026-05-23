@@ -68,12 +68,14 @@ describe("Trader-only v1 trigger scope", () => {
         expect(Object.keys(SCREENER_PRESETS)).toEqual([
             "Scalper Strict",
             "Momentum Moderate",
+            "optimized",
             "Swing Relaxed",
             "Testnet Aggressive"
         ]);
         expect(Object.keys(AGENT_PRESETS)).toEqual([
             "Scalper Strict",
             "Momentum Moderate",
+            "optimized",
             "Swing Relaxed",
             "LLM Permissive",
             "Testnet Aggressive"
@@ -88,6 +90,8 @@ describe("Trader-only v1 trigger scope", () => {
         expect(AGENT_PRESETS["LLM Permissive"].gates.edge_to_cost_mult_by_regime.CHOP).toBe(6);
         expect(AGENT_PRESETS["Testnet Aggressive"].preset_live_mode).toBe("non_live");
         expect(AGENT_PRESETS["Momentum Moderate"].cost_sanity.min_edge_to_cost_mult).toBe(4);
+        expect(SCREENER_PRESETS.optimized.topN).toBe(26);
+        expect(AGENT_PRESETS.optimized.risk.default_leverage).toBe(4);
     });
 
     it("creates exact hard-trigger playbooks and no discretionary entries", () => {

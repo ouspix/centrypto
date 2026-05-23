@@ -379,6 +379,63 @@ export const AGENT_PRESETS: Record<string, AgentConfig> = {
             edge_to_cost_mult_by_regime: { RISK_ON: 4, RISK_OFF: 5, CHOP: 4 }
         }
     }),
+    optimized: preset({
+        name: "optimized",
+        mode: "live",
+        risk: {
+            max_positions: 4,
+            max_position_fraction: 0.15,
+            max_position_fraction_per_symbol: 0.15,
+            max_total_exposure_fraction: 0.75,
+            min_trade_notional_usd: 10,
+            no_flip_same_tick: true,
+            max_new_positions_per_cycle: 2,
+            daily_loss_kill_switch_fraction: 0.05,
+            risk_per_trade_pct: 0.0035,
+            max_effective_leverage: 19,
+            exchange_max_leverage_allowed: 4,
+            max_correlation_group_exposure_fraction: 0.45,
+            margin_mode: "isolated",
+            default_leverage: 4,
+            slippage_pct: 0.005
+        },
+        triggers: {
+            momentum: {
+                book_pressure_min: 0.15657537704774804,
+                vol_ratio_min: 0.6488422572742718,
+                trend_aligned_required: true
+            },
+            mean_reversion: {
+                ret_sigma_threshold: 2.2296151197695444,
+                book_pressure_min: 0.044192874086290274,
+                chop_regime: "required"
+            },
+            breakout: {
+                vol_ratio_min: 1.6240604479443594,
+                book_pressure_min: 0.21235336480578654
+            }
+        },
+        cost_sanity: {
+            min_edge_to_cost_mult: 4.841944297848045,
+            min_stop_to_cost_mult: 2.6718925351113336,
+            min_tp_to_cost_mult: 4.189168577384884
+        },
+        correlation: {
+            corr_gt_050_multiplier: 0.75,
+            corr_gt_070_multiplier: 0.50,
+            corr_gt_085_multiplier: 0.25,
+            risk_off_corr_addon: 0.15
+        },
+        gates: {
+            depth_usd_min: 25_000,
+            cost_bps_max_by_regime: { RISK_ON: 18, RISK_OFF: 12, CHOP: 14 },
+            edge_to_cost_mult_by_regime: {
+                RISK_ON: 4.841944297848045,
+                RISK_OFF: 5.841944297848045,
+                CHOP: 4.841944297848045
+            }
+        }
+    }),
     "Swing Relaxed": preset({
         name: "Swing Relaxed",
         mode: "limited_manual",

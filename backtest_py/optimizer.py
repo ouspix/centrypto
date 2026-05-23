@@ -8,6 +8,7 @@ import json
 import math
 import random
 import time
+import zipfile
 from bisect import bisect_right
 from collections import Counter, defaultdict
 from dataclasses import dataclass
@@ -23,6 +24,107 @@ from .parquet_store import base_symbol, coverage_from_parquet, normalize_symbols
 REJECTED_SCORE = -1_000_000_000.0
 OPTIMIZER_TOP_N_MIN = 10
 OPTIMIZER_TOP_N_MAX = 30
+TRADER_AGENT_SYSTEM_PROMPT = """
+You are a crypto derivatives entry gate.
+
+You are not a signal generator.
+You are not a risk calculator.
+You are not allowed to create eligibility.
+
+The backend has already computed:
+- eligible candidates
+- trigger playbooks
+- risk limits
+- stop-loss
+- take-profit
+- max allowed size
+- suggested size
+- correlation exposure
+- regime warnings
+- existing positions as risk context only
+
+Your job is to decide:
+- whether to take or skip each eligible candidate
+- final size, never above max_allowed_size_fraction
+- confidence
+- short notes
+
+Default posture:
+- No trade is better than a marginal trade.
+- Passing eligibility means the trade is allowed, not recommended.
+- In uncertainty, skip new entries or use smaller size.
+- Never use max size just because it is available.
+
+Hard rules:
+1. Respond with JSON only. No prose. No markdown.
+2. Do not output a symbol or candidate_id that is not in the input.
+3. Output candidate-scope decisions only. Existing positions are context; do not emit decisions for them.
+4. For every eligible candidate, output exactly one decision.
+5. Candidate action may only be OPEN_POSITION or SKIP.
+6. SKIP only applies to eligible_candidates.
+7. OPEN_POSITION is allowed only for candidates in eligible_candidates.
+8. target_size_fraction_of_equity must be <= candidate.sizing.max_allowed_size_fraction.
+9. target_size_fraction_of_equity should usually be <= candidate.sizing.suggested_size_fraction unless the setup is unusually clean.
+10. Do not open if max_allowed_size_fraction <= 0.
+11. Do not output risk_plan, stop-loss, take-profit, leverage calculations, or audit fields.
+12. Do not open if warnings contain a severe conflict unless the trigger is hard and confidence is high.
+13. If already exposed to the same correlation group in the same direction, require higher confidence or reduce size.
+
+Strategy scope:
+- New entries may only use playbooks provided by the candidate's eligible_playbooks list.
+- The playbook value must be copied exactly from eligible_playbooks.
+- Discretionary Edge and Liquidity Grab are legacy reason codes only; never create a new entry from them.
+- No hard trigger means there will be no candidate. Do not invent one.
+
+Regime discipline:
+- RISK_ON: normal trend and breakout trades are allowed when clean.
+- CHOP: prefer smaller size; prefer mean reversion; avoid weak trend chasing.
+- RISK_OFF: protect capital; prefer shorts; avoid new longs unless a hard trigger is strong and size is heavily reduced.
+- In RISK_OFF, prefer reducing weak existing longs.
+
+Sizing discipline:
+- Weak but valid setup: skip or tiny size.
+- Valid setup with hostile regime: reduced size.
+- Clean hard trigger with supportive regime: suggested size is acceptable.
+- Strong correlation with existing exposure: reduce size or skip.
+- Never exceed max_allowed_size_fraction.
+
+Confidence:
+- 0.30-0.45: weak / probe only / usually skip
+- 0.45-0.60: acceptable but reduced size
+- 0.60-0.75: good
+- 0.75+: very strong, rare
+- Confidence must reflect both positives and negatives.
+
+Reason codes:
+- "momentum_edge"
+- "breakout_edge"
+- "mean_reversion_edge"
+- "skip"
+
+Output JSON:
+{
+  "decisions": [
+    {
+      "scope": "candidate",
+      "action": "OPEN_POSITION" | "SKIP",
+      "candidate_id": "string",
+      "symbol": "string",
+      "target_side": "long" | "short" | "flat",
+      "target_size_fraction_of_equity": number,
+      "playbook": "string from candidate.eligible_playbooks",
+      "confidence": number,
+      "reason_code": "momentum_edge" | "breakout_edge" | "mean_reversion_edge" | "skip",
+      "notes": "short note mentioning both main support and main risk"
+    }
+  ]
+}
+
+If there are no eligible candidates:
+{
+  "decisions": []
+}
+"""
 
 
 PARAM_SPECS: list[dict[str, Any]] = [
@@ -32,6 +134,8 @@ PARAM_SPECS: list[dict[str, Any]] = [
     {"target": "agent", "path": "risk.max_total_exposure_fraction", "type": "float", "min": 0.50, "max": 1.50, "mutate_scale": 0.20},
     {"target": "agent", "path": "risk.max_new_positions_per_cycle", "type": "int", "min": 1, "max": 4, "mutate_scale": 0.20},
     {"target": "agent", "path": "risk.risk_per_trade_pct", "type": "float", "min": 0.0025, "max": 0.0125, "mutate_scale": 0.20},
+    {"target": "agent", "path": "risk.max_effective_leverage", "type": "int", "min": 1, "max": 20, "mutate_scale": 0.25},
+    {"target": "agent", "path": "risk.exchange_max_leverage_allowed", "type": "int", "min": 1, "max": 20, "mutate_scale": 0.25},
     {"target": "agent", "path": "risk.max_correlation_group_exposure_fraction", "type": "float", "min": 0.25, "max": 1.00, "mutate_scale": 0.20},
     {"target": "agent", "path": "triggers.mean_reversion.ret_sigma_threshold", "type": "float", "min": 1.5, "max": 3.5, "mutate_scale": 0.20},
     {"target": "agent", "path": "triggers.mean_reversion.book_pressure_min", "type": "float", "min": 0.0, "max": 0.12, "mutate_scale": 0.20},
@@ -60,6 +164,90 @@ PARAM_SPECS: list[dict[str, Any]] = [
     {"target": "screener", "path": "quality_weights.cost_to_edge_penalty", "type": "float", "min": 0.5, "max": 2.5, "mutate_scale": 0.25},
 ]
 
+SIGNAL_PARAM_PATHS = {
+    "triggers.mean_reversion.ret_sigma_threshold",
+    "triggers.mean_reversion.book_pressure_min",
+    "triggers.momentum.vol_ratio_min",
+    "triggers.momentum.book_pressure_min",
+    "triggers.breakout.vol_ratio_min",
+    "triggers.breakout.book_pressure_min",
+}
+
+LEVERAGE_PARAM_PATHS = {
+    "risk.max_effective_leverage",
+    "risk.exchange_max_leverage_allowed",
+}
+
+RISK_PARAM_PATHS = {
+    "risk.max_positions",
+    "risk.max_position_fraction",
+    "risk.max_position_fraction_per_symbol",
+    "risk.max_total_exposure_fraction",
+    "risk.max_new_positions_per_cycle",
+    "risk.risk_per_trade_pct",
+    "risk.max_correlation_group_exposure_fraction",
+} | LEVERAGE_PARAM_PATHS
+
+EXECUTION_FILTER_PARAM_PATHS = SIGNAL_PARAM_PATHS | {
+    *LEVERAGE_PARAM_PATHS,
+    "cost_sanity.min_edge_to_cost_mult",
+    "cost_sanity.min_stop_to_cost_mult",
+    "cost_sanity.min_tp_to_cost_mult",
+    "maxSpreadBps",
+    "minDepthUsd",
+    "maxCostBps",
+    "minRecentVolume",
+    "recentVolumeMinutes",
+    "minRealizedVol",
+    "minVolume24h",
+    "topN",
+}
+
+MAINNET_MARGIN_TIERS: dict[str, list[tuple[float, float]]] = {
+    "BTC": [(0.0, 40.0), (150_000_000.0, 20.0)],
+    "ETH": [(0.0, 25.0), (100_000_000.0, 15.0)],
+    "SOL": [(0.0, 20.0), (70_000_000.0, 10.0)],
+    "XRP": [(0.0, 20.0), (40_000_000.0, 10.0)],
+}
+for _symbol in [
+    "DOGE",
+    "KPEPE",
+    "SUI",
+    "WLD",
+    "TRUMP",
+    "LTC",
+    "ENA",
+    "POPCAT",
+    "WIF",
+    "AAVE",
+    "KBONK",
+    "LINK",
+    "CRV",
+    "AVAX",
+    "ADA",
+    "UNI",
+    "NEAR",
+    "TIA",
+    "APT",
+    "BCH",
+    "HYPE",
+    "FARTCOIN",
+    "PUMP",
+    "XPL",
+]:
+    MAINNET_MARGIN_TIERS[_symbol] = [(0.0, 10.0), (20_000_000.0, 5.0)]
+for _symbol in ["OP", "ARB", "LDO", "TON", "MKR", "ONDO", "JUP", "INJ", "KSHIB", "SEI", "TRX", "BNB", "DOT"]:
+    MAINNET_MARGIN_TIERS[_symbol] = [(0.0, 10.0), (3_000_000.0, 5.0)]
+
+TESTNET_MARGIN_TIERS: dict[str, list[tuple[float, float]]] = {
+    "BTC": [(0.0, 40.0), (10_000.0, 25.0), (50_000.0, 10.0), (100_000.0, 5.0), (300_000.0, 3.0)],
+    "ETH": [(0.0, 25.0), (20_000.0, 10.0), (50_000.0, 5.0), (200_000.0, 3.0)],
+}
+for _symbol in ["LDO", "ARB", "MKR", "ATOM", "PAXG", "TAO", "ICP", "AVAX", "FARTCOIN"]:
+    TESTNET_MARGIN_TIERS[_symbol] = [(0.0, 10.0), (10_000.0, 5.0)]
+for _symbol in ["DOGE", "TIA", "SUI", "KSHIB", "AAVE", "TON"]:
+    TESTNET_MARGIN_TIERS[_symbol] = [(0.0, 10.0), (20_000.0, 5.0), (100_000.0, 3.0)]
+
 
 @dataclass(frozen=True)
 class OptimizerGates:
@@ -67,9 +255,25 @@ class OptimizerGates:
     max_drawdown_bps: float = 2_000.0
     min_profit_factor: float = 1.0
     max_stop_hit_rate: float = 0.60
+    max_liquidation_hit_rate: float = 0.0
     max_symbol_concentration: float = 0.35
     max_regime_concentration: float = 0.70
+    max_symbol_concentration_hard: float = 0.50
+    max_regime_concentration_hard: float = 0.85
     allow_synthetic_candles: bool = False
+    require_all_oos_folds: bool = True
+    min_oos_folds: int = 4
+    min_fold_pass_rate: float = 0.60
+    min_median_fold_score: float = REJECTED_SCORE
+    min_p25_fold_score: float = REJECTED_SCORE
+    max_worst_fold_drawdown_bps: float = 2_500.0
+    max_single_fold_pnl_contribution: float = 0.40
+    max_config_distance: float = 0.35
+    config_distance_penalty: float = 250.0
+    failed_fold_penalty_score: float = 250.0
+    min_trade_coverage_ratio: float = 0.60
+    min_trades_floor: int = 8
+    min_trade_shortfall_penalty_score: float = 200.0
 
 
 @dataclass(frozen=True)
@@ -83,6 +287,8 @@ class OptimizerSettings:
     network: str
     initial_capital_usd: float
     optimizer_mode: str
+    param_profile: str
+    param_specs: list[dict[str, Any]]
     seed: int
     trials: int
     generations: int
@@ -104,10 +310,13 @@ class OptimizerSettings:
     llm_model: str
     llm_decisions_path: str | None
     llm_trace_path: str | None
+    export_llm_prompts: bool
+    llm_prompts_zip_path: str | None
     ollama_base_url: str | None
     run_id: str
     screening_preset_name: str
     agent_preset_name: str
+    fold_universe_file: str | None
 
 
 @dataclass
@@ -146,6 +355,7 @@ class BacktestContext:
     recorded_decisions_by_timestamp: dict[int, list[dict[str, Any]]]
     coverage: dict[str, Any]
     settings: OptimizerSettings
+    prompt_recorder: PromptZipRecorder | None = None
 
 
 @dataclass
@@ -352,15 +562,36 @@ def main(argv: Sequence[str] | None = None) -> int:
         f"exit_strategy={settings.exit_strategy}",
         flush=True,
     )
+    if settings.export_llm_prompts:
+        print(
+            "[backtest:optimize:py] Will export equivalent LLM prompts after final candidate selection.",
+            flush=True,
+        )
 
     gates = OptimizerGates(
         min_trades=args.min_trades,
         max_drawdown_bps=args.max_drawdown_bps,
         min_profit_factor=args.min_profit_factor,
         max_stop_hit_rate=args.max_stop_hit_rate,
+        max_liquidation_hit_rate=args.max_liquidation_hit_rate,
         max_symbol_concentration=args.max_symbol_concentration,
         max_regime_concentration=args.max_regime_concentration,
+        max_symbol_concentration_hard=args.max_symbol_concentration_hard,
+        max_regime_concentration_hard=args.max_regime_concentration_hard,
         allow_synthetic_candles=args.allow_synthetic_candles,
+        require_all_oos_folds=parse_bool(args.require_all_oos_folds, True),
+        min_oos_folds=args.min_oos_folds,
+        min_fold_pass_rate=args.min_fold_pass_rate,
+        min_median_fold_score=args.min_median_fold_score,
+        min_p25_fold_score=args.min_p25_fold_score,
+        max_worst_fold_drawdown_bps=args.max_worst_fold_drawdown_bps,
+        max_single_fold_pnl_contribution=args.max_single_fold_pnl_contribution,
+        max_config_distance=args.max_config_distance,
+        config_distance_penalty=args.config_distance_penalty,
+        failed_fold_penalty_score=args.failed_fold_penalty_score,
+        min_trade_coverage_ratio=args.min_trade_coverage_ratio,
+        min_trades_floor=args.min_trades_floor,
+        min_trade_shortfall_penalty_score=args.min_trade_shortfall_penalty_score,
     )
 
     if parse_bool(args.holdout, False):
@@ -378,15 +609,18 @@ def main(argv: Sequence[str] | None = None) -> int:
                     "best_holdout_config_hash": summary["best_by_holdout"]["config_hash"] if summary["best_by_holdout"] else None,
                     "best_holdout_score": summary["best_by_holdout"]["score"] if summary["best_by_holdout"] else None,
                     "best_holdout_metrics": summary["best_by_holdout"]["metrics"] if summary["best_by_holdout"] else None,
+                    "llm_prompts_zip": prompt_zip_output(context),
                 },
                 indent=2,
             ),
             flush=True,
         )
+        close_prompt_recorder(context)
         return 0
 
     if parse_bool(args.walk_forward, False):
         summary = run_walk_forward(context, gates, args)
+        llm_prompts_zip = export_walk_forward_champion_prompts(context, summary, args)
         print(
             json.dumps(
                 {
@@ -397,6 +631,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                     "champion_rejected": summary["champion_aggregate"]["rejected"],
                     "champion_rejection_reason": summary["champion_aggregate"]["rejection_reason"],
                     "champion_metrics": summary["champion_aggregate"]["metrics"],
+                    "llm_prompts_zip": llm_prompts_zip,
                 },
                 indent=2,
             ),
@@ -409,30 +644,44 @@ def main(argv: Sequence[str] | None = None) -> int:
     else:
         results, trace = run_adaptive(context, gates)
 
-    sorted_results = sort_results(results)
+    sorted_results = [mark_in_sample_only(result) for result in sort_results(results)]
     top_configs = [result for result in sorted_results if not result["rejected"]][: settings.finalists]
 
-    write_json(settings.output_dir / "optimizer_results.json", sorted_results)
-    write_json(settings.output_dir / "top_configs.json", top_configs)
-    write_json(settings.output_dir / "optimizer_trace.json", trace)
-    write_json(settings.output_dir / "coverage_summary.json", context.coverage)
-    write_json(settings.output_dir / "in_sample_summary.json", build_in_sample_summary(sorted_results, gates, settings))
+    remove_stale_in_sample_artifacts(settings.output_dir)
+    write_json(settings.output_dir / "optimizer_results.in_sample.json", sorted_results)
+    write_json(settings.output_dir / "top_configs.in_sample.DO_NOT_PROMOTE.json", top_configs)
+    write_json(settings.output_dir / "optimizer_trace.json", mark_artifact_status(trace, "in_sample_only"))
+    write_json(settings.output_dir / "coverage_summary.json", mark_artifact_status(context.coverage, "in_sample_only"))
+    write_json(settings.output_dir / "in_sample_summary.DO_NOT_PROMOTE.json", build_in_sample_summary(sorted_results, gates, settings))
+    write_json(settings.output_dir / "optimizer_audit.json", {
+        "mode": "in_sample_optimize",
+        "candidate_count": len(sorted_results),
+        "expected_fold_count": 0,
+        "accepted_count": len(top_configs),
+        "rejected_count": len([result for result in sorted_results if result["rejected"]]),
+        "rejection_counts": rejection_counts(sorted_results),
+        "param_profile": settings.param_profile,
+        "validation_status": "in_sample_only",
+        "promotable": False,
+    })
 
     best = top_configs[0] if top_configs else None
     print(
         json.dumps(
             {
-                "out": str(settings.output_dir / "optimizer_results.json"),
-                "top_configs": str(settings.output_dir / "top_configs.json"),
+                "out": str(settings.output_dir / "optimizer_results.in_sample.json"),
+                "top_configs": str(settings.output_dir / "top_configs.in_sample.DO_NOT_PROMOTE.json"),
                 "accepted": len(top_configs),
                 "best_config_hash": best.get("config_hash") if best else None,
                 "best_score": best.get("score") if best else None,
                 "best_trade_count": best.get("metrics", {}).get("trade_count") if best else None,
+                "llm_prompts_zip": prompt_zip_output(context),
             },
             indent=2,
         ),
         flush=True,
     )
+    close_prompt_recorder(context)
     return 0
 
 
@@ -450,6 +699,9 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--network", choices=["mainnet", "testnet"], default="mainnet")
     parser.add_argument("--capital", type=float, default=10_000)
     parser.add_argument("--optimizer-mode", choices=["random", "adaptive"], default="adaptive")
+    parser.add_argument("--param-profile", choices=["signals_only", "signals_plus_topn", "risk", "signals_plus_risk", "execution_filters", "full"])
+    parser.add_argument("--unsafe-full-param-search", default="false")
+    parser.add_argument("--fold-universe-file")
     parser.add_argument("--holdout", nargs="?", const="true", default="false")
     parser.add_argument("--walk-forward", nargs="?", const="true", default="false")
     parser.add_argument("--train-days", type=float, default=10)
@@ -476,6 +728,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--llm-model", default="llama3.1")
     parser.add_argument("--llm-decisions")
     parser.add_argument("--llm-trace")
+    parser.add_argument("--export-llm-prompts", default="false")
+    parser.add_argument("--llm-prompts-zip")
     parser.add_argument("--ollama-url")
     parser.add_argument("--seed", type=int, default=1)
     parser.add_argument("--screening-preset-name", default="Momentum Moderate")
@@ -485,9 +739,25 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--max-drawdown-bps", type=float, default=2_000)
     parser.add_argument("--min-profit-factor", type=float, default=1.0)
     parser.add_argument("--max-stop-hit-rate", type=float, default=0.60)
+    parser.add_argument("--max-liquidation-hit-rate", type=float, default=0.0)
     parser.add_argument("--max-symbol-concentration", type=float, default=0.35)
     parser.add_argument("--max-regime-concentration", type=float, default=0.70)
+    parser.add_argument("--max-symbol-concentration-hard", type=float, default=0.50)
+    parser.add_argument("--max-regime-concentration-hard", type=float, default=0.85)
     parser.add_argument("--allow-synthetic-candles", action="store_true")
+    parser.add_argument("--require-all-oos-folds", default="true")
+    parser.add_argument("--min-oos-folds", type=int, default=4)
+    parser.add_argument("--min-fold-pass-rate", type=float, default=0.60)
+    parser.add_argument("--min-median-fold-score", type=float, default=REJECTED_SCORE)
+    parser.add_argument("--min-p25-fold-score", type=float, default=REJECTED_SCORE)
+    parser.add_argument("--max-worst-fold-drawdown-bps", type=float, default=2_500.0)
+    parser.add_argument("--max-single-fold-pnl-contribution", type=float, default=0.40)
+    parser.add_argument("--max-config-distance", type=float, default=0.35)
+    parser.add_argument("--config-distance-penalty", type=float, default=250.0)
+    parser.add_argument("--failed-fold-penalty-score", type=float, default=250.0)
+    parser.add_argument("--min-trade-coverage-ratio", type=float, default=0.60)
+    parser.add_argument("--min-trades-floor", type=int, default=8)
+    parser.add_argument("--min-trade-shortfall-penalty-score", type=float, default=200.0)
     return parser
 
 
@@ -517,6 +787,10 @@ def settings_from_args(args: argparse.Namespace) -> OptimizerSettings:
     output_dir = Path(args.output_dir) if args.output_dir else Path("data/backtests") / args.run_id
     if args.output:
         output_dir = Path(args.output).parent
+    default_profile = "signals_only" if parse_bool(args.walk_forward, False) else "signals_plus_topn"
+    param_profile = args.param_profile or default_profile
+    if param_profile == "full" and not parse_bool(args.unsafe_full_param_search, False):
+        raise SystemExit("--param-profile full requires --unsafe-full-param-search true")
 
     return OptimizerSettings(
         data_root=data_root,
@@ -528,6 +802,8 @@ def settings_from_args(args: argparse.Namespace) -> OptimizerSettings:
         network=args.network,
         initial_capital_usd=args.capital,
         optimizer_mode=args.optimizer_mode,
+        param_profile=param_profile,
+        param_specs=param_specs_for_profile(param_profile),
         seed=args.seed,
         trials=max(1, args.trials),
         generations=max(1, args.generations),
@@ -549,10 +825,13 @@ def settings_from_args(args: argparse.Namespace) -> OptimizerSettings:
         llm_model=args.llm_model,
         llm_decisions_path=args.llm_decisions,
         llm_trace_path=args.llm_trace,
+        export_llm_prompts=parse_bool(args.export_llm_prompts, False),
+        llm_prompts_zip_path=args.llm_prompts_zip,
         ollama_base_url=args.ollama_url,
         run_id=args.run_id,
         screening_preset_name=args.screening_preset_name,
         agent_preset_name=args.agent_preset_name,
+        fold_universe_file=args.fold_universe_file,
     )
 
 
@@ -562,6 +841,22 @@ def normalize_exit_strategy(value: str) -> str:
     if value in {"sltp", "playbook_sltp", "horizon"}:
         return value
     raise SystemExit(f"Invalid --exit-strategy {value!r}. Choose sltp, tp_sl, playbook_sltp, or horizon.")
+
+
+def param_specs_for_profile(profile: str) -> list[dict[str, Any]]:
+    if profile == "full":
+        return list(PARAM_SPECS)
+    if profile == "risk":
+        return [spec for spec in PARAM_SPECS if spec["path"] in RISK_PARAM_PATHS]
+    if profile == "signals_only":
+        return [spec for spec in PARAM_SPECS if spec["path"] in SIGNAL_PARAM_PATHS]
+    if profile == "signals_plus_risk":
+        return [spec for spec in PARAM_SPECS if spec["path"] in SIGNAL_PARAM_PATHS or spec["path"] in RISK_PARAM_PATHS]
+    if profile == "signals_plus_topn":
+        return [spec for spec in PARAM_SPECS if spec["path"] in SIGNAL_PARAM_PATHS or spec["path"] == "topN"]
+    if profile == "execution_filters":
+        return [spec for spec in PARAM_SPECS if spec["path"] in EXECUTION_FILTER_PARAM_PATHS]
+    raise SystemExit(f"Invalid --param-profile {profile!r}.")
 
 
 def symbols_from_manifest(data_root: Path, limit: int) -> list[str]:
@@ -653,6 +948,81 @@ def load_context(settings: OptimizerSettings) -> BacktestContext:
         coverage=coverage,
         settings=settings,
     )
+
+
+class PromptZipRecorder:
+    def __init__(self, path: Path):
+        self.path = path
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        self._zip = zipfile.ZipFile(self.path, "w", compression=zipfile.ZIP_DEFLATED)
+        self._counter = 0
+        self._closed = False
+
+    def write_prompt(
+        self,
+        *,
+        config_hash_value: str,
+        ts_ms: int,
+        candidate_count: int,
+        position_count: int,
+        prompt: str,
+    ) -> str:
+        if self._closed:
+            raise RuntimeError("prompt recorder is already closed")
+        self._counter += 1
+        name = (
+            f"{self._counter:012d}_"
+            f"{safe_zip_name_part(config_hash_value)}_"
+            f"{int(ts_ms)}_"
+            f"{int(candidate_count)}c_"
+            f"{int(position_count)}p.txt"
+        )
+        self._zip.writestr(name, prompt)
+        return name
+
+    @property
+    def count(self) -> int:
+        return self._counter
+
+    def close(self) -> None:
+        if self._closed:
+            return
+        self._closed = True
+        self._zip.close()
+
+    def __del__(self) -> None:
+        if hasattr(self, "_closed"):
+            self.close()
+
+
+def build_prompt_recorder(settings: OptimizerSettings) -> PromptZipRecorder | None:
+    if not settings.export_llm_prompts:
+        return None
+    path = Path(settings.llm_prompts_zip_path) if settings.llm_prompts_zip_path else settings.output_dir / "llm_prompts.zip"
+    return PromptZipRecorder(path)
+
+
+def close_prompt_recorder(context: BacktestContext) -> None:
+    if context.prompt_recorder is not None:
+        context.prompt_recorder.close()
+
+
+def prompt_zip_output(context: BacktestContext) -> str | None:
+    return str(context.prompt_recorder.path) if context.prompt_recorder is not None else None
+
+
+def safe_zip_name_part(value: Any) -> str:
+    text = str(value)
+    cleaned = "".join(ch if ch.isalnum() or ch in {"-", "_", "."} else "_" for ch in text)
+    return cleaned[:80] or "unknown"
+
+
+def build_trader_prompt(trader_context: dict[str, Any]) -> str:
+    user_prompt = "TRADER_CONTEXT (backend-precomputed; use provided fields only):\n" + json.dumps(
+        clean_for_json(trader_context),
+        indent=2,
+    )
+    return TRADER_AGENT_SYSTEM_PROMPT + "\n\n" + user_prompt
 
 
 def load_candles_by_symbol(settings: OptimizerSettings) -> dict[str, CandleSeries]:
@@ -812,15 +1182,16 @@ def run_random(
     start_ms: int | None = None,
     end_ms: int | None = None,
     coverage: dict[str, Any] | None = None,
+    symbols: Sequence[str] | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     settings = context.settings
     start_ms = settings.start_ms if start_ms is None else start_ms
     end_ms = settings.end_ms if end_ms is None else end_ms
     candidates = [
-        sample_broad_config(default_agent_config(), default_screener_config(), settings.seed + index)
+        sample_broad_config(default_agent_config(), default_screener_config(), settings.seed + index, settings.param_specs)
         for index in range(settings.trials)
     ]
-    results = evaluate_batch(context, candidates, gates, start_ms, end_ms, coverage=coverage)
+    results = evaluate_batch(context, candidates, gates, start_ms, end_ms, coverage=coverage, symbols=symbols)
     generation_summary = build_generation_summary(0, len(candidates), results, cheap_count=0, full_count=len(results))
     return results, build_optimizer_trace("random", [generation_summary], results)
 
@@ -832,6 +1203,7 @@ def run_adaptive(
     end_ms: int | None = None,
     output_dir: Path | None = None,
     coverage: dict[str, Any] | None = None,
+    symbols: Sequence[str] | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     settings = context.settings
     start_ms = settings.start_ms if start_ms is None else start_ms
@@ -853,7 +1225,7 @@ def run_adaptive(
                 candidate_hash = config_hash(candidate["agentConfig"], candidate["screenerConfig"])
                 slice_start, slice_end = slices[hash_to_slice_index(candidate_hash, len(slices))]
                 scaled_gates = scale_gates_for_slice(gates, slice_start, slice_end, start_ms, end_ms)
-                result = evaluate_candidate(context, candidate, scaled_gates, slice_start, slice_end, coverage=coverage)
+                result = evaluate_candidate(context, candidate, scaled_gates, slice_start, slice_end, coverage=coverage, symbols=symbols)
                 result["evaluation_scope"] = "cheap_slice"
                 cheap_results.append(result)
                 progress.tick(result)
@@ -865,10 +1237,10 @@ def run_adaptive(
                 reverse=True,
             )[:keep_count]
             survivors = [entry[0] for entry in survivor_pairs]
-            full_results = evaluate_batch(context, survivors, gates, start_ms, end_ms, coverage=coverage)
+            full_results = evaluate_batch(context, survivors, gates, start_ms, end_ms, coverage=coverage, symbols=symbols)
             cheap_count = len(cheap_results)
         else:
-            full_results = evaluate_batch(context, candidates, gates, start_ms, end_ms, coverage=coverage)
+            full_results = evaluate_batch(context, candidates, gates, start_ms, end_ms, coverage=coverage, symbols=symbols)
             cheap_count = 0
 
         full_results = sort_results(full_results)
@@ -962,6 +1334,9 @@ def run_holdout(context: BacktestContext, gates: OptimizerGates, args: argparse.
     sorted_holdout = sort_results(dedupe_results_by_hash(holdout_results))
     for holdout_rank, result in enumerate(sorted_holdout):
         result["holdout_rank"] = holdout_rank
+        result["validation_status"] = "holdout_passed" if not result["rejected"] else "rejected"
+        result["promotable"] = False
+        result["promotion_blockers"] = ["stress_tests_not_run"]
 
     selected_by_train = train_accepted[0]
     selected_by_train_holdout = next(
@@ -1003,6 +1378,9 @@ def run_holdout(context: BacktestContext, gates: OptimizerGates, args: argparse.
             "on the later holdout window for analysis; selecting by holdout score consumes that holdout."
         ),
         "optimizer_mode": settings.optimizer_mode,
+        "validation_status": "holdout_passed" if top_holdout_configs else "rejected",
+        "promotable": False,
+        "promotion_blockers": ["stress_tests_not_run"],
         "exit_strategy": settings.exit_strategy,
         "decision_mode": settings.decision_mode,
         "train_days": float(args.train_days),
@@ -1039,36 +1417,43 @@ def run_walk_forward(context: BacktestContext, gates: OptimizerGates, args: argp
     test_ms = max(1, int(float(args.test_days) * 24 * 60 * 60_000))
     keep_count_arg = max(0, int(args.walk_forward_keep_count))
     keep_ratio = min(1.0, max(0.01, float(args.walk_forward_keep_ratio)))
+    folds = load_walk_forward_folds(settings, train_ms, test_ms)
 
-    fold_index = 0
-    train_start = settings.start_ms
     fold_summaries: list[dict[str, Any]] = []
-    fold_champion_results: list[dict[str, Any]] = []
+    finalists: dict[str, dict[str, Any]] = {}
     all_test_results: list[dict[str, Any]] = []
     fold_traces: list[dict[str, Any]] = []
-    champion_trades: list[dict[str, Any]] = []
-    champion_coverages: list[dict[str, Any]] = []
+    test_results_by_fold: dict[int, list[dict[str, Any]]] = defaultdict(list)
 
-    while True:
-        train_end = train_start + train_ms
-        test_end = train_end + test_ms
-        if test_end > settings.end_ms:
-            break
-
+    for fold in folds:
+        fold_index = int(fold["fold_index"])
+        fold_symbols = list(fold["symbols"])
+        train_start = int(fold["train_start_ms"])
+        train_end = int(fold["train_end_ms"])
+        test_start = int(fold["test_start_ms"])
+        test_end = int(fold["test_end_ms"])
         fold_dir = settings.output_dir / f"fold_{fold_index}"
         fold_dir.mkdir(parents=True, exist_ok=True)
-        train_coverage = coverage_for_window(context, train_start, train_end)
-        test_coverage = coverage_for_window(context, train_end, test_end)
+        train_coverage = coverage_for_symbols(context, train_start, train_end, fold_symbols)
         print(
             f"[backtest:walkforward:py] fold {fold_index} train "
-            f"{iso_ms(train_start)}..{iso_ms(train_end)} test {iso_ms(train_end)}..{iso_ms(test_end)}",
+            f"{iso_ms(train_start)}..{iso_ms(train_end)} test {iso_ms(test_start)}..{iso_ms(test_end)} "
+            f"symbols={','.join(fold_symbols)}",
             flush=True,
         )
 
         if settings.optimizer_mode == "random":
-            train_results, train_trace = run_random(context, gates, train_start, train_end, coverage=train_coverage)
+            train_results, train_trace = run_random(context, gates, train_start, train_end, coverage=train_coverage, symbols=fold_symbols)
         else:
-            train_results, train_trace = run_adaptive(context, gates, train_start, train_end, output_dir=fold_dir, coverage=train_coverage)
+            train_results, train_trace = run_adaptive(
+                context,
+                gates,
+                train_start,
+                train_end,
+                output_dir=fold_dir,
+                coverage=train_coverage,
+                symbols=fold_symbols,
+            )
 
         sorted_train = sort_results(dedupe_results_by_hash(train_results))
         train_accepted = [result for result in sorted_train if not result["rejected"]]
@@ -1077,111 +1462,434 @@ def run_walk_forward(context: BacktestContext, gates: OptimizerGates, args: argp
         keep_count = max(1, min(len(keep_source), keep_count)) if keep_source else 0
         kept_train = keep_source[:keep_count]
 
-        test_results: list[dict[str, Any]] = []
         for rank, train_result in enumerate(kept_train):
-            candidate = {
-                "agentConfig": train_result["agentConfig"],
-                "screenerConfig": train_result["screenerConfig"],
-            }
-            test_result = evaluate_candidate(
-                context,
-                candidate,
-                gates,
-                train_end,
-                test_end,
-                coverage=test_coverage,
-                include_trades=True,
-            )
-            test_result.update(
-                {
-                    "fold_index": fold_index,
-                    "train_rank": rank,
-                    "train_score": train_result["score"],
-                    "train_rejected": train_result["rejected"],
-                    "train_rejection_reason": train_result["rejection_reason"],
-                    "train_metrics": train_result["metrics"],
-                    "train_start": iso_ms(train_start),
-                    "train_end": iso_ms(train_end),
-                    "test_start": iso_ms(train_end),
-                    "test_end": iso_ms(test_end),
-                    "evaluation_scope": "walk_forward_test",
+            hash_value = str(train_result["config_hash"])
+            finalist = finalists.get(hash_value)
+            if finalist is None:
+                finalist = {
+                    "config_hash": hash_value,
+                    "agentConfig": train_result["agentConfig"],
+                    "screenerConfig": train_result["screenerConfig"],
+                    "discovered_in_folds": [],
+                    "train_scores": [],
+                    "train_ranks": [],
                 }
-            )
-            test_results.append(test_result)
+                finalists[hash_value] = finalist
+            finalist["discovered_in_folds"].append(fold_index)
+            finalist["train_scores"].append(train_result["score"])
+            finalist["train_ranks"].append(rank)
 
-        champion = test_results[0] if test_results else None
-        if champion:
-            fold_champion_results.append(champion)
-            champion_trades.extend(copy.deepcopy(champion.get("trades", [])))
-            champion_coverages.append(champion["coverage"])
-        all_test_results.extend(test_results)
         fold_traces.append({"fold_index": fold_index, "trace": train_trace})
 
         fold_summary = {
             "fold_index": fold_index,
             "train_start": iso_ms(train_start),
             "train_end": iso_ms(train_end),
-            "test_start": iso_ms(train_end),
+            "test_start": iso_ms(test_start),
             "test_end": iso_ms(test_end),
+            "universe_selection_start": fold["universe_selection_start"],
+            "universe_selection_end": fold["universe_selection_end"],
+            "universe_symbols": fold_symbols,
             "train_evaluated_count": len(train_results),
             "train_accepted_count": len(train_accepted),
+            "finalists_discovered": len(kept_train),
             "train_best": strip_heavy_result(sorted_train[0]) if sorted_train else None,
             "kept_train_config_hashes": [result["config_hash"] for result in kept_train],
-            "champion_test": strip_heavy_result(champion) if champion else None,
-            "test_results": [strip_heavy_result(result) for result in test_results],
         }
         fold_summaries.append(fold_summary)
         write_json(fold_dir / "train_results.json", sorted_train)
         write_json(fold_dir / "train_trace.json", train_trace)
-        write_json(fold_dir / "test_results.json", [strip_heavy_result(result) for result in test_results])
-        write_json(fold_dir / "champion_trades.json", champion.get("trades", []) if champion else [])
 
-        fold_index += 1
-        train_start += test_ms
-
-    if not fold_champion_results:
+    if not folds:
         raise SystemExit("Walk-forward produced no folds. Reduce --train-days/--test-days or extend --start/--end.")
+    if not finalists:
+        raise SystemExit("Walk-forward discovered no finalist configs. Relax gates or increase trials.")
 
-    aggregate_coverage = merge_coverages(champion_coverages)
-    aggregate_metrics = build_aggregate_metrics_from_trades(context, champion_trades, settings.start_ms)
-    aggregate_rejection = optimizer_rejection_reason(aggregate_metrics, aggregate_coverage, gates, [trade["symbol"] for trade in champion_trades])
-    aggregate_score = REJECTED_SCORE if aggregate_rejection else score_metrics(aggregate_metrics, aggregate_coverage)
-    champion_aggregate = {
-        "config_hash": "walk_forward_champions",
-        "metrics": aggregate_metrics,
-        "coverage": aggregate_coverage,
-        "score": round_float(aggregate_score),
-        "rejected": bool(aggregate_rejection),
-        "rejection_reason": aggregate_rejection,
-        "evaluation_status": "optimizer_rejected" if aggregate_rejection else "ok",
-        "fold_count": len(fold_champion_results),
-        "fold_config_hashes": [result["config_hash"] for result in fold_champion_results],
-    }
+    progress = Progress(len(finalists) * len(folds), prefix="[backtest:walkforward:py]")
+    fold_results_by_hash: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for finalist in sorted(finalists.values(), key=lambda item: str(item["config_hash"])):
+        candidate = {"agentConfig": finalist["agentConfig"], "screenerConfig": finalist["screenerConfig"]}
+        for fold in folds:
+            fold_index = int(fold["fold_index"])
+            fold_symbols = list(fold["symbols"])
+            test_start = int(fold["test_start_ms"])
+            test_end = int(fold["test_end_ms"])
+            test_coverage = coverage_for_symbols(context, test_start, test_end, fold_symbols)
+            test_result = evaluate_candidate(
+                context,
+                candidate,
+                gates,
+                test_start,
+                test_end,
+                coverage=test_coverage,
+                include_trades=True,
+                symbols=fold_symbols,
+            )
+            test_result.update(
+                {
+                    "fold_index": fold_index,
+                    "train_start": fold["train_start"],
+                    "train_end": fold["train_end"],
+                    "test_start": fold["test_start"],
+                    "test_end": fold["test_end"],
+                    "universe_symbols": fold_symbols,
+                    "discovered_in_folds": finalist["discovered_in_folds"],
+                    "train_scores": finalist["train_scores"],
+                    "evaluation_scope": "walk_forward_full_finalist_test",
+                }
+            )
+            fold_results_by_hash[str(finalist["config_hash"])].append(test_result)
+            test_results_by_fold[fold_index].append(test_result)
+            all_test_results.append(test_result)
+            progress.tick(test_result)
+
+    for fold in folds:
+        fold_dir = settings.output_dir / f"fold_{int(fold['fold_index'])}"
+        write_json(fold_dir / "test_results.json", [strip_heavy_result(result) for result in test_results_by_fold[int(fold["fold_index"])]])
+
+    aggregates = sort_results([
+        aggregate_walk_forward_finalist(context, finalist, fold_results_by_hash[str(finalist["config_hash"])], folds, gates)
+        for finalist in finalists.values()
+    ])
+    champion_aggregate = aggregates[0]
+    accepted_aggregates = [result for result in aggregates if not result["rejected"]]
+    rejected_aggregates = [result for result in aggregates if result["rejected"]]
+    best_failed_aggregate = rejected_aggregates[0] if rejected_aggregates else None
     summary = {
         "mode": "walk_forward_oos",
-        "note": "Each fold optimizes on the training slice and evaluates the top training config on the following unseen test slice.",
+        "note": "Finalists are discovered on train folds, then every finalist is evaluated on every out-of-sample test fold.",
+        "validation_status": "walkforward_candidate" if not champion_aggregate.get("rejected") else "rejected",
+        "promotable": False,
+        "promotion_blockers": ["untouched_holdout_not_run", "stress_tests_not_run"],
         "optimizer_mode": settings.optimizer_mode,
         "exit_strategy": settings.exit_strategy,
         "decision_mode": settings.decision_mode,
+        "param_profile": settings.param_profile,
         "train_days": float(args.train_days),
         "test_days": float(args.test_days),
         "keep_count": keep_count_arg,
         "keep_ratio": keep_ratio,
         "fold_count": len(fold_summaries),
+        "candidate_count": len(finalists),
+        "accepted_count": len(accepted_aggregates),
+        "rejected_count": len(rejected_aggregates),
         "score_gates": gates.__dict__,
         "champion_aggregate": champion_aggregate,
+        "best_failed_aggregate": best_failed_aggregate,
         "folds": fold_summaries,
+    }
+    audit = {
+        "folds": fold_summaries,
+        "candidate_count": len(finalists),
+        "expected_fold_count": len(folds),
+        "accepted_count": len(accepted_aggregates),
+        "rejected_count": len(rejected_aggregates),
+        "rejection_counts": rejection_counts(aggregates),
+        "validation_status": "walkforward_candidate",
+        "promotable": False,
+        "best_failed_config_hash": best_failed_aggregate.get("config_hash") if best_failed_aggregate else None,
     }
 
     write_json(settings.output_dir / "walkforward_summary.json", summary)
     write_json(settings.output_dir / "walkforward_folds.json", fold_summaries)
     write_json(settings.output_dir / "walkforward_results.json", [strip_heavy_result(result) for result in all_test_results])
-    write_json(settings.output_dir / "walkforward_champion_results.json", [strip_heavy_result(result) for result in fold_champion_results])
-    write_json(settings.output_dir / "walkforward_champion_trades.json", champion_trades)
-    write_json(settings.output_dir / "coverage_summary.json", aggregate_coverage)
+    write_json(settings.output_dir / "walkforward_aggregates.json", [strip_heavy_result(result) for result in aggregates])
+    write_json(settings.output_dir / "coverage_summary.json", champion_aggregate["coverage"])
     write_json(settings.output_dir / "optimizer_trace.json", {"mode": "walk_forward", "fold_traces": fold_traces})
-    write_json(settings.output_dir / "top_configs.json", [champion_aggregate])
+    write_json(settings.output_dir / "optimizer_audit.json", audit)
+    write_json(settings.output_dir / "top_configs.json", [strip_heavy_result(result) for result in aggregates if not result["rejected"]][: settings.finalists])
     return summary
+
+
+def export_walk_forward_champion_prompts(context: BacktestContext, summary: dict[str, Any], args: argparse.Namespace) -> str | None:
+    settings = context.settings
+    if not settings.export_llm_prompts:
+        return None
+
+    champion = summary.get("champion_aggregate") or summary.get("best_failed_aggregate")
+    if not isinstance(champion, dict) or not champion.get("agentConfig") or not champion.get("screenerConfig"):
+        return None
+
+    train_ms = max(1, int(float(args.train_days) * 24 * 60 * 60_000))
+    test_ms = max(1, int(float(args.test_days) * 24 * 60 * 60_000))
+    folds = load_walk_forward_folds(settings, train_ms, test_ms)
+    recorder = build_prompt_recorder(settings)
+    if recorder is None:
+        return None
+
+    candidate = {
+        "agentConfig": champion["agentConfig"],
+        "screenerConfig": champion["screenerConfig"],
+    }
+    prior_recorder = context.prompt_recorder
+    context.prompt_recorder = recorder
+    trades: list[dict[str, Any]] = []
+    fold_exports: list[dict[str, Any]] = []
+    try:
+        for fold in folds:
+            before_count = recorder.count
+            fold_trades, _ = simulate_candidate(
+                context,
+                candidate,
+                int(fold["test_start_ms"]),
+                int(fold["test_end_ms"]),
+                symbols=list(fold["symbols"]),
+            )
+            trades.extend(fold_trades)
+            fold_exports.append({
+                "fold_index": int(fold["fold_index"]),
+                "test_start": fold["test_start"],
+                "test_end": fold["test_end"],
+                "symbols": list(fold["symbols"]),
+                "trade_count": len(fold_trades),
+                "prompt_count": recorder.count - before_count,
+            })
+    finally:
+        recorder.close()
+        context.prompt_recorder = prior_recorder
+
+    export_summary = {
+        "mode": "walk_forward_champion_oos_entry_prompts",
+        "zip": str(recorder.path),
+        "config_hash": champion.get("config_hash"),
+        "trade_count": len(trades),
+        "prompt_count": recorder.count,
+        "note": "Prompts are replayed only for the final walk-forward champion on OOS fold windows. One prompt can open more than one trade.",
+        "folds": fold_exports,
+    }
+    write_json(settings.output_dir / "llm_prompt_export_summary.json", export_summary)
+    print(
+        f"[backtest:optimize:py] Exported {recorder.count} champion OOS LLM prompts "
+        f"for {len(trades)} trades to {recorder.path}",
+        flush=True,
+    )
+    return str(recorder.path)
+
+
+def load_walk_forward_folds(settings: OptimizerSettings, train_ms: int, test_ms: int) -> list[dict[str, Any]]:
+    if settings.fold_universe_file:
+        payload = json.loads(Path(settings.fold_universe_file).read_text(encoding="utf-8"))
+        raw_folds = payload.get("folds") if isinstance(payload, dict) else None
+        if not isinstance(raw_folds, list):
+            raise SystemExit("--fold-universe-file must contain a JSON object with a folds array")
+        folds = [normalize_fold_plan_entry(raw) for raw in raw_folds]
+        return sorted(folds, key=lambda fold: int(fold["fold_index"]))
+
+    folds: list[dict[str, Any]] = []
+    fold_index = 0
+    train_start = settings.start_ms
+    while True:
+        train_end = train_start + train_ms
+        test_end = train_end + test_ms
+        if test_end > settings.end_ms:
+            break
+        folds.append({
+            "fold_index": fold_index,
+            "train_start_ms": train_start,
+            "train_end_ms": train_end,
+            "test_start_ms": train_end,
+            "test_end_ms": test_end,
+            "train_start": iso_ms(train_start),
+            "train_end": iso_ms(train_end),
+            "test_start": iso_ms(train_end),
+            "test_end": iso_ms(test_end),
+            "universe_selection_start": iso_ms(settings.start_ms),
+            "universe_selection_end": iso_ms(settings.start_ms),
+            "symbols": normalize_symbols(settings.symbols, False),
+        })
+        fold_index += 1
+        train_start += test_ms
+    return folds
+
+
+def normalize_fold_plan_entry(raw: Any) -> dict[str, Any]:
+    if not isinstance(raw, dict):
+        raise SystemExit("Invalid fold universe entry")
+    symbols = normalize_symbols([str(symbol) for symbol in raw.get("symbols", [])], False)
+    if not symbols:
+        raise SystemExit(f"Fold {raw.get('fold_index')} has no symbols")
+    train_start = parse_ts(str(raw["train_start"]))
+    train_end = parse_ts(str(raw["train_end"]))
+    test_start = parse_ts(str(raw["test_start"]))
+    test_end = parse_ts(str(raw["test_end"]))
+    return {
+        "fold_index": int(raw["fold_index"]),
+        "train_start_ms": train_start,
+        "train_end_ms": train_end,
+        "test_start_ms": test_start,
+        "test_end_ms": test_end,
+        "train_start": iso_ms(train_start),
+        "train_end": iso_ms(train_end),
+        "test_start": iso_ms(test_start),
+        "test_end": iso_ms(test_end),
+        "universe_selection_start": str(raw.get("universe_selection_start") or raw["train_start"]),
+        "universe_selection_end": str(raw.get("universe_selection_end") or raw["train_end"]),
+        "symbols": symbols,
+    }
+
+
+def aggregate_walk_forward_finalist(
+    context: BacktestContext,
+    finalist: dict[str, Any],
+    fold_results: list[dict[str, Any]],
+    folds: list[dict[str, Any]],
+    gates: OptimizerGates,
+) -> dict[str, Any]:
+    expected_fold_count = len(folds)
+    trades = [copy.deepcopy(trade) for result in fold_results for trade in result.get("trades", [])]
+    coverage = merge_coverages([result["coverage"] for result in fold_results])
+    metrics = build_aggregate_metrics_from_trades(context, trades, context.settings.start_ms)
+    passed_folds = [result for result in fold_results if not result.get("rejected")]
+    failed_folds = [result for result in fold_results if result.get("rejected")]
+    passed_fold_scores = [
+        safe_float(result.get("metric_quality_score"), raw_result_score(result))
+        for result in passed_folds
+    ]
+    passed_fold_scores_sorted = sorted(score for score in passed_fold_scores if math.isfinite(score))
+    median_score = percentile(passed_fold_scores_sorted, 0.50) if passed_fold_scores_sorted else REJECTED_SCORE
+    p25_score = percentile(passed_fold_scores_sorted, 0.25) if passed_fold_scores_sorted else REJECTED_SCORE
+    avg_score = sum(passed_fold_scores_sorted) / len(passed_fold_scores_sorted) if passed_fold_scores_sorted else REJECTED_SCORE
+    fold_quality_scores = [
+        safe_float(result.get("metric_quality_score"), raw_result_score(result))
+        for result in fold_results
+        if math.isfinite(safe_float(result.get("metric_quality_score"), raw_result_score(result)))
+    ]
+    fold_pass_count = len(passed_folds)
+    fold_pass_rate = fold_pass_count / expected_fold_count if expected_fold_count else 0.0
+    required_fold_pass_count = math.ceil(expected_fold_count * gates.min_fold_pass_rate) if expected_fold_count else 0
+    worst_drawdown = max([float(result["metrics"].get("max_drawdown_bps") or 0.0) for result in fold_results], default=0.0)
+    max_pnl_contribution = max_single_fold_pnl_contribution(fold_results)
+    distance = config_distance_from_base(finalist["agentConfig"], finalist["screenerConfig"], context.settings.param_specs)
+    aggregate_penalties = soft_penalty_breakdown(
+        metrics,
+        coverage,
+        gates,
+        sum(int(result.get("eligible_candidate_count") or 0) for result in fold_results),
+        fold_evaluation=False,
+    )
+    aggregate_concentration_penalty = safe_float(aggregate_penalties["concentration"].get("concentration_penalty_total"), 0.0)
+    fold_concentration_penalty = sum(safe_float(result.get("concentration_penalty_total"), 0.0) for result in fold_results)
+    concentration_penalty_total = aggregate_concentration_penalty + fold_concentration_penalty
+    min_trade_shortfall_penalty_total = sum(safe_float(result.get("min_trade_shortfall_penalty"), 0.0) for result in fold_results)
+    failed_fold_penalty_total = len(failed_folds) * gates.failed_fold_penalty_score
+    liquidation_penalty = safe_float(aggregate_penalties["liquidation"].get("liquidation_penalty"), 0.0) + sum(
+        safe_float(result.get("liquidation_penalty"), 0.0) for result in fold_results
+    )
+    coverage_penalty_total = coverage_penalty(coverage)
+    config_distance_penalty_total = gates.config_distance_penalty * distance
+
+    aggregate_rejection = optimizer_rejection_reason(metrics, coverage, gates, [trade["symbol"] for trade in trades])
+    if aggregate_rejection is None:
+        aggregate_rejection = config_distance_rejection_reason(distance, gates)
+
+    result = {
+        "config_hash": finalist["config_hash"],
+        "agentConfig": finalist["agentConfig"],
+        "screenerConfig": finalist["screenerConfig"],
+        "metrics": metrics,
+        "coverage": coverage,
+        "score": 0.0,
+        "config_distance_from_base": round_float(distance),
+        "rejected": False,
+        "rejection_reason": None,
+        "evaluation_status": "ok",
+        "validation_status": "walkforward_candidate",
+        "promotable": False,
+        "promotion_blockers": ["untouched_holdout_not_run", "stress_tests_not_run"],
+        "fold_count": len(fold_results),
+        "expected_fold_count": expected_fold_count,
+        "fold_pass_count": fold_pass_count,
+        "fold_total_count": expected_fold_count,
+        "fold_pass_rate": round_float(fold_pass_rate),
+        "required_fold_pass_rate": gates.min_fold_pass_rate,
+        "required_fold_pass_count": required_fold_pass_count,
+        "passed_fold_scores": [round_float(score) for score in passed_fold_scores_sorted],
+        "failed_fold_reasons": [
+            {
+                "fold_index": int(result.get("fold_index", -1)),
+                "rejection_reason": result.get("rejection_reason"),
+            }
+            for result in sorted(failed_folds, key=lambda item: int(item.get("fold_index", -1)))
+        ],
+        "median_passed_fold_score": round_float(median_score),
+        "p25_passed_fold_score": round_float(p25_score),
+        "avg_passed_fold_score": round_float(avg_score),
+        "median_fold_score": round_float(median_score),
+        "p25_fold_score": round_float(p25_score),
+        "worst_fold_score": round_float(min(fold_quality_scores) if fold_quality_scores else REJECTED_SCORE),
+        "max_worst_fold_drawdown_bps": round_float(worst_drawdown),
+        "max_single_fold_pnl_contribution": round_float(max_pnl_contribution),
+        "failed_fold_penalty_total": round_float(failed_fold_penalty_total),
+        "concentration_penalty_total": round_float(concentration_penalty_total),
+        "aggregate_concentration_penalty": round_float(aggregate_concentration_penalty),
+        "fold_concentration_penalty_total": round_float(fold_concentration_penalty),
+        "min_trade_shortfall_penalty_total": round_float(min_trade_shortfall_penalty_total),
+        "coverage_penalty": round_float(coverage_penalty_total),
+        "liquidation_penalty": round_float(liquidation_penalty),
+        "config_distance_penalty": round_float(config_distance_penalty_total),
+        "score_components": {
+            "median_passed_fold_score": round_float(median_score),
+            "p25_passed_fold_score": round_float(p25_score),
+            "failed_fold_penalty_total": round_float(failed_fold_penalty_total),
+            "min_trade_shortfall_penalty_total": round_float(min_trade_shortfall_penalty_total),
+            "coverage_penalty": round_float(coverage_penalty_total),
+            "concentration_penalty_total": round_float(concentration_penalty_total),
+            "liquidation_penalty": round_float(liquidation_penalty),
+            "config_distance_penalty": round_float(config_distance_penalty_total),
+        },
+        "fold_results": [strip_heavy_result(result) for result in sorted(fold_results, key=lambda item: int(item["fold_index"]))],
+        "discovered_in_folds": finalist["discovered_in_folds"],
+        "train_scores": finalist["train_scores"],
+    }
+    fold_rejection = fold_robustness_rejection_reason(result, gates)
+    rejection = aggregate_rejection or fold_rejection
+    raw_score = (
+        median_score
+        + 0.25 * p25_score
+        - failed_fold_penalty_total
+        - min_trade_shortfall_penalty_total
+        - coverage_penalty_total
+        - concentration_penalty_total
+        - liquidation_penalty
+        - config_distance_penalty_total
+    )
+    result["score"] = round_float(REJECTED_SCORE if rejection else raw_score)
+    result["raw_score"] = round_float(raw_score)
+    result["rejected"] = bool(rejection)
+    result["rejection_reason"] = rejection
+    result["evaluation_status"] = "optimizer_rejected" if rejection else "ok"
+    result["validation_status"] = "rejected" if rejection else "walkforward_candidate"
+    return result
+
+
+def fold_robustness_rejection_reason(result: dict[str, Any], gates: OptimizerGates) -> str | None:
+    fold_count = int(result.get("fold_count") or 0)
+    expected = int(result.get("expected_fold_count") or 0)
+    pass_count = int(result.get("fold_pass_count") or 0)
+    required_pass_count = int(result.get("required_fold_pass_count") or math.ceil(expected * gates.min_fold_pass_rate))
+    if gates.require_all_oos_folds and fold_count != expected:
+        return f"missing_oos_folds:{fold_count}<{expected}"
+    if fold_count < gates.min_oos_folds:
+        return f"min_oos_folds:{fold_count}<{gates.min_oos_folds}"
+    if pass_count < required_pass_count or safe_float(result.get("fold_pass_rate"), 0.0) < gates.min_fold_pass_rate:
+        return f"min_fold_pass_rate:{result.get('fold_pass_rate')}<{gates.min_fold_pass_rate}"
+    if safe_float(result.get("median_fold_score"), -math.inf) < gates.min_median_fold_score:
+        return f"min_median_fold_score:{result.get('median_fold_score')}<{gates.min_median_fold_score}"
+    if safe_float(result.get("p25_fold_score"), -math.inf) < gates.min_p25_fold_score:
+        return f"min_p25_fold_score:{result.get('p25_fold_score')}<{gates.min_p25_fold_score}"
+    if safe_float(result.get("max_worst_fold_drawdown_bps"), 0.0) > gates.max_worst_fold_drawdown_bps:
+        return f"max_worst_fold_drawdown_bps:{result.get('max_worst_fold_drawdown_bps')}>{gates.max_worst_fold_drawdown_bps}"
+    if safe_float(result.get("max_single_fold_pnl_contribution"), math.inf) > gates.max_single_fold_pnl_contribution:
+        return f"max_single_fold_pnl_contribution:{result.get('max_single_fold_pnl_contribution')}>{gates.max_single_fold_pnl_contribution}"
+    return None
+
+
+def max_single_fold_pnl_contribution(fold_results: Sequence[dict[str, Any]]) -> float:
+    positive_pnls = [max(0.0, float(result["metrics"].get("net_pnl_usd") or 0.0)) for result in fold_results]
+    total_positive = sum(positive_pnls)
+    if total_positive <= 0:
+        return 0.0
+    return max(positive_pnls) / total_positive
 
 
 def strip_heavy_result(result: dict[str, Any] | None) -> dict[str, Any] | None:
@@ -1194,12 +1902,22 @@ def strip_heavy_result(result: dict[str, Any] | None) -> dict[str, Any] | None:
 
 def coverage_for_window(context: BacktestContext, start_ms: int, end_ms: int) -> dict[str, Any]:
     settings = context.settings
+    return coverage_for_symbols(context, start_ms, end_ms, settings.symbols)
+
+
+def coverage_for_symbols(
+    context: BacktestContext,
+    start_ms: int,
+    end_ms: int,
+    symbols: Sequence[str],
+) -> dict[str, Any]:
+    settings = context.settings
     coverage = coverage_from_parquet(
         settings.data_root,
         start_ms,
         end_ms,
         settings.interval_seconds,
-        settings.symbols,
+        symbols,
     )
     coverage.update(
         {
@@ -1208,7 +1926,7 @@ def coverage_for_window(context: BacktestContext, start_ms: int, end_ms: int) ->
             "missing_candle_intervals": [],
             "symbols_dropped_insufficient_history": [],
             "skipped_timestamps": [],
-            "execution_candle_rows": count_candles_in_window(context, start_ms, end_ms),
+            "execution_candle_rows": count_candles_in_window(context, start_ms, end_ms, symbols),
             "exit_strategy": settings.exit_strategy,
             "decision_mode": settings.decision_mode,
         }
@@ -1216,9 +1934,12 @@ def coverage_for_window(context: BacktestContext, start_ms: int, end_ms: int) ->
     return coverage
 
 
-def count_candles_in_window(context: BacktestContext, start_ms: int, end_ms: int) -> int:
+def count_candles_in_window(context: BacktestContext, start_ms: int, end_ms: int, symbols: Sequence[str] | None = None) -> int:
     count = 0
-    for series in context.candles_by_symbol.values():
+    allowed = set(normalize_symbols(symbols, True)) if symbols is not None else None
+    for symbol, series in context.candles_by_symbol.items():
+        if allowed is not None and symbol not in allowed:
+            continue
         left = bisect_right(series.ts_ms, start_ms - 1)
         right = bisect_right(series.ts_ms, end_ms)
         count += max(0, right - left)
@@ -1285,11 +2006,12 @@ def evaluate_batch(
     start_ms: int,
     end_ms: int,
     coverage: dict[str, Any] | None = None,
+    symbols: Sequence[str] | None = None,
 ) -> list[dict[str, Any]]:
     results: list[dict[str, Any]] = []
     progress = Progress(len(candidates))
     for candidate in candidates:
-        result = evaluate_candidate(context, candidate, gates, start_ms, end_ms, coverage=coverage)
+        result = evaluate_candidate(context, candidate, gates, start_ms, end_ms, coverage=coverage, symbols=symbols)
         results.append(result)
         progress.tick(result)
     return results
@@ -1303,9 +2025,18 @@ def evaluate_candidate(
     end_ms: int,
     coverage: dict[str, Any] | None = None,
     include_trades: bool = False,
+    symbols: Sequence[str] | None = None,
 ) -> dict[str, Any]:
     try:
-        trades, equity_curve = simulate_candidate(context, candidate, start_ms, end_ms)
+        simulation_diagnostics: dict[str, Any] = {}
+        trades, equity_curve = simulate_candidate(
+            context,
+            candidate,
+            start_ms,
+            end_ms,
+            symbols=symbols,
+            diagnostics=simulation_diagnostics,
+        )
         metrics = build_metrics(
             context.settings.initial_capital_usd,
             equity_curve,
@@ -1316,8 +2047,37 @@ def evaluate_candidate(
             context.settings.decision_mode,
         )
         result_coverage = copy.deepcopy(coverage if coverage is not None else context.coverage)
-        rejection = optimizer_rejection_reason(metrics, result_coverage, gates, [trade["symbol"] for trade in trades])
-        score = REJECTED_SCORE if rejection else score_metrics(metrics, result_coverage)
+        distance = config_distance_from_base(candidate["agentConfig"], candidate["screenerConfig"], context.settings.param_specs)
+        eligible_candidate_count = int(simulation_diagnostics.get("eligible_candidate_count") or 0)
+        penalties = soft_penalty_breakdown(
+            metrics,
+            result_coverage,
+            gates,
+            eligible_candidate_count,
+            fold_evaluation=include_trades,
+        )
+        min_trade = penalties["min_trade"]
+        concentration = penalties["concentration"]
+        liquidation = penalties["liquidation"]
+        rejection = optimizer_rejection_reason(
+            metrics,
+            result_coverage,
+            gates,
+            [trade["symbol"] for trade in trades],
+            fold_evaluation=include_trades,
+            eligible_candidate_count=eligible_candidate_count,
+        )
+        if rejection is None:
+            rejection = config_distance_rejection_reason(distance, gates)
+        metric_score = metric_quality_score(metrics)
+        raw_score = score_metrics(
+            metrics,
+            result_coverage,
+            gates,
+            eligible_candidate_count,
+            fold_evaluation=include_trades,
+        ) - gates.config_distance_penalty * distance
+        score = REJECTED_SCORE if rejection else raw_score
         result = {
             "config_hash": config_hash(candidate["agentConfig"], candidate["screenerConfig"]),
             "agentConfig": candidate["agentConfig"],
@@ -1325,6 +2085,27 @@ def evaluate_candidate(
             "metrics": metrics,
             "coverage": result_coverage,
             "score": round_float(score),
+            "raw_score": round_float(raw_score),
+            "metric_quality_score": round_float(metric_score),
+            "eligible_candidate_count": eligible_candidate_count,
+            "configured_min_trades": min_trade["configured_min_trades"],
+            "effective_min_trades": min_trade["effective_min_trades"],
+            "min_trades_floor": min_trade["min_trades_floor"],
+            "min_trade_shortfall_penalty": min_trade["min_trade_shortfall_penalty"],
+            "concentration_penalty_total": concentration["concentration_penalty_total"],
+            "concentration_penalties": concentration,
+            "coverage_penalty": penalties["coverage_penalty"],
+            "liquidation_penalty": liquidation["liquidation_penalty"],
+            "soft_penalty_total": penalties["soft_penalty_total"],
+            "score_components": {
+                "metric_quality_score": round_float(metric_score),
+                "min_trade_shortfall_penalty": min_trade["min_trade_shortfall_penalty"],
+                "concentration_penalty_total": concentration["concentration_penalty_total"],
+                "coverage_penalty": penalties["coverage_penalty"],
+                "liquidation_penalty": liquidation["liquidation_penalty"],
+                "config_distance_penalty": round_float(gates.config_distance_penalty * distance),
+            },
+            "config_distance_from_base": round_float(distance),
             "rejected": bool(rejection),
             "rejection_reason": rejection,
             "evaluation_status": "optimizer_rejected" if rejection else "ok",
@@ -1336,16 +2117,28 @@ def evaluate_candidate(
         return failed_result(candidate, f"runner_error:{type(exc).__name__}:{exc}")
 
 
+def features_for_symbols(context: BacktestContext, symbols: Sequence[str] | None) -> pl.DataFrame:
+    if symbols is None:
+        return context.features
+    perp_symbols = normalize_symbols(symbols, True)
+    if not perp_symbols:
+        return context.features.head(0)
+    return context.features.filter(pl.col("symbol").is_in(perp_symbols))
+
+
 def simulate_candidate(
     context: BacktestContext,
     candidate: dict[str, Any],
     start_ms: int,
     end_ms: int,
+    symbols: Sequence[str] | None = None,
+    diagnostics: dict[str, Any] | None = None,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     settings = context.settings
     entry_end_ms = max(start_ms, end_ms - max_horizon_minutes(settings) * 60_000)
     agent = candidate["agentConfig"]
     screener = candidate["screenerConfig"]
+    config_hash_value = config_hash(agent, screener)
     network = agent["network_profiles"][settings.network]
     fees_bps = float(network["fees_bps"])
     min_slippage_bps = float(network["slippage_model"]["min_bps"])
@@ -1353,7 +2146,7 @@ def simulate_candidate(
     risk = agent["risk"]
 
     candidates = build_signal_frame(
-        context.features,
+        features_for_symbols(context, symbols),
         agent,
         screener,
         fees_bps,
@@ -1364,6 +2157,8 @@ def simulate_candidate(
         entry_end_ms,
         settings.hold_minutes * 60_000,
     )
+    if diagnostics is not None:
+        diagnostics["eligible_candidate_count"] = int(candidates.height)
 
     if candidates.is_empty():
         return [], [{"ts": iso_ms(start_ms), "equity_usd": settings.initial_capital_usd}]
@@ -1434,7 +2229,26 @@ def simulate_candidate(
                     active_by_symbol[position.symbol] = remaining
 
         opened_this_cycle = 0
-        for row in sorted(rows_by_ts.get(ts_ms, []), key=lambda candidate_row: deterministic_candidate_sort_key(candidate_row, agent)):
+        sorted_rows = sorted(rows_by_ts.get(ts_ms, []), key=lambda candidate_row: deterministic_candidate_sort_key(candidate_row, agent))
+        pending_prompt_context = (
+            build_llm_trader_context_for_cycle(
+                context=context,
+                ts_ms=ts_ms,
+                rows=sorted_rows,
+                active_by_symbol=active_by_symbol,
+                closed_symbols_this_cycle=closed_symbols_this_cycle,
+                equity=equity,
+                agent=agent,
+                max_positions=max_positions,
+                max_total_exposure_fraction=max_total_exposure_fraction,
+                min_trade_notional=min_trade_notional,
+                max_new=max_new,
+                managed_sltp=managed_sltp,
+            )
+            if context.prompt_recorder is not None
+            else None
+        )
+        for row in sorted_rows:
             if opened_this_cycle >= max_new:
                 break
             symbol = str(row["symbol"])
@@ -1465,6 +2279,7 @@ def simulate_candidate(
                 stop_loss_pct=stop_loss_pct,
                 regime_multiplier=float(regime_policy["multiplier"]),
                 recorded_target=recorded_target,
+                network=context.settings.network,
             )
             if size_fraction <= 0:
                 continue
@@ -1475,12 +2290,22 @@ def simulate_candidate(
                 continue
             if active_notional + notional > equity * max_total_exposure_fraction:
                 continue
+            if not hyperliquid_exchange_leverage_allowed(row, notional, agent, context.settings.network):
+                continue
 
             position = build_position(row, notional, size_fraction, fees_bps, min_slippage_bps, agent, context, trade_counter)
             trade_counter += 1
             active_by_symbol[symbol] = position
             opened_this_cycle += 1
             heapq.heappush(active_heap, (position.exit_ts_ms, position.trade_id, position))
+
+        if opened_this_cycle > 0 and pending_prompt_context and pending_prompt_context["eligible_candidates"]:
+            record_llm_prompt_for_cycle(
+                context=context,
+                config_hash_value=config_hash_value,
+                ts_ms=ts_ms,
+                trader_context=pending_prompt_context,
+            )
 
     while active_heap:
         _, _, position = heapq.heappop(active_heap)
@@ -2078,10 +2903,24 @@ def recorded_target_size_fraction(context: BacktestContext, row: dict[str, Any])
         if str(decision.get("target_side") or "") != str(row.get("side") or ""):
             return None
         playbook = str(decision.get("playbook") or "")
-        if playbook and playbook != playbook_name(row):
+        if playbook and not recorded_playbook_matches_row(playbook, row):
             return None
         return max(0.0, safe_float(decision.get("target_size_fraction_of_equity"), 0.0))
     return None
+
+
+def recorded_playbook_matches_row(recorded_playbook: str, row: dict[str, Any]) -> bool:
+    expected = playbook_name(row)
+    expected_base = expected.split(":")[0]
+    side = str(row.get("side") or "").strip()
+    allowed = {expected, expected_base}
+    if side:
+        allowed.add(f"{expected_base}:{side}")
+
+    def normalize(value: str) -> str:
+        return value.replace("_", " ").strip().lower()
+
+    return normalize(recorded_playbook) in {normalize(value) for value in allowed}
 
 
 def candidate_id_for_row(row: dict[str, Any]) -> str:
@@ -2100,28 +2939,33 @@ def apply_regime_policy(row: dict[str, Any], agent: dict[str, Any]) -> dict[str,
     side = str(row.get("side") or "")
     playbooks = row_playbooks(row)
     has_strong_margin = has_strong_trigger_margin(row, playbooks, agent)
+    warnings: list[str] = []
 
     if regime == "RISK_ON":
         if any(playbook.startswith("Mean Reversion") for playbook in playbooks):
-            return {"allowed": True, "multiplier": 0.5}
-        return {"allowed": True, "multiplier": 1.0}
+            warnings.append("RISK_ON mean reversion reduced")
+            return {"allowed": True, "multiplier": 0.5, "warnings": warnings}
+        return {"allowed": True, "multiplier": 1.0, "warnings": warnings}
 
     if regime == "CHOP":
         if any(playbook.startswith("Mean Reversion") for playbook in playbooks):
-            return {"allowed": True, "multiplier": 0.5}
+            return {"allowed": True, "multiplier": 0.5, "warnings": warnings}
         if any(playbook.startswith("Breakout") for playbook in playbooks) and has_strong_margin:
-            return {"allowed": True, "multiplier": 0.5}
-        return {"allowed": False, "multiplier": 0.0}
+            warnings.append("CHOP breakout requires strong trigger margin")
+            return {"allowed": True, "multiplier": 0.5, "warnings": warnings}
+        return {"allowed": False, "multiplier": 0.0, "warnings": warnings}
 
     if regime == "RISK_OFF":
+        warnings.append("RISK_OFF regime")
         has_momentum_or_breakout = any(playbook.startswith("Momentum") or playbook.startswith("Breakout") for playbook in playbooks)
         if side == "short" and has_momentum_or_breakout:
-            return {"allowed": True, "multiplier": 0.75}
+            return {"allowed": True, "multiplier": 0.75, "warnings": warnings}
         if side == "long" and has_momentum_or_breakout and has_strong_margin:
-            return {"allowed": True, "multiplier": 0.25}
-        return {"allowed": False, "multiplier": 0.0}
+            warnings.append("RISK_OFF hard-trigger long heavily reduced")
+            return {"allowed": True, "multiplier": 0.25, "warnings": warnings}
+        return {"allowed": False, "multiplier": 0.0, "warnings": warnings}
 
-    return {"allowed": True, "multiplier": 0.5}
+    return {"allowed": True, "multiplier": 0.5, "warnings": warnings}
 
 
 def row_playbooks(row: dict[str, Any]) -> list[str]:
@@ -2167,6 +3011,112 @@ def cost_sanity_ok(row: dict[str, Any], stop_loss_pct: float, take_profit_pct: f
     )
 
 
+def configured_exchange_leverage(agent: dict[str, Any]) -> float:
+    risk = agent.get("risk", {})
+    leverage = safe_float(risk.get("exchange_max_leverage_allowed") or risk.get("max_effective_leverage") or 1.0, 1.0)
+    return max(1.0, math.floor(leverage))
+
+
+def hyperliquid_margin_tiers(symbol: str, network: str) -> list[tuple[float, float]] | None:
+    key = base_symbol(str(symbol)).upper()
+    table = TESTNET_MARGIN_TIERS if network == "testnet" else MAINNET_MARGIN_TIERS
+    tiers = table.get(key)
+    return sorted(tiers, key=lambda tier: tier[0]) if tiers else None
+
+
+def hyperliquid_max_leverage_for_notional(symbol: str, notional: float, network: str, fallback: float) -> float:
+    tiers = hyperliquid_margin_tiers(symbol, network)
+    if not tiers:
+        return max(1.0, fallback)
+    max_leverage = tiers[0][1]
+    for lower_bound, tier_leverage in tiers:
+        if notional >= lower_bound:
+            max_leverage = tier_leverage
+        else:
+            break
+    return max(1.0, max_leverage)
+
+
+def hyperliquid_exchange_leverage_allowed(row: dict[str, Any], notional: float, agent: dict[str, Any], network: str) -> bool:
+    configured = configured_exchange_leverage(agent)
+    max_allowed = hyperliquid_max_leverage_for_notional(str(row.get("symbol") or ""), notional, network, configured)
+    return configured <= max_allowed + 1e-12
+
+
+def hyperliquid_maintenance_margin_rate(symbol: str, notional: float, network: str, fallback_max_leverage: float) -> float:
+    max_leverage = hyperliquid_max_leverage_for_notional(symbol, notional, network, fallback_max_leverage)
+    return 1.0 / (2.0 * max(1.0, max_leverage))
+
+
+def hyperliquid_maintenance_margin_requirement(symbol: str, notional: float, network: str, fallback_max_leverage: float) -> float:
+    tiers = hyperliquid_margin_tiers(symbol, network)
+    if not tiers:
+        return max(0.0, notional * hyperliquid_maintenance_margin_rate(symbol, notional, network, fallback_max_leverage))
+
+    tier_index = 0
+    for index, (lower_bound, _max_leverage) in enumerate(tiers):
+        if notional >= lower_bound:
+            tier_index = index
+        else:
+            break
+
+    maintenance_deduction = 0.0
+    prior_rate = 1.0 / (2.0 * tiers[0][1])
+    for index in range(1, tier_index + 1):
+        lower_bound, max_leverage = tiers[index]
+        current_rate = 1.0 / (2.0 * max_leverage)
+        maintenance_deduction += lower_bound * (current_rate - prior_rate)
+        prior_rate = current_rate
+
+    current_rate = 1.0 / (2.0 * tiers[tier_index][1])
+    return max(0.0, notional * current_rate - maintenance_deduction)
+
+
+def hyperliquid_liquidation_price(
+    *,
+    row: dict[str, Any],
+    side: str,
+    entry_price: float,
+    notional: float,
+    agent: dict[str, Any],
+    network: str,
+) -> float | None:
+    if entry_price <= 0 or notional <= 0:
+        return None
+    configured_leverage = configured_exchange_leverage(agent)
+    if not hyperliquid_exchange_leverage_allowed(row, notional, agent, network):
+        return entry_price
+
+    maintenance_requirement = hyperliquid_maintenance_margin_requirement(str(row.get("symbol") or ""), notional, network, configured_leverage)
+    isolated_margin = notional / configured_leverage
+    margin_available = isolated_margin - maintenance_requirement
+    position_size = notional / entry_price
+    if position_size <= 0:
+        return None
+
+    side_sign = 1.0 if side == "long" else -1.0
+    maintenance_rate = hyperliquid_maintenance_margin_rate(str(row.get("symbol") or ""), notional, network, configured_leverage)
+    denominator = 1.0 - maintenance_rate * side_sign
+    if denominator <= 0:
+        return entry_price
+    liquidation_price = entry_price - side_sign * margin_available / position_size / denominator
+    return liquidation_price if liquidation_price > 0 else None
+
+
+def liquidation_touched(side: str, liquidation_price: float | None, high: float, low: float) -> bool:
+    if liquidation_price is None:
+        return False
+    return low <= liquidation_price if side == "long" else high >= liquidation_price
+
+
+def liquidation_distance_bps(side: str, entry_price: float, liquidation_price: float | None) -> float | None:
+    if liquidation_price is None or entry_price <= 0:
+        return None
+    if side == "long":
+        return max(0.0, ((entry_price - liquidation_price) / entry_price) * 10_000)
+    return max(0.0, ((liquidation_price - entry_price) / entry_price) * 10_000)
+
+
 def compute_main_app_size_fraction(
     *,
     row: dict[str, Any],
@@ -2176,9 +3126,43 @@ def compute_main_app_size_fraction(
     stop_loss_pct: float,
     regime_multiplier: float,
     recorded_target: float | None,
+    network: str = "mainnet",
 ) -> float:
+    return compute_main_app_sizing(
+        row=row,
+        equity=equity,
+        active_positions=active_positions,
+        agent=agent,
+        stop_loss_pct=stop_loss_pct,
+        regime_multiplier=regime_multiplier,
+        recorded_target=recorded_target,
+        network=network,
+    )["suggested_size_fraction"]
+
+
+def compute_main_app_sizing(
+    *,
+    row: dict[str, Any],
+    equity: float,
+    active_positions: dict[str, Position],
+    agent: dict[str, Any],
+    stop_loss_pct: float,
+    regime_multiplier: float,
+    recorded_target: float | None,
+    network: str = "mainnet",
+) -> dict[str, float]:
+    zero_sizing = {
+        "risk_based_size_fraction": 0.0,
+        "max_allowed_size_fraction": 0.0,
+        "suggested_size_fraction": 0.0,
+        "min_size_fraction": 0.0,
+        "risk_at_suggested_size_pct_equity": 0.0,
+        "effective_leverage_at_suggested_size": 0.0,
+        "max_effective_leverage_allowed": 0.0,
+        "exchange_max_leverage_allowed": 0.0,
+    }
     if equity <= 0 or stop_loss_pct <= 0:
-        return 0.0
+        return zero_sizing
     risk = agent["risk"]
     min_size_fraction = safe_float(risk["min_trade_notional_usd"]) / equity
     risk_based_size = safe_float(risk["risk_per_trade_pct"]) / stop_loss_pct
@@ -2189,7 +3173,18 @@ def compute_main_app_size_fraction(
     symbol_remaining = max(0.0, safe_float(risk["max_position_fraction_per_symbol"]) - symbol_exposure)
     same_direction_exposure = sum(position.size_fraction for position in active_positions.values() if position.side == row.get("side"))
     group_remaining = max(0.0, safe_float(risk["max_correlation_group_exposure_fraction"]) - same_direction_exposure)
-    effective_leverage_ceiling = max(0.0, safe_float(risk.get("max_effective_leverage") or risk.get("exchange_max_leverage_allowed") or 1.0))
+    configured_exchange_ceiling = configured_exchange_leverage(agent)
+    asset_max_leverage = hyperliquid_max_leverage_for_notional(
+        str(row.get("symbol") or ""),
+        max(0.0, equity * safe_float(risk.get("max_position_fraction"), 0.0)),
+        network,
+        configured_exchange_ceiling,
+    )
+    exchange_leverage_ceiling = max(0.0, min(configured_exchange_ceiling, asset_max_leverage))
+    effective_leverage_ceiling = max(
+        0.0,
+        min(safe_float(risk.get("max_effective_leverage") or risk.get("exchange_max_leverage_allowed") or 1.0), exchange_leverage_ceiling),
+    )
 
     raw_cap = min(
         risk_based_size,
@@ -2201,14 +3196,23 @@ def compute_main_app_size_fraction(
     )
     max_allowed = max(0.0, raw_cap * regime_multiplier)
     feasible_max = max_allowed if max_allowed >= min_size_fraction else 0.0
-    if feasible_max <= 0:
-        return 0.0
-
+    suggested = 0.0
     if recorded_target is not None:
-        return recorded_target if min_size_fraction <= recorded_target <= feasible_max else 0.0
+        suggested = recorded_target if min_size_fraction <= recorded_target <= feasible_max else 0.0
+    elif feasible_max > 0:
+        suggested_raw = feasible_max * trigger_quality_multiplier(row, agent) * cost_quality_multiplier(row)
+        suggested = min(suggested_raw, feasible_max) if suggested_raw >= min_size_fraction else 0.0
 
-    suggested = feasible_max * trigger_quality_multiplier(row, agent) * cost_quality_multiplier(row)
-    return min(suggested, feasible_max) if suggested >= min_size_fraction else 0.0
+    return {
+        "risk_based_size_fraction": risk_based_size,
+        "max_allowed_size_fraction": feasible_max,
+        "suggested_size_fraction": suggested,
+        "min_size_fraction": min_size_fraction,
+        "risk_at_suggested_size_pct_equity": suggested * stop_loss_pct,
+        "effective_leverage_at_suggested_size": suggested,
+        "max_effective_leverage_allowed": effective_leverage_ceiling,
+        "exchange_max_leverage_allowed": exchange_leverage_ceiling,
+    }
 
 
 def trigger_quality_multiplier(row: dict[str, Any], agent: dict[str, Any]) -> float:
@@ -2258,6 +3262,426 @@ def cost_quality_multiplier(row: dict[str, Any]) -> float:
     return 0.3
 
 
+def record_llm_prompt_for_cycle(
+    *,
+    context: BacktestContext,
+    config_hash_value: str,
+    ts_ms: int,
+    trader_context: dict[str, Any],
+) -> None:
+    recorder = context.prompt_recorder
+    if recorder is None:
+        return
+
+    recorder.write_prompt(
+        config_hash_value=config_hash_value,
+        ts_ms=ts_ms,
+        candidate_count=len(trader_context["eligible_candidates"]),
+        position_count=len(trader_context["existing_positions"]),
+        prompt=build_trader_prompt(trader_context),
+    )
+
+
+def build_llm_trader_context_for_cycle(
+    *,
+    context: BacktestContext,
+    ts_ms: int,
+    rows: Sequence[dict[str, Any]],
+    active_by_symbol: dict[str, Position],
+    closed_symbols_this_cycle: set[str],
+    equity: float,
+    agent: dict[str, Any],
+    max_positions: int,
+    max_total_exposure_fraction: float,
+    min_trade_notional: float,
+    max_new: int,
+    managed_sltp: bool,
+) -> dict[str, Any]:
+    global_regime = dominant_regime(rows)
+    row_by_symbol = {str(row.get("symbol") or ""): row for row in rows}
+    existing_positions = [
+        build_prompt_existing_position(position, row_by_symbol.get(position.symbol), global_regime)
+        for position in active_by_symbol.values()
+    ]
+
+    eligible_candidates: list[dict[str, Any]] = []
+    for row in rows:
+        candidate = build_prompt_candidate_for_row(
+            context=context,
+            row=row,
+            active_by_symbol=active_by_symbol,
+            closed_symbols_this_cycle=closed_symbols_this_cycle,
+            equity=equity,
+            agent=agent,
+            max_positions=max_positions,
+            max_total_exposure_fraction=max_total_exposure_fraction,
+            min_trade_notional=min_trade_notional,
+            managed_sltp=managed_sltp,
+        )
+        if candidate is None:
+            continue
+        eligible_candidates.append(candidate)
+        if len(eligible_candidates) >= max(0, max_new):
+            break
+
+    gross_exposure = sum(position.size_fraction for position in active_by_symbol.values())
+    remaining_capacity = max(0.0, safe_float(agent["risk"]["max_total_exposure_fraction"]) - gross_exposure)
+    return {
+        "snapshot_id": None,
+        "timestamp": int(ts_ms),
+        "global_regime": global_regime,
+        "profile": context.settings.agent_preset_name or context.settings.param_profile,
+        "portfolio": {
+            "equity_usd": prompt_float(equity, 2),
+            "gross_exposure_fraction": prompt_float(gross_exposure, 6),
+            "remaining_capacity_fraction": prompt_float(remaining_capacity, 6),
+            "daily_pnl_pct": 0,
+            "kill_switch": False,
+        },
+        "existing_positions": existing_positions,
+        "eligible_candidates": eligible_candidates,
+        "max_new_trades_allowed": max(0, int(max_new)),
+    }
+
+
+def build_prompt_candidate_for_row(
+    *,
+    context: BacktestContext,
+    row: dict[str, Any],
+    active_by_symbol: dict[str, Position],
+    closed_symbols_this_cycle: set[str],
+    equity: float,
+    agent: dict[str, Any],
+    max_positions: int,
+    max_total_exposure_fraction: float,
+    min_trade_notional: float,
+    managed_sltp: bool,
+) -> dict[str, Any] | None:
+    risk = agent["risk"]
+    symbol = str(row.get("symbol") or "")
+    if not symbol or symbol in active_by_symbol:
+        return None
+    if managed_sltp and symbol in closed_symbols_this_cycle and risk.get("no_flip_same_tick", True):
+        return None
+    if len(active_by_symbol) >= max_positions:
+        return None
+
+    recorded_target = recorded_target_size_fraction(context, row)
+    if context.settings.decision_mode == "recorded_llm" and recorded_target is None:
+        return None
+
+    regime_policy = apply_regime_policy(row, agent)
+    if not regime_policy["allowed"]:
+        return None
+
+    stop_loss_pct, take_profit_pct = compute_risk_plan(row, agent)
+    if not cost_sanity_ok(row, stop_loss_pct, take_profit_pct, agent):
+        return None
+
+    sizing = compute_main_app_sizing(
+        row=row,
+        equity=equity,
+        active_positions=active_by_symbol,
+        agent=agent,
+        stop_loss_pct=stop_loss_pct,
+        regime_multiplier=float(regime_policy["multiplier"]),
+        recorded_target=recorded_target,
+        network=context.settings.network,
+    )
+    size_fraction = sizing["suggested_size_fraction"]
+    if size_fraction <= 0:
+        return None
+
+    active_notional = sum(position.notional_usd for position in active_by_symbol.values())
+    notional = equity * size_fraction
+    if notional < min_trade_notional:
+        return None
+    if active_notional + notional > equity * max_total_exposure_fraction:
+        return None
+    if not hyperliquid_exchange_leverage_allowed(row, notional, agent, context.settings.network):
+        return None
+
+    correlation = build_prompt_correlation(row, active_by_symbol, agent)
+    return {
+        "candidate_id": candidate_id_for_row(row),
+        "symbol": symbol,
+        "side": str(row.get("side") or ""),
+        "eligible_playbooks": row_playbooks(row),
+        "has_hard_trigger": True,
+        "trigger_diagnostics": {
+            "trigger_profile": context.settings.param_profile,
+            "triggered_playbooks": row_playbooks(row),
+            "trigger_margin": build_prompt_trigger_margin(row, agent, float(regime_policy["multiplier"])),
+        },
+        "market_quality": {
+            "rank": prompt_rank(row.get("screen_rank")),
+            "cost_bps": prompt_float(row.get("cost_bps"), 4),
+            "edge_bps": prompt_float(prompt_edge_bps(row), 4),
+            "edge_to_cost_mult": prompt_float(row.get("edge_to_cost_mult"), 6),
+            "book_pressure": prompt_float(row.get("book_pressure_10bps"), 6),
+            "vol_ratio_5m_vs_1h": prompt_float(row.get("vol_ratio_5m_vs_1h"), 6),
+            "ret_sigma_5m_vs_1h": prompt_float(row.get("ret_sigma_5m_vs_1h"), 6),
+            "trend_aligned": bool(row.get("trend_aligned")),
+            "min_depth_usd": prompt_float(row.get("depth_usd"), 2),
+        },
+        "risk": build_prompt_risk_fields(
+            row,
+            stop_loss_pct,
+            take_profit_pct,
+            notional=notional,
+            agent=agent,
+            network=context.settings.network,
+        ),
+        "sizing": prompt_sizing_fields(sizing),
+        "correlation": correlation,
+        "warnings": build_prompt_candidate_warnings(str(row.get("regime") or "CHOP"), str(row.get("side") or ""), correlation, regime_policy),
+    }
+
+
+def build_prompt_existing_position(position: Position, row: dict[str, Any] | None, global_regime: str) -> dict[str, Any]:
+    market_signal = build_prompt_position_market_signal(position, row, global_regime)
+    failure_signals = build_prompt_position_failure_signals(position, market_signal)
+    support_signals = build_prompt_position_support_signals(market_signal)
+    return {
+        "symbol": position.symbol,
+        "side": position.side,
+        "exposure_fraction": prompt_float(position.size_fraction, 6),
+        "size_usd": prompt_float(position.notional_usd, 2),
+        "entry_price": prompt_float(position.entry_price, 8),
+        "unrealized_pnl_usd": prompt_float(prompt_unrealized_pnl(position, row), 2),
+        "market_signal": market_signal,
+        "management_limits": {
+            "can_hold": True,
+            "can_reduce": True,
+            "can_close": True,
+            "can_increase": False,
+            "max_increase_to_fraction": 0,
+        },
+        "management_bias": build_prompt_management_bias(position, market_signal),
+        "failure_signals": failure_signals,
+        "support_signals": support_signals,
+    }
+
+
+def build_prompt_position_market_signal(position: Position, row: dict[str, Any] | None, global_regime: str) -> dict[str, Any]:
+    regime_conflict = global_regime == "RISK_OFF" and position.side == "long"
+    if row is None:
+        return {
+            "edge_ok": False,
+            "entry_ok": False,
+            "risk_eligible": False,
+            "reasons_failed": ["market_data_missing"],
+            "book_pressure": None,
+            "book_pressure_side_alignment": "unknown",
+            "ret_sigma_5m_vs_1h": None,
+            "vol_ratio_5m_vs_1h": None,
+            "trend_aligned": False,
+            "regime_conflict": regime_conflict,
+        }
+
+    book_pressure = safe_float(row.get("book_pressure_10bps"), 0.0)
+    return {
+        "edge_ok": True,
+        "entry_ok": True,
+        "risk_eligible": True,
+        "reasons_failed": [],
+        "book_pressure": prompt_float(book_pressure, 6),
+        "book_pressure_side_alignment": prompt_book_pressure_alignment(position.side, book_pressure),
+        "ret_sigma_5m_vs_1h": prompt_float(row.get("ret_sigma_5m_vs_1h"), 6),
+        "vol_ratio_5m_vs_1h": prompt_float(row.get("vol_ratio_5m_vs_1h"), 6),
+        "trend_aligned": bool(row.get("trend_aligned")),
+        "regime_conflict": regime_conflict,
+    }
+
+
+def build_prompt_position_failure_signals(position: Position, signal: dict[str, Any]) -> list[str]:
+    failures: list[str] = []
+    if not signal["edge_ok"]:
+        failures.append("edge_ok_false")
+    if not signal["entry_ok"]:
+        failures.append("entry_ok_false")
+    if not signal["risk_eligible"]:
+        failures.append("risk_not_eligible")
+    if signal["book_pressure_side_alignment"] == "opposite":
+        failures.append("book_pressure_opposite")
+    if signal["regime_conflict"]:
+        failures.append("regime_conflict")
+    if position.side == "long" and signal["regime_conflict"] and (not signal["edge_ok"] or signal["book_pressure_side_alignment"] == "opposite"):
+        failures.append("risk_off_weak_long")
+    return failures
+
+
+def build_prompt_position_support_signals(signal: dict[str, Any]) -> list[str]:
+    supports: list[str] = []
+    if signal["edge_ok"]:
+        supports.append("edge_ok_true")
+    if signal["entry_ok"]:
+        supports.append("entry_ok_true")
+    if signal["book_pressure_side_alignment"] == "supportive":
+        supports.append("book_pressure_supportive")
+    if signal["trend_aligned"]:
+        supports.append("trend_aligned")
+    return supports
+
+
+def build_prompt_management_bias(position: Position, signal: dict[str, Any]) -> str:
+    if not signal["edge_ok"] and not signal["entry_ok"]:
+        return "CLOSE"
+    if not signal["edge_ok"] or not signal["entry_ok"]:
+        return "REDUCE"
+    if signal["book_pressure_side_alignment"] == "opposite" and signal["regime_conflict"]:
+        return "REDUCE"
+    if position.side == "long" and signal["regime_conflict"] and (not signal["edge_ok"] or signal["book_pressure_side_alignment"] == "opposite"):
+        return "REDUCE"
+    return "HOLD"
+
+
+def build_prompt_trigger_margin(row: dict[str, Any], agent: dict[str, Any], regime_multiplier: float) -> dict[str, float]:
+    playbook = playbook_name(row)
+    vol_ratio = safe_float(row.get("vol_ratio_5m_vs_1h"), 0.0)
+    book_pressure = abs(safe_float(row.get("book_pressure_10bps"), 0.0))
+    ret_sigma = abs(safe_float(row.get("ret_sigma_5m_vs_1h"), 0.0))
+    margin: dict[str, float] = {"regime_size_multiplier": prompt_float(regime_multiplier, 6)}
+    if playbook.startswith("Breakout"):
+        breakout = agent["triggers"]["breakout"]
+        margin["vol_ratio_margin"] = prompt_float(vol_ratio - safe_float(breakout["vol_ratio_min"]), 6)
+        margin["book_pressure_margin"] = prompt_float(book_pressure - safe_float(breakout["book_pressure_min"]), 6)
+    elif playbook.startswith("Momentum"):
+        momentum = agent["triggers"]["momentum"]
+        margin["vol_ratio_margin"] = prompt_float(vol_ratio - safe_float(momentum["vol_ratio_min"]), 6)
+        margin["book_pressure_margin"] = prompt_float(book_pressure - safe_float(momentum["book_pressure_min"]), 6)
+    elif playbook.startswith("Mean Reversion"):
+        mean_reversion = agent["triggers"]["mean_reversion"]
+        margin["ret_sigma_margin"] = prompt_float(ret_sigma - safe_float(mean_reversion["ret_sigma_threshold"]), 6)
+        margin["book_pressure_margin"] = prompt_float(book_pressure - safe_float(mean_reversion["book_pressure_min"]), 6)
+    return margin
+
+
+def build_prompt_risk_fields(
+    row: dict[str, Any],
+    stop_loss_pct: float,
+    take_profit_pct: float,
+    *,
+    notional: float | None = None,
+    agent: dict[str, Any] | None = None,
+    network: str = "mainnet",
+) -> dict[str, Any]:
+    cost_bps = safe_float(row.get("cost_bps"), 0.0)
+    stop_bps = abs(stop_loss_pct) * 10_000
+    take_profit_bps = abs(take_profit_pct) * 10_000
+    fields: dict[str, Any] = {
+        "stop_loss_pct": prompt_float(abs(stop_loss_pct), 8),
+        "take_profit_pct_primary": prompt_float(abs(take_profit_pct), 8),
+        "stop_bps": prompt_float(stop_bps, 2),
+        "take_profit_bps": prompt_float(take_profit_bps, 2),
+        "cost_to_stop_ratio": prompt_float(cost_bps / stop_bps if stop_bps > 0 else 999, 4),
+        "cost_to_tp_ratio": prompt_float(cost_bps / take_profit_bps if take_profit_bps > 0 else 999, 4),
+    }
+    if notional is None or agent is None:
+        return fields
+
+    entry_price = entry_price_for_row(row)
+    liquidation_price = hyperliquid_liquidation_price(
+        row=row,
+        side=str(row.get("side") or ""),
+        entry_price=entry_price,
+        notional=notional,
+        agent=agent,
+        network=network,
+    )
+    distance_bps = liquidation_distance_bps(str(row.get("side") or ""), entry_price, liquidation_price)
+    fields.update({
+        "hyperliquid_isolated_liquidation_price": prompt_float(liquidation_price, 8) if liquidation_price is not None else None,
+        "hyperliquid_liquidation_distance_bps": prompt_float(distance_bps, 2) if distance_bps is not None else None,
+        "hyperliquid_liquidation_before_stop_loss": bool(distance_bps is not None and distance_bps <= stop_bps),
+    })
+    return fields
+
+
+def prompt_sizing_fields(sizing: dict[str, float]) -> dict[str, float]:
+    return {
+        "risk_based_size_fraction": prompt_float(sizing["risk_based_size_fraction"], 6),
+        "max_allowed_size_fraction": prompt_float(sizing["max_allowed_size_fraction"], 6),
+        "suggested_size_fraction": prompt_float(sizing["suggested_size_fraction"], 6),
+        "min_size_fraction": prompt_float(sizing["min_size_fraction"], 6),
+        "risk_at_suggested_size_pct_equity": prompt_float(sizing["risk_at_suggested_size_pct_equity"], 8),
+        "effective_leverage_at_suggested_size": prompt_float(sizing["effective_leverage_at_suggested_size"], 6),
+        "max_effective_leverage_allowed": prompt_float(sizing["max_effective_leverage_allowed"], 6),
+        "exchange_max_leverage_allowed": prompt_float(sizing["exchange_max_leverage_allowed"], 6),
+    }
+
+
+def build_prompt_correlation(row: dict[str, Any], active_by_symbol: dict[str, Position], agent: dict[str, Any]) -> dict[str, Any]:
+    risk = agent["risk"]
+    same_direction_exposure = sum(position.size_fraction for position in active_by_symbol.values() if position.side == row.get("side"))
+    max_group_exposure = safe_float(risk["max_correlation_group_exposure_fraction"])
+    multiplier = 0.0 if same_direction_exposure >= max_group_exposure > 0 else 1.0
+    return {
+        "group": str(agent.get("correlation", {}).get("default_group") or "CRYPTO_BETA"),
+        "same_direction_group_exposure": prompt_float(same_direction_exposure, 6),
+        "max_group_exposure": prompt_float(max_group_exposure, 6),
+        "highest_corr_existing_position": None,
+        "correlation_size_multiplier": prompt_float(multiplier, 6),
+    }
+
+
+def build_prompt_candidate_warnings(regime: str, side: str, correlation: dict[str, Any], regime_policy: dict[str, Any]) -> list[str]:
+    warnings = [str(value) for value in regime_policy.get("warnings", [])]
+    if regime == "RISK_OFF" and side == "long":
+        warnings.append("new long in RISK_OFF requires reduced size")
+    if safe_float(correlation.get("same_direction_group_exposure"), 0.0) > 0:
+        warnings.append("existing same-direction CRYPTO_BETA exposure")
+    if safe_float(correlation.get("correlation_size_multiplier"), 1.0) < 1:
+        warnings.append("same-direction correlation reduced size")
+    return unique(warnings)
+
+
+def prompt_book_pressure_alignment(side: str, book_pressure: float | None) -> str:
+    if book_pressure is None:
+        return "unknown"
+    if abs(book_pressure) < 0.05:
+        return "neutral"
+    if side == "long":
+        return "supportive" if book_pressure > 0 else "opposite"
+    return "supportive" if book_pressure < 0 else "opposite"
+
+
+def prompt_unrealized_pnl(position: Position, row: dict[str, Any] | None) -> float:
+    if row is None:
+        return 0.0
+    mark = safe_float(row.get("mid_price"), 0.0)
+    if mark <= 0 or position.entry_price <= 0:
+        return 0.0
+    if position.side == "long":
+        gross_return = (mark - position.entry_price) / position.entry_price
+    else:
+        gross_return = (position.entry_price - mark) / position.entry_price
+    return position.notional_usd * gross_return
+
+
+def prompt_edge_bps(row: dict[str, Any]) -> float:
+    edge = safe_optional_float(row.get("edge_bps"))
+    if edge is not None:
+        return edge
+    return safe_float(row.get("expected_move_bps"), 0.0) - safe_float(row.get("cost_bps"), 0.0)
+
+
+def prompt_float(value: Any, places: int) -> float:
+    return parse_fixed(safe_float(value, 0.0), places)
+
+
+def prompt_rank(value: Any) -> int | None:
+    rank = safe_optional_float(value)
+    return int(rank) if rank is not None else None
+
+
+def dominant_regime(rows: Sequence[dict[str, Any]]) -> str:
+    counts = Counter(str(row.get("regime") or "CHOP") for row in rows)
+    if not counts:
+        return "CHOP"
+    return counts.most_common(1)[0][0]
+
+
 def build_position(
     row: dict[str, Any],
     notional: float,
@@ -2269,14 +3693,22 @@ def build_position(
     trade_index: int,
 ) -> Position:
     side = str(row["side"])
-    entry_slippage_bps = float(row["slippage_bps"])
-    if side == "long":
-        entry_price = float(row["best_ask"]) * (1 + entry_slippage_bps / 10_000)
-    else:
-        entry_price = float(row["best_bid"]) * (1 - entry_slippage_bps / 10_000)
+    entry_price = entry_price_for_row(row)
     stop_loss_pct, take_profit_pct = compute_risk_plan(row, agent)
     if context.settings.exit_strategy == "horizon":
-        return build_horizon_position(row, notional, size_fraction, fees_bps, trade_index, entry_price, stop_loss_pct, take_profit_pct)
+        return build_horizon_position(
+            row,
+            notional,
+            size_fraction,
+            fees_bps,
+            min_slippage_bps,
+            agent,
+            context,
+            trade_index,
+            entry_price,
+            stop_loss_pct,
+            take_profit_pct,
+        )
     return resolve_path_position(
         row=row,
         notional=notional,
@@ -2284,6 +3716,7 @@ def build_position(
         fees_bps=fees_bps,
         min_slippage_bps=min_slippage_bps,
         context=context,
+        agent=agent,
         trade_index=trade_index,
         entry_price=entry_price,
         stop_loss_pct=stop_loss_pct,
@@ -2291,17 +3724,74 @@ def build_position(
     )
 
 
+def entry_price_for_row(row: dict[str, Any]) -> float:
+    side = str(row["side"])
+    entry_slippage_bps = safe_float(row.get("slippage_bps"), 0.0)
+    mid_price = safe_float(row.get("mid_price"), 0.0)
+    if side == "long":
+        return safe_float(row.get("best_ask"), mid_price) * (1 + entry_slippage_bps / 10_000)
+    return safe_float(row.get("best_bid"), mid_price) * (1 - entry_slippage_bps / 10_000)
+
+
 def build_horizon_position(
     row: dict[str, Any],
     notional: float,
     size_fraction: float,
     fees_bps: float,
+    min_slippage_bps: float,
+    agent: dict[str, Any],
+    context: BacktestContext,
     trade_index: int,
     entry_price: float,
     stop_loss_pct: float,
     take_profit_pct: float,
 ) -> Position:
     side = str(row["side"])
+    symbol = str(row["symbol"])
+    entry_ts_ms = int(row["ts_ms"])
+    planned_exit_ts_ms = int(row["exit_ts_ms"])
+    candles = context.candles_by_symbol.get(symbol)
+    mfe_bps = 0.0
+    mae_bps = 0.0
+    liquidation_price = hyperliquid_liquidation_price(
+        row=row,
+        side=side,
+        entry_price=entry_price,
+        notional=notional,
+        agent=agent,
+        network=context.settings.network,
+    )
+
+    if candles and candles.ts_ms:
+        start_index = bisect_right(candles.ts_ms, entry_ts_ms)
+        scan_until_ms = min(context.settings.end_ms, planned_exit_ts_ms)
+        for index in range(start_index, len(candles.ts_ms)):
+            candle_ts = candles.ts_ms[index]
+            if candle_ts > scan_until_ms:
+                break
+
+            high = candles.high[index]
+            low = candles.low[index]
+            mfe_bps, mae_bps = update_excursions(side, entry_price, high, low, mfe_bps, mae_bps)
+            if liquidation_touched(side, liquidation_price, high, low):
+                exit_price = apply_exit_slippage(float(liquidation_price), side, min_slippage_bps)
+                return finalize_position(
+                    row=row,
+                    notional=notional,
+                    size_fraction=size_fraction,
+                    fees_bps=fees_bps,
+                    trade_index=trade_index,
+                    entry_price=entry_price,
+                    exit_price=exit_price,
+                    exit_ts_ms=candle_ts,
+                    exit_reason="liquidation",
+                    exit_slippage_bps=min_slippage_bps,
+                    stop_loss_pct=stop_loss_pct,
+                    take_profit_pct=take_profit_pct,
+                    max_favorable_excursion_bps=mfe_bps,
+                    max_adverse_excursion_bps=mae_bps,
+                )
+
     exit_price = fallback_exit_price(row, side)
     gross_return = gross_return_bps(side, entry_price, exit_price)
     return finalize_position(
@@ -2317,8 +3807,8 @@ def build_horizon_position(
         exit_slippage_bps=0.0,
         stop_loss_pct=stop_loss_pct,
         take_profit_pct=take_profit_pct,
-        max_favorable_excursion_bps=max(gross_return, 0.0),
-        max_adverse_excursion_bps=min(gross_return, 0.0),
+        max_favorable_excursion_bps=max(mfe_bps, gross_return, 0.0),
+        max_adverse_excursion_bps=min(mae_bps, gross_return, 0.0),
     )
 
 
@@ -2330,6 +3820,7 @@ def resolve_path_position(
     fees_bps: float,
     min_slippage_bps: float,
     context: BacktestContext,
+    agent: dict[str, Any],
     trade_index: int,
     entry_price: float,
     stop_loss_pct: float,
@@ -2342,6 +3833,14 @@ def resolve_path_position(
     candles = context.candles_by_symbol.get(symbol)
     mfe_bps = 0.0
     mae_bps = 0.0
+    liquidation_price = hyperliquid_liquidation_price(
+        row=row,
+        side=side,
+        entry_price=entry_price,
+        notional=notional,
+        agent=agent,
+        network=context.settings.network,
+    )
 
     if candles and candles.ts_ms:
         start_index = bisect_right(candles.ts_ms, entry_ts_ms)
@@ -2356,6 +3855,25 @@ def resolve_path_position(
             low = candles.low[index]
             close = candles.close[index]
             mfe_bps, mae_bps = update_excursions(side, entry_price, high, low, mfe_bps, mae_bps)
+
+            if liquidation_touched(side, liquidation_price, high, low):
+                exit_price = apply_exit_slippage(float(liquidation_price), side, min_slippage_bps)
+                return finalize_position(
+                    row=row,
+                    notional=notional,
+                    size_fraction=size_fraction,
+                    fees_bps=fees_bps,
+                    trade_index=trade_index,
+                    entry_price=entry_price,
+                    exit_price=exit_price,
+                    exit_ts_ms=candle_ts,
+                    exit_reason="liquidation",
+                    exit_slippage_bps=min_slippage_bps,
+                    stop_loss_pct=stop_loss_pct,
+                    take_profit_pct=take_profit_pct,
+                    max_favorable_excursion_bps=mfe_bps,
+                    max_adverse_excursion_bps=mae_bps,
+                )
 
             trigger = resolve_sl_tp_trigger(side, entry_price, stop_loss_pct, take_profit_pct, open_price, high, low)
             if trigger:
@@ -2650,13 +4168,17 @@ def build_metrics(
         "turnover_cost_usd": round_float(fees),
         "stop_hit_rate": exit_reason_rate(trades, "stop_loss"),
         "take_profit_hit_rate": exit_reason_rate(trades, "take_profit"),
+        "liquidation_hit_rate": exit_reason_rate(trades, "liquidation"),
         "time_stop_rate": exit_reason_rate(trades, "time_stop"),
         "avg_holding_minutes": avg([holding_minutes(trade) for trade in trades]),
         "one_symbol_concentration": concentration(trades, lambda trade: str(trade["symbol"])),
         "one_regime_concentration": concentration(trades, lambda trade: str(trade.get("entry_regime") or "unknown")),
         "candle_source": "real_1m",
         "synthetic_execution_candles": False,
-        "warnings": [f"python_polars_optimizer_uses_{decision_mode}_{exit_strategy}_10s_sampled_replay"],
+        "warnings": [
+            f"python_polars_optimizer_uses_{decision_mode}_{exit_strategy}_10s_sampled_replay",
+            "hyperliquid_liquidation_model_isolated_margin_tier_approximation",
+        ],
         "breakdowns": {
             "playbook": breakdown(trades, lambda trade: str(trade["playbook"]), initial_equity),
             "symbol": breakdown(trades, lambda trade: str(trade["symbol"]), initial_equity),
@@ -2670,27 +4192,155 @@ def build_metrics(
     }
 
 
-def score_metrics(metrics: dict[str, Any], coverage: dict[str, Any]) -> float:
-    penalty = 0.0
-    if metrics["trade_count"] < 30:
-        penalty += 200
-    if metrics["trade_count"] > 500:
-        penalty += 100
-    if metrics["one_symbol_concentration"] > 0.35:
-        penalty += 100
-    if metrics["one_regime_concentration"] > 0.70:
-        penalty += 50
+def metric_quality_score(metrics: dict[str, Any]) -> float:
+    turnover = float(metrics.get("turnover_usd") or 0)
+    turnover_cost_bps = (float(metrics.get("turnover_cost_usd") or 0) / turnover) * 10_000 if turnover > 0 else 0
+    return float(metrics.get("net_pnl_bps") or 0.0) - 2.0 * float(metrics.get("max_drawdown_bps") or 0.0) - 0.5 * turnover_cost_bps
 
+
+def coverage_penalty(coverage: dict[str, Any]) -> float:
+    penalty = 0.0
     penalty += sum_values(coverage.get("missing_feature_rows_by_symbol", {})) * 0.05
     penalty += sum_values(coverage.get("missing_execution_books_by_symbol", {})) * 0.02
     penalty += len(coverage.get("missing_candle_intervals", []))
     penalty += len(coverage.get("symbols_dropped_insufficient_history", [])) * 25
     if coverage.get("synthetic_execution_candles"):
         penalty += 250
+    return penalty
 
-    turnover = float(metrics.get("turnover_usd") or 0)
-    turnover_cost_bps = (float(metrics.get("turnover_cost_usd") or 0) / turnover) * 10_000 if turnover > 0 else 0
-    return 2.0 * float(metrics["net_pnl_bps"]) - float(metrics["max_drawdown_bps"]) - 0.5 * turnover_cost_bps - penalty
+
+def effective_min_trades(gates: OptimizerGates, eligible_candidate_count: int | float | None) -> int:
+    configured = max(0, int(gates.min_trades))
+    if configured <= 0:
+        return 0
+    floor = min(configured, max(0, int(gates.min_trades_floor)))
+    candidate_based = math.floor(max(0.0, safe_float(eligible_candidate_count, 0.0)) * max(0.0, gates.min_trade_coverage_ratio))
+    return min(configured, max(floor, candidate_based))
+
+
+def min_trade_diagnostics(
+    metrics: dict[str, Any],
+    gates: OptimizerGates,
+    eligible_candidate_count: int | float | None,
+    *,
+    fold_evaluation: bool,
+) -> dict[str, Any]:
+    trade_count = int(metrics.get("trade_count") or 0)
+    configured = max(0, int(gates.min_trades))
+    effective = effective_min_trades(gates, eligible_candidate_count) if fold_evaluation else configured
+    hard_floor = min(configured, max(0, int(gates.min_trades_floor))) if fold_evaluation else configured
+    shortfall = max(0, effective - trade_count)
+    penalty = 0.0
+    if shortfall > 0 and effective > 0:
+        penalty = gates.min_trade_shortfall_penalty_score * (shortfall / effective)
+    return {
+        "trade_count": trade_count,
+        "eligible_candidate_count": int(max(0.0, safe_float(eligible_candidate_count, 0.0))),
+        "configured_min_trades": configured,
+        "effective_min_trades": effective,
+        "min_trades_floor": hard_floor,
+        "min_trade_coverage_ratio": round_float(gates.min_trade_coverage_ratio),
+        "min_trade_shortfall": shortfall,
+        "min_trade_shortfall_penalty": round_float(penalty),
+        "hard_reject": bool(trade_count < hard_floor),
+    }
+
+
+def scaled_breach_penalty(actual: float, soft: float, hard: float, weight: float) -> float:
+    if actual <= soft:
+        return 0.0
+    span = max(1e-9, hard - soft)
+    return weight * ((actual - soft) / span)
+
+
+def concentration_penalty_breakdown(metrics: dict[str, Any], gates: OptimizerGates) -> dict[str, Any]:
+    symbol = safe_float(metrics.get("one_symbol_concentration"), 0.0)
+    regime = safe_float(metrics.get("one_regime_concentration"), 0.0)
+    symbol_penalty = 0.0
+    regime_penalty = 0.0
+    hard_reason = None
+
+    if symbol > gates.max_symbol_concentration_hard:
+        hard_reason = f"max_symbol_concentration_hard:{round_float(symbol)}>{gates.max_symbol_concentration_hard}"
+    elif symbol > gates.max_symbol_concentration:
+        symbol_penalty = scaled_breach_penalty(symbol, gates.max_symbol_concentration, gates.max_symbol_concentration_hard, 100.0)
+
+    if regime > gates.max_regime_concentration_hard and hard_reason is None:
+        hard_reason = f"max_regime_concentration_hard:{round_float(regime)}>{gates.max_regime_concentration_hard}"
+    elif regime > gates.max_regime_concentration:
+        regime_penalty = scaled_breach_penalty(regime, gates.max_regime_concentration, gates.max_regime_concentration_hard, 50.0)
+
+    return {
+        "one_symbol_concentration": round_float(symbol),
+        "one_regime_concentration": round_float(regime),
+        "symbol_soft_threshold": gates.max_symbol_concentration,
+        "symbol_hard_threshold": gates.max_symbol_concentration_hard,
+        "regime_soft_threshold": gates.max_regime_concentration,
+        "regime_hard_threshold": gates.max_regime_concentration_hard,
+        "symbol_concentration_penalty": round_float(symbol_penalty),
+        "regime_concentration_penalty": round_float(regime_penalty),
+        "concentration_penalty_total": round_float(symbol_penalty + regime_penalty),
+        "hard_rejection_reason": hard_reason,
+    }
+
+
+def liquidation_penalty_breakdown(metrics: dict[str, Any], gates: OptimizerGates) -> dict[str, Any]:
+    hit_rate = safe_float(metrics.get("liquidation_hit_rate"), 0.0)
+    hard_reason = None
+    if hit_rate > gates.max_liquidation_hit_rate:
+        hard_reason = f"max_liquidation_hit_rate:{round_float(hit_rate)}>{gates.max_liquidation_hit_rate}"
+    return {
+        "liquidation_hit_rate": round_float(hit_rate),
+        "max_liquidation_hit_rate": gates.max_liquidation_hit_rate,
+        "liquidation_penalty": 0.0,
+        "hard_rejection_reason": hard_reason,
+    }
+
+
+def soft_penalty_breakdown(
+    metrics: dict[str, Any],
+    coverage: dict[str, Any],
+    gates: OptimizerGates,
+    eligible_candidate_count: int | float | None,
+    *,
+    fold_evaluation: bool,
+) -> dict[str, Any]:
+    min_trade = min_trade_diagnostics(metrics, gates, eligible_candidate_count, fold_evaluation=fold_evaluation)
+    concentration = concentration_penalty_breakdown(metrics, gates)
+    coverage_value = coverage_penalty(coverage)
+    liquidation = liquidation_penalty_breakdown(metrics, gates)
+    return {
+        "min_trade": min_trade,
+        "concentration": concentration,
+        "coverage_penalty": round_float(coverage_value),
+        "liquidation": liquidation,
+        "soft_penalty_total": round_float(
+            safe_float(min_trade.get("min_trade_shortfall_penalty"), 0.0)
+            + safe_float(concentration.get("concentration_penalty_total"), 0.0)
+            + coverage_value
+            + safe_float(liquidation.get("liquidation_penalty"), 0.0)
+        ),
+    }
+
+def score_metrics(
+    metrics: dict[str, Any],
+    coverage: dict[str, Any],
+    gates: OptimizerGates | None = None,
+    eligible_candidate_count: int | float | None = None,
+    *,
+    fold_evaluation: bool = False,
+) -> float:
+    active_gates = gates or OptimizerGates()
+    penalties = soft_penalty_breakdown(
+        metrics,
+        coverage,
+        active_gates,
+        eligible_candidate_count,
+        fold_evaluation=fold_evaluation,
+    )
+    if int(metrics.get("trade_count") or 0) > 500:
+        return metric_quality_score(metrics) - safe_float(penalties["soft_penalty_total"], 0.0) - 100.0
+    return metric_quality_score(metrics) - safe_float(penalties["soft_penalty_total"], 0.0)
 
 
 def optimizer_rejection_reason(
@@ -2698,6 +4348,9 @@ def optimizer_rejection_reason(
     coverage: dict[str, Any],
     gates: OptimizerGates,
     traded_symbols: Iterable[str],
+    *,
+    fold_evaluation: bool = False,
+    eligible_candidate_count: int | float | None = None,
 ) -> str | None:
     if int(coverage.get("available_timestamps") or 0) <= 0:
         return "no_feature_timestamps"
@@ -2712,19 +4365,55 @@ def optimizer_rejection_reason(
         return f"missing_execution_candles_for_traded_symbols:{','.join(symbols)}"
     if coverage.get("synthetic_execution_candles") and not gates.allow_synthetic_candles:
         return "synthetic_execution_candles"
-    if metrics["trade_count"] < gates.min_trades:
+    min_trade = min_trade_diagnostics(metrics, gates, eligible_candidate_count, fold_evaluation=fold_evaluation)
+    if min_trade["hard_reject"]:
+        if fold_evaluation:
+            return f"min_trades_floor:{min_trade['trade_count']}<{min_trade['min_trades_floor']}"
         return f"min_trades:{metrics['trade_count']}<{gates.min_trades}"
+    if safe_float(metrics.get("net_pnl_usd"), 0.0) <= 0:
+        return f"net_pnl_usd:{round_float(safe_float(metrics.get('net_pnl_usd'), 0.0))}<=0"
     if metrics["max_drawdown_bps"] > gates.max_drawdown_bps:
         return f"max_drawdown_bps:{metrics['max_drawdown_bps']}>{gates.max_drawdown_bps}"
     if metrics["profit_factor"] < gates.min_profit_factor:
         return f"min_profit_factor:{metrics['profit_factor']}<{gates.min_profit_factor}"
     if metrics["stop_hit_rate"] > gates.max_stop_hit_rate:
         return f"max_stop_hit_rate:{metrics['stop_hit_rate']}>{gates.max_stop_hit_rate}"
-    if metrics["one_symbol_concentration"] > gates.max_symbol_concentration:
-        return f"max_symbol_concentration:{metrics['one_symbol_concentration']}>{gates.max_symbol_concentration}"
-    if metrics["one_regime_concentration"] > gates.max_regime_concentration:
-        return f"max_regime_concentration:{metrics['one_regime_concentration']}>{gates.max_regime_concentration}"
+    liquidation = liquidation_penalty_breakdown(metrics, gates)
+    if liquidation["hard_rejection_reason"]:
+        return str(liquidation["hard_rejection_reason"])
+    concentration = concentration_penalty_breakdown(metrics, gates)
+    if concentration["hard_rejection_reason"]:
+        return str(concentration["hard_rejection_reason"])
     return None
+
+
+def config_distance_rejection_reason(distance: float, gates: OptimizerGates) -> str | None:
+    if distance > gates.max_config_distance:
+        return f"max_config_distance:{round_float(distance)}>{gates.max_config_distance}"
+    return None
+
+
+def config_distance_from_base(
+    candidate_agent: dict[str, Any],
+    candidate_screener: dict[str, Any],
+    specs: Sequence[dict[str, Any]],
+) -> float:
+    if not specs:
+        return 0.0
+    base_agent = default_agent_config()
+    base_screener = default_screener_config()
+    distances: list[float] = []
+    for spec in specs:
+        base_target = base_agent if spec["target"] == "agent" else base_screener
+        candidate_target = candidate_agent if spec["target"] == "agent" else candidate_screener
+        base_value = get_path_optional(base_target, spec["path"])
+        candidate_value = get_path_optional(candidate_target, spec["path"])
+        if not isinstance(base_value, (int, float)) or not isinstance(candidate_value, (int, float)):
+            distances.append(0.0)
+            continue
+        width = max(1e-9, float(spec.get("max", base_value)) - float(spec.get("min", base_value)))
+        distances.append(abs(float(candidate_value) - float(base_value)) / width)
+    return sum(distances) / max(1, len(distances))
 
 
 def build_generation_candidates(
@@ -2735,11 +4424,11 @@ def build_generation_candidates(
     base_agent = default_agent_config()
     base_screener = default_screener_config()
     if generation == 0:
-        return dedupe_candidates(generation_zero_candidates(base_agent, base_screener))
+        return dedupe_candidates(generation_zero_candidates(base_agent, base_screener, settings.param_profile, settings.param_specs))
     if generation == 1:
         return dedupe_candidates(
             [
-                sample_broad_config(base_agent, base_screener, settings.seed + 100_000 + index)
+                sample_broad_config(base_agent, base_screener, settings.seed + 100_000 + index, settings.param_specs)
                 for index in range(settings.exploration_trials)
             ]
         )
@@ -2749,7 +4438,7 @@ def build_generation_candidates(
     if not pool:
         return dedupe_candidates(
             [
-                sample_broad_config(base_agent, base_screener, settings.seed + generation * 100_000 + index)
+                sample_broad_config(base_agent, base_screener, settings.seed + generation * 100_000 + index, settings.param_specs)
                 for index in range(settings.generation_trials)
             ]
         )
@@ -2765,13 +4454,23 @@ def build_generation_candidates(
                 parent["screenerConfig"],
                 settings.seed + generation * 100_000 + index,
                 noise_scale,
+                settings.param_specs,
             )
         )
     return dedupe_candidates(candidates)
 
 
-def generation_zero_candidates(base_agent: dict[str, Any], base_screener: dict[str, Any]) -> list[dict[str, Any]]:
+def generation_zero_candidates(
+    base_agent: dict[str, Any],
+    base_screener: dict[str, Any],
+    profile: str = "full",
+    specs: Sequence[dict[str, Any]] = PARAM_SPECS,
+) -> list[dict[str, Any]]:
     candidates = [{"agentConfig": copy.deepcopy(base_agent), "screenerConfig": copy.deepcopy(base_screener)}]
+
+    if profile != "full":
+        candidates.append(sample_broad_config(base_agent, base_screener, 42, specs))
+        return candidates
 
     scalper_agent = copy.deepcopy(base_agent)
     scalper_screener = copy.deepcopy(base_screener)
@@ -2796,32 +4495,43 @@ def generation_zero_candidates(base_agent: dict[str, Any], base_screener: dict[s
     set_path(swing_screener, "minRealizedVol", 0.0004)
     candidates.append({"agentConfig": swing_agent, "screenerConfig": swing_screener})
 
-    exploratory = sample_broad_config(base_agent, base_screener, 42)
+    exploratory = sample_broad_config(base_agent, base_screener, 42, specs)
     candidates.append(exploratory)
     return candidates
 
 
-def sample_broad_config(agent: dict[str, Any], screener: dict[str, Any], seed: int) -> dict[str, Any]:
+def sample_broad_config(
+    agent: dict[str, Any],
+    screener: dict[str, Any],
+    seed: int,
+    specs: Sequence[dict[str, Any]] = PARAM_SPECS,
+) -> dict[str, Any]:
     rng = random.Random(seed)
     agent_out = copy.deepcopy(agent)
     screener_out = copy.deepcopy(screener)
-    for spec in PARAM_SPECS:
+    for spec in specs:
         value = sample_param(rng, spec)
         target = agent_out if spec["target"] == "agent" else screener_out
         set_path(target, spec["path"], value)
-    sync_agent_gates(agent_out)
+    sync_agent_gates(agent_out, specs)
     return {"agentConfig": agent_out, "screenerConfig": screener_out}
 
 
-def mutate_config(agent: dict[str, Any], screener: dict[str, Any], seed: int, noise_scale: float) -> dict[str, Any]:
+def mutate_config(
+    agent: dict[str, Any],
+    screener: dict[str, Any],
+    seed: int,
+    noise_scale: float,
+    specs: Sequence[dict[str, Any]] = PARAM_SPECS,
+) -> dict[str, Any]:
     rng = random.Random(seed)
     agent_out = copy.deepcopy(agent)
     screener_out = copy.deepcopy(screener)
-    for spec in PARAM_SPECS:
+    for spec in specs:
         target = agent_out if spec["target"] == "agent" else screener_out
         current = get_path_optional(target, spec["path"])
         set_path(target, spec["path"], mutate_param(rng, spec, current, noise_scale))
-    sync_agent_gates(agent_out)
+    sync_agent_gates(agent_out, specs)
     return {"agentConfig": agent_out, "screenerConfig": screener_out}
 
 
@@ -2893,14 +4603,44 @@ def build_in_sample_summary(results: list[dict[str, Any]], gates: OptimizerGates
     return {
         "mode": "in_sample_adaptive_search" if settings.optimizer_mode == "adaptive" else "in_sample_random_search",
         "note": f"Python/Polars optimizer searches and ranks on the same window using {settings.exit_strategy} replay. Use walk-forward before treating a config as out-of-sample.",
+        "validation_status": "in_sample_only",
+        "promotable": False,
+        "promotion_blockers": ["walk_forward_not_run", "untouched_holdout_not_run", "stress_tests_not_run"],
         "exit_strategy": settings.exit_strategy,
+        "param_profile": settings.param_profile,
         "score_gates": gates.__dict__,
         "best_config_hash": best.get("config_hash") if best else None,
         "best_score": best.get("score") if best else None,
         "best_metrics": best.get("metrics") if best else None,
-        "best_agent_config": best.get("agentConfig") if best else None,
-        "best_screener_config": best.get("screenerConfig") if best else None,
+        "best_agent_config_in_sample_only": best.get("agentConfig") if best else None,
+        "best_screener_config_in_sample_only": best.get("screenerConfig") if best else None,
     }
+
+
+def mark_in_sample_only(result: dict[str, Any]) -> dict[str, Any]:
+    out = copy.deepcopy(result)
+    out["validation_status"] = "in_sample_only" if not out.get("rejected") else "rejected"
+    out["promotable"] = False
+    out["required_next_steps"] = [
+        "run leak-safe walk-forward validation",
+        "run untouched holdout validation",
+        "run cost/slippage stress validation",
+    ]
+    return out
+
+
+def mark_artifact_status(payload: dict[str, Any], validation_status: str) -> dict[str, Any]:
+    out = copy.deepcopy(payload)
+    out["validation_status"] = validation_status
+    out["promotable"] = False
+    return out
+
+
+def remove_stale_in_sample_artifacts(output_dir: Path) -> None:
+    for name in ["optimizer_results.json", "top_configs.json", "in_sample_summary.json"]:
+        path = output_dir / name
+        if path.exists():
+            path.unlink()
 
 
 def config_hash(agent: dict[str, Any], screener: dict[str, Any]) -> str:
@@ -2913,12 +4653,22 @@ def full_ranking_score(result: dict[str, Any]) -> float:
         return float(result.get("score") or 0)
     reason = result.get("rejection_reason")
     if is_near_miss(reason) and not is_hard_reject(reason):
-        return score_metrics(result["metrics"], result["coverage"]) - 500_000_000
+        return raw_result_score(result) - 500_000_000
     return REJECTED_SCORE
 
 
 def sort_results(results: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
     return sorted(results, key=full_ranking_score, reverse=True)
+
+
+def raw_result_score(result: dict[str, Any]) -> float:
+    raw_score = safe_optional_float(result.get("raw_score"))
+    if raw_score is not None:
+        return raw_score
+    try:
+        return score_metrics(result["metrics"], result["coverage"])
+    except Exception:
+        return REJECTED_SCORE
 
 
 def is_near_miss(reason: str | None) -> bool:
@@ -2929,6 +4679,12 @@ def is_near_miss(reason: str | None) -> bool:
             or reason.startswith("min_profit_factor")
             or reason.startswith("max_symbol_concentration")
             or reason.startswith("max_regime_concentration")
+            or reason.startswith("min_oos_folds")
+            or reason.startswith("min_fold_pass_rate")
+            or reason.startswith("min_median_fold_score")
+            or reason.startswith("min_p25_fold_score")
+            or reason.startswith("max_worst_fold_drawdown_bps")
+            or reason.startswith("max_single_fold_pnl_contribution")
         )
     )
 
@@ -2972,9 +4728,25 @@ def scale_gates_for_slice(
         max_drawdown_bps=gates.max_drawdown_bps,
         min_profit_factor=gates.min_profit_factor,
         max_stop_hit_rate=gates.max_stop_hit_rate,
+        max_liquidation_hit_rate=gates.max_liquidation_hit_rate,
         max_symbol_concentration=gates.max_symbol_concentration,
         max_regime_concentration=gates.max_regime_concentration,
+        max_symbol_concentration_hard=gates.max_symbol_concentration_hard,
+        max_regime_concentration_hard=gates.max_regime_concentration_hard,
         allow_synthetic_candles=gates.allow_synthetic_candles,
+        require_all_oos_folds=gates.require_all_oos_folds,
+        min_oos_folds=gates.min_oos_folds,
+        min_fold_pass_rate=gates.min_fold_pass_rate,
+        min_median_fold_score=gates.min_median_fold_score,
+        min_p25_fold_score=gates.min_p25_fold_score,
+        max_worst_fold_drawdown_bps=gates.max_worst_fold_drawdown_bps,
+        max_single_fold_pnl_contribution=gates.max_single_fold_pnl_contribution,
+        max_config_distance=gates.max_config_distance,
+        config_distance_penalty=gates.config_distance_penalty,
+        failed_fold_penalty_score=gates.failed_fold_penalty_score,
+        min_trade_coverage_ratio=gates.min_trade_coverage_ratio,
+        min_trades_floor=gates.min_trades_floor,
+        min_trade_shortfall_penalty_score=gates.min_trade_shortfall_penalty_score,
     )
 
 
@@ -3005,11 +4777,14 @@ def mutate_param(rng: random.Random, spec: dict[str, Any], current: Any, noise_s
     return int(round(value)) if spec["type"] == "int" else value
 
 
-def sync_agent_gates(agent: dict[str, Any]) -> None:
+def sync_agent_gates(agent: dict[str, Any], specs: Sequence[dict[str, Any]] | None = None) -> None:
     min_edge = float(get_path(agent, "cost_sanity.min_edge_to_cost_mult"))
     set_path(agent, "gates.edge_to_cost_mult_by_regime.RISK_ON", min_edge)
     set_path(agent, "gates.edge_to_cost_mult_by_regime.RISK_OFF", min_edge + 1)
     set_path(agent, "gates.edge_to_cost_mult_by_regime.CHOP", min_edge)
+    paths = {spec["path"] for spec in specs or []}
+    if "risk.exchange_max_leverage_allowed" in paths:
+        set_path(agent, "risk.default_leverage", configured_exchange_leverage(agent))
 
 
 def get_path(obj: dict[str, Any], path: str) -> Any:
@@ -3083,6 +4858,7 @@ def empty_metrics() -> dict[str, Any]:
         "turnover_cost_usd": 0,
         "stop_hit_rate": 0,
         "take_profit_hit_rate": 0,
+        "liquidation_hit_rate": 0,
         "time_stop_rate": 0,
         "avg_holding_minutes": 0,
         "one_symbol_concentration": 0,
