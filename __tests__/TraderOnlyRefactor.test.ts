@@ -102,6 +102,7 @@ describe("Trader-only v1 trigger scope", () => {
         expect(markets["BTC-PERP"].derived.risk.eligible_playbooks).toContain("Breakout:long");
         expect(markets["BTC-PERP"].derived.risk.eligible_playbooks).not.toContain("Discretionary Edge:long");
         expect(markets["BTC-PERP"].derived.risk.eligible_playbooks).not.toContain("Liquidity Grab:long");
+        expect(markets["BTC-PERP"].derived.risk.best_anchor_key).toBe("edge.expected_move_bps");
     });
 
     it("only creates mean-reversion candidates in CHOP", () => {
@@ -136,6 +137,50 @@ describe("Trader context builder", () => {
         expect(context.eligible_candidates[0].candidate_id).toBe("BTC-PERP:long:Momentum");
         expect(context.eligible_candidates[0].risk.stop_loss_pct).toBeGreaterThan(0);
         expect(context.eligible_candidates[0].sizing.max_allowed_size_fraction).toBeGreaterThan(0);
+        expect(context.eligible_candidates[0].sizing.suggested_size_fraction)
+            .toBeLessThanOrEqual(context.eligible_candidates[0].sizing.max_allowed_size_fraction);
+    });
+
+    it("keeps min-notional candidates when soft sizing falls below the executable floor", async () => {
+        const config = AGENT_PRESETS.optimized;
+        const markets = {
+            "PENGU-PERP": baseMarket({
+                symbol: "PENGU-PERP",
+                price: 0.008532,
+                spread_bps: 1.17,
+                orderbook: {
+                    book_pressure: 0.27,
+                    bid_liquidity_usd: 130711,
+                    ask_liquidity_usd: 75368
+                },
+                returns: { m5: -0.0047, m15: -0.0063, h1: -0.0111 },
+                vol_zscores: { vol_5m_vs_1h: 1.1072, ret_5m_vs_1h: -6.1669 },
+                atr_pct: { m5: 0.001817, h1: 0.003 },
+                realized_vol: { m1: 0.0008, m5: 0.001, m15: 0.0012, h1: 0.0018, h4: 0.002 }
+            })
+        };
+        new MarketDerivedMetricsService().applyDerivedMetrics(markets, config, "CHOP", false);
+
+        const snapshot = baseSnapshot(markets);
+        snapshot.account.equity_usd = 101.704298;
+        snapshot.account.max_daily_loss = snapshot.account.equity_usd * config.risk.daily_loss_kill_switch_fraction;
+        snapshot.account.derived_portfolio.remaining_capacity = config.risk.max_total_exposure_fraction;
+        snapshot.account.derived_portfolio.slots_remaining = config.risk.max_positions;
+        snapshot.constraints.max_position_pct_equity = config.risk.max_position_fraction;
+        snapshot.constraints.max_position_pct_equity_per_symbol = config.risk.max_position_fraction_per_symbol;
+        snapshot.constraints.max_total_exposure_pct_equity = config.risk.max_total_exposure_fraction;
+        snapshot.constraints.max_new_positions_per_cycle = config.risk.max_new_positions_per_cycle;
+        snapshot.constraints.max_new_trades_allowed = config.risk.max_new_positions_per_cycle;
+        snapshot.global_regime = { current: "CHOP", score: 0, reason: "test" };
+
+        const { context, diagnostics } = await new TraderContextBuilder().build(snapshot, config, true, "optimized");
+
+        expect(diagnostics.rejection_counts.SIZE_GATE).toBeUndefined();
+        expect(context.eligible_candidates).toHaveLength(1);
+        expect(context.eligible_candidates[0].eligible_playbooks).toEqual(["Mean Reversion:long"]);
+        expect(context.eligible_candidates[0].sizing.min_size_fraction).toBeCloseTo(10 / 101.704298, 6);
+        expect(context.eligible_candidates[0].sizing.suggested_size_fraction)
+            .toBe(context.eligible_candidates[0].sizing.min_size_fraction);
         expect(context.eligible_candidates[0].sizing.suggested_size_fraction)
             .toBeLessThanOrEqual(context.eligible_candidates[0].sizing.max_allowed_size_fraction);
     });
@@ -252,6 +297,26 @@ describe("Trader decision validator", () => {
         expect(new TraderDecisionValidator().validateBatch([decision], context)).toEqual({
             accepted: false,
             reason: "size_exceeds_max"
+        });
+    });
+
+    it("accepts candidate playbook shorthand when it matches the candidate side", () => {
+        const decision: TraderDecision = {
+            scope: "candidate",
+            action: "OPEN_POSITION",
+            candidate_id: "BTC-PERP:long:Momentum",
+            symbol: "BTC-PERP",
+            target_side: "long",
+            target_size_fraction_of_equity: 0.05,
+            playbook: "Momentum",
+            confidence: 0.7,
+            reason_code: "momentum_edge",
+            notes: "test"
+        };
+
+        expect(new TraderDecisionValidator().validateBatch([decision], context)).toEqual({
+            accepted: true,
+            reason: "accepted"
         });
     });
 

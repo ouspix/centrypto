@@ -107,6 +107,14 @@ export async function verifyWalletChallenge(params: {
     };
 }
 
+export function createWalletSessionToken(address: string): { session: WalletSession; sessionToken: string } {
+    const session = createSession(normalizeWalletAddress(address));
+    return {
+        session,
+        sessionToken: encodeSigned(session)
+    };
+}
+
 export function getWalletSessionFromRequest(request: Request | NextRequest): WalletSession | null {
     return getWalletSessionFromCookieHeader(request.headers.get("cookie"));
 }

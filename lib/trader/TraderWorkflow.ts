@@ -10,6 +10,7 @@ import {
     TraderReasonCode
 } from "@/types/trading";
 import { AgentConfig, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
+import { canonicalPlaybookForCandidate } from "@/lib/trader/playbook-utils";
 
 export interface TraderDecisionProvider {
     decide(context: TraderContext): Promise<TraderDecision[]>;
@@ -130,6 +131,9 @@ export function buildBackendDecisions(
         if (decision.scope === "candidate") {
             const candidate = context.eligible_candidates.find(c => c.candidate_id === decision.candidate_id);
             const side = decision.target_side === "flat" ? null : decision.target_side;
+            const playbook = candidate && side
+                ? canonicalPlaybookForCandidate(decision.playbook, candidate.eligible_playbooks, side) ?? decision.playbook
+                : decision.playbook;
 
             return {
                 scope: decision.scope,
@@ -144,7 +148,7 @@ export function buildBackendDecisions(
                     stop_loss_pct: candidate.risk.stop_loss_pct,
                     take_profit_pct_primary: candidate.risk.take_profit_pct_primary
                 } : null,
-                playbook: decision.playbook || candidate?.eligible_playbooks[0] || "none",
+                playbook: playbook || candidate?.eligible_playbooks[0] || "none",
                 confidence: decision.confidence,
                 reason_code: decision.reason_code,
                 notes: decision.notes,

@@ -85,7 +85,10 @@ export class MarketDerivedMetricsService {
             if (!depthOk) entryReasonsFailed.push("DEPTH_GATE");
             if (edgeToCostMult < edgeMult) entryReasonsFailed.push("EDGE_TO_COST_BELOW_MULT");
 
-            const { bestAnchorKey, bestAnchorValue } = this.findBestAnchor(m, config);
+            const { bestAnchorKey, bestAnchorValue } = this.findBestAnchor(m, config, {
+                "edge.expected_move_bps": expectedMoveBps,
+                "edge.edge_bps": edgeBps
+            });
             const eligiblePlaybooks = this.buildEligiblePlaybooks({
                 breakoutOkLong,
                 breakoutOkShort,
@@ -198,11 +201,15 @@ export class MarketDerivedMetricsService {
         return current;
     }
 
-    private findBestAnchor(market: MarketEntry, config: AgentConfig): { bestAnchorKey: string | null, bestAnchorValue: number | null } {
+    private findBestAnchor(
+        market: MarketEntry,
+        config: AgentConfig,
+        computed: Record<string, number> = {}
+    ): { bestAnchorKey: string | null, bestAnchorValue: number | null } {
         const priorities = config.risk_plan_model.vol_anchor_priority || [];
 
         for (const key of priorities) {
-            const rawValue = this.getValueByPath(market, key) ?? this.getValueByPath(market.derived, key);
+            const rawValue = computed[key] ?? this.getValueByPath(market, key) ?? this.getValueByPath(market.derived, key);
             if (rawValue === null) continue;
 
             // Convert bps anchors to decimal fraction of price move

@@ -291,6 +291,38 @@ export function ConfigEditor({ initialConfig, initialPreset, onSave, onCancel }:
                                 <div className="grid grid-cols-2 gap-3">
                                     <div className="space-y-1.5">
                                         <LabelWithTooltip
+                                            label="Exchange Leverage"
+                                            tooltip="Hyperliquid leverage setting applied before opening a new position. This changes the x-value shown on the exchange, not the target notional size."
+                                            labelClassName="text-xs text-slate-300 font-medium"
+                                        />
+                                        <Input
+                                            className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
+                                            type="number"
+                                            step="1"
+                                            min="1"
+                                            value={config.risk.exchange_max_leverage_allowed}
+                                            onChange={e => updateConfig('risk.exchange_max_leverage_allowed', Number(e.target.value))}
+                                        />
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <LabelWithTooltip
+                                            label="Default Leverage"
+                                            tooltip="Fallback leverage used for risk-plan calculations when there is no current position leverage."
+                                            labelClassName="text-xs text-slate-300 font-medium"
+                                        />
+                                        <Input
+                                            className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
+                                            type="number"
+                                            step="1"
+                                            min="1"
+                                            value={config.risk.default_leverage ?? config.risk.exchange_max_leverage_allowed}
+                                            onChange={e => updateConfig('risk.default_leverage', Number(e.target.value))}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div className="space-y-1.5">
+                                        <LabelWithTooltip
                                             label="Max Corr. Exposure"
                                             tooltip="Same-direction CRYPTO_BETA exposure cap as a fraction of equity."
                                             labelClassName="text-xs text-slate-300 font-medium"

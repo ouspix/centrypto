@@ -6,6 +6,9 @@ import { useTrading } from "@/context/TradingContext"
 
 interface AccountData {
     accountValue: string
+    perpAccountValue: string
+    spotUsdc: string
+    equitySource: "perps" | "spot_usdc" | null
     unrealizedPnl: string
     totalExposurePct: string
     marginUsagePct: string
@@ -17,6 +20,9 @@ export function useAccountData(): AccountData {
     const { address, isConnected } = useAccount()
     const { isTestnet } = useTrading()
     const [accountValue, setAccountValue] = useState<string>("0.00")
+    const [perpAccountValue, setPerpAccountValue] = useState<string>("0.00")
+    const [spotUsdc, setSpotUsdc] = useState<string>("0.00")
+    const [equitySource, setEquitySource] = useState<"perps" | "spot_usdc" | null>(null)
     const [unrealizedPnl, setUnrealizedPnl] = useState<string>("0.00")
     const [totalExposurePct, setTotalExposurePct] = useState<string>("0.00")
     const [marginUsagePct, setMarginUsagePct] = useState<string>("0.00")
@@ -31,73 +37,25 @@ export function useAccountData(): AccountData {
             setError(null)
 
             try {
-                const apiUrl = isTestnet
-                    ? 'https://api.hyperliquid-testnet.xyz/info'
-                    : 'https://api.hyperliquid.xyz/info'
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        type: "clearinghouseState",
-                        user: address
-                    })
+                const network = isTestnet ? "testnet" : "mainnet"
+                const response = await fetch(`/api/hyperliquid/account?network=${network}&address=${encodeURIComponent(address)}`, {
+                    cache: "no-store",
+                    credentials: "same-origin"
                 })
 
-                if (!response.ok) throw new Error('Failed to fetch account data')
+                const data = await response.json().catch(() => ({}))
+                if (!response.ok) throw new Error(data.error || 'Failed to fetch account data')
 
-                const data = await response.json()
-
-                // Calculate Account Value
-                const marginSummary = data.marginSummary
-                const accountVal = parseFloat(marginSummary.accountValue)
-
-                // Calculate Unrealized PnL
-                const assetPositions = data.assetPositions || []
-                const unrealized = assetPositions.reduce((acc: number, pos: any) => {
-                    return acc + parseFloat(pos.position.unrealizedPnl)
-                }, 0)
-
-                // Calculate Total Exposure %
-                const openPositions = assetPositions
-                    .filter((pos: any) => parseFloat(pos.position.szi) !== 0)
-                    .map((pos: any) => ({
-                        coin: pos.position.coin,
-                        size: parseFloat(pos.position.szi),
-                        entryPx: parseFloat(pos.position.entryPx),
-                        leverage: parseFloat(pos.position.leverage?.value ?? "1")
-                    }))
-
-                let priceData: Record<string, string> = {}
-                if (openPositions.length > 0) {
-                    const priceRes = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ type: "allMids" })
-                    })
-
-                    if (priceRes.ok) {
-                        priceData = await priceRes.json()
-                    }
-                }
-
-                const totals = (openPositions as any[]).reduce((acc: { exposureUsd: number; marginUsd: number }, pos: any) => {
-                    const price = priceData[pos.coin] ? parseFloat(priceData[pos.coin]) : pos.entryPx
-                    if (!Number.isFinite(price)) return acc
-
-                    const exposureUsd = Math.abs(pos.size) * price
-                    const lev = Number.isFinite(pos.leverage) && pos.leverage > 0 ? pos.leverage : 1
-                    const marginUsd = exposureUsd / lev
-
-                    acc.exposureUsd += exposureUsd
-                    acc.marginUsd += marginUsd
-                    return acc
-                }, { exposureUsd: 0, marginUsd: 0 })
-
-                const exposurePct = accountVal > 0 ? (totals.exposureUsd / accountVal) * 100 : 0
-                const marginPct = accountVal > 0 ? (totals.marginUsd / accountVal) * 100 : 0
-
+                const accountVal = numberFrom(data.accountValue)
+                const perpAccountVal = numberFrom(data.perpAccountValue)
+                const spotUsdcValue = numberFrom(data.spotUsdc)
+                const unrealized = numberFrom(data.unrealizedPnl)
+                const exposurePct = numberFrom(data.totalExposurePct)
+                const marginPct = numberFrom(data.marginUsagePct)
                 setAccountValue(accountVal.toFixed(2))
+                setPerpAccountValue(perpAccountVal.toFixed(2))
+                setSpotUsdc(spotUsdcValue.toFixed(2))
+                setEquitySource(data.equitySource === "spot_usdc" ? "spot_usdc" : "perps")
                 setUnrealizedPnl(unrealized.toFixed(2))
                 setTotalExposurePct(exposurePct.toFixed(2))
                 setMarginUsagePct(marginPct.toFixed(2))
@@ -117,6 +75,9 @@ export function useAccountData(): AccountData {
             return () => clearInterval(interval)
         } else {
             setAccountValue("0.00")
+            setPerpAccountValue("0.00")
+            setSpotUsdc("0.00")
+            setEquitySource(null)
             setUnrealizedPnl("0.00")
             setTotalExposurePct("0.00")
             setMarginUsagePct("0.00")
@@ -127,10 +88,18 @@ export function useAccountData(): AccountData {
 
     return {
         accountValue,
+        perpAccountValue,
+        spotUsdc,
+        equitySource,
         unrealizedPnl,
         totalExposurePct,
         marginUsagePct,
         loading,
         error
     }
+}
+
+function numberFrom(value: unknown): number {
+    const parsed = typeof value === "number" ? value : parseFloat(String(value ?? "0"))
+    return Number.isFinite(parsed) ? parsed : 0
 }

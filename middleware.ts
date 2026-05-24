@@ -8,6 +8,7 @@ const PUBLIC_API_PREFIXES = [
     '/api/auth/logout',
     '/api/ai/models',
     '/api/candles',
+    '/api/hyperliquid/account',
     '/api/indicators',
     '/api/screener',
     '/api/sentiment',
@@ -19,6 +20,7 @@ const WALLET_REQUIRED_PREFIXES = [
     '/api/ai/analyze',
     '/api/ai/cancel',
     '/api/ai/job-status',
+    '/api/auto-trader',
     '/api/hyperliquid/api-wallet',
     '/api/risk/kill-switch',
     '/api/trades'

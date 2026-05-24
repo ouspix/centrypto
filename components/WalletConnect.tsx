@@ -9,6 +9,8 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { useTrading } from "@/context/TradingContext"
 
+const SESSION_REFRESH_SKEW_MS = 60 * 1000;
+
 export function WalletConnect() {
     const { address, isConnected } = useAccount()
     const { connect, isPending } = useConnect()
@@ -24,6 +26,7 @@ export function WalletConnect() {
     const [mounted, setMounted] = useState(false)
     const [authenticating, setAuthenticating] = useState(false)
     const [authError, setAuthError] = useState<string | null>(null)
+    const [sessionExpiresAt, setSessionExpiresAt] = useState<number | null>(null)
 
     useEffect(() => {
         setMounted(true)
@@ -32,18 +35,37 @@ export function WalletConnect() {
     useEffect(() => {
         if (!mounted || !isConnected || !address || !walletClient) return;
         const normalized = address.toLowerCase();
-        if (walletSessionAddress === normalized || authenticating) return;
-        void ensureWalletSession();
-    }, [mounted, isConnected, address, walletClient, walletSessionAddress, authenticating])
+        const hasFreshSession = walletSessionAddress === normalized
+            && sessionExpiresAt !== null
+            && sessionExpiresAt - Date.now() > SESSION_REFRESH_SKEW_MS;
+        if (authError && walletSessionAddress !== normalized) return;
+        if (hasFreshSession || authenticating) return;
+        void ensureWalletSession(false);
+    }, [mounted, isConnected, address, walletClient, walletSessionAddress, sessionExpiresAt, authenticating, authError])
+
+    useEffect(() => {
+        if (!sessionExpiresAt) return;
+        const refreshInMs = Math.max(1000, sessionExpiresAt - Date.now() - SESSION_REFRESH_SKEW_MS);
+        const id = window.setTimeout(() => {
+            setSessionExpiresAt(null);
+        }, refreshInMs);
+        return () => window.clearTimeout(id);
+    }, [sessionExpiresAt])
+
+    useEffect(() => {
+        setSessionExpiresAt(null)
+        setAuthError(null)
+    }, [address])
 
     useEffect(() => {
         if (!isConnected) {
             setWalletSessionAddress(null)
+            setSessionExpiresAt(null)
             setAuthError(null)
         }
     }, [isConnected, setWalletSessionAddress])
 
-    const ensureWalletSession = async () => {
+    const ensureWalletSession = async (allowSignature = false) => {
         if (!address || !walletClient) return;
         setAuthenticating(true)
         setAuthError(null)
@@ -52,14 +74,38 @@ export function WalletConnect() {
             if (session?.ok) {
                 const payload = await session.json()
                 if (payload.address?.toLowerCase() === address.toLowerCase()) {
+                    const expiresAt = typeof payload.expiresAt === 'number' ? payload.expiresAt : null;
                     setWalletSessionAddress(payload.address.toLowerCase())
-                    return
+                    setSessionExpiresAt(expiresAt)
+                    if (expiresAt !== null && expiresAt - Date.now() > SESSION_REFRESH_SKEW_MS) {
+                        return
+                    }
+                    if (await refreshWalletSession()) {
+                        return
+                    }
                 }
             }
-            await authenticateWallet()
+            setSessionExpiresAt(null)
+            if (allowSignature) {
+                await authenticateWallet()
+            } else {
+                setWalletSessionAddress(null)
+                setAuthError('Wallet authentication required')
+            }
         } finally {
             setAuthenticating(false)
         }
+    }
+
+    const refreshWalletSession = async () => {
+        if (!address) return false;
+        const refreshed = await fetch('/api/auth/session', { method: 'POST' }).catch(() => null)
+        if (!refreshed?.ok) return false;
+        const payload = await refreshed.json()
+        if (payload.address?.toLowerCase() !== address.toLowerCase()) return false;
+        setWalletSessionAddress(payload.address.toLowerCase())
+        setSessionExpiresAt(typeof payload.expiresAt === 'number' ? payload.expiresAt : null)
+        return true;
     }
 
     const authenticateWallet = async () => {
@@ -88,8 +134,10 @@ export function WalletConnect() {
             }
             const payload = await verified.json()
             setWalletSessionAddress(payload.address?.toLowerCase() ?? null)
+            setSessionExpiresAt(typeof payload.expiresAt === 'number' ? payload.expiresAt : null)
         } catch (error) {
             setWalletSessionAddress(null)
+            setSessionExpiresAt(null)
             setAuthError(error instanceof Error ? error.message : 'Wallet authentication failed')
         }
     }
@@ -97,6 +145,7 @@ export function WalletConnect() {
     const disconnectWallet = () => {
         void fetch('/api/auth/logout', { method: 'POST' }).catch(() => {})
         setWalletSessionAddress(null)
+        setSessionExpiresAt(null)
         disconnect()
     }
 
@@ -137,7 +186,7 @@ export function WalletConnect() {
                         <span className="text-xs text-amber-400">Signing session...</span>
                     )}
                     {!authenticating && authError && (
-                        <button className="text-xs text-red-400 hover:text-red-300" onClick={ensureWalletSession}>
+                        <button className="text-xs text-red-400 hover:text-red-300" onClick={() => ensureWalletSession(true)}>
                             Auth required
                         </button>
                     )}

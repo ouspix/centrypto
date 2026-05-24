@@ -18,6 +18,8 @@ const DEFAULT_MIN_DELAY_MS: Record<string, number> = {
     "hl:info:meta": 250,
     "hl:info:metaAndAssetCtxs": 350,
     "hl:info:clearinghouseState": 250,
+    "hl:info:spotClearinghouseState": 250,
+    "hl:info:allMids": 250,
     "hl:info:userFills": 250,
     "hl:info:candleSnapshot": 800,
     "hl:info:l2Book": 500,
@@ -47,7 +49,7 @@ export async function waitForHyperliquidSlot(bucket: string = "hl:info:metaAndAs
 }
 
 export async function hyperliquidInfoPost<T>(
-    bucket: "hl:info:meta" | "hl:info:metaAndAssetCtxs" | "hl:info:clearinghouseState" | "hl:info:userFills" | "hl:info:candleSnapshot" | "hl:info:l2Book" | "hl:info:extraAgents",
+    bucket: "hl:info:meta" | "hl:info:metaAndAssetCtxs" | "hl:info:clearinghouseState" | "hl:info:spotClearinghouseState" | "hl:info:allMids" | "hl:info:userFills" | "hl:info:candleSnapshot" | "hl:info:l2Book" | "hl:info:extraAgents",
     apiUrl: string,
     body: unknown,
     options: RequestOptions = {}

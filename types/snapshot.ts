@@ -26,6 +26,9 @@ export type DerivedPortfolio = {
 
 export type AccountState = {
     equity_usd: number;
+    perp_equity_usd?: number;
+    spot_usdc?: number;
+    equity_source?: "perps" | "spot_usdc";
     daily_realized_pnl: number;
     daily_realized_pnl_usd?: number;
     daily_unrealized_pnl_usd?: number;

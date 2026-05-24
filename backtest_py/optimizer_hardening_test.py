@@ -455,6 +455,32 @@ class OptimizerHardeningTest(unittest.TestCase):
                 candidate["sizing"]["max_allowed_size_fraction"],
             )
 
+    def test_sizing_uses_min_notional_floor_when_soft_target_is_too_small(self) -> None:
+        agent = optimizer.default_agent_config()
+        row = {
+            "symbol": "PENGU-PERP",
+            "side": "long",
+            "playbook": "Mean Reversion",
+            "book_pressure_10bps": 0.27,
+            "ret_sigma_5m_vs_1h": -6.1669,
+            "edge_to_cost_mult": 18.6,
+        }
+
+        sizing = optimizer.compute_main_app_sizing(
+            row=row,
+            equity=101.704298,
+            active_positions={},
+            agent=agent,
+            stop_loss_pct=0.015,
+            regime_multiplier=0.5,
+            recorded_target=None,
+            network="mainnet",
+        )
+
+        self.assertAlmostEqual(sizing["min_size_fraction"], 10 / 101.704298)
+        self.assertAlmostEqual(sizing["suggested_size_fraction"], sizing["min_size_fraction"])
+        self.assertLessEqual(sizing["suggested_size_fraction"], sizing["max_allowed_size_fraction"])
+
     def test_trader_prompt_is_entry_gate_only(self) -> None:
         prompt = optimizer.build_trader_prompt({
             "snapshot_id": None,

@@ -1,16 +1,19 @@
 import { describe, expect, it, beforeEach, vi } from "vitest";
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 import {
+    createWalletSessionToken,
     createWalletChallenge,
     getWalletSessionFromToken,
     requireWalletSession,
     verifyWalletChallenge,
     WALLET_SESSION_COOKIE
 } from "@/lib/auth/wallet-session";
+import { POST as refreshSession } from "@/app/api/auth/session/route";
 import { GET as getTrades } from "@/app/api/trades/route";
 import { POST as postAnalyze } from "@/app/api/ai/analyze/route";
 import { POST as postCancel } from "@/app/api/ai/cancel/route";
 import { GET as getJobStatus } from "@/app/api/ai/job-status/route";
+import { GET as getAutoTrader, PUT as putAutoTrader } from "@/app/api/auto-trader/route";
 import { GET as getAlerts, POST as postAlerts, DELETE as deleteAlerts, PATCH as patchAlerts } from "@/app/api/alerts/route";
 import { GET as getApiWallet, POST as postApiWallet, DELETE as deleteApiWallet } from "@/app/api/hyperliquid/api-wallet/route";
 import { GET as getKillSwitch, PUT as putKillSwitch } from "@/app/api/risk/kill-switch/route";
@@ -65,6 +68,27 @@ describe("wallet session auth", () => {
         })).rejects.toThrow(/expired/i);
     });
 
+    it("refreshes a valid wallet session without a new signature", async () => {
+        vi.useFakeTimers();
+        vi.setSystemTime(new Date("2026-04-30T00:00:00Z"));
+        const account = privateKeyToAccount(generatePrivateKey());
+        const original = createWalletSessionToken(account.address);
+
+        vi.setSystemTime(new Date("2026-04-30T00:05:00Z"));
+        const response = await refreshSession(new Request("http://localhost/api/auth/session", {
+            method: "POST",
+            headers: {
+                cookie: `${WALLET_SESSION_COOKIE}=${encodeURIComponent(original.sessionToken)}`
+            }
+        }) as any);
+        const payload = await response.json();
+
+        expect(response.status).toBe(200);
+        expect(payload.address).toBe(account.address.toLowerCase());
+        expect(payload.expiresAt).toBeGreaterThan(original.session.expiresAt);
+        expect(response.headers.get("set-cookie")).toContain(WALLET_SESSION_COOKIE);
+    });
+
     it("requires a session cookie", () => {
         expect(() => requireWalletSession(new Request("http://localhost/api/trades"))).toThrow(/wallet session required/i);
     });
@@ -94,6 +118,8 @@ describe("wallet session auth", () => {
             ["POST /api/ai/analyze", postAnalyze, jsonRequest("http://localhost/api/ai/analyze", "POST", { isManual: true })],
             ["POST /api/ai/cancel", postCancel, jsonRequest("http://localhost/api/ai/cancel", "POST", {})],
             ["GET /api/ai/job-status", getJobStatus, new Request("http://localhost/api/ai/job-status?jobId=job-1")],
+            ["GET /api/auto-trader", getAutoTrader, new Request("http://localhost/api/auto-trader?network=testnet")],
+            ["PUT /api/auto-trader", putAutoTrader, jsonRequest("http://localhost/api/auto-trader", "PUT", {})],
             ["GET /api/alerts", getAlerts, new Request("http://localhost/api/alerts")],
             ["POST /api/alerts", postAlerts, jsonRequest("http://localhost/api/alerts", "POST", {})],
             ["DELETE /api/alerts", deleteAlerts, new Request("http://localhost/api/alerts?alertId=alert-1", { method: "DELETE" })],

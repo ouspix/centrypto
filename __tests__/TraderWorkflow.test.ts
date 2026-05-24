@@ -58,6 +58,25 @@ describe("main-app trader workflow helpers", () => {
         expect(result.approvedDecisions[0].symbol).toBe("BTC-PERP");
     });
 
+    it("canonicalizes candidate playbook shorthand in backend decisions", () => {
+        const eligible = candidate("HYPE-PERP", "long", 1, 20, 0.0225);
+        const context = traderContext({ eligible_candidates: [eligible] });
+        const backendDecisions = buildBackendDecisions([{
+            scope: "candidate",
+            action: "OPEN_POSITION",
+            candidate_id: eligible.candidate_id,
+            symbol: "HYPE-PERP",
+            target_side: "long",
+            target_size_fraction_of_equity: 0.0225,
+            playbook: "Momentum",
+            confidence: 0.55,
+            reason_code: "momentum_edge",
+            notes: "test"
+        }], context, "accepted");
+
+        expect(backendDecisions[0].playbook).toBe("Momentum:long");
+    });
+
     it("defaults legacy non-LLM policies to the deterministic main-app provider without LLM config", async () => {
         const provider = buildDecisionProvider({
             policyName: "take_top_rank",

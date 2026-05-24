@@ -33,6 +33,7 @@ import { TraderContextBuilder } from "@/services/TraderContextBuilder";
 import { TraderDecisionValidator } from "@/lib/trader/TraderDecisionValidator";
 import { assertWalletExecutionAllowed } from "@/lib/risk/execution-safety";
 import { redactSensitive, safeError } from "@/lib/log/safeLogger";
+import { traderError, traderLog, traderWarn } from "@/lib/log/traderLog";
 
 import OpenAI from "openai";
 
@@ -327,6 +328,16 @@ export class OrchestratorService {
         }
     }
 
+    public async runAutonomousTraderCycle(
+        userAddress: string,
+        model: string,
+        isTestnet: boolean,
+        configOverride?: any
+    ): Promise<AnalysisResult> {
+        const controller = new AbortController();
+        return this.runTraderCycle(userAddress, true, model, isTestnet, configOverride, controller.signal);
+    }
+
     private async runTraderCycle(
         userAddress: string | null,
         autoTrading: boolean,
@@ -335,9 +346,13 @@ export class OrchestratorService {
         configOverride?: any,
         signal?: AbortSignal
     ): Promise<AnalysisResult> {
+        const cycleId = `${autoTrading ? "auto" : "manual"}-${isTestnet ? "testnet" : "mainnet"}-${Date.now().toString(36)}`;
+        const logScope = `cycle=${cycleId}`;
         const { config, screenerConfig } = this.mergeConfig(configOverride);
+        traderLog(`Starting trader cycle (${autoTrading ? "auto" : "manual"}, ${isTestnet ? "testnet" : "mainnet"}, model=${model}).`, logScope);
         if (signal?.aborted) throw new Error("Aborted");
         if (autoTrading && config.preset_live_mode === "limited_manual") {
+            traderWarn(`${config.preset_name || "Preset"} is manual-only for v1.`, logScope);
             return {
                 decisions: [],
                 riskAssessments: [{ approved: false, reason: `${config.preset_name || "Preset"} is manual-only for v1` }],
@@ -347,6 +362,7 @@ export class OrchestratorService {
             };
         }
         if (autoTrading && config.preset_live_mode === "non_live" && !isTestnet) {
+            traderWarn(`${config.preset_name || "Preset"} is non-live and cannot execute on mainnet.`, logScope);
             return {
                 decisions: [],
                 riskAssessments: [{ approved: false, reason: `${config.preset_name || "Preset"} is non-live and cannot execute on mainnet` }],
@@ -359,6 +375,7 @@ export class OrchestratorService {
         const snapshot = await this.snapshotBuilder.buildSnapshot(userAddress, isTestnet, config, screenerConfig);
         const snapshotId = await this.persistSnapshot(snapshot);
         if (snapshotId) snapshot.meta.snapshot_id = snapshotId;
+        traderLog(`Snapshot ready: id=${snapshotId ?? "unpersisted"}, positions=${snapshot.account.current_positions.length}, markets=${Object.keys(snapshot.markets || {}).length}.`, logScope);
 
         const profile = this.resolveProfileName(configOverride);
         const { context, diagnostics } = await this.traderContextBuilder.build(snapshot, config, isTestnet, profile);
@@ -366,7 +383,7 @@ export class OrchestratorService {
 
         if (!hasWork) {
             const llmStatus = this.buildLlmSkippedStatus(context, diagnostics);
-            console.log(`[LLM] Skipped: ${llmStatus.reason}`);
+            traderLog(`[LLM] Skipped: ${llmStatus.reason}`, logScope);
             return {
                 decisions: [],
                 riskAssessments: [],
@@ -377,15 +394,15 @@ export class OrchestratorService {
             };
         }
 
-        console.log(`✨ Trader context: ${context.eligible_candidates.length} candidates, ${context.existing_positions.length} positions.`);
+        traderLog(`✨ Trader context: ${context.eligible_candidates.length} candidates, ${context.existing_positions.length} positions.`, logScope);
         if (signal?.aborted) throw new Error("Aborted");
 
-        const llmResult = await this.getLLMDecision(context, model, signal);
+        const llmResult = await this.getLLMDecision(context, model, signal, logScope);
         const validation = this.traderDecisionValidator.validateBatch(llmResult.decisions, context);
 
         if (!validation.accepted) {
             const invalidDecisions = buildBackendDecisions(llmResult.decisions, context, validation.reason);
-            await this.saveLlmInteraction(llmResult.prompt, llmResult.rawOutput, invalidDecisions, isTestnet);
+            await this.saveLlmInteraction(llmResult.prompt, llmResult.rawOutput, invalidDecisions, isTestnet, logScope);
             await this.journalTraderContext(context, llmResult.decisions, validation, new Map());
             return {
                 decisions: [],
@@ -398,7 +415,7 @@ export class OrchestratorService {
         }
 
         const decisions = buildBackendDecisions(llmResult.decisions, context, "accepted");
-        await this.saveLlmInteraction(llmResult.prompt, llmResult.rawOutput, decisions, isTestnet);
+        await this.saveLlmInteraction(llmResult.prompt, llmResult.rawOutput, decisions, isTestnet, logScope);
 
         const { riskAssessments } = assessDecisionsForRisk(decisions, snapshot, this.riskModule);
         const executionResults = new Map<string, { attempted: boolean; success: boolean; error?: string }>();
@@ -635,7 +652,7 @@ export class OrchestratorService {
             if (!candidateJournal?.createMany) return;
             await candidateJournal.createMany({ data: rows });
         } catch (error) {
-            console.warn("⚠️ Failed to write candidate journal:", error);
+            traderWarn("⚠️ Failed to write candidate journal:", undefined, error);
         }
     }
 
@@ -643,7 +660,7 @@ export class OrchestratorService {
         return configOverride?.profileName || configOverride?.preset || configOverride?.name || "active";
     }
 
-    private async getLLMDecision(context: TraderContext, model: string, signal?: AbortSignal): Promise<{ decisions: TraderDecision[], prompt: string, rawOutput: string }> {
+    private async getLLMDecision(context: TraderContext, model: string, signal?: AbortSignal, logScope?: string): Promise<{ decisions: TraderDecision[], prompt: string, rawOutput: string }> {
         const SYSTEM_PROMPT = TRADER_AGENT_SYSTEM_PROMPT;
         const USER_PROMPT = `TRADER_CONTEXT (backend-precomputed; use provided fields only):
 ${JSON.stringify(context, null, 2)}`;
@@ -652,7 +669,7 @@ ${JSON.stringify(context, null, 2)}`;
 
         try {
 
-            console.log(`🤖 Calling LLM with model: ${model}`);
+            traderLog(`🤖 Calling LLM with model: ${model}`, logScope);
 
             // Check if we should use OpenRouter
             // If the model string contains "deepseek" or "gpt" or "claude" and we have a client, use it.
@@ -661,7 +678,7 @@ ${JSON.stringify(context, null, 2)}`;
             // OR if we have the client and the model is not a standard local one.
 
             if (this.openRouterClient && (model.includes("/") || model.startsWith("gpt") || model.startsWith("anthropic"))) {
-                console.log("✨ Using OpenRouter via OpenAI SDK");
+                traderLog("✨ Using OpenRouter via OpenAI SDK", logScope);
 
                 let targetModel = model;
                 let includeReasoning = false;
@@ -670,7 +687,7 @@ ${JSON.stringify(context, null, 2)}`;
                 if (targetModel.endsWith(":reasoning")) {
                     targetModel = targetModel.replace(":reasoning", "");
                     includeReasoning = true;
-                    console.log("🧠 Reasoning Mode Enabled via suffix");
+                    traderLog("🧠 Reasoning Mode Enabled via suffix", logScope);
                 }
 
                 // Also enable for R1 by default if not already
@@ -682,7 +699,7 @@ ${JSON.stringify(context, null, 2)}`;
                 const temperature = isReasoning ? 0.6 : 0.3;
 
                 if (isReasoning) {
-                    console.log(`🧠 Reasoning Active for ${targetModel}: Adjusting temperature to 0.6`);
+                    traderLog(`🧠 Reasoning Active for ${targetModel}: Adjusting temperature to 0.6`, logScope);
                 }
 
                 const completion = await this.openRouterClient.chat.completions.create({
@@ -703,9 +720,9 @@ ${JSON.stringify(context, null, 2)}`;
                 });
 
                 const choice = completion.choices[0];
-                console.log("🏁 LLM Finish Reason:", choice.finish_reason);
+                traderLog(`🏁 LLM Finish Reason: ${choice.finish_reason}`, logScope);
                 if (choice.finish_reason === "length") {
-                    console.warn("⚠️ LLM response was truncated due to length limit!");
+                    traderWarn("⚠️ LLM response was truncated due to length limit!", logScope);
                 }
 
                 rawOutput = choice.message.content || "";
@@ -732,7 +749,7 @@ ${JSON.stringify(context, null, 2)}`;
 
                 if (!response.ok) {
                     const errorText = await response.text();
-                    console.error("❌ Ollama API Error:", response.status, errorText);
+                    traderError(`❌ Ollama API Error: ${response.status}`, logScope, errorText);
                     throw new Error(`Ollama API Error: ${response.status} - ${errorText}`);
                 }
 
@@ -772,22 +789,22 @@ ${JSON.stringify(context, null, 2)}`;
                 }
             }
 
-            console.log("🔍 Trader Context Debug:");
-            console.log("   Global Regime:", context.global_regime);
-            console.log("   Eligible Candidates:", context.eligible_candidates.length);
-            console.log("   Existing Positions:", context.existing_positions.length);
+            traderLog("🔍 Trader Context Debug:", logScope);
+            traderLog(`   Global Regime: ${context.global_regime}`, logScope);
+            traderLog(`   Eligible Candidates (${context.eligible_candidates.length}): ${formatTraderSymbols(context.eligible_candidates)}`, logScope);
+            traderLog(`   Existing Positions (${context.existing_positions.length}): ${formatTraderSymbols(context.existing_positions)}`, logScope);
 
             if (process.env.CENTRYPT_DEBUG_LOGS === "true") {
-                console.log("Raw LLM response length:", rawOutput.length);
+                traderLog(`Raw LLM response length: ${rawOutput.length}`, logScope);
             }
             if (process.env.CENTRYPT_DEBUG_LLM_TRANSCRIPTS === "true") {
-                fs.appendFile('debug_llm_response.log', `\n\n--- ${new Date().toISOString()} ---\nPrompt:\n${redactSensitive(USER_PROMPT)}\n\nResponse:\n${redactSensitive(rawOutput)}\n-----------------------------------\n`).catch(e => console.warn('⚠️ Debug log write failed:', e));
+                fs.appendFile('debug_llm_response.log', `\n\n--- ${new Date().toISOString()} ---\nPrompt:\n${redactSensitive(USER_PROMPT)}\n\nResponse:\n${redactSensitive(rawOutput)}\n-----------------------------------\n`).catch(e => traderWarn('⚠️ Debug log write failed:', logScope, e));
             }
             const decisions = parseTraderResponse(rawOutput);
             return { decisions, prompt: SYSTEM_PROMPT + "\n\n" + USER_PROMPT, rawOutput };
 
         } catch (error) {
-            console.error("❌ LLM Decision Error:", error);
+            traderError("❌ LLM Decision Error:", logScope, error);
             return {
                 decisions: [],
                 prompt: SYSTEM_PROMPT + "\n\n" + USER_PROMPT,
@@ -948,11 +965,11 @@ ${JSON.stringify(context, null, 2)}`;
             if (decision.action === "OPEN_POSITION" || decision.action === "INCREASE_POSITION") {
                 if (!normalizedDecision.target_side || normalizedDecision.target_side === "flat") return [];
                 if (riskInfo && !riskInfo.eligible) {
-                    console.log(`[enrichDecisions] Dropped ${decision.action} for ${symbol}: riskInfo not eligible.`);
+                    traderLog(`[enrichDecisions] Dropped ${decision.action} for ${symbol}: riskInfo not eligible.`);
                     return [];
                 }
                 if (riskInfo?.eligible_playbooks?.length && !this.isPlaybookAllowed(decision.playbook, riskInfo.eligible_playbooks)) {
-                    console.log(`[enrichDecisions] Dropped ${decision.action} for ${symbol}: playbook ${decision.playbook} not allowed.`);
+                    traderLog(`[enrichDecisions] Dropped ${decision.action} for ${symbol}: playbook ${decision.playbook} not allowed.`);
                     return [];
                 }
 
@@ -1119,17 +1136,17 @@ ${JSON.stringify(context, null, 2)}`;
                     data: { data: JSON.stringify(snapshotWithId) }
                 });
             } catch (updateError) {
-                console.warn("⚠️ Unable to backfill snapshot_id into stored snapshot:", updateError);
+                traderWarn("⚠️ Unable to backfill snapshot_id into stored snapshot:", undefined, updateError);
             }
 
             return saved.id;
         } catch (error) {
-            console.error("❌ Failed to persist snapshot:", error);
+            traderError("❌ Failed to persist snapshot:", undefined, error);
             return null;
         }
     }
 
-    private async saveLlmInteraction(prompt: string, response: string, decisions: TradeDecision[], isTestnet: boolean) {
+    private async saveLlmInteraction(prompt: string, response: string, decisions: TradeDecision[], isTestnet: boolean, logScope?: string) {
         try {
             const storeTranscripts = process.env.CENTRYPT_STORE_LLM_TRANSCRIPTS === "true";
             await prisma.llmQuery.create({
@@ -1154,9 +1171,9 @@ ${JSON.stringify(context, null, 2)}`;
                     isTestnet: isTestnet
                 }
             });
-            console.log("✅ Saved LLM interaction to DB");
+            traderLog("✅ Saved LLM interaction to DB", logScope);
         } catch (error) {
-            console.error("❌ Failed to save LLM interaction:", error);
+            traderError("❌ Failed to save LLM interaction:", logScope, error);
         }
     }
 
@@ -1193,4 +1210,9 @@ function parseJobConfig(serialized: string | null | undefined): any {
     } catch {
         return undefined;
     }
+}
+
+function formatTraderSymbols(items: Array<{ symbol?: string; side?: string | null }>): string {
+    if (items.length === 0) return "none";
+    return items.map(item => item.side ? `${item.symbol}: ${item.side}` : item.symbol || "UNKNOWN").join(", ");
 }

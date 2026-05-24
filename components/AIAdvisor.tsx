@@ -30,7 +30,9 @@ type AnalysisResult = {
 };
 
 export function AIAdvisor() {
-    const { isTestnet, walletSessionAddress } = useTrading()
+    const trading = useTrading()
+    const { isTestnet, walletSessionAddress } = trading
+    const setWalletSessionAddress = trading.setWalletSessionAddress ?? (() => {})
     const { address } = useAccount()
     const hasWalletSession = !!address && walletSessionAddress === address.toLowerCase()
     const [loading, setLoading] = useState(false)
@@ -181,6 +183,8 @@ export function AIAdvisor() {
 
     // Controls
     const [autoTrading, setAutoTrading] = useState(false)
+    const [autoTraderStatus, setAutoTraderStatus] = useState<any>(null)
+    const [savingAutoTrader, setSavingAutoTrader] = useState(false)
     const [isInitialized, setIsInitialized] = useState(false)
 
     const DEFAULT_TRADING_INTERVAL = 600; // 10 minutes
@@ -194,11 +198,6 @@ export function AIAdvisor() {
 
     // Load Auto Trading State & Settings
     useEffect(() => {
-        const savedAuto = localStorage.getItem('autoTrading');
-        if (savedAuto) {
-            setAutoTrading(savedAuto === 'true');
-        }
-
         const savedFreq = localStorage.getItem('aiAdvisor_frequency');
         if (savedFreq) {
             setFrequency(Number(savedFreq));
@@ -215,13 +214,11 @@ export function AIAdvisor() {
     // Save Auto Trading State & Settings
     useEffect(() => {
         if (isInitialized) {
-            localStorage.setItem('autoTrading', String(autoTrading));
             localStorage.setItem('aiAdvisor_frequency', String(frequency));
             localStorage.setItem('aiAdvisor_selectedModel', selectedModel);
         }
-    }, [autoTrading, frequency, selectedModel, isInitialized]);
+    }, [frequency, selectedModel, isInitialized]);
 
-    const timerRef = useRef<NodeJS.Timeout | null>(null)
     const abortControllerRef = useRef<AbortController | null>(null)
 
     // Poll Job Status
@@ -339,6 +336,86 @@ export function AIAdvisor() {
             .catch(() => {});
     }, [address, hasWalletSession, isTestnet])
 
+    useEffect(() => {
+        if (!address || !hasWalletSession) {
+            setAutoTrading(false);
+            setAutoTraderStatus(null);
+            return;
+        }
+        const network = isTestnet ? 'testnet' : 'mainnet';
+        fetch(`/api/auto-trader?network=${network}`)
+            .then(res => res.ok ? res.json() : null)
+            .then(data => {
+                if (!data) return;
+                setAutoTraderStatus(data);
+                setAutoTrading(!!data.enabled);
+                if (typeof data.frequencySeconds === 'number') setFrequency(data.frequencySeconds);
+                if (typeof data.model === 'string' && data.model) setSelectedModel(data.model);
+            })
+            .catch(() => {});
+    }, [address, hasWalletSession, isTestnet])
+
+    const readScreeningConfig = () => {
+        try {
+            const saved = localStorage.getItem('screeningConfig');
+            if (saved) {
+                const screeningConfig = JSON.parse(saved);
+                console.log('📋 Screening config from localStorage:', screeningConfig);
+                return screeningConfig;
+            }
+            console.log('📋 No screening config in localStorage');
+        } catch (e) {
+            console.error('Failed to read screening config', e);
+        }
+        return null;
+    }
+
+    const runtimeConfigOverride = () => {
+        const screeningConfig = readScreeningConfig();
+        return {
+            ...(customConfig ?? {}),
+            screener: screeningConfig || (customConfig as any)?.screener
+        };
+    }
+
+    const handleAutoTradingChange = async (enabled: boolean) => {
+        if (!hasWalletSession) {
+            toast.error('Authenticate wallet session before changing auto trading');
+            return;
+        }
+        if (killSwitch && enabled) return;
+        setSavingAutoTrader(true);
+        try {
+            const response = await fetch('/api/auto-trader', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    enabled,
+                    frequencySeconds: frequency,
+                    model: selectedModel,
+                    isTestnet,
+                    configOverride: runtimeConfigOverride()
+                })
+            });
+            if (!response.ok) {
+                const payload = await response.json().catch(() => ({}));
+                if (response.status === 401) {
+                    setWalletSessionAddress(null);
+                    throw new Error('Wallet session expired');
+                }
+                throw new Error(payload.error || 'Failed to update auto trader');
+            }
+            const data = await response.json();
+            setAutoTraderStatus(data);
+            setAutoTrading(!!data.enabled);
+            toast.success(enabled ? 'Server auto trader enabled' : 'Server auto trader paused');
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : 'Failed to update auto trader');
+        } finally {
+            setSavingAutoTrader(false);
+        }
+    }
+
     const analyzeMarket = async () => {
         if (!hasWalletSession) {
             toast.error('Authenticate wallet session before running analysis');
@@ -348,29 +425,13 @@ export function AIAdvisor() {
 
         setLoading(true)
 
-        // Create new AbortController for this request (only for auto-trading or legacy fallback)
         abortControllerRef.current = new AbortController();
 
         try {
-            // Read screening config from localStorage
-            let screeningConfig = null;
-            try {
-                const saved = localStorage.getItem('screeningConfig');
-                if (saved) {
-                    screeningConfig = JSON.parse(saved);
-                    console.log('📋 Screening config from localStorage:', screeningConfig);
-                } else {
-                    console.log('📋 No screening config in localStorage');
-                }
-            } catch (e) {
-                console.error('Failed to read screening config', e);
-            }
-
             const body = {
-                autoTrading: autoTrading,
-                screeningConfig,
-                configOverride: customConfig,
-                isManual: !autoTrading, // Flag for manual analysis
+                autoTrading: false,
+                configOverride: runtimeConfigOverride(),
+                isManual: true,
                 isTestnet: isTestnet,
                 model: selectedModel
             };
@@ -383,17 +444,22 @@ export function AIAdvisor() {
             })
 
             if (!response.ok) {
-                throw new Error('Analysis failed')
+                const payload = await response.json().catch(() => ({}));
+                if (response.status === 401) {
+                    setWalletSessionAddress(null);
+                    toast.error('Wallet session expired. Sign again to run analysis.');
+                    throw new Error(payload.error || 'Wallet session expired');
+                }
+                throw new Error(payload.error || 'Analysis failed')
             }
 
             const data = await response.json()
 
-            if (!autoTrading && data.jobId) {
+            if (data.jobId) {
                 // Manual analysis started with job tracking
                 console.log("🚀 Started manual analysis job:", data.jobId);
                 startPolling(data.jobId);
             } else {
-                // Auto-trading (synchronous)
                 setResult({ ...data, riskAssessments: data.riskAssessments || [] })
                 setLoading(false)
             }
@@ -406,11 +472,7 @@ export function AIAdvisor() {
                 setLoading(false)
             }
         } finally {
-            // Only clear loading if NOT using job tracking (auto-trading or error)
-            // For manual job, polling handles loading state
-            if (autoTrading) {
-                abortControllerRef.current = null;
-            }
+            abortControllerRef.current = null;
         }
     }
 
@@ -451,33 +513,17 @@ export function AIAdvisor() {
         setLoading(false);
     }
 
-    // Auto Trading Loop
-    useEffect(() => {
-        if (autoTrading && !killSwitch && hasWalletSession) {
-            // Initial call
-            analyzeMarket();
-
-            // Interval
-            timerRef.current = setInterval(analyzeMarket, frequency * 1000);
-        } else {
-            if (timerRef.current) {
-                clearInterval(timerRef.current);
-                timerRef.current = null;
-            }
-        }
-
-        return () => {
-            if (timerRef.current) clearInterval(timerRef.current);
-        }
-    }, [autoTrading, frequency, killSwitch, selectedModel, address, hasWalletSession, isTestnet])
-
     const handleKillSwitch = async () => {
         if (!hasWalletSession) {
             toast.error('Authenticate wallet session before changing the kill switch');
             return;
         }
         setKillSwitch(true);
-        setAutoTrading(false);
+        if (autoTrading) {
+            await handleAutoTradingChange(false);
+        } else {
+            setAutoTrading(false);
+        }
         try {
             const res = await fetch('/api/risk/kill-switch', {
                 method: 'PUT',
@@ -502,9 +548,17 @@ export function AIAdvisor() {
     const formatUsd = (value: number | null | undefined) =>
         value === null || value === undefined ? "--" : `$${Math.round(value).toLocaleString()}`;
 
+    const formatUsdCents = (value: number | null | undefined) =>
+        value === null || value === undefined || !Number.isFinite(value)
+            ? "--"
+            : `$${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
     const llmStatus = result?.llmStatus;
     const llmSkipped = llmStatus?.status === "skipped";
     const diagnostics = llmStatus?.diagnostics;
+    const accountEquity = typeof result?.snapshot?.account?.equity_usd === "number"
+        ? result.snapshot.account.equity_usd
+        : null;
     const topRejectionCounts = diagnostics
         ? Object.entries(diagnostics.rejection_counts)
             .sort(([, a], [, b]) => b - a)
@@ -572,11 +626,26 @@ export function AIAdvisor() {
                         <span className="text-sm text-slate-200 font-semibold">Auto Trading</span>
                         <Switch
                             checked={autoTrading}
-                            onCheckedChange={setAutoTrading}
-                            disabled={killSwitch || !hasWalletSession}
+                            onCheckedChange={handleAutoTradingChange}
+                            disabled={killSwitch || !hasWalletSession || savingAutoTrader}
                             className="data-[state=checked]:bg-emerald-500 data-[state=unchecked]:bg-slate-700"
                         />
                     </div>
+
+                    {autoTraderStatus && (
+                        <div className="grid grid-cols-2 gap-2 text-xs">
+                            <div className="rounded border border-slate-700/70 bg-slate-950/40 px-2 py-1.5">
+                                <span className="block text-[10px] uppercase text-slate-500">Server Status</span>
+                                <span className="font-mono text-slate-100">{autoTraderStatus.running ? "running" : (autoTraderStatus.lastStatus || "idle")}</span>
+                            </div>
+                            <div className="rounded border border-slate-700/70 bg-slate-950/40 px-2 py-1.5">
+                                <span className="block text-[10px] uppercase text-slate-500">Next Run</span>
+                                <span className="font-mono text-slate-100">
+                                    {autoTraderStatus.nextRunAt ? new Date(autoTraderStatus.nextRunAt).toLocaleTimeString() : "--"}
+                                </span>
+                            </div>
+                        </div>
+                    )}
 
                     <div className="flex items-center justify-between">
                         <span className="text-sm text-slate-200 font-semibold">Frequency</span>
@@ -656,9 +725,14 @@ export function AIAdvisor() {
                             <div className="p-3 bg-gradient-to-br from-slate-950 to-slate-900 rounded-lg border border-slate-800 shadow-lg">
                                 <div className="flex items-center justify-between mb-2">
                                     <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Portfolio Plan</span>
-                                    <Badge variant="outline" className="text-xs border-purple-500/30 text-purple-400 bg-purple-500/5">
-                                        {result.decisions.length} Decision{result.decisions.length !== 1 ? 's' : ''}
-                                    </Badge>
+                                    <div className="flex flex-wrap items-center justify-end gap-1.5">
+                                        <Badge variant="outline" className="text-xs border-cyan-500/30 text-cyan-300 bg-cyan-500/5">
+                                            Account {formatUsdCents(accountEquity)}
+                                        </Badge>
+                                        <Badge variant="outline" className="text-xs border-purple-500/30 text-purple-400 bg-purple-500/5">
+                                            {result.decisions.length} Decision{result.decisions.length !== 1 ? 's' : ''}
+                                        </Badge>
+                                    </div>
                                 </div>
                             </div>
 
@@ -684,6 +758,10 @@ export function AIAdvisor() {
                                     {diagnostics && (
                                         <>
                                             <div className="grid grid-cols-2 gap-2">
+                                                <div className="rounded border border-slate-700/70 bg-slate-950/40 px-2 py-1.5">
+                                                    <span className="block text-[10px] uppercase text-slate-500">Account</span>
+                                                    <span className="text-xs font-mono text-slate-100">{formatUsdCents(accountEquity)}</span>
+                                                </div>
                                                 <div className="rounded border border-slate-700/70 bg-slate-950/40 px-2 py-1.5">
                                                     <span className="block text-[10px] uppercase text-slate-500">Screened</span>
                                                     <span className="text-xs font-mono text-slate-100">{diagnostics.screened_market_count}</span>

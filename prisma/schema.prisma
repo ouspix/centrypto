@@ -178,6 +178,26 @@ model AnalysisJob {
   @@index([userAddress, status])
 }
 
+model AutoTraderSettings {
+  id               String    @id @default(uuid())
+  userAddress      String
+  isTestnet        Boolean   @default(true)
+  enabled          Boolean   @default(false)
+  frequencySeconds Int       @default(600)
+  model            String
+  config           String?
+  lastRunAt        DateTime?
+  nextRunAt        DateTime?
+  lastStatus       String?
+  lastError        String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@unique([userAddress, isTestnet])
+  @@index([enabled, nextRunAt])
+  @@index([userAddress, enabled])
+}
+
 model WalletRiskControl {
   id          String   @id @default(uuid())
   userAddress String

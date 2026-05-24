@@ -479,12 +479,14 @@ export class TraderContextBuilder {
             effectiveLeverageCeiling
         );
 
-        const maxAllowed = Math.max(0, rawCap * regimeMultiplier * correlation.correlation_size_multiplier);
-        const feasibleMax = maxAllowed >= minSizeFraction ? maxAllowed : 0;
+        // Keep minimum-notional orders available when hard caps allow them; soft
+        // regime and quality multipliers should shrink size, not silently zero it.
+        const correlationAdjustedCap = Math.max(0, rawCap * correlation.correlation_size_multiplier);
+        const feasibleMax = correlationAdjustedCap >= minSizeFraction ? correlationAdjustedCap : 0;
         const triggerQualityMultiplier = this.triggerQualityMultiplier(market);
         const costQualityMultiplier = this.costQualityMultiplier(market);
-        const suggestedRaw = feasibleMax * triggerQualityMultiplier * costQualityMultiplier;
-        const suggested = suggestedRaw >= minSizeFraction ? Math.min(suggestedRaw, feasibleMax) : 0;
+        const suggestedRaw = correlationAdjustedCap * regimeMultiplier * triggerQualityMultiplier * costQualityMultiplier;
+        const suggested = feasibleMax > 0 ? Math.min(Math.max(suggestedRaw, minSizeFraction), feasibleMax) : 0;
 
         return {
             risk_based_size_fraction: parseFloat(riskBasedSize.toFixed(6)),

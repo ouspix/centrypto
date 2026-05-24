@@ -639,8 +639,8 @@ describe("backtest stack", () => {
             ret_sigma_5m_vs_1h: 2,
             vol_ratio_5m_vs_1h: 1.2,
             ret_5m: 0.02,
-            ret_15m: 0.10,
-            ret_1h: 0.10
+            ret_15m: 0.05,
+            ret_1h: 0.05
         };
         await store.upsertRows([
             featureRow(first, "BTC-PERP", rowOverrides),

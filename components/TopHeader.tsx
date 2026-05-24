@@ -7,10 +7,12 @@ import { Loader2, Percent, TrendingUp, Wallet } from "lucide-react"
 
 export function TopHeader() {
     const { isTestnet } = useTrading()
-    const { accountValue, unrealizedPnl, totalExposurePct, marginUsagePct, loading } = useAccountData()
+    const { accountValue, spotUsdc, equitySource, unrealizedPnl, totalExposurePct, marginUsagePct, loading, error } = useAccountData()
 
     const pnlValue = parseFloat(unrealizedPnl)
     const isPnlPositive = pnlValue >= 0
+    const spotUsdcValue = parseFloat(spotUsdc)
+    const spotLabel = equitySource === "spot_usdc" ? "Unified/spot USDC" : "Spot USDC"
 
     return (
         <header className="fixed left-20 right-0 top-0 z-30 border-b border-slate-800 bg-slate-950/95 backdrop-blur-sm">
@@ -31,9 +33,18 @@ export function TopHeader() {
                             <span className="text-xs text-slate-400/60">Account Value</span>
                             {loading && accountValue === "0.00" ? (
                                 <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
+                            ) : error ? (
+                                <span className="text-lg font-bold text-amber-300" title={error}>
+                                    Unavailable
+                                </span>
                             ) : (
                                 <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
                                     ${accountValue}
+                                </span>
+                            )}
+                            {!error && spotUsdcValue > 0 && (
+                                <span className="text-[11px] text-slate-400">
+                                    {spotLabel} ${spotUsdc}
                                 </span>
                             )}
                         </div>
@@ -46,6 +57,10 @@ export function TopHeader() {
                             <span className="text-xs text-slate-400/60">Exposure</span>
                             {loading && totalExposurePct === "0.00" ? (
                                 <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
+                            ) : error ? (
+                                <span className="text-2xl font-bold text-slate-500" title={error}>
+                                    --
+                                </span>
                             ) : (
                                 <div className="leading-tight">
                                     <span className="text-2xl font-bold text-cyan-300 block">
@@ -66,6 +81,10 @@ export function TopHeader() {
                             <span className="text-xs text-slate-400/60">Unrealized PnL</span>
                             {loading && unrealizedPnl === "0.00" ? (
                                 <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
+                            ) : error ? (
+                                <span className="text-2xl font-bold text-slate-500" title={error}>
+                                    --
+                                </span>
                             ) : (
                                 <span className={`text-2xl font-bold ${isPnlPositive ? 'text-green-400' : 'text-red-400'}`}>
                                     {isPnlPositive ? '+' : ''}${unrealizedPnl}

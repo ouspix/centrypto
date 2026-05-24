@@ -9,6 +9,14 @@ vi.mock('@/context/TradingContext', () => ({
     useTrading: () => mockUseTrading(),
 }))
 
+vi.mock('sonner', () => ({
+    toast: {
+        error: vi.fn(),
+        success: vi.fn(),
+        info: vi.fn(),
+    },
+}))
+
 vi.mock('wagmi', async () => {
     const actual = await vi.importActual('wagmi')
     return {
@@ -18,6 +26,8 @@ vi.mock('wagmi', async () => {
 })
 
 describe('AIAdvisor', () => {
+    const connectedAddress = '0x00000000000000000000000000000000000000ab'
+
     beforeEach(() => {
         vi.clearAllMocks()
         localStorage.clear()
@@ -42,11 +52,29 @@ describe('AIAdvisor', () => {
     })
 
     it('calls analyze API on button click and displays decisions', async () => {
+        mockUseTrading.mockReturnValue({
+            selectedPair: 'SOL',
+            isTestnet: true,
+            walletSessionAddress: connectedAddress,
+        })
+        mockUseAccount.mockReturnValue({ address: connectedAddress });
         (global.fetch as any).mockImplementation((url: RequestInfo | URL, init?: RequestInit) => {
             if (String(url).startsWith('/api/ai/models')) {
                 return Promise.resolve({
                     ok: true,
                     json: async () => ({ models: [{ name: 'test-model' }] }),
+                })
+            }
+            if (String(url).startsWith('/api/risk/kill-switch')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({ killSwitch: false }),
+                })
+            }
+            if (String(url).startsWith('/api/auto-trader')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({ enabled: false, frequencySeconds: 600, model: 'test-model' }),
                 })
             }
             if (String(url) === '/api/ai/analyze') {
@@ -89,11 +117,29 @@ describe('AIAdvisor', () => {
 
     it('handles API error gracefully', async () => {
         const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+        mockUseTrading.mockReturnValue({
+            selectedPair: 'SOL',
+            isTestnet: true,
+            walletSessionAddress: connectedAddress,
+        })
+        mockUseAccount.mockReturnValue({ address: connectedAddress });
         ;(global.fetch as any).mockImplementation((url: RequestInfo | URL) => {
             if (String(url).startsWith('/api/ai/models')) {
                 return Promise.resolve({
                     ok: true,
                     json: async () => ({ models: [{ name: 'test-model' }] }),
+                })
+            }
+            if (String(url).startsWith('/api/risk/kill-switch')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({ killSwitch: false }),
+                })
+            }
+            if (String(url).startsWith('/api/auto-trader')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({ enabled: false, frequencySeconds: 600, model: 'test-model' }),
                 })
             }
             if (String(url) === '/api/ai/analyze') {
@@ -108,6 +154,56 @@ describe('AIAdvisor', () => {
 
         await waitFor(() => {
             expect(screen.getByText('Ready to Analyze')).toBeDefined()
+        })
+
+        consoleSpy.mockRestore()
+    })
+
+    it('clears stale wallet session on analyze 401', async () => {
+        const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+        const setWalletSessionAddress = vi.fn()
+        mockUseTrading.mockReturnValue({
+            selectedPair: 'SOL',
+            isTestnet: true,
+            walletSessionAddress: connectedAddress,
+            setWalletSessionAddress,
+        })
+        mockUseAccount.mockReturnValue({ address: connectedAddress });
+        ;(global.fetch as any).mockImplementation((url: RequestInfo | URL) => {
+            if (String(url).startsWith('/api/ai/models')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({ models: [{ name: 'test-model' }] }),
+                })
+            }
+            if (String(url).startsWith('/api/risk/kill-switch')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({ killSwitch: false }),
+                })
+            }
+            if (String(url).startsWith('/api/auto-trader')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({ enabled: false, frequencySeconds: 600, model: 'test-model' }),
+                })
+            }
+            if (String(url) === '/api/ai/analyze') {
+                return Promise.resolve({
+                    ok: false,
+                    status: 401,
+                    json: async () => ({ error: 'Wallet session required' }),
+                })
+            }
+            return Promise.reject(new Error(`Unexpected fetch: ${String(url)}`))
+        })
+
+        render(<AIAdvisor />)
+
+        fireEvent.click(screen.getByText('Run Manual Analysis'))
+
+        await waitFor(() => {
+            expect(setWalletSessionAddress).toHaveBeenCalledWith(null)
         })
 
         consoleSpy.mockRestore()

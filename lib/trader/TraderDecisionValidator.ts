@@ -1,4 +1,5 @@
 import { TraderContext, TraderDecision, TraderValidationResult } from "@/types/trading";
+import { canonicalPlaybookForCandidate } from "@/lib/trader/playbook-utils";
 
 const VALID_ACTIONS = new Set(["OPEN_POSITION", "SKIP", "HOLD_POSITION", "REDUCE_POSITION", "CLOSE_POSITION"]);
 const VALID_POSITION_ACTIONS = new Set(["HOLD_POSITION", "REDUCE_POSITION", "CLOSE_POSITION"]);
@@ -41,7 +42,9 @@ export class TraderDecisionValidator {
             if (decision.action === "SKIP") return { accepted: true, reason: "accepted" };
 
             if (decision.target_side !== candidate.side) return this.reject("side_mismatch");
-            if (!decision.playbook || !candidate.eligible_playbooks.includes(decision.playbook as any)) return this.reject("invalid_playbook");
+            if (!canonicalPlaybookForCandidate(decision.playbook, candidate.eligible_playbooks, candidate.side)) {
+                return this.reject("invalid_playbook");
+            }
             if (decision.target_size_fraction_of_equity <= 0) return this.reject("invalid_size");
             if (candidate.sizing.max_allowed_size_fraction <= 0) return this.reject("candidate_size_blocked");
             if (decision.target_size_fraction_of_equity > candidate.sizing.max_allowed_size_fraction) return this.reject("size_exceeds_max");

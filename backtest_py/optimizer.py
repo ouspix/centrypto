@@ -3194,14 +3194,16 @@ def compute_main_app_sizing(
         group_remaining,
         effective_leverage_ceiling,
     )
-    max_allowed = max(0.0, raw_cap * regime_multiplier)
-    feasible_max = max_allowed if max_allowed >= min_size_fraction else 0.0
+    # Keep minimum-notional orders available when hard caps allow them; soft
+    # regime and quality multipliers should shrink size, not silently zero it.
+    hard_cap = max(0.0, raw_cap)
+    feasible_max = hard_cap if hard_cap >= min_size_fraction else 0.0
     suggested = 0.0
     if recorded_target is not None:
         suggested = recorded_target if min_size_fraction <= recorded_target <= feasible_max else 0.0
     elif feasible_max > 0:
-        suggested_raw = feasible_max * trigger_quality_multiplier(row, agent) * cost_quality_multiplier(row)
-        suggested = min(suggested_raw, feasible_max) if suggested_raw >= min_size_fraction else 0.0
+        suggested_raw = hard_cap * regime_multiplier * trigger_quality_multiplier(row, agent) * cost_quality_multiplier(row)
+        suggested = min(max(suggested_raw, min_size_fraction), feasible_max)
 
     return {
         "risk_based_size_fraction": risk_based_size,

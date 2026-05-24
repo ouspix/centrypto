@@ -19,6 +19,7 @@
     "sentiment:score": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/scoreMessages.ts",
     "sentiment:aggregate": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/aggregateSentiment.ts",
     "collector": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/start_collector.ts",
+    "auto-trader": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/start_auto_trader.ts",
     "backfill": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/manual_backfill.ts",
     "backtest:features": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/backtest_features.ts",
     "backtest:download:l2": "DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config scripts/download_hl_l2.ts",

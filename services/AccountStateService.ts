@@ -1,6 +1,7 @@
-import { getClearinghouseState } from "@/lib/hyperliquid-info";
+import { getClearinghouseState, getSpotClearinghouseState } from "@/lib/hyperliquid-info";
 import { AgentConfig } from "@/lib/agent-config";
 import { AccountState, DerivedPortfolio, Position } from "@/types/snapshot";
+import { traderLog, traderWarn } from "@/lib/log/traderLog";
 
 export class AccountStateService {
     public async buildAccountState(
@@ -27,15 +28,25 @@ export class AccountStateService {
         const heldSymbols: string[] = [];
 
         if (userAddress) {
-            console.log("Fetching clearinghouse state for authenticated wallet.");
-            const clearinghouseState = await getClearinghouseState(userAddress, isTestnet);
+            traderLog(`Fetching clearinghouse state for authenticated wallet (${isTestnet ? "testnet" : "mainnet"}).`);
+            const [clearinghouseState, spotClearinghouseState] = await Promise.all([
+                getClearinghouseState(userAddress, isTestnet),
+                getSpotClearinghouseState(userAddress, isTestnet)
+            ]);
+            const spotUsdc = this.readSpotUsdc(spotClearinghouseState);
 
             if (clearinghouseState) {
                 const marginSummary = clearinghouseState.marginSummary;
-                const positions = clearinghouseState.assetPositions;
+                const positions = Array.isArray(clearinghouseState.assetPositions)
+                    ? clearinghouseState.assetPositions
+                    : [];
 
-                const equity = parseFloat(marginSummary.accountValue);
-                account.equity_usd = isNaN(equity) ? 0 : equity;
+                const perpEquity = this.numberFrom(marginSummary?.accountValue);
+                const useSpotEquity = this.shouldUseSpotEquity(perpEquity, spotUsdc, spotClearinghouseState);
+                account.equity_usd = useSpotEquity ? spotUsdc : perpEquity;
+                account.perp_equity_usd = perpEquity;
+                account.spot_usdc = spotUsdc;
+                account.equity_source = useSpotEquity ? "spot_usdc" : "perps";
                 const realizedPnl = parseFloat((marginSummary as any)?.totalPnl24h || marginSummary?.totalPnl || 0);
                 account.daily_realized_pnl = isNaN(realizedPnl) ? 0 : realizedPnl;
                 account.daily_realized_pnl_usd = account.daily_realized_pnl;
@@ -65,12 +76,18 @@ export class AccountStateService {
                         };
                     });
 
-                console.log(`Found ${account.current_positions.length} open position(s).`);
+                traderLog(`Found ${account.current_positions.length} open position(s).`);
             } else {
-                console.warn("⚠️ Failed to fetch clearinghouse state or it was null.");
+                traderWarn("⚠️ Failed to fetch clearinghouse state or it was null.");
+                if (spotUsdc > 0) {
+                    account.equity_usd = spotUsdc;
+                    account.perp_equity_usd = 0;
+                    account.spot_usdc = spotUsdc;
+                    account.equity_source = "spot_usdc";
+                }
             }
         } else {
-            console.log("ℹ️ No user address provided, skipping account data fetch.");
+            traderLog("ℹ️ No user address provided, skipping account data fetch.");
         }
 
         account.daily_unrealized_pnl_usd = account.current_positions.reduce((sum, p) => sum + (p.unrealized_pnl || 0), 0);
@@ -79,6 +96,23 @@ export class AccountStateService {
         account.derived_portfolio = this.calculateDerivedPortfolio(account.current_positions, account.equity_usd, riskConfig);
 
         return { account, heldSymbols };
+    }
+
+    private readSpotUsdc(spotState: any): number {
+        const balances = Array.isArray(spotState?.balances) ? spotState.balances : [];
+        const usdc = balances.find((balance: any) => String(balance?.coin ?? "").toUpperCase() === "USDC");
+        return this.numberFrom(usdc?.total);
+    }
+
+    private shouldUseSpotEquity(perpEquity: number, spotUsdc: number, spotState: any): boolean {
+        if (spotUsdc <= 0) return false;
+        if (perpEquity <= 0) return true;
+        return Array.isArray(spotState?.tokenToAvailableAfterMaintenance);
+    }
+
+    private numberFrom(value: unknown): number {
+        const parsed = typeof value === "number" ? value : parseFloat(String(value ?? "0"));
+        return Number.isFinite(parsed) ? parsed : 0;
     }
 
     private calculateDerivedPortfolio(positions: Position[], equityUsd: number, riskConfig: AgentConfig["risk"]): DerivedPortfolio {

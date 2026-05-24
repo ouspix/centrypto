@@ -12,6 +12,7 @@ import { RegimeService } from "./RegimeService";
 import { MarketDerivedMetricsService } from "./MarketDerivedMetricsService";
 import { RegimeUniverseService } from "./RegimeUniverseService";
 import { getWalletKillSwitch } from "@/lib/risk/kill-switch";
+import { traderLog } from "@/lib/log/traderLog";
 
 export class SnapshotBuilder {
     private screenerServices: Record<string, ScreenerService>;
@@ -74,9 +75,9 @@ export class SnapshotBuilder {
         const { account, heldSymbols } = await this.accountStateService.buildAccountState(userAddress, isTestnet, config.risk);
         const backendKillSwitch = userAddress ? await getWalletKillSwitch(userAddress, isTestnet) : false;
 
-        console.log("📊 Fetching Screened Market Data...");
+        traderLog("📊 Fetching Screened Market Data...");
         const screenedSymbols = await this.getScreener(isTestnet).getScreenedSymbols(isTestnet, heldSymbols, config, screenerConfig);
-        console.log(`✅ Loaded ${screenedSymbols.length} symbols from screener.`);
+        traderLog(`✅ Loaded ${screenedSymbols.length} symbols from screener.`);
 
         const { markets, duplicateMarkets } = this.marketSnapshotAssembler.buildFromScreenedSymbols(screenedSymbols, assetIndexMap);
 
@@ -89,7 +90,7 @@ export class SnapshotBuilder {
             screenerConfig.depthBandsPct
         );
 
-        console.log(`📊 Total markets included in snapshot: ${Object.keys(markets).length}`);
+        traderLog(`📊 Total markets included in snapshot: ${Object.keys(markets).length}`);
 
         const regimeMarkets = await this.regimeUniverseService.buildRegimeMarkets(isTestnet);
         const global_regime = this.getRegimeService(isTestnet).infer(regimeMarkets);

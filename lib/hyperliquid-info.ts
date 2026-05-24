@@ -63,6 +63,38 @@ export async function getClearinghouseState(userAddress: string, isTestnet: bool
     }
 }
 
+export async function getSpotClearinghouseState(userAddress: string, isTestnet: boolean = false) {
+    try {
+        return await hyperliquidInfoPost<any>(
+            "hl:info:spotClearinghouseState",
+            hyperliquidInfoUrl(isTestnet),
+            {
+                type: "spotClearinghouseState",
+                user: userAddress.toLowerCase()
+            },
+            { ttlMs: 2_000, staleMs: 5_000, allowStale: true }
+        );
+    } catch (error) {
+        safeError("Error fetching Hyperliquid spot clearinghouse state", error);
+        return null;
+    }
+}
+
+export async function getAllMids(isTestnet: boolean = false): Promise<Record<string, string>> {
+    try {
+        const mids = await hyperliquidInfoPost<Record<string, string>>(
+            "hl:info:allMids",
+            hyperliquidInfoUrl(isTestnet),
+            { type: "allMids" },
+            { ttlMs: 1_000, staleMs: 5_000, allowStale: true }
+        );
+        return mids && typeof mids === "object" ? mids : {};
+    } catch (error) {
+        safeError("Error fetching Hyperliquid mids", error);
+        return {};
+    }
+}
+
 export async function getMetaAndAssetCtxs(isTestnet: boolean = false): Promise<MetaAndAssetCtxs | null> {
     try {
         const data = await hyperliquidInfoPost<any>(
