@@ -289,30 +289,66 @@ export class RiskCheckModule {
             return { approved: false, reason: "No open position to close" };
         }
 
-        let sizeToExecute = position.size_usd;
+        const market = snapshot.markets[decision.symbol!];
+        const markPrice = market?.price && market.price > 0 ? market.price : position.entry_price;
+        const positionSizeCoin = position.size_coin ?? (markPrice > 0 ? position.size_usd / markPrice : 0);
+        const currentPositionUsd = markPrice > 0 ? positionSizeCoin * markPrice : position.size_usd;
+        const minTradeUsd = snapshot.constraints.min_trade_notional_usd;
+        let sizeUsdToExecute = currentPositionUsd;
+        let sizeCoinToExecute = positionSizeCoin;
         let clientTag = "AI_TRADER_CLOSE";
+        let reason = "Close Approved";
 
         if (decision.action === "REDUCE_POSITION") {
             const targetFraction = decision.target_size_fraction_of_equity ?? 0;
             const targetSizeUsd = snapshot.account.equity_usd * targetFraction;
-            const reduceAmount = position.size_usd - targetSizeUsd;
+            const reduceAmount = currentPositionUsd - targetSizeUsd;
 
             if (reduceAmount <= 0) {
-                return { approved: false, reason: `Position already below target size (Current: ${position.size_usd.toFixed(2)}, Target: ${targetSizeUsd.toFixed(2)})` };
+                return { approved: false, reason: `Position already below target size (Current: ${currentPositionUsd.toFixed(2)}, Target: ${targetSizeUsd.toFixed(2)})` };
             }
 
-            sizeToExecute = Math.min(reduceAmount, position.size_usd);
+            const remainingAfterReduce = currentPositionUsd - reduceAmount;
+            sizeUsdToExecute = Math.min(reduceAmount, currentPositionUsd);
+            sizeCoinToExecute = markPrice > 0 ? Math.min(sizeUsdToExecute / markPrice, positionSizeCoin) : positionSizeCoin;
             clientTag = "AI_TRADER_REDUCE";
+            reason = "Reduce Approved";
+
+            if (remainingAfterReduce > 0 && remainingAfterReduce < minTradeUsd) {
+                sizeUsdToExecute = currentPositionUsd;
+                sizeCoinToExecute = positionSizeCoin;
+                clientTag = "AI_TRADER_CLOSE_DUST_REMAINDER";
+                reason = `Reduce converted to close: remainder $${remainingAfterReduce.toFixed(2)} is below minimum notional $${minTradeUsd}`;
+            } else if (sizeUsdToExecute < minTradeUsd && currentPositionUsd > minTradeUsd) {
+                const remainderAfterMinReduce = currentPositionUsd - minTradeUsd;
+                if (remainderAfterMinReduce > 0 && remainderAfterMinReduce < minTradeUsd) {
+                    sizeUsdToExecute = currentPositionUsd;
+                    sizeCoinToExecute = positionSizeCoin;
+                    clientTag = "AI_TRADER_CLOSE_DUST_REMAINDER";
+                    reason = `Reduce converted to close: minimum reduce would leave $${remainderAfterMinReduce.toFixed(2)} below minimum notional $${minTradeUsd}`;
+                } else {
+                    sizeUsdToExecute = minTradeUsd;
+                    sizeCoinToExecute = markPrice > 0 ? Math.min(minTradeUsd / markPrice, positionSizeCoin) : positionSizeCoin;
+                    clientTag = "AI_TRADER_REDUCE_MIN_NOTIONAL";
+                    reason = `Reduce size increased to $${minTradeUsd} minimum notional`;
+                }
+            }
+        }
+
+        if (decision.action === "CLOSE_POSITION" && currentPositionUsd < minTradeUsd) {
+            clientTag = "AI_TRADER_CLOSE_DUST";
+            reason = `${reason}; exact reduce-only dust close below $${minTradeUsd} minimum notional`;
         }
 
         const approvedOrder: ApprovedOrder = {
             symbol: decision.symbol!,
             side: position.side === "long" ? "sell" : "buy",
-            sizeUsd: sizeToExecute,
+            sizeUsd: sizeUsdToExecute,
+            sizeCoin: sizeCoinToExecute,
             clientTag: clientTag
         };
 
-        return { approved: true, reason: `${decision.action === "REDUCE_POSITION" ? "Reduce" : "Close"} Approved`, modifiedOrder: approvedOrder };
+        return { approved: true, reason, modifiedOrder: approvedOrder };
     }
 
     private clampRiskPlan(decision: TradeDecision) {

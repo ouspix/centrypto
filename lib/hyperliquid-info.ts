@@ -184,6 +184,48 @@ export async function getUserFills(userAddress: string, isTestnet: boolean = fal
     }
 }
 
+export async function getUserFillsByTime(userAddress: string, isTestnet: boolean = false, startTime?: number, endTime?: number) {
+    try {
+        const request: Record<string, unknown> = {
+            type: "userFillsByTime",
+            user: userAddress.toLowerCase()
+        };
+        if (startTime !== undefined) request.startTime = startTime;
+        if (endTime !== undefined) request.endTime = endTime;
+
+        return await hyperliquidInfoPost<any[]>(
+            "hl:info:userFillsByTime",
+            hyperliquidInfoUrl(isTestnet),
+            request,
+            { ttlMs: 2_000, staleMs: 5_000, allowStale: true }
+        );
+    } catch (error) {
+        safeError("Error fetching Hyperliquid user fills by time", error);
+        return [];
+    }
+}
+
+export async function getOrderStatus(userAddress: string, oidOrCloid: string | number, isTestnet: boolean = false) {
+    try {
+        const oid = typeof oidOrCloid === "number" || /^\d+$/.test(String(oidOrCloid))
+            ? Number(oidOrCloid)
+            : oidOrCloid;
+        return await hyperliquidInfoPost<any>(
+            "hl:info:orderStatus",
+            hyperliquidInfoUrl(isTestnet),
+            {
+                type: "orderStatus",
+                user: userAddress.toLowerCase(),
+                oid
+            },
+            { ttlMs: 1_000, staleMs: 5_000, allowStale: true }
+        );
+    } catch (error) {
+        safeError("Error fetching Hyperliquid order status", error);
+        return null;
+    }
+}
+
 export async function getExtraAgents(userAddress: string, isTestnet: boolean = false): Promise<ExtraAgent[]> {
     try {
         const agents = await hyperliquidInfoPost<ExtraAgent[]>(

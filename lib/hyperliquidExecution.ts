@@ -27,7 +27,7 @@ export class ExecutionEngine {
     public async placeOrder(order: ApprovedOrder, currentPrice: number, assetIndex: number): Promise<ExecutionResult> {
         try {
             // Convert sizeUsd to size in tokens
-            const size = order.sizeUsd / currentPrice;
+            const size = order.sizeCoin ?? order.sizeUsd / currentPrice;
 
             // Determine price (Market or Limit)
             // For market buy, we usually set a high limit, for sell a low limit, or use specific "market" order types if supported.

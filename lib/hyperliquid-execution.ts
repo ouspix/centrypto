@@ -9,6 +9,13 @@ import { debugLog, safeError } from "@/lib/log/safeLogger";
 
 type Hex = `0x${string}`;
 
+let lastExchangeNonce = 0;
+
+export function nextExchangeNonce(now = Date.now()): number {
+    lastExchangeNonce = Math.max(now, lastExchangeNonce + 1);
+    return lastExchangeNonce;
+}
+
 export type PlaceOrderRequest = {
     asset: number;
     isBuy: boolean;
@@ -19,6 +26,12 @@ export type PlaceOrderRequest = {
     stopLossPrice?: number;
     takeProfitPrice?: number;
     leverage?: number;
+    nonce?: number;
+    cloids?: {
+        entry?: `0x${string}`;
+        stopLoss?: `0x${string}`;
+        takeProfit?: `0x${string}`;
+    };
 };
 
 export function exchangeUrl(isTestnet: boolean): string {
@@ -53,7 +66,7 @@ export async function placeOrderWithPrivateKey(
     order: PlaceOrderRequest,
     isTestnet = false
 ) {
-    const nonce = Date.now();
+    const nonce = order.nonce ?? nextExchangeNonce();
     const assetMeta = await getAssetMeta(order.asset, isTestnet);
     if (!assetMeta) throw new Error(`Asset metadata not found for index ${order.asset}`);
 
@@ -78,10 +91,11 @@ export async function placeOrderWithPrivateKey(
         r: order.reduceOnly,
         t: { limit: { tif: order.tif ?? "Gtc" as const } }
     }];
+    if (order.cloids?.entry) orders[0].c = order.cloids.entry;
 
-    const pushTriggerOrder = (px: number, type: "tp" | "sl") => {
+    const pushTriggerOrder = (px: number, type: "tp" | "sl", cloid?: `0x${string}`) => {
         const triggerPxStr = roundToTickSize(px, szDecimals).toFixed(priceDecimals);
-        orders.push({
+        const triggerOrder: any = {
             a: order.asset,
             b: !order.isBuy,
             p: triggerPxStr,
@@ -94,11 +108,13 @@ export async function placeOrderWithPrivateKey(
                     tpsl: type
                 }
             }
-        });
+        };
+        if (cloid) triggerOrder.c = cloid;
+        orders.push(triggerOrder);
     };
 
-    if (order.stopLossPrice) pushTriggerOrder(order.stopLossPrice, "sl");
-    if (order.takeProfitPrice) pushTriggerOrder(order.takeProfitPrice, "tp");
+    if (order.stopLossPrice) pushTriggerOrder(order.stopLossPrice, "sl", order.cloids?.stopLoss);
+    if (order.takeProfitPrice) pushTriggerOrder(order.takeProfitPrice, "tp", order.cloids?.takeProfit);
 
     const action = parser(OrderRequest.entries.action)({
         type: "order" as const,
@@ -136,7 +152,7 @@ export async function updateLeverageWithPrivateKey(
     request: { asset: number; isCross: boolean; leverage: number },
     isTestnet = false
 ) {
-    const nonce = Date.now();
+    const nonce = nextExchangeNonce();
     const action = parser(UpdateLeverageRequest.entries.action)({
         type: "updateLeverage" as const,
         asset: request.asset,
@@ -165,7 +181,7 @@ export async function cancelOrderWithPrivateKey(
     cancelRequest: { asset: number; oid: number },
     isTestnet = false
 ) {
-    const nonce = Date.now();
+    const nonce = nextExchangeNonce();
     const action = parser(CancelRequest.entries.action)({
         type: "cancel" as const,
         cancels: [{ a: cancelRequest.asset, o: cancelRequest.oid }],

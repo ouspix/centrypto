@@ -88,6 +88,7 @@ vi.mock('@/lib/hyperliquid', () => ({
 }));
 
 vi.mock('@/lib/hyperliquid-execution', () => ({
+    nextExchangeNonce: vi.fn(() => 1770000000000),
     placeOrderWithPrivateKey: (...args: any[]) => mockPlaceOrderWithPrivateKey(...args),
     updateLeverageWithPrivateKey: (...args: any[]) => mockUpdateLeverageWithPrivateKey(...args),
 }));

@@ -15,6 +15,7 @@ model LlmQuery {
   createdAt DateTime      @default(now())
   isTestnet Boolean       @default(true)
   decisions LlmDecision[]
+  autoTraderRuns AutoTraderRun[]
 }
 
 model LlmDecision {
@@ -196,6 +197,211 @@ model AutoTraderSettings {
   @@unique([userAddress, isTestnet])
   @@index([enabled, nextRunAt])
   @@index([userAddress, enabled])
+}
+
+model AutoTraderRun {
+  id                    String                       @id @default(uuid())
+  accountAddress        String
+  agentWalletAddress    String?
+  vaultAddress          String?
+  subAccountAddress     String?
+  network               String
+  cycleType             String                       @default("SCHEDULED")
+  model                 String
+  strategyVersion       String?
+  promptVersion         String?
+  validatorVersion      String?
+  codeVersion           String?
+  configHash            String?
+  configJson            String?
+  marketSnapshotId      Int?
+  llmQueryId            Int?
+  llmQuery              LlmQuery?                    @relation(fields: [llmQueryId], references: [id])
+  status                String
+  error                 String?
+  reliableSince         DateTime?
+  startedAt             DateTime                     @default(now())
+  finishedAt            DateTime?
+  createdAt             DateTime                     @default(now())
+  updatedAt             DateTime                     @updatedAt
+  decisions             AutoTraderDecision[]
+  positionSnapshots     AutoTraderPositionSnapshot[]
+  tradeLifecycles       AutoTraderTradeLifecycle[]
+
+  @@index([accountAddress, network, startedAt])
+  @@index([status, startedAt])
+  @@index([llmQueryId])
+}
+
+model AutoTraderDecision {
+  id                     String                   @id @default(uuid())
+  runId                  String
+  run                    AutoTraderRun            @relation(fields: [runId], references: [id], onDelete: Cascade)
+  decisionType           String
+  candidateId            String?
+  positionSnapshotId     String?
+  positionSnapshot       AutoTraderPositionSnapshot? @relation(fields: [positionSnapshotId], references: [id])
+  action                 String
+  symbol                 String
+  side                   String?
+  confidence             Float?
+  skipReason             String?
+  rawLlmDecisionJson     String?
+  normalizedDecisionJson String?
+  validatorStatus        String?
+  validatorErrorsJson    String?
+  createdAt              DateTime                 @default(now())
+  orderAttempts          AutoTraderOrderAttempt[]
+  fills                  AutoTraderFill[]
+
+  @@index([runId])
+  @@index([symbol, action, createdAt])
+  @@index([candidateId])
+  @@index([positionSnapshotId])
+}
+
+model AutoTraderOrderAttempt {
+  id                      String             @id @default(uuid())
+  decisionId              String
+  decision                AutoTraderDecision @relation(fields: [decisionId], references: [id], onDelete: Cascade)
+  cloid                   String?
+  oid                     String?
+  batchId                 String?
+  batchIndex              Int?
+  nonce                   String?
+  orderRole               String
+  symbol                  String
+  positionSide            String?
+  orderSide               String
+  reduceOnly              Boolean            @default(false)
+  intendedSizeUsd         Float?
+  intendedSizeCoin        Float?
+  intendedLimitPx         Float?
+  intendedStopLossPx      Float?
+  intendedTakeProfitPx    Float?
+  submittedAt             DateTime?
+  exchangeReceivedAt      DateTime?
+  latencyMs               Int?
+  requestHash             String?
+  status                  String
+  statusReason            String?
+  rawExchangeResponseJson String?
+  rawExchangeErrorJson    String?
+  createdAt               DateTime           @default(now())
+  updatedAt               DateTime           @updatedAt
+  fills                   AutoTraderFill[]
+
+  @@index([decisionId])
+  @@index([cloid])
+  @@index([oid])
+  @@index([symbol, submittedAt])
+}
+
+model AutoTraderFill {
+  id                 String                    @id @default(uuid())
+  accountAddress     String
+  agentWalletAddress String?
+  network            String
+  rawCoin            String
+  normalizedSymbol   String
+  px                 Float
+  sz                 Float
+  side               String?
+  dir                String?
+  closedPnl          Float                     @default(0)
+  fee                Float                     @default(0)
+  hash               String?
+  oid                String?
+  cloid              String?
+  tid                String?
+  time               DateTime
+  fillType           String                    @default("UNKNOWN")
+  attributionStatus  String                    @default("UNMATCHED")
+  attributionMethod  String                    @default("UNMATCHED")
+  orderAttemptId     String?
+  orderAttempt       AutoTraderOrderAttempt?   @relation(fields: [orderAttemptId], references: [id])
+  decisionId         String?
+  decision           AutoTraderDecision?       @relation(fields: [decisionId], references: [id])
+  lifecycleId        String?
+  lifecycle          AutoTraderTradeLifecycle? @relation(fields: [lifecycleId], references: [id])
+  dedupeKey          String                    @unique
+  rawJson            String?
+  createdAt          DateTime                  @default(now())
+  updatedAt          DateTime                  @updatedAt
+
+  @@index([accountAddress, network, time])
+  @@index([normalizedSymbol, time])
+  @@index([oid])
+  @@index([cloid])
+  @@index([tid])
+  @@index([orderAttemptId])
+  @@index([decisionId])
+  @@index([lifecycleId])
+}
+
+model AutoTraderPositionSnapshot {
+  id              String                 @id @default(uuid())
+  runId           String
+  run             AutoTraderRun          @relation(fields: [runId], references: [id], onDelete: Cascade)
+  phase           String
+  symbol          String
+  side            String
+  entryPrice      Float
+  sizeUsd         Float
+  sizeCoin        Float?
+  markPrice       Float?
+  unrealizedPnl   Float
+  liquidationPrice Float?
+  leverage        Float?
+  marginMode      String?
+  observedAt      DateTime               @default(now())
+  rawJson         String?
+  decisions       AutoTraderDecision[]
+
+  @@index([runId, phase])
+  @@index([symbol, observedAt])
+}
+
+model AutoTraderTradeLifecycle {
+  id                         String           @id @default(uuid())
+  accountAddress             String
+  network                    String
+  symbol                     String
+  side                       String
+  openedAt                   DateTime
+  closedAt                   DateTime?
+  status                     String
+  openFillIds                String
+  closeFillIds               String
+  attributedDecisionIds      String
+  attributedOrderAttemptIds  String
+  entryPrice                 Float
+  exitPrice                  Float?
+  sizeOpened                 Float
+  sizeClosed                 Float             @default(0)
+  grossRealizedPnl           Float             @default(0)
+  fees                       Float             @default(0)
+  netRealizedPnl             Float             @default(0)
+  attributionMethod          String            @default("UNMATCHED")
+  reconstructionVersion      String
+  rawDebugJson               String?
+  mfeBps                     Float?
+  maeBps                     Float?
+  mfeSource                  String            @default("UNKNOWN")
+  mfeCoverage                String            @default("NONE")
+  observedGreenToRed         Boolean           @default(false)
+  lateGiveback               Boolean           @default(false)
+  givebackPct                Float?
+  runId                      String?
+  run                        AutoTraderRun?    @relation(fields: [runId], references: [id])
+  fills                      AutoTraderFill[]
+  createdAt                  DateTime          @default(now())
+  updatedAt                  DateTime          @updatedAt
+
+  @@index([accountAddress, network, openedAt])
+  @@index([symbol, status, openedAt])
+  @@index([observedGreenToRed, lateGiveback])
+  @@index([runId])
 }
 
 model WalletRiskControl {

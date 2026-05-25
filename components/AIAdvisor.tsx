@@ -518,23 +518,28 @@ export function AIAdvisor() {
             toast.error('Authenticate wallet session before changing the kill switch');
             return;
         }
-        setKillSwitch(true);
-        if (autoTrading) {
-            await handleAutoTradingChange(false);
-        } else {
-            setAutoTrading(false);
+        const nextKillSwitch = !killSwitch;
+        setKillSwitch(nextKillSwitch);
+        if (nextKillSwitch) {
+            if (autoTrading) {
+                await handleAutoTradingChange(false);
+            } else {
+                setAutoTrading(false);
+            }
         }
         try {
             const res = await fetch('/api/risk/kill-switch', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ killSwitch: true, isTestnet })
+                body: JSON.stringify({ killSwitch: nextKillSwitch, isTestnet })
             });
             if (!res.ok) {
                 const payload = await res.json().catch(() => ({}));
                 throw new Error(payload.error || 'Failed to persist kill switch');
             }
+            toast.success(nextKillSwitch ? 'System halted' : 'System halt cleared');
         } catch (error) {
+            setKillSwitch(!nextKillSwitch);
             toast.error(error instanceof Error ? error.message : 'Failed to persist kill switch');
         }
     }
@@ -614,10 +619,10 @@ export function AIAdvisor() {
                             : "bg-red-600 hover:bg-red-700 text-white shadow-lg shadow-red-900/30"
                     }`}
                     onClick={handleKillSwitch}
-                    disabled={killSwitch || !hasWalletSession}
+                    disabled={!hasWalletSession}
                 >
                     <AlertOctagon className="h-3 w-3 mr-2" />
-                    {killSwitch ? "SYSTEM HALTED" : "EMERGENCY STOP"}
+                    {killSwitch ? "CLEAR SYSTEM HALT" : "EMERGENCY STOP"}
                 </Button>
 
                 {/* Controls */}

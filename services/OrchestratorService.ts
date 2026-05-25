@@ -18,8 +18,9 @@ import {
     isPlaybookAllowed,
 } from "@/lib/risk/shared";
 import { parseTraderResponse } from "@/lib/llm/LlmResponseParser";
-import { placeOrderWithPrivateKey, updateLeverageWithPrivateKey } from "@/lib/hyperliquid-execution";
+import { nextExchangeNonce, placeOrderWithPrivateKey, updateLeverageWithPrivateKey } from "@/lib/hyperliquid-execution";
 import {
+    deriveHyperliquidApiWalletAddress,
     getUserHyperliquidApiWalletCredential,
     HyperliquidApiWalletError,
     markHyperliquidApiWalletUsed
@@ -34,6 +35,8 @@ import { TraderDecisionValidator } from "@/lib/trader/TraderDecisionValidator";
 import { assertWalletExecutionAllowed } from "@/lib/risk/execution-safety";
 import { redactSensitive, safeError } from "@/lib/log/safeLogger";
 import { traderError, traderLog, traderWarn } from "@/lib/log/traderLog";
+import { AutoTraderReviewService } from "@/services/AutoTraderReviewService";
+import { extractOrderResponseStatus, hashJson } from "@/lib/auto-trader-review/review-utils";
 
 import OpenAI from "openai";
 
@@ -67,6 +70,7 @@ export class OrchestratorService {
     private traderDecisionValidator: TraderDecisionValidator;
     private riskModule: RiskCheckModule;
     private logger: TradingLogger;
+    private reviewService: AutoTraderReviewService;
     private currentAbortController: AbortController | null = null;
     private activeJobs: Map<string, AbortController> = new Map();
 
@@ -90,6 +94,7 @@ export class OrchestratorService {
         this.traderDecisionValidator = new TraderDecisionValidator();
         this.riskModule = new RiskCheckModule();
         this.logger = new TradingLogger();
+        this.reviewService = AutoTraderReviewService.getInstance();
     }
 
     public static getInstance(): OrchestratorService {
@@ -376,6 +381,16 @@ export class OrchestratorService {
         const snapshotId = await this.persistSnapshot(snapshot);
         if (snapshotId) snapshot.meta.snapshot_id = snapshotId;
         traderLog(`Snapshot ready: id=${snapshotId ?? "unpersisted"}, positions=${snapshot.account.current_positions.length}, markets=${Object.keys(snapshot.markets || {}).length}.`, logScope);
+        const reviewRunId = autoTrading && userAddress
+            ? await this.reviewService.startRun({
+                accountAddress: userAddress,
+                network: isTestnet ? "testnet" : "mainnet",
+                model,
+                config: configOverride ?? config,
+                snapshot
+            })
+            : null;
+        const prePositionSnapshotIds = await this.reviewService.snapshotPositions(reviewRunId, "PRE_DECISION", snapshot);
 
         const profile = this.resolveProfileName(configOverride);
         const { context, diagnostics } = await this.traderContextBuilder.build(snapshot, config, isTestnet, profile);
@@ -384,6 +399,7 @@ export class OrchestratorService {
         if (!hasWork) {
             const llmStatus = this.buildLlmSkippedStatus(context, diagnostics);
             traderLog(`[LLM] Skipped: ${llmStatus.reason}`, logScope);
+            await this.reviewService.finishRun(reviewRunId, { status: "SKIPPED", error: llmStatus.reason });
             return {
                 decisions: [],
                 riskAssessments: [],
@@ -402,8 +418,16 @@ export class OrchestratorService {
 
         if (!validation.accepted) {
             const invalidDecisions = buildBackendDecisions(llmResult.decisions, context, validation.reason);
-            await this.saveLlmInteraction(llmResult.prompt, llmResult.rawOutput, invalidDecisions, isTestnet, logScope);
+            const llmQueryId = await this.saveLlmInteraction(llmResult.prompt, llmResult.rawOutput, invalidDecisions, isTestnet, logScope);
+            await this.reviewService.persistDecisions({
+                runId: reviewRunId,
+                traderDecisions: llmResult.decisions,
+                backendDecisions: invalidDecisions,
+                validation,
+                positionSnapshotIds: prePositionSnapshotIds
+            });
             await this.journalTraderContext(context, llmResult.decisions, validation, new Map());
+            await this.reviewService.finishRun(reviewRunId, { status: "COMPLETED", llmQueryId });
             return {
                 decisions: [],
                 riskAssessments: [{ approved: false, reason: `Validator rejected batch: ${validation.reason}` }],
@@ -415,7 +439,14 @@ export class OrchestratorService {
         }
 
         const decisions = buildBackendDecisions(llmResult.decisions, context, "accepted");
-        await this.saveLlmInteraction(llmResult.prompt, llmResult.rawOutput, decisions, isTestnet, logScope);
+        const llmQueryId = await this.saveLlmInteraction(llmResult.prompt, llmResult.rawOutput, decisions, isTestnet, logScope);
+        const reviewDecisionIds = await this.reviewService.persistDecisions({
+            runId: reviewRunId,
+            traderDecisions: llmResult.decisions,
+            backendDecisions: decisions,
+            validation,
+            positionSnapshotIds: prePositionSnapshotIds
+        });
 
         const { riskAssessments } = assessDecisionsForRisk(decisions, snapshot, this.riskModule);
         const executionResults = new Map<string, { attempted: boolean; success: boolean; error?: string }>();
@@ -430,7 +461,7 @@ export class OrchestratorService {
 
             let executionResult: any = null;
             if (autoTrading && riskAssessment.approved && riskAssessment.modifiedOrder) {
-                executionResult = await this.executeApprovedDecision(decision, riskAssessment, snapshot, config, isTestnet, userAddress);
+                executionResult = await this.executeApprovedDecision(decision, riskAssessment, snapshot, config, isTestnet, userAddress, reviewDecisionIds[i]);
                 const key = decision.candidate_id ?? decision.symbol ?? "";
                 executionResults.set(key, {
                     attempted: true,
@@ -452,6 +483,19 @@ export class OrchestratorService {
         }
 
         await this.journalTraderContext(context, llmResult.decisions, validation, executionResults);
+        if (reviewRunId) {
+            try {
+                const postSnapshot = await this.snapshotBuilder.buildSnapshot(userAddress, isTestnet, config, screenerConfig);
+                if (snapshotId) postSnapshot.meta.snapshot_id = snapshotId;
+                await this.reviewService.snapshotPositions(reviewRunId, "POST_EXECUTION", postSnapshot);
+            } catch (error) {
+                traderWarn("⚠️ Failed to write post-execution review snapshot:", logScope, error);
+            }
+            await this.reviewService.finishRun(reviewRunId, {
+                status: "COMPLETED",
+                llmQueryId
+            });
+        }
         return {
             decisions,
             riskAssessments,
@@ -495,7 +539,8 @@ export class OrchestratorService {
         snapshot: StateSnapshot,
         config: AgentConfig,
         isTestnet: boolean,
-        userAddress: string | null
+        userAddress: string | null,
+        reviewDecisionId?: string | null
     ) {
         const marketData = decision.symbol ? snapshot.markets[decision.symbol] : undefined;
         const assetIndex = marketData?.assetIndex;
@@ -513,7 +558,7 @@ export class OrchestratorService {
             return { success: false, status: "failed", error: error instanceof Error ? error.message : "Execution blocked by risk controls" };
         }
 
-        let credential: { privateKey: string; mode: "user_api_wallet" | "server_dev_testnet_bot" } | null;
+        let credential: { privateKey: string; mode: "user_api_wallet" | "server_dev_testnet_bot"; apiWalletAddress: string | null } | null;
         try {
             credential = await resolveExecutionCredential(userAddress, isTestnet);
         } catch (error) {
@@ -530,7 +575,7 @@ export class OrchestratorService {
         try {
             const currentPrice = marketData.price || 0;
             const isBuy = riskAssessment.modifiedOrder.side === "buy";
-            const sz = riskAssessment.modifiedOrder.sizeUsd / currentPrice;
+            const sz = riskAssessment.modifiedOrder.sizeCoin ?? riskAssessment.modifiedOrder.sizeUsd / currentPrice;
             const reduceOnly = decision.action === "CLOSE_POSITION" || decision.action === "REDUCE_POSITION";
             const slippage = config.risk.slippage_pct ?? 0.003;
             const limitPx = isBuy ? currentPrice * (1 + slippage) : currentPrice * (1 - slippage);
@@ -547,6 +592,8 @@ export class OrchestratorService {
                 );
             }
 
+            const nonce = nextExchangeNonce();
+
             let stopLossPrice: number | undefined;
             let takeProfitPrice: number | undefined;
             if (!reduceOnly && decision.risk_plan) {
@@ -556,30 +603,83 @@ export class OrchestratorService {
                 takeProfitPrice = isBuy ? currentPrice * (1 + tpPct) : currentPrice * (1 - tpPct);
             }
 
-            const result = await placeOrderWithPrivateKey(
-                credential.privateKey,
-                {
-                    asset: assetIndex,
-                    isBuy,
+            const attemptDrafts = this.reviewService.buildOrderAttemptDrafts({
+                decision,
+                symbol: decision.symbol ?? riskAssessment.modifiedOrder.symbol,
+                currentPrice,
+                sizeCoin: sz,
+                sizeUsd: riskAssessment.modifiedOrder.sizeUsd,
+                limitPx,
+                isBuy,
+                reduceOnly,
+                stopLossPrice,
+                takeProfitPrice,
+                nonce,
+                requestHashSeed: {
+                    assetIndex,
+                    decision,
+                    order: riskAssessment.modifiedOrder,
                     limitPx,
-                    sz,
-                    reduceOnly,
                     stopLossPrice,
-                    takeProfitPrice,
-                    tif: reduceOnly ? "Ioc" : "Ioc"
-                },
-                isTestnet
-            );
+                    takeProfitPrice
+                }
+            });
+            const attemptIds = await this.reviewService.createOrderAttempts(reviewDecisionId ?? null, attemptDrafts);
+            await this.reviewService.updateRunAgentWalletFromDecision(reviewDecisionId ?? null, credential.apiWalletAddress);
+            const cloids = {
+                entry: attemptDrafts.find(attempt => attempt.orderRole === "ENTRY" || attempt.orderRole === "REDUCE" || attempt.orderRole === "CLOSE")?.cloid as `0x${string}` | undefined,
+                stopLoss: attemptDrafts.find(attempt => attempt.orderRole === "STOP_LOSS")?.cloid as `0x${string}` | undefined,
+                takeProfit: attemptDrafts.find(attempt => attempt.orderRole === "TAKE_PROFIT")?.cloid as `0x${string}` | undefined
+            };
+            const submittedAt = new Date();
+
+            let result: any;
+            try {
+                result = await placeOrderWithPrivateKey(
+                    credential.privateKey,
+                    {
+                        asset: assetIndex,
+                        isBuy,
+                        limitPx,
+                        sz,
+                        reduceOnly,
+                        stopLossPrice,
+                        takeProfitPrice,
+                        nonce,
+                        cloids,
+                        tif: reduceOnly ? "Ioc" : "Ioc"
+                    },
+                    isTestnet
+                );
+                await this.reviewService.updateOrderAttemptsFromResponse({
+                    attemptIds,
+                    response: result,
+                    submittedAt,
+                    exchangeReceivedAt: new Date()
+                });
+            } catch (error) {
+                await this.reviewService.updateOrderAttemptsFromResponse({
+                    attemptIds,
+                    response: null,
+                    submittedAt,
+                    exchangeReceivedAt: new Date(),
+                    error
+                });
+                throw error;
+            }
 
             if (result.status === "ok") {
                 if (credential.mode === "user_api_wallet") {
                     await markHyperliquidApiWalletUsed(userAddress, isTestnet);
                 }
                 await new Promise(resolve => setTimeout(resolve, 500));
+                const mainStatus = extractOrderResponseStatus(result, 0);
                 return {
                     success: true,
                     status: "submitted",
-                    orderId: result.response?.data?.statuses?.[0]?.oid?.toString()
+                    orderId: mainStatus.oid ?? undefined,
+                    cloid: cloids.entry,
+                    requestHash: hashJson({ decision, order: riskAssessment.modifiedOrder, nonce })
                 };
             }
 
@@ -1146,10 +1246,10 @@ ${JSON.stringify(context, null, 2)}`;
         }
     }
 
-    private async saveLlmInteraction(prompt: string, response: string, decisions: TradeDecision[], isTestnet: boolean, logScope?: string) {
+    private async saveLlmInteraction(prompt: string, response: string, decisions: TradeDecision[], isTestnet: boolean, logScope?: string): Promise<number | null> {
         try {
             const storeTranscripts = process.env.CENTRYPT_STORE_LLM_TRANSCRIPTS === "true";
-            await prisma.llmQuery.create({
+            const saved = await prisma.llmQuery.create({
                 data: {
                     prompt: storeTranscripts ? prompt : "[redacted: set CENTRYPT_STORE_LLM_TRANSCRIPTS=true to store prompts]",
                     response: storeTranscripts ? response : "[redacted: set CENTRYPT_STORE_LLM_TRANSCRIPTS=true to store responses]",
@@ -1172,8 +1272,10 @@ ${JSON.stringify(context, null, 2)}`;
                 }
             });
             traderLog("✅ Saved LLM interaction to DB", logScope);
+            return saved.id;
         } catch (error) {
             traderError("❌ Failed to save LLM interaction:", logScope, error);
+            return null;
         }
     }
 
@@ -1190,16 +1292,21 @@ function getDevTestnetExecutionKey(isTestnet: boolean): string | null {
 async function resolveExecutionCredential(userAddress: string, isTestnet: boolean): Promise<{
     privateKey: string;
     mode: "user_api_wallet" | "server_dev_testnet_bot";
+    apiWalletAddress: string | null;
 } | null> {
     try {
         const credential = await getUserHyperliquidApiWalletCredential(userAddress, isTestnet);
-        return { privateKey: credential.privateKey, mode: "user_api_wallet" };
+        return { privateKey: credential.privateKey, mode: "user_api_wallet", apiWalletAddress: credential.apiWalletAddress };
     } catch (error) {
         if (!(error instanceof HyperliquidApiWalletError) || error.status !== 412) {
             throw error;
         }
         const devKey = getDevTestnetExecutionKey(isTestnet);
-        return devKey ? { privateKey: devKey, mode: "server_dev_testnet_bot" } : null;
+        return devKey ? {
+            privateKey: devKey,
+            mode: "server_dev_testnet_bot",
+            apiWalletAddress: deriveHyperliquidApiWalletAddress(devKey)
+        } : null;
     }
 }
 

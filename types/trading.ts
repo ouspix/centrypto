@@ -117,6 +117,7 @@ export type ApprovedOrder = {
     symbol: string;
     side: 'buy' | 'sell';
     sizeUsd: number;
+    sizeCoin?: number;
     limitPx?: number;
     clientTag?: string;
 };

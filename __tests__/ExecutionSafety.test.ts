@@ -18,6 +18,50 @@ describe("execution safety", () => {
         expect(assessment.approved).toBe(false);
         expect(assessment.reason).toMatch(/max daily loss/i);
     });
+
+    it("converts a partial reduce to a full close when the remainder would be dust", () => {
+        const risk = new RiskCheckModule();
+        const assessment = risk.assess(reduceDecision(0.0005), snapshotWithPosition(50));
+
+        expect(assessment.approved).toBe(true);
+        expect(assessment.reason).toMatch(/converted to close/i);
+        expect(assessment.modifiedOrder?.sizeUsd).toBe(50);
+        expect(assessment.modifiedOrder?.sizeCoin).toBe(0.5);
+        expect(assessment.modifiedOrder?.clientTag).toBe("AI_TRADER_CLOSE_DUST_REMAINDER");
+    });
+
+    it("bumps a too-small partial reduce to the venue minimum notional", () => {
+        const risk = new RiskCheckModule();
+        const assessment = risk.assess(reduceDecision(0.0045), snapshotWithPosition(50));
+
+        expect(assessment.approved).toBe(true);
+        expect(assessment.reason).toMatch(/minimum notional/i);
+        expect(assessment.modifiedOrder?.sizeUsd).toBe(10);
+        expect(assessment.modifiedOrder?.sizeCoin).toBe(0.1);
+        expect(assessment.modifiedOrder?.clientTag).toBe("AI_TRADER_REDUCE_MIN_NOTIONAL");
+    });
+
+    it("converts a tiny reduce to a close when the minimum reduce would leave dust", () => {
+        const risk = new RiskCheckModule();
+        const assessment = risk.assess(reduceDecision(0.00105), snapshotWithPosition(12));
+
+        expect(assessment.approved).toBe(true);
+        expect(assessment.reason).toMatch(/minimum reduce would leave/i);
+        expect(assessment.modifiedOrder?.sizeUsd).toBe(12);
+        expect(assessment.modifiedOrder?.sizeCoin).toBe(0.12);
+        expect(assessment.modifiedOrder?.clientTag).toBe("AI_TRADER_CLOSE_DUST_REMAINDER");
+    });
+
+    it("uses the exact coin size for full reduce-only dust closes", () => {
+        const risk = new RiskCheckModule();
+        const assessment = risk.assess(closeDecision(), snapshotWithPosition(6.37));
+
+        expect(assessment.approved).toBe(true);
+        expect(assessment.reason).toMatch(/exact reduce-only dust close/i);
+        expect(assessment.modifiedOrder?.sizeUsd).toBeCloseTo(6.37, 8);
+        expect(assessment.modifiedOrder?.sizeCoin).toBeCloseTo(0.0637, 8);
+        expect(assessment.modifiedOrder?.clientTag).toBe("AI_TRADER_CLOSE_DUST");
+    });
 });
 
 function openDecision(): TradeDecision {
@@ -36,6 +80,63 @@ function openDecision(): TradeDecision {
         reason_code: "momentum_edge",
         notes: "test"
     };
+}
+
+function reduceDecision(targetFraction: number): TradeDecision {
+    return {
+        scope: "position",
+        candidate_id: null,
+        action: "REDUCE_POSITION",
+        symbol: "BTC-PERP",
+        side: "long",
+        target_side: "long",
+        target_size_fraction_of_equity: targetFraction,
+        size_fraction_of_equity: targetFraction,
+        risk_plan: null,
+        playbook: "none",
+        confidence: 0.7,
+        reason_code: "risk_reduction",
+        notes: "test"
+    };
+}
+
+function closeDecision(): TradeDecision {
+    return {
+        scope: "position",
+        candidate_id: null,
+        action: "CLOSE_POSITION",
+        symbol: "BTC-PERP",
+        side: null,
+        target_side: "flat",
+        target_size_fraction_of_equity: 0,
+        size_fraction_of_equity: 0,
+        risk_plan: null,
+        playbook: "none",
+        confidence: 0.7,
+        reason_code: "risk_reduction",
+        notes: "test"
+    };
+}
+
+function snapshotWithPosition(sizeUsd: number): StateSnapshot {
+    const base = snapshot({});
+    base.account.current_positions = [{
+        symbol: "BTC-PERP",
+        side: "long",
+        entry_price: 100,
+        size_usd: sizeUsd,
+        size_coin: sizeUsd / 100,
+        fraction_of_equity: sizeUsd / base.account.equity_usd,
+        unrealized_pnl: 0,
+        leverage: 1
+    } as any];
+    base.account.derived_portfolio = {
+        total_exposure_fraction: sizeUsd / base.account.equity_usd,
+        remaining_capacity: 1 - (sizeUsd / base.account.equity_usd),
+        position_slots_used: 1,
+        slots_remaining: 4
+    };
+    return base;
 }
 
 function snapshot(args: { killSwitch?: boolean; dailyTotalPnl?: number }): StateSnapshot {

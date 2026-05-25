@@ -41,6 +41,8 @@ test_output.txt
 .env*
 prisma/*.db
 prisma/*.db-*
+prisma/*.db.*
+reports/*.csv
 
 # vercel
 .vercel

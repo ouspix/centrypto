@@ -6,9 +6,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { TradeForm } from "@/components/TradeForm"
 import { AIAdvisor } from "@/components/AIAdvisor"
 import { LlmDecisionsLog } from "@/components/LlmDecisionsLog"
+import { AutoTraderReview } from "@/components/AutoTraderReview"
 import { HyperliquidApiWalletSettings } from "@/components/HyperliquidApiWalletSettings"
 import { useTrading } from "@/context/TradingContext"
-import { Zap, BrainCircuit, ScrollText } from "lucide-react"
+import { Zap, BrainCircuit, ScrollText, BarChart3 } from "lucide-react"
 
 export function TradingAndRisk({ className }: { className?: string }) {
     const [activeTab, setActiveTab] = useState<string>("manual")
@@ -24,7 +25,7 @@ export function TradingAndRisk({ className }: { className?: string }) {
             </CardHeader>
             <CardContent className="p-0 flex-1 flex flex-col min-h-0 overflow-hidden">
                 <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full flex flex-col flex-1 h-full">
-                    <TabsList className="grid w-full grid-cols-3 bg-transparent border-b border-slate-800 h-auto p-0 rounded-none flex-none">
+                    <TabsList className="grid w-full grid-cols-4 bg-transparent border-b border-slate-800 h-auto p-0 rounded-none flex-none">
                         <TabsTrigger
                             value="manual"
                             className="data-[state=active]:border-b-2 data-[state=active]:border-blue-500 data-[state=active]:text-blue-400 data-[state=active]:bg-transparent rounded-none border-b-2 border-transparent pb-3 text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-2"
@@ -46,6 +47,13 @@ export function TradingAndRisk({ className }: { className?: string }) {
                             <ScrollText className="h-4 w-4" />
                             Log
                         </TabsTrigger>
+                        <TabsTrigger
+                            value="review"
+                            className="data-[state=active]:border-b-2 data-[state=active]:border-amber-500 data-[state=active]:text-amber-300 data-[state=active]:bg-transparent rounded-none border-b-2 border-transparent pb-3 text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-2"
+                        >
+                            <BarChart3 className="h-4 w-4" />
+                            Review
+                        </TabsTrigger>
                     </TabsList>
 
                     <TabsContent value="manual" className="mt-0 flex-1 min-h-0 overflow-y-auto p-4 data-[state=inactive]:hidden data-[state=active]:flex flex-col">
@@ -62,6 +70,10 @@ export function TradingAndRisk({ className }: { className?: string }) {
 
                     <TabsContent value="log" className="mt-0 flex-1 min-h-0 overflow-hidden data-[state=inactive]:hidden data-[state=active]:flex flex-col">
                         <LlmDecisionsLog className="h-full p-4" />
+                    </TabsContent>
+
+                    <TabsContent value="review" className="mt-0 flex-1 min-h-0 overflow-hidden data-[state=inactive]:hidden data-[state=active]:flex flex-col">
+                        <AutoTraderReview className="h-full" />
                     </TabsContent>
                 </Tabs>
             </CardContent>
