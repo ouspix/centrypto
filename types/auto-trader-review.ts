@@ -4,7 +4,7 @@ export type AutoTraderRunStatus = "RUNNING" | "COMPLETED" | "SKIPPED" | "FAILED"
 export type AutoTraderDecisionType = "ENTRY_CANDIDATE" | "OPEN_POSITION_MANAGEMENT";
 export type AutoTraderPositionSnapshotPhase = "PRE_DECISION" | "POST_EXECUTION" | "PERIODIC_SYNC";
 export type AutoTraderOrderRole = "ENTRY" | "REDUCE" | "CLOSE" | "STOP_LOSS" | "TAKE_PROFIT";
-export type AutoTraderOrderStatus = "PLANNED" | "SUBMITTED" | "FILLED" | "RESTING" | "FAILED" | "ERROR";
+export type AutoTraderOrderStatus = "PLANNED" | "SUBMITTED" | "FILLED" | "FILLED_FROM_SYNC" | "RESTING" | "FAILED" | "ERROR";
 export type AutoTraderFillType = "OPEN" | "CLOSE" | "REDUCE" | "UNKNOWN";
 export type AutoTraderAttributionStatus = "MATCHED" | "FALLBACK_MATCHED" | "UNMATCHED";
 export type AutoTraderAttributionMethod = "ORDER_ID" | "CLOID" | "CLOID_TO_OID" | "FALLBACK" | "UNMATCHED";
@@ -55,11 +55,16 @@ export type LifecycleInputFill = {
     sz: number;
     closedPnl: number;
     fee: number;
+    hash?: string | null;
+    oid?: string | null;
+    cloid?: string | null;
     time: Date;
     attributionStatus: AutoTraderAttributionStatus | string;
     attributionMethod: AutoTraderAttributionMethod | string;
     decisionId?: string | null;
     orderAttemptId?: string | null;
+    orderAttemptRole?: AutoTraderOrderRole | string | null;
+    orderAttemptStatus?: AutoTraderOrderStatus | string | null;
 };
 
 export type ReconstructedLifecycle = {
@@ -83,5 +88,10 @@ export type ReconstructedLifecycle = {
     fees: number;
     netRealizedPnl: number;
     attributionMethod: AutoTraderAttributionMethod;
+    closeAction?: string | null;
+    closeReasonCode?: string | null;
+    closeAttemptStatus?: string | null;
+    mfeBps?: number | null;
+    maeBps?: number | null;
     rawDebugJson: Record<string, unknown>;
 };

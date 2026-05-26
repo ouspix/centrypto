@@ -32,10 +32,17 @@ import { prisma } from "@/lib/db";
 import { promises as fs } from "fs";
 import { TraderContextBuilder } from "@/services/TraderContextBuilder";
 import { TraderDecisionValidator } from "@/lib/trader/TraderDecisionValidator";
+import {
+    convertManagerActionToTradeDecision,
+    lockedSymbolsFromPositionManagement,
+    mergePositionManagementConfig,
+    PositionManager
+} from "@/lib/trader/PositionManager";
 import { assertWalletExecutionAllowed } from "@/lib/risk/execution-safety";
 import { redactSensitive, safeError } from "@/lib/log/safeLogger";
 import { traderError, traderLog, traderWarn } from "@/lib/log/traderLog";
 import { AutoTraderReviewService } from "@/services/AutoTraderReviewService";
+import { AutoTraderOrderManagementService } from "@/services/AutoTraderOrderManagementService";
 import { extractOrderResponseStatus, hashJson } from "@/lib/auto-trader-review/review-utils";
 
 import OpenAI from "openai";
@@ -68,9 +75,11 @@ export class OrchestratorService {
     private snapshotBuilder: SnapshotBuilder;
     private traderContextBuilder: TraderContextBuilder;
     private traderDecisionValidator: TraderDecisionValidator;
+    private positionManager: PositionManager;
     private riskModule: RiskCheckModule;
     private logger: TradingLogger;
     private reviewService: AutoTraderReviewService;
+    private orderManagementService: AutoTraderOrderManagementService;
     private currentAbortController: AbortController | null = null;
     private activeJobs: Map<string, AbortController> = new Map();
 
@@ -92,9 +101,11 @@ export class OrchestratorService {
         this.snapshotBuilder = new SnapshotBuilder();
         this.traderContextBuilder = new TraderContextBuilder();
         this.traderDecisionValidator = new TraderDecisionValidator();
+        this.positionManager = new PositionManager();
         this.riskModule = new RiskCheckModule();
         this.logger = new TradingLogger();
         this.reviewService = AutoTraderReviewService.getInstance();
+        this.orderManagementService = AutoTraderOrderManagementService.getInstance();
     }
 
     public static getInstance(): OrchestratorService {
@@ -392,12 +403,66 @@ export class OrchestratorService {
             : null;
         const prePositionSnapshotIds = await this.reviewService.snapshotPositions(reviewRunId, "PRE_DECISION", snapshot);
 
+        const network: "testnet" | "mainnet" = isTestnet ? "testnet" : "mainnet";
+        const positionManagementInput = userAddress
+            ? {
+                accountAddress: userAddress,
+                network,
+                now: new Date(),
+                snapshot,
+                openLifecycles: await this.reviewService.getManagedLifecycleStates(userAddress, network, snapshot, config),
+                openOrders: await this.orderManagementService.getOpenOrders({ accountAddress: userAddress, network }),
+                config
+            }
+            : null;
+        const positionManagement = positionManagementInput
+            ? this.positionManager.evaluate(positionManagementInput)
+            : {
+                actions: [],
+                portfolioFlags: { blockNewEntries: false, reasonCodes: [] },
+                diagnostics: { evaluatedPositions: 0, urgentActionCount: 0, repairActionCount: 0, holdCount: 0 }
+            };
+        if (positionManagementInput) {
+            await this.reviewService.persistPositionManagementResult({
+                runId: reviewRunId,
+                managementInput: positionManagementInput,
+                result: positionManagement
+            });
+        }
+        if (positionManagement.portfolioFlags.blockNewEntries) {
+            snapshot.constraints.max_new_trades_allowed = 0;
+            snapshot.constraints.max_new_entries_allowed = 0;
+            traderWarn(`Position manager blocked new entries: ${positionManagement.portfolioFlags.reasonCodes.join(",")}`, logScope);
+        }
+        const lockedSymbols = lockedSymbolsFromPositionManagement(positionManagement);
+        const managerTradeDecisions = positionManagement.actions
+            .filter(action => action.bypassLlm && action.action !== "HOLD_POSITION" && action.action !== "NO_ACTION")
+            .map(action => convertManagerActionToTradeDecision(action, config))
+            .filter((decision): decision is TradeDecision => !!decision);
+
         const profile = this.resolveProfileName(configOverride);
         const { context, diagnostics } = await this.traderContextBuilder.build(snapshot, config, isTestnet, profile);
-        const hasWork = context.eligible_candidates.length > 0 || context.existing_positions.length > 0;
+        if (lockedSymbols.size > 0) {
+            context.existing_positions = context.existing_positions.filter(position => !lockedSymbols.has(position.symbol));
+        }
+        const hasLlmWork = context.eligible_candidates.length > 0 || context.existing_positions.length > 0;
+        const hasManagerWork = managerTradeDecisions.length > 0;
 
-        if (!hasWork) {
-            const llmStatus = this.buildLlmSkippedStatus(context, diagnostics);
+        let llmResult: { decisions: TraderDecision[]; prompt: string; rawOutput: string } = {
+            decisions: [],
+            prompt: "SKIPPED_LLM_POSITION_MANAGER_ONLY",
+            rawOutput: JSON.stringify({ positionManagement }, null, 2)
+        };
+        let validation = { accepted: true, reason: "accepted" };
+        let llmQueryId: number | null = null;
+        let llmStatus: LlmRunStatus = hasLlmWork
+            ? this.buildLlmCalledStatus(context, diagnostics)
+            : hasManagerWork
+                ? this.buildLlmSkippedForManagerStatus(context, diagnostics)
+                : this.buildLlmSkippedStatus(context, diagnostics);
+        let llmBackendDecisions: TradeDecision[] = [];
+
+        if (!hasLlmWork && !hasManagerWork) {
             traderLog(`[LLM] Skipped: ${llmStatus.reason}`, logScope);
             await this.reviewService.finishRun(reviewRunId, { status: "SKIPPED", error: llmStatus.reason });
             return {
@@ -410,45 +475,61 @@ export class OrchestratorService {
             };
         }
 
-        traderLog(`✨ Trader context: ${context.eligible_candidates.length} candidates, ${context.existing_positions.length} positions.`, logScope);
-        if (signal?.aborted) throw new Error("Aborted");
+        if (hasLlmWork) {
+            traderLog(`✨ Trader context: ${context.eligible_candidates.length} candidates, ${context.existing_positions.length} positions.`, logScope);
+            if (signal?.aborted) throw new Error("Aborted");
 
-        const llmResult = await this.getLLMDecision(context, model, signal, logScope);
-        const validation = this.traderDecisionValidator.validateBatch(llmResult.decisions, context);
+            llmResult = await this.getLLMDecision(context, model, signal, logScope);
+            validation = this.traderDecisionValidator.validateBatch(llmResult.decisions, context);
 
-        if (!validation.accepted) {
-            const invalidDecisions = buildBackendDecisions(llmResult.decisions, context, validation.reason);
-            const llmQueryId = await this.saveLlmInteraction(llmResult.prompt, llmResult.rawOutput, invalidDecisions, isTestnet, logScope);
-            await this.reviewService.persistDecisions({
-                runId: reviewRunId,
-                traderDecisions: llmResult.decisions,
-                backendDecisions: invalidDecisions,
-                validation,
-                positionSnapshotIds: prePositionSnapshotIds
-            });
-            await this.journalTraderContext(context, llmResult.decisions, validation, new Map());
-            await this.reviewService.finishRun(reviewRunId, { status: "COMPLETED", llmQueryId });
-            return {
-                decisions: [],
-                riskAssessments: [{ approved: false, reason: `Validator rejected batch: ${validation.reason}` }],
-                snapshot,
-                prompt: llmResult.prompt,
-                rawOutput: llmResult.rawOutput,
-                llmStatus: this.buildLlmCalledStatus(context, diagnostics)
-            };
+            if (!validation.accepted) {
+                const invalidDecisions = buildBackendDecisions(llmResult.decisions, context, validation.reason);
+                llmQueryId = await this.saveLlmInteraction(llmResult.prompt, llmResult.rawOutput, invalidDecisions, isTestnet, logScope);
+                await this.reviewService.persistDecisions({
+                    runId: reviewRunId,
+                    traderDecisions: llmResult.decisions,
+                    backendDecisions: invalidDecisions,
+                    validation,
+                    positionSnapshotIds: prePositionSnapshotIds
+                });
+                await this.journalTraderContext(context, llmResult.decisions, validation, new Map());
+                if (!hasManagerWork) {
+                    await this.reviewService.finishRun(reviewRunId, { status: "COMPLETED", llmQueryId });
+                    return {
+                        decisions: [],
+                        riskAssessments: [{ approved: false, reason: `Validator rejected batch: ${validation.reason}` }],
+                        snapshot,
+                        prompt: llmResult.prompt,
+                        rawOutput: llmResult.rawOutput,
+                        llmStatus
+                    };
+                }
+            } else {
+                const filteredLlmDecisions = llmResult.decisions.filter(decision => !decision.symbol || !lockedSymbols.has(decision.symbol));
+                llmBackendDecisions = buildBackendDecisions(filteredLlmDecisions, context, "accepted");
+                llmQueryId = await this.saveLlmInteraction(llmResult.prompt, llmResult.rawOutput, llmBackendDecisions, isTestnet, logScope);
+            }
+        } else {
+            traderLog(`[LLM] Skipped: ${llmStatus.reason}`, logScope);
         }
 
-        const decisions = buildBackendDecisions(llmResult.decisions, context, "accepted");
-        const llmQueryId = await this.saveLlmInteraction(llmResult.prompt, llmResult.rawOutput, decisions, isTestnet, logScope);
+        const decisions = validation.accepted
+            ? [...managerTradeDecisions, ...llmBackendDecisions]
+            : [...managerTradeDecisions];
+        const preRiskDecisions = cloneJson(decisions);
+        const { riskAssessments } = assessDecisionsForRisk(decisions, snapshot, this.riskModule);
         const reviewDecisionIds = await this.reviewService.persistDecisions({
             runId: reviewRunId,
-            traderDecisions: llmResult.decisions,
+            traderDecisions: [
+                ...managerTradeDecisions.map(() => null),
+                ...(validation.accepted ? llmResult.decisions.filter(decision => !decision.symbol || !lockedSymbols.has(decision.symbol)) : [])
+            ] as any,
             backendDecisions: decisions,
-            validation,
+            preRiskDecisions,
+            riskAssessments,
+            validation: { accepted: true, reason: validation.accepted ? validation.reason : "position_manager_override_after_llm_rejection" },
             positionSnapshotIds: prePositionSnapshotIds
         });
-
-        const { riskAssessments } = assessDecisionsForRisk(decisions, snapshot, this.riskModule);
         const executionResults = new Map<string, { attempted: boolean; success: boolean; error?: string }>();
 
         for (let i = 0; i < decisions.length; i++) {
@@ -482,7 +563,9 @@ export class OrchestratorService {
             });
         }
 
-        await this.journalTraderContext(context, llmResult.decisions, validation, executionResults);
+        if (validation.accepted) {
+            await this.journalTraderContext(context, llmResult.decisions, validation, executionResults);
+        }
         if (reviewRunId) {
             try {
                 const postSnapshot = await this.snapshotBuilder.buildSnapshot(userAddress, isTestnet, config, screenerConfig);
@@ -502,7 +585,7 @@ export class OrchestratorService {
             snapshot,
             prompt: llmResult.prompt,
             rawOutput: llmResult.rawOutput,
-            llmStatus: this.buildLlmCalledStatus(context, diagnostics)
+            llmStatus
         };
     }
 
@@ -511,6 +594,20 @@ export class OrchestratorService {
             status: "skipped",
             reason_code: "NO_ELIGIBLE_CANDIDATES_NO_POSITIONS",
             reason: "No eligible candidates and no positions to manage. LLM call skipped.",
+            diagnostics: {
+                ...diagnostics,
+                regime: context.global_regime,
+                profile: context.profile,
+                snapshot_id: context.snapshot_id
+            }
+        };
+    }
+
+    private buildLlmSkippedForManagerStatus(context: TraderContext, diagnostics: TraderContextDiagnostics): LlmRunStatus {
+        return {
+            status: "skipped",
+            reason_code: "POSITION_MANAGER_ONLY",
+            reason: "LLM skipped because deterministic position management has executable work and no remaining LLM-managed candidates or positions.",
             diagnostics: {
                 ...diagnostics,
                 regime: context.global_regime,
@@ -623,6 +720,17 @@ export class OrchestratorService {
                     stopLossPrice,
                     takeProfitPrice
                 }
+            });
+            await this.reviewService.updateDecisionSubmittedOrderPlan(reviewDecisionId ?? null, {
+                symbol: decision.symbol ?? riskAssessment.modifiedOrder.symbol,
+                action: decision.action,
+                order: riskAssessment.modifiedOrder,
+                currentPrice,
+                limitPx,
+                stopLossPrice: stopLossPrice ?? null,
+                takeProfitPrice: takeProfitPrice ?? null,
+                reduceOnly,
+                drafts: attemptDrafts
             });
             const attemptIds = await this.reviewService.createOrderAttempts(reviewDecisionId ?? null, attemptDrafts);
             await this.reviewService.updateRunAgentWalletFromDecision(reviewDecisionId ?? null, credential.apiWalletAddress);
@@ -1204,8 +1312,16 @@ ${JSON.stringify(context, null, 2)}`;
                 regime_adjustments: {
                     ...DEFAULT_AGENT_CONFIG.risk_plan_model.regime_adjustments,
                     ...configOverride?.risk_plan_model?.regime_adjustments
+                },
+                max_width_bps_by_playbook: {
+                    ...DEFAULT_AGENT_CONFIG.risk_plan_model.max_width_bps_by_playbook,
+                    ...configOverride?.risk_plan_model?.max_width_bps_by_playbook
                 }
             },
+            position_management: mergePositionManagementConfig(
+                configOverride?.position_management,
+                DEFAULT_AGENT_CONFIG.position_management
+            ),
             sentiment_policy: { ...DEFAULT_AGENT_CONFIG.sentiment_policy, ...configOverride?.sentiment_policy }
         };
         // Ensure both fraction fields are populated from each other when only one is provided
@@ -1317,6 +1433,10 @@ function parseJobConfig(serialized: string | null | undefined): any {
     } catch {
         return undefined;
     }
+}
+
+function cloneJson<T>(value: T): T {
+    return JSON.parse(JSON.stringify(value));
 }
 
 function formatTraderSymbols(items: Array<{ symbol?: string; side?: string | null }>): string {

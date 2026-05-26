@@ -161,8 +161,8 @@ export function AutoTraderReview({ className }: { className?: string }) {
                         <CompactRow key={row.id}
                             left={`${row.symbol} ${row.side}`}
                             right={formatUsd(row.currentUnrealizedPnl)}
-                            sub={`Peak ${formatUsd(row.observedPeakPnl)} | Giveback ${formatUsd(row.drawdownFromPeak)}`}
-                            bad={Number(row.drawdownFromPeak ?? 0) > 0}
+                            sub={`Peak ${formatUsd(row.observedPeakPnl)} | Giveback ${formatPct(row.openGivebackPct)} | ${row.openWasGreenNowRed ? "green-to-red" : row.openLateGiveback ? "late giveback" : row.attributionMethod}`}
+                            bad={row.openWasGreenNowRed || row.openLateGiveback}
                         />
                     ))}
                 </Section>

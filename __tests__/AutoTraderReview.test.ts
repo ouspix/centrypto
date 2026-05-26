@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+    computeOpenReviewFlags,
     computeMfeMaeFromCandles,
     computeReviewFlags,
     extractOrderResponseStatus,
@@ -113,6 +114,49 @@ describe("auto-trader review helpers", () => {
         expect(lifecycle.closeFillIds).toEqual(["close-1", "close-2"]);
     });
 
+    it("groups multiple open fills into one contiguous position episode", () => {
+        const lifecycles = reconstructTradeLifecycles({
+            accountAddress: "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            network: "mainnet",
+            fills: [
+                fill("open-1", "Open Long", 100, 0.4, "o1"),
+                fill("open-2", "Open Long", 105, 0.6, "o2"),
+                fill("close-1", "Close Long", 110, 1, "tp-1", {
+                    closedPnl: 8,
+                    orderAttemptRole: "TAKE_PROFIT",
+                    orderAttemptStatus: "FILLED_FROM_SYNC"
+                })
+            ]
+        });
+
+        expect(lifecycles).toHaveLength(1);
+        expect(lifecycles[0].status).toBe("CLOSED");
+        expect(lifecycles[0].openFillIds).toEqual(["open-1", "open-2"]);
+        expect(lifecycles[0].entryPrice).toBe(103);
+        expect(lifecycles[0].rawDebugJson.openAllocations).toHaveLength(2);
+        expect(lifecycles[0].rawDebugJson.closeAllocations).toHaveLength(1);
+        expect(lifecycles[0].closeAction).toBe("TAKE_PROFIT_TRIGGERED");
+        expect(lifecycles[0].closeReasonCode).toBe("TAKE_PROFIT");
+        expect(lifecycles[0].closeAttemptStatus).toBe("FILLED_FROM_SYNC");
+    });
+
+    it("starts a new lifecycle after a contiguous window is fully closed", () => {
+        const lifecycles = reconstructTradeLifecycles({
+            accountAddress: "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            network: "mainnet",
+            fills: [
+                fill("open-1", "Open Long", 100, 1, "o1", { time: "2026-05-24T00:00:00Z" }),
+                fill("close-1", "Close Long", 101, 1, "c1", { time: "2026-05-24T00:10:00Z" }),
+                fill("open-2", "Open Long", 102, 1, "o2", { time: "2026-05-24T00:20:00Z" })
+            ]
+        });
+
+        expect(lifecycles).toHaveLength(2);
+        expect(lifecycles[0].status).toBe("CLOSED");
+        expect(lifecycles[1].status).toBe("OPEN");
+        expect(lifecycles[1].openFillIds).toEqual(["open-2"]);
+    });
+
     it("computes long and short MFE/MAE from 1m candles", () => {
         const longMetrics = computeMfeMaeFromCandles({
             side: "long",
@@ -161,6 +205,18 @@ describe("auto-trader review helpers", () => {
         expect(flags.givebackPct).toBeNull();
     });
 
+    it("computes open giveback flags separately from closed outcome flags", () => {
+        const flags = computeOpenReviewFlags({
+            mfeBps: 45,
+            peakUnrealizedPnl: 10,
+            currentUnrealizedPnl: -1
+        });
+
+        expect(flags.openWasGreenNowRed).toBe(true);
+        expect(flags.openLateGiveback).toBe(true);
+        expect(flags.openGivebackPct).toBe(110);
+    });
+
     it("extracts order ids from Hyperliquid order responses", () => {
         const filled = extractOrderResponseStatus({
             status: "ok",
@@ -177,3 +233,33 @@ describe("auto-trader review helpers", () => {
         expect(failed.reason).toBe("bad order");
     });
 });
+
+function fill(
+    id: string,
+    dir: string,
+    px: number,
+    sz: number,
+    orderAttemptId: string,
+    overrides: Partial<any> = {}
+) {
+    const { time, ...rest } = overrides;
+    return {
+        id,
+        normalizedSymbol: "BTC-PERP",
+        side: dir.includes("Open") ? "B" : "A",
+        dir,
+        px,
+        sz,
+        closedPnl: 0,
+        fee: 0,
+        time: new Date(time ?? "2026-05-24T00:00:00Z"),
+        attributionStatus: "MATCHED",
+        attributionMethod: "ORDER_ID",
+        decisionId: `${orderAttemptId}-decision`,
+        orderAttemptId,
+        oid: `${orderAttemptId}-oid`,
+        cloid: `${orderAttemptId}-cloid`,
+        hash: `${orderAttemptId}-hash`,
+        ...rest
+    };
+}

@@ -4,8 +4,21 @@ import { execSync } from "child_process";
 import { prisma } from "@/lib/db";
 import { marketDbMain, marketDbTest } from "@/lib/market-db";
 import { getOrderStatus, getUserFills, getUserFillsByTime } from "@/lib/hyperliquid-info";
+import type { AgentConfig } from "@/lib/agent-config";
 import { StateSnapshot } from "@/types/snapshot";
 import { RiskAssessment, TradeDecision, TraderDecision } from "@/types/trading";
+import {
+    directionalBps,
+    givebackPct as computeGivebackPct,
+    netCurrentBps
+} from "@/lib/trader/position-management-math";
+import { basePlaybookFrom } from "@/lib/trader/position-management-policy";
+import type {
+    ManagedLifecycleState,
+    PositionManagementAction,
+    PositionManagementInput,
+    PositionManagementResult
+} from "@/lib/trader/position-management-types";
 import {
     AutoTraderAttributionMethod,
     AutoTraderAttributionStatus,
@@ -20,6 +33,7 @@ import {
     AUTO_TRADER_RECONSTRUCTION_VERSION,
     computeMfeMaeFromCandles,
     computeMfeMaeFromMarks,
+    computeOpenReviewFlags,
     computeReviewFlags,
     extractOrderResponseStatus,
     extractOrderStatusOid,
@@ -171,8 +185,10 @@ export class AutoTraderReviewService {
 
     public async persistDecisions(input: {
         runId: string | null;
-        traderDecisions: TraderDecision[];
+        traderDecisions: (TraderDecision | null)[];
         backendDecisions: TradeDecision[];
+        preRiskDecisions?: TradeDecision[];
+        riskAssessments?: RiskAssessment[];
         validation: { accepted: boolean; reason: string };
         positionSnapshotIds: Map<string, string>;
     }): Promise<(string | null)[]> {
@@ -180,6 +196,8 @@ export class AutoTraderReviewService {
         const rows: (string | null)[] = [];
         for (let i = 0; i < input.backendDecisions.length; i++) {
             const backend = input.backendDecisions[i];
+            const preRisk = input.preRiskDecisions?.[i] ?? backend;
+            const riskAssessment = input.riskAssessments?.[i] ?? null;
             const raw = input.traderDecisions[i] ?? null;
             const validatorStatus = input.validation.accepted ? "accepted" : "rejected";
             const decisionType = backend.scope === "position" ? "OPEN_POSITION_MANAGEMENT" : "ENTRY_CANDIDATE";
@@ -196,6 +214,11 @@ export class AutoTraderReviewService {
                     skipReason: backend.action === "SKIP" ? backend.reason_code : null,
                     rawLlmDecisionJson: raw ? safeJson(raw) : null,
                     normalizedDecisionJson: safeJson(backend),
+                    preRiskDecisionJson: safeJson(preRisk),
+                    riskAssessmentJson: riskAssessment ? safeJson(riskAssessment) : null,
+                    finalDecisionJson: riskAssessment ? safeJson(backend) : null,
+                    finalRiskPlanJson: riskAssessment && backend.risk_plan ? safeJson(backend.risk_plan) : null,
+                    submittedOrderPlanJson: null,
                     validatorStatus,
                     validatorErrorsJson: input.validation.accepted ? null : safeJson({ reason: input.validation.reason })
                 }
@@ -235,6 +258,257 @@ export class AutoTraderReviewService {
             ids.push(created.id);
         }
         return ids;
+    }
+
+    public async updateDecisionSubmittedOrderPlan(decisionId: string | null, plan: unknown): Promise<void> {
+        if (!decisionId || !this.modelsAvailable()) return;
+        await this.model("autoTraderDecision").update({
+            where: { id: decisionId },
+            data: { submittedOrderPlanJson: safeJson(plan) }
+        });
+    }
+
+    public async getOpenLifecycleStates(accountAddress: string, network: AutoTraderNetwork): Promise<ReconstructedLifecycle[]> {
+        if (!this.modelsAvailable()) return [];
+        const rows = await this.model("autoTraderTradeLifecycle").findMany({
+            where: { accountAddress: accountAddress.toLowerCase(), network, status: "OPEN" },
+            orderBy: { openedAt: "desc" },
+            take: 100
+        });
+        return rows.map((row: any) => ({
+            id: row.id,
+            accountAddress: row.accountAddress,
+            network: row.network,
+            symbol: row.symbol,
+            side: row.side,
+            openedAt: row.openedAt,
+            closedAt: row.closedAt,
+            status: row.status,
+            openFillIds: parseJsonArray(row.openFillIds),
+            closeFillIds: parseJsonArray(row.closeFillIds),
+            attributedDecisionIds: parseJsonArray(row.attributedDecisionIds),
+            attributedOrderAttemptIds: parseJsonArray(row.attributedOrderAttemptIds),
+            entryPrice: row.entryPrice,
+            exitPrice: row.exitPrice,
+            sizeOpened: row.sizeOpened,
+            sizeClosed: row.sizeClosed,
+            grossRealizedPnl: row.grossRealizedPnl,
+            fees: row.fees,
+            netRealizedPnl: row.netRealizedPnl,
+            attributionMethod: row.attributionMethod,
+            closeAction: row.closeAction,
+            closeReasonCode: row.closeReasonCode,
+            closeAttemptStatus: row.closeAttemptStatus,
+            rawDebugJson: parseJsonObject(row.rawDebugJson),
+            mfeBps: row.mfeBps,
+            maeBps: row.maeBps
+        }));
+    }
+
+    public async getManagedLifecycleStates(
+        accountAddress: string,
+        network: AutoTraderNetwork,
+        snapshot: StateSnapshot,
+        config: AgentConfig
+    ): Promise<ManagedLifecycleState[]> {
+        const openLifecycleRows = await this.getOpenLifecycleStates(accountAddress, network);
+        const stateModel = this.model("autoTraderPositionState", false);
+        const stateRows = stateModel?.findMany
+            ? await stateModel.findMany({
+                where: {
+                    accountAddress: accountAddress.toLowerCase(),
+                    network,
+                    symbol: { in: snapshot.account.current_positions.map(position => position.symbol) }
+                },
+                orderBy: { updatedAt: "desc" },
+                take: 200
+            })
+            : [];
+
+        const lifecycleByKey = new Map(openLifecycleRows.map(row => [positionStateKey(row.symbol, row.side), row]));
+        const stateByLifecycleId = new Map<string, any>();
+        const stateByKey = new Map<string, any>();
+        for (const row of stateRows) {
+            if (row.lifecycleId && !stateByLifecycleId.has(row.lifecycleId)) stateByLifecycleId.set(row.lifecycleId, row);
+            const key = positionStateKey(row.symbol, row.side);
+            if (!stateByKey.has(key)) stateByKey.set(key, row);
+        }
+
+        return snapshot.account.current_positions.map(position => {
+            const key = positionStateKey(position.symbol, position.side);
+            const lifecycle = lifecycleByKey.get(key);
+            const prior = lifecycle?.id ? stateByLifecycleId.get(lifecycle.id) ?? stateByKey.get(key) : stateByKey.get(key);
+            const market = snapshot.markets[position.symbol];
+            const entryPrice = positive(lifecycle?.entryPrice) ?? positive(position.entry_price) ?? 0;
+            const currentPrice = positive(market?.price) ?? entryPrice;
+            const estimatedFeeBps = estimatedPositionFeeBps(market, config, network);
+            const grossCurrentBps = directionalBps(position.side, entryPrice, currentPrice);
+            const netBps = netCurrentBps(grossCurrentBps, estimatedFeeBps, config.position_management.global.exitFeeBufferBps);
+            const ageMinutes = finite(position.position_age_min)
+                ?? (lifecycle?.openedAt ? Math.max(0, (snapshot.timestamp * 1000 - new Date(lifecycle.openedAt).getTime()) / 60_000) : 0);
+            const openedAt = lifecycle?.openedAt
+                ? new Date(lifecycle.openedAt)
+                : new Date((snapshot.timestamp - ageMinutes * 60) * 1000);
+            const lifecycleMfe = finite(lifecycle?.mfeBps);
+            const priorMfe = finite(prior?.highestMfeBps);
+            const mfeBps = Math.max(0, grossCurrentBps, lifecycleMfe ?? Number.NEGATIVE_INFINITY, priorMfe ?? Number.NEGATIVE_INFINITY);
+            const lifecycleMae = finite(lifecycle?.maeBps);
+            const priorMae = finite(prior?.lowestMaeBps);
+            const maeBps = Math.min(0, grossCurrentBps, lifecycleMae ?? Number.POSITIVE_INFINITY, priorMae ?? Number.POSITIVE_INFINITY);
+            const entryNotional = position.size_coin && entryPrice > 0 ? position.size_coin * entryPrice : position.size_usd;
+            const peakFromMfe = entryNotional > 0 ? entryNotional * (mfeBps / 10000) : null;
+            const peakUnrealizedPnlUsd = Math.max(
+                Number(position.unrealized_pnl ?? 0),
+                finite(prior?.peakUnrealizedPnl) ?? Number.NEGATIVE_INFINITY,
+                peakFromMfe ?? Number.NEGATIVE_INFINITY
+            );
+            const drawdownFromPeakUsd = Number.isFinite(peakUnrealizedPnlUsd)
+                ? peakUnrealizedPnlUsd - Number(position.unrealized_pnl ?? 0)
+                : null;
+            const playbook = String((position as any).playbook_when_opened ?? playbookFromLifecycle(lifecycle) ?? "") || null;
+            const basePlaybook = basePlaybookFrom(playbook);
+            const bookPressure = finite(market?.orderbook?.book_pressure);
+
+            return {
+                lifecycleId: lifecycle?.id ?? null,
+                symbol: position.symbol,
+                side: position.side,
+                openedAt,
+                ageMinutes,
+                entryPrice,
+                currentPrice,
+                sizeUsd: position.size_usd,
+                sizeCoin: position.size_coin,
+                exposureFraction: position.fraction_of_equity,
+                currentUnrealizedPnlUsd: Number(position.unrealized_pnl ?? 0),
+                grossCurrentBps,
+                estimatedFeeBps,
+                netCurrentBps: netBps,
+                mfeBps,
+                maeBps,
+                givebackPct: computeGivebackPct(mfeBps, netBps),
+                peakUnrealizedPnlUsd: Number.isFinite(peakUnrealizedPnlUsd) ? peakUnrealizedPnlUsd : null,
+                drawdownFromPeakUsd,
+                playbook,
+                basePlaybook,
+                entryReasonCode: typeof (position as any).llm_reason_when_opened === "string" ? (position as any).llm_reason_when_opened : null,
+                entryConfidence: null,
+                regimeAtEntry: (position as any).regim_when_opening ?? null,
+                currentRegime: snapshot.global_regime.current,
+                marketTags: marketTagsForManagedPosition(market),
+                liquidationPrice: finite((position as any).liquidation_price),
+                marketSignal: {
+                    edgeOk: market?.derived?.edge?.edge_ok ?? null,
+                    entryOk: market?.derived?.entry?.entry_ok ?? null,
+                    riskEligible: market?.derived?.risk?.eligible ?? null,
+                    bookPressure,
+                    bookPressureAlignment: bookPressureAlignment(position.side, bookPressure),
+                    trendAligned: market?.derived?.triggers?.trend_aligned ?? null,
+                    volRatio5mVs1h: market?.derived?.normalized?.vol_ratio_5m_vs_1h ?? market?.vol_zscores?.vol_5m_vs_1h ?? null,
+                    retSigma5mVs1h: market?.derived?.normalized?.ret_sigma_5m_vs_1h ?? market?.vol_zscores?.ret_5m_vs_1h ?? null,
+                    reasonsFailed: market?.derived?.entry?.reasons_failed ?? []
+                },
+                priorManagementState: prior ? {
+                    state: prior.state,
+                    highestMfeBps: prior.highestMfeBps,
+                    lowestMaeBps: prior.lowestMaeBps,
+                    peakUnrealizedPnl: prior.peakUnrealizedPnl,
+                    partialTakenFraction: prior.partialTakenFraction,
+                    protectedAt: prior.protectedAt,
+                    lastActionAt: prior.lastActionAt,
+                    lastAction: prior.lastAction,
+                    lastReasonCode: prior.lastReasonCode,
+                    lastStopPx: prior.lastStopPx,
+                    lastTakeProfitPx: prior.lastTakeProfitPx
+                } : null
+            };
+        });
+    }
+
+    public async persistPositionManagementResult(input: {
+        runId: string | null;
+        managementInput: PositionManagementInput;
+        result: PositionManagementResult;
+    }): Promise<void> {
+        const stateModel = this.model("autoTraderPositionState", false);
+        const eventModel = this.model("autoTraderPositionManagementEvent", false);
+        if (!stateModel?.findFirst || !eventModel?.create) return;
+
+        const positionByKey = new Map(input.managementInput.openLifecycles.map(position => [positionStateKey(position.symbol, position.side), position]));
+        for (const action of input.result.actions) {
+            const position = positionByKey.get(positionStateKey(action.symbol, action.side));
+            if (!position) continue;
+            const existing = await stateModel.findFirst({
+                where: {
+                    accountAddress: input.managementInput.accountAddress.toLowerCase(),
+                    network: input.managementInput.network,
+                    symbol: action.symbol,
+                    side: action.side,
+                    openedAt: position.openedAt
+                }
+            });
+
+            const partialTakenFraction = Math.min(1, Math.max(
+                Number(existing?.partialTakenFraction ?? position.priorManagementState?.partialTakenFraction ?? 0),
+                action.action === "REDUCE_POSITION" ? action.reduceFraction ?? 0 : 0
+            ));
+            const protectedAt = action.stopReplacement
+                ? input.managementInput.now
+                : existing?.protectedAt ?? position.priorManagementState?.protectedAt ?? null;
+            const lastActionAt = action.action === "HOLD_POSITION" || action.action === "NO_ACTION"
+                ? existing?.lastActionAt ?? position.priorManagementState?.lastActionAt ?? null
+                : input.managementInput.now;
+            const data = {
+                accountAddress: input.managementInput.accountAddress.toLowerCase(),
+                network: input.managementInput.network,
+                lifecycleId: position.lifecycleId,
+                symbol: action.symbol,
+                side: action.side,
+                state: action.stateAfter,
+                entryPrice: position.entryPrice,
+                openedAt: position.openedAt,
+                highestMfeBps: maxNullable(existing?.highestMfeBps, position.mfeBps),
+                lowestMaeBps: minNullable(existing?.lowestMaeBps, position.maeBps),
+                peakUnrealizedPnl: maxNullable(existing?.peakUnrealizedPnl, position.peakUnrealizedPnlUsd),
+                partialTakenFraction,
+                protectedAt,
+                lastActionAt,
+                lastAction: action.action === "HOLD_POSITION" || action.action === "NO_ACTION" ? existing?.lastAction ?? null : action.action,
+                lastReasonCode: action.action === "HOLD_POSITION" || action.action === "NO_ACTION" ? existing?.lastReasonCode ?? null : action.reasonCode,
+                lastStopPx: action.stopReplacement?.stopPx ?? existing?.lastStopPx ?? null,
+                lastTakeProfitPx: action.takeProfitReplacement?.takeProfitPx ?? existing?.lastTakeProfitPx ?? null,
+                policyVersion: input.managementInput.config.position_management.version
+            };
+
+            const state = existing
+                ? await stateModel.update({ where: { id: existing.id }, data })
+                : await stateModel.create({ data });
+
+            await eventModel.create({
+                data: {
+                    accountAddress: input.managementInput.accountAddress.toLowerCase(),
+                    network: input.managementInput.network,
+                    runId: input.runId,
+                    lifecycleId: action.lifecycleId,
+                    positionStateId: state.id,
+                    symbol: action.symbol,
+                    side: action.side,
+                    stateBefore: action.stateBefore,
+                    stateAfter: action.stateAfter,
+                    action: action.action,
+                    urgency: action.urgency,
+                    bypassLlm: action.bypassLlm,
+                    reasonCode: action.reasonCode,
+                    notes: action.notes,
+                    targetSizeFractionOfEquity: finiteOrNull(action.targetSizeFractionOfEquity),
+                    reduceFraction: finiteOrNull(action.reduceFraction),
+                    stopReplacementJson: action.stopReplacement ? safeJson(action.stopReplacement) : null,
+                    takeProfitReplacementJson: action.takeProfitReplacement ? safeJson(action.takeProfitReplacement) : null,
+                    cancelOrderOidsJson: action.cancelOrderOids ? safeJson(action.cancelOrderOids) : null,
+                    evidenceJson: safeJson(action.evidence)
+                }
+            });
+        }
     }
 
     public async updateOrderAttemptsFromResponse(input: {
@@ -419,7 +693,8 @@ export class AutoTraderReviewService {
         if (query.symbol) whereLifecycle.symbol = query.symbol;
         if (!query.includeUnattributed) whereLifecycle.attributionMethod = { not: "UNMATCHED" };
 
-        const [lifecycles, runs, fills, openSnapshots, reliableRun] = await Promise.all([
+        const positionEventModel = this.model("autoTraderPositionManagementEvent", false);
+        const [lifecycles, runs, fills, openSnapshots, reliableRun, positionManagementEvents] = await Promise.all([
             this.model("autoTraderTradeLifecycle").findMany({
                 where: whereLifecycle,
                 orderBy: [{ status: "asc" }, { openedAt: "desc" }],
@@ -458,7 +733,19 @@ export class AutoTraderReviewService {
                 },
                 orderBy: { startedAt: "asc" },
                 select: { reliableSince: true, startedAt: true }
-            })
+            }),
+            positionEventModel?.findMany
+                ? positionEventModel.findMany({
+                    where: {
+                        accountAddress: query.accountAddress,
+                        network: query.network,
+                        createdAt: { gte: query.startTime, lte: query.endTime },
+                        ...(query.symbol ? { symbol: query.symbol } : {})
+                    },
+                    orderBy: { createdAt: "desc" },
+                    take: 200
+                })
+                : Promise.resolve([])
         ]);
 
         const reliableSince = this.reliableSinceFor(query.accountAddress, query.network, runs, reliableRun);
@@ -473,7 +760,7 @@ export class AutoTraderReviewService {
             : unattributedFills;
         const closed = lifecycles.filter((row: any) => row.status === "CLOSED");
         const open = lifecycles.filter((row: any) => row.status === "OPEN");
-        const redFlags = closed.filter((row: any) => row.observedGreenToRed || row.lateGiveback);
+        const redFlags = closed.filter((row: any) => row.closedGreenToRed || row.closedLateGiveback || row.observedGreenToRed || row.lateGiveback);
 
         return {
             warning: `Historical attribution before instrumentation is approximate. Reliable attribution starts from: ${reliableSince ?? "not established yet"}.`,
@@ -484,6 +771,8 @@ export class AutoTraderReviewService {
             closedLifecycles: closed.map(lifecycleDto),
             runs: runs.map(runDto),
             redFlags: redFlags.map(lifecycleDto),
+            positionManagementEvents: positionManagementEvents.map(positionManagementEventDto),
+            positionManagementSummary: summarizePositionManagementEvents(positionManagementEvents),
             skippedOpportunities: await this.skippedOpportunities(query, runs),
             syncStatus: {
                 fillCount: fills.length,
@@ -566,7 +855,7 @@ export class AutoTraderReviewService {
         for (const fill of fills) {
             const exact = await this.findExactAttempt(fill, accountAddress, network);
             if (exact) {
-                await this.markFillAttributed(fill.id, exact.id, exact.decisionId, exact.method, exact.method === "FALLBACK" ? "FALLBACK_MATCHED" : "MATCHED");
+                await this.markFillAttributed(fill, exact, exact.method, exact.method === "FALLBACK" ? "FALLBACK_MATCHED" : "MATCHED");
                 if (exact.method === "FALLBACK") fallbackMatched++;
                 else matched++;
                 continue;
@@ -574,7 +863,7 @@ export class AutoTraderReviewService {
 
             const fallback = await this.findFallbackAttempt(fill, accountAddress, network);
             if (fallback) {
-                await this.markFillAttributed(fill.id, fallback.id, fallback.decisionId, "FALLBACK", "FALLBACK_MATCHED");
+                await this.markFillAttributed(fill, fallback, "FALLBACK", "FALLBACK_MATCHED");
                 fallbackMatched++;
             } else {
                 await this.model("autoTraderFill").update({
@@ -641,24 +930,37 @@ export class AutoTraderReviewService {
         }) ?? null;
     }
 
-    private async markFillAttributed(fillId: string, orderAttemptId: string, decisionId: string, method: AutoTraderAttributionMethod, status: AutoTraderAttributionStatus): Promise<void> {
+    private async markFillAttributed(fill: any, attempt: any, method: AutoTraderAttributionMethod, status: AutoTraderAttributionStatus): Promise<void> {
         await this.model("autoTraderFill").update({
-            where: { id: fillId },
+            where: { id: fill.id },
             data: {
-                orderAttemptId,
-                decisionId,
+                orderAttemptId: attempt.id,
+                decisionId: attempt.decisionId,
                 attributionStatus: status,
                 attributionMethod: method
             }
         });
+
+        if (fill.fillType === "CLOSE" && (attempt.orderRole === "TAKE_PROFIT" || attempt.orderRole === "STOP_LOSS")) {
+            await this.model("autoTraderOrderAttempt").update({
+                where: { id: attempt.id },
+                data: { status: "FILLED_FROM_SYNC" }
+            });
+        }
     }
 
     private async rebuildLifecycles(accountAddress: string, network: AutoTraderNetwork): Promise<number> {
         const fills = await this.model("autoTraderFill").findMany({
             where: { accountAddress, network },
+            include: { orderAttempt: true },
             orderBy: { time: "asc" }
         });
-        const reconstructed = reconstructTradeLifecycles({ accountAddress, network, fills });
+        const lifecycleFills = fills.map((fill: any) => ({
+            ...fill,
+            orderAttemptRole: fill.orderAttempt?.orderRole ?? null,
+            orderAttemptStatus: fill.orderAttempt?.status ?? null
+        }));
+        const reconstructed = reconstructTradeLifecycles({ accountAddress, network, fills: lifecycleFills });
 
         await this.model("autoTraderTradeLifecycle").deleteMany({ where: { accountAddress, network } });
 
@@ -694,7 +996,15 @@ export class AutoTraderReviewService {
                     mfeCoverage: decorated.coverage,
                     observedGreenToRed: decorated.flags.observedGreenToRed,
                     lateGiveback: decorated.flags.lateGiveback,
-                    givebackPct: decorated.flags.givebackPct
+                    givebackPct: decorated.flags.givebackPct,
+                    openWasGreenNowRed: decorated.flags.openWasGreenNowRed,
+                    openLateGiveback: decorated.flags.openLateGiveback,
+                    openGivebackPct: decorated.flags.openGivebackPct,
+                    closedGreenToRed: decorated.flags.closedGreenToRed,
+                    closedLateGiveback: decorated.flags.closedLateGiveback,
+                    closeAction: lifecycle.closeAction ?? null,
+                    closeReasonCode: lifecycle.closeReasonCode ?? null,
+                    closeAttemptStatus: lifecycle.closeAttemptStatus ?? null
                 }
             });
             const fillIds = [...lifecycle.openFillIds, ...lifecycle.closeFillIds];
@@ -714,7 +1024,16 @@ export class AutoTraderReviewService {
         maeBps: number | null;
         source: string;
         coverage: string;
-        flags: { observedGreenToRed: boolean; lateGiveback: boolean; givebackPct: number | null };
+        flags: {
+            observedGreenToRed: boolean;
+            lateGiveback: boolean;
+            givebackPct: number | null;
+            openWasGreenNowRed: boolean;
+            openLateGiveback: boolean;
+            openGivebackPct: number | null;
+            closedGreenToRed: boolean;
+            closedLateGiveback: boolean;
+        };
     }> {
         const end = lifecycle.closedAt ?? new Date();
         const expectedMinutes = Math.max(1, Math.ceil((end.getTime() - lifecycle.openedAt.getTime()) / 60_000));
@@ -736,15 +1055,17 @@ export class AutoTraderReviewService {
             expectedMinutes
         });
 
+        const snapshots = await this.model("autoTraderPositionSnapshot").findMany({
+            where: {
+                symbol: lifecycle.symbol,
+                observedAt: { gte: lifecycle.openedAt, lte: end },
+                run: { accountAddress: lifecycle.accountAddress, network: lifecycle.network }
+            },
+            select: { markPrice: true, unrealizedPnl: true, observedAt: true },
+            orderBy: { observedAt: "asc" }
+        });
+
         if (metrics.coverage === "NONE") {
-            const snapshots = await this.model("autoTraderPositionSnapshot").findMany({
-                where: {
-                    symbol: lifecycle.symbol,
-                    observedAt: { gte: lifecycle.openedAt, lte: end },
-                    run: { accountAddress: lifecycle.accountAddress, network: lifecycle.network }
-                },
-                select: { markPrice: true }
-            });
             metrics = computeMfeMaeFromMarks({
                 side: lifecycle.side,
                 entryPrice: lifecycle.entryPrice,
@@ -759,13 +1080,38 @@ export class AutoTraderReviewService {
             netRealizedPnl: lifecycle.netRealizedPnl,
             status: lifecycle.status
         });
+        const latestSnapshot = snapshots[snapshots.length - 1];
+        const observedPeakPnl = snapshots.reduce(
+            (max: number, row: any) => Math.max(max, Number(row.unrealizedPnl ?? Number.NEGATIVE_INFINITY)),
+            Number.NEGATIVE_INFINITY
+        );
+        const candleMfePnl = metrics.mfeBps !== null && lifecycle.entryPrice > 0 && lifecycle.sizeOpened > 0
+            ? lifecycle.entryPrice * lifecycle.sizeOpened * (metrics.mfeBps / 10000)
+            : Number.NEGATIVE_INFINITY;
+        const peakUnrealizedPnl = Math.max(observedPeakPnl, candleMfePnl);
+        const openFlags = lifecycle.status === "OPEN"
+            ? computeOpenReviewFlags({
+                mfeBps: metrics.mfeBps,
+                currentUnrealizedPnl: latestSnapshot ? Number(latestSnapshot.unrealizedPnl ?? 0) : null,
+                peakUnrealizedPnl: Number.isFinite(peakUnrealizedPnl) ? peakUnrealizedPnl : null
+            })
+            : { openWasGreenNowRed: false, openLateGiveback: false, openGivebackPct: null };
 
         return {
             mfeBps: metrics.mfeBps,
             maeBps: metrics.maeBps,
             source: metrics.source,
             coverage: metrics.coverage,
-            flags
+            flags: {
+                observedGreenToRed: flags.observedGreenToRed,
+                lateGiveback: flags.lateGiveback,
+                givebackPct: flags.givebackPct,
+                openWasGreenNowRed: openFlags.openWasGreenNowRed,
+                openLateGiveback: openFlags.openLateGiveback,
+                openGivebackPct: openFlags.openGivebackPct,
+                closedGreenToRed: flags.observedGreenToRed,
+                closedLateGiveback: flags.lateGiveback
+            }
         };
     }
 
@@ -875,8 +1221,8 @@ function summarizeLifecycles(lifecycles: any[], fills: any[]): any {
         fees: round2(closed.reduce((sum, row) => sum + Number(row.fees ?? 0), 0)),
         winRate: closed.length ? round2((winners.length / closed.length) * 100) : 0,
         profitFactor: totalLoss > 0 ? round2(totalWin / totalLoss) : totalWin > 0 ? null : 0,
-        greenToRedCount: closed.filter(row => row.observedGreenToRed).length,
-        lateGivebackCount: closed.filter(row => row.lateGiveback).length,
+        greenToRedCount: closed.filter(row => row.closedGreenToRed ?? row.observedGreenToRed).length,
+        lateGivebackCount: closed.filter(row => row.closedLateGiveback ?? row.lateGiveback).length,
         avgHoldMinutes: closed.length
             ? round2(closed.reduce((sum, row) => sum + ((new Date(row.closedAt).getTime() - new Date(row.openedAt).getTime()) / 60_000), 0) / closed.length)
             : 0
@@ -914,6 +1260,14 @@ function lifecycleDto(row: any): any {
         observedGreenToRed: row.observedGreenToRed,
         lateGiveback: row.lateGiveback,
         givebackPct: row.givebackPct,
+        openWasGreenNowRed: row.openWasGreenNowRed,
+        openLateGiveback: row.openLateGiveback,
+        openGivebackPct: row.openGivebackPct,
+        closedGreenToRed: row.closedGreenToRed,
+        closedLateGiveback: row.closedLateGiveback,
+        closeAction: row.closeAction,
+        closeReasonCode: row.closeReasonCode,
+        closeAttemptStatus: row.closeAttemptStatus,
         attributionMethod: row.attributionMethod
     };
 }
@@ -936,6 +1290,11 @@ function runDto(run: any): any {
             side: decision.side,
             confidence: decision.confidence,
             validatorStatus: decision.validatorStatus,
+            preRiskDecision: parseJsonObject(decision.preRiskDecisionJson),
+            riskAssessment: parseJsonObject(decision.riskAssessmentJson),
+            finalDecision: parseJsonObject(decision.finalDecisionJson ?? decision.normalizedDecisionJson),
+            finalRiskPlan: parseJsonObject(decision.finalRiskPlanJson),
+            submittedOrderPlan: parseJsonObject(decision.submittedOrderPlanJson),
             orderAttempts: (decision.orderAttempts ?? []).map((attempt: any) => ({
                 id: attempt.id,
                 orderRole: attempt.orderRole,
@@ -945,6 +1304,43 @@ function runDto(run: any): any {
                 statusReason: attempt.statusReason
             }))
         }))
+    };
+}
+
+function positionManagementEventDto(row: any): any {
+    return {
+        id: row.id,
+        createdAt: row.createdAt,
+        runId: row.runId,
+        lifecycleId: row.lifecycleId,
+        positionStateId: row.positionStateId,
+        symbol: row.symbol,
+        side: row.side,
+        stateBefore: row.stateBefore,
+        stateAfter: row.stateAfter,
+        action: row.action,
+        urgency: row.urgency,
+        bypassLlm: row.bypassLlm,
+        reasonCode: row.reasonCode,
+        notes: row.notes,
+        targetSizeFractionOfEquity: row.targetSizeFractionOfEquity,
+        reduceFraction: row.reduceFraction,
+        stopReplacement: parseJsonObject(row.stopReplacementJson),
+        takeProfitReplacement: parseJsonObject(row.takeProfitReplacementJson),
+        cancelOrderOids: parseJsonObject(row.cancelOrderOidsJson),
+        evidence: parseJsonObject(row.evidenceJson)
+    };
+}
+
+function summarizePositionManagementEvents(rows: any[]): any {
+    return {
+        actionCount: rows.length,
+        urgentActionCount: rows.filter(row => row.bypassLlm && row.action !== "HOLD_POSITION" && row.action !== "NO_ACTION").length,
+        greenToRedPrevented: rows.filter(row => row.reasonCode === "OPEN_WAS_GREEN_NOW_RED").length,
+        partialProfitsTaken: rows.filter(row => row.reasonCode === "PARTIAL_TP_AFTER_MFE").length,
+        stopsRepaired: rows.filter(row => row.action === "PLACE_BREAKEVEN_STOP" || row.action === "REPLACE_STOP").length,
+        staleTpsReplaced: rows.filter(row => row.action === "REPLACE_TAKE_PROFIT").length,
+        forcedExits: rows.filter(row => row.action === "CLOSE_POSITION").length
     };
 }
 
@@ -976,6 +1372,86 @@ function codeVersion(): string | null {
 function finiteOrNull(value: unknown): number | null {
     const number = typeof value === "number" ? value : Number(value);
     return Number.isFinite(number) ? number : null;
+}
+
+function parseJsonArray(value: unknown): string[] {
+    if (Array.isArray(value)) return value.filter((item): item is string => typeof item === "string");
+    if (typeof value !== "string" || !value) return [];
+    try {
+        const parsed = JSON.parse(value);
+        return Array.isArray(parsed) ? parsed.filter((item): item is string => typeof item === "string") : [];
+    } catch {
+        return [];
+    }
+}
+
+function parseJsonObject(value: unknown): any | null {
+    if (!value) return null;
+    if (typeof value === "object") return value;
+    if (typeof value !== "string") return null;
+    try {
+        const parsed = JSON.parse(value);
+        return parsed && typeof parsed === "object" ? parsed : null;
+    } catch {
+        return null;
+    }
+}
+
+function positionStateKey(symbol: string, side: string): string {
+    return `${symbol}:${side}`;
+}
+
+function playbookFromLifecycle(lifecycle: any): string | null {
+    const raw = lifecycle?.rawDebugJson;
+    if (!raw || typeof raw !== "object") return null;
+    const value = raw.playbook ?? raw.entryPlaybook ?? raw.entry_playbook;
+    return typeof value === "string" && value.length > 0 ? value : null;
+}
+
+function estimatedPositionFeeBps(market: any, config: AgentConfig, network: AutoTraderNetwork): number {
+    const marketFee = finite(market?.derived?.costs?.fees_bps);
+    const slippage = finite(market?.derived?.costs?.slippage_bps_est);
+    const profileFee = config.network_profiles[network]?.fees_bps ?? config.position_management.global.estimatedRoundTripFeeBps;
+    return Math.max(0, marketFee ?? profileFee, 0) + Math.max(0, slippage ?? 0);
+}
+
+function marketTagsForManagedPosition(market: any): string[] {
+    const tags = new Set<string>();
+    for (const tag of market?.regime_tags ?? []) {
+        if (typeof tag === "string" && tag) tags.add(tag);
+    }
+    if (market?.news_blocked) tags.add("news_blocked");
+    if (market?.derived?.entry?.entry_ok === false) tags.add("entry_failed");
+    if (market?.derived?.risk?.eligible === false) tags.add("risk_ineligible");
+    if (market?.bbands?.expansion || market?.derived?.technicals?.bb_expansion) tags.add("bb_expansion");
+    return Array.from(tags);
+}
+
+function bookPressureAlignment(side: "long" | "short", pressure: number | null): "supportive" | "opposite" | "neutral" | "unknown" {
+    if (pressure === null) return "unknown";
+    if (Math.abs(pressure) < 0.03) return "neutral";
+    if (side === "long") return pressure > 0 ? "supportive" : "opposite";
+    return pressure < 0 ? "supportive" : "opposite";
+}
+
+function positive(value: unknown): number | null {
+    const number = finite(value);
+    return number !== null && number > 0 ? number : null;
+}
+
+function finite(value: unknown): number | null {
+    const number = typeof value === "number" ? value : Number(value);
+    return Number.isFinite(number) ? number : null;
+}
+
+function maxNullable(...values: unknown[]): number | null {
+    const numbers = values.map(finite).filter((value): value is number => value !== null);
+    return numbers.length ? Math.max(...numbers) : null;
+}
+
+function minNullable(...values: unknown[]): number | null {
+    const numbers = values.map(finite).filter((value): value is number => value !== null);
+    return numbers.length ? Math.min(...numbers) : null;
 }
 
 function errorMessage(error: unknown): string {

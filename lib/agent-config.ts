@@ -1,3 +1,6 @@
+import { mergePositionManagementConfig } from "@/lib/trader/position-management-policy";
+import type { PositionManagementConfig } from "@/lib/trader/position-management-types";
+
 export type PresetLiveMode = "live" | "limited_manual" | "non_live";
 
 export interface NetworkProfile {
@@ -53,6 +56,7 @@ export interface AgentConfig {
         vol_anchor_priority: string[];
         multipliers_by_playbook: Record<string, { sl_mult: number; tp_mult: number }>;
         regime_adjustments: Record<string, { sl_mult_factor: number; tp_mult_factor: number }>;
+        max_width_bps_by_playbook?: Record<string, Partial<Record<"RISK_ON" | "RISK_OFF" | "CHOP" | "DEFAULT", { sl_bps: number; tp_bps: number }>>>;
     };
 
     // C. Signal sensitivity (deterministic trigger thresholds)
@@ -123,6 +127,8 @@ export interface AgentConfig {
         };
     };
 
+    position_management: PositionManagementConfig;
+
     gates: {
         depth_usd_min: number;
         cost_bps_max_by_regime: {
@@ -163,7 +169,7 @@ const NETWORK_PROFILES: AgentConfig["network_profiles"] = {
 };
 
 const RISK_PLAN_MODEL: AgentConfig["risk_plan_model"] = {
-    vol_anchor_priority: ["edge.expected_move_bps", "atr_pct.m5", "atr_pct.h1", "realized_vol.m5"],
+    vol_anchor_priority: ["atr_pct.m5", "realized_vol.m5", "atr_pct.h1", "realized_vol.h1"],
     multipliers_by_playbook: {
         Momentum: { sl_mult: 1.2, tp_mult: 2.6 },
         Breakout: { sl_mult: 1.3, tp_mult: 2.8 },
@@ -175,6 +181,26 @@ const RISK_PLAN_MODEL: AgentConfig["risk_plan_model"] = {
         CHOP: { sl_mult_factor: 1.0, tp_mult_factor: 0.85 },
         RISK_ON: { sl_mult_factor: 1.0, tp_mult_factor: 1.1 },
         RISK_OFF: { sl_mult_factor: 1.05, tp_mult_factor: 1.0 }
+    },
+    max_width_bps_by_playbook: {
+        Momentum: {
+            RISK_ON: { sl_bps: 120, tp_bps: 240 },
+            RISK_OFF: { sl_bps: 100, tp_bps: 180 },
+            CHOP: { sl_bps: 80, tp_bps: 120 }
+        },
+        Breakout: {
+            RISK_ON: { sl_bps: 150, tp_bps: 300 },
+            RISK_OFF: { sl_bps: 120, tp_bps: 220 },
+            CHOP: { sl_bps: 90, tp_bps: 150 }
+        },
+        "Mean Reversion": {
+            RISK_ON: { sl_bps: 80, tp_bps: 120 },
+            RISK_OFF: { sl_bps: 70, tp_bps: 100 },
+            CHOP: { sl_bps: 60, tp_bps: 80 }
+        },
+        DEFAULT: {
+            DEFAULT: { sl_bps: 100, tp_bps: 200 }
+        }
     }
 };
 
@@ -252,6 +278,8 @@ function preset(input: {
     triggers: AgentConfig["triggers"];
     cost_sanity: AgentConfig["cost_sanity"];
     correlation: Omit<AgentConfig["correlation"], "default_group">;
+    risk_plan_model?: Partial<AgentConfig["risk_plan_model"]>;
+    position_management?: Partial<PositionManagementConfig>;
     gates?: Partial<AgentConfig["gates"]>;
 }): AgentConfig {
     const risk = { ...baseRisk(), ...input.risk };
@@ -272,7 +300,23 @@ function preset(input: {
         preset_live_mode: input.mode,
         network_profiles: NETWORK_PROFILES,
         risk,
-        risk_plan_model: RISK_PLAN_MODEL,
+        risk_plan_model: {
+            ...RISK_PLAN_MODEL,
+            ...input.risk_plan_model,
+            vol_anchor_priority: input.risk_plan_model?.vol_anchor_priority ?? RISK_PLAN_MODEL.vol_anchor_priority,
+            multipliers_by_playbook: {
+                ...RISK_PLAN_MODEL.multipliers_by_playbook,
+                ...input.risk_plan_model?.multipliers_by_playbook
+            },
+            regime_adjustments: {
+                ...RISK_PLAN_MODEL.regime_adjustments,
+                ...input.risk_plan_model?.regime_adjustments
+            },
+            max_width_bps_by_playbook: {
+                ...RISK_PLAN_MODEL.max_width_bps_by_playbook,
+                ...input.risk_plan_model?.max_width_bps_by_playbook
+            }
+        },
         triggers: input.triggers,
         cost_sanity: input.cost_sanity,
         correlation: {
@@ -281,6 +325,7 @@ function preset(input: {
         },
         regime: REGIME,
         management_policy: MANAGEMENT_POLICY,
+        position_management: mergePositionManagementConfig(input.position_management),
         gates: {
             ...defaultGates,
             ...input.gates,
@@ -544,6 +589,26 @@ export const AGENT_PRESETS: Record<string, AgentConfig> = {
             min_edge_to_cost_mult: 0.25,
             min_stop_to_cost_mult: 0.25,
             min_tp_to_cost_mult: 0.5
+        },
+        risk_plan_model: {
+            vol_anchor_priority: ["edge.expected_move_bps", "atr_pct.m5", "realized_vol.m5", "atr_pct.h1", "realized_vol.h1"],
+            max_width_bps_by_playbook: {
+                Momentum: {
+                    RISK_ON: { sl_bps: 2000, tp_bps: 2500 },
+                    RISK_OFF: { sl_bps: 2000, tp_bps: 2500 },
+                    CHOP: { sl_bps: 2000, tp_bps: 2500 }
+                },
+                Breakout: {
+                    RISK_ON: { sl_bps: 2000, tp_bps: 2500 },
+                    RISK_OFF: { sl_bps: 2000, tp_bps: 2500 },
+                    CHOP: { sl_bps: 2000, tp_bps: 2500 }
+                },
+                "Mean Reversion": {
+                    RISK_ON: { sl_bps: 2000, tp_bps: 2500 },
+                    RISK_OFF: { sl_bps: 2000, tp_bps: 2500 },
+                    CHOP: { sl_bps: 2000, tp_bps: 2500 }
+                }
+            }
         },
         correlation: {
             corr_gt_050_multiplier: 1.0,

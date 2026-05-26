@@ -248,6 +248,11 @@ model AutoTraderDecision {
   skipReason             String?
   rawLlmDecisionJson     String?
   normalizedDecisionJson String?
+  preRiskDecisionJson    String?
+  riskAssessmentJson     String?
+  finalDecisionJson      String?
+  finalRiskPlanJson      String?
+  submittedOrderPlanJson String?
   validatorStatus        String?
   validatorErrorsJson    String?
   createdAt              DateTime                 @default(now())
@@ -392,6 +397,14 @@ model AutoTraderTradeLifecycle {
   observedGreenToRed         Boolean           @default(false)
   lateGiveback               Boolean           @default(false)
   givebackPct                Float?
+  openWasGreenNowRed         Boolean           @default(false)
+  openLateGiveback           Boolean           @default(false)
+  openGivebackPct            Float?
+  closedGreenToRed           Boolean           @default(false)
+  closedLateGiveback         Boolean           @default(false)
+  closeAction                String?
+  closeReasonCode            String?
+  closeAttemptStatus         String?
   runId                      String?
   run                        AutoTraderRun?    @relation(fields: [runId], references: [id])
   fills                      AutoTraderFill[]
@@ -401,7 +414,68 @@ model AutoTraderTradeLifecycle {
   @@index([accountAddress, network, openedAt])
   @@index([symbol, status, openedAt])
   @@index([observedGreenToRed, lateGiveback])
+  @@index([openWasGreenNowRed, openLateGiveback])
+  @@index([closedGreenToRed, closedLateGiveback])
   @@index([runId])
+}
+
+model AutoTraderPositionState {
+  id                   String   @id @default(uuid())
+  accountAddress       String
+  network              String
+  lifecycleId          String?
+  symbol               String
+  side                 String
+  state                String
+  entryPrice           Float
+  openedAt             DateTime
+  highestMfeBps        Float?
+  lowestMaeBps         Float?
+  peakUnrealizedPnl    Float?
+  partialTakenFraction Float    @default(0)
+  protectedAt          DateTime?
+  lastActionAt         DateTime?
+  lastAction           String?
+  lastReasonCode       String?
+  lastStopPx           Float?
+  lastTakeProfitPx     Float?
+  policyVersion        String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@unique([accountAddress, network, symbol, side, openedAt])
+  @@index([accountAddress, network, symbol])
+  @@index([lifecycleId])
+}
+
+model AutoTraderPositionManagementEvent {
+  id                         String   @id @default(uuid())
+  accountAddress             String
+  network                    String
+  runId                      String?
+  lifecycleId                String?
+  positionStateId            String?
+  symbol                     String
+  side                       String
+  stateBefore                String
+  stateAfter                 String
+  action                     String
+  urgency                    String
+  bypassLlm                  Boolean
+  reasonCode                 String
+  notes                      String?
+  targetSizeFractionOfEquity Float?
+  reduceFraction             Float?
+  stopReplacementJson        String?
+  takeProfitReplacementJson  String?
+  cancelOrderOidsJson        String?
+  evidenceJson               String
+  createdAt                  DateTime @default(now())
+
+  @@index([accountAddress, network, createdAt])
+  @@index([symbol, createdAt])
+  @@index([lifecycleId])
+  @@index([reasonCode])
 }
 
 model WalletRiskControl {

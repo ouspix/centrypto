@@ -67,6 +67,7 @@ export type TradeDecision = {
         suggested_size_fraction?: number | null;
         validator_status?: string | null;
         validator_reason?: string | null;
+        position_manager?: unknown;
     };
 };
 

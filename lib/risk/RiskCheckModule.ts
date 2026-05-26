@@ -150,7 +150,7 @@ export class RiskCheckModule {
         }
 
         // Apply bounds to risk plan (min SL/TP + RR floor)
-        this.clampRiskPlan(decision);
+        this.clampRiskPlan(decision, snapshot);
 
         // 10. Bounds
         const slPct = Math.abs(decision.risk_plan.stop_loss_pct);
@@ -351,8 +351,11 @@ export class RiskCheckModule {
         return { approved: true, reason, modifiedOrder: approvedOrder };
     }
 
-    private clampRiskPlan(decision: TradeDecision) {
-        sharedClampRiskPlan(decision);
+    private clampRiskPlan(decision: TradeDecision, snapshot?: StateSnapshot) {
+        sharedClampRiskPlan(decision, {
+            config: snapshot?.presets?.agent,
+            regime: snapshot?.global_regime.current
+        });
     }
 
     private computeSizeFraction(confidence: number, config: AgentConfig, equity: number): number | null {

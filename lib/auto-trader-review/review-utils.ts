@@ -132,7 +132,7 @@ export function reconstructTradeLifecycles(input: {
     fills: LifecycleInputFill[];
 }): ReconstructedLifecycle[] {
     const lifecycles: ReconstructedLifecycle[] = [];
-    const openQueues: Record<string, ReconstructedLifecycle[]> = {};
+    const active: Record<string, ReconstructedLifecycle | undefined> = {};
 
     const sorted = [...input.fills].sort((a, b) => a.time.getTime() - b.time.getTime());
 
@@ -143,46 +143,66 @@ export function reconstructTradeLifecycles(input: {
 
         const fillType = fillTypeFromDir(fill.dir);
         const queueKey = `${fill.normalizedSymbol}:${lifecycleSide}`;
-        if (!openQueues[queueKey]) openQueues[queueKey] = [];
 
         if (fillType === "OPEN") {
-            const lifecycle: ReconstructedLifecycle = {
-                accountAddress: input.accountAddress,
-                network: input.network,
-                symbol: fill.normalizedSymbol,
-                side: lifecycleSide,
-                openedAt: fill.time,
-                closedAt: null,
-                status: "OPEN",
-                openFillIds: [fill.id],
-                closeFillIds: [],
-                attributedDecisionIds: uniqueNullable([fill.decisionId]),
-                attributedOrderAttemptIds: uniqueNullable([fill.orderAttemptId]),
-                entryPrice: fill.px,
-                exitPrice: null,
-                sizeOpened: fill.sz,
-                sizeClosed: 0,
-                grossRealizedPnl: 0,
-                fees: fill.fee,
-                netRealizedPnl: -fill.fee,
-                attributionMethod: lifecycleAttributionMethod([fill]),
-                rawDebugJson: { openFills: [fill.id], closeAllocations: [] }
-            };
-            lifecycles.push(lifecycle);
-            openQueues[queueKey].push(lifecycle);
+            let lifecycle = active[queueKey];
+            if (!lifecycle) {
+                lifecycle = {
+                    accountAddress: input.accountAddress,
+                    network: input.network,
+                    symbol: fill.normalizedSymbol,
+                    side: lifecycleSide,
+                    openedAt: fill.time,
+                    closedAt: null,
+                    status: "OPEN",
+                    openFillIds: [],
+                    closeFillIds: [],
+                    attributedDecisionIds: [],
+                    attributedOrderAttemptIds: [],
+                    entryPrice: fill.px,
+                    exitPrice: null,
+                    sizeOpened: 0,
+                    sizeClosed: 0,
+                    grossRealizedPnl: 0,
+                    fees: 0,
+                    netRealizedPnl: 0,
+                    attributionMethod: "UNMATCHED",
+                    closeAction: null,
+                    closeReasonCode: null,
+                    closeAttemptStatus: null,
+                    rawDebugJson: {
+                        openFills: [],
+                        openAllocations: [],
+                        entryGroups: [],
+                        closeAllocations: []
+                    }
+                };
+                lifecycles.push(lifecycle);
+                active[queueKey] = lifecycle;
+            }
+
+            const previousOpened = lifecycle.sizeOpened;
+            lifecycle.entryPrice = weightedAverage(lifecycle.entryPrice, previousOpened, fill.px, fill.sz);
+            lifecycle.sizeOpened = round6(lifecycle.sizeOpened + fill.sz);
+            lifecycle.fees = round8(lifecycle.fees + fill.fee);
+            lifecycle.netRealizedPnl = round8(lifecycle.grossRealizedPnl - lifecycle.fees);
+            lifecycle.openFillIds = unique([...lifecycle.openFillIds, fill.id]);
+            lifecycle.attributedDecisionIds = unique([...lifecycle.attributedDecisionIds, ...uniqueNullable([fill.decisionId])]);
+            lifecycle.attributedOrderAttemptIds = unique([...lifecycle.attributedOrderAttemptIds, ...uniqueNullable([fill.orderAttemptId])]);
+            lifecycle.attributionMethod = strongestAttribution(lifecycle.attributionMethod, lifecycleAttributionMethod([fill]));
+            lifecycle.rawDebugJson = appendOpenAllocation(lifecycle.rawDebugJson, fill);
             continue;
         }
 
         if (fillType !== "CLOSE") continue;
 
         let remaining = fill.sz;
-        const queue = openQueues[queueKey];
-        while (remaining > 1e-9 && queue.length > 0) {
-            const lifecycle = queue[0];
+        while (remaining > 1e-9 && active[queueKey]) {
+            const lifecycle = active[queueKey]!;
             const openRemaining = Math.max(0, lifecycle.sizeOpened - lifecycle.sizeClosed);
             const matchedSize = Math.min(openRemaining, remaining);
             if (matchedSize <= 1e-9) {
-                queue.shift();
+                active[queueKey] = undefined;
                 continue;
             }
 
@@ -191,6 +211,7 @@ export function reconstructTradeLifecycles(input: {
             const allocatedFee = fill.fee * ratio;
             const previousClosed = lifecycle.sizeClosed;
             const newClosed = previousClosed + matchedSize;
+            const closeAttribution = closeAttributionFromFill(fill);
             lifecycle.exitPrice = weightedAverage(
                 lifecycle.exitPrice,
                 previousClosed,
@@ -205,11 +226,31 @@ export function reconstructTradeLifecycles(input: {
             lifecycle.attributedDecisionIds = unique([...lifecycle.attributedDecisionIds, ...uniqueNullable([fill.decisionId])]);
             lifecycle.attributedOrderAttemptIds = unique([...lifecycle.attributedOrderAttemptIds, ...uniqueNullable([fill.orderAttemptId])]);
             lifecycle.attributionMethod = strongestAttribution(lifecycle.attributionMethod, lifecycleAttributionMethod([fill]));
+            const strongestClose = strongestCloseAttribution({
+                closeAction: lifecycle.closeAction,
+                closeReasonCode: lifecycle.closeReasonCode,
+                closeAttemptStatus: lifecycle.closeAttemptStatus
+            }, closeAttribution);
+            lifecycle.closeAction = strongestClose.closeAction;
+            lifecycle.closeReasonCode = strongestClose.closeReasonCode;
+            lifecycle.closeAttemptStatus = strongestClose.closeAttemptStatus;
             lifecycle.rawDebugJson = {
                 ...lifecycle.rawDebugJson,
                 closeAllocations: [
                     ...((lifecycle.rawDebugJson.closeAllocations as unknown[]) ?? []),
-                    { fillId: fill.id, matchedSize, allocatedPnl, allocatedFee }
+                    {
+                        fillId: fill.id,
+                        matchedSize,
+                        allocatedPnl,
+                        allocatedFee,
+                        px: fill.px,
+                        hash: fill.hash ?? null,
+                        oid: fill.oid ?? null,
+                        cloid: fill.cloid ?? null,
+                        orderAttemptId: fill.orderAttemptId ?? null,
+                        orderAttemptRole: fill.orderAttemptRole ?? null,
+                        orderAttemptStatus: fill.orderAttemptStatus ?? null
+                    }
                 ]
             };
 
@@ -217,7 +258,12 @@ export function reconstructTradeLifecycles(input: {
             if (lifecycle.sizeClosed >= lifecycle.sizeOpened - 1e-8) {
                 lifecycle.status = "CLOSED";
                 lifecycle.closedAt = fill.time;
-                queue.shift();
+                if (!lifecycle.closeAction) {
+                    lifecycle.closeAction = "CLOSE_FILL";
+                    lifecycle.closeReasonCode = "UNKNOWN";
+                    lifecycle.closeAttemptStatus = fill.orderAttemptStatus ?? (fill.orderAttemptId ? "FILLED_FROM_SYNC" : "UNMATCHED");
+                }
+                active[queueKey] = undefined;
             }
         }
     }
@@ -309,6 +355,28 @@ export function computeReviewFlags(input: {
     };
 }
 
+export function computeOpenReviewFlags(input: {
+    mfeBps: number | null;
+    currentUnrealizedPnl: number | null;
+    peakUnrealizedPnl: number | null;
+    thresholds?: ReviewThresholds;
+}): { openWasGreenNowRed: boolean; openLateGiveback: boolean; openGivebackPct: number | null } {
+    const thresholds = input.thresholds ?? DEFAULT_REVIEW_THRESHOLDS;
+    const mfeBps = input.mfeBps;
+    const current = input.currentUnrealizedPnl;
+    const peak = input.peakUnrealizedPnl;
+    if (mfeBps === null || current === null || peak === null || mfeBps <= 0 || peak <= 0) {
+        return { openWasGreenNowRed: false, openLateGiveback: false, openGivebackPct: null };
+    }
+
+    const openGivebackPct = Math.max(0, ((peak - current) / peak) * 100);
+    return {
+        openWasGreenNowRed: mfeBps >= thresholds.greenToRedMinMfeBps && current < 0,
+        openLateGiveback: mfeBps >= thresholds.lateGivebackMinMfeBps && openGivebackPct >= thresholds.lateGivebackPct,
+        openGivebackPct: round4(openGivebackPct)
+    };
+}
+
 export function safeJson(value: unknown): string {
     try {
         return JSON.stringify(value);
@@ -358,6 +426,85 @@ function lifecycleAttributionMethod(fills: LifecycleInputFill[]): AutoTraderAttr
         if (fill.attributionStatus === "UNMATCHED") method = strongestAttribution(method, "UNMATCHED");
     }
     return method;
+}
+
+function appendOpenAllocation(rawDebugJson: Record<string, unknown>, fill: LifecycleInputFill): Record<string, unknown> {
+    return {
+        ...rawDebugJson,
+        openFills: unique([...((rawDebugJson.openFills as string[]) ?? []), fill.id]),
+        openAllocations: [
+            ...((rawDebugJson.openAllocations as unknown[]) ?? []),
+            {
+                fillId: fill.id,
+                matchedSize: fill.sz,
+                px: fill.px,
+                fee: fill.fee,
+                hash: fill.hash ?? null,
+                oid: fill.oid ?? null,
+                cloid: fill.cloid ?? null,
+                orderAttemptId: fill.orderAttemptId ?? null,
+                orderAttemptRole: fill.orderAttemptRole ?? null,
+                orderAttemptStatus: fill.orderAttemptStatus ?? null
+            }
+        ],
+        entryGroups: [
+            ...((rawDebugJson.entryGroups as unknown[]) ?? []),
+            {
+                fillId: fill.id,
+                oid: fill.oid ?? null,
+                cloid: fill.cloid ?? null,
+                hash: fill.hash ?? null
+            }
+        ]
+    };
+}
+
+function closeAttributionFromFill(fill: LifecycleInputFill): { closeAction: string | null; closeReasonCode: string | null; closeAttemptStatus: string | null } {
+    const role = String(fill.orderAttemptRole ?? "").toUpperCase();
+    const status = fill.orderAttemptStatus ?? (fill.orderAttemptId ? "FILLED_FROM_SYNC" : "UNMATCHED");
+    if (role === "TAKE_PROFIT") {
+        return { closeAction: "TAKE_PROFIT_TRIGGERED", closeReasonCode: "TAKE_PROFIT", closeAttemptStatus: status };
+    }
+    if (role === "STOP_LOSS") {
+        return { closeAction: "STOP_LOSS_TRIGGERED", closeReasonCode: "STOP_LOSS", closeAttemptStatus: status };
+    }
+    if (role === "CLOSE") {
+        return { closeAction: "CLOSE_POSITION", closeReasonCode: "CLOSE_POSITION", closeAttemptStatus: status };
+    }
+    if (role === "REDUCE") {
+        return { closeAction: "REDUCE_POSITION", closeReasonCode: "REDUCE_POSITION", closeAttemptStatus: status };
+    }
+    return fill.orderAttemptId
+        ? { closeAction: "CLOSE_FILL", closeReasonCode: "UNKNOWN", closeAttemptStatus: status }
+        : { closeAction: null, closeReasonCode: null, closeAttemptStatus: null };
+}
+
+function strongestCloseAttribution(
+    current: { closeAction: string | null | undefined; closeReasonCode: string | null | undefined; closeAttemptStatus: string | null | undefined },
+    next: { closeAction: string | null; closeReasonCode: string | null; closeAttemptStatus: string | null }
+): { closeAction: string | null; closeReasonCode: string | null; closeAttemptStatus: string | null } {
+    if (!next.closeAction) {
+        return {
+            closeAction: current.closeAction ?? null,
+            closeReasonCode: current.closeReasonCode ?? null,
+            closeAttemptStatus: current.closeAttemptStatus ?? null
+        };
+    }
+    return closeAttributionRank(next.closeAction) >= closeAttributionRank(current.closeAction ?? null)
+        ? next
+        : {
+            closeAction: current.closeAction ?? null,
+            closeReasonCode: current.closeReasonCode ?? null,
+            closeAttemptStatus: current.closeAttemptStatus ?? null
+        };
+}
+
+function closeAttributionRank(action: string | null): number {
+    if (action === "TAKE_PROFIT_TRIGGERED" || action === "STOP_LOSS_TRIGGERED") return 4;
+    if (action === "CLOSE_POSITION") return 3;
+    if (action === "REDUCE_POSITION") return 2;
+    if (action === "CLOSE_FILL") return 1;
+    return 0;
 }
 
 function normalizeAttributionMethod(method: string | null | undefined): AutoTraderAttributionMethod {

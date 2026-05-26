@@ -102,7 +102,7 @@ describe("Trader-only v1 trigger scope", () => {
         expect(markets["BTC-PERP"].derived.risk.eligible_playbooks).toContain("Breakout:long");
         expect(markets["BTC-PERP"].derived.risk.eligible_playbooks).not.toContain("Discretionary Edge:long");
         expect(markets["BTC-PERP"].derived.risk.eligible_playbooks).not.toContain("Liquidity Grab:long");
-        expect(markets["BTC-PERP"].derived.risk.best_anchor_key).toBe("edge.expected_move_bps");
+        expect(markets["BTC-PERP"].derived.risk.best_anchor_key).toBe("atr_pct.m5");
     });
 
     it("only creates mean-reversion candidates in CHOP", () => {
