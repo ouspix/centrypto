@@ -14,11 +14,19 @@ const mockReviewService = vi.hoisted(() => ({
     updateDecisionSubmittedOrderPlan: vi.fn(),
     createOrderAttempts: vi.fn(),
     updateRunAgentWalletFromDecision: vi.fn(),
+    updateRunAgentWallet: vi.fn(),
     updateOrderAttemptsFromResponse: vi.fn(),
+    syncFills: vi.fn(),
+    getAttemptFillSummary: vi.fn(),
+    buildBracketOrderAttemptDrafts: vi.fn(),
+    createPositionManagerDecision: vi.fn(),
+    upsertPositionStateAfterEntryFill: vi.fn(),
     buildOrderAttemptDrafts: vi.fn()
 }));
 const mockOrderService = vi.hoisted(() => ({
-    getOpenOrders: vi.fn()
+    getOpenOrders: vi.fn(),
+    cancelOcoSiblingOrders: vi.fn(),
+    cancelOrders: vi.fn()
 }));
 
 vi.mock("@/services/SnapshotBuilder", () => ({
@@ -75,6 +83,7 @@ vi.mock("@/lib/hyperliquid-api-wallet", () => ({
 vi.mock("@/lib/hyperliquid-execution", () => ({
     nextExchangeNonce: vi.fn(() => 1770000000000),
     placeOrderWithPrivateKey: vi.fn(),
+    placeTriggerOrdersWithPrivateKey: vi.fn(),
     updateLeverageWithPrivateKey: vi.fn()
 }));
 

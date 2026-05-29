@@ -14,57 +14,118 @@ import { toast } from "sonner";
 interface ConfigEditorProps {
     initialConfig?: AgentConfig;
     initialPreset?: string;
-    onSave: (config: AgentConfig, presetName: string) => void;
+    onSave: (config: AgentConfig, presetName: string) => void | Promise<void>;
     onCancel: () => void;
 }
 
-export function ConfigEditor({ initialConfig, initialPreset, onSave, onCancel }: ConfigEditorProps) {
-    const cloneConfig = (value: AgentConfig): AgentConfig => JSON.parse(JSON.stringify(value));
-    const [config, setConfig] = useState<AgentConfig>(() => {
-        // Deep merge initialConfig with defaults to ensure new fields (like triggers) exist
-        const merged: AgentConfig = {
-            ...DEFAULT_AGENT_CONFIG,
-            ...initialConfig,
-            triggers: {
-                momentum: { ...DEFAULT_AGENT_CONFIG.triggers.momentum, ...(initialConfig?.triggers?.momentum || {}) },
-                mean_reversion: { ...DEFAULT_AGENT_CONFIG.triggers.mean_reversion, ...(initialConfig?.triggers?.mean_reversion || {}) },
-                breakout: { ...DEFAULT_AGENT_CONFIG.triggers.breakout, ...(initialConfig?.triggers?.breakout || {}) }
-            },
-            risk: {
-                ...DEFAULT_AGENT_CONFIG.risk,
-                ...(initialConfig?.risk || {})
-            },
-            cost_sanity: {
-                ...DEFAULT_AGENT_CONFIG.cost_sanity,
-                ...(initialConfig?.cost_sanity || {})
-            },
-            correlation: {
-                ...DEFAULT_AGENT_CONFIG.correlation,
-                ...(initialConfig?.correlation || {})
-            },
-            regime: {
-                ...DEFAULT_AGENT_CONFIG.regime,
-                ...(initialConfig?.regime || {})
-            },
-            risk_plan_model: {
-                ...DEFAULT_AGENT_CONFIG.risk_plan_model,
-                ...(initialConfig?.risk_plan_model || {}),
-                vol_anchor_priority: initialConfig?.risk_plan_model?.vol_anchor_priority ?? DEFAULT_AGENT_CONFIG.risk_plan_model.vol_anchor_priority,
-                multipliers_by_playbook: {
-                    ...DEFAULT_AGENT_CONFIG.risk_plan_model.multipliers_by_playbook,
-                    ...(initialConfig?.risk_plan_model?.multipliers_by_playbook || {})
+const cloneConfig = (value: AgentConfig): AgentConfig => JSON.parse(JSON.stringify(value));
+
+function mergeEditorConfig(initialConfig?: AgentConfig): AgentConfig {
+    const merged: AgentConfig = {
+        ...DEFAULT_AGENT_CONFIG,
+        ...initialConfig,
+        triggers: {
+            momentum: { ...DEFAULT_AGENT_CONFIG.triggers.momentum, ...(initialConfig?.triggers?.momentum || {}) },
+            mean_reversion: { ...DEFAULT_AGENT_CONFIG.triggers.mean_reversion, ...(initialConfig?.triggers?.mean_reversion || {}) },
+            breakout: { ...DEFAULT_AGENT_CONFIG.triggers.breakout, ...(initialConfig?.triggers?.breakout || {}) }
+        },
+        risk: {
+            ...DEFAULT_AGENT_CONFIG.risk,
+            ...(initialConfig?.risk || {})
+        },
+        cost_sanity: {
+            ...DEFAULT_AGENT_CONFIG.cost_sanity,
+            ...(initialConfig?.cost_sanity || {})
+        },
+        correlation: {
+            ...DEFAULT_AGENT_CONFIG.correlation,
+            ...(initialConfig?.correlation || {})
+        },
+        regime: {
+            chop: { ...DEFAULT_AGENT_CONFIG.regime.chop, ...(initialConfig?.regime?.chop || {}) },
+            risk_on_off: { ...DEFAULT_AGENT_CONFIG.regime.risk_on_off, ...(initialConfig?.regime?.risk_on_off || {}) }
+        },
+        management_policy: {
+            ...DEFAULT_AGENT_CONFIG.management_policy,
+            ...(initialConfig?.management_policy || {}),
+            playbook_aware: {
+                momentum: {
+                    ...DEFAULT_AGENT_CONFIG.management_policy.playbook_aware.momentum,
+                    ...(initialConfig?.management_policy?.playbook_aware?.momentum || {})
                 },
-                regime_adjustments: {
-                    ...DEFAULT_AGENT_CONFIG.risk_plan_model.regime_adjustments,
-                    ...(initialConfig?.risk_plan_model?.regime_adjustments || {})
+                breakout: {
+                    ...DEFAULT_AGENT_CONFIG.management_policy.playbook_aware.breakout,
+                    ...(initialConfig?.management_policy?.playbook_aware?.breakout || {})
+                },
+                mean_reversion: {
+                    ...DEFAULT_AGENT_CONFIG.management_policy.playbook_aware.mean_reversion,
+                    ...(initialConfig?.management_policy?.playbook_aware?.mean_reversion || {})
+                },
+                fallback: {
+                    ...DEFAULT_AGENT_CONFIG.management_policy.playbook_aware.fallback,
+                    ...(initialConfig?.management_policy?.playbook_aware?.fallback || {})
                 }
             }
-        };
-        merged.risk.max_position_fraction = merged.risk.max_position_fraction ?? merged.risk.max_position_fraction_per_symbol;
-        merged.risk.max_position_fraction_per_symbol = merged.risk.max_position_fraction_per_symbol ?? merged.risk.max_position_fraction;
-        return cloneConfig(merged);
-    });
+        },
+        strategy_filters: {
+            ...DEFAULT_AGENT_CONFIG.strategy_filters,
+            ...(initialConfig?.strategy_filters || {}),
+            playbookBlocklist: initialConfig?.strategy_filters?.playbookBlocklist ?? DEFAULT_AGENT_CONFIG.strategy_filters.playbookBlocklist,
+            symbolSideBlocklist: initialConfig?.strategy_filters?.symbolSideBlocklist ?? DEFAULT_AGENT_CONFIG.strategy_filters.symbolSideBlocklist
+        },
+        position_management: initialConfig?.position_management ?? DEFAULT_AGENT_CONFIG.position_management,
+        sentiment_policy: {
+            ...DEFAULT_AGENT_CONFIG.sentiment_policy,
+            ...(initialConfig?.sentiment_policy || {}),
+            tag_blocklist: initialConfig?.sentiment_policy?.tag_blocklist ?? DEFAULT_AGENT_CONFIG.sentiment_policy.tag_blocklist,
+            penalty_multipliers: {
+                ...DEFAULT_AGENT_CONFIG.sentiment_policy.penalty_multipliers,
+                ...(initialConfig?.sentiment_policy?.penalty_multipliers || {})
+            },
+            decay_windows: {
+                ...DEFAULT_AGENT_CONFIG.sentiment_policy.decay_windows,
+                ...(initialConfig?.sentiment_policy?.decay_windows || {})
+            }
+        },
+        risk_plan_model: {
+            ...DEFAULT_AGENT_CONFIG.risk_plan_model,
+            ...(initialConfig?.risk_plan_model || {}),
+            vol_anchor_priority: initialConfig?.risk_plan_model?.vol_anchor_priority ?? DEFAULT_AGENT_CONFIG.risk_plan_model.vol_anchor_priority,
+            multipliers_by_playbook: {
+                ...DEFAULT_AGENT_CONFIG.risk_plan_model.multipliers_by_playbook,
+                ...(initialConfig?.risk_plan_model?.multipliers_by_playbook || {})
+            },
+            regime_adjustments: {
+                ...DEFAULT_AGENT_CONFIG.risk_plan_model.regime_adjustments,
+                ...(initialConfig?.risk_plan_model?.regime_adjustments || {})
+            },
+            max_width_bps_by_playbook: {
+                ...DEFAULT_AGENT_CONFIG.risk_plan_model.max_width_bps_by_playbook,
+                ...(initialConfig?.risk_plan_model?.max_width_bps_by_playbook || {})
+            },
+            min_width_bps_by_playbook: {
+                ...DEFAULT_AGENT_CONFIG.risk_plan_model.min_width_bps_by_playbook,
+                ...(initialConfig?.risk_plan_model?.min_width_bps_by_playbook || {})
+            }
+        },
+        trade_cooldowns: {
+            ...DEFAULT_AGENT_CONFIG.trade_cooldowns,
+            ...(initialConfig?.trade_cooldowns || {})
+        }
+    };
+    merged.risk.max_position_fraction = merged.risk.max_position_fraction ?? merged.risk.max_position_fraction_per_symbol;
+    merged.risk.max_position_fraction_per_symbol = merged.risk.max_position_fraction_per_symbol ?? merged.risk.max_position_fraction;
+    return cloneConfig(merged);
+}
+
+export function ConfigEditor({ initialConfig, initialPreset, onSave, onCancel }: ConfigEditorProps) {
+    const [config, setConfig] = useState<AgentConfig>(() => mergeEditorConfig(initialConfig));
     const [preset, setPreset] = useState<string>(initialPreset || 'default');
+
+    useEffect(() => {
+        setConfig(mergeEditorConfig(initialConfig));
+        setPreset(initialPreset || 'default');
+    }, [initialConfig, initialPreset]);
 
     // Helper to update nested state
     const updateConfig = (path: string, value: any) => {
@@ -81,9 +142,13 @@ export function ConfigEditor({ initialConfig, initialPreset, onSave, onCancel }:
         setPreset('custom');
     };
 
-    const handleSave = () => {
-        onSave(config, preset);
-        toast.success("Configuration saved");
+    const handleSave = async () => {
+        try {
+            await onSave(config, preset);
+            toast.success("Configuration saved");
+        } catch (error) {
+            toast.error(error instanceof Error ? error.message : "Failed to save configuration");
+        }
     };
 
     const handleReset = () => {
@@ -127,7 +192,52 @@ export function ConfigEditor({ initialConfig, initialPreset, onSave, onCancel }:
             },
             cost_sanity: { ...DEFAULT_AGENT_CONFIG.cost_sanity, ...(presetCfg.cost_sanity || {}) },
             correlation: { ...DEFAULT_AGENT_CONFIG.correlation, ...(presetCfg.correlation || {}) },
-            regime: { ...DEFAULT_AGENT_CONFIG.regime, ...(presetCfg.regime || {}) },
+            regime: {
+                chop: { ...DEFAULT_AGENT_CONFIG.regime.chop, ...(presetCfg.regime?.chop || {}) },
+                risk_on_off: { ...DEFAULT_AGENT_CONFIG.regime.risk_on_off, ...(presetCfg.regime?.risk_on_off || {}) }
+            },
+            management_policy: {
+                ...DEFAULT_AGENT_CONFIG.management_policy,
+                ...(presetCfg.management_policy || {}),
+                playbook_aware: {
+                    momentum: {
+                        ...DEFAULT_AGENT_CONFIG.management_policy.playbook_aware.momentum,
+                        ...(presetCfg.management_policy?.playbook_aware?.momentum || {})
+                    },
+                    breakout: {
+                        ...DEFAULT_AGENT_CONFIG.management_policy.playbook_aware.breakout,
+                        ...(presetCfg.management_policy?.playbook_aware?.breakout || {})
+                    },
+                    mean_reversion: {
+                        ...DEFAULT_AGENT_CONFIG.management_policy.playbook_aware.mean_reversion,
+                        ...(presetCfg.management_policy?.playbook_aware?.mean_reversion || {})
+                    },
+                    fallback: {
+                        ...DEFAULT_AGENT_CONFIG.management_policy.playbook_aware.fallback,
+                        ...(presetCfg.management_policy?.playbook_aware?.fallback || {})
+                    }
+                }
+            },
+            strategy_filters: {
+                ...DEFAULT_AGENT_CONFIG.strategy_filters,
+                ...(presetCfg.strategy_filters || {}),
+                playbookBlocklist: presetCfg.strategy_filters?.playbookBlocklist ?? DEFAULT_AGENT_CONFIG.strategy_filters.playbookBlocklist,
+                symbolSideBlocklist: presetCfg.strategy_filters?.symbolSideBlocklist ?? DEFAULT_AGENT_CONFIG.strategy_filters.symbolSideBlocklist
+            },
+            position_management: presetCfg.position_management ?? DEFAULT_AGENT_CONFIG.position_management,
+            sentiment_policy: {
+                ...DEFAULT_AGENT_CONFIG.sentiment_policy,
+                ...(presetCfg.sentiment_policy || {}),
+                tag_blocklist: presetCfg.sentiment_policy?.tag_blocklist ?? DEFAULT_AGENT_CONFIG.sentiment_policy.tag_blocklist,
+                penalty_multipliers: {
+                    ...DEFAULT_AGENT_CONFIG.sentiment_policy.penalty_multipliers,
+                    ...(presetCfg.sentiment_policy?.penalty_multipliers || {})
+                },
+                decay_windows: {
+                    ...DEFAULT_AGENT_CONFIG.sentiment_policy.decay_windows,
+                    ...(presetCfg.sentiment_policy?.decay_windows || {})
+                }
+            },
             risk_plan_model: {
                 ...DEFAULT_AGENT_CONFIG.risk_plan_model,
                 ...(presetCfg as any).risk_plan_model,
@@ -139,7 +249,19 @@ export function ConfigEditor({ initialConfig, initialPreset, onSave, onCancel }:
                 regime_adjustments: {
                     ...DEFAULT_AGENT_CONFIG.risk_plan_model.regime_adjustments,
                     ...(presetCfg as any).risk_plan_model?.regime_adjustments
+                },
+                max_width_bps_by_playbook: {
+                    ...DEFAULT_AGENT_CONFIG.risk_plan_model.max_width_bps_by_playbook,
+                    ...(presetCfg as any).risk_plan_model?.max_width_bps_by_playbook
+                },
+                min_width_bps_by_playbook: {
+                    ...DEFAULT_AGENT_CONFIG.risk_plan_model.min_width_bps_by_playbook,
+                    ...(presetCfg as any).risk_plan_model?.min_width_bps_by_playbook
                 }
+            },
+            trade_cooldowns: {
+                ...DEFAULT_AGENT_CONFIG.trade_cooldowns,
+                ...((presetCfg as any).trade_cooldowns || {})
             },
             network_profiles: { ...DEFAULT_AGENT_CONFIG.network_profiles, ...(presetCfg as any).network_profiles }
         }));

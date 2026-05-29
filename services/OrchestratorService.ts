@@ -18,7 +18,7 @@ import {
     isPlaybookAllowed,
 } from "@/lib/risk/shared";
 import { parseTraderResponse } from "@/lib/llm/LlmResponseParser";
-import { nextExchangeNonce, placeOrderWithPrivateKey, updateLeverageWithPrivateKey } from "@/lib/hyperliquid-execution";
+import { nextExchangeNonce, placeOrderWithPrivateKey, placeTriggerOrdersWithPrivateKey, updateLeverageWithPrivateKey } from "@/lib/hyperliquid-execution";
 import {
     deriveHyperliquidApiWalletAddress,
     getUserHyperliquidApiWalletCredential,
@@ -43,7 +43,8 @@ import { redactSensitive, safeError } from "@/lib/log/safeLogger";
 import { traderError, traderLog, traderWarn } from "@/lib/log/traderLog";
 import { AutoTraderReviewService } from "@/services/AutoTraderReviewService";
 import { AutoTraderOrderManagementService } from "@/services/AutoTraderOrderManagementService";
-import { extractOrderResponseStatus, hashJson } from "@/lib/auto-trader-review/review-utils";
+import { extractFilledOrderResponseSummary, extractOrderResponseStatus, hashJson } from "@/lib/auto-trader-review/review-utils";
+import type { PositionManagementAction } from "@/lib/trader/position-management-types";
 
 import OpenAI from "openai";
 
@@ -70,6 +71,7 @@ export class AnalysisJobLimitError extends Error {
 export class OrchestratorService {
     private static instance: OrchestratorService;
     private static readonly jobSchedulingLocks = new Map<string, Promise<void>>();
+    private static readonly positionManagerLoops = new Map<string, NodeJS.Timeout>();
     private ollamaUrl: string;
     private openRouterClient: OpenAI | null = null;
     private snapshotBuilder: SnapshotBuilder;
@@ -404,6 +406,23 @@ export class OrchestratorService {
         const prePositionSnapshotIds = await this.reviewService.snapshotPositions(reviewRunId, "PRE_DECISION", snapshot);
 
         const network: "testnet" | "mainnet" = isTestnet ? "testnet" : "mainnet";
+        if (autoTrading && userAddress) {
+            try {
+                const credential = await resolveExecutionCredential(userAddress, isTestnet);
+                if (credential) {
+                    await this.reviewService.updateRunAgentWallet(reviewRunId, credential.apiWalletAddress);
+                    await this.syncAndReconcileAfterExecution({
+                        userAddress,
+                        network,
+                        credential,
+                        snapshot,
+                        startTimeMs: Date.now() - 30 * 60_000
+                    });
+                }
+            } catch (error) {
+                traderWarn("⚠️ Pre-cycle fill sync/OCO reconciliation skipped:", logScope, error);
+            }
+        }
         const positionManagementInput = userAddress
             ? {
                 accountAddress: userAddress,
@@ -429,6 +448,16 @@ export class OrchestratorService {
                 result: positionManagement
             });
         }
+        if (autoTrading && userAddress) {
+            await this.executePositionManagerOrderActions({
+                actions: positionManagement.actions,
+                snapshot,
+                config,
+                isTestnet,
+                userAddress,
+                runId: reviewRunId
+            });
+        }
         if (positionManagement.portfolioFlags.blockNewEntries) {
             snapshot.constraints.max_new_trades_allowed = 0;
             snapshot.constraints.max_new_entries_allowed = 0;
@@ -441,7 +470,7 @@ export class OrchestratorService {
             .filter((decision): decision is TradeDecision => !!decision);
 
         const profile = this.resolveProfileName(configOverride);
-        const { context, diagnostics } = await this.traderContextBuilder.build(snapshot, config, isTestnet, profile);
+        const { context, diagnostics } = await this.traderContextBuilder.build(snapshot, config, isTestnet, profile, userAddress);
         if (lockedSymbols.size > 0) {
             context.existing_positions = context.existing_positions.filter(position => !lockedSymbols.has(position.symbol));
         }
@@ -648,6 +677,7 @@ export class OrchestratorService {
         if (!userAddress) {
             return { success: false, status: "failed", error: "Wallet session required for execution" };
         }
+        const network: "testnet" | "mainnet" = isTestnet ? "testnet" : "mainnet";
 
         try {
             await assertWalletExecutionAllowed(userAddress, isTestnet);
@@ -691,13 +721,14 @@ export class OrchestratorService {
 
             const nonce = nextExchangeNonce();
 
-            let stopLossPrice: number | undefined;
-            let takeProfitPrice: number | undefined;
+            const positionSide = isBuy ? "long" as const : "short" as const;
+            let plannedStopLossPrice: number | undefined;
+            let plannedTakeProfitPrice: number | undefined;
             if (!reduceOnly && decision.risk_plan) {
                 const slPct = Math.abs(decision.risk_plan.stop_loss_pct);
                 const tpPct = Math.abs(decision.risk_plan.take_profit_pct_primary);
-                stopLossPrice = isBuy ? currentPrice * (1 - slPct) : currentPrice * (1 + slPct);
-                takeProfitPrice = isBuy ? currentPrice * (1 + tpPct) : currentPrice * (1 - tpPct);
+                plannedStopLossPrice = isBuy ? currentPrice * (1 - slPct) : currentPrice * (1 + slPct);
+                plannedTakeProfitPrice = isBuy ? currentPrice * (1 + tpPct) : currentPrice * (1 - tpPct);
             }
 
             const attemptDrafts = this.reviewService.buildOrderAttemptDrafts({
@@ -709,16 +740,16 @@ export class OrchestratorService {
                 limitPx,
                 isBuy,
                 reduceOnly,
-                stopLossPrice,
-                takeProfitPrice,
+                stopLossPrice: undefined,
+                takeProfitPrice: undefined,
                 nonce,
                 requestHashSeed: {
                     assetIndex,
                     decision,
                     order: riskAssessment.modifiedOrder,
                     limitPx,
-                    stopLossPrice,
-                    takeProfitPrice
+                    plannedStopLossPrice,
+                    plannedTakeProfitPrice
                 }
             });
             await this.reviewService.updateDecisionSubmittedOrderPlan(reviewDecisionId ?? null, {
@@ -727,8 +758,8 @@ export class OrchestratorService {
                 order: riskAssessment.modifiedOrder,
                 currentPrice,
                 limitPx,
-                stopLossPrice: stopLossPrice ?? null,
-                takeProfitPrice: takeProfitPrice ?? null,
+                plannedStopLossPrice: plannedStopLossPrice ?? null,
+                plannedTakeProfitPrice: plannedTakeProfitPrice ?? null,
                 reduceOnly,
                 drafts: attemptDrafts
             });
@@ -736,8 +767,6 @@ export class OrchestratorService {
             await this.reviewService.updateRunAgentWalletFromDecision(reviewDecisionId ?? null, credential.apiWalletAddress);
             const cloids = {
                 entry: attemptDrafts.find(attempt => attempt.orderRole === "ENTRY" || attempt.orderRole === "REDUCE" || attempt.orderRole === "CLOSE")?.cloid as `0x${string}` | undefined,
-                stopLoss: attemptDrafts.find(attempt => attempt.orderRole === "STOP_LOSS")?.cloid as `0x${string}` | undefined,
-                takeProfit: attemptDrafts.find(attempt => attempt.orderRole === "TAKE_PROFIT")?.cloid as `0x${string}` | undefined
             };
             const submittedAt = new Date();
 
@@ -751,8 +780,6 @@ export class OrchestratorService {
                         limitPx,
                         sz,
                         reduceOnly,
-                        stopLossPrice,
-                        takeProfitPrice,
                         nonce,
                         cloids,
                         tif: reduceOnly ? "Ioc" : "Ioc"
@@ -782,6 +809,158 @@ export class OrchestratorService {
                 }
                 await new Promise(resolve => setTimeout(resolve, 500));
                 const mainStatus = extractOrderResponseStatus(result, 0);
+                if (mainStatus.status === "FAILED" || mainStatus.status === "ERROR") {
+                    return { success: false, status: "failed", error: mainStatus.reason ?? "entry order failed" };
+                }
+                const syncStartMs = submittedAt.getTime() - 60_000;
+                await this.syncAndReconcileAfterExecution({
+                    userAddress,
+                    network,
+                    credential,
+                    snapshot,
+                    startTimeMs: syncStartMs
+                });
+
+                if (!reduceOnly && decision.action === "OPEN_POSITION" && decision.risk_plan) {
+                    const responseFill = extractFilledOrderResponseSummary(result, 0);
+                    const dbFill = await this.reviewService.getAttemptFillSummary(attemptIds[0] ?? null);
+                    const fill = responseFill
+                        ? {
+                            avgPx: responseFill.avgPx,
+                            totalSz: responseFill.totalSz,
+                            totalFee: dbFill?.totalFee ?? 0,
+                            notionalUsd: responseFill.avgPx * responseFill.totalSz,
+                            firstFillAt: dbFill?.firstFillAt ?? submittedAt
+                        }
+                        : dbFill;
+
+                    if (!fill || fill.totalSz <= 0 || fill.avgPx <= 0) {
+                        await this.reviewService.updateDecisionSubmittedOrderPlan(reviewDecisionId ?? null, {
+                            symbol: decision.symbol ?? riskAssessment.modifiedOrder.symbol,
+                            action: decision.action,
+                            order: riskAssessment.modifiedOrder,
+                            currentPrice,
+                            limitPx,
+                            reduceOnly,
+                            entryOnly: true,
+                            fillConfirmed: false,
+                            reason: "entry fill not confirmed; bracket not placed",
+                            drafts: attemptDrafts,
+                            response: result
+                        });
+                        return {
+                            success: true,
+                            status: "entry_submitted_no_fill",
+                            orderId: mainStatus.oid ?? undefined,
+                            cloid: cloids.entry,
+                            requestHash: hashJson({ decision, order: riskAssessment.modifiedOrder, nonce })
+                        };
+                    }
+
+                    const slPct = Math.abs(decision.risk_plan.stop_loss_pct);
+                    const tpPct = Math.abs(decision.risk_plan.take_profit_pct_primary);
+                    const actualStopLossPrice = isBuy ? fill.avgPx * (1 - slPct) : fill.avgPx * (1 + slPct);
+                    const actualTakeProfitPrice = isBuy ? fill.avgPx * (1 + tpPct) : fill.avgPx * (1 - tpPct);
+                    const bracketNonce = nextExchangeNonce();
+                    const bracketDrafts = this.reviewService.buildBracketOrderAttemptDrafts({
+                        symbol: decision.symbol ?? riskAssessment.modifiedOrder.symbol,
+                        positionSide,
+                        sizeCoin: fill.totalSz,
+                        sizeUsd: fill.notionalUsd,
+                        stopLossPrice: actualStopLossPrice,
+                        takeProfitPrice: actualTakeProfitPrice,
+                        nonce: bracketNonce,
+                        requestHashSeed: {
+                            assetIndex,
+                            decision,
+                            order: riskAssessment.modifiedOrder,
+                            entryAttemptId: attemptIds[0] ?? null,
+                            avgFillPrice: fill.avgPx,
+                            filledSizeCoin: fill.totalSz,
+                            stopLossPrice: actualStopLossPrice,
+                            takeProfitPrice: actualTakeProfitPrice
+                        }
+                    });
+                    const bracketAttemptIds = await this.reviewService.createOrderAttempts(reviewDecisionId ?? null, bracketDrafts);
+                    const bracketCloids = {
+                        stopLoss: bracketDrafts.find(attempt => attempt.orderRole === "STOP_LOSS")?.cloid as `0x${string}` | undefined,
+                        takeProfit: bracketDrafts.find(attempt => attempt.orderRole === "TAKE_PROFIT")?.cloid as `0x${string}` | undefined
+                    };
+                    let bracketResult: any = null;
+                    const bracketSubmittedAt = new Date();
+                    try {
+                        bracketResult = await placeTriggerOrdersWithPrivateKey(
+                            credential.privateKey,
+                            {
+                                asset: assetIndex,
+                                positionSide,
+                                sz: fill.totalSz,
+                                stopLossPrice: actualStopLossPrice,
+                                takeProfitPrice: actualTakeProfitPrice,
+                                nonce: bracketNonce,
+                                cloids: bracketCloids
+                            },
+                            isTestnet
+                        );
+                        await this.reviewService.updateOrderAttemptsFromResponse({
+                            attemptIds: bracketAttemptIds,
+                            response: bracketResult,
+                            submittedAt: bracketSubmittedAt,
+                            exchangeReceivedAt: new Date()
+                        });
+                    } catch (error) {
+                        await this.reviewService.updateOrderAttemptsFromResponse({
+                            attemptIds: bracketAttemptIds,
+                            response: null,
+                            submittedAt: bracketSubmittedAt,
+                            exchangeReceivedAt: new Date(),
+                            error
+                        });
+                        throw error;
+                    }
+
+                    await this.reviewService.updateDecisionSubmittedOrderPlan(reviewDecisionId ?? null, {
+                        symbol: decision.symbol ?? riskAssessment.modifiedOrder.symbol,
+                        action: decision.action,
+                        order: riskAssessment.modifiedOrder,
+                        currentPrice,
+                        limitPx,
+                        reduceOnly,
+                        entry: {
+                            avgFillPrice: fill.avgPx,
+                            filledSizeCoin: fill.totalSz,
+                            filledNotionalUsd: fill.notionalUsd,
+                            entryFees: fill.totalFee,
+                            firstFillAt: fill.firstFillAt
+                        },
+                        stopLossPrice: actualStopLossPrice,
+                        takeProfitPrice: actualTakeProfitPrice,
+                        entryDrafts: attemptDrafts,
+                        bracketDrafts,
+                        entryResponse: result,
+                        bracketResponse: bracketResult
+                    });
+                    await this.reviewService.upsertPositionStateAfterEntryFill({
+                        accountAddress: userAddress,
+                        network,
+                        symbol: decision.symbol ?? riskAssessment.modifiedOrder.symbol,
+                        side: positionSide,
+                        entryPrice: fill.avgPx,
+                        openedAt: fill.firstFillAt,
+                        policyVersion: config.position_management.version
+                    });
+                    this.schedulePostFillPositionManagerLoop({
+                        accountAddress: userAddress,
+                        network,
+                        symbol: decision.symbol ?? riskAssessment.modifiedOrder.symbol,
+                        side: positionSide,
+                        model: "POSITION_MANAGER",
+                        isTestnet,
+                        config,
+                        screenerConfig: snapshot.presets?.screening ?? DEFAULT_SCREENER_CONFIG
+                    });
+                }
+
                 return {
                     success: true,
                     status: "submitted",
@@ -796,6 +975,327 @@ export class OrchestratorService {
             safeError("Auto-trading execution failed", error);
             return { success: false, status: "error", error: error.message || String(error) };
         }
+    }
+
+    private async syncAndReconcileAfterExecution(input: {
+        userAddress: string;
+        network: "mainnet" | "testnet";
+        credential: { privateKey: string; apiWalletAddress: string | null };
+        snapshot: StateSnapshot;
+        startTimeMs: number;
+    }): Promise<void> {
+        try {
+            await this.reviewService.syncFills({
+                accountAddress: input.userAddress,
+                agentWalletAddress: input.credential.apiWalletAddress,
+                network: input.network,
+                startTimeMs: input.startTimeMs,
+                endTimeMs: Date.now() + 2_000
+            });
+            await this.orderManagementService.cancelOcoSiblingOrders({
+                accountAddress: input.userAddress,
+                network: input.network,
+                privateKey: input.credential.privateKey,
+                assetIndexBySymbol: assetIndexMapFromSnapshot(input.snapshot)
+            });
+        } catch (error) {
+            traderWarn("⚠️ Post-execution fill sync/OCO reconciliation failed:", undefined, error);
+        }
+    }
+
+    private async executePositionManagerOrderActions(input: {
+        actions: PositionManagementAction[];
+        snapshot: StateSnapshot;
+        config: AgentConfig;
+        isTestnet: boolean;
+        userAddress: string;
+        runId: string | null;
+    }): Promise<void> {
+        const repairActions = input.actions.filter(action => isPositionManagerOrderAction(action.action) && action.bypassLlm);
+        if (!repairActions.length) return;
+
+        let credential: { privateKey: string; mode: "user_api_wallet" | "server_dev_testnet_bot"; apiWalletAddress: string | null } | null;
+        try {
+            await assertWalletExecutionAllowed(input.userAddress, input.isTestnet);
+            credential = await resolveExecutionCredential(input.userAddress, input.isTestnet);
+        } catch (error) {
+            traderWarn("⚠️ Position manager order repair skipped; execution credential unavailable:", undefined, error);
+            return;
+        }
+        if (!credential) return;
+
+        for (const action of repairActions) {
+            await this.executePositionManagerOrderAction({
+                action,
+                snapshot: input.snapshot,
+                config: input.config,
+                isTestnet: input.isTestnet,
+                userAddress: input.userAddress,
+                runId: input.runId,
+                privateKey: credential.privateKey,
+                apiWalletAddress: credential.apiWalletAddress
+            });
+        }
+    }
+
+    private async executePositionManagerOrderAction(input: {
+        action: PositionManagementAction;
+        snapshot: StateSnapshot;
+        config: AgentConfig;
+        isTestnet: boolean;
+        userAddress: string;
+        runId: string | null;
+        privateKey: string;
+        apiWalletAddress: string | null;
+    }): Promise<void> {
+        const network: "mainnet" | "testnet" = input.isTestnet ? "testnet" : "mainnet";
+        const market = input.snapshot.markets[input.action.symbol];
+        const asset = market?.assetIndex;
+        const position = input.snapshot.account.current_positions.find(p => p.symbol === input.action.symbol && p.side === input.action.side);
+        if (asset === undefined || !position) return;
+
+        const decisionId = await this.reviewService.createPositionManagerDecision({
+            runId: input.runId,
+            action: input.action
+        });
+        await this.reviewService.updateRunAgentWalletFromDecision(decisionId, input.apiWalletAddress);
+
+        const cancelOids = uniqueStrings([
+            ...(input.action.cancelOrderOids ?? []),
+            ...(input.action.stopReplacement?.cancelExistingStopOids ?? []),
+            ...(input.action.takeProfitReplacement?.cancelExistingTakeProfitOids ?? [])
+        ]);
+        const numericCancelOids = cancelOids.filter(oid => Number.isFinite(Number(oid)));
+        if (numericCancelOids.length > 0) {
+            try {
+                await this.orderManagementService.cancelOrders({
+                    accountAddress: input.userAddress,
+                    network,
+                    privateKey: input.privateKey,
+                    orders: numericCancelOids.map(oid => ({ asset, oid })),
+                    status: input.action.action === "CANCEL_STALE_ORDER" ? "CANCELED" : "REPLACED",
+                    reason: input.action.reasonCode
+                });
+            } catch (error) {
+                traderWarn("⚠️ Position manager cancel failed:", undefined, error);
+            }
+        }
+
+        if (input.action.action === "CANCEL_STALE_ORDER") {
+            await this.reviewService.updateDecisionSubmittedOrderPlan(decisionId, {
+                action: input.action,
+                canceledOids: numericCancelOids
+            });
+            return;
+        }
+
+        const stopLossPrice = input.action.stopReplacement?.stopPx;
+        const takeProfitPrice = input.action.takeProfitReplacement?.takeProfitPx;
+        if (!stopLossPrice && !takeProfitPrice) return;
+
+        const nonce = nextExchangeNonce();
+        const sizeCoin = position.size_coin;
+        const sizeUsd = position.size_usd;
+        if (!sizeCoin || sizeCoin <= 0) return;
+
+        const drafts = this.reviewService.buildBracketOrderAttemptDrafts({
+            symbol: input.action.symbol,
+            positionSide: input.action.side,
+            sizeCoin,
+            sizeUsd,
+            stopLossPrice,
+            takeProfitPrice,
+            nonce,
+            requestHashSeed: {
+                source: "POSITION_MANAGER",
+                action: input.action,
+                asset,
+                sizeCoin,
+                sizeUsd
+            }
+        });
+        const attemptIds = await this.reviewService.createOrderAttempts(decisionId, drafts);
+        await this.reviewService.updateDecisionSubmittedOrderPlan(decisionId, {
+            action: input.action,
+            stopLossPrice: stopLossPrice ?? null,
+            takeProfitPrice: takeProfitPrice ?? null,
+            cancelOids,
+            drafts
+        });
+
+        const submittedAt = new Date();
+        try {
+            const response = await placeTriggerOrdersWithPrivateKey(
+                input.privateKey,
+                {
+                    asset,
+                    positionSide: input.action.side,
+                    sz: sizeCoin,
+                    stopLossPrice,
+                    takeProfitPrice,
+                    nonce,
+                    cloids: {
+                        stopLoss: drafts.find(draft => draft.orderRole === "STOP_LOSS")?.cloid as `0x${string}` | undefined,
+                        takeProfit: drafts.find(draft => draft.orderRole === "TAKE_PROFIT")?.cloid as `0x${string}` | undefined
+                    }
+                },
+                input.isTestnet
+            );
+            await this.reviewService.updateOrderAttemptsFromResponse({
+                attemptIds,
+                response,
+                submittedAt,
+                exchangeReceivedAt: new Date()
+            });
+        } catch (error) {
+            await this.reviewService.updateOrderAttemptsFromResponse({
+                attemptIds,
+                response: null,
+                submittedAt,
+                exchangeReceivedAt: new Date(),
+                error
+            });
+            traderWarn("⚠️ Position manager repair order failed:", undefined, error);
+        }
+    }
+
+    private schedulePostFillPositionManagerLoop(input: {
+        accountAddress: string;
+        network: "mainnet" | "testnet";
+        symbol: string;
+        side: "long" | "short";
+        model: string;
+        isTestnet: boolean;
+        config: AgentConfig;
+        screenerConfig: ScreenerConfig;
+    }): void {
+        const key = `${input.accountAddress.toLowerCase()}:${input.network}:${input.symbol}:${input.side}`;
+        if (OrchestratorService.positionManagerLoops.has(key)) return;
+        const startedAt = Date.now();
+        const run = async () => {
+            try {
+                const shouldContinue = await this.runPositionManagerOnlyCycle(input);
+                if (!shouldContinue || Date.now() - startedAt >= 10 * 60_000) {
+                    OrchestratorService.positionManagerLoops.delete(key);
+                    return;
+                }
+                const timer = setTimeout(run, 30_000);
+                timer.unref?.();
+                OrchestratorService.positionManagerLoops.set(key, timer);
+            } catch (error) {
+                traderWarn("⚠️ Post-fill position manager loop failed:", undefined, error);
+                OrchestratorService.positionManagerLoops.delete(key);
+            }
+        };
+        const timer = setTimeout(run, 30_000);
+        timer.unref?.();
+        OrchestratorService.positionManagerLoops.set(key, timer);
+    }
+
+    public async runPositionManagerOnlyCycle(input: {
+        accountAddress: string;
+        network: "mainnet" | "testnet";
+        symbol?: string;
+        side?: "long" | "short";
+        model?: string;
+        isTestnet: boolean;
+        config: AgentConfig;
+        screenerConfig?: ScreenerConfig;
+    }): Promise<boolean> {
+        const snapshot = await this.snapshotBuilder.buildSnapshot(
+            input.accountAddress,
+            input.isTestnet,
+            input.config,
+            input.screenerConfig ?? DEFAULT_SCREENER_CONFIG
+        );
+        const snapshotId = await this.persistSnapshot(snapshot);
+        if (snapshotId) snapshot.meta.snapshot_id = snapshotId;
+        const runId = await this.reviewService.startRun({
+            accountAddress: input.accountAddress,
+            network: input.network,
+            cycleType: "POSITION_MANAGER",
+            model: input.model ?? "POSITION_MANAGER",
+            config: input.config,
+            snapshot
+        });
+        const positionSnapshotIds = await this.reviewService.snapshotPositions(runId, "PRE_DECISION", snapshot);
+
+        let credential: { privateKey: string; mode: "user_api_wallet" | "server_dev_testnet_bot"; apiWalletAddress: string | null } | null = null;
+        try {
+            credential = await resolveExecutionCredential(input.accountAddress, input.isTestnet);
+            if (credential) {
+                await this.syncAndReconcileAfterExecution({
+                    userAddress: input.accountAddress,
+                    network: input.network,
+                    credential,
+                    snapshot,
+                    startTimeMs: Date.now() - 15 * 60_000
+                });
+            }
+        } catch (error) {
+            traderWarn("⚠️ PM-only sync skipped; credential unavailable:", undefined, error);
+        }
+
+        const openOrders = await this.orderManagementService.getOpenOrders({
+            accountAddress: input.accountAddress,
+            network: input.network
+        });
+        const managed = await this.reviewService.getManagedLifecycleStates(input.accountAddress, input.network, snapshot, input.config);
+        const filteredManaged = managed.filter(position =>
+            (!input.symbol || position.symbol === input.symbol) &&
+            (!input.side || position.side === input.side)
+        );
+        const managementInput = {
+            accountAddress: input.accountAddress,
+            network: input.network,
+            now: new Date(),
+            snapshot,
+            openLifecycles: filteredManaged,
+            openOrders,
+            config: input.config
+        };
+        const result = this.positionManager.evaluate(managementInput);
+        await this.reviewService.persistPositionManagementResult({ runId, managementInput, result });
+        await this.executePositionManagerOrderActions({
+            actions: result.actions,
+            snapshot,
+            config: input.config,
+            isTestnet: input.isTestnet,
+            userAddress: input.accountAddress,
+            runId
+        });
+
+        const managerTradeDecisions = result.actions
+            .filter(action => action.bypassLlm && action.action !== "HOLD_POSITION" && action.action !== "NO_ACTION")
+            .map(action => convertManagerActionToTradeDecision(action, input.config))
+            .filter((decision): decision is TradeDecision => !!decision);
+        const preRiskDecisions = cloneJson(managerTradeDecisions);
+        const { riskAssessments } = assessDecisionsForRisk(managerTradeDecisions, snapshot, this.riskModule);
+        const decisionIds = await this.reviewService.persistDecisions({
+            runId,
+            traderDecisions: managerTradeDecisions.map(() => null) as any,
+            backendDecisions: managerTradeDecisions,
+            preRiskDecisions,
+            riskAssessments,
+            validation: { accepted: true, reason: "position_manager_only" },
+            positionSnapshotIds
+        });
+
+        for (let i = 0; i < managerTradeDecisions.length; i++) {
+            const decision = managerTradeDecisions[i];
+            const riskAssessment = riskAssessments[i];
+            if (riskAssessment?.approved && riskAssessment.modifiedOrder) {
+                await this.executeApprovedDecision(decision, riskAssessment, snapshot, input.config, input.isTestnet, input.accountAddress, decisionIds[i]);
+            }
+        }
+
+        await this.reviewService.finishRun(runId, { status: "COMPLETED" });
+        const postSnapshot = await this.snapshotBuilder.buildSnapshot(input.accountAddress, input.isTestnet, input.config, input.screenerConfig ?? DEFAULT_SCREENER_CONFIG);
+        await this.reviewService.snapshotPositions(runId, "POST_EXECUTION", postSnapshot);
+        return postSnapshot.account.current_positions.some(position =>
+            (!input.symbol || position.symbol === input.symbol) &&
+            (!input.side || position.side === input.side)
+        );
     }
 
     private async journalTraderContext(
@@ -1316,7 +1816,21 @@ ${JSON.stringify(context, null, 2)}`;
                 max_width_bps_by_playbook: {
                     ...DEFAULT_AGENT_CONFIG.risk_plan_model.max_width_bps_by_playbook,
                     ...configOverride?.risk_plan_model?.max_width_bps_by_playbook
+                },
+                min_width_bps_by_playbook: {
+                    ...DEFAULT_AGENT_CONFIG.risk_plan_model.min_width_bps_by_playbook,
+                    ...configOverride?.risk_plan_model?.min_width_bps_by_playbook
                 }
+            },
+            trade_cooldowns: {
+                ...DEFAULT_AGENT_CONFIG.trade_cooldowns,
+                ...configOverride?.trade_cooldowns
+            },
+            strategy_filters: {
+                ...DEFAULT_AGENT_CONFIG.strategy_filters,
+                ...configOverride?.strategy_filters,
+                playbookBlocklist: configOverride?.strategy_filters?.playbookBlocklist ?? DEFAULT_AGENT_CONFIG.strategy_filters.playbookBlocklist,
+                symbolSideBlocklist: configOverride?.strategy_filters?.symbolSideBlocklist ?? DEFAULT_AGENT_CONFIG.strategy_filters.symbolSideBlocklist
             },
             position_management: mergePositionManagementConfig(
                 configOverride?.position_management,
@@ -1437,6 +1951,26 @@ function parseJobConfig(serialized: string | null | undefined): any {
 
 function cloneJson<T>(value: T): T {
     return JSON.parse(JSON.stringify(value));
+}
+
+function assetIndexMapFromSnapshot(snapshot: StateSnapshot): Map<string, number> {
+    const map = new Map<string, number>();
+    for (const [symbol, market] of Object.entries(snapshot.markets || {})) {
+        if (market.assetIndex !== undefined) map.set(symbol, market.assetIndex);
+    }
+    return map;
+}
+
+function uniqueStrings(values: Array<string | null | undefined>): string[] {
+    return Array.from(new Set(values.map(value => value ? String(value) : "").filter(Boolean)));
+}
+
+function isPositionManagerOrderAction(action: PositionManagementAction["action"]): boolean {
+    return action === "PLACE_BREAKEVEN_STOP" ||
+        action === "REPLACE_STOP" ||
+        action === "REPLACE_TAKE_PROFIT" ||
+        action === "REPLACE_BRACKET" ||
+        action === "CANCEL_STALE_ORDER";
 }
 
 function formatTraderSymbols(items: Array<{ symbol?: string; side?: string | null }>): string {

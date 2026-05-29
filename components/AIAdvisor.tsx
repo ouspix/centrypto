@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { useAccount } from "wagmi"
 import { placeOrderAction } from "@/app/actions/trade"
 import { getMeta } from "@/lib/hyperliquid-info"
@@ -17,7 +17,7 @@ import { BrainCircuit, Play, Pause, AlertOctagon, Loader2, Activity, ShieldAlert
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { useTrading } from "@/context/TradingContext"
 import { ConfigEditor } from "@/components/ui/ConfigEditor"
-import { AgentConfig, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config"
+import { AgentConfig, AGENT_PRESETS, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config"
 import { LlmRunStatus, TradeDecision, RiskAssessment } from "@/types/trading"
 
 type AnalysisResult = {
@@ -305,11 +305,88 @@ export function AIAdvisor() {
         }
     }, [])
 
-    const handleSaveConfig = (newConfig: AgentConfig, newPreset: string) => {
-        setCustomConfig(newConfig);
-        localStorage.setItem('agentConfig', JSON.stringify(newConfig));
+    const syncConfigFromStatus = useCallback((data: any) => {
+        if (!data?.configured) return;
+        if (data.configOverride && typeof data.configOverride === 'object') {
+            const nextConfig = data.configOverride as AgentConfig;
+            const rawPreset = data.configPresetName || (nextConfig as any).preset_name || 'custom';
+            const nextPreset = Object.prototype.hasOwnProperty.call(AGENT_PRESETS, rawPreset) ? rawPreset : 'custom';
+            setCustomConfig(nextConfig);
+            setAgentPreset(nextPreset);
+            localStorage.setItem('agentConfig', JSON.stringify(nextConfig));
+            localStorage.setItem('agentPreset', nextPreset);
+            return;
+        }
+
+        setCustomConfig(undefined);
+        setAgentPreset('default');
+        localStorage.removeItem('agentConfig');
+        localStorage.removeItem('agentPreset');
+    }, []);
+
+    const readScreeningConfig = useCallback(() => {
+        try {
+            const saved = localStorage.getItem('screeningConfig');
+            if (saved) {
+                const screeningConfig = JSON.parse(saved);
+                console.log('📋 Screening config from localStorage:', screeningConfig);
+                return screeningConfig;
+            }
+            console.log('📋 No screening config in localStorage');
+        } catch (e) {
+            console.error('Failed to read screening config', e);
+        }
+        return null;
+    }, []);
+
+    const buildRuntimeConfigOverride = useCallback((baseConfig?: AgentConfig) => {
+        const screeningConfig = readScreeningConfig();
+        return {
+            ...(baseConfig ?? {}),
+            screener: screeningConfig || (baseConfig as any)?.screener
+        };
+    }, [readScreeningConfig]);
+
+    const runtimeConfigOverride = useCallback(() => buildRuntimeConfigOverride(customConfig), [buildRuntimeConfigOverride, customConfig]);
+
+    const handleSaveConfig = async (newConfig: AgentConfig, newPreset: string) => {
+        const nextConfig = buildRuntimeConfigOverride(newConfig) as AgentConfig;
+        setCustomConfig(nextConfig);
+        localStorage.setItem('agentConfig', JSON.stringify(nextConfig));
         setAgentPreset(newPreset);
         localStorage.setItem('agentPreset', newPreset);
+
+        if (hasWalletSession && autoTraderStatus?.configured) {
+            setSavingAutoTrader(true);
+            try {
+                const response = await fetch('/api/auto-trader', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        enabled: autoTrading,
+                        frequencySeconds: frequency,
+                        model: selectedModel,
+                        isTestnet,
+                        configOverride: nextConfig
+                    })
+                });
+                if (!response.ok) {
+                    const payload = await response.json().catch(() => ({}));
+                    if (response.status === 401) {
+                        setWalletSessionAddress(null);
+                        throw new Error('Wallet session expired');
+                    }
+                    throw new Error(payload.error || 'Failed to update auto trader configuration');
+                }
+                const data = await response.json();
+                setAutoTraderStatus(data);
+                setAutoTrading(!!data.enabled);
+                syncConfigFromStatus(data);
+            } finally {
+                setSavingAutoTrader(false);
+            }
+        }
+
         setShowConfig(false);
     }
 
@@ -351,32 +428,10 @@ export function AIAdvisor() {
                 setAutoTrading(!!data.enabled);
                 if (typeof data.frequencySeconds === 'number') setFrequency(data.frequencySeconds);
                 if (typeof data.model === 'string' && data.model) setSelectedModel(data.model);
+                syncConfigFromStatus(data);
             })
             .catch(() => {});
-    }, [address, hasWalletSession, isTestnet])
-
-    const readScreeningConfig = () => {
-        try {
-            const saved = localStorage.getItem('screeningConfig');
-            if (saved) {
-                const screeningConfig = JSON.parse(saved);
-                console.log('📋 Screening config from localStorage:', screeningConfig);
-                return screeningConfig;
-            }
-            console.log('📋 No screening config in localStorage');
-        } catch (e) {
-            console.error('Failed to read screening config', e);
-        }
-        return null;
-    }
-
-    const runtimeConfigOverride = () => {
-        const screeningConfig = readScreeningConfig();
-        return {
-            ...(customConfig ?? {}),
-            screener: screeningConfig || (customConfig as any)?.screener
-        };
-    }
+    }, [address, hasWalletSession, isTestnet, syncConfigFromStatus])
 
     const handleAutoTradingChange = async (enabled: boolean) => {
         if (!hasWalletSession) {
@@ -408,6 +463,7 @@ export function AIAdvisor() {
             const data = await response.json();
             setAutoTraderStatus(data);
             setAutoTrading(!!data.enabled);
+            syncConfigFromStatus(data);
             toast.success(enabled ? 'Server auto trader enabled' : 'Server auto trader paused');
         } catch (error) {
             toast.error(error instanceof Error ? error.message : 'Failed to update auto trader');
@@ -581,7 +637,7 @@ export function AIAdvisor() {
                     <div className="flex items-center gap-2">
                         <Sheet open={showConfig} onOpenChange={setShowConfig}>
                             <SheetTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-6 w-6">
+                                <Button variant="ghost" size="icon" aria-label="Open agent configuration" className="h-6 w-6">
                                     <Settings className="h-4 w-4 text-slate-400" />
                                 </Button>
                             </SheetTrigger>

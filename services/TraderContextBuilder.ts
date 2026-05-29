@@ -1,4 +1,5 @@
 import { AgentConfig } from "@/lib/agent-config";
+import { prisma } from "@/lib/db";
 import { marketDbMain, marketDbTest } from "@/lib/market-db";
 import { computeRiskPlan, inferSideFromPlaybook } from "@/lib/risk/shared";
 import {
@@ -41,10 +42,11 @@ export class TraderContextBuilder {
         snapshot: StateSnapshot,
         config: AgentConfig,
         isTestnet: boolean,
-        profile = "active"
+        profile = "active",
+        accountAddress?: string | null
     ): Promise<CandidateBuildResult> {
         const existingPositions = this.buildManagedPositions(snapshot);
-        const selection = await this.buildEligibleCandidates(snapshot, config, isTestnet, profile, existingPositions.length);
+        const selection = await this.buildEligibleCandidates(snapshot, config, isTestnet, profile, existingPositions.length, accountAddress);
         const eligibleCandidates = selection.candidates;
         const candidateMap = new Map(eligibleCandidates.map(candidate => [candidate.candidate_id, candidate]));
 
@@ -77,7 +79,8 @@ export class TraderContextBuilder {
         config: AgentConfig,
         isTestnet: boolean,
         profile: string,
-        heldPositionCount: number
+        heldPositionCount: number,
+        accountAddress?: string | null
     ): Promise<CandidateSelectionResult> {
         const markets = Object.values(snapshot.markets || {})
             .sort((a, b) => (a.derived?.rank ?? Number.POSITIVE_INFINITY) - (b.derived?.rank ?? Number.POSITIVE_INFINITY));
@@ -144,13 +147,37 @@ export class TraderContextBuilder {
             const sideRejections: string[] = [];
             for (const [side, sidePlaybooks] of Object.entries(playbooksBySide) as [TradeSide, Playbook[]][]) {
                 if (sidePlaybooks.length === 0) continue;
-                const regime = this.applyRegimePolicy(snapshot.global_regime.current, side, sidePlaybooks, market, config);
+                if (this.isSymbolSideBlocked(market.symbol, side, config)) {
+                    sideRejections.push("STRATEGY_SYMBOL_SIDE_BLOCK");
+                    continue;
+                }
+
+                const strategyFiltered = this.applyStrategyPlaybookFilters(market, side, sidePlaybooks, config);
+                if (strategyFiltered.playbooks.length === 0) {
+                    sideRejections.push(...strategyFiltered.reasons);
+                    continue;
+                }
+
+                const regime = this.applyRegimePolicy(snapshot.global_regime.current, side, strategyFiltered.playbooks, market, config);
                 if (!regime.allowed) {
                     sideRejections.push(`${side.toUpperCase()}_REGIME_BLOCK`);
                     continue;
                 }
 
-                const primaryPlaybook = sidePlaybooks[0];
+                const primaryPlaybook = strategyFiltered.playbooks[0];
+                const cooldownReason = await this.cooldownRejectionReason({
+                    accountAddress,
+                    network: isTestnet ? "testnet" : "mainnet",
+                    symbol: market.symbol,
+                    side,
+                    playbook: primaryPlaybook,
+                    config
+                });
+                if (cooldownReason) {
+                    sideRejections.push(cooldownReason);
+                    continue;
+                }
+
                 const riskPlan = computeRiskPlan(primaryPlaybook, market, config, snapshot.global_regime.current, config.risk.max_effective_leverage);
                 if (!riskPlan) {
                     sideRejections.push("RISK_PLAN_MISSING");
@@ -179,11 +206,11 @@ export class TraderContextBuilder {
                     candidate_id: this.buildCandidateId(market.symbol, side, primaryPlaybook),
                     symbol: market.symbol,
                     side,
-                    eligible_playbooks: sidePlaybooks,
+                    eligible_playbooks: strategyFiltered.playbooks,
                     has_hard_trigger: true,
                     trigger_diagnostics: {
                         trigger_profile: profile,
-                        triggered_playbooks: sidePlaybooks,
+                        triggered_playbooks: strategyFiltered.playbooks,
                         trigger_margin: triggerMargin
                     },
                     market_quality: {
@@ -242,6 +269,77 @@ export class TraderContextBuilder {
             rejection_counts: rejectionCounts,
             top_rejections: rejections
         };
+    }
+
+    private async cooldownRejectionReason(input: {
+        accountAddress?: string | null;
+        network: "mainnet" | "testnet";
+        symbol: string;
+        side: TradeSide;
+        playbook: Playbook;
+        config: AgentConfig;
+    }): Promise<string | null> {
+        if (!input.accountAddress) return null;
+        const lifecycleModel = (prisma as any).autoTraderTradeLifecycle;
+        if (!lifecycleModel?.findFirst) return null;
+        const now = Date.now();
+        const stopLossMinutes = Math.max(0, input.config.trade_cooldowns?.afterStopLossMinutes ?? 0);
+        const sameSymbolLossMinutes = Math.max(0, input.config.trade_cooldowns?.afterSameSymbolLossMinutes ?? 0);
+        const accountAddress = input.accountAddress.toLowerCase();
+
+        if (stopLossMinutes > 0) {
+            const stopLoss = await lifecycleModel.findFirst({
+                where: {
+                    accountAddress,
+                    network: input.network,
+                    symbol: input.symbol,
+                    side: input.side,
+                    status: "CLOSED",
+                    closeReasonCode: "STOP_LOSS",
+                    closedAt: { gte: new Date(now - stopLossMinutes * 60_000) }
+                },
+                orderBy: { closedAt: "desc" }
+            });
+            if (stopLoss && await this.lifecycleMatchesPlaybook(stopLoss, input.playbook)) return "COOLDOWN_AFTER_STOP_LOSS";
+        }
+
+        if (sameSymbolLossMinutes > 0) {
+            const loss = await lifecycleModel.findFirst({
+                where: {
+                    accountAddress,
+                    network: input.network,
+                    symbol: input.symbol,
+                    side: input.side,
+                    status: "CLOSED",
+                    netRealizedPnl: { lt: 0 },
+                    closedAt: { gte: new Date(now - sameSymbolLossMinutes * 60_000) }
+                },
+                orderBy: { closedAt: "desc" }
+            });
+            if (loss && await this.lifecycleMatchesPlaybook(loss, input.playbook)) return "COOLDOWN_AFTER_SAME_SYMBOL_LOSS";
+        }
+
+        return null;
+    }
+
+    private async lifecycleMatchesPlaybook(lifecycle: any, playbook: string): Promise<boolean> {
+        const ids = parseJsonArray(lifecycle?.attributedDecisionIds);
+        if (!ids.length) return true;
+        const decisionModel = (prisma as any).autoTraderDecision;
+        if (!decisionModel?.findMany) return true;
+        const decisions = await decisionModel.findMany({
+            where: { id: { in: ids } },
+            select: { normalizedDecisionJson: true, finalDecisionJson: true, preRiskDecisionJson: true }
+        });
+        const wanted = normalizePlaybook(playbook);
+        if (!wanted) return true;
+        for (const decision of decisions) {
+            for (const raw of [decision.finalDecisionJson, decision.normalizedDecisionJson, decision.preRiskDecisionJson]) {
+                const parsed = parseJsonObject(raw);
+                if (normalizePlaybook(parsed?.playbook) === wanted) return true;
+            }
+        }
+        return decisions.length === 0;
     }
 
     private buildRejectionDiagnostic(market: MarketEntry, reasons: string[]): CandidateRejectionDiagnostic {
@@ -355,6 +453,53 @@ export class TraderContextBuilder {
             if (side) acc[side].push(playbook);
             return acc;
         }, { long: [], short: [] });
+    }
+
+    private isSymbolSideBlocked(symbol: string, side: TradeSide, config: AgentConfig): boolean {
+        return (config.strategy_filters.symbolSideBlocklist ?? []).some(blocked =>
+            sameSymbol(symbol, blocked.symbol) && blocked.side === side
+        );
+    }
+
+    private applyStrategyPlaybookFilters(
+        market: MarketEntry,
+        side: TradeSide,
+        playbooks: Playbook[],
+        config: AgentConfig
+    ): { playbooks: Playbook[]; reasons: string[] } {
+        const reasons = new Set<string>();
+        const filtered = playbooks.filter(playbook => {
+            if (this.isPlaybookBlocked(playbook, side, config)) {
+                reasons.add("STRATEGY_PLAYBOOK_BLOCK");
+                return false;
+            }
+            if (
+                config.strategy_filters.blockMeanReversionOnBbExpansion &&
+                playbook.startsWith("Mean Reversion") &&
+                hasBbExpansion(market)
+            ) {
+                reasons.add("STRATEGY_BB_EXPANSION_MR_BLOCK");
+                return false;
+            }
+            return true;
+        });
+        return {
+            playbooks: filtered,
+            reasons: Array.from(reasons)
+        };
+    }
+
+    private isPlaybookBlocked(playbook: Playbook, side: TradeSide, config: AgentConfig): boolean {
+        const normalizedPlaybook = normalizeFilterToken(playbook);
+        const base = normalizeFilterToken(playbook.split(":")[0]);
+        const sideSpecific = `${base}:${side}`;
+        return (config.strategy_filters.playbookBlocklist ?? []).some(blocked => {
+            const normalized = normalizeFilterToken(blocked);
+            return normalized === normalizedPlaybook ||
+                normalized === base ||
+                normalized === sideSpecific ||
+                normalized === `${base} ${side}`;
+        });
     }
 
     private applyRegimePolicy(
@@ -664,4 +809,52 @@ export class TraderContextBuilder {
     private baseSymbol(symbol: string): string {
         return symbol.replace(/-PERP$/, "");
     }
+}
+
+function sameSymbol(left: string, right: string): boolean {
+    return baseSymbolToken(left) === baseSymbolToken(right);
+}
+
+function baseSymbolToken(symbol: string): string {
+    return String(symbol ?? "").toUpperCase().replace(/-PERP$/, "");
+}
+
+function normalizePlaybook(value: unknown): string {
+    return String(value ?? "").toLowerCase().trim();
+}
+
+function parseJsonArray(value: unknown): string[] {
+    if (Array.isArray(value)) return value.filter((item): item is string => typeof item === "string");
+    if (typeof value !== "string" || !value) return [];
+    try {
+        const parsed = JSON.parse(value);
+        return Array.isArray(parsed) ? parsed.filter((item): item is string => typeof item === "string") : [];
+    } catch {
+        return [];
+    }
+}
+
+function parseJsonObject(value: unknown): any | null {
+    if (!value) return null;
+    if (typeof value === "object") return value;
+    if (typeof value !== "string") return null;
+    try {
+        const parsed = JSON.parse(value);
+        return parsed && typeof parsed === "object" ? parsed : null;
+    } catch {
+        return null;
+    }
+}
+
+function normalizeFilterToken(value: string): string {
+    return String(value ?? "").trim().toLowerCase().replace(/_/g, " ").replace(/\s*:\s*/g, ":").replace(/\s+/g, " ");
+}
+
+function hasBbExpansion(market: MarketEntry): boolean {
+    if ((market.regime_tags ?? []).some(tag => String(tag).toLowerCase() === "bb_expansion")) return true;
+    const raw = market as any;
+    return raw.bbands?.expansion === true ||
+        raw.bbands?.state === "expansion" ||
+        raw.derived?.technicals?.bb_expansion === true ||
+        raw.derived?.technicals?.bb_expansion === "true";
 }

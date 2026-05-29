@@ -3,6 +3,8 @@ import {
     computeOpenReviewFlags,
     computeMfeMaeFromCandles,
     computeReviewFlags,
+    enforceMfeMaeExitBounds,
+    extractFilledOrderResponseSummary,
     extractOrderResponseStatus,
     generateCloid,
     normalizeHyperliquidFill,
@@ -231,6 +233,35 @@ describe("auto-trader review helpers", () => {
         }, 0);
         expect(failed.status).toBe("FAILED");
         expect(failed.reason).toBe("bad order");
+    });
+
+    it("extracts actual filled average price and size from Hyperliquid responses", () => {
+        const summary = extractFilledOrderResponseSummary({
+            status: "ok",
+            response: { data: { statuses: [{ filled: { oid: 42, avgPx: "101.25", totalSz: "0.42" } }] } }
+        }, 0);
+
+        expect(summary).toEqual({ oid: "42", avgPx: 101.25, totalSz: 0.42 });
+    });
+
+    it("bounds fast-trade MFE/MAE by actual exit when candle coverage is contradictory", () => {
+        const tp = enforceMfeMaeExitBounds({
+            side: "long",
+            entryPrice: 100,
+            exitPrice: 100.2,
+            status: "CLOSED",
+            metrics: { mfeBps: -9.4, maeBps: -12, source: "CANDLE_1M", coverage: "PARTIAL" }
+        });
+        expect(tp.mfeBps).toBe(20);
+
+        const sl = enforceMfeMaeExitBounds({
+            side: "long",
+            entryPrice: 100,
+            exitPrice: 100.022,
+            status: "CLOSED",
+            metrics: { mfeBps: 3.6, maeBps: 3.6, source: "CANDLE_1M", coverage: "PARTIAL" }
+        });
+        expect(sl.maeBps).toBe(0);
     });
 });
 

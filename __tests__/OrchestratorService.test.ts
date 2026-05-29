@@ -6,6 +6,7 @@ const mockBuildSnapshot = vi.fn();
 const mockAssess = vi.fn();
 const mockPlaceOrder = vi.fn();
 const mockPlaceOrderWithPrivateKey = vi.fn();
+const mockPlaceTriggerOrdersWithPrivateKey = vi.fn();
 const mockUpdateLeverageWithPrivateKey = vi.fn();
 const mockAssertWalletExecutionAllowed = vi.fn();
 const mockGetUserHyperliquidApiWalletCredential = vi.fn();
@@ -90,6 +91,7 @@ vi.mock('@/lib/hyperliquid', () => ({
 vi.mock('@/lib/hyperliquid-execution', () => ({
     nextExchangeNonce: vi.fn(() => 1770000000000),
     placeOrderWithPrivateKey: (...args: any[]) => mockPlaceOrderWithPrivateKey(...args),
+    placeTriggerOrdersWithPrivateKey: (...args: any[]) => mockPlaceTriggerOrdersWithPrivateKey(...args),
     updateLeverageWithPrivateKey: (...args: any[]) => mockUpdateLeverageWithPrivateKey(...args),
 }));
 
@@ -255,6 +257,7 @@ describe('OrchestratorService trader-only loop', () => {
         mockGetUserHyperliquidApiWalletCredential.mockResolvedValue({ privateKey: '0xapi-key' });
         mockUpdateLeverageWithPrivateKey.mockResolvedValue({ status: 'ok' });
         mockPlaceOrderWithPrivateKey.mockResolvedValue({ status: 'ok', response: { data: { statuses: [{ oid: 123 }] } } });
+        mockPlaceTriggerOrdersWithPrivateKey.mockResolvedValue({ status: 'ok', response: { data: { statuses: [{ resting: { oid: 456 } }, { resting: { oid: 457 } }] } } });
         mockMarkHyperliquidApiWalletUsed.mockResolvedValue(undefined);
         global.fetch = vi.fn();
     });
@@ -281,7 +284,9 @@ describe('OrchestratorService trader-only loop', () => {
         });
 
         const result = await new OrchestratorService().analyzeMarket('0xUser', false, 'test-model', true);
-        const requestBody = JSON.parse((global.fetch as any).mock.calls[0][1].body);
+        const requestBody = (global.fetch as any).mock.calls
+            .map((call: any[]) => JSON.parse(call[1].body))
+            .find((body: any) => typeof body.prompt === 'string');
 
         expect(requestBody.prompt).toContain('TRADER_CONTEXT');
         expect(requestBody.prompt).toContain('"eligible_candidates"');
@@ -369,6 +374,54 @@ describe('OrchestratorService trader-only loop', () => {
         expect(mockAssertWalletExecutionAllowed).toHaveBeenCalledWith('0xUser', isTestnet);
         expect(mockUpdateLeverageWithPrivateKey.mock.calls[0][2]).toBe(isTestnet);
         expect(mockPlaceOrderWithPrivateKey.mock.calls[0][2]).toBe(isTestnet);
+    });
+
+    it('places brackets from actual entry fill average price and filled size', async () => {
+        (global.fetch as any).mockResolvedValue({
+            ok: true,
+            json: async () => ({
+                response: JSON.stringify({
+                    decisions: [{
+                        scope: 'candidate',
+                        action: 'OPEN_POSITION',
+                        candidate_id: 'BTC-PERP:long:Momentum',
+                        symbol: 'BTC-PERP',
+                        target_side: 'long',
+                        target_size_fraction_of_equity: 0.005,
+                        playbook: 'Momentum:long',
+                        confidence: 0.9,
+                        reason_code: 'momentum_edge',
+                        notes: 'Hard trigger with approved risk.',
+                    }],
+                }),
+            }),
+        });
+        mockAssess.mockReturnValue({
+            approved: true,
+            reason: 'Approved',
+            modifiedOrder: { side: 'buy', sizeUsd: 500 }
+        });
+        mockPlaceOrderWithPrivateKey.mockResolvedValue({
+            status: 'ok',
+            response: {
+                data: {
+                    statuses: [{
+                        filled: { oid: 123, avgPx: '50100', totalSz: '0.01' }
+                    }]
+                }
+            }
+        });
+
+        await new OrchestratorService().analyzeMarket('0xUser', true, 'test-model', true);
+
+        const entryOrder = mockPlaceOrderWithPrivateKey.mock.calls[0][1];
+        expect(entryOrder.stopLossPrice).toBeUndefined();
+        expect(entryOrder.takeProfitPrice).toBeUndefined();
+
+        const triggerOrder = mockPlaceTriggerOrdersWithPrivateKey.mock.calls[0][1];
+        expect(triggerOrder.sz).toBe(0.01);
+        expect(triggerOrder.stopLossPrice).toBeCloseTo(50100 * (1 - 0.012));
+        expect(triggerOrder.takeProfitPrice).toBeCloseTo(50100 * (1 + 0.024));
     });
 
     it('allows one running and one queued analysis job per wallet during bursts', async () => {

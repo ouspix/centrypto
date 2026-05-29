@@ -61,6 +61,55 @@ describe("risk plan width controls", () => {
 
         expect(plan).toEqual({ stop_loss_pct: 0.06, take_profit_pct_primary: 0.12 });
     });
+
+    it("applies economic min width floors before caps to avoid fee-churn brackets", () => {
+        const config = AGENT_PRESETS["Balanced PM v2"];
+        const plan = computeRiskPlan("Mean Reversion:long", market({ expectedMoveBps: 10, atrM5: 0.001 }), config, "CHOP", 1);
+
+        expect(plan!.stop_loss_pct * 10000).toBeGreaterThanOrEqual(30);
+        expect(plan!.take_profit_pct_primary * 10000).toBeGreaterThanOrEqual(45);
+        expect(plan!.take_profit_pct_primary).toBeGreaterThanOrEqual(1.5 * plan!.stop_loss_pct);
+    });
+
+    it("keeps Balanced PM v2 momentum shorts eligible at config level", () => {
+        expect(AGENT_PRESETS["Balanced PM v2"].strategy_filters.playbookBlocklist).not.toContain("Momentum:short");
+    });
+
+    it("normalizes TP/SL caps so capped plans keep the RiskCheck RR floor", () => {
+        const config = {
+            ...AGENT_PRESETS.optimized,
+            risk_plan_model: {
+                ...AGENT_PRESETS.optimized.risk_plan_model,
+                max_width_bps_by_playbook: {
+                    "Mean Reversion": {
+                        CHOP: { sl_bps: 60, tp_bps: 80 }
+                    }
+                }
+            }
+        };
+        const decision: TradeDecision = {
+            scope: "candidate",
+            candidate_id: "BTC-PERP:long:Mean_Reversion",
+            action: "OPEN_POSITION",
+            symbol: "BTC-PERP",
+            side: "long",
+            target_side: "long",
+            target_size_fraction_of_equity: 0.05,
+            size_fraction_of_equity: 0.05,
+            risk_plan: { stop_loss_pct: 0.02, take_profit_pct_primary: 0.02 },
+            playbook: "Mean Reversion:long",
+            confidence: 0.8,
+            reason_code: "mean_reversion_edge",
+            notes: "test",
+            audit: { regime: "CHOP" }
+        };
+
+        clampRiskPlan(decision, { config, regime: "CHOP" });
+
+        expect(decision.risk_plan!.take_profit_pct_primary).toBeGreaterThanOrEqual(1.5 * decision.risk_plan!.stop_loss_pct);
+        expect(decision.risk_plan!.take_profit_pct_primary).toBe(0.008);
+        expect(decision.risk_plan!.stop_loss_pct).toBeCloseTo(0.005333, 8);
+    });
 });
 
 function market(input: { expectedMoveBps: number; atrM5: number }) {

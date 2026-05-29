@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
 import { PositionManager } from "@/lib/trader/PositionManager";
+import { mergePositionManagementConfig } from "@/lib/trader/position-management-policy";
 import type { ManagedLifecycleState, ManagedOpenOrder } from "@/lib/trader/position-management-types";
 import { StateSnapshot } from "@/types/snapshot";
 
@@ -19,7 +20,8 @@ describe("PositionManager", () => {
             currentPrice: 100.4,
             mfeBps: 40,
             netCurrentBps: 30,
-            openOrders: [stopAt(99)]
+            openOrders: [stopAt(99)],
+            config: repairEnabledConfig()
         });
 
         expect(action.action).toBe("REPLACE_STOP");
@@ -70,7 +72,8 @@ describe("PositionManager", () => {
             regime: "CHOP",
             playbook: "Mean Reversion:long",
             holdMinutes: 5,
-            openOrders: [protectedStop(), takeProfitAt(102)]
+            openOrders: [protectedStop(), takeProfitAt(102)],
+            config: repairEnabledConfig()
         });
 
         expect(action.action).toBe("REPLACE_TAKE_PROFIT");
@@ -83,7 +86,8 @@ describe("PositionManager", () => {
             currentPrice: 100.1,
             mfeBps: 10,
             netCurrentBps: 3,
-            openOrders: []
+            openOrders: [],
+            config: repairEnabledConfig()
         });
 
         expect(action.action).toBe("PLACE_BREAKEVEN_STOP");
@@ -160,6 +164,7 @@ function evaluate(args: {
     trendAligned?: boolean;
     priorPartialTakenFraction?: number;
     openOrders?: ManagedOpenOrder[];
+    config?: typeof DEFAULT_AGENT_CONFIG;
 }) {
     const snapshot = snapshotFor(args);
     const result = new PositionManager().evaluate({
@@ -169,9 +174,32 @@ function evaluate(args: {
         snapshot,
         openLifecycles: [managedLifecycle(snapshot, args)],
         openOrders: args.openOrders ?? [protectedStop(), takeProfitAt(101.5)],
-        config: DEFAULT_AGENT_CONFIG
+        config: args.config ?? DEFAULT_AGENT_CONFIG
     });
     return result.actions[0];
+}
+
+function repairEnabledConfig(): typeof DEFAULT_AGENT_CONFIG {
+    return {
+        ...DEFAULT_AGENT_CONFIG,
+        position_management: mergePositionManagementConfig({
+            policies: {
+                meanReversion: repairPolicyPatch(),
+                momentum: repairPolicyPatch(),
+                breakout: repairPolicyPatch(),
+                unknown: repairPolicyPatch()
+            }
+        }, DEFAULT_AGENT_CONFIG.position_management)
+    };
+}
+
+function repairPolicyPatch(): any {
+    return {
+        DEFAULT: { repairMissingStop: true, repairStaleTakeProfit: true },
+        CHOP: { repairMissingStop: true, repairStaleTakeProfit: true },
+        RISK_ON: { repairMissingStop: true, repairStaleTakeProfit: true },
+        RISK_OFF: { repairMissingStop: true, repairStaleTakeProfit: true }
+    };
 }
 
 function managedLifecycle(snapshot: StateSnapshot, args: {

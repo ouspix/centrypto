@@ -34,6 +34,19 @@ export type PlaceOrderRequest = {
     };
 };
 
+export type PlaceTriggerOrdersRequest = {
+    asset: number;
+    positionSide: "long" | "short";
+    sz: number;
+    stopLossPrice?: number;
+    takeProfitPrice?: number;
+    nonce?: number;
+    cloids?: {
+        stopLoss?: `0x${string}`;
+        takeProfit?: `0x${string}`;
+    };
+};
+
 export function exchangeUrl(isTestnet: boolean): string {
     return hyperliquidInfoUrl(isTestnet).replace("/info", "/exchange");
 }
@@ -147,6 +160,77 @@ export async function placeOrderWithPrivateKey(
     return data;
 }
 
+export async function placeTriggerOrdersWithPrivateKey(
+    privateKey: string,
+    order: PlaceTriggerOrdersRequest,
+    isTestnet = false
+) {
+    const nonce = order.nonce ?? nextExchangeNonce();
+    const assetMeta = await getAssetMeta(order.asset, isTestnet);
+    if (!assetMeta) throw new Error(`Asset metadata not found for index ${order.asset}`);
+    if (!order.stopLossPrice && !order.takeProfitPrice) throw new Error("No trigger price supplied.");
+
+    const szDecimals = assetMeta.szDecimals;
+    const priceDecimals = 6 - szDecimals;
+    const roundedSize = parseFloat(order.sz.toFixed(szDecimals));
+    const sizeStr = roundedSize.toFixed(szDecimals);
+    const isBuy = order.positionSide === "short";
+    const orders: any[] = [];
+
+    const pushTriggerOrder = (px: number, type: "tp" | "sl", cloid?: `0x${string}`) => {
+        const triggerPxStr = roundToTickSize(px, szDecimals).toFixed(priceDecimals);
+        const triggerOrder: any = {
+            a: order.asset,
+            b: isBuy,
+            p: triggerPxStr,
+            s: sizeStr,
+            r: true,
+            t: {
+                trigger: {
+                    isMarket: true,
+                    triggerPx: triggerPxStr,
+                    tpsl: type
+                }
+            }
+        };
+        if (cloid) triggerOrder.c = cloid;
+        orders.push(triggerOrder);
+    };
+
+    if (order.stopLossPrice) pushTriggerOrder(order.stopLossPrice, "sl", order.cloids?.stopLoss);
+    if (order.takeProfitPrice) pushTriggerOrder(order.takeProfitPrice, "tp", order.cloids?.takeProfit);
+
+    const action = parser(OrderRequest.entries.action)({
+        type: "order" as const,
+        orders,
+        grouping: "na" as const
+    });
+    const wallet = privateKeyToAccount(formatPrivateKey(privateKey));
+    const signature = await signL1Action({ wallet, action, nonce, isTestnet });
+    const payload = { action, nonce, signature };
+
+    debugLog("Submitting Hyperliquid trigger orders", {
+        asset: order.asset,
+        orderCount: orders.length,
+        positionSide: order.positionSide,
+        wallet: wallet.address
+    });
+
+    const data = await hyperliquidExchangePost<any>(
+        "hl:exchange:order",
+        exchangeUrl(isTestnet),
+        payload,
+        { walletKey: wallet.address, retryOrders: false }
+    );
+
+    if (data.status === "err") {
+        safeError("Hyperliquid trigger order rejected", data.response);
+        throw new Error(`Trigger order rejected: ${JSON.stringify(data.response)}`);
+    }
+
+    return data;
+}
+
 export async function updateLeverageWithPrivateKey(
     privateKey: string,
     request: { asset: number; isCross: boolean; leverage: number },
@@ -181,10 +265,18 @@ export async function cancelOrderWithPrivateKey(
     cancelRequest: { asset: number; oid: number },
     isTestnet = false
 ) {
+    return cancelOrdersWithPrivateKey(privateKey, { cancels: [cancelRequest] }, isTestnet);
+}
+
+export async function cancelOrdersWithPrivateKey(
+    privateKey: string,
+    cancelRequest: { cancels: Array<{ asset: number; oid: number }> },
+    isTestnet = false
+) {
     const nonce = nextExchangeNonce();
     const action = parser(CancelRequest.entries.action)({
         type: "cancel" as const,
-        cancels: [{ a: cancelRequest.asset, o: cancelRequest.oid }],
+        cancels: cancelRequest.cancels.map(cancel => ({ a: cancel.asset, o: cancel.oid })),
         grouping: "na" as const
     });
     const wallet = privateKeyToAccount(formatPrivateKey(privateKey));

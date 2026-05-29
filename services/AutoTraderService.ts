@@ -57,6 +57,7 @@ export class AutoTraderService {
     public async bootstrapEnabled(): Promise<void> {
         if (runtime.bootstrapped) return;
         runtime.bootstrapped = true;
+        await this.finalizeStaleRuns(new Date(Date.now() - 15 * 60_000));
     }
 
     public async getStatus(userAddress: string, isTestnet: boolean) {
@@ -158,6 +159,7 @@ export class AutoTraderService {
     private async claimSettings(settings: AutoTraderRecord): Promise<boolean> {
         const now = new Date();
         const staleRunningBefore = new Date(Date.now() - Math.max(300, settings.frequencySeconds * 2) * 1000);
+        await this.finalizeStaleRuns(staleRunningBefore, settings.userAddress, settings.isTestnet);
         const result = await autoTraderModel().updateMany({
             where: {
                 id: settings.id,
@@ -186,6 +188,25 @@ export class AutoTraderService {
         return result.count === 1;
     }
 
+    private async finalizeStaleRuns(staleBefore: Date, userAddress?: string, isTestnet?: boolean): Promise<void> {
+        const model = (prisma as any).autoTraderRun;
+        if (!model?.updateMany) return;
+        await model.updateMany({
+            where: {
+                status: "RUNNING",
+                startedAt: { lt: staleBefore },
+                ...(userAddress ? { accountAddress: normalizeWalletAddress(userAddress) } : {}),
+                ...(isTestnet === undefined ? {} : { network: isTestnet ? "testnet" : "mainnet" })
+            },
+            data: {
+                status: "FAILED",
+                error: "stale running auto-trader run finalized during scheduler claim",
+                finishedAt: new Date(),
+                updatedAt: new Date()
+            }
+        });
+    }
+
     private async findSettings(userAddress: string, isTestnet: boolean): Promise<AutoTraderRecord | null> {
         return autoTraderModel().findUnique({
             where: { userAddress_isTestnet: { userAddress, isTestnet } }
@@ -201,6 +222,7 @@ export class AutoTraderService {
     }
 
     private toStatus(settings: AutoTraderRecord | null, running: boolean) {
+        const configOverride = parseConfig(settings?.config ?? null) as any;
         return {
             configured: !!settings,
             enabled: !!settings?.enabled,
@@ -209,6 +231,8 @@ export class AutoTraderService {
             isTestnet: settings?.isTestnet ?? null,
             frequencySeconds: settings?.frequencySeconds ?? 600,
             model: settings?.model ?? DEFAULT_MODEL,
+            configOverride,
+            configPresetName: configOverride?.preset_name ?? configOverride?.profileName ?? configOverride?.preset ?? null,
             lastRunAt: settings?.lastRunAt?.toISOString() ?? null,
             nextRunAt: settings?.nextRunAt?.toISOString() ?? null,
             lastStatus: settings?.lastStatus ?? null,

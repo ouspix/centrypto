@@ -1,10 +1,21 @@
 export type AutoTraderNetwork = "mainnet" | "testnet";
-export type AutoTraderCycleType = "SCHEDULED" | "MANUAL" | "RECOVERY";
+export type AutoTraderCycleType = "SCHEDULED" | "MANUAL" | "RECOVERY" | "POSITION_MANAGER";
 export type AutoTraderRunStatus = "RUNNING" | "COMPLETED" | "SKIPPED" | "FAILED";
 export type AutoTraderDecisionType = "ENTRY_CANDIDATE" | "OPEN_POSITION_MANAGEMENT";
 export type AutoTraderPositionSnapshotPhase = "PRE_DECISION" | "POST_EXECUTION" | "PERIODIC_SYNC";
 export type AutoTraderOrderRole = "ENTRY" | "REDUCE" | "CLOSE" | "STOP_LOSS" | "TAKE_PROFIT";
-export type AutoTraderOrderStatus = "PLANNED" | "SUBMITTED" | "FILLED" | "FILLED_FROM_SYNC" | "RESTING" | "FAILED" | "ERROR";
+export type AutoTraderOrderStatus =
+    | "PLANNED"
+    | "SUBMITTED"
+    | "FILLED"
+    | "FILLED_FROM_SYNC"
+    | "RESTING"
+    | "FAILED"
+    | "ERROR"
+    | "CANCELED"
+    | "CANCELED_FROM_OCO"
+    | "NOT_FOUND_ON_EXCHANGE"
+    | "REPLACED";
 export type AutoTraderFillType = "OPEN" | "CLOSE" | "REDUCE" | "UNKNOWN";
 export type AutoTraderAttributionStatus = "MATCHED" | "FALLBACK_MATCHED" | "UNMATCHED";
 export type AutoTraderAttributionMethod = "ORDER_ID" | "CLOID" | "CLOID_TO_OID" | "FALLBACK" | "UNMATCHED";

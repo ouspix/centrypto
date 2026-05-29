@@ -8,6 +8,7 @@ import { MarketEntry, GlobalRegime } from "@/types/snapshot";
 import { TradeDecision } from "@/types/trading";
 
 export type RiskPlanCaps = { sl_bps: number; tp_bps: number };
+export type RiskPlanFloors = { sl_bps: number; tp_bps: number };
 
 export const DEFAULT_RISK_PLAN_CAPS: Record<string, Partial<Record<GlobalRegime["current"] | "DEFAULT", RiskPlanCaps>>> = {
     Momentum: {
@@ -23,10 +24,26 @@ export const DEFAULT_RISK_PLAN_CAPS: Record<string, Partial<Record<GlobalRegime[
     "Mean Reversion": {
         RISK_ON: { sl_bps: 80, tp_bps: 120 },
         RISK_OFF: { sl_bps: 70, tp_bps: 100 },
-        CHOP: { sl_bps: 60, tp_bps: 80 }
+        CHOP: { sl_bps: 50, tp_bps: 80 }
     },
     DEFAULT: {
         DEFAULT: { sl_bps: 100, tp_bps: 200 }
+    }
+};
+
+export const DEFAULT_RISK_PLAN_FLOORS: Record<string, Partial<Record<GlobalRegime["current"] | "DEFAULT", RiskPlanFloors>>> = {
+    "Mean Reversion": {
+        CHOP: { sl_bps: 30, tp_bps: 45 },
+        RISK_ON: { sl_bps: 35, tp_bps: 55 },
+        RISK_OFF: { sl_bps: 30, tp_bps: 45 }
+    },
+    Momentum: {
+        CHOP: { sl_bps: 50, tp_bps: 80 },
+        RISK_ON: { sl_bps: 60, tp_bps: 100 },
+        RISK_OFF: { sl_bps: 50, tp_bps: 90 }
+    },
+    DEFAULT: {
+        DEFAULT: { sl_bps: 10, tp_bps: 20 }
     }
 };
 
@@ -103,26 +120,21 @@ export function clampRiskPlan(
     options: { config?: AgentConfig; regime?: GlobalRegime["current"] } = {}
 ): void {
     if (!decision.risk_plan) return;
-    const minSl = 0.001; // 0.1% price move
-    const maxSl = 0.05;  // 5% of equity
-    const minTp = 0.002;  // 0.2% target floor to avoid tiny profits
     const minRr = 1.5;
 
     const sl = decision.risk_plan.stop_loss_pct;
     if (sl === undefined || sl === null) return;
-    const clampedSl = Math.min(maxSl, Math.max(minSl, Math.abs(sl)));
-    decision.risk_plan.stop_loss_pct = clampedSl;
-
-    const tp = decision.risk_plan.take_profit_pct_primary;
-    const floorTp = Math.max(minTp, minRr * clampedSl);
-    if (tp === undefined || tp === null || tp < floorTp) {
-        decision.risk_plan.take_profit_pct_primary = floorTp;
-    }
-
     const auditRegime = decision.audit?.regime as GlobalRegime["current"] | undefined;
-    const caps = resolveRiskPlanCaps(decision.playbook, options.regime ?? auditRegime, options.config);
-    decision.risk_plan.stop_loss_pct = Math.min(decision.risk_plan.stop_loss_pct, caps.sl_bps / 10000);
-    decision.risk_plan.take_profit_pct_primary = Math.min(decision.risk_plan.take_profit_pct_primary, caps.tp_bps / 10000);
+    const bounded = applyRiskPlanWidthBounds({
+        playbook: decision.playbook,
+        regime: options.regime ?? auditRegime,
+        config: options.config,
+        stopLossPct: Math.abs(sl),
+        takeProfitPct: Math.abs(decision.risk_plan.take_profit_pct_primary ?? 0),
+        minRr
+    });
+    decision.risk_plan.stop_loss_pct = bounded.stop_loss_pct;
+    decision.risk_plan.take_profit_pct_primary = bounded.take_profit_pct_primary;
 }
 
 /**
@@ -141,14 +153,17 @@ export function computeRiskPlan(
     const basePlaybook = (playbook || "").split(":")[0]?.trim() || "Discretionary Edge";
     const multipliers = config.risk_plan_model.multipliers_by_playbook?.[basePlaybook] || { sl_mult: 1, tp_mult: 2 };
     const regimeAdj = config.risk_plan_model.regime_adjustments?.[regime] || { sl_mult_factor: 1, tp_mult_factor: 1 };
-    const caps = resolveRiskPlanCaps(basePlaybook, regime, config);
 
     const rawStopLossPct = anchor.value * (multipliers.sl_mult ?? 1) * (regimeAdj.sl_mult_factor ?? 1);
     const rawTakeProfitPct = anchor.value * (multipliers.tp_mult ?? 2) * (regimeAdj.tp_mult_factor ?? 1);
-    const stop_loss_pct = Math.min(rawStopLossPct, caps.sl_bps / 10000);
-    const take_profit_pct_primary = Math.min(rawTakeProfitPct, caps.tp_bps / 10000);
-
-    return { stop_loss_pct, take_profit_pct_primary };
+    return applyRiskPlanWidthBounds({
+        playbook: basePlaybook,
+        regime,
+        config,
+        stopLossPct: rawStopLossPct,
+        takeProfitPct: rawTakeProfitPct,
+        minRr: 1.5
+    });
 }
 
 export function resolveRiskPlanCaps(
@@ -165,6 +180,70 @@ export function resolveRiskPlanCaps(
         DEFAULT_RISK_PLAN_CAPS[basePlaybook]?.[regime ?? "DEFAULT"] ??
         DEFAULT_RISK_PLAN_CAPS[basePlaybook]?.DEFAULT ??
         DEFAULT_RISK_PLAN_CAPS.DEFAULT.DEFAULT!;
+}
+
+export function resolveRiskPlanFloors(
+    playbook: string | null | undefined,
+    regime: GlobalRegime["current"] | undefined,
+    config?: AgentConfig
+): RiskPlanFloors {
+    const basePlaybook = (playbook || "").split(":")[0]?.trim() || "DEFAULT";
+    const configured = config?.risk_plan_model.min_width_bps_by_playbook;
+    return configured?.[basePlaybook]?.[regime ?? "DEFAULT"] ??
+        configured?.[basePlaybook]?.DEFAULT ??
+        configured?.DEFAULT?.[regime ?? "DEFAULT"] ??
+        configured?.DEFAULT?.DEFAULT ??
+        DEFAULT_RISK_PLAN_FLOORS[basePlaybook]?.[regime ?? "DEFAULT"] ??
+        DEFAULT_RISK_PLAN_FLOORS[basePlaybook]?.DEFAULT ??
+        DEFAULT_RISK_PLAN_FLOORS.DEFAULT.DEFAULT!;
+}
+
+function applyRiskPlanWidthBounds(input: {
+    playbook: string | null | undefined;
+    regime: GlobalRegime["current"] | undefined;
+    config?: AgentConfig;
+    stopLossPct: number;
+    takeProfitPct: number;
+    minRr: number;
+}): { stop_loss_pct: number; take_profit_pct_primary: number } {
+    const caps = normalizeCapsForMinRr(resolveRiskPlanCaps(input.playbook, input.regime, input.config), input.minRr);
+    const rawFloors = resolveRiskPlanFloors(input.playbook, input.regime, input.config);
+    const floors = normalizeFloorsForCaps(rawFloors, caps, input.minRr);
+    const minSlPct = Math.max(0.001, floors.sl_bps / 10000);
+    const maxSlPct = caps.sl_bps / 10000;
+    const minTpPct = Math.max(0.002, floors.tp_bps / 10000);
+    const maxTpPct = caps.tp_bps / 10000;
+
+    let stop_loss_pct = clamp(input.stopLossPct, minSlPct, maxSlPct);
+    let take_profit_pct_primary = clamp(input.takeProfitPct, Math.max(minTpPct, stop_loss_pct * input.minRr), maxTpPct);
+
+    if (take_profit_pct_primary < stop_loss_pct * input.minRr) {
+        stop_loss_pct = clamp(take_profit_pct_primary / input.minRr, minSlPct, maxSlPct);
+        take_profit_pct_primary = clamp(take_profit_pct_primary, Math.max(minTpPct, stop_loss_pct * input.minRr), maxTpPct);
+    }
+
+    return { stop_loss_pct, take_profit_pct_primary };
+}
+
+function normalizeCapsForMinRr(caps: RiskPlanCaps, minRr: number): RiskPlanCaps {
+    if (caps.tp_bps >= caps.sl_bps * minRr) return caps;
+    return {
+        ...caps,
+        sl_bps: Math.floor((caps.tp_bps / minRr) * 100) / 100
+    };
+}
+
+function normalizeFloorsForCaps(floors: RiskPlanFloors, caps: RiskPlanCaps, minRr: number): RiskPlanFloors {
+    const sl_bps = Math.min(floors.sl_bps, caps.sl_bps);
+    const tp_bps = Math.min(Math.max(floors.tp_bps, sl_bps * minRr), caps.tp_bps);
+    return {
+        sl_bps: Math.min(sl_bps, tp_bps / minRr),
+        tp_bps
+    };
+}
+
+function clamp(value: number, min: number, max: number): number {
+    return Math.min(max, Math.max(min, value));
 }
 
 /**

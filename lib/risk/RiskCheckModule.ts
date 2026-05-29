@@ -6,7 +6,8 @@ import {
     clampRiskPlan as sharedClampRiskPlan,
     resolveAnchor as sharedResolveAnchor,
     getValueByPath as sharedGetValueByPath,
-    computeRiskPlan as sharedComputeRiskPlan
+    computeRiskPlan as sharedComputeRiskPlan,
+    resolveRiskPlanCaps as sharedResolveRiskPlanCaps
 } from "@/lib/risk/shared";
 
 // Re-export types for backward compatibility
@@ -156,8 +157,10 @@ export class RiskCheckModule {
         const slPct = Math.abs(decision.risk_plan.stop_loss_pct);
         const tpPct = Math.abs(decision.risk_plan.take_profit_pct_primary);
 
-        if (slPct < 0.001 || slPct > 0.05) {
-            return { approved: false, reason: `Stop Loss ${slPct} out of bounds (0.1% - 5%)` };
+        const maxConfiguredSlPct = sharedResolveRiskPlanCaps(decision.playbook, snapshot.global_regime.current, snapshot.presets?.agent).sl_bps / 10000;
+        const maxAllowedSlPct = Math.max(0.05, maxConfiguredSlPct);
+        if (slPct < 0.001 || slPct > maxAllowedSlPct) {
+            return { approved: false, reason: `Stop Loss ${slPct} out of bounds (0.1% - ${(maxAllowedSlPct * 100).toFixed(2)}%)` };
         }
 
         if (tpPct < 1.5 * slPct) {

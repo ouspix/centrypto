@@ -329,6 +329,26 @@ export function computeMfeMaeFromMarks(input: {
     };
 }
 
+export function enforceMfeMaeExitBounds(input: {
+    side: "long" | "short";
+    entryPrice: number;
+    exitPrice: number | null;
+    status: "OPEN" | "CLOSED" | string;
+    metrics: { mfeBps: number | null; maeBps: number | null; source: AutoTraderMfeSource; coverage: AutoTraderMfeCoverage };
+}): { mfeBps: number | null; maeBps: number | null; source: AutoTraderMfeSource; coverage: AutoTraderMfeCoverage } {
+    if (input.status !== "CLOSED" || !input.exitPrice || input.entryPrice <= 0) return input.metrics;
+    const exitBps = input.side === "long"
+        ? ((input.exitPrice - input.entryPrice) / input.entryPrice) * 10000
+        : ((input.entryPrice - input.exitPrice) / input.entryPrice) * 10000;
+    const mfeBps = Math.max(input.metrics.mfeBps ?? Number.NEGATIVE_INFINITY, Math.max(exitBps, 0));
+    const maeBps = Math.min(input.metrics.maeBps ?? Number.POSITIVE_INFINITY, Math.min(exitBps, 0));
+    return {
+        ...input.metrics,
+        mfeBps: Number.isFinite(mfeBps) ? round4(mfeBps) : input.metrics.mfeBps,
+        maeBps: Number.isFinite(maeBps) ? round4(maeBps) : input.metrics.maeBps
+    };
+}
+
 export function computeReviewFlags(input: {
     mfeBps: number | null;
     entryPrice: number;
@@ -417,6 +437,23 @@ export function extractOrderResponseStatus(response: any, index: number): { stat
     if (item.filled) return { status: "FILLED", oid: nullableString(item.filled.oid), reason: null };
     if (item.resting) return { status: "RESTING", oid: nullableString(item.resting.oid), reason: null };
     return { status: "SUBMITTED", oid: nullableString(item.oid), reason: null };
+}
+
+export function extractFilledOrderResponseSummary(response: any, index: number): {
+    oid: string | null;
+    avgPx: number;
+    totalSz: number;
+} | null {
+    const filled = response?.response?.data?.statuses?.[index]?.filled;
+    if (!filled) return null;
+    const avgPx = numberOrNull(filled.avgPx ?? filled.avg_px ?? filled.px);
+    const totalSz = numberOrNull(filled.totalSz ?? filled.total_sz ?? filled.sz);
+    if (!avgPx || !totalSz) return null;
+    return {
+        oid: nullableString(filled.oid),
+        avgPx,
+        totalSz
+    };
 }
 
 function lifecycleAttributionMethod(fills: LifecycleInputFill[]): AutoTraderAttributionMethod {
@@ -532,6 +569,11 @@ function nullableString(value: unknown): string | null {
     if (value === null || value === undefined) return null;
     const text = String(value);
     return text.length ? text : null;
+}
+
+function numberOrNull(value: unknown): number | null {
+    const number = typeof value === "number" ? value : Number(value);
+    return Number.isFinite(number) && number > 0 ? number : null;
 }
 
 function unique<T>(values: T[]): T[] {

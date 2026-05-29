@@ -68,6 +68,7 @@ describe("Trader-only v1 trigger scope", () => {
         expect(Object.keys(SCREENER_PRESETS)).toEqual([
             "Scalper Strict",
             "Momentum Moderate",
+            "Balanced PM v2",
             "optimized",
             "Swing Relaxed",
             "Testnet Aggressive"
@@ -75,6 +76,7 @@ describe("Trader-only v1 trigger scope", () => {
         expect(Object.keys(AGENT_PRESETS)).toEqual([
             "Scalper Strict",
             "Momentum Moderate",
+            "Balanced PM v2",
             "optimized",
             "Swing Relaxed",
             "LLM Permissive",
@@ -90,6 +92,14 @@ describe("Trader-only v1 trigger scope", () => {
         expect(AGENT_PRESETS["LLM Permissive"].gates.edge_to_cost_mult_by_regime.CHOP).toBe(6);
         expect(AGENT_PRESETS["Testnet Aggressive"].preset_live_mode).toBe("non_live");
         expect(AGENT_PRESETS["Momentum Moderate"].cost_sanity.min_edge_to_cost_mult).toBe(4);
+        expect(SCREENER_PRESETS["Balanced PM v2"].maxSpreadBps).toBe(8);
+        expect(AGENT_PRESETS["Balanced PM v2"].risk.max_positions).toBe(3);
+        expect(AGENT_PRESETS["Balanced PM v2"].risk.default_leverage).toBe(1);
+        expect(AGENT_PRESETS["Balanced PM v2"].strategy_filters.blockMeanReversionOnBbExpansion).toBe(true);
+        expect(AGENT_PRESETS["Balanced PM v2"].strategy_filters.playbookBlocklist).not.toContain("Momentum:short");
+        expect(AGENT_PRESETS["Balanced PM v2"].position_management.policies.meanReversion.CHOP.repairMissingStop).toBe(true);
+        expect(AGENT_PRESETS["Balanced PM v2"].risk_plan_model.max_width_bps_by_playbook?.["Mean Reversion"]?.CHOP?.sl_bps).toBe(45);
+        expect(AGENT_PRESETS["Balanced PM v2"].risk_plan_model.min_width_bps_by_playbook?.["Mean Reversion"]?.CHOP?.tp_bps).toBe(45);
         expect(SCREENER_PRESETS.optimized.topN).toBe(26);
         expect(AGENT_PRESETS.optimized.risk.default_leverage).toBe(4);
     });
@@ -183,6 +193,58 @@ describe("Trader context builder", () => {
             .toBe(context.eligible_candidates[0].sizing.min_size_fraction);
         expect(context.eligible_candidates[0].sizing.suggested_size_fraction)
             .toBeLessThanOrEqual(context.eligible_candidates[0].sizing.max_allowed_size_fraction);
+    });
+
+    it("blocks mean-reversion candidates during BB expansion when strategy filters require it", async () => {
+        const config = {
+            ...DEFAULT_AGENT_CONFIG,
+            strategy_filters: {
+                ...DEFAULT_AGENT_CONFIG.strategy_filters,
+                blockMeanReversionOnBbExpansion: true
+            }
+        };
+        const markets = {
+            "BTC-PERP": baseMarket({
+                orderbook: { book_pressure: 0.25, bid_liquidity_usd: 100000, ask_liquidity_usd: 60000 },
+                returns: { m5: -0.02, m15: -0.03, h1: 0.01 },
+                vol_zscores: { vol_5m_vs_1h: 0.8, ret_5m_vs_1h: -4.2 },
+                regime_tags: ["bb_expansion"]
+            })
+        };
+        new MarketDerivedMetricsService().applyDerivedMetrics(markets, config, "CHOP", false);
+        const snapshot = baseSnapshot(markets);
+        snapshot.global_regime = { current: "CHOP", score: 0, reason: "test" };
+
+        const { context, diagnostics } = await new TraderContextBuilder().build(snapshot, config, true, "filtered");
+
+        expect(context.eligible_candidates).toHaveLength(0);
+        expect(diagnostics.rejection_counts.STRATEGY_BB_EXPANSION_MR_BLOCK).toBe(1);
+    });
+
+    it("blocks configured playbooks and symbol-side pairs before sizing", async () => {
+        const config = {
+            ...DEFAULT_AGENT_CONFIG,
+            strategy_filters: {
+                ...DEFAULT_AGENT_CONFIG.strategy_filters,
+                playbookBlocklist: ["Momentum:short", "Breakout:short"],
+                symbolSideBlocklist: [{ symbol: "NEAR", side: "long" as const }]
+            }
+        };
+        const markets = {
+            "BTC-PERP": baseMarket({
+                orderbook: { book_pressure: -0.55, bid_liquidity_usd: 50000, ask_liquidity_usd: 100000 },
+                returns: { m5: -0.01, m15: -0.02, h1: -0.02 },
+                vol_zscores: { vol_5m_vs_1h: 2.5, ret_5m_vs_1h: -2.2 }
+            }),
+            "NEAR-PERP": baseMarket({ symbol: "NEAR-PERP" })
+        };
+        new MarketDerivedMetricsService().applyDerivedMetrics(markets, config, "RISK_ON", false);
+
+        const { context, diagnostics } = await new TraderContextBuilder().build(baseSnapshot(markets), config, true, "filtered");
+
+        expect(context.eligible_candidates).toHaveLength(0);
+        expect(diagnostics.rejection_counts.STRATEGY_PLAYBOOK_BLOCK).toBe(1);
+        expect(diagnostics.rejection_counts.STRATEGY_SYMBOL_SIDE_BLOCK).toBe(1);
     });
 });
 

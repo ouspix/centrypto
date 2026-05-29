@@ -205,6 +205,40 @@ export async function getUserFillsByTime(userAddress: string, isTestnet: boolean
     }
 }
 
+export async function getOpenOrders(userAddress: string, isTestnet: boolean = false) {
+    try {
+        return await hyperliquidInfoPost<any[]>(
+            "hl:info:openOrders",
+            hyperliquidInfoUrl(isTestnet),
+            {
+                type: "openOrders",
+                user: userAddress.toLowerCase()
+            },
+            { ttlMs: 1_000, staleMs: 5_000, allowStale: true }
+        );
+    } catch (error) {
+        safeError("Error fetching Hyperliquid open orders", error);
+        return null;
+    }
+}
+
+export async function getFrontendOpenOrders(userAddress: string, isTestnet: boolean = false) {
+    try {
+        return await hyperliquidInfoPost<any[]>(
+            "hl:info:frontendOpenOrders",
+            hyperliquidInfoUrl(isTestnet),
+            {
+                type: "frontendOpenOrders",
+                user: userAddress.toLowerCase()
+            },
+            { ttlMs: 1_000, staleMs: 5_000, allowStale: true }
+        );
+    } catch (error) {
+        safeError("Error fetching Hyperliquid frontend open orders", error);
+        return null;
+    }
+}
+
 export async function getOrderStatus(userAddress: string, oidOrCloid: string | number, isTestnet: boolean = false) {
     try {
         const oid = typeof oidOrCloid === "number" || /^\d+$/.test(String(oidOrCloid))

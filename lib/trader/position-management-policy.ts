@@ -37,8 +37,8 @@ const BASE_POLICY: PositionManagementResolvedPolicy = {
     allowRunner: false,
     closeOnThesisInvalidation: true,
     closeOnRegimeConflict: true,
-    repairMissingStop: true,
-    repairStaleTakeProfit: true
+    repairMissingStop: false,
+    repairStaleTakeProfit: false
 };
 
 export const DEFAULT_POSITION_MANAGEMENT_CONFIG: PositionManagementConfig = {

@@ -35,6 +35,7 @@ import {
     computeMfeMaeFromMarks,
     computeOpenReviewFlags,
     computeReviewFlags,
+    enforceMfeMaeExitBounds,
     extractOrderResponseStatus,
     extractOrderStatusOid,
     generateCloid,
@@ -154,6 +155,31 @@ export class AutoTraderReviewService {
         });
     }
 
+    public async markStaleRunningRuns(input: {
+        accountAddress?: string | null;
+        network?: AutoTraderNetwork | null;
+        staleBefore: Date;
+        status?: "FAILED" | "SKIPPED";
+        reason?: string;
+    }): Promise<number> {
+        if (!this.modelsAvailable()) return 0;
+        const result = await this.model("autoTraderRun").updateMany({
+            where: {
+                status: "RUNNING",
+                startedAt: { lt: input.staleBefore },
+                ...(input.accountAddress ? { accountAddress: input.accountAddress.toLowerCase() } : {}),
+                ...(input.network ? { network: input.network } : {})
+            },
+            data: {
+                status: input.status ?? "FAILED",
+                error: input.reason ?? "stale running auto-trader run finalized during claim",
+                finishedAt: new Date(),
+                updatedAt: new Date()
+            }
+        });
+        return result.count ?? 0;
+    }
+
     public async snapshotPositions(runId: string | null, phase: AutoTraderPositionSnapshotPhase, snapshot: StateSnapshot): Promise<Map<string, string>> {
         const map = new Map<string, string>();
         if (!runId || !this.modelsAvailable()) return map;
@@ -228,6 +254,36 @@ export class AutoTraderReviewService {
         return rows;
     }
 
+    public async createPositionManagerDecision(input: {
+        runId: string | null;
+        action: PositionManagementAction;
+    }): Promise<string | null> {
+        if (!input.runId || !this.modelsAvailable()) return null;
+        const created = await this.model("autoTraderDecision").create({
+            data: {
+                runId: input.runId,
+                decisionType: "OPEN_POSITION_MANAGEMENT",
+                candidateId: null,
+                positionSnapshotId: null,
+                action: input.action.action,
+                symbol: input.action.symbol,
+                side: input.action.side,
+                confidence: 1,
+                skipReason: null,
+                rawLlmDecisionJson: null,
+                normalizedDecisionJson: safeJson(input.action),
+                preRiskDecisionJson: safeJson(input.action),
+                riskAssessmentJson: null,
+                finalDecisionJson: safeJson(input.action),
+                finalRiskPlanJson: null,
+                submittedOrderPlanJson: null,
+                validatorStatus: "accepted",
+                validatorErrorsJson: null
+            }
+        });
+        return created.id;
+    }
+
     public async createOrderAttempts(decisionId: string | null, drafts: AutoTraderOrderAttemptDraft[]): Promise<string[]> {
         if (!decisionId || !this.modelsAvailable()) return [];
         const ids: string[] = [];
@@ -265,6 +321,110 @@ export class AutoTraderReviewService {
         await this.model("autoTraderDecision").update({
             where: { id: decisionId },
             data: { submittedOrderPlanJson: safeJson(plan) }
+        });
+    }
+
+    public async updateOrderAttemptStatusesByIds(
+        attemptIds: string[],
+        status: AutoTraderOrderStatus,
+        reason?: string | null
+    ): Promise<void> {
+        if (!attemptIds.length || !this.modelsAvailable()) return;
+        await this.model("autoTraderOrderAttempt").updateMany({
+            where: { id: { in: attemptIds } },
+            data: {
+                status,
+                statusReason: reason ?? null,
+                exchangeReceivedAt: new Date()
+            }
+        });
+    }
+
+    public async updateOrderAttemptStatusesByOids(input: {
+        accountAddress: string;
+        network: AutoTraderNetwork;
+        oids: string[];
+        status: AutoTraderOrderStatus;
+        reason?: string | null;
+    }): Promise<void> {
+        const oids = input.oids.map(oid => String(oid)).filter(Boolean);
+        if (!oids.length || !this.modelsAvailable()) return;
+        await this.model("autoTraderOrderAttempt").updateMany({
+            where: {
+                oid: { in: oids },
+                decision: {
+                    run: {
+                        accountAddress: input.accountAddress.toLowerCase(),
+                        network: input.network
+                    }
+                }
+            },
+            data: {
+                status: input.status,
+                statusReason: input.reason ?? null,
+                exchangeReceivedAt: new Date()
+            }
+        });
+    }
+
+    public async getAttemptFillSummary(attemptId: string | null): Promise<{
+        avgPx: number;
+        totalSz: number;
+        totalFee: number;
+        notionalUsd: number;
+        firstFillAt: Date;
+    } | null> {
+        if (!attemptId || !this.modelsAvailable()) return null;
+        const fills = await this.model("autoTraderFill").findMany({
+            where: { orderAttemptId: attemptId },
+            orderBy: { time: "asc" }
+        });
+        return fillSummary(fills);
+    }
+
+    public async upsertPositionStateAfterEntryFill(input: {
+        accountAddress: string;
+        network: AutoTraderNetwork;
+        lifecycleId?: string | null;
+        symbol: string;
+        side: "long" | "short";
+        entryPrice: number;
+        openedAt: Date;
+        policyVersion: string;
+    }): Promise<void> {
+        const stateModel = this.model("autoTraderPositionState", false);
+        if (!stateModel?.upsert) return;
+        await stateModel.upsert({
+            where: {
+                accountAddress_network_symbol_side_openedAt: {
+                    accountAddress: input.accountAddress.toLowerCase(),
+                    network: input.network,
+                    symbol: input.symbol,
+                    side: input.side,
+                    openedAt: input.openedAt
+                }
+            },
+            update: {
+                lifecycleId: input.lifecycleId ?? undefined,
+                entryPrice: input.entryPrice,
+                state: "NEW",
+                policyVersion: input.policyVersion
+            },
+            create: {
+                accountAddress: input.accountAddress.toLowerCase(),
+                network: input.network,
+                lifecycleId: input.lifecycleId ?? null,
+                symbol: input.symbol,
+                side: input.side,
+                state: "NEW",
+                entryPrice: input.entryPrice,
+                openedAt: input.openedAt,
+                highestMfeBps: 0,
+                lowestMaeBps: 0,
+                peakUnrealizedPnl: 0,
+                partialTakenFraction: 0,
+                policyVersion: input.policyVersion
+            }
         });
     }
 
@@ -552,6 +712,14 @@ export class AutoTraderReviewService {
         });
     }
 
+    public async updateRunAgentWallet(runId: string | null, agentWalletAddress: string | null): Promise<void> {
+        if (!runId || !agentWalletAddress || !this.modelsAvailable()) return;
+        await this.model("autoTraderRun").update({
+            where: { id: runId },
+            data: { agentWalletAddress: agentWalletAddress.toLowerCase() }
+        });
+    }
+
     public buildOrderAttemptDrafts(input: {
         decision: TradeDecision;
         symbol: string;
@@ -624,6 +792,62 @@ export class AutoTraderReviewService {
                 intendedSizeUsd: input.sizeUsd,
                 intendedSizeCoin: input.sizeCoin,
                 intendedTakeProfitPx: input.takeProfitPrice,
+                status: "PLANNED"
+            });
+        }
+
+        return drafts;
+    }
+
+    public buildBracketOrderAttemptDrafts(input: {
+        symbol: string;
+        positionSide: "long" | "short";
+        sizeCoin: number;
+        sizeUsd: number;
+        stopLossPrice?: number | null;
+        takeProfitPrice?: number | null;
+        nonce: number;
+        requestHashSeed: unknown;
+    }): AutoTraderOrderAttemptDraft[] {
+        const attachCloids = process.env.AUTO_TRADER_ATTACH_CLOID !== "false";
+        const batchId = hashJson({ nonce: input.nonce, symbol: input.symbol, seed: input.requestHashSeed }).slice(0, 24);
+        const orderSide = input.positionSide === "long" ? "sell" : "buy";
+        const drafts: AutoTraderOrderAttemptDraft[] = [];
+
+        if (input.stopLossPrice) {
+            drafts.push({
+                orderRole: "STOP_LOSS",
+                symbol: input.symbol,
+                cloid: attachCloids ? generateCloid() : null,
+                batchId,
+                batchIndex: drafts.length,
+                nonce: String(input.nonce),
+                positionSide: input.positionSide,
+                orderSide,
+                reduceOnly: true,
+                intendedSizeUsd: input.sizeUsd,
+                intendedSizeCoin: input.sizeCoin,
+                intendedStopLossPx: input.stopLossPrice,
+                requestHash: hashJson({ ...(input.requestHashSeed as any), orderRole: "STOP_LOSS" }),
+                status: "PLANNED"
+            });
+        }
+
+        if (input.takeProfitPrice) {
+            drafts.push({
+                orderRole: "TAKE_PROFIT",
+                symbol: input.symbol,
+                cloid: attachCloids ? generateCloid() : null,
+                batchId,
+                batchIndex: drafts.length,
+                nonce: String(input.nonce),
+                positionSide: input.positionSide,
+                orderSide,
+                reduceOnly: true,
+                intendedSizeUsd: input.sizeUsd,
+                intendedSizeCoin: input.sizeCoin,
+                intendedTakeProfitPx: input.takeProfitPrice,
+                requestHash: hashJson({ ...(input.requestHashSeed as any), orderRole: "TAKE_PROFIT" }),
                 status: "PLANNED"
             });
         }
@@ -941,7 +1165,9 @@ export class AutoTraderReviewService {
             }
         });
 
-        if (fill.fillType === "CLOSE" && (attempt.orderRole === "TAKE_PROFIT" || attempt.orderRole === "STOP_LOSS")) {
+        const syncFilledRole = (fill.fillType === "CLOSE" && (attempt.orderRole === "TAKE_PROFIT" || attempt.orderRole === "STOP_LOSS" || attempt.orderRole === "CLOSE" || attempt.orderRole === "REDUCE")) ||
+            (fill.fillType === "OPEN" && attempt.orderRole === "ENTRY");
+        if (syncFilledRole) {
             await this.model("autoTraderOrderAttempt").update({
                 where: { id: attempt.id },
                 data: { status: "FILLED_FROM_SYNC" }
@@ -1072,6 +1298,14 @@ export class AutoTraderReviewService {
                 marks: snapshots.map((row: any) => Number(row.markPrice))
             });
         }
+
+        metrics = enforceMfeMaeExitBounds({
+            side: lifecycle.side,
+            entryPrice: lifecycle.entryPrice,
+            exitPrice: lifecycle.exitPrice,
+            status: lifecycle.status,
+            metrics
+        });
 
         const flags = computeReviewFlags({
             mfeBps: metrics.mfeBps,
@@ -1372,6 +1606,27 @@ function codeVersion(): string | null {
 function finiteOrNull(value: unknown): number | null {
     const number = typeof value === "number" ? value : Number(value);
     return Number.isFinite(number) ? number : null;
+}
+
+function fillSummary(fills: any[]): {
+    avgPx: number;
+    totalSz: number;
+    totalFee: number;
+    notionalUsd: number;
+    firstFillAt: Date;
+} | null {
+    const valid = fills.filter(fill => Number(fill?.px) > 0 && Number(fill?.sz) > 0);
+    if (!valid.length) return null;
+    const totalSz = valid.reduce((sum, fill) => sum + Math.abs(Number(fill.sz)), 0);
+    if (totalSz <= 0) return null;
+    const notionalUsd = valid.reduce((sum, fill) => sum + Math.abs(Number(fill.sz)) * Number(fill.px), 0);
+    return {
+        avgPx: notionalUsd / totalSz,
+        totalSz,
+        totalFee: valid.reduce((sum, fill) => sum + Math.abs(Number(fill.fee ?? 0)), 0),
+        notionalUsd,
+        firstFillAt: new Date(valid[0].time)
+    };
 }
 
 function parseJsonArray(value: unknown): string[] {
