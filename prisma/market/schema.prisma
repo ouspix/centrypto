@@ -44,4 +44,5 @@ model MarketCandle {
 
   @@unique([symbol, timeframe, openTime])
   @@index([symbol, timeframe, openTime])
+  @@index([timeframe, openTime, symbol])
 }

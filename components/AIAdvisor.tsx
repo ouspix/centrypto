@@ -652,6 +652,7 @@ export function AIAdvisor() {
                                     <ConfigEditor
                                         initialConfig={customConfig || DEFAULT_AGENT_CONFIG}
                                         initialPreset={agentPreset}
+                                        isTestnet={isTestnet}
                                         onSave={handleSaveConfig}
                                         onCancel={() => setShowConfig(false)}
                                     />

@@ -35,6 +35,11 @@ type ReadySymbolCoverage = {
     requiredCandles: number;
 };
 
+type CandleCoverageRow = {
+    symbol: string;
+    candleCount: number | bigint;
+};
+
 export type MarketDataReadiness = {
     ready: boolean;
     network: "mainnet" | "testnet";
@@ -464,7 +469,7 @@ export async function getMarketDataReadiness(isTestnet: boolean): Promise<Market
     const network = isTestnet ? "testnet" : "mainnet";
     const lookbackStart = new Date(Date.now() - READINESS_LOOKBACK_MS);
     const requiredCandles = Math.floor((READINESS_LOOKBACK_MS / 60_000) * READINESS_COVERAGE_RATIO);
-    const [latestTick, latestCandle, coverage] = await Promise.all([
+    const [latestTick, latestCandle, coverageRows] = await Promise.all([
         db.marketTick.findFirst({
             orderBy: { ts: "desc" },
             select: { ts: true, symbol: true }
@@ -474,21 +479,25 @@ export async function getMarketDataReadiness(isTestnet: boolean): Promise<Market
             orderBy: { openTime: "desc" },
             select: { openTime: true, symbol: true }
         }),
-        db.marketCandle.groupBy({
-            by: ["symbol"],
-            where: {
-                timeframe: "1m",
-                openTime: { gte: lookbackStart }
-            },
-            _count: { _all: true }
-        })
+        db.$queryRawUnsafe<Array<CandleCoverageRow>>(
+            `SELECT "symbol" as "symbol", COUNT(*) as "candleCount"
+             FROM "MarketCandle"
+             WHERE "timeframe" = ? AND "openTime" >= ?
+             GROUP BY "symbol"`,
+            "1m",
+            lookbackStart
+        )
     ]);
+    const coverage = coverageRows.map(row => ({
+        symbol: row.symbol,
+        candleCount: Number(row.candleCount)
+    }));
 
     const stale = staleReasons(latestTick?.ts ?? null, latestCandle?.openTime ?? null, maxAgeMs);
     const bestSymbols = coverage
         .map(row => ({
             symbol: row.symbol,
-            candleCount: row._count._all,
+            candleCount: row.candleCount,
             requiredCandles
         }))
         .sort((a, b) => b.candleCount - a.candleCount || a.symbol.localeCompare(b.symbol));

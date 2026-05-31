@@ -14,6 +14,40 @@ from backtest_py import optimizer
 
 
 class OptimizerHardeningTest(unittest.TestCase):
+    def test_balanced_pm_defaults_and_legacy_aliases_work(self) -> None:
+        parser = optimizer.build_parser()
+        args = parser.parse_args([
+            "--start",
+            "2026-01-01T00:00:00Z",
+            "--end",
+            "2026-01-02T00:00:00Z",
+            "--symbols",
+            "BTC",
+        ])
+        settings = optimizer.settings_from_args(args)
+
+        self.assertEqual(settings.agent_preset_name, "Balanced PM v2")
+        self.assertEqual(settings.screening_preset_name, "Balanced PM v2")
+        self.assertEqual(optimizer.default_agent_config()["preset_name"], "Balanced PM v2")
+        self.assertEqual(optimizer.default_screener_config()["topN"], 16)
+
+        args = parser.parse_args([
+            "--start",
+            "2026-01-01T00:00:00Z",
+            "--end",
+            "2026-01-02T00:00:00Z",
+            "--symbols",
+            "BTC",
+            "--base-agent",
+            "Momentum Moderate",
+            "--screening",
+            "Momentum Moderate",
+        ])
+        settings = optimizer.settings_from_args(args)
+
+        self.assertEqual(settings.agent_preset_name, "Momentum Moderate")
+        self.assertEqual(settings.screening_preset_name, "Momentum Moderate")
+
     def test_signals_only_profile_does_not_mutate_risk_or_screener_hard_gates(self) -> None:
         base_agent = optimizer.default_agent_config()
         base_screener = optimizer.default_screener_config()
@@ -75,6 +109,55 @@ class OptimizerHardeningTest(unittest.TestCase):
 
         with self.assertRaises(SystemExit):
             optimizer.settings_from_args(args)
+
+    def test_safe_profiles_exclude_unsafe_exposure_and_leverage_ranges(self) -> None:
+        risk_specs = {spec["path"]: spec for spec in optimizer.param_specs_for_profile("risk")}
+        screening_specs = {spec["path"]: spec for spec in optimizer.param_specs_for_profile("screening")}
+
+        self.assertLessEqual(risk_specs["risk.max_positions"]["max"], 4)
+        self.assertLessEqual(risk_specs["risk.max_position_fraction"]["max"], 0.08)
+        self.assertLessEqual(risk_specs["risk.max_total_exposure_fraction"]["max"], 0.30)
+        self.assertLessEqual(risk_specs["risk.max_effective_leverage"]["max"], 3)
+        self.assertLessEqual(risk_specs["risk.exchange_max_leverage_allowed"]["max"], 3)
+        self.assertLessEqual(screening_specs["maxSpreadBps"]["max"], 12)
+        self.assertLessEqual(screening_specs["maxCostBps"]["max"], 18)
+
+        full_specs = {spec["path"]: spec for spec in optimizer.param_specs_for_profile("full")}
+        self.assertGreaterEqual(full_specs["risk.max_total_exposure_fraction"]["max"], 1.5)
+        self.assertGreaterEqual(full_specs["risk.max_effective_leverage"]["max"], 20)
+
+    def test_position_management_profile_requires_playbook_sltp(self) -> None:
+        parser = optimizer.build_parser()
+        args = parser.parse_args([
+            "--start",
+            "2026-01-01T00:00:00Z",
+            "--end",
+            "2026-01-02T00:00:00Z",
+            "--symbols",
+            "BTC",
+            "--param-profile",
+            "position_management",
+        ])
+
+        with self.assertRaises(SystemExit):
+            optimizer.settings_from_args(args)
+
+        args = parser.parse_args([
+            "--start",
+            "2026-01-01T00:00:00Z",
+            "--end",
+            "2026-01-02T00:00:00Z",
+            "--symbols",
+            "BTC",
+            "--param-profile",
+            "position_management",
+            "--exit-strategy",
+            "playbook_sltp",
+        ])
+        settings = optimizer.settings_from_args(args)
+
+        self.assertTrue(settings.param_specs)
+        self.assertTrue(all(spec["path"].startswith("position_management.") for spec in settings.param_specs))
 
     def test_in_sample_artifacts_are_quarantined(self) -> None:
         result = optimizer.mark_in_sample_only(scored_train_result(candidate_with_trigger(1.0)))
@@ -159,9 +242,13 @@ class OptimizerHardeningTest(unittest.TestCase):
                 llm_prompts_zip_path=None,
                 ollama_base_url=None,
                 run_id="test",
-                screening_preset_name="Momentum Moderate",
-                agent_preset_name="Momentum Moderate",
+                screening_preset_name="Balanced PM v2",
+                agent_preset_name="Balanced PM v2",
                 fold_universe_file=str(fold_file),
+                calibrate_candidates=False,
+                calibrate_only=False,
+                calibration_horizons_minutes=[15, 60, 240],
+                calibration_max_rows=0,
             )
             context = optimizer.BacktestContext(
                 features=pl.DataFrame(),
@@ -307,6 +394,129 @@ class OptimizerHardeningTest(unittest.TestCase):
         low_configured = optimizer.OptimizerGates(min_trades=5, min_trade_coverage_ratio=0.60, min_trades_floor=8)
         low_diagnostic = optimizer.min_trade_diagnostics(metrics(10, trade_count=5), low_configured, 3, fold_evaluation=True)
         self.assertEqual(low_diagnostic["effective_min_trades"], 5)
+
+    def test_dynamic_min_trades_applies_outside_walk_forward_folds(self) -> None:
+        gates = optimizer.OptimizerGates(min_trades=30, min_trade_coverage_ratio=0.60, min_trades_floor=8)
+        diagnostic = optimizer.min_trade_diagnostics(metrics(10, trade_count=22), gates, 35, fold_evaluation=False)
+
+        self.assertEqual(diagnostic["effective_min_trades"], 21)
+        self.assertEqual(diagnostic["min_trades_floor"], 8)
+        self.assertFalse(diagnostic["hard_reject"])
+        self.assertIsNone(
+            optimizer.optimizer_rejection_reason(
+                metrics(10, trade_count=22),
+                coverage(),
+                gates,
+                ["BTC-PERP"],
+                fold_evaluation=False,
+                eligible_candidate_count=35,
+            )
+        )
+
+        reason = optimizer.optimizer_rejection_reason(
+            metrics(10, trade_count=7),
+            coverage(),
+            gates,
+            ["BTC-PERP"],
+            fold_evaluation=False,
+            eligible_candidate_count=35,
+        )
+        self.assertEqual(reason, "min_trades_floor:7<8")
+
+    def test_risk_plan_floors_and_caps_affect_sl_tp(self) -> None:
+        agent = optimizer.default_agent_config()
+        low_row = {
+            "playbook": "Momentum",
+            "regime": "RISK_ON",
+            "expected_move_bps": 5,
+        }
+        high_row = {
+            "playbook": "Momentum",
+            "regime": "RISK_ON",
+            "expected_move_bps": 5_000,
+        }
+
+        low_sl, low_tp = optimizer.compute_risk_plan(low_row, agent)
+        high_sl, high_tp = optimizer.compute_risk_plan(high_row, agent)
+
+        self.assertAlmostEqual(low_sl * 10_000, 60)
+        self.assertAlmostEqual(low_tp * 10_000, 100)
+        self.assertAlmostEqual(high_sl * 10_000, 120)
+        self.assertAlmostEqual(high_tp * 10_000, 240)
+
+    def test_adaptive_successive_halving_uses_shared_cheap_slices(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            parser = optimizer.build_parser()
+            args = parser.parse_args([
+                "--data",
+                tmp,
+                "--output-dir",
+                tmp,
+                "--start",
+                "2026-01-01T00:00:00Z",
+                "--end",
+                "2026-01-05T00:00:00Z",
+                "--symbols",
+                "BTC",
+                "--optimizer-mode",
+                "adaptive",
+                "--generations",
+                "1",
+                "--slice-count",
+                "4",
+                "--halving-keep-ratio",
+                "0.5",
+                "--param-profile",
+                "signals_only",
+            ])
+            settings = optimizer.settings_from_args(args)
+            context = optimizer.BacktestContext(
+                features=pl.DataFrame(),
+                candles_by_symbol={},
+                features_by_symbol={},
+                feature_timestamps=[],
+                recorded_decisions_by_timestamp={},
+                coverage=coverage(),
+                settings=settings,
+            )
+            candidates = [candidate_with_trigger(1.0 + index * 0.1) for index in range(4)]
+            cheap_spans_by_hash: dict[str, list[tuple[int, int]]] = {}
+
+            def fake_evaluate(ctx, candidate, gates, start_ms, end_ms, coverage=None, include_trades=False, symbols=None):
+                hash_value = optimizer.config_hash(candidate["agentConfig"], candidate["screenerConfig"])
+                if (start_ms, end_ms) != (settings.start_ms, settings.end_ms):
+                    cheap_spans_by_hash.setdefault(hash_value, []).append((start_ms, end_ms))
+                return {
+                    "config_hash": hash_value,
+                    "agentConfig": candidate["agentConfig"],
+                    "screenerConfig": candidate["screenerConfig"],
+                    "metrics": metrics(10, trade_count=10),
+                    "coverage": coverage or globals()["coverage"](),
+                    "score": 10.0,
+                    "raw_score": 10.0,
+                    "rejected": False,
+                    "rejection_reason": None,
+                    "evaluation_status": "ok",
+                }
+
+            with patch.object(optimizer, "build_generation_candidates", return_value=candidates), \
+                    patch.object(optimizer, "evaluate_candidate", side_effect=fake_evaluate):
+                _results, trace = optimizer.run_adaptive(
+                    context,
+                    optimizer.OptimizerGates(min_trades=0),
+                    output_dir=Path(tmp),
+                    coverage=coverage(),
+                )
+
+            expected_panel = optimizer.build_evaluation_slices(settings.start_ms, settings.end_ms, settings.slice_count)[:2]
+            self.assertEqual(set(cheap_spans_by_hash), {
+                optimizer.config_hash(candidate["agentConfig"], candidate["screenerConfig"])
+                for candidate in candidates
+            })
+            self.assertTrue(all(spans == expected_panel for spans in cheap_spans_by_hash.values()))
+            generation = trace["generation_summaries"][0]
+            self.assertEqual(generation["cheap_evaluation_count"], len(candidates) * 2)
+            self.assertEqual(len(generation["cheap_slice_metadata"]), 2)
 
     def test_soft_concentration_breach_penalizes_not_rejects(self) -> None:
         gates = optimizer.OptimizerGates(
@@ -457,6 +667,10 @@ class OptimizerHardeningTest(unittest.TestCase):
 
     def test_sizing_uses_min_notional_floor_when_soft_target_is_too_small(self) -> None:
         agent = optimizer.default_agent_config()
+        agent["risk"]["max_position_fraction"] = 0.15
+        agent["risk"]["max_position_fraction_per_symbol"] = 0.15
+        agent["risk"]["max_total_exposure_fraction"] = 0.15
+        agent["risk"]["max_correlation_group_exposure_fraction"] = 0.15
         row = {
             "symbol": "PENGU-PERP",
             "side": "long",
@@ -853,6 +1067,87 @@ class OptimizerHardeningTest(unittest.TestCase):
         self.assertLess(fields["hyperliquid_liquidation_distance_bps"], fields["stop_bps"])
         self.assertTrue(fields["hyperliquid_liquidation_before_stop_loss"])
 
+    def test_calibrator_keeps_rejected_rows_and_writes_grouped_summaries(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            start_ms = optimizer.parse_ts("2026-01-01T00:00:00Z")
+            end_ms = optimizer.parse_ts("2026-01-01T05:00:00Z")
+            parser = optimizer.build_parser()
+            args = parser.parse_args([
+                "--data",
+                tmp,
+                "--output-dir",
+                tmp,
+                "--start",
+                "2026-01-01T00:00:00Z",
+                "--end",
+                "2026-01-01T05:00:00Z",
+                "--symbols",
+                "BTC,ETH",
+                "--calibrate-candidates",
+                "true",
+                "--calibration-horizons-minutes",
+                "60",
+            ])
+            settings = optimizer.settings_from_args(args)
+            features = pl.DataFrame([
+                calibration_feature(start_ms, "BTC-PERP", spread_bps=20.0),
+                calibration_feature(start_ms, "ETH-PERP", spread_bps=2.0),
+            ])
+            context = optimizer.BacktestContext(
+                features=features,
+                candles_by_symbol={
+                    "BTC-PERP": optimizer.CandleSeries(
+                        ts_ms=[start_ms + 60_000],
+                        open=[100.5],
+                        high=[104.0],
+                        low=[100.0],
+                        close=[103.0],
+                    ),
+                    "ETH-PERP": optimizer.CandleSeries(
+                        ts_ms=[start_ms + 60_000],
+                        open=[100.0],
+                        high=[100.5],
+                        low=[98.0],
+                        close=[98.5],
+                    ),
+                },
+                features_by_symbol={},
+                feature_timestamps=[],
+                recorded_decisions_by_timestamp={},
+                coverage=coverage(),
+                settings=settings,
+            )
+
+            summary = optimizer.run_candidate_calibration(context)
+
+            self.assertEqual(summary["row_count"], 2)
+            self.assertEqual(summary["classification_counts"]["missed_opportunity"], 1)
+            self.assertEqual(summary["classification_counts"]["bad_accepted"], 1)
+            output_dir = Path(tmp)
+            for name in [
+                "candidate_calibration.jsonl",
+                "candidate_calibration_summary.json",
+                "candidate_calibration_by_reason.csv",
+                "candidate_calibration_by_playbook.csv",
+                "candidate_calibration_top_misses.csv",
+                "candidate_calibration_bad_accepts.csv",
+                "candidate_calibration.md",
+            ]:
+                self.assertTrue((output_dir / name).exists(), name)
+
+            rows = [
+                json.loads(line)
+                for line in (output_dir / "candidate_calibration.jsonl").read_text(encoding="utf-8").splitlines()
+                if line.strip()
+            ]
+            rejected = next(row for row in rows if row["symbol"] == "BTC-PERP")
+            accepted = next(row for row in rows if row["symbol"] == "ETH-PERP")
+            self.assertFalse(rejected["accepted_static"])
+            self.assertIn("SPREAD_GATE", rejected["reject_reasons"])
+            self.assertEqual(rejected["classification"], "missed_opportunity")
+            self.assertTrue(accepted["accepted_static"])
+            self.assertEqual(accepted["classification"], "bad_accepted")
+
 
 def candidate_with_trigger(vol_ratio: float) -> dict:
     agent = optimizer.default_agent_config()
@@ -1044,6 +1339,31 @@ def scored_test_result(candidate: dict, start_ms: int, end_ms: int, symbols: lis
         "rejection_reason": None,
         "evaluation_status": "ok",
         "trades": [trade],
+    }
+
+
+def calibration_feature(ts_ms: int, symbol: str, *, spread_bps: float) -> dict:
+    return {
+        "ts_ms": ts_ms,
+        "symbol": symbol,
+        "interval_seconds": 60,
+        "best_bid": 99.9,
+        "best_ask": 100.1,
+        "mid_price": 100.0,
+        "spread_bps": spread_bps,
+        "bid_depth_10bps_usd": 250_000.0,
+        "ask_depth_10bps_usd": 250_000.0,
+        "depth_10bps_usd": 250_000.0,
+        "book_pressure_10bps": 0.35,
+        "ret_5m": 0.01,
+        "ret_15m": 0.03,
+        "ret_1h": 0.04,
+        "realized_vol_5m": 0.003,
+        "vol_ratio_5m_vs_1h": 1.0,
+        "ret_sigma_5m_vs_1h": 3.0,
+        "trend_alignment_score": 1.0,
+        "volume_24h": 50_000_000.0,
+        "avg_candle_volume_1m": 10_000.0,
     }
 
 

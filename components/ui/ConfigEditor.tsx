@@ -1,24 +1,89 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { AgentConfig, DEFAULT_AGENT_CONFIG, AGENT_PRESETS } from "@/lib/agent-config";
+import { getMeta } from "@/lib/hyperliquid-info";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LabelWithTooltip } from "@/components/ui/label-with-tooltip";
-import { Save, RotateCcw, X } from "lucide-react";
+import { Plus, Save, RotateCcw, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
 
 interface ConfigEditorProps {
     initialConfig?: AgentConfig;
     initialPreset?: string;
+    isTestnet?: boolean;
     onSave: (config: AgentConfig, presetName: string) => void | Promise<void>;
     onCancel: () => void;
 }
 
 const cloneConfig = (value: AgentConfig): AgentConfig => JSON.parse(JSON.stringify(value));
+type BlockSide = "long" | "short";
+type BlockSideChoice = BlockSide | "both";
+type SymbolSideBlock = AgentConfig["strategy_filters"]["symbolSideBlocklist"][number];
+
+const PLAYBOOK_OPTIONS = [
+    "Momentum:long",
+    "Momentum:short",
+    "Breakout:long",
+    "Breakout:short",
+    "Mean Reversion:long",
+    "Mean Reversion:short"
+];
+
+function normalizeInstrumentSymbol(value: string): string | null {
+    const trimmed = String(value ?? "").trim();
+    if (!trimmed) return null;
+    const base = trimmed
+        .toUpperCase()
+        .replace(/\s+/g, "")
+        .replace(/_/g, "-")
+        .replace(/\/.*$/, "")
+        .replace(/-PERP$/, "");
+    if (!base || !/^[A-Z0-9-]+$/.test(base)) return null;
+    return `${base}-PERP`;
+}
+
+function normalizeSymbolSideBlocklist(blocks: SymbolSideBlock[]): SymbolSideBlock[] {
+    const seen = new Set<string>();
+    const normalized: SymbolSideBlock[] = [];
+    for (const block of blocks ?? []) {
+        const symbol = normalizeInstrumentSymbol(block.symbol);
+        if (!symbol || (block.side !== "long" && block.side !== "short")) continue;
+        const key = `${symbol}:${block.side}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        normalized.push({ symbol, side: block.side });
+    }
+    return normalized;
+}
+
+function groupSymbolSideBlocks(blocks: SymbolSideBlock[]): Array<{ symbol: string; side: BlockSideChoice }> {
+    const bySymbol = new Map<string, Set<BlockSide>>();
+    for (const block of normalizeSymbolSideBlocklist(blocks)) {
+        if (!bySymbol.has(block.symbol)) bySymbol.set(block.symbol, new Set<BlockSide>());
+        bySymbol.get(block.symbol)!.add(block.side);
+    }
+
+    return Array.from(bySymbol.entries())
+        .map(([symbol, sides]) => ({
+            symbol,
+            side: sides.has("long") && sides.has("short")
+                ? "both" as const
+                : sides.has("long")
+                    ? "long" as const
+                    : "short" as const
+        }))
+        .sort((left, right) => left.symbol.localeCompare(right.symbol) || left.side.localeCompare(right.side));
+}
+
+function normalizePlaybookToken(value: string): string {
+    return String(value ?? "").trim().toLowerCase().replace(/_/g, " ").replace(/\s*:\s*/g, ":").replace(/\s+/g, " ");
+}
 
 function mergeEditorConfig(initialConfig?: AgentConfig): AgentConfig {
     const merged: AgentConfig = {
@@ -118,14 +183,38 @@ function mergeEditorConfig(initialConfig?: AgentConfig): AgentConfig {
     return cloneConfig(merged);
 }
 
-export function ConfigEditor({ initialConfig, initialPreset, onSave, onCancel }: ConfigEditorProps) {
+export function ConfigEditor({ initialConfig, initialPreset, isTestnet = true, onSave, onCancel }: ConfigEditorProps) {
     const [config, setConfig] = useState<AgentConfig>(() => mergeEditorConfig(initialConfig));
     const [preset, setPreset] = useState<string>(initialPreset || 'default');
+    const [symbolOptions, setSymbolOptions] = useState<string[]>([]);
+    const [symbolQuery, setSymbolQuery] = useState("");
+    const [blockSide, setBlockSide] = useState<BlockSideChoice>("both");
 
     useEffect(() => {
         setConfig(mergeEditorConfig(initialConfig));
         setPreset(initialPreset || 'default');
     }, [initialConfig, initialPreset]);
+
+    useEffect(() => {
+        let cancelled = false;
+        getMeta(isTestnet)
+            .then(meta => {
+                if (cancelled) return;
+                const symbols = Array.from(new Set(
+                    (meta ?? [])
+                        .map(asset => normalizeInstrumentSymbol(asset.name))
+                        .filter((symbol): symbol is string => !!symbol)
+                )).sort((left, right) => left.localeCompare(right));
+                setSymbolOptions(symbols);
+            })
+            .catch(() => {
+                if (!cancelled) setSymbolOptions([]);
+            });
+
+        return () => {
+            cancelled = true;
+        };
+    }, [isTestnet]);
 
     // Helper to update nested state
     const updateConfig = (path: string, value: any) => {
@@ -140,6 +229,77 @@ export function ConfigEditor({ initialConfig, initialPreset, onSave, onCancel }:
             return newConfig;
         });
         setPreset('custom');
+    };
+
+    const updateStrategyFilters = (updater: (filters: AgentConfig["strategy_filters"]) => AgentConfig["strategy_filters"]) => {
+        setConfig(prev => {
+            const newConfig = cloneConfig(prev);
+            newConfig.strategy_filters = updater({
+                ...DEFAULT_AGENT_CONFIG.strategy_filters,
+                ...newConfig.strategy_filters,
+                playbookBlocklist: newConfig.strategy_filters.playbookBlocklist ?? [],
+                symbolSideBlocklist: newConfig.strategy_filters.symbolSideBlocklist ?? []
+            });
+            return newConfig;
+        });
+        setPreset('custom');
+    };
+
+    const blockedInstrumentGroups = useMemo(
+        () => groupSymbolSideBlocks(config.strategy_filters.symbolSideBlocklist ?? []),
+        [config.strategy_filters.symbolSideBlocklist]
+    );
+
+    const symbolSearchOptions = useMemo(() => {
+        const symbols = new Set(symbolOptions);
+        for (const group of blockedInstrumentGroups) symbols.add(group.symbol);
+        const typed = normalizeInstrumentSymbol(symbolQuery);
+        if (typed) symbols.add(typed);
+        return Array.from(symbols).sort((left, right) => left.localeCompare(right));
+    }, [blockedInstrumentGroups, symbolOptions, symbolQuery]);
+
+    const addInstrumentBlock = () => {
+        const symbol = normalizeInstrumentSymbol(symbolQuery);
+        if (!symbol) {
+            toast.error("Enter a valid instrument symbol");
+            return;
+        }
+
+        const sides: BlockSide[] = blockSide === "both" ? ["long", "short"] : [blockSide];
+        updateStrategyFilters(filters => ({
+            ...filters,
+            symbolSideBlocklist: normalizeSymbolSideBlocklist([
+                ...(filters.symbolSideBlocklist ?? []),
+                ...sides.map(side => ({ symbol, side }))
+            ])
+        }));
+        setSymbolQuery("");
+        setBlockSide("both");
+    };
+
+    const removeInstrumentBlock = (symbol: string, side: BlockSideChoice) => {
+        const normalizedSymbol = normalizeInstrumentSymbol(symbol);
+        if (!normalizedSymbol) return;
+        const removedSides = side === "both" ? new Set<BlockSide>(["long", "short"]) : new Set<BlockSide>([side]);
+        updateStrategyFilters(filters => ({
+            ...filters,
+            symbolSideBlocklist: normalizeSymbolSideBlocklist(filters.symbolSideBlocklist ?? [])
+                .filter(block => block.symbol !== normalizedSymbol || !removedSides.has(block.side))
+        }));
+    };
+
+    const togglePlaybookBlock = (playbook: string) => {
+        const normalized = normalizePlaybookToken(playbook);
+        updateStrategyFilters(filters => {
+            const current = filters.playbookBlocklist ?? [];
+            const hasPlaybook = current.some(item => normalizePlaybookToken(item) === normalized);
+            return {
+                ...filters,
+                playbookBlocklist: hasPlaybook
+                    ? current.filter(item => normalizePlaybookToken(item) !== normalized)
+                    : [...current, playbook]
+            };
+        });
     };
 
     const handleSave = async () => {
@@ -308,11 +468,12 @@ export function ConfigEditor({ initialConfig, initialPreset, onSave, onCancel }:
                         </div>
                     </div>
                     <Tabs defaultValue="risk" className="w-full h-full flex flex-col">
-                        <TabsList className="grid w-full grid-cols-5 bg-slate-900/30 p-1 mb-5 rounded-lg border border-slate-800/50 shrink-0 gap-1">
+                        <TabsList className="grid w-full grid-cols-6 bg-slate-900/30 p-1 mb-5 rounded-lg border border-slate-800/50 shrink-0 gap-1">
                             <TabsTrigger value="risk" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Risk</TabsTrigger>
                             <TabsTrigger value="triggers" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Triggers</TabsTrigger>
                             <TabsTrigger value="regime" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Regime</TabsTrigger>
                             <TabsTrigger value="gates" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Gates</TabsTrigger>
+                            <TabsTrigger value="filters" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Filters</TabsTrigger>
                             <TabsTrigger value="network" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Network</TabsTrigger>
                         </TabsList>
 
@@ -807,6 +968,151 @@ export function ConfigEditor({ initialConfig, initialPreset, onSave, onCancel }:
                                             value={config.gates.cost_bps_max_by_regime.CHOP}
                                             onChange={e => updateConfig('gates.cost_bps_max_by_regime.CHOP', Number(e.target.value))}
                                         />
+                                    </div>
+                                </div>
+                            </TabsContent>
+
+                            {/* FILTERS */}
+                            <TabsContent value="filters" className="space-y-5 mt-0">
+                                <div className="space-y-3">
+                                    <h4 className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Instrument Blocks</h4>
+                                    <div className="grid grid-cols-[1fr_110px_auto] gap-2 items-end">
+                                        <div className="space-y-1.5">
+                                            <LabelWithTooltip
+                                                label="Instrument"
+                                                tooltip="Blocks new entries for the selected Hyperliquid perpetual symbol."
+                                                labelClassName="text-xs text-slate-300 font-medium"
+                                            />
+                                            <Input
+                                                aria-label="Instrument symbol"
+                                                list="instrument-symbol-options"
+                                                className="bg-slate-900/50 border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/20 transition-all h-8 text-sm rounded-md"
+                                                value={symbolQuery}
+                                                placeholder="DOGE-PERP"
+                                                onChange={event => setSymbolQuery(event.target.value)}
+                                                onKeyDown={event => {
+                                                    if (event.key === "Enter") {
+                                                        event.preventDefault();
+                                                        addInstrumentBlock();
+                                                    }
+                                                }}
+                                            />
+                                            <datalist id="instrument-symbol-options">
+                                                {symbolSearchOptions.map(symbol => (
+                                                    <option key={symbol} value={symbol} />
+                                                ))}
+                                            </datalist>
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <LabelWithTooltip
+                                                label="Side"
+                                                tooltip="Choose whether to block long entries, short entries, or both."
+                                                labelClassName="text-xs text-slate-300 font-medium"
+                                            />
+                                            <select
+                                                aria-label="Block side"
+                                                value={blockSide}
+                                                onChange={event => setBlockSide(event.target.value as BlockSideChoice)}
+                                                className="w-full bg-slate-900/50 border border-slate-800 text-slate-200 font-medium focus:border-purple-500/50 transition-all h-8 text-sm rounded-md px-2"
+                                            >
+                                                <option value="both">Both</option>
+                                                <option value="long">Long</option>
+                                                <option value="short">Short</option>
+                                            </select>
+                                        </div>
+                                        <Button
+                                            type="button"
+                                            size="sm"
+                                            onClick={addInstrumentBlock}
+                                            className="h-8 bg-slate-800 hover:bg-slate-700 text-slate-100 px-3 rounded-md"
+                                        >
+                                            <Plus className="h-4 w-4" />
+                                            Add
+                                        </Button>
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        {blockedInstrumentGroups.length === 0 ? (
+                                            <div className="rounded-md border border-slate-800 bg-slate-950/60 px-3 py-2 text-xs text-slate-500">
+                                                No instrument blocks
+                                            </div>
+                                        ) : blockedInstrumentGroups.map(group => {
+                                            const sideLabel = group.side === "both" ? "Both" : group.side === "long" ? "Long" : "Short";
+                                            const sideClass = group.side === "short"
+                                                ? "border-red-500/30 text-red-300 bg-red-500/10"
+                                                : group.side === "long"
+                                                    ? "border-green-500/30 text-green-300 bg-green-500/10"
+                                                    : "border-amber-500/30 text-amber-200 bg-amber-500/10";
+                                            return (
+                                                <div key={`${group.symbol}:${group.side}`} className="flex items-center justify-between gap-3 rounded-md border border-slate-800 bg-slate-950/60 px-3 py-2">
+                                                    <div className="flex min-w-0 items-center gap-2">
+                                                        <span className="truncate text-sm font-medium text-slate-100">{group.symbol}</span>
+                                                        <Badge variant="outline" className={`h-5 px-2 text-[10px] ${sideClass}`}>
+                                                            {sideLabel}
+                                                        </Badge>
+                                                    </div>
+                                                    <Button
+                                                        type="button"
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        aria-label={`Remove ${group.symbol} ${sideLabel} block`}
+                                                        onClick={() => removeInstrumentBlock(group.symbol, group.side)}
+                                                        className="h-7 w-7 shrink-0 rounded-md text-slate-500 hover:bg-slate-800 hover:text-slate-100"
+                                                    >
+                                                        <Trash2 className="h-3.5 w-3.5" />
+                                                    </Button>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+
+                                <div className="space-y-3 pt-2 border-t border-slate-800/50">
+                                    <h4 className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Strategy Filters</h4>
+                                    <div className="flex items-center justify-between rounded-md border border-slate-800 bg-slate-950/60 px-3 py-2">
+                                        <LabelWithTooltip
+                                            label="Block MR on BB Expansion"
+                                            tooltip="Reject mean-reversion candidates while Bollinger Bands are expanding."
+                                            className="text-xs text-slate-300 font-medium"
+                                            labelClassName="text-xs text-slate-300 font-medium"
+                                        />
+                                        <Switch
+                                            aria-label="Block mean reversion on Bollinger expansion"
+                                            checked={config.strategy_filters.blockMeanReversionOnBbExpansion}
+                                            onCheckedChange={checked => updateStrategyFilters(filters => ({
+                                                ...filters,
+                                                blockMeanReversionOnBbExpansion: checked
+                                            }))}
+                                            className="data-[state=checked]:bg-purple-600"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <LabelWithTooltip
+                                            label="Playbook Blocks"
+                                            tooltip="Reject candidates whose selected playbook and side match an active block."
+                                            labelClassName="text-xs text-slate-300 font-medium"
+                                        />
+                                        <div className="grid grid-cols-2 gap-2">
+                                            {PLAYBOOK_OPTIONS.map(playbook => {
+                                                const active = (config.strategy_filters.playbookBlocklist ?? [])
+                                                    .some(item => normalizePlaybookToken(item) === normalizePlaybookToken(playbook));
+                                                return (
+                                                    <Button
+                                                        key={playbook}
+                                                        type="button"
+                                                        variant="outline"
+                                                        size="sm"
+                                                        aria-pressed={active}
+                                                        onClick={() => togglePlaybookBlock(playbook)}
+                                                        className={active
+                                                            ? "justify-start border-purple-500/40 bg-purple-500/15 text-purple-100 hover:bg-purple-500/20"
+                                                            : "justify-start border-slate-800 bg-slate-950/60 text-slate-400 hover:bg-slate-800 hover:text-slate-100"}
+                                                    >
+                                                        {playbook}
+                                                    </Button>
+                                                );
+                                            })}
+                                        </div>
                                     </div>
                                 </div>
                             </TabsContent>

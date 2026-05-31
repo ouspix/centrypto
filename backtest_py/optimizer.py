@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import csv
 import hashlib
 import heapq
 import json
@@ -24,6 +25,8 @@ from .parquet_store import base_symbol, coverage_from_parquet, normalize_symbols
 REJECTED_SCORE = -1_000_000_000.0
 OPTIMIZER_TOP_N_MIN = 10
 OPTIMIZER_TOP_N_MAX = 30
+DEFAULT_AGENT_PRESET_NAME = "Balanced PM v2"
+DEFAULT_SCREENING_PRESET_NAME = "Balanced PM v2"
 TRADER_AGENT_SYSTEM_PROMPT = """
 You are a crypto derivatives entry gate.
 
@@ -127,7 +130,7 @@ If there are no eligible candidates:
 """
 
 
-PARAM_SPECS: list[dict[str, Any]] = [
+BROAD_PARAM_SPECS: list[dict[str, Any]] = [
     {"target": "agent", "path": "risk.max_positions", "type": "int", "min": 3, "max": 8, "mutate_scale": 0.20},
     {"target": "agent", "path": "risk.max_position_fraction", "type": "float", "min": 0.08, "max": 0.35, "mutate_scale": 0.20},
     {"target": "agent", "path": "risk.max_position_fraction_per_symbol", "type": "float", "min": 0.08, "max": 0.35, "mutate_scale": 0.20},
@@ -155,7 +158,7 @@ PARAM_SPECS: list[dict[str, Any]] = [
     {"target": "screener", "path": "recentVolumeMinutes", "type": "int", "min": 5, "max": 30, "mutate_scale": 0.20},
     {"target": "screener", "path": "minRealizedVol", "type": "float", "min": 0.0, "max": 0.0015, "mutate_scale": 0.20},
     {"target": "screener", "path": "minVolume24h", "type": "float", "min": 0.0, "max": 15_000_000.0, "mutate_scale": 0.20},
-    {"target": "screener", "path": "topN", "type": "int", "min": OPTIMIZER_TOP_N_MIN, "max": OPTIMIZER_TOP_N_MAX, "mutate_scale": 0.25},
+    {"target": "screener", "path": "topN", "type": "int", "min": 10, "max": 30, "mutate_scale": 0.25},
     {"target": "screener", "path": "quality_weights.vol_score", "type": "float", "min": 0.5, "max": 2.5, "mutate_scale": 0.25},
     {"target": "screener", "path": "quality_weights.move_score", "type": "float", "min": 0.5, "max": 2.5, "mutate_scale": 0.25},
     {"target": "screener", "path": "quality_weights.trend_align", "type": "float", "min": 0.5, "max": 2.5, "mutate_scale": 0.25},
@@ -163,6 +166,68 @@ PARAM_SPECS: list[dict[str, Any]] = [
     {"target": "screener", "path": "quality_weights.illiquidity_penalty", "type": "float", "min": 0.5, "max": 2.5, "mutate_scale": 0.25},
     {"target": "screener", "path": "quality_weights.cost_to_edge_penalty", "type": "float", "min": 0.5, "max": 2.5, "mutate_scale": 0.25},
 ]
+
+SAFE_PARAM_SPECS: list[dict[str, Any]] = [
+    {"target": "agent", "path": "risk.max_positions", "type": "int", "min": 2, "max": 4, "mutate_scale": 0.20},
+    {"target": "agent", "path": "risk.max_position_fraction", "type": "float", "min": 0.03, "max": 0.08, "mutate_scale": 0.20},
+    {"target": "agent", "path": "risk.max_position_fraction_per_symbol", "type": "float", "min": 0.03, "max": 0.08, "mutate_scale": 0.20},
+    {"target": "agent", "path": "risk.max_total_exposure_fraction", "type": "float", "min": 0.12, "max": 0.30, "mutate_scale": 0.20},
+    {"target": "agent", "path": "risk.max_new_positions_per_cycle", "type": "int", "min": 1, "max": 2, "mutate_scale": 0.20},
+    {"target": "agent", "path": "risk.risk_per_trade_pct", "type": "float", "min": 0.001, "max": 0.003, "mutate_scale": 0.20},
+    {"target": "agent", "path": "risk.max_effective_leverage", "type": "int", "min": 1, "max": 3, "mutate_scale": 0.20},
+    {"target": "agent", "path": "risk.exchange_max_leverage_allowed", "type": "int", "min": 1, "max": 3, "mutate_scale": 0.20},
+    {"target": "agent", "path": "risk.max_correlation_group_exposure_fraction", "type": "float", "min": 0.12, "max": 0.30, "mutate_scale": 0.20},
+    {"target": "agent", "path": "triggers.mean_reversion.ret_sigma_threshold", "type": "float", "min": 2.4, "max": 3.8, "mutate_scale": 0.20},
+    {"target": "agent", "path": "triggers.mean_reversion.book_pressure_min", "type": "float", "min": 0.08, "max": 0.20, "mutate_scale": 0.20},
+    {"target": "agent", "path": "triggers.momentum.vol_ratio_min", "type": "float", "min": 0.60, "max": 1.00, "mutate_scale": 0.20},
+    {"target": "agent", "path": "triggers.momentum.book_pressure_min", "type": "float", "min": 0.15, "max": 0.30, "mutate_scale": 0.20},
+    {"target": "agent", "path": "triggers.breakout.vol_ratio_min", "type": "float", "min": 1.30, "max": 2.10, "mutate_scale": 0.20},
+    {"target": "agent", "path": "triggers.breakout.book_pressure_min", "type": "float", "min": 0.22, "max": 0.40, "mutate_scale": 0.20},
+    {"target": "agent", "path": "cost_sanity.min_edge_to_cost_mult", "type": "float", "min": 3.5, "max": 6.0, "mutate_scale": 0.18},
+    {"target": "agent", "path": "cost_sanity.min_stop_to_cost_mult", "type": "float", "min": 1.6, "max": 2.8, "mutate_scale": 0.18},
+    {"target": "agent", "path": "cost_sanity.min_tp_to_cost_mult", "type": "float", "min": 2.4, "max": 4.0, "mutate_scale": 0.18},
+    {"target": "agent", "path": "management_policy.hold_confidence", "type": "float", "min": 0.45, "max": 0.60, "mutate_scale": 0.18},
+    {"target": "agent", "path": "management_policy.close_confidence", "type": "float", "min": 0.70, "max": 0.90, "mutate_scale": 0.18},
+    {"target": "screener", "path": "maxSpreadBps", "type": "float", "min": 4.0, "max": 12.0, "mutate_scale": 0.20},
+    {"target": "screener", "path": "minDepthUsd", "type": "float", "min": 35_000.0, "max": 125_000.0, "mutate_scale": 0.20},
+    {"target": "screener", "path": "maxCostBps", "type": "float", "min": 8.0, "max": 18.0, "mutate_scale": 0.20},
+    {"target": "screener", "path": "minRecentVolume", "type": "float", "min": 2_500.0, "max": 20_000.0, "mutate_scale": 0.20},
+    {"target": "screener", "path": "recentVolumeMinutes", "type": "int", "min": 10, "max": 25, "mutate_scale": 0.20},
+    {"target": "screener", "path": "minRealizedVol", "type": "float", "min": 0.0004, "max": 0.0012, "mutate_scale": 0.20},
+    {"target": "screener", "path": "minVolume24h", "type": "float", "min": 2_000_000.0, "max": 12_000_000.0, "mutate_scale": 0.20},
+    {"target": "screener", "path": "topN", "type": "int", "min": 10, "max": 24, "mutate_scale": 0.25},
+    {"target": "screener", "path": "quality_weights.vol_score", "type": "float", "min": 1.0, "max": 1.8, "mutate_scale": 0.25},
+    {"target": "screener", "path": "quality_weights.move_score", "type": "float", "min": 0.9, "max": 1.6, "mutate_scale": 0.25},
+    {"target": "screener", "path": "quality_weights.trend_align", "type": "float", "min": 0.5, "max": 1.2, "mutate_scale": 0.25},
+    {"target": "screener", "path": "quality_weights.spread_penalty", "type": "float", "min": 1.4, "max": 2.4, "mutate_scale": 0.25},
+    {"target": "screener", "path": "quality_weights.illiquidity_penalty", "type": "float", "min": 1.4, "max": 2.4, "mutate_scale": 0.25},
+    {"target": "screener", "path": "quality_weights.cost_to_edge_penalty", "type": "float", "min": 1.2, "max": 2.2, "mutate_scale": 0.25},
+]
+
+RISK_PLAN_PARAM_SPECS: list[dict[str, Any]] = [
+    {"target": "agent", "path": "risk_plan_model.min_width_bps_by_playbook.Mean Reversion.CHOP.sl_bps", "type": "float", "min": 24.0, "max": 38.0, "mutate_scale": 0.18},
+    {"target": "agent", "path": "risk_plan_model.min_width_bps_by_playbook.Mean Reversion.CHOP.tp_bps", "type": "float", "min": 36.0, "max": 58.0, "mutate_scale": 0.18},
+    {"target": "agent", "path": "risk_plan_model.max_width_bps_by_playbook.Mean Reversion.CHOP.sl_bps", "type": "float", "min": 36.0, "max": 56.0, "mutate_scale": 0.18},
+    {"target": "agent", "path": "risk_plan_model.max_width_bps_by_playbook.Mean Reversion.CHOP.tp_bps", "type": "float", "min": 64.0, "max": 100.0, "mutate_scale": 0.18},
+    {"target": "agent", "path": "risk_plan_model.min_width_bps_by_playbook.Momentum.RISK_ON.sl_bps", "type": "float", "min": 48.0, "max": 75.0, "mutate_scale": 0.18},
+    {"target": "agent", "path": "risk_plan_model.min_width_bps_by_playbook.Momentum.RISK_ON.tp_bps", "type": "float", "min": 80.0, "max": 125.0, "mutate_scale": 0.18},
+    {"target": "agent", "path": "risk_plan_model.max_width_bps_by_playbook.Momentum.RISK_ON.sl_bps", "type": "float", "min": 90.0, "max": 150.0, "mutate_scale": 0.18},
+    {"target": "agent", "path": "risk_plan_model.max_width_bps_by_playbook.Momentum.RISK_ON.tp_bps", "type": "float", "min": 180.0, "max": 300.0, "mutate_scale": 0.18},
+]
+
+COOLDOWN_PARAM_SPECS: list[dict[str, Any]] = [
+    {"target": "agent", "path": "trade_cooldowns.afterStopLossMinutes", "type": "int", "min": 6, "max": 24, "mutate_scale": 0.20},
+    {"target": "agent", "path": "trade_cooldowns.afterSameSymbolLossMinutes", "type": "int", "min": 4, "max": 20, "mutate_scale": 0.20},
+]
+
+POSITION_MANAGEMENT_PARAM_SPECS: list[dict[str, Any]] = [
+    {"target": "agent", "path": "position_management.policies.meanReversion.CHOP.protectAfterMfeBps", "type": "float", "min": 10.0, "max": 24.0, "mutate_scale": 0.18},
+    {"target": "agent", "path": "position_management.policies.meanReversion.CHOP.partialTakeProfitAfterMfeBps", "type": "float", "min": 22.0, "max": 45.0, "mutate_scale": 0.18},
+    {"target": "agent", "path": "position_management.policies.meanReversion.CHOP.maxGivebackPct", "type": "float", "min": 25.0, "max": 50.0, "mutate_scale": 0.18},
+    {"target": "agent", "path": "position_management.policies.momentum.RISK_ON.trailingActivationMfeBps", "type": "float", "min": 55.0, "max": 95.0, "mutate_scale": 0.18},
+]
+
+PARAM_SPECS: list[dict[str, Any]] = SAFE_PARAM_SPECS + RISK_PLAN_PARAM_SPECS + COOLDOWN_PARAM_SPECS + POSITION_MANAGEMENT_PARAM_SPECS
 
 SIGNAL_PARAM_PATHS = {
     "triggers.mean_reversion.ret_sigma_threshold",
@@ -188,11 +253,7 @@ RISK_PARAM_PATHS = {
     "risk.max_correlation_group_exposure_fraction",
 } | LEVERAGE_PARAM_PATHS
 
-EXECUTION_FILTER_PARAM_PATHS = SIGNAL_PARAM_PATHS | {
-    *LEVERAGE_PARAM_PATHS,
-    "cost_sanity.min_edge_to_cost_mult",
-    "cost_sanity.min_stop_to_cost_mult",
-    "cost_sanity.min_tp_to_cost_mult",
+SCREENING_PARAM_PATHS = {
     "maxSpreadBps",
     "minDepthUsd",
     "maxCostBps",
@@ -201,7 +262,24 @@ EXECUTION_FILTER_PARAM_PATHS = SIGNAL_PARAM_PATHS | {
     "minRealizedVol",
     "minVolume24h",
     "topN",
+    "quality_weights.vol_score",
+    "quality_weights.move_score",
+    "quality_weights.trend_align",
+    "quality_weights.spread_penalty",
+    "quality_weights.illiquidity_penalty",
+    "quality_weights.cost_to_edge_penalty",
 }
+
+RISK_PLAN_PARAM_PATHS = {spec["path"] for spec in RISK_PLAN_PARAM_SPECS}
+COOLDOWN_PARAM_PATHS = {spec["path"] for spec in COOLDOWN_PARAM_SPECS}
+POSITION_MANAGEMENT_PARAM_PATHS = {spec["path"] for spec in POSITION_MANAGEMENT_PARAM_SPECS}
+
+EXECUTION_FILTER_PARAM_PATHS = SIGNAL_PARAM_PATHS | {
+    *LEVERAGE_PARAM_PATHS,
+    "cost_sanity.min_edge_to_cost_mult",
+    "cost_sanity.min_stop_to_cost_mult",
+    "cost_sanity.min_tp_to_cost_mult",
+} | SCREENING_PARAM_PATHS
 
 MAINNET_MARGIN_TIERS: dict[str, list[tuple[float, float]]] = {
     "BTC": [(0.0, 40.0), (150_000_000.0, 20.0)],
@@ -317,6 +395,10 @@ class OptimizerSettings:
     screening_preset_name: str
     agent_preset_name: str
     fold_universe_file: str | None
+    calibrate_candidates: bool
+    calibrate_only: bool
+    calibration_horizons_minutes: list[int]
+    calibration_max_rows: int
 
 
 @dataclass
@@ -400,7 +482,7 @@ class Progress:
             print(f"{self.prefix} trial failed: {result.get('rejection_reason')}", flush=True)
 
 
-def default_agent_config() -> dict[str, Any]:
+def momentum_moderate_agent_config() -> dict[str, Any]:
     return {
         "preset_name": "Momentum Moderate",
         "preset_live_mode": "live",
@@ -457,6 +539,13 @@ def default_agent_config() -> dict[str, Any]:
                 "RISK_OFF": {"sl_mult_factor": 1.05, "tp_mult_factor": 1.0},
             },
         },
+        "trade_cooldowns": {"afterStopLossMinutes": 10, "afterSameSymbolLossMinutes": 8},
+        "strategy_filters": {
+            "blockMeanReversionOnBbExpansion": False,
+            "playbookBlocklist": [],
+            "symbolSideBlocklist": [],
+        },
+        "position_management": balanced_pm_position_management_config(),
         "triggers": {
             "momentum": {"book_pressure_min": 0.25, "vol_ratio_min": 1.0, "trend_aligned_required": True},
             "mean_reversion": {"ret_sigma_threshold": 2.5, "book_pressure_min": 0.05, "chop_regime": "required"},
@@ -516,7 +605,7 @@ def default_agent_config() -> dict[str, Any]:
     }
 
 
-def default_screener_config() -> dict[str, Any]:
+def momentum_moderate_screener_config() -> dict[str, Any]:
     return {
         "maxSpreadBps": 15,
         "minDepthUsd": 25_000,
@@ -539,6 +628,269 @@ def default_screener_config() -> dict[str, Any]:
         "layer3Enabled": True,
         "layer4Enabled": True,
     }
+
+
+def balanced_pm_agent_config() -> dict[str, Any]:
+    agent = momentum_moderate_agent_config()
+    agent["preset_name"] = "Balanced PM v2"
+    agent["preset_live_mode"] = "live"
+    agent["risk"].update(
+        {
+            "max_positions": 3,
+            "max_position_fraction": 0.05,
+            "max_position_fraction_per_symbol": 0.05,
+            "max_total_exposure_fraction": 0.20,
+            "max_new_positions_per_cycle": 1,
+            "daily_loss_kill_switch_fraction": 0.0125,
+            "risk_per_trade_pct": 0.0015,
+            "max_effective_leverage": 2,
+            "exchange_max_leverage_allowed": 2,
+            "max_correlation_group_exposure_fraction": 0.20,
+            "default_leverage": 1,
+            "slippage_pct": 0.0025,
+        }
+    )
+    agent["triggers"] = {
+        "momentum": {"book_pressure_min": 0.22, "vol_ratio_min": 0.75, "trend_aligned_required": True},
+        "mean_reversion": {"ret_sigma_threshold": 3.2, "book_pressure_min": 0.12, "chop_regime": "required"},
+        "breakout": {"vol_ratio_min": 1.7, "book_pressure_min": 0.30},
+    }
+    agent["cost_sanity"] = {
+        "min_edge_to_cost_mult": 4.2,
+        "min_stop_to_cost_mult": 2.0,
+        "min_tp_to_cost_mult": 3.0,
+    }
+    agent["risk_plan_model"] = {
+        "vol_anchor_priority": ["atr_pct.m5", "realized_vol.m5", "atr_pct.h1", "realized_vol.h1", "edge.expected_move_bps"],
+        "multipliers_by_playbook": {
+            "Momentum": {"sl_mult": 1.0, "tp_mult": 2.1},
+            "Breakout": {"sl_mult": 1.0, "tp_mult": 2.2},
+            "Mean Reversion": {"sl_mult": 0.8, "tp_mult": 1.8},
+            "Liquidity Grab": {"sl_mult": 0.8, "tp_mult": 1.8},
+            "Discretionary Edge": {"sl_mult": 0.9, "tp_mult": 2.0},
+        },
+        "regime_adjustments": {
+            "CHOP": {"sl_mult_factor": 0.9, "tp_mult_factor": 0.9},
+            "RISK_ON": {"sl_mult_factor": 1.0, "tp_mult_factor": 1.0},
+            "RISK_OFF": {"sl_mult_factor": 0.9, "tp_mult_factor": 0.9},
+        },
+        "max_width_bps_by_playbook": {
+            "Momentum": {
+                "RISK_ON": {"sl_bps": 120, "tp_bps": 240},
+                "RISK_OFF": {"sl_bps": 100, "tp_bps": 180},
+                "CHOP": {"sl_bps": 80, "tp_bps": 150},
+                "DEFAULT": {"sl_bps": 100, "tp_bps": 200},
+            },
+            "Breakout": {
+                "RISK_ON": {"sl_bps": 130, "tp_bps": 260},
+                "RISK_OFF": {"sl_bps": 110, "tp_bps": 200},
+                "CHOP": {"sl_bps": 90, "tp_bps": 160},
+                "DEFAULT": {"sl_bps": 110, "tp_bps": 220},
+            },
+            "Mean Reversion": {
+                "RISK_ON": {"sl_bps": 60, "tp_bps": 100},
+                "RISK_OFF": {"sl_bps": 45, "tp_bps": 75},
+                "CHOP": {"sl_bps": 45, "tp_bps": 80},
+                "DEFAULT": {"sl_bps": 55, "tp_bps": 90},
+            },
+            "DEFAULT": {"DEFAULT": {"sl_bps": 80, "tp_bps": 160}},
+        },
+        "min_width_bps_by_playbook": {
+            "Mean Reversion": {
+                "CHOP": {"sl_bps": 30, "tp_bps": 45},
+                "RISK_ON": {"sl_bps": 35, "tp_bps": 55},
+                "RISK_OFF": {"sl_bps": 30, "tp_bps": 45},
+            },
+            "Momentum": {
+                "CHOP": {"sl_bps": 50, "tp_bps": 80},
+                "RISK_ON": {"sl_bps": 60, "tp_bps": 100},
+                "RISK_OFF": {"sl_bps": 50, "tp_bps": 90},
+            },
+            "Breakout": {
+                "CHOP": {"sl_bps": 55, "tp_bps": 90},
+                "RISK_ON": {"sl_bps": 65, "tp_bps": 110},
+                "RISK_OFF": {"sl_bps": 55, "tp_bps": 90},
+            },
+            "DEFAULT": {"DEFAULT": {"sl_bps": 10, "tp_bps": 20}},
+        },
+    }
+    agent["trade_cooldowns"] = {"afterStopLossMinutes": 10, "afterSameSymbolLossMinutes": 8}
+    agent["strategy_filters"] = {
+        "blockMeanReversionOnBbExpansion": True,
+        "playbookBlocklist": ["Mean Reversion:short"],
+        "symbolSideBlocklist": [
+            {"symbol": "NEAR-PERP", "side": "short"},
+            {"symbol": "TON-PERP", "side": "short"},
+            {"symbol": "HYPE-PERP", "side": "long"},
+            {"symbol": "WLD-PERP", "side": "short"},
+            {"symbol": "ZEC-PERP", "side": "short"},
+            {"symbol": "TAO-PERP", "side": "long"},
+        ],
+    }
+    agent["position_management"] = balanced_pm_position_management_config()
+    agent["correlation"].update(
+        {
+            "corr_gt_050_multiplier": 0.65,
+            "corr_gt_070_multiplier": 0.4,
+            "corr_gt_085_multiplier": 0.2,
+            "risk_off_corr_addon": 0.2,
+        }
+    )
+    agent["regime"] = {
+        "chop": {"max_new_positions_per_cycle_mult": 0.5, "confidence_threshold_mult": 1.3, "tp_sl_mult": 0.8},
+        "risk_on_off": {"sizing_mult": 1.0},
+    }
+    agent["management_policy"] = {
+        "hold_confidence": 0.5,
+        "close_confidence": 0.8,
+        "playbook_aware": {
+            "momentum": {"opposite_pressure_threshold": 0.08, "opposite_pressure_cycles": 2, "unprofitable_max_age_minutes": 45},
+            "breakout": {"opposite_pressure_threshold": 0.08, "unprofitable_max_age_minutes": 30},
+            "mean_reversion": {"sigma_worsening_threshold": 0.75, "opposite_pressure_threshold": 0.05, "unprofitable_max_age_minutes": 12},
+            "fallback": {"opposite_pressure_threshold": 0.03, "unprofitable_max_age_minutes": 20},
+        },
+    }
+    agent["gates"] = {
+        "depth_usd_min": 50_000,
+        "cost_bps_max_by_regime": {"RISK_ON": 14, "RISK_OFF": 10, "CHOP": 12},
+        "edge_to_cost_mult_by_regime": {"RISK_ON": 4.2, "RISK_OFF": 5.5, "CHOP": 4.8},
+        "per_symbol_cost_override": {},
+    }
+    agent["sentiment_policy"]["penalty_multipliers"]["hype"] = 1.0
+    return agent
+
+
+def balanced_pm_position_management_config() -> dict[str, Any]:
+    def policy(
+        *,
+        discovery: int,
+        profitable: int,
+        protect: float,
+        partial: float,
+        giveback: float,
+        trailing: float,
+        allow_runner: bool,
+    ) -> dict[str, Any]:
+        return {
+            "enabled": True,
+            "minAgeBeforeManagementMinutes": 2,
+            "discoveryTimeStopMinutes": discovery,
+            "profitableTimeStopMinutes": profitable,
+            "protectAfterMfeBps": protect,
+            "breakevenBufferBps": 7,
+            "partialTakeProfitAfterMfeBps": partial,
+            "partialCloseFraction": 0.5,
+            "trailingActivationMfeBps": trailing,
+            "trailingDistanceBps": 25,
+            "maxGivebackPct": giveback,
+            "hardStopBps": 90,
+            "maxAllowedTakeProfitBps": 180,
+            "maxAllowedStopLossBps": 100,
+            "allowRunner": allow_runner,
+            "closeOnThesisInvalidation": True,
+            "closeOnRegimeConflict": True,
+            "repairMissingStop": False,
+            "repairStaleTakeProfit": False,
+        }
+
+    return {
+        "enabled": True,
+        "version": "pm-v2-balanced-20260527",
+        "global": {
+            "minAgeBeforeManagementMinutes": 2,
+            "emergencyMaxLossBps": 100,
+            "liquidationDistanceMinPct": 8,
+            "estimatedRoundTripFeeBps": 10,
+            "exitFeeBufferBps": 7,
+            "breakevenProfitBufferBps": 4,
+            "minSecondsBetweenActionsPerPosition": 60,
+            "blockNewEntriesWhenUrgentExit": True,
+            "blockNewEntriesWhenPortfolioDrawdown": True,
+            "staleOrderToleranceBps": 10,
+            "staleOrderMaxAgeMinutes": 10,
+        },
+        "policies": {
+            "meanReversion": {
+                "DEFAULT": policy(discovery=10, profitable=18, protect=18, partial=35, giveback=40, trailing=50, allow_runner=False),
+                "CHOP": policy(discovery=8, profitable=15, protect=15, partial=28, giveback=35, trailing=45, allow_runner=False),
+                "RISK_ON": policy(discovery=10, profitable=18, protect=18, partial=35, giveback=40, trailing=50, allow_runner=False),
+                "RISK_OFF": policy(discovery=6, profitable=12, protect=15, partial=28, giveback=35, trailing=45, allow_runner=False),
+            },
+            "momentum": {
+                "DEFAULT": policy(discovery=25, profitable=45, protect=25, partial=50, giveback=50, trailing=70, allow_runner=True),
+                "CHOP": policy(discovery=12, profitable=22, protect=20, partial=40, giveback=42, trailing=60, allow_runner=False),
+                "RISK_ON": policy(discovery=25, profitable=45, protect=25, partial=50, giveback=50, trailing=75, allow_runner=True),
+                "RISK_OFF": policy(discovery=20, profitable=35, protect=20, partial=45, giveback=45, trailing=65, allow_runner=True),
+            },
+            "breakout": {
+                "DEFAULT": policy(discovery=15, profitable=35, protect=25, partial=50, giveback=45, trailing=75, allow_runner=True),
+                "CHOP": policy(discovery=10, profitable=20, protect=20, partial=40, giveback=40, trailing=60, allow_runner=False),
+                "RISK_ON": policy(discovery=15, profitable=35, protect=25, partial=50, giveback=45, trailing=75, allow_runner=True),
+                "RISK_OFF": policy(discovery=12, profitable=30, protect=22, partial=45, giveback=42, trailing=65, allow_runner=True),
+            },
+            "unknown": {
+                "DEFAULT": policy(discovery=12, profitable=20, protect=18, partial=40, giveback=40, trailing=60, allow_runner=False),
+                "CHOP": policy(discovery=10, profitable=18, protect=18, partial=35, giveback=40, trailing=50, allow_runner=False),
+                "RISK_ON": policy(discovery=12, profitable=20, protect=20, partial=40, giveback=45, trailing=60, allow_runner=False),
+                "RISK_OFF": policy(discovery=10, profitable=18, protect=18, partial=35, giveback=40, trailing=50, allow_runner=False),
+            },
+        },
+    }
+
+
+def balanced_pm_screener_config() -> dict[str, Any]:
+    screener = momentum_moderate_screener_config()
+    screener.update(
+        {
+            "maxSpreadBps": 8,
+            "minDepthUsd": 50_000,
+            "maxCostBps": 13,
+            "minRecentVolume": 5_000,
+            "recentVolumeMinutes": 15,
+            "minRealizedVol": 0.0006,
+            "minVolume24h": 3_000_000,
+            "topN": 16,
+            "quality_weights": {
+                "vol_score": 1.4,
+                "move_score": 1.2,
+                "trend_align": 0.8,
+                "spread_penalty": 1.8,
+                "illiquidity_penalty": 1.8,
+                "cost_to_edge_penalty": 1.5,
+            },
+        }
+    )
+    return screener
+
+
+def default_agent_config() -> dict[str, Any]:
+    return agent_config_for_preset(DEFAULT_AGENT_PRESET_NAME)
+
+
+def default_screener_config() -> dict[str, Any]:
+    return screener_config_for_preset(DEFAULT_SCREENING_PRESET_NAME)
+
+
+def agent_config_for_preset(name: str | None) -> dict[str, Any]:
+    normalized = normalize_preset_name(name or DEFAULT_AGENT_PRESET_NAME)
+    if normalized == normalize_preset_name("Balanced PM v2"):
+        return balanced_pm_agent_config()
+    if normalized == normalize_preset_name("Momentum Moderate"):
+        return momentum_moderate_agent_config()
+    raise SystemExit(f"Unknown agent preset {name!r}. Supported presets: Balanced PM v2, Momentum Moderate.")
+
+
+def screener_config_for_preset(name: str | None) -> dict[str, Any]:
+    normalized = normalize_preset_name(name or DEFAULT_SCREENING_PRESET_NAME)
+    if normalized == normalize_preset_name("Balanced PM v2"):
+        return balanced_pm_screener_config()
+    if normalized == normalize_preset_name("Momentum Moderate"):
+        return momentum_moderate_screener_config()
+    raise SystemExit(f"Unknown screening preset {name!r}. Supported presets: Balanced PM v2, Momentum Moderate.")
+
+
+def normalize_preset_name(name: str) -> str:
+    return " ".join(str(name).strip().lower().split())
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -593,6 +945,23 @@ def main(argv: Sequence[str] | None = None) -> int:
         min_trades_floor=args.min_trades_floor,
         min_trade_shortfall_penalty_score=args.min_trade_shortfall_penalty_score,
     )
+
+    if settings.calibrate_candidates:
+        calibration_summary = run_candidate_calibration(context)
+        if settings.calibrate_only:
+            print(
+                json.dumps(
+                    {
+                        "out": str(settings.output_dir / "candidate_calibration_summary.json"),
+                        "row_count": calibration_summary["row_count"],
+                        "classification_counts": calibration_summary["classification_counts"],
+                    },
+                    indent=2,
+                ),
+                flush=True,
+            )
+            close_prompt_recorder(context)
+            return 0
 
     if parse_bool(args.holdout, False):
         summary = run_holdout(context, gates, args)
@@ -699,7 +1068,21 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--network", choices=["mainnet", "testnet"], default="mainnet")
     parser.add_argument("--capital", type=float, default=10_000)
     parser.add_argument("--optimizer-mode", choices=["random", "adaptive"], default="adaptive")
-    parser.add_argument("--param-profile", choices=["signals_only", "signals_plus_topn", "risk", "signals_plus_risk", "execution_filters", "full"])
+    parser.add_argument(
+        "--param-profile",
+        choices=[
+            "signals_only",
+            "signals_plus_topn",
+            "screening",
+            "risk",
+            "risk_plan",
+            "cooldowns",
+            "position_management",
+            "signals_plus_risk",
+            "execution_filters",
+            "full",
+        ],
+    )
     parser.add_argument("--unsafe-full-param-search", default="false")
     parser.add_argument("--fold-universe-file")
     parser.add_argument("--holdout", nargs="?", const="true", default="false")
@@ -732,8 +1115,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--llm-prompts-zip")
     parser.add_argument("--ollama-url")
     parser.add_argument("--seed", type=int, default=1)
-    parser.add_argument("--screening-preset-name", default="Momentum Moderate")
-    parser.add_argument("--agent-preset-name", default="Momentum Moderate")
+    parser.add_argument("--screening-preset-name", dest="screening_preset_name")
+    parser.add_argument("--screening", dest="screening_preset_name")
+    parser.add_argument("--agent-preset-name", dest="agent_preset_name")
+    parser.add_argument("--base-agent", dest="agent_preset_name")
     parser.add_argument("--optimizer-concurrency", type=int, default=1)
     parser.add_argument("--min-trades", type=int, default=30)
     parser.add_argument("--max-drawdown-bps", type=float, default=2_000)
@@ -758,6 +1143,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--min-trade-coverage-ratio", type=float, default=0.60)
     parser.add_argument("--min-trades-floor", type=int, default=8)
     parser.add_argument("--min-trade-shortfall-penalty-score", type=float, default=200.0)
+    parser.add_argument("--calibrate-candidates", default="false")
+    parser.add_argument("--calibrate-only", default="false")
+    parser.add_argument("--calibration-horizons-minutes", default="15,60,240")
+    parser.add_argument("--calibration-max-rows", type=int, default=0)
     return parser
 
 
@@ -770,13 +1159,6 @@ def settings_from_args(args: argparse.Namespace) -> OptimizerSettings:
         symbols = symbols_from_manifest(data_root, args.top_symbols)
     if not symbols:
         raise SystemExit("No symbols selected. Pass --symbols or export Parquet with a manifest first.")
-    if len(symbols) < OPTIMIZER_TOP_N_MAX:
-        print(
-            f"[backtest:optimize:py] Warning: loaded universe has {len(symbols)} symbols, "
-            f"but optimized screener.topN can reach {OPTIMIZER_TOP_N_MAX}. "
-            "Re-export/hydrate a larger universe if this is not a smoke run.",
-            flush=True,
-        )
     if args.decision_mode in {"recorded_llm", "real_llm"} and not parse_bool(args.llm_enabled, False):
         raise SystemExit(f"{args.decision_mode} requires --llm-enabled true")
     if args.decision_mode == "recorded_llm" and not args.llm_decisions:
@@ -791,6 +1173,21 @@ def settings_from_args(args: argparse.Namespace) -> OptimizerSettings:
     param_profile = args.param_profile or default_profile
     if param_profile == "full" and not parse_bool(args.unsafe_full_param_search, False):
         raise SystemExit("--param-profile full requires --unsafe-full-param-search true")
+    if param_profile == "position_management" and normalize_exit_strategy(args.exit_strategy) != "playbook_sltp":
+        raise SystemExit("--param-profile position_management requires --exit-strategy playbook_sltp")
+    agent_preset_name = args.agent_preset_name or DEFAULT_AGENT_PRESET_NAME
+    screening_preset_name = args.screening_preset_name or DEFAULT_SCREENING_PRESET_NAME
+    agent_config_for_preset(agent_preset_name)
+    selected_screener = screener_config_for_preset(screening_preset_name)
+    param_specs = param_specs_for_profile(param_profile)
+    top_n_ceiling = max_top_n_for_profile(param_specs, selected_screener)
+    if len(symbols) < top_n_ceiling:
+        print(
+            f"[backtest:optimize:py] Warning: loaded universe has {len(symbols)} symbols, "
+            f"but optimized screener.topN can reach {top_n_ceiling}. "
+            "Re-export/hydrate a larger universe if this is not a smoke run.",
+            flush=True,
+        )
 
     return OptimizerSettings(
         data_root=data_root,
@@ -803,7 +1200,7 @@ def settings_from_args(args: argparse.Namespace) -> OptimizerSettings:
         initial_capital_usd=args.capital,
         optimizer_mode=args.optimizer_mode,
         param_profile=param_profile,
-        param_specs=param_specs_for_profile(param_profile),
+        param_specs=param_specs,
         seed=args.seed,
         trials=max(1, args.trials),
         generations=max(1, args.generations),
@@ -829,9 +1226,13 @@ def settings_from_args(args: argparse.Namespace) -> OptimizerSettings:
         llm_prompts_zip_path=args.llm_prompts_zip,
         ollama_base_url=args.ollama_url,
         run_id=args.run_id,
-        screening_preset_name=args.screening_preset_name,
-        agent_preset_name=args.agent_preset_name,
+        screening_preset_name=screening_preset_name,
+        agent_preset_name=agent_preset_name,
         fold_universe_file=args.fold_universe_file,
+        calibrate_candidates=parse_bool(args.calibrate_candidates, False) or parse_bool(args.calibrate_only, False),
+        calibrate_only=parse_bool(args.calibrate_only, False),
+        calibration_horizons_minutes=parse_horizon_minutes(args.calibration_horizons_minutes),
+        calibration_max_rows=max(0, int(args.calibration_max_rows)),
     )
 
 
@@ -843,20 +1244,52 @@ def normalize_exit_strategy(value: str) -> str:
     raise SystemExit(f"Invalid --exit-strategy {value!r}. Choose sltp, tp_sl, playbook_sltp, or horizon.")
 
 
+def parse_horizon_minutes(value: str) -> list[int]:
+    horizons: list[int] = []
+    for token in str(value or "").split(","):
+        token = token.strip()
+        if not token:
+            continue
+        parsed = int(token)
+        if parsed <= 0:
+            raise SystemExit("--calibration-horizons-minutes must contain positive integers")
+        horizons.append(parsed)
+    return sorted(set(horizons)) or [15, 60, 240]
+
+
 def param_specs_for_profile(profile: str) -> list[dict[str, Any]]:
     if profile == "full":
-        return list(PARAM_SPECS)
+        return list(BROAD_PARAM_SPECS)
     if profile == "risk":
-        return [spec for spec in PARAM_SPECS if spec["path"] in RISK_PARAM_PATHS]
+        return [spec for spec in SAFE_PARAM_SPECS if spec["path"] in RISK_PARAM_PATHS]
     if profile == "signals_only":
-        return [spec for spec in PARAM_SPECS if spec["path"] in SIGNAL_PARAM_PATHS]
+        return [spec for spec in SAFE_PARAM_SPECS if spec["path"] in SIGNAL_PARAM_PATHS]
     if profile == "signals_plus_risk":
-        return [spec for spec in PARAM_SPECS if spec["path"] in SIGNAL_PARAM_PATHS or spec["path"] in RISK_PARAM_PATHS]
+        return [spec for spec in SAFE_PARAM_SPECS if spec["path"] in SIGNAL_PARAM_PATHS or spec["path"] in RISK_PARAM_PATHS]
     if profile == "signals_plus_topn":
-        return [spec for spec in PARAM_SPECS if spec["path"] in SIGNAL_PARAM_PATHS or spec["path"] == "topN"]
+        return [spec for spec in SAFE_PARAM_SPECS if spec["path"] in SIGNAL_PARAM_PATHS or spec["path"] == "topN"]
+    if profile == "screening":
+        return [spec for spec in SAFE_PARAM_SPECS if spec["path"] in SCREENING_PARAM_PATHS]
+    if profile == "risk_plan":
+        return list(RISK_PLAN_PARAM_SPECS)
+    if profile == "cooldowns":
+        return list(COOLDOWN_PARAM_SPECS)
+    if profile == "position_management":
+        return list(POSITION_MANAGEMENT_PARAM_SPECS)
     if profile == "execution_filters":
-        return [spec for spec in PARAM_SPECS if spec["path"] in EXECUTION_FILTER_PARAM_PATHS]
+        return [spec for spec in SAFE_PARAM_SPECS if spec["path"] in EXECUTION_FILTER_PARAM_PATHS]
     raise SystemExit(f"Invalid --param-profile {profile!r}.")
+
+
+def max_top_n_for_profile(param_specs: Sequence[dict[str, Any]], screener: dict[str, Any]) -> int:
+    top_n_specs = [
+        int(spec["max"])
+        for spec in param_specs
+        if spec.get("target") == "screener" and spec.get("path") == "topN" and isinstance(spec.get("max"), (int, float))
+    ]
+    if top_n_specs:
+        return max(top_n_specs)
+    return max(1, int(safe_float(screener.get("topN"), OPTIMIZER_TOP_N_MIN)))
 
 
 def symbols_from_manifest(data_root: Path, limit: int) -> list[str]:
@@ -1187,8 +1620,10 @@ def run_random(
     settings = context.settings
     start_ms = settings.start_ms if start_ms is None else start_ms
     end_ms = settings.end_ms if end_ms is None else end_ms
+    base_agent = agent_config_for_preset(settings.agent_preset_name)
+    base_screener = screener_config_for_preset(settings.screening_preset_name)
     candidates = [
-        sample_broad_config(default_agent_config(), default_screener_config(), settings.seed + index, settings.param_specs)
+        sample_broad_config(base_agent, base_screener, settings.seed + index, settings.param_specs)
         for index in range(settings.trials)
     ]
     results = evaluate_batch(context, candidates, gates, start_ms, end_ms, coverage=coverage, symbols=symbols)
@@ -1217,28 +1652,40 @@ def run_adaptive(
         if not candidates:
             continue
 
+        cheap_slice_metadata: list[dict[str, Any]] = []
         if settings.successive_halving and len(candidates) > 1:
             slices = build_evaluation_slices(start_ms, end_ms, settings.slice_count)
-            cheap_results: list[dict[str, Any]] = []
-            progress = Progress(len(candidates))
+            cheap_panel = slices[: max(1, min(2, len(slices)))]
+            cheap_slice_metadata = [
+                {"index": index, "start": iso_ms(slice_start), "end": iso_ms(slice_end)}
+                for index, (slice_start, slice_end) in enumerate(cheap_panel)
+            ]
+            cheap_rankings: list[tuple[dict[str, Any], float]] = []
+            cheap_count = 0
+            progress = Progress(len(candidates) * len(cheap_panel))
             for candidate in candidates:
+                panel_scores: list[float] = []
                 candidate_hash = config_hash(candidate["agentConfig"], candidate["screenerConfig"])
-                slice_start, slice_end = slices[hash_to_slice_index(candidate_hash, len(slices))]
-                scaled_gates = scale_gates_for_slice(gates, slice_start, slice_end, start_ms, end_ms)
-                result = evaluate_candidate(context, candidate, scaled_gates, slice_start, slice_end, coverage=coverage, symbols=symbols)
-                result["evaluation_scope"] = "cheap_slice"
-                cheap_results.append(result)
-                progress.tick(result)
+                for slice_index, (slice_start, slice_end) in enumerate(cheap_panel):
+                    scaled_gates = scale_gates_for_slice(gates, slice_start, slice_end, start_ms, end_ms)
+                    result = evaluate_candidate(context, candidate, scaled_gates, slice_start, slice_end, coverage=coverage, symbols=symbols)
+                    result["evaluation_scope"] = "cheap_slice"
+                    result["cheap_slice_index"] = slice_index
+                    result["cheap_slice_start"] = iso_ms(slice_start)
+                    result["cheap_slice_end"] = iso_ms(slice_end)
+                    result["config_hash"] = candidate_hash
+                    panel_scores.append(full_ranking_score(result))
+                    cheap_count += 1
+                    progress.tick(result)
+                cheap_score = sum(panel_scores) / max(1, len(panel_scores))
+                cheap_rankings.append((candidate, cheap_score))
 
             keep_count = max(1, math.ceil(len(candidates) * settings.halving_keep_ratio))
-            survivor_pairs = sorted(
-                zip(candidates, cheap_results, strict=False),
-                key=lambda entry: full_ranking_score(entry[1]),
-                reverse=True,
-            )[:keep_count]
-            survivors = [entry[0] for entry in survivor_pairs]
+            survivors = [
+                candidate
+                for candidate, _score in sorted(cheap_rankings, key=lambda entry: entry[1], reverse=True)[:keep_count]
+            ]
             full_results = evaluate_batch(context, survivors, gates, start_ms, end_ms, coverage=coverage, symbols=symbols)
-            cheap_count = len(cheap_results)
         else:
             full_results = evaluate_batch(context, candidates, gates, start_ms, end_ms, coverage=coverage, symbols=symbols)
             cheap_count = 0
@@ -1256,10 +1703,701 @@ def run_adaptive(
             full_count=len(full_results),
             elite_hashes=[result["config_hash"] for result in parents["elites"]],
             near_miss_hashes=[result["config_hash"] for result in parents["near_misses"]],
+            cheap_slice_metadata=cheap_slice_metadata,
         )
         summaries.append(summary)
 
     return all_full_results, build_optimizer_trace("adaptive", summaries, sort_results(all_full_results))
+
+
+def run_candidate_calibration(context: BacktestContext) -> dict[str, Any]:
+    settings = context.settings
+    agent = agent_config_for_preset(settings.agent_preset_name)
+    screener = screener_config_for_preset(settings.screening_preset_name)
+    network = agent["network_profiles"][settings.network]
+    fees_bps = safe_float(network.get("fees_bps"), 0.0)
+    min_slippage_bps = safe_float(network.get("slippage_model", {}).get("min_bps"), 0.0)
+    spread_mult = safe_float(network.get("slippage_model", {}).get("spread_mult"), 0.0)
+    entry_end_ms = max(settings.start_ms, settings.end_ms - max(settings.calibration_horizons_minutes) * 60_000)
+
+    frame = build_candidate_calibration_frame(
+        features_for_symbols(context, None),
+        agent,
+        screener,
+        fees_bps,
+        min_slippage_bps,
+        spread_mult,
+        settings.enable_mean_reversion,
+        settings.start_ms,
+        entry_end_ms,
+    )
+    if settings.calibration_max_rows > 0:
+        frame = frame.head(settings.calibration_max_rows)
+
+    rows = [
+        build_candidate_calibration_row(context, row, agent, screener, fees_bps)
+        for row in frame.iter_rows(named=True)
+    ]
+    summary = build_candidate_calibration_summary(rows, settings)
+    write_candidate_calibration_artifacts(settings.output_dir, rows, summary, settings)
+    return summary
+
+
+def build_candidate_calibration_frame(
+    features: pl.DataFrame,
+    agent: dict[str, Any],
+    screener: dict[str, Any],
+    fees_bps: float,
+    min_slippage_bps: float,
+    spread_mult: float,
+    enable_mean_reversion: bool,
+    start_ms: int,
+    entry_end_ms: int,
+) -> pl.DataFrame:
+    if features.is_empty():
+        return empty_candidate_calibration_frame()
+    features = ensure_calibration_feature_columns(features)
+    momentum = agent["triggers"]["momentum"]
+    mean_reversion = agent["triggers"]["mean_reversion"]
+    breakout = agent["triggers"]["breakout"]
+    weights = screener["quality_weights"]
+    gates = agent["gates"]
+    top_n = max(1, int(screener["topN"]))
+    screener_cost_max = screener.get("maxCostBps")
+
+    depth_expr = pl.min_horizontal("bid_depth_10bps_usd", "ask_depth_10bps_usd")
+    slippage_expr = pl.max_horizontal(pl.lit(min_slippage_bps), pl.col("spread_bps") * spread_mult)
+    cost_expr = pl.col("spread_bps") + fees_bps + slippage_expr
+    expected_move_expr = pl.max_horizontal(pl.col("ret_15m").abs(), pl.col("ret_1h").abs()) * 10_000
+    edge_expr = expected_move_expr - cost_expr
+    edge_to_cost_expr = edge_expr / pl.when(cost_expr > 0).then(cost_expr).otherwise(1.0)
+    screener_cost_expr = pl.col("spread_bps") + fees_bps
+    trend_aligned = (
+        ((pl.col("ret_15m") > 0) & (pl.col("ret_1h") > 0))
+        | ((pl.col("ret_15m") < 0) & (pl.col("ret_1h") < 0))
+    )
+    screener_trend_aligned = (
+        ((pl.col("ret_5m") > 0) & (pl.col("ret_15m") > 0) & (pl.col("ret_1h") > 0))
+        | ((pl.col("ret_5m") < 0) & (pl.col("ret_15m") < 0) & (pl.col("ret_1h") < 0))
+    )
+    regime_expr = (
+        pl.when(trend_aligned & (pl.col("ret_1h") > 0))
+        .then(pl.lit("RISK_ON"))
+        .when(trend_aligned & (pl.col("ret_1h") < 0))
+        .then(pl.lit("RISK_OFF"))
+        .otherwise(pl.lit("CHOP"))
+    )
+    cost_max_expr = (
+        pl.when(regime_expr == "RISK_ON")
+        .then(pl.lit(float(gates["cost_bps_max_by_regime"]["RISK_ON"])))
+        .when(regime_expr == "RISK_OFF")
+        .then(pl.lit(float(gates["cost_bps_max_by_regime"]["RISK_OFF"])))
+        .otherwise(pl.lit(float(gates["cost_bps_max_by_regime"]["CHOP"])))
+    )
+    edge_mult_expr = (
+        pl.when(regime_expr == "RISK_ON")
+        .then(pl.lit(float(gates["edge_to_cost_mult_by_regime"]["RISK_ON"])))
+        .when(regime_expr == "RISK_OFF")
+        .then(pl.lit(float(gates["edge_to_cost_mult_by_regime"]["RISK_OFF"])))
+        .otherwise(pl.lit(float(gates["edge_to_cost_mult_by_regime"]["CHOP"])))
+    )
+    recent_volume_expr = pl.col("avg_candle_volume_1m") * float(screener["recentVolumeMinutes"])
+    screener_edge_to_cost_expr = (expected_move_expr - screener_cost_expr) / pl.when(screener_cost_expr > 0).then(screener_cost_expr).otherwise(1.0)
+    positive_screener_edge_to_cost_expr = pl.when(screener_edge_to_cost_expr > 0).then(screener_edge_to_cost_expr).otherwise(0.0)
+    cost_to_edge_penalty_expr = pl.lit(float(weights["cost_to_edge_penalty"])) * (
+        1 / pl.max_horizontal(positive_screener_edge_to_cost_expr, pl.lit(0.1))
+    )
+    quality_expr = (
+        float(weights["vol_score"]) * pl.col("vol_ratio_5m_vs_1h").abs().fill_null(0.0)
+        + float(weights["move_score"]) * pl.col("ret_sigma_5m_vs_1h").abs().fill_null(0.0)
+        + pl.when(screener_trend_aligned).then(pl.lit(float(weights["trend_align"]))).otherwise(0.0)
+        - float(weights["spread_penalty"]) * (pl.col("spread_bps") / 5).fill_null(10.0)
+        - float(weights["illiquidity_penalty"]) * (pl.lit(float(screener["minDepthUsd"])) / (depth_expr + 1)).fill_null(10.0)
+        - cost_to_edge_penalty_expr.fill_null(10.0)
+    )
+
+    base = (
+        features.lazy()
+        .filter(pl.col("ts_ms").is_between(start_ms, entry_end_ms))
+        .with_columns(
+            depth_expr.alias("depth_usd"),
+            slippage_expr.alias("slippage_bps"),
+            cost_expr.alias("cost_bps"),
+            expected_move_expr.alias("expected_move_bps"),
+            edge_expr.alias("edge_bps"),
+            edge_to_cost_expr.alias("edge_to_cost_mult"),
+            screener_cost_expr.alias("screener_cost_bps"),
+            trend_aligned.alias("trend_aligned"),
+            recent_volume_expr.alias("recent_volume_proxy"),
+            regime_expr.alias("regime"),
+            cost_max_expr.alias("cost_gate_max_bps"),
+            edge_mult_expr.alias("edge_to_cost_required"),
+            quality_expr.alias("candidate_score"),
+            pl.lit(float(screener["maxSpreadBps"])).alias("max_spread_bps"),
+            pl.lit(max(float(screener["minDepthUsd"]), float(agent["gates"]["depth_usd_min"]))).alias("min_depth_usd"),
+            pl.lit(float(screener["minRecentVolume"])).alias("min_recent_volume"),
+            pl.lit(float(screener["recentVolumeMinutes"])).alias("recent_volume_minutes"),
+            pl.lit(float(screener["minRealizedVol"])).alias("min_realized_vol"),
+            pl.lit(float(screener["minVolume24h"])).alias("min_volume_24h"),
+            pl.lit(float(screener_cost_max) if screener_cost_max is not None else None, dtype=pl.Float64).alias("screener_cost_max_bps"),
+            pl.lit(top_n).alias("top_n_gate"),
+        )
+    )
+
+    bp = pl.col("book_pressure_10bps")
+    sigma = pl.col("ret_sigma_5m_vs_1h")
+    vol_ratio = pl.col("vol_ratio_5m_vs_1h")
+    momentum_trend_ok = pl.col("trend_aligned") if momentum.get("trend_aligned_required", True) else pl.lit(True)
+    trigger_frames: list[pl.LazyFrame] = []
+
+    def trigger_frame(trigger: Any, side: str, playbook: str, hold_minutes: int) -> pl.LazyFrame:
+        return (
+            base
+            .filter(trigger)
+            .with_columns(
+                pl.lit(side).alias("side"),
+                pl.lit(playbook).alias("playbook"),
+                pl.lit(playbook == "Momentum").alias("has_momentum"),
+                pl.lit(playbook == "Mean Reversion").alias("has_mean_reversion"),
+                pl.lit(playbook == "Breakout").alias("has_breakout"),
+                (pl.col("ts_ms") + hold_minutes * 60_000).alias("exit_ts_ms"),
+            )
+        )
+
+    trigger_frames.append(trigger_frame(
+        (sigma > 0)
+        & (bp >= float(momentum["book_pressure_min"]))
+        & (vol_ratio >= float(momentum["vol_ratio_min"]))
+        & momentum_trend_ok,
+        "long",
+        "Momentum",
+        180,
+    ))
+    trigger_frames.append(trigger_frame(
+        (sigma < 0)
+        & (bp <= -float(momentum["book_pressure_min"]))
+        & (vol_ratio >= float(momentum["vol_ratio_min"]))
+        & momentum_trend_ok,
+        "short",
+        "Momentum",
+        180,
+    ))
+
+    if enable_mean_reversion:
+        mr_regime_ok = mean_reversion_regime_ok_expr(
+            pl.col("regime"),
+            sigma.abs(),
+            float(mean_reversion["ret_sigma_threshold"]),
+            str(mean_reversion.get("chop_regime", "required")),
+        )
+        trigger_frames.append(trigger_frame(
+            mr_regime_ok
+            & (sigma <= -float(mean_reversion["ret_sigma_threshold"]))
+            & (bp >= float(mean_reversion["book_pressure_min"])),
+            "long",
+            "Mean Reversion",
+            45,
+        ))
+        trigger_frames.append(trigger_frame(
+            mr_regime_ok
+            & (sigma >= float(mean_reversion["ret_sigma_threshold"]))
+            & (bp <= -float(mean_reversion["book_pressure_min"])),
+            "short",
+            "Mean Reversion",
+            45,
+        ))
+
+    trigger_frames.append(trigger_frame(
+        (sigma > 0)
+        & (bp >= float(breakout["book_pressure_min"]))
+        & (vol_ratio >= float(breakout["vol_ratio_min"])),
+        "long",
+        "Breakout",
+        90,
+    ))
+    trigger_frames.append(trigger_frame(
+        (sigma < 0)
+        & (bp <= -float(breakout["book_pressure_min"]))
+        & (vol_ratio >= float(breakout["vol_ratio_min"])),
+        "short",
+        "Breakout",
+        90,
+    ))
+
+    return (
+        pl.concat(trigger_frames)
+        .with_columns(pl.col("candidate_score").rank(method="ordinal", descending=True).over("ts_ms").alias("screen_rank"))
+        .select(calibration_frame_columns())
+        .sort(["ts_ms", "candidate_score", "symbol", "playbook"], descending=[False, True, False, False])
+        .collect()
+    )
+
+
+def ensure_calibration_feature_columns(features: pl.DataFrame) -> pl.DataFrame:
+    defaults: dict[str, Any] = {
+        "interval_seconds": 60,
+        "best_bid": None,
+        "best_ask": None,
+        "mid_price": None,
+        "spread_bps": None,
+        "bid_depth_10bps_usd": 0.0,
+        "ask_depth_10bps_usd": 0.0,
+        "book_pressure_10bps": None,
+        "ret_5m": None,
+        "ret_15m": None,
+        "ret_1h": None,
+        "realized_vol_5m": 0.0,
+        "vol_ratio_5m_vs_1h": None,
+        "ret_sigma_5m_vs_1h": None,
+        "volume_24h": 0.0,
+        "avg_candle_volume_1m": 0.0,
+    }
+    out = features
+    for column, default in defaults.items():
+        if column not in out.columns:
+            out = out.with_columns(pl.lit(default).alias(column))
+    return out
+
+
+def empty_candidate_calibration_frame() -> pl.DataFrame:
+    return pl.DataFrame(schema={column: pl.Float64 for column in calibration_frame_columns()})
+
+
+def calibration_frame_columns() -> list[str]:
+    return [
+        "ts_ms",
+        "exit_ts_ms",
+        "symbol",
+        "side",
+        "playbook",
+        "has_momentum",
+        "has_mean_reversion",
+        "has_breakout",
+        "regime",
+        "best_bid",
+        "best_ask",
+        "mid_price",
+        "spread_bps",
+        "depth_usd",
+        "slippage_bps",
+        "cost_bps",
+        "expected_move_bps",
+        "edge_bps",
+        "edge_to_cost_mult",
+        "screener_cost_bps",
+        "candidate_score",
+        "screen_rank",
+        "top_n_gate",
+        "book_pressure_10bps",
+        "ret_5m",
+        "ret_sigma_5m_vs_1h",
+        "ret_15m",
+        "ret_1h",
+        "realized_vol_5m",
+        "vol_ratio_5m_vs_1h",
+        "trend_aligned",
+        "volume_24h",
+        "recent_volume_proxy",
+        "avg_candle_volume_1m",
+        "max_spread_bps",
+        "min_depth_usd",
+        "min_recent_volume",
+        "recent_volume_minutes",
+        "min_realized_vol",
+        "min_volume_24h",
+        "screener_cost_max_bps",
+        "cost_gate_max_bps",
+        "edge_to_cost_required",
+    ]
+
+
+def build_candidate_calibration_row(
+    context: BacktestContext,
+    row: dict[str, Any],
+    agent: dict[str, Any],
+    screener: dict[str, Any],
+    fees_bps: float,
+) -> dict[str, Any]:
+    stop_loss_pct, take_profit_pct = compute_risk_plan(row, agent)
+    regime_policy = apply_regime_policy(row, agent)
+    sizing = compute_main_app_sizing(
+        row=row,
+        equity=context.settings.initial_capital_usd,
+        active_positions={},
+        agent=agent,
+        stop_loss_pct=stop_loss_pct,
+        regime_multiplier=safe_float(regime_policy.get("multiplier"), 0.0),
+        recorded_target=None,
+        network=context.settings.network,
+    )
+    size_fraction = safe_float(sizing.get("suggested_size_fraction"), 0.0)
+    notional = context.settings.initial_capital_usd * size_fraction
+    reasons = candidate_calibration_reject_reasons(
+        row=row,
+        agent=agent,
+        screener=screener,
+        stop_loss_pct=stop_loss_pct,
+        take_profit_pct=take_profit_pct,
+        regime_policy=regime_policy,
+        sizing=sizing,
+        notional=notional,
+        context=context,
+    )
+    accepted_static = not reasons
+    out: dict[str, Any] = {
+        "ts": iso_ms(int(row["ts_ms"])),
+        "ts_ms": int(row["ts_ms"]),
+        "symbol": str(row.get("symbol") or ""),
+        "side": str(row.get("side") or ""),
+        "playbook": str(row.get("playbook") or ""),
+        "regime": str(row.get("regime") or ""),
+        "status": "accepted_static" if accepted_static else "rejected_static",
+        "accepted_static": accepted_static,
+        "reject_reasons": reasons,
+        "primary_reject_reason": reasons[0] if reasons else "accepted",
+        "near_miss": bool(reasons and any(reason in NEAR_MISS_CALIBRATION_REASONS for reason in reasons)),
+        "entry_price": round_float(entry_price_for_row(row)),
+        "fees_bps": round_float(fees_bps),
+        "cost_bps": round_float(safe_float(row.get("cost_bps"), 0.0)),
+        "screener_cost_bps": round_float(safe_float(row.get("screener_cost_bps"), 0.0)),
+        "slippage_bps": round_float(safe_float(row.get("slippage_bps"), 0.0)),
+        "stop_loss_bps": round_float(stop_loss_pct * 10_000),
+        "take_profit_bps": round_float(take_profit_pct * 10_000),
+        "edge_bps": round_float(safe_float(row.get("edge_bps"), 0.0)),
+        "expected_move_bps": round_float(safe_float(row.get("expected_move_bps"), 0.0)),
+        "edge_to_cost_mult": round_float(safe_float(row.get("edge_to_cost_mult"), 0.0)),
+        "candidate_score": round_float(safe_float(row.get("candidate_score"), 0.0)),
+        "screen_rank": int(safe_float(row.get("screen_rank"), 0.0)),
+        "top_n_gate": int(safe_float(row.get("top_n_gate"), safe_float(screener.get("topN"), 0.0))),
+        "spread_bps": round_float(safe_float(row.get("spread_bps"), 0.0)),
+        "depth_usd": round_float(safe_float(row.get("depth_usd"), 0.0)),
+        "volume_24h": round_float(safe_float(row.get("volume_24h"), 0.0)),
+        "recent_volume_proxy": round_float(safe_float(row.get("recent_volume_proxy"), 0.0)),
+        "realized_vol_5m": round_float(safe_float(row.get("realized_vol_5m"), 0.0)),
+        "ret_5m": round_float(safe_float(row.get("ret_5m"), 0.0)),
+        "ret_15m": round_float(safe_float(row.get("ret_15m"), 0.0)),
+        "ret_1h": round_float(safe_float(row.get("ret_1h"), 0.0)),
+        "vol_ratio_5m_vs_1h": round_float(safe_float(row.get("vol_ratio_5m_vs_1h"), 0.0)),
+        "ret_sigma_5m_vs_1h": round_float(safe_float(row.get("ret_sigma_5m_vs_1h"), 0.0)),
+        "trend_aligned": bool(row.get("trend_aligned")),
+        "sizing": {key: round_float(value) for key, value in sizing.items()},
+        "suggested_size_fraction": round_float(size_fraction),
+        "notional_usd": round_float(notional),
+    }
+
+    for horizon in context.settings.calibration_horizons_minutes:
+        out.update(calibration_outcome_for_horizon(context, row, stop_loss_pct, take_profit_pct, fees_bps, horizon))
+    out["classification"] = classify_candidate_calibration_row(out, context.settings.calibration_horizons_minutes)
+    return out
+
+
+NEAR_MISS_CALIBRATION_REASONS = {
+    "EDGE_GATE",
+    "COST_GATE",
+    "SCREENER_COST_GATE",
+    "TOP_N_GATE",
+    "REGIME_POLICY_GATE",
+    "COST_SANITY_GATE",
+    "SIZE_GATE",
+    "MIN_NOTIONAL_GATE",
+}
+
+
+def candidate_calibration_reject_reasons(
+    *,
+    row: dict[str, Any],
+    agent: dict[str, Any],
+    screener: dict[str, Any],
+    stop_loss_pct: float,
+    take_profit_pct: float,
+    regime_policy: dict[str, Any],
+    sizing: dict[str, float],
+    notional: float,
+    context: BacktestContext,
+) -> list[str]:
+    reasons: list[str] = []
+    best_bid = safe_optional_float(row.get("best_bid"))
+    best_ask = safe_optional_float(row.get("best_ask"))
+    if best_bid is None or best_ask is None or best_bid <= 0 or best_ask <= 0:
+        reasons.append("MARKET_DATA_GATE")
+    if safe_optional_float(row.get("spread_bps")) is None or safe_float(row.get("spread_bps"), math.inf) > safe_float(screener.get("maxSpreadBps"), math.inf):
+        reasons.append("SPREAD_GATE")
+    if safe_float(row.get("depth_usd"), 0.0) < max(safe_float(screener.get("minDepthUsd"), 0.0), safe_float(agent["gates"].get("depth_usd_min"), 0.0)):
+        reasons.append("DEPTH_GATE")
+    if safe_float(row.get("volume_24h"), 0.0) < safe_float(screener.get("minVolume24h"), 0.0):
+        reasons.append("VOLUME_24H_GATE")
+    if safe_float(row.get("recent_volume_proxy"), 0.0) < safe_float(screener.get("minRecentVolume"), 0.0):
+        reasons.append("RECENT_VOLUME_GATE")
+    if safe_float(row.get("realized_vol_5m"), 0.0) < safe_float(screener.get("minRealizedVol"), 0.0):
+        reasons.append("REALIZED_VOL_GATE")
+    if safe_float(row.get("cost_bps"), math.inf) > safe_float(row.get("cost_gate_max_bps"), math.inf):
+        reasons.append("COST_GATE")
+    if safe_float(row.get("edge_bps"), 0.0) <= 10 or safe_float(row.get("edge_to_cost_mult"), 0.0) < safe_float(row.get("edge_to_cost_required"), 0.0):
+        reasons.append("EDGE_GATE")
+    screener_cost_max = safe_optional_float(screener.get("maxCostBps"))
+    if screener_cost_max is not None and safe_float(row.get("screener_cost_bps"), math.inf) > screener_cost_max:
+        reasons.append("SCREENER_COST_GATE")
+    if int(safe_float(row.get("screen_rank"), 0.0)) > max(1, int(screener.get("topN", 1))):
+        reasons.append("TOP_N_GATE")
+    if not regime_policy.get("allowed"):
+        reasons.append("REGIME_POLICY_GATE")
+    if not cost_sanity_ok(row, stop_loss_pct, take_profit_pct, agent):
+        reasons.append("COST_SANITY_GATE")
+
+    risk = agent["risk"]
+    min_trade_notional = max(safe_float(risk.get("min_trade_notional_usd"), 0.0), safe_float(agent["network_profiles"][context.settings.network].get("min_notional_usd"), 0.0))
+    if safe_float(sizing.get("suggested_size_fraction"), 0.0) <= 0:
+        reasons.append("SIZE_GATE")
+    if notional < min_trade_notional:
+        reasons.append("MIN_NOTIONAL_GATE")
+    if not hyperliquid_exchange_leverage_allowed(row, max(notional, min_trade_notional), agent, context.settings.network):
+        reasons.append("EXCHANGE_LEVERAGE_GATE")
+    return unique(reasons)
+
+
+def calibration_outcome_for_horizon(
+    context: BacktestContext,
+    row: dict[str, Any],
+    stop_loss_pct: float,
+    take_profit_pct: float,
+    fees_bps: float,
+    horizon_minutes: int,
+) -> dict[str, Any]:
+    suffix = f"{int(horizon_minutes)}m"
+    side = str(row.get("side") or "")
+    symbol = str(row.get("symbol") or "")
+    entry_ts_ms = int(row["ts_ms"])
+    entry_price = entry_price_for_row(row)
+    candles = context.candles_by_symbol.get(symbol)
+    mfe_bps = 0.0
+    mae_bps = 0.0
+    first_trigger: str | None = None
+    first_trigger_ts_ms: int | None = None
+    exit_price = entry_price
+
+    if candles and candles.ts_ms and entry_price > 0:
+        scan_until_ms = min(context.settings.end_ms, entry_ts_ms + int(horizon_minutes) * 60_000)
+        start_index = bisect_right(candles.ts_ms, entry_ts_ms)
+        for index in range(start_index, len(candles.ts_ms)):
+            candle_ts = candles.ts_ms[index]
+            if candle_ts > scan_until_ms:
+                break
+            open_price = candles.open[index]
+            high = candles.high[index]
+            low = candles.low[index]
+            close = candles.close[index]
+            exit_price = close
+            mfe_bps, mae_bps = update_excursions(side, entry_price, high, low, mfe_bps, mae_bps)
+            trigger = resolve_sl_tp_trigger(side, entry_price, stop_loss_pct, take_profit_pct, open_price, high, low)
+            if trigger:
+                first_trigger = trigger
+                first_trigger_ts_ms = candle_ts
+                exit_price = trigger_price_for(side, entry_price, stop_loss_pct, take_profit_pct, trigger)
+                break
+    else:
+        fallback_price = safe_optional_float(row.get("mid_price"))
+        if fallback_price is not None and fallback_price > 0:
+            exit_price = fallback_price
+
+    gross = gross_return_bps(side, entry_price, exit_price)
+    net = gross - 2 * fees_bps
+    return {
+        f"return_{suffix}_bps": round_float(net),
+        f"gross_return_{suffix}_bps": round_float(gross),
+        f"mfe_{suffix}_bps": round_float(max(0.0, mfe_bps)),
+        f"mae_{suffix}_bps": round_float(mae_bps),
+        f"tp_hit_{suffix}": first_trigger == "take_profit",
+        f"sl_hit_{suffix}": first_trigger == "stop_loss",
+        f"first_trigger_{suffix}": first_trigger,
+        f"first_trigger_ts_{suffix}": iso_ms(first_trigger_ts_ms) if first_trigger_ts_ms is not None else None,
+    }
+
+
+def classify_candidate_calibration_row(row: dict[str, Any], horizons: Sequence[int]) -> str:
+    horizon = reference_calibration_horizon(horizons)
+    suffix = f"{horizon}m"
+    net_return = safe_float(row.get(f"return_{suffix}_bps"), 0.0)
+    mfe = safe_float(row.get(f"mfe_{suffix}_bps"), 0.0)
+    cost = safe_float(row.get("cost_bps"), 0.0)
+    first_trigger = row.get(f"first_trigger_{suffix}")
+    accepted = bool(row.get("accepted_static"))
+    opportunity_threshold = max(20.0, cost * 3.0)
+    if not accepted and (first_trigger == "take_profit" or net_return >= opportunity_threshold or mfe >= opportunity_threshold):
+        return "missed_opportunity"
+    if accepted and (first_trigger == "stop_loss" or net_return < 0):
+        return "bad_accepted"
+    return "neutral"
+
+
+def reference_calibration_horizon(horizons: Sequence[int]) -> int:
+    values = sorted({int(value) for value in horizons if int(value) > 0})
+    if not values:
+        return 60
+    return 60 if 60 in values else values[-1]
+
+
+def build_candidate_calibration_summary(rows: list[dict[str, Any]], settings: OptimizerSettings) -> dict[str, Any]:
+    ref = reference_calibration_horizon(settings.calibration_horizons_minutes)
+    return {
+        "mode": "candidate_calibration",
+        "note": "Calibration reports are diagnostics for candidate generation and gates; they are not deployment configs.",
+        "base_agent": settings.agent_preset_name,
+        "screening_preset": settings.screening_preset_name,
+        "start": iso_ms(settings.start_ms),
+        "end": iso_ms(settings.end_ms),
+        "horizons_minutes": settings.calibration_horizons_minutes,
+        "reference_horizon_minutes": ref,
+        "row_count": len(rows),
+        "status_counts": dict(Counter(str(row.get("status") or "unknown") for row in rows)),
+        "classification_counts": dict(Counter(str(row.get("classification") or "unknown") for row in rows)),
+        "near_miss_count": len([row for row in rows if row.get("near_miss")]),
+        "groups": {
+            "status": summarize_calibration_groups(rows, ["status"], ref),
+            "reason": summarize_calibration_groups(rows, ["primary_reject_reason"], ref),
+            "symbol": summarize_calibration_groups(rows, ["symbol"], ref),
+            "regime": summarize_calibration_groups(rows, ["regime"], ref),
+            "playbook": summarize_calibration_groups(rows, ["playbook"], ref),
+            "side": summarize_calibration_groups(rows, ["side"], ref),
+        },
+        "artifacts": {
+            "rows": "candidate_calibration.jsonl",
+            "summary": "candidate_calibration_summary.json",
+            "by_reason": "candidate_calibration_by_reason.csv",
+            "by_playbook": "candidate_calibration_by_playbook.csv",
+            "top_misses": "candidate_calibration_top_misses.csv",
+            "bad_accepts": "candidate_calibration_bad_accepts.csv",
+            "report": "candidate_calibration.md",
+        },
+    }
+
+
+def summarize_calibration_groups(rows: Sequence[dict[str, Any]], keys: Sequence[str], reference_horizon_minutes: int) -> list[dict[str, Any]]:
+    grouped: dict[tuple[str, ...], list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        grouped[tuple(str(row.get(key) or "") for key in keys)].append(row)
+    out: list[dict[str, Any]] = []
+    suffix = f"{reference_horizon_minutes}m"
+    for key_values, group in grouped.items():
+        returns = [safe_float(row.get(f"return_{suffix}_bps"), 0.0) for row in group]
+        mfes = [safe_float(row.get(f"mfe_{suffix}_bps"), 0.0) for row in group]
+        maes = [safe_float(row.get(f"mae_{suffix}_bps"), 0.0) for row in group]
+        costs = sorted(safe_float(row.get("cost_bps"), 0.0) for row in group)
+        edges = sorted(safe_float(row.get("edge_to_cost_mult"), 0.0) for row in group)
+        tp_hits = len([row for row in group if row.get(f"tp_hit_{suffix}")])
+        sl_hits = len([row for row in group if row.get(f"sl_hit_{suffix}")])
+        first_triggers = len([row for row in group if row.get(f"first_trigger_{suffix}")])
+        record = {key: value for key, value in zip(keys, key_values, strict=False)}
+        record.update({
+            "count": len(group),
+            f"avg_return_{suffix}_bps": avg(returns),
+            f"avg_mfe_{suffix}_bps": avg(mfes),
+            f"avg_mae_{suffix}_bps": avg(maes),
+            f"tp_hit_rate_{suffix}": round_float(tp_hits / len(group)) if group else 0.0,
+            f"sl_hit_rate_{suffix}": round_float(sl_hits / len(group)) if group else 0.0,
+            f"first_trigger_rate_{suffix}": round_float(first_triggers / len(group)) if group else 0.0,
+            "median_cost_bps": round_float(percentile(costs, 0.50)) if costs else 0.0,
+            "median_edge_to_cost_mult": round_float(percentile(edges, 0.50)) if edges else 0.0,
+            "near_miss_rate": round_float(len([row for row in group if row.get("near_miss")]) / len(group)) if group else 0.0,
+            "missed_opportunity_rate": round_float(len([row for row in group if row.get("classification") == "missed_opportunity"]) / len(group)) if group else 0.0,
+            "bad_accepted_rate": round_float(len([row for row in group if row.get("classification") == "bad_accepted"]) / len(group)) if group else 0.0,
+        })
+        out.append(record)
+    return sorted(out, key=lambda item: (-int(item["count"]), tuple(str(item.get(key) or "") for key in keys)))
+
+
+def write_candidate_calibration_artifacts(
+    output_dir: Path,
+    rows: list[dict[str, Any]],
+    summary: dict[str, Any],
+    settings: OptimizerSettings,
+) -> None:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    ref = reference_calibration_horizon(settings.calibration_horizons_minutes)
+    suffix = f"{ref}m"
+    write_jsonl(output_dir / "candidate_calibration.jsonl", rows)
+    write_json(output_dir / "candidate_calibration_summary.json", summary)
+    write_csv(output_dir / "candidate_calibration_by_reason.csv", summary["groups"]["reason"])
+    write_csv(output_dir / "candidate_calibration_by_playbook.csv", summarize_calibration_groups(rows, ["playbook", "side", "regime"], ref))
+    top_misses = sorted(
+        [row for row in rows if row.get("classification") == "missed_opportunity"],
+        key=lambda row: (safe_float(row.get(f"return_{suffix}_bps"), 0.0), safe_float(row.get(f"mfe_{suffix}_bps"), 0.0)),
+        reverse=True,
+    )[:250]
+    bad_accepts = sorted(
+        [row for row in rows if row.get("classification") == "bad_accepted"],
+        key=lambda row: (safe_float(row.get(f"return_{suffix}_bps"), 0.0), -safe_float(row.get(f"mae_{suffix}_bps"), 0.0)),
+    )[:250]
+    write_csv(output_dir / "candidate_calibration_top_misses.csv", flatten_calibration_rows_for_csv(top_misses, settings.calibration_horizons_minutes))
+    write_csv(output_dir / "candidate_calibration_bad_accepts.csv", flatten_calibration_rows_for_csv(bad_accepts, settings.calibration_horizons_minutes))
+    (output_dir / "candidate_calibration.md").write_text(render_candidate_calibration_report(summary), encoding="utf-8")
+
+
+def flatten_calibration_rows_for_csv(rows: Sequence[dict[str, Any]], horizons: Sequence[int]) -> list[dict[str, Any]]:
+    flat: list[dict[str, Any]] = []
+    horizon_fields: list[str] = []
+    for horizon in horizons:
+        suffix = f"{int(horizon)}m"
+        horizon_fields.extend([
+            f"return_{suffix}_bps",
+            f"mfe_{suffix}_bps",
+            f"mae_{suffix}_bps",
+            f"tp_hit_{suffix}",
+            f"sl_hit_{suffix}",
+            f"first_trigger_{suffix}",
+        ])
+    base_fields = [
+        "ts",
+        "symbol",
+        "side",
+        "playbook",
+        "regime",
+        "status",
+        "classification",
+        "primary_reject_reason",
+        "near_miss",
+        "entry_price",
+        "cost_bps",
+        "edge_to_cost_mult",
+        "stop_loss_bps",
+        "take_profit_bps",
+        "screen_rank",
+        "top_n_gate",
+    ]
+    for row in rows:
+        record = {field: row.get(field) for field in base_fields + horizon_fields}
+        record["reject_reasons"] = ",".join(str(reason) for reason in row.get("reject_reasons", []))
+        flat.append(record)
+    return flat
+
+
+def render_candidate_calibration_report(summary: dict[str, Any]) -> str:
+    classification = summary.get("classification_counts", {})
+    status = summary.get("status_counts", {})
+    reason_groups = summary.get("groups", {}).get("reason", [])[:8]
+    playbook_groups = summary.get("groups", {}).get("playbook", [])[:8]
+    lines = [
+        "# Candidate Calibration",
+        "",
+        "Diagnostic report only. Do not deploy calibration output as a production config.",
+        "",
+        f"- Window: {summary.get('start')} to {summary.get('end')}",
+        f"- Base agent: {summary.get('base_agent')}",
+        f"- Screening preset: {summary.get('screening_preset')}",
+        f"- Rows: {summary.get('row_count', 0)}",
+        f"- Status counts: {json.dumps(status, sort_keys=True)}",
+        f"- Classification counts: {json.dumps(classification, sort_keys=True)}",
+        f"- Near misses: {summary.get('near_miss_count', 0)}",
+        "",
+        "## Top Rejection Reasons",
+        "",
+    ]
+    for group in reason_groups:
+        lines.append(f"- {group.get('primary_reject_reason')}: {group.get('count')} rows, missed rate {group.get('missed_opportunity_rate')}")
+    lines.extend(["", "## Playbook Snapshot", ""])
+    for group in playbook_groups:
+        lines.append(f"- {group.get('playbook')}: {group.get('count')} rows, bad accepted rate {group.get('bad_accepted_rate')}")
+    lines.append("")
+    return "\n".join(lines)
 
 
 def run_holdout(context: BacktestContext, gates: OptimizerGates, args: argparse.Namespace) -> dict[str, Any]:
@@ -1759,7 +2897,13 @@ def aggregate_walk_forward_finalist(
     required_fold_pass_count = math.ceil(expected_fold_count * gates.min_fold_pass_rate) if expected_fold_count else 0
     worst_drawdown = max([float(result["metrics"].get("max_drawdown_bps") or 0.0) for result in fold_results], default=0.0)
     max_pnl_contribution = max_single_fold_pnl_contribution(fold_results)
-    distance = config_distance_from_base(finalist["agentConfig"], finalist["screenerConfig"], context.settings.param_specs)
+    distance = config_distance_from_base(
+        finalist["agentConfig"],
+        finalist["screenerConfig"],
+        context.settings.param_specs,
+        base_agent=agent_config_for_preset(context.settings.agent_preset_name),
+        base_screener=screener_config_for_preset(context.settings.screening_preset_name),
+    )
     aggregate_penalties = soft_penalty_breakdown(
         metrics,
         coverage,
@@ -2047,7 +3191,13 @@ def evaluate_candidate(
             context.settings.decision_mode,
         )
         result_coverage = copy.deepcopy(coverage if coverage is not None else context.coverage)
-        distance = config_distance_from_base(candidate["agentConfig"], candidate["screenerConfig"], context.settings.param_specs)
+        distance = config_distance_from_base(
+            candidate["agentConfig"],
+            candidate["screenerConfig"],
+            context.settings.param_specs,
+            base_agent=agent_config_for_preset(context.settings.agent_preset_name),
+            base_screener=screener_config_for_preset(context.settings.screening_preset_name),
+        )
         eligible_candidate_count = int(simulation_diagnostics.get("eligible_candidate_count") or 0)
         penalties = soft_penalty_breakdown(
             metrics,
@@ -4020,11 +5170,10 @@ def compute_risk_plan(row: dict[str, Any], agent: dict[str, Any]) -> tuple[float
         regime,
         {"sl_mult_factor": 1.0, "tp_mult_factor": 1.0},
     )
-    amplification = 1.5
-    sl = anchor_pct * safe_float(multipliers.get("sl_mult"), 1.0) * safe_float(regime_adjustment.get("sl_mult_factor"), 1.0) * amplification
-    tp = anchor_pct * safe_float(multipliers.get("tp_mult"), 2.0) * safe_float(regime_adjustment.get("tp_mult_factor"), 1.0) * amplification
+    sl = anchor_pct * safe_float(multipliers.get("sl_mult"), 1.0) * safe_float(regime_adjustment.get("sl_mult_factor"), 1.0)
+    tp = anchor_pct * safe_float(multipliers.get("tp_mult"), 2.0) * safe_float(regime_adjustment.get("tp_mult_factor"), 1.0)
 
-    return clamp_risk_plan(sl, tp)
+    return apply_risk_plan_width_bounds(sl, tp, row, agent)
 
 
 def resolve_risk_anchor_pct(row: dict[str, Any], agent: dict[str, Any]) -> float:
@@ -4036,6 +5185,16 @@ def resolve_risk_anchor_pct(row: dict[str, Any], agent: dict[str, Any]) -> float
                 value = value / 10_000
         elif key == "realized_vol.m5":
             value = safe_optional_float(row.get("realized_vol_5m"))
+        elif key == "atr_pct.m5":
+            value = safe_optional_float(row.get("atr_pct_m5"))
+            if value is None:
+                value = abs(safe_float(row.get("ret_5m"), 0.0))
+        elif key == "atr_pct.h1":
+            value = safe_optional_float(row.get("atr_pct_h1"))
+            if value is None:
+                value = abs(safe_float(row.get("ret_1h"), 0.0))
+        elif key == "realized_vol.h1":
+            value = safe_optional_float(row.get("realized_vol_1h"))
         if value is not None and value > 0:
             return value
     fallback = safe_optional_float(row.get("expected_move_bps"))
@@ -4048,6 +5207,62 @@ def clamp_risk_plan(stop_loss_pct: float, take_profit_pct: float) -> tuple[float
     sl = min(0.05, max(0.001, abs(stop_loss_pct)))
     tp = max(0.002, abs(take_profit_pct), 1.5 * sl)
     return sl, tp
+
+
+def apply_risk_plan_width_bounds(
+    stop_loss_pct: float,
+    take_profit_pct: float,
+    row: dict[str, Any],
+    agent: dict[str, Any],
+    *,
+    min_reward_risk: float = 1.5,
+) -> tuple[float, float]:
+    playbook = str(row.get("playbook") or "Discretionary Edge").split(":")[0].strip() or "Discretionary Edge"
+    regime = str(row.get("regime") or "DEFAULT").strip() or "DEFAULT"
+    floor = resolve_width_bound(agent, "min_width_bps_by_playbook", playbook, regime) or {"sl_bps": 10.0, "tp_bps": 20.0}
+    cap = resolve_width_bound(agent, "max_width_bps_by_playbook", playbook, regime) or {"sl_bps": 500.0, "tp_bps": 500.0}
+
+    sl_floor_bps = max(10.0, safe_float(floor.get("sl_bps"), 10.0))
+    tp_floor_bps = max(20.0, safe_float(floor.get("tp_bps"), 20.0))
+    sl_cap_bps = max(sl_floor_bps, safe_float(cap.get("sl_bps"), 500.0))
+    tp_cap_bps = max(tp_floor_bps, safe_float(cap.get("tp_bps"), 500.0))
+    if tp_cap_bps < sl_cap_bps * min_reward_risk:
+        sl_cap_bps = max(sl_floor_bps, tp_cap_bps / min_reward_risk)
+    if tp_floor_bps < sl_floor_bps * min_reward_risk:
+        tp_floor_bps = min(tp_cap_bps, sl_floor_bps * min_reward_risk)
+    if sl_floor_bps > sl_cap_bps:
+        sl_floor_bps = sl_cap_bps
+    if tp_floor_bps > tp_cap_bps:
+        tp_floor_bps = tp_cap_bps
+
+    sl_bps = min(sl_cap_bps, max(sl_floor_bps, abs(stop_loss_pct) * 10_000))
+    tp_bps = min(tp_cap_bps, max(tp_floor_bps, abs(take_profit_pct) * 10_000, sl_bps * min_reward_risk))
+    if tp_bps < sl_bps * min_reward_risk:
+        sl_bps = min(sl_bps, tp_bps / min_reward_risk)
+        sl_bps = min(sl_cap_bps, max(sl_floor_bps, sl_bps))
+    return sl_bps / 10_000, tp_bps / 10_000
+
+
+def resolve_width_bound(agent: dict[str, Any], bound_key: str, playbook: str, regime: str) -> dict[str, Any] | None:
+    model = agent.get("risk_plan_model", {})
+    table = model.get(bound_key, {})
+    if not isinstance(table, dict):
+        return None
+    playbook_entry = table.get(playbook) or table.get("DEFAULT")
+    if isinstance(playbook_entry, dict):
+        direct = playbook_entry.get(regime) or playbook_entry.get("DEFAULT")
+        if isinstance(direct, dict):
+            return direct
+        if "sl_bps" in playbook_entry or "tp_bps" in playbook_entry:
+            return playbook_entry
+    default_entry = table.get("DEFAULT")
+    if isinstance(default_entry, dict):
+        direct = default_entry.get(regime) or default_entry.get("DEFAULT")
+        if isinstance(direct, dict):
+            return direct
+        if "sl_bps" in default_entry or "tp_bps" in default_entry:
+            return default_entry
+    return None
 
 
 def fallback_exit_price(row: dict[str, Any], side: str) -> float:
@@ -4229,8 +5444,8 @@ def min_trade_diagnostics(
 ) -> dict[str, Any]:
     trade_count = int(metrics.get("trade_count") or 0)
     configured = max(0, int(gates.min_trades))
-    effective = effective_min_trades(gates, eligible_candidate_count) if fold_evaluation else configured
-    hard_floor = min(configured, max(0, int(gates.min_trades_floor))) if fold_evaluation else configured
+    effective = effective_min_trades(gates, eligible_candidate_count)
+    hard_floor = min(configured, max(0, int(gates.min_trades_floor)))
     shortfall = max(0, effective - trade_count)
     penalty = 0.0
     if shortfall > 0 and effective > 0:
@@ -4369,9 +5584,7 @@ def optimizer_rejection_reason(
         return "synthetic_execution_candles"
     min_trade = min_trade_diagnostics(metrics, gates, eligible_candidate_count, fold_evaluation=fold_evaluation)
     if min_trade["hard_reject"]:
-        if fold_evaluation:
-            return f"min_trades_floor:{min_trade['trade_count']}<{min_trade['min_trades_floor']}"
-        return f"min_trades:{metrics['trade_count']}<{gates.min_trades}"
+        return f"min_trades_floor:{min_trade['trade_count']}<{min_trade['min_trades_floor']}"
     if safe_float(metrics.get("net_pnl_usd"), 0.0) <= 0:
         return f"net_pnl_usd:{round_float(safe_float(metrics.get('net_pnl_usd'), 0.0))}<=0"
     if metrics["max_drawdown_bps"] > gates.max_drawdown_bps:
@@ -4399,11 +5612,14 @@ def config_distance_from_base(
     candidate_agent: dict[str, Any],
     candidate_screener: dict[str, Any],
     specs: Sequence[dict[str, Any]],
+    *,
+    base_agent: dict[str, Any] | None = None,
+    base_screener: dict[str, Any] | None = None,
 ) -> float:
     if not specs:
         return 0.0
-    base_agent = default_agent_config()
-    base_screener = default_screener_config()
+    base_agent = default_agent_config() if base_agent is None else base_agent
+    base_screener = default_screener_config() if base_screener is None else base_screener
     distances: list[float] = []
     for spec in specs:
         base_target = base_agent if spec["target"] == "agent" else base_screener
@@ -4423,8 +5639,8 @@ def build_generation_candidates(
     prior_results: list[dict[str, Any]],
     generation: int,
 ) -> list[dict[str, Any]]:
-    base_agent = default_agent_config()
-    base_screener = default_screener_config()
+    base_agent = agent_config_for_preset(settings.agent_preset_name)
+    base_screener = screener_config_for_preset(settings.screening_preset_name)
     if generation == 0:
         return dedupe_candidates(generation_zero_candidates(base_agent, base_screener, settings.param_profile, settings.param_specs))
     if generation == 1:
@@ -4571,6 +5787,7 @@ def build_generation_summary(
     full_count: int,
     elite_hashes: list[str] | None = None,
     near_miss_hashes: list[str] | None = None,
+    cheap_slice_metadata: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     return {
         "generation": generation,
@@ -4578,6 +5795,7 @@ def build_generation_summary(
         "evaluated_count": len(full_results),
         "cheap_evaluation_count": cheap_count,
         "full_evaluation_count": full_count,
+        "cheap_slice_metadata": cheap_slice_metadata or [],
         "accepted_count": len([result for result in full_results if not result["rejected"]]),
         "rejected_count": len([result for result in full_results if result["rejected"]]),
         "elite_config_hashes": elite_hashes or [result["config_hash"] for result in full_results if not result["rejected"]][:20],
@@ -5094,6 +6312,36 @@ def clean_for_json(value: Any) -> Any:
 def write_json(path: Path, payload: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(clean_for_json(payload), indent=2, sort_keys=False) + "\n", encoding="utf-8")
+
+
+def write_jsonl(path: Path, rows: Sequence[dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8") as handle:
+        for row in rows:
+            handle.write(json.dumps(clean_for_json(row), sort_keys=False) + "\n")
+
+
+def write_csv(path: Path, rows: Sequence[dict[str, Any]], fieldnames: Sequence[str] | None = None) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if fieldnames is None:
+        fields: list[str] = []
+        for row in rows:
+            for key in row:
+                if key not in fields:
+                    fields.append(key)
+        fieldnames = fields
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(fieldnames))
+        writer.writeheader()
+        for row in rows:
+            writer.writerow({field: clean_for_csv(row.get(field)) for field in fieldnames})
+
+
+def clean_for_csv(value: Any) -> Any:
+    cleaned = clean_for_json(value)
+    if isinstance(cleaned, (dict, list)):
+        return json.dumps(cleaned, sort_keys=True)
+    return cleaned
 
 
 if __name__ == "__main__":
