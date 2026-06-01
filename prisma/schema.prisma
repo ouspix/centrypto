@@ -79,6 +79,37 @@ model CandidateJournal {
   @@index([candidateId])
 }
 
+model OpportunityJournal {
+  id                         String   @id @default(uuid())
+  accountAddress             String?
+  network                    String
+  snapshotId                 Int?
+  timestamp                  DateTime @default(now())
+  symbol                     String
+  side                       String
+  discoveryReasonsJson       String
+  status                     String
+  inPlayScore                Float?
+  setupType                  String?
+  setupScore                 Float?
+  playbook                   String?
+  reasonsJson                String
+  warningsJson               String
+  featuresJson               String
+  executionTradeable         Boolean
+  executionBlockReasonsJson  String
+  priceAtSignal              Float?
+  outcome5mJson              String?
+  outcome15mJson             String?
+  outcome1hJson              String?
+  outcome4hJson              String?
+  createdAt                  DateTime @default(now())
+
+  @@index([network, symbol, createdAt])
+  @@index([status, createdAt])
+  @@index([setupType, createdAt])
+}
+
 // Sentiment & Social Data Models
 model Message {
   id             Int      @id @default(autoincrement())

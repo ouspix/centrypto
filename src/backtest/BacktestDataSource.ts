@@ -161,25 +161,25 @@ export class BacktestDataSource {
 
         const cfg = this.options.screenerConfig;
         const screenerHeldSymbols = heldSymbols.map(baseSymbol);
-        const screened = this.screener.scoreAndRank(
-            this.screener.filterByLiquidity(
-                this.screener.filterByActivity(
-                    this.screener.filterByUniverse(enriched, screenerHeldSymbols, cfg),
-                    screenerHeldSymbols,
-                    cfg
-                ),
-                screenerHeldSymbols,
-                cfg
-            ),
+        const screened = this.screener.discoverAndRank(
+            enriched,
             screenerHeldSymbols,
-            cfg
+            cfg,
+            this.options.agentConfig
         );
 
         for (const candidate of screened) {
             const row = rowBySymbol.get(toPerpSymbol(candidate.symbol));
             if (!row) continue;
             const market = mapFeatureToMarketEntry(row, this.findTick(row.symbol, ts));
-            if (market) markets[market.symbol] = market;
+            if (market) {
+                market.discovery = {
+                    reasons: candidate.discoveryReasons,
+                    metrics: candidate.discoveryMetrics
+                };
+                market.execution = candidate.execution;
+                markets[market.symbol] = market;
+            }
         }
         return markets;
     }

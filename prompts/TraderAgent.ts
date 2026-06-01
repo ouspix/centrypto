@@ -47,7 +47,8 @@ Hard rules:
 14. For existing positions, choose HOLD_POSITION, REDUCE_POSITION, or CLOSE_POSITION based only on provided position state and market_signal.
 
 Strategy scope:
-- New entries may only use Momentum, Breakout, or Mean Reversion playbooks provided by eligible_candidates.
+- New entries may only use playbooks provided by eligible_candidates.
+- Supported deterministic playbooks are Momentum, Breakout, Mean Reversion, Pullback Continuation, Failed Bounce, Failed Breakdown, and Capitulation Bounce.
 - Discretionary Edge and Liquidity Grab are legacy reason codes only; never create a new entry from them.
 - No hard trigger means there will be no candidate. Do not invent one.
 

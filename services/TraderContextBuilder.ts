@@ -1,11 +1,14 @@
 import { AgentConfig } from "@/lib/agent-config";
 import { prisma } from "@/lib/db";
+import { OpportunityEngine } from "@/lib/trader/OpportunityEngine";
 import { marketDbMain, marketDbTest } from "@/lib/market-db";
 import { computeRiskPlan, inferSideFromPlaybook } from "@/lib/risk/shared";
 import {
     CandidateRejectionDiagnostic,
     EligibleCandidate,
     ManagedPosition,
+    NearMissCandidate,
+    OpportunityDiagnostic,
     Playbook,
     TraderContext,
     TraderContextDiagnostics,
@@ -19,7 +22,13 @@ const V1_PLAYBOOKS = new Set<Playbook>([
     "Breakout:long",
     "Breakout:short",
     "Mean Reversion:long",
-    "Mean Reversion:short"
+    "Mean Reversion:short",
+    "Pullback Continuation:long",
+    "Pullback Continuation:short",
+    "Failed Bounce:short",
+    "Failed Breakdown:long",
+    "Capitulation Bounce:long",
+    "Capitulation Bounce:short"
 ]);
 
 type CandidateBuildResult = {
@@ -36,6 +45,8 @@ type CandidateSelectionResult = {
 export type CorrelationProvider = (symbolA: string, symbolB: string, isTestnet: boolean) => Promise<number>;
 
 export class TraderContextBuilder {
+    private readonly opportunityEngine = new OpportunityEngine();
+
     constructor(private readonly correlationProvider?: CorrelationProvider) {}
 
     public async build(
@@ -49,6 +60,7 @@ export class TraderContextBuilder {
         const selection = await this.buildEligibleCandidates(snapshot, config, isTestnet, profile, existingPositions.length, accountAddress);
         const eligibleCandidates = selection.candidates;
         const candidateMap = new Map(eligibleCandidates.map(candidate => [candidate.candidate_id, candidate]));
+        const opportunityContext = this.buildOpportunityContext(snapshot, config);
 
         return {
             context: {
@@ -67,10 +79,44 @@ export class TraderContextBuilder {
                 },
                 existing_positions: existingPositions,
                 eligible_candidates: eligibleCandidates,
+                near_miss_candidates: opportunityContext.nearMisses,
+                opportunity_diagnostics: opportunityContext.diagnostics,
                 max_new_trades_allowed: selection.diagnostics.max_new_trades_allowed
             },
             candidateMap,
             diagnostics: selection.diagnostics
+        };
+    }
+
+    private buildOpportunityContext(
+        snapshot: StateSnapshot,
+        config: AgentConfig
+    ): { nearMisses: NearMissCandidate[]; diagnostics: OpportunityDiagnostic[] } {
+        if (config.opportunity?.enabled === false) return { nearMisses: [], diagnostics: [] };
+        const maxNearMisses = config.opportunity?.maxNearMissPerCycle ?? 5;
+        const opportunities = this.opportunityEngine.evaluateMarkets(snapshot.markets || {}, config);
+        const diagnostics = opportunities.map(opportunity => {
+            const market = snapshot.markets[opportunity.symbol];
+            return {
+                symbol: opportunity.symbol,
+                side: opportunity.side,
+                inPlayScore: opportunity.inPlayScore,
+                setupType: opportunity.bestSetup?.setupType ?? null,
+                setupScore: opportunity.bestSetup?.score ?? null,
+                playbook: opportunity.bestSetup?.playbook ?? null,
+                status: opportunity.status,
+                reasons: opportunity.reasons,
+                warnings: opportunity.warnings,
+                executionTradeable: opportunity.executionTradeable,
+                executionBlockReasons: opportunity.executionBlockReasons,
+                discoveryReasons: market?.discovery?.reasons ?? []
+            };
+        });
+        return {
+            nearMisses: diagnostics
+                .filter(opportunity => opportunity.status === "NEAR_MISS")
+                .slice(0, maxNearMisses),
+            diagnostics
         };
     }
 

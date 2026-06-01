@@ -3,6 +3,7 @@ import { SentimentService } from "./SentimentService";
 import { marketDbMain, marketDbTest } from "@/lib/market-db";
 import { AgentConfig, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
 import { ScreenerConfig, DEFAULT_SCREENER_CONFIG } from "@/lib/screener-config";
+import { computeExecutionCostBps } from "@/lib/trading/execution-cost";
 import { OrderBookManager } from "./OrderBookManager";
 import { HyperliquidWS, getSharedHyperliquidWS } from "@/lib/hyperliquid-ws";
 
@@ -34,15 +35,57 @@ export type EnrichedMarketData = {
     openInterest: number;
     openInterestDelta5m?: number;
     fundingDelta5m?: number;
+    recentQuoteVolume?: number | null;
     metrics: MarketMetrics;
     bookMetrics: OrderBookMetrics;
     sentiment: any;
     isTestnet: boolean;
 };
 
+export type DiscoveryReason =
+    | "QUALITY_TOP"
+    | "HOT_MOVER"
+    | "VOLUME_SPIKE"
+    | "RANGE_EXPANSION"
+    | "HELD_POSITION"
+    | "FORCE_INCLUDED";
+
+export type ExecutionBlockReason =
+    | "SPREAD_GATE"
+    | "DEPTH_GATE"
+    | "COST_GATE"
+    | "RECENT_VOLUME_GATE"
+    | "REALIZED_VOL_GATE"
+    | "VOLUME24H_GATE";
+
+export type DiscoveryMetrics = {
+    absMoveBps_m15: number | null;
+    absMoveBps_h1: number | null;
+    absMoveBps_h4: number | null;
+    maxAbsMoveBps: number | null;
+    recentQuoteVolume: number | null;
+    relativeVolumeRatio: number | null;
+    rangeExpansionRatio: number | null;
+    realizedVolM5: number | null;
+    volRatio5mVs1h: number | null;
+    retSigma5mVs1h: number | null;
+};
+
+export type ExecutionDiagnostics = {
+    tradeable: boolean;
+    blockReasons: ExecutionBlockReason[];
+    spreadBps: number | null;
+    depthUsd: number | null;
+    costBps: number | null;
+};
+
 export type ScreenedSymbol = EnrichedMarketData & {
     score: number;
+    qualityScore: number;
     sentiment: any;
+    discoveryReasons: DiscoveryReason[];
+    discoveryMetrics: DiscoveryMetrics;
+    execution: ExecutionDiagnostics;
 };
 
 export class ScreenerService {
@@ -108,7 +151,7 @@ export class ScreenerService {
             }
             console.warn("⚠️ No recent market ticks found in DB. Falling back to live fetch for a small default universe.");
             const fallbackSymbols = ["BTC", "ETH", "SOL", "LINK", "DOGE", "XRP"];
-            const fallbackCandidates: ScreenedSymbol[] = [];
+            const fallbackCandidates: EnrichedMarketData[] = [];
 
             for (const symbol of fallbackSymbols) {
                 try {
@@ -119,73 +162,47 @@ export class ScreenerService {
                     ]);
 
                     const price = bookMetrics.mid || 0;
-                    const candidate: ScreenedSymbol = {
+                    const candidate: EnrichedMarketData = {
                         symbol,
                         price,
                         volume24h: 0,
                         funding: 0,
                         openInterest: 0,
+                        recentQuoteVolume: null,
                         metrics,
                         bookMetrics,
                         sentiment,
-                        isTestnet,
-                        score: 0
+                        isTestnet
                     };
-
-                    const activityOk = !screenerCfg.layer3Enabled ||
-                        this.filterByActivity([{ ...candidate, sentiment }], heldSymbols, screenerCfg).length > 0;
-                    const liquidityOk = !screenerCfg.layer2Enabled ||
-                        this.filterByLiquidity([{ ...candidate, bookMetrics }], heldSymbols, screenerCfg).length > 0;
-
-                    if (activityOk && liquidityOk) {
-                        fallbackCandidates.push(candidate);
-                    }
+                    fallbackCandidates.push(candidate);
                 } catch (e) {
                     console.error(`Fallback fetch failed for ${symbol}`, e);
                 }
             }
 
-            return this.scoreAndRank(fallbackCandidates, heldSymbols, screenerCfg);
+            return this.discoverAndRank(fallbackCandidates, heldSymbols, screenerCfg, config);
         }
 
-        // --- Layer 1: Universe Control (Hard Gate) ---
-        const universeCandidates = screenerCfg.layer1Enabled
-            ? this.filterByUniverse(allTicks, heldSymbols, screenerCfg)
-            : allTicks;
-        console.log(`Layer 1 (Universe): ${universeCandidates.length} ${screenerCfg.layer1Enabled ? `passed minVolume24h (${screenerCfg.minVolume24h})` : "kept; gate disabled"}.`);
-        this.assertNotAborted(signal);
-
-        // --- Layer 2: Activity / "In-Play" (Hard Gate) ---
-        // 2a. Calculate Recent Volume (Quote Volume in last X mins)
         const recentVolumeMap = screenerCfg.layer3Enabled
             ? await this.getRecentVolumeMap(screenerCfg.recentVolumeMinutes, recentWindow.referenceTime)
             : new Map<string, number>();
         this.assertNotAborted(signal);
 
-        const activityCandidates: (EnrichedMarketData & { sentiment: any })[] = [];
+        const enrichedCandidates: (EnrichedMarketData & { sentiment: any })[] = [];
 
         const batchSize = 10;
-        for (let i = 0; i < universeCandidates.length; i += batchSize) {
+        for (let i = 0; i < allTicks.length; i += batchSize) {
             this.assertNotAborted(signal);
-            const batch = universeCandidates.slice(i, i + batchSize);
+            const batch = allTicks.slice(i, i + batchSize);
             await Promise.all(batch.map(async (tick) => {
                 this.assertNotAborted(signal);
-                if (screenerCfg.layer3Enabled) {
-                    // Check Recent Volume first (cheap)
-                    const recentBaseVol = recentVolumeMap.get(tick.symbol) || 0;
-                    const recentQuoteVol = recentBaseVol * tick.markPrice;
-
-                    if (!heldSymbols.includes(tick.symbol) && recentQuoteVol < screenerCfg.minRecentVolume) {
-                        return;
-                    }
-                }
-
                 try {
+                    const recentBaseVol = recentVolumeMap.get(tick.symbol) || 0;
+                    const recentQuoteVol = screenerCfg.layer3Enabled ? recentBaseVol * tick.markPrice : null;
                     const baselineTick = earliestTicksMap.get(tick.symbol) || tick;
                     const oiDelta5m = (tick.openInterest || 0) - (baselineTick.openInterest || 0);
                     const fundingDelta5m = (tick.fundingRate || 0) - (baselineTick.fundingRate || 0);
 
-                    // Fetch Metrics & Sentiment
                     const [metrics, sentiment] = await Promise.all([
                         // Screening should not trigger live candle backfills; the collector owns hydration.
                         this.getMetrics(tick.symbol, false),
@@ -200,6 +217,7 @@ export class ScreenerService {
                         openInterest: tick.openInterest || 0,
                         openInterestDelta5m: oiDelta5m,
                         fundingDelta5m: fundingDelta5m,
+                        recentQuoteVolume: recentQuoteVol,
                         metrics,
                         bookMetrics: { // Placeholder, filled in Layer 3
                             best_bid: 0,
@@ -216,11 +234,8 @@ export class ScreenerService {
                         isTestnet
                     };
 
-                    // Check Realized Volatility (Hard Gate)
-                    if (!screenerCfg.layer3Enabled || this.filterByActivity([candidate], heldSymbols, screenerCfg).length > 0) {
-                        this.assertNotAborted(signal);
-                        activityCandidates.push(candidate);
-                    }
+                    this.assertNotAborted(signal);
+                    enrichedCandidates.push(candidate);
 
                 } catch (e) {
                     if (this.isAbortError(e)) throw e;
@@ -229,21 +244,19 @@ export class ScreenerService {
             }));
         }
         this.assertNotAborted(signal);
-        console.log(`Layer 2 (Activity): ${activityCandidates.length} ${screenerCfg.layer3Enabled ? "passed recentVolume & realizedVol" : "kept; gate disabled"}.`);
+        console.log(`Discovery enrichment: ${enrichedCandidates.length} symbols with tick/metric data.`);
 
-        // --- Layer 3: Liquidity / Execution (Hard Gate) ---
-        const symbolsToTrack = activityCandidates.map(c => c.symbol);
+        const symbolsToTrack = enrichedCandidates.map(c => c.symbol);
         this.orderBookManager.updateSubscriptions(symbolsToTrack);
 
-        // 2. Wait for data (warmup)
         await this.sleep(2000, signal);
         this.assertNotAborted(signal);
 
-        const liquidityCandidates: EnrichedMarketData[] = [];
+        const candidatesWithBooks: EnrichedMarketData[] = [];
 
-        for (let i = 0; i < activityCandidates.length; i += batchSize) {
+        for (let i = 0; i < enrichedCandidates.length; i += batchSize) {
             this.assertNotAborted(signal);
-            const batch = activityCandidates.slice(i, i + batchSize);
+            const batch = enrichedCandidates.slice(i, i + batchSize);
             await Promise.all(batch.map(async (candidate) => {
                 this.assertNotAborted(signal);
                 try {
@@ -251,29 +264,20 @@ export class ScreenerService {
                         candidate.symbol,
                         screenerCfg.depthBandsPct
                     );
-                    const enriched = { ...candidate, bookMetrics };
-
-                    if (!screenerCfg.layer2Enabled || this.filterByLiquidity([enriched], heldSymbols, screenerCfg).length > 0) {
-                        liquidityCandidates.push(enriched);
-                    } else if (heldSymbols.includes(candidate.symbol)) {
-                        // Keep held symbols even if they fail liquidity (though filterByLiquidity should handle this if passed heldSymbols)
-                    }
+                    candidatesWithBooks.push({ ...candidate, bookMetrics });
                 } catch (e) {
                     if (this.isAbortError(e)) throw e;
                     console.error(`Failed to get L2 metrics for ${candidate.symbol}`, e);
-                    if (heldSymbols.includes(candidate.symbol)) {
-                        liquidityCandidates.push(candidate);
-                    }
+                    candidatesWithBooks.push(candidate);
                 }
             }));
         }
         this.assertNotAborted(signal);
-        console.log(`Layer 3 (Liquidity): ${liquidityCandidates.length} ${screenerCfg.layer2Enabled ? "passed spread & depth" : "kept with hydrated book metrics; gate disabled"}.`);
 
-        // --- Layer 4: Quality Scoring (Ranking) ---
-        const deduped = this.scoreAndRank(liquidityCandidates, heldSymbols, screenerCfg);
+        const deduped = this.discoverAndRank(candidatesWithBooks, heldSymbols, screenerCfg, config);
+        const executable = deduped.filter(symbol => symbol.execution.tradeable).length;
 
-        console.log(`✅ Screening completed in ${Date.now() - startTime}ms. Returning ${deduped.length} unique symbols (topN=${screenerCfg.topN}).`);
+        console.log(`✅ Discovery completed in ${Date.now() - startTime}ms. Returning ${deduped.length} discovered symbols (${executable} execution-tradeable, topN=${screenerCfg.topN}).`);
         return deduped;
     }
 
@@ -491,15 +495,17 @@ export class ScreenerService {
     }
 
     public filterByUniverse(candidates: any[], heldSymbols: string[], config: ScreenerConfig): any[] {
+        const heldSet = new Set(heldSymbols.map(normalizeBaseSymbol));
         return candidates.filter(d => {
-            if (heldSymbols.includes(d.symbol)) return true;
+            if (heldSet.has(normalizeBaseSymbol(d.symbol))) return true;
             return (d.volume24h ?? 0) >= config.minVolume24h;
         });
     }
 
     public filterByActivity(candidates: (EnrichedMarketData & { sentiment: any })[], heldSymbols: string[], config: ScreenerConfig): (EnrichedMarketData & { sentiment: any })[] {
+        const heldSet = new Set(heldSymbols.map(normalizeBaseSymbol));
         return candidates.filter(c => {
-            if (heldSymbols.includes(c.symbol)) return true;
+            if (heldSet.has(normalizeBaseSymbol(c.symbol))) return true;
             // Note: Recent Volume check is done before creating candidate in getScreenedSymbols for efficiency,
             // but strictly speaking should be here. We assume candidates passed to this might need checking if we were testing pure logic.
             // But here we only check realized vol as that's what's available in 'metrics'.
@@ -509,8 +515,9 @@ export class ScreenerService {
     }
 
     public filterByLiquidity(candidates: EnrichedMarketData[], heldSymbols: string[], config: ScreenerConfig): EnrichedMarketData[] {
+        const heldSet = new Set(heldSymbols.map(normalizeBaseSymbol));
         return candidates.filter(c => {
-            if (heldSymbols.includes(c.symbol)) return true;
+            if (heldSet.has(normalizeBaseSymbol(c.symbol))) return true;
 
             if (c.bookMetrics.spread_bps > config.maxSpreadBps) return false;
 
@@ -518,7 +525,7 @@ export class ScreenerService {
             if (minSideDepth < config.minDepthUsd) return false;
 
             if (config.maxCostBps) {
-                const estimatedCost = 3.5 + c.bookMetrics.spread_bps;
+                const estimatedCost = this.computeScreenerCostBps(c, DEFAULT_AGENT_CONFIG);
                 if (estimatedCost > config.maxCostBps) return false;
             }
 
@@ -526,57 +533,242 @@ export class ScreenerService {
         });
     }
 
-    public scoreAndRank(candidates: EnrichedMarketData[], heldSymbols: string[], config: ScreenerConfig): ScreenedSymbol[] {
-        if (!config.layer4Enabled) {
-            const unscored = candidates.map(candidate => ({
-                ...candidate,
-                score: 0,
-                sentiment: candidate.sentiment
-            }));
-            return this.limitAndDedupe(unscored, heldSymbols, config.topN);
+    public scoreAndRank(
+        candidates: EnrichedMarketData[],
+        heldSymbols: string[],
+        config: ScreenerConfig,
+        agentConfig: AgentConfig = DEFAULT_AGENT_CONFIG
+    ): ScreenedSymbol[] {
+        const scored = this.scoreCandidates(candidates, heldSymbols, config, agentConfig);
+        return this.limitAndDedupe(scored, heldSymbols, config.topN);
+    }
+
+    public discoverAndRank(
+        candidates: EnrichedMarketData[],
+        heldSymbols: string[],
+        config: ScreenerConfig,
+        agentConfig: AgentConfig = DEFAULT_AGENT_CONFIG
+    ): ScreenedSymbol[] {
+        const scored = this.scoreCandidates(candidates, heldSymbols, config, agentConfig);
+        const bySymbol = new Map(scored.map(candidate => [candidate.symbol, candidate]));
+        const reasonsBySymbol = new Map<string, Set<DiscoveryReason>>();
+
+        const addReason = (candidate: ScreenedSymbol | undefined, reason: DiscoveryReason) => {
+            if (!candidate) return;
+            const bucket = reasonsBySymbol.get(candidate.symbol) ?? new Set<DiscoveryReason>();
+            bucket.add(reason);
+            reasonsBySymbol.set(candidate.symbol, bucket);
+        };
+
+        const includeBlocked = config.includeExecutionBlockedForDiagnostics !== false;
+        const allowedForDiagnostics = (candidate: ScreenedSymbol) => includeBlocked || candidate.execution.tradeable;
+        const qualityTop = scored
+            .filter(candidate => candidate.execution.tradeable)
+            .slice(0, config.topN);
+        qualityTop.forEach(candidate => addReason(candidate, "QUALITY_TOP"));
+
+        const hotMoverTopN = config.hotMoverTopN ?? Math.min(12, config.discoveryMaxSymbols ?? config.topN);
+        const hotMoverMinAbsMoveBps = config.hotMoverMinAbsMoveBps ?? 150;
+        scored
+            .filter(candidate => allowedForDiagnostics(candidate))
+            .filter(candidate => (candidate.discoveryMetrics.maxAbsMoveBps ?? 0) >= hotMoverMinAbsMoveBps)
+            .sort((a, b) => (b.discoveryMetrics.maxAbsMoveBps ?? 0) - (a.discoveryMetrics.maxAbsMoveBps ?? 0))
+            .slice(0, hotMoverTopN)
+            .forEach(candidate => addReason(candidate, "HOT_MOVER"));
+
+        const volumeSpikeTopN = config.volumeSpikeTopN ?? Math.min(10, config.discoveryMaxSymbols ?? config.topN);
+        scored
+            .filter(candidate => allowedForDiagnostics(candidate))
+            .filter(candidate => (candidate.discoveryMetrics.relativeVolumeRatio ?? 0) > 1)
+            .sort((a, b) =>
+                ((b.discoveryMetrics.relativeVolumeRatio ?? 0) - (a.discoveryMetrics.relativeVolumeRatio ?? 0)) ||
+                ((b.discoveryMetrics.recentQuoteVolume ?? 0) - (a.discoveryMetrics.recentQuoteVolume ?? 0))
+            )
+            .slice(0, volumeSpikeTopN)
+            .forEach(candidate => addReason(candidate, "VOLUME_SPIKE"));
+
+        const rangeExpansionTopN = config.rangeExpansionTopN ?? Math.min(10, config.discoveryMaxSymbols ?? config.topN);
+        scored
+            .filter(candidate => allowedForDiagnostics(candidate))
+            .filter(candidate => (candidate.discoveryMetrics.rangeExpansionRatio ?? 0) > 1)
+            .sort((a, b) => (b.discoveryMetrics.rangeExpansionRatio ?? 0) - (a.discoveryMetrics.rangeExpansionRatio ?? 0))
+            .slice(0, rangeExpansionTopN)
+            .forEach(candidate => addReason(candidate, "RANGE_EXPANSION"));
+
+        const held = new Set(heldSymbols.map(normalizeBaseSymbol));
+        for (const candidate of scored) {
+            if (held.has(normalizeBaseSymbol(candidate.symbol))) addReason(candidate, "HELD_POSITION");
         }
 
-        const scored: ScreenedSymbol[] = [];
+        const forceIncluded = new Set((config.forceIncludeSymbols ?? []).map(normalizeBaseSymbol));
+        for (const symbol of forceIncluded) {
+            addReason(bySymbol.get(symbol) ?? bySymbol.get(stripPerp(symbol)), "FORCE_INCLUDED");
+        }
+        for (const candidate of scored) {
+            if (forceIncluded.has(normalizeBaseSymbol(candidate.symbol))) addReason(candidate, "FORCE_INCLUDED");
+        }
+
+        const discovered = scored
+            .filter(candidate => reasonsBySymbol.has(candidate.symbol))
+            .map(candidate => ({
+                ...candidate,
+                discoveryReasons: Array.from(reasonsBySymbol.get(candidate.symbol) ?? [])
+            }))
+            .sort(compareDiscoveredSymbols);
+
+        return this.capDiscovery(discovered, config);
+    }
+
+    private scoreCandidates(
+        candidates: EnrichedMarketData[],
+        heldSymbols: string[],
+        config: ScreenerConfig,
+        agentConfig: AgentConfig
+    ): ScreenedSymbol[] {
         const weights = config.quality_weights;
 
+        const scored: ScreenedSymbol[] = [];
+
         for (const candidate of candidates) {
-            const volScore = weights.vol_score * Math.abs(candidate.metrics.vol_zscores.vol_5m_vs_1h);
-            const moveScore = weights.move_score * Math.abs(candidate.metrics.vol_zscores.ret_5m_vs_1h);
+            const volScore = config.layer4Enabled ? weights.vol_score * Math.abs(candidate.metrics.vol_zscores.vol_5m_vs_1h) : 0;
+            const moveScore = config.layer4Enabled ? weights.move_score * Math.abs(candidate.metrics.vol_zscores.ret_5m_vs_1h) : 0;
 
             const s5 = Math.sign(candidate.metrics.returns.m5);
             const s15 = Math.sign(candidate.metrics.returns.m15);
             const s60 = Math.sign(candidate.metrics.returns.h1);
-            const trendAlign = (s5 === s15 && s15 === s60 && s5 !== 0) ? weights.trend_align : 0;
+            const trendAlign = config.layer4Enabled && (s5 === s15 && s15 === s60 && s5 !== 0) ? weights.trend_align : 0;
 
-            const spreadPenalty = weights.spread_penalty * (candidate.bookMetrics.spread_bps / 5);
+            const spreadPenalty = config.layer4Enabled ? weights.spread_penalty * (candidate.bookMetrics.spread_bps / 5) : 0;
 
             const minDepth = Math.min(candidate.bookMetrics.depth_usd.bid_1pct, candidate.bookMetrics.depth_usd.ask_1pct);
-            const illiquidityPenalty = weights.illiquidity_penalty * (config.minDepthUsd / (minDepth + 1));
+            const illiquidityPenalty = config.layer4Enabled ? weights.illiquidity_penalty * (config.minDepthUsd / (minDepth + 1)) : 0;
             const expectedMoveBps = 10000 * Math.max(Math.abs(candidate.metrics.returns.m15), Math.abs(candidate.metrics.returns.h1));
-            const estimatedCostBps = 3.5 + candidate.bookMetrics.spread_bps;
+            const estimatedCostBps = this.computeScreenerCostBps(candidate, agentConfig);
             const edgeToCost = estimatedCostBps > 0 ? Math.max(0, (expectedMoveBps - estimatedCostBps) / estimatedCostBps) : 0;
-            const costToEdgePenalty = (weights.cost_to_edge_penalty ?? 0) * (1 / Math.max(edgeToCost, 0.1));
+            const costToEdgePenalty = config.layer4Enabled ? (weights.cost_to_edge_penalty ?? 0) * (1 / Math.max(edgeToCost, 0.1)) : 0;
 
             const totalScore = volScore + moveScore + trendAlign - spreadPenalty - illiquidityPenalty - costToEdgePenalty;
+            const qualityScore = Number.isFinite(totalScore) ? totalScore : 0;
 
             scored.push({
                 ...candidate,
-                score: totalScore,
-                sentiment: candidate.sentiment
+                score: qualityScore,
+                qualityScore,
+                sentiment: candidate.sentiment,
+                discoveryReasons: [],
+                discoveryMetrics: this.buildDiscoveryMetrics(candidate),
+                execution: this.buildExecutionDiagnostics(candidate, heldSymbols, config, agentConfig)
             });
         }
 
         scored.sort((a, b) => b.score - a.score);
+        return scored;
+    }
 
-        return this.limitAndDedupe(scored, heldSymbols, config.topN);
+    private buildDiscoveryMetrics(candidate: Pick<EnrichedMarketData, "metrics" | "recentQuoteVolume">): DiscoveryMetrics {
+        const absMoveBps_m15 = toAbsBps(candidate.metrics.returns.m15);
+        const absMoveBps_h1 = toAbsBps(candidate.metrics.returns.h1);
+        const absMoveBps_h4 = toAbsBps(candidate.metrics.returns.h4);
+        const moves = [absMoveBps_m15, absMoveBps_h1, absMoveBps_h4].filter((value): value is number => value !== null);
+        const realizedVolM5 = finiteOrNull(candidate.metrics.realized_vol?.m5);
+        const realizedVolH1 = finiteOrNull(candidate.metrics.realized_vol?.h1);
+        const volRatio5mVs1h = finiteOrNull(candidate.metrics.vol_zscores?.vol_5m_vs_1h);
+        const volExpansion = realizedVolM5 !== null && realizedVolH1 !== null && realizedVolH1 > 0
+            ? realizedVolM5 / realizedVolH1
+            : null;
+
+        return {
+            absMoveBps_m15,
+            absMoveBps_h1,
+            absMoveBps_h4,
+            maxAbsMoveBps: moves.length ? Math.max(...moves) : null,
+            recentQuoteVolume: finiteOrNull(candidate.recentQuoteVolume),
+            relativeVolumeRatio: volRatio5mVs1h,
+            rangeExpansionRatio: finiteOrNull(Math.max(volRatio5mVs1h ?? 0, volExpansion ?? 0)),
+            realizedVolM5,
+            volRatio5mVs1h,
+            retSigma5mVs1h: finiteOrNull(candidate.metrics.vol_zscores?.ret_5m_vs_1h)
+        };
+    }
+
+    private buildExecutionDiagnostics(
+        candidate: EnrichedMarketData,
+        _heldSymbols: string[],
+        config: ScreenerConfig,
+        agentConfig: AgentConfig
+    ): ExecutionDiagnostics {
+        const blockReasons: ExecutionBlockReason[] = [];
+        const spreadBps = finiteOrNull(candidate.bookMetrics.spread_bps);
+        const depthUsd = finiteOrNull(Math.min(candidate.bookMetrics.depth_usd.bid_1pct, candidate.bookMetrics.depth_usd.ask_1pct));
+        const costBps = finiteOrNull(this.computeScreenerCostBps(candidate, agentConfig));
+        const realizedVolM5 = finiteOrNull(candidate.metrics.realized_vol?.m5);
+        const recentQuoteVolume = finiteOrNull(candidate.recentQuoteVolume);
+
+        if (config.layer1Enabled && (candidate.volume24h ?? 0) < config.minVolume24h) {
+            blockReasons.push("VOLUME24H_GATE");
+        }
+        if (config.layer3Enabled && recentQuoteVolume !== null && recentQuoteVolume < config.minRecentVolume) {
+            blockReasons.push("RECENT_VOLUME_GATE");
+        }
+        if (config.layer3Enabled && (realizedVolM5 ?? 0) < config.minRealizedVol) {
+            blockReasons.push("REALIZED_VOL_GATE");
+        }
+        if (config.layer2Enabled && (spreadBps ?? Infinity) > config.maxSpreadBps) {
+            blockReasons.push("SPREAD_GATE");
+        }
+        if (config.layer2Enabled && (depthUsd ?? 0) < config.minDepthUsd) {
+            blockReasons.push("DEPTH_GATE");
+        }
+        if (config.layer2Enabled && config.maxCostBps !== undefined && (costBps ?? Infinity) > config.maxCostBps) {
+            blockReasons.push("COST_GATE");
+        }
+
+        return {
+            tradeable: blockReasons.length === 0,
+            blockReasons,
+            spreadBps,
+            depthUsd,
+            costBps
+        };
+    }
+
+    private computeScreenerCostBps(candidate: EnrichedMarketData, agentConfig: AgentConfig): number {
+        const profile = candidate.isTestnet ? agentConfig.network_profiles.testnet : agentConfig.network_profiles.mainnet;
+        return computeExecutionCostBps({
+            spreadBps: candidate.bookMetrics.spread_bps,
+            feesBps: profile.fees_bps,
+            slippageModel: profile.slippage_model
+        }).totalCostBps;
+    }
+
+    private capDiscovery(discovered: ScreenedSymbol[], config: ScreenerConfig): ScreenedSymbol[] {
+        const max = config.discoveryMaxSymbols ?? config.topN;
+        if (discovered.length <= max) return discovered;
+
+        const protectedSymbols = new Set(
+            discovered
+                .filter(candidate =>
+                    candidate.discoveryReasons.includes("HELD_POSITION") ||
+                    candidate.discoveryReasons.includes("FORCE_INCLUDED") ||
+                    (config.includeHotMoversEvenIfNotTopN !== false && candidate.discoveryReasons.includes("HOT_MOVER"))
+                )
+                .map(candidate => candidate.symbol)
+        );
+        const selected = discovered.filter(candidate => protectedSymbols.has(candidate.symbol));
+        for (const candidate of discovered) {
+            if (selected.length >= max) break;
+            if (protectedSymbols.has(candidate.symbol)) continue;
+            selected.push(candidate);
+        }
+        return selected;
     }
 
     private limitAndDedupe(scored: ScreenedSymbol[], heldSymbols: string[], topN: number): ScreenedSymbol[] {
         const topCandidates = scored.slice(0, topN);
-        const heldSet = new Set(heldSymbols);
+        const heldSet = new Set(heldSymbols.map(normalizeBaseSymbol));
 
         for (const c of scored) {
-            if (heldSet.has(c.symbol) && !topCandidates.includes(c)) {
+            if (heldSet.has(normalizeBaseSymbol(c.symbol)) && !topCandidates.includes(c)) {
                 topCandidates.push(c);
             }
         }
@@ -591,4 +783,40 @@ export class ScreenerService {
 
         return deduped;
     }
+}
+
+function compareDiscoveredSymbols(a: ScreenedSymbol, b: ScreenedSymbol): number {
+    return discoveryPriority(b) - discoveryPriority(a) ||
+        Number(b.execution.tradeable) - Number(a.execution.tradeable) ||
+        (b.discoveryMetrics.maxAbsMoveBps ?? 0) - (a.discoveryMetrics.maxAbsMoveBps ?? 0) ||
+        b.qualityScore - a.qualityScore ||
+        a.symbol.localeCompare(b.symbol);
+}
+
+function discoveryPriority(candidate: ScreenedSymbol): number {
+    let priority = 0;
+    if (candidate.discoveryReasons.includes("QUALITY_TOP")) priority = Math.max(priority, 10);
+    if (candidate.discoveryReasons.includes("RANGE_EXPANSION")) priority = Math.max(priority, 20);
+    if (candidate.discoveryReasons.includes("VOLUME_SPIKE")) priority = Math.max(priority, 30);
+    if (candidate.discoveryReasons.includes("HOT_MOVER")) priority = Math.max(priority, 40);
+    if (candidate.discoveryReasons.includes("HELD_POSITION")) priority = Math.max(priority, 50);
+    if (candidate.discoveryReasons.includes("FORCE_INCLUDED")) priority = Math.max(priority, 60);
+    return priority;
+}
+
+function toAbsBps(value: number | null | undefined): number | null {
+    if (typeof value !== "number" || !Number.isFinite(value)) return null;
+    return Math.abs(value) * 10000;
+}
+
+function finiteOrNull(value: number | null | undefined): number | null {
+    return typeof value === "number" && Number.isFinite(value) ? value : null;
+}
+
+function normalizeBaseSymbol(symbol: string): string {
+    return stripPerp(symbol).toUpperCase();
+}
+
+function stripPerp(symbol: string): string {
+    return symbol.replace(/-PERP$/i, "");
 }

@@ -42,6 +42,9 @@ test_output.txt
 prisma/*.db
 prisma/*.db-*
 prisma/*.db.*
+prisma/backups/*.db
+prisma/backups/*.db-*
+prisma/backups/*.db.*
 reports/*.csv
 
 # vercel

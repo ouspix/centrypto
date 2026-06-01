@@ -281,7 +281,11 @@ function deterministicCandidateNotes(candidate: EligibleCandidate): string {
 
 function reasonCodeForPlaybook(playbook: string): TraderReasonCode {
     if (playbook.startsWith("Momentum")) return "momentum_edge";
+    if (playbook.startsWith("Pullback Continuation")) return "momentum_edge";
     if (playbook.startsWith("Breakout")) return "breakout_edge";
     if (playbook.startsWith("Mean Reversion")) return "mean_reversion_edge";
+    if (playbook.startsWith("Failed Bounce")) return "mean_reversion_edge";
+    if (playbook.startsWith("Failed Breakdown")) return "mean_reversion_edge";
+    if (playbook.startsWith("Capitulation Bounce")) return "mean_reversion_edge";
     return "discretionary_edge";
 }

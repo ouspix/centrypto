@@ -90,6 +90,24 @@ export type CandidateRejectionDiagnostic = {
     triggered_playbooks: string[];
 };
 
+export type NearMissCandidate = {
+    symbol: string;
+    side: TradeSide;
+    inPlayScore: number;
+    setupType: string | null;
+    setupScore: number | null;
+    playbook?: Playbook | null;
+    status: string;
+    reasons: string[];
+    warnings: string[];
+    executionTradeable: boolean;
+    executionBlockReasons: string[];
+};
+
+export type OpportunityDiagnostic = NearMissCandidate & {
+    discoveryReasons: string[];
+};
+
 export type TraderContextDiagnostics = {
     screened_market_count: number;
     held_position_count: number;
@@ -129,7 +147,13 @@ export type Playbook =
     | "Breakout:long"
     | "Breakout:short"
     | "Mean Reversion:long"
-    | "Mean Reversion:short";
+    | "Mean Reversion:short"
+    | "Pullback Continuation:long"
+    | "Pullback Continuation:short"
+    | "Failed Bounce:short"
+    | "Failed Breakdown:long"
+    | "Capitulation Bounce:long"
+    | "Capitulation Bounce:short";
 
 export type TraderContext = {
     snapshot_id: number | null;
@@ -145,6 +169,8 @@ export type TraderContext = {
     };
     existing_positions: ManagedPosition[];
     eligible_candidates: EligibleCandidate[];
+    near_miss_candidates?: NearMissCandidate[];
+    opportunity_diagnostics?: OpportunityDiagnostic[];
     max_new_trades_allowed?: number;
 };
 

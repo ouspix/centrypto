@@ -1,7 +1,11 @@
 import { AgentConfig } from "@/lib/agent-config";
+import { computeExecutionCostBps } from "@/lib/trading/execution-cost";
 import { GlobalRegime, MarketEntry } from "@/types/snapshot";
+import { MarketStructureService } from "./MarketStructureService";
 
 export class MarketDerivedMetricsService {
+    private readonly marketStructureService = new MarketStructureService();
+
     public applyDerivedMetrics(
         markets: Record<string, MarketEntry>,
         config: AgentConfig,
@@ -17,8 +21,13 @@ export class MarketDerivedMetricsService {
             const m = markets[key];
 
             const spreadBps = m.spread_bps || 0;
-            const slippageEst = Math.max(slippageModel.min_bps, spreadBps * slippageModel.spread_mult);
-            const costBps = spreadBps + feesBps + slippageEst;
+            const cost = computeExecutionCostBps({
+                spreadBps,
+                feesBps,
+                slippageModel
+            });
+            const slippageEst = cost.slippageBps;
+            const costBps = cost.totalCostBps;
 
             const symbolBase = key.replace("-PERP", "");
             const overrideMax = config.gates.per_symbol_cost_override?.[symbolBase];
@@ -78,6 +87,7 @@ export class MarketDerivedMetricsService {
             const minDepth = Math.min(m.orderbook?.bid_liquidity_usd ?? 0, m.orderbook?.ask_liquidity_usd ?? 0);
             const depthOk = minDepth >= config.gates.depth_usd_min;
             const tradeable = depthOk && costOk;
+            const structure = this.marketStructureService.compute(m);
 
             const entryOk = edgeOk && tradeable && costOk && edgeToCostMult >= edgeMult;
             if (!edgeOk) entryReasonsFailed.push("EDGE_GATE");
@@ -159,7 +169,8 @@ export class MarketDerivedMetricsService {
                         trigger_profile: config.preset_name ?? "active",
                         trigger_margin: triggerMargins
                     }
-                }
+                },
+                structure
             };
         }
 

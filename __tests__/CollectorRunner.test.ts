@@ -19,9 +19,13 @@ describe("CollectorRunner readiness", () => {
                 collectTicks: vi.fn()
             }))
         }));
+        const mainDb = marketDb(new Date("2026-04-30T00:00:00Z"));
+        const testDb = marketDb(new Date("2026-04-30T00:00:00Z"));
         vi.doMock("@/lib/market-db", () => ({
-            marketDbMain: marketDb(new Date("2026-04-30T00:00:00Z")),
-            marketDbTest: marketDb(new Date("2026-04-30T00:00:00Z"))
+            marketDbMain: mainDb,
+            marketDbTest: testDb,
+            getMarketDb: vi.fn().mockImplementation(async (isTestnet: boolean) => isTestnet ? testDb : mainDb),
+            withMarketDbRetry: vi.fn().mockImplementation(async (_db: unknown, _label: string, operation: () => Promise<unknown>) => operation())
         }));
 
         const { ensureCollectorReady } = await import("@/services/CollectorRunner");
@@ -39,6 +43,7 @@ function marketDb(ts: Date) {
         marketCandle: {
             findFirst: vi.fn().mockResolvedValue({ openTime: ts, symbol: "BTC" }),
             groupBy: vi.fn().mockResolvedValue([])
-        }
+        },
+        $queryRawUnsafe: vi.fn().mockResolvedValue([])
     };
 }

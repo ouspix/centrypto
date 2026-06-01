@@ -43,6 +43,7 @@ import { redactSensitive, safeError } from "@/lib/log/safeLogger";
 import { traderError, traderLog, traderWarn } from "@/lib/log/traderLog";
 import { AutoTraderReviewService } from "@/services/AutoTraderReviewService";
 import { AutoTraderOrderManagementService } from "@/services/AutoTraderOrderManagementService";
+import { OpportunityJournalService } from "@/services/OpportunityJournalService";
 import { extractFilledOrderResponseSummary, extractOrderResponseStatus, hashJson } from "@/lib/auto-trader-review/review-utils";
 import type { PositionManagementAction } from "@/lib/trader/position-management-types";
 
@@ -82,6 +83,7 @@ export class OrchestratorService {
     private logger: TradingLogger;
     private reviewService: AutoTraderReviewService;
     private orderManagementService: AutoTraderOrderManagementService;
+    private opportunityJournalService: OpportunityJournalService;
     private currentAbortController: AbortController | null = null;
     private activeJobs: Map<string, AbortController> = new Map();
 
@@ -108,6 +110,7 @@ export class OrchestratorService {
         this.logger = new TradingLogger();
         this.reviewService = AutoTraderReviewService.getInstance();
         this.orderManagementService = AutoTraderOrderManagementService.getInstance();
+        this.opportunityJournalService = OpportunityJournalService.getInstance();
     }
 
     public static getInstance(): OrchestratorService {
@@ -471,6 +474,7 @@ export class OrchestratorService {
 
         const profile = this.resolveProfileName(configOverride);
         const { context, diagnostics } = await this.traderContextBuilder.build(snapshot, config, isTestnet, profile, userAddress);
+        await this.journalOpportunityDiagnostics(context, userAddress, network, snapshot.markets, config);
         if (lockedSymbols.size > 0) {
             context.existing_positions = context.existing_positions.filter(position => !lockedSymbols.has(position.symbol));
         }
@@ -1364,6 +1368,31 @@ export class OrchestratorService {
         }
     }
 
+    private async journalOpportunityDiagnostics(
+        context: TraderContext,
+        accountAddress: string | null,
+        network: "mainnet" | "testnet",
+        markets: Record<string, MarketEntry>,
+        config: AgentConfig
+    ) {
+        const opportunities = config.opportunity?.journalAllDiscovered === false
+            ? (context.opportunity_diagnostics ?? []).filter(opportunity => opportunity.status !== "DISCOVERED_ONLY")
+            : context.opportunity_diagnostics ?? [];
+        if (opportunities.length === 0) return;
+        try {
+            await this.opportunityJournalService.persistSnapshotOpportunities({
+                accountAddress,
+                network,
+                snapshotId: context.snapshot_id,
+                timestamp: context.timestamp,
+                opportunities,
+                markets
+            });
+        } catch (error) {
+            traderWarn("⚠️ Failed to write opportunity journal:", undefined, error);
+        }
+    }
+
     private resolveProfileName(configOverride?: any): string {
         return configOverride?.profileName || configOverride?.preset || configOverride?.name || "active";
     }
@@ -1836,7 +1865,8 @@ ${JSON.stringify(context, null, 2)}`;
                 configOverride?.position_management,
                 DEFAULT_AGENT_CONFIG.position_management
             ),
-            sentiment_policy: { ...DEFAULT_AGENT_CONFIG.sentiment_policy, ...configOverride?.sentiment_policy }
+            sentiment_policy: { ...DEFAULT_AGENT_CONFIG.sentiment_policy, ...configOverride?.sentiment_policy },
+            opportunity: { ...DEFAULT_AGENT_CONFIG.opportunity, ...configOverride?.opportunity }
         };
         // Ensure both fraction fields are populated from each other when only one is provided
         config.risk.max_position_fraction = config.risk.max_position_fraction ?? config.risk.max_position_fraction_per_symbol;

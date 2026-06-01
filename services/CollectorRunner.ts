@@ -1,5 +1,5 @@
 import { MarketCollectorService } from "@/services/MarketCollectorService";
-import { marketDbMain, marketDbTest } from "@/lib/market-db";
+import { getMarketDb, withMarketDbRetry } from "@/lib/market-db";
 import { getMetaAndAssetCtxs, waitForHyperliquidSlot } from "@/lib/hyperliquid-info";
 import { activeMarketAssets, prioritizeBackfillSymbols, volume24hFromCtx } from "@/services/MarketUniverse";
 import crypto from "crypto";
@@ -187,14 +187,16 @@ class CollectorRunner {
     }
 
     private async rankSymbolsByRecentVolume(): Promise<string[]> {
-        const db = this.isTestnet ? marketDbTest : marketDbMain;
+        const db = await getMarketDb(this.isTestnet);
         const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
         const maxAgeMs = Number(process.env.MARKET_DATA_MAX_STALE_MS ?? DEFAULT_MARKET_DATA_MAX_STALE_MS);
 
-        const ticks = await db.marketTick.findMany({
-            where: { ts: { gte: since } },
-            orderBy: { ts: "desc" },
-        });
+        const ticks = await withMarketDbRetry(db, "rank symbols by recent volume", () =>
+            db.marketTick.findMany({
+                where: { ts: { gte: since } },
+                orderBy: { ts: "desc" },
+            })
+        );
 
         if (ticks.length > 0) {
             const latestMap = new Map<string, typeof ticks[0]>();
@@ -261,24 +263,28 @@ class CollectorRunner {
     }
 
     private async backfillSymbol(symbol: string) {
-        const db = this.isTestnet ? marketDbTest : marketDbMain;
+        const db = await getMarketDb(this.isTestnet);
 
         try {
-            const latestCandle = await db.marketCandle.findFirst({
-                where: { symbol, timeframe: "1m" },
-                orderBy: { openTime: "desc" }
-            });
+            const latestCandle = await withMarketDbRetry(db, `read latest backfill candle for ${symbol}`, () =>
+                db.marketCandle.findFirst({
+                    where: { symbol, timeframe: "1m" },
+                    orderBy: { openTime: "desc" }
+                })
+            );
 
             const now = Date.now();
             let startTime = now - BACKFILL_LOOKBACK_MS;
             if (latestCandle) {
-                const candleCount = await db.marketCandle.count({
-                    where: {
-                        symbol,
-                        timeframe: "1m",
-                        openTime: { gte: new Date(startTime) }
-                    }
-                });
+                const candleCount = await withMarketDbRetry(db, `count backfill candles for ${symbol}`, () =>
+                    db.marketCandle.count({
+                        where: {
+                            symbol,
+                            timeframe: "1m",
+                            openTime: { gte: new Date(startTime) }
+                        }
+                    })
+                );
                 const expectedCount = BACKFILL_LOOKBACK_MS / 60000;
                 const hasCoverage = candleCount >= expectedCount * READINESS_COVERAGE_RATIO;
                 if (hasCoverage) {
@@ -296,33 +302,35 @@ class CollectorRunner {
 
             for (let j = 0; j < candles.length; j += UPSERT_BATCH_SIZE) {
                 const candleBatch = candles.slice(j, j + UPSERT_BATCH_SIZE);
-                await db.$transaction(
-                    candleBatch.map((c: any) =>
-                        db.marketCandle.upsert({
-                            where: {
-                                symbol_timeframe_openTime: {
+                await withMarketDbRetry(db, `write backfill candles for ${symbol}`, () =>
+                    db.$transaction(
+                        candleBatch.map((c: any) =>
+                            db.marketCandle.upsert({
+                                where: {
+                                    symbol_timeframe_openTime: {
+                                        symbol,
+                                        timeframe: "1m",
+                                        openTime: new Date(c.t)
+                                    }
+                                },
+                                update: {
+                                    high: parseFloat(c.h),
+                                    low: parseFloat(c.l),
+                                    close: parseFloat(c.c),
+                                    volume: parseFloat(c.v)
+                                },
+                                create: {
                                     symbol,
                                     timeframe: "1m",
-                                    openTime: new Date(c.t)
+                                    openTime: new Date(c.t),
+                                    open: parseFloat(c.o),
+                                    high: parseFloat(c.h),
+                                    low: parseFloat(c.l),
+                                    close: parseFloat(c.c),
+                                    volume: parseFloat(c.v)
                                 }
-                            },
-                            update: {
-                                high: parseFloat(c.h),
-                                low: parseFloat(c.l),
-                                close: parseFloat(c.c),
-                                volume: parseFloat(c.v)
-                            },
-                            create: {
-                                symbol,
-                                timeframe: "1m",
-                                openTime: new Date(c.t),
-                                open: parseFloat(c.o),
-                                high: parseFloat(c.h),
-                                low: parseFloat(c.l),
-                                close: parseFloat(c.c),
-                                volume: parseFloat(c.v)
-                            }
-                        })
+                            })
+                        )
                     )
                 );
             }
@@ -464,30 +472,32 @@ function canStartCollectorFromApi(): boolean {
 }
 
 export async function getMarketDataReadiness(isTestnet: boolean): Promise<MarketDataReadiness> {
-    const db = isTestnet ? marketDbTest : marketDbMain;
+    const db = await getMarketDb(isTestnet);
     const maxAgeMs = Number(process.env.MARKET_DATA_MAX_STALE_MS ?? DEFAULT_MARKET_DATA_MAX_STALE_MS);
     const network = isTestnet ? "testnet" : "mainnet";
     const lookbackStart = new Date(Date.now() - READINESS_LOOKBACK_MS);
     const requiredCandles = Math.floor((READINESS_LOOKBACK_MS / 60_000) * READINESS_COVERAGE_RATIO);
-    const [latestTick, latestCandle, coverageRows] = await Promise.all([
-        db.marketTick.findFirst({
+    const { latestTick, latestCandle, coverageRows } = await withMarketDbRetry(db, "market data readiness", async () => {
+        const latestTick = await db.marketTick.findFirst({
             orderBy: { ts: "desc" },
             select: { ts: true, symbol: true }
-        }),
-        db.marketCandle.findFirst({
+        });
+        const latestCandle = await db.marketCandle.findFirst({
             where: { timeframe: "1m" },
             orderBy: { openTime: "desc" },
             select: { openTime: true, symbol: true }
-        }),
-        db.$queryRawUnsafe<Array<CandleCoverageRow>>(
+        });
+        const coverageRows = await db.$queryRawUnsafe<Array<CandleCoverageRow>>(
             `SELECT "symbol" as "symbol", COUNT(*) as "candleCount"
              FROM "MarketCandle"
              WHERE "timeframe" = ? AND "openTime" >= ?
              GROUP BY "symbol"`,
             "1m",
             lookbackStart
-        )
-    ]);
+        );
+
+        return { latestTick, latestCandle, coverageRows };
+    });
     const coverage = coverageRows.map(row => ({
         symbol: row.symbol,
         candleCount: Number(row.candleCount)

@@ -14,7 +14,18 @@ export interface ScreenerConfig {
     topN: number;
     depthBandsPct: string[];
 
-    // D. Quality scoring (ranking, NOT gating)
+    // D. Discovery buckets (diagnostics, not trade permission)
+    discoveryMaxSymbols?: number;
+    hotMoverTopN?: number;
+    volumeSpikeTopN?: number;
+    rangeExpansionTopN?: number;
+    hotMoverMinAbsMoveBps?: number;
+    hotMoverLookbacks?: Array<"m15" | "h1" | "h4">;
+    includeHotMoversEvenIfNotTopN?: boolean;
+    includeExecutionBlockedForDiagnostics?: boolean;
+    forceIncludeSymbols?: string[];
+
+    // E. Quality scoring (ranking, NOT gating)
     quality_weights: {
         vol_score: number;
         move_score: number;
@@ -95,6 +106,38 @@ export const SCREENER_PRESETS: Record<string, ScreenerConfig> = {
             spread_penalty: 1.8,
             illiquidity_penalty: 1.8,
             cost_to_edge_penalty: 1.5
+        },
+        layer1Enabled: true,
+        layer2Enabled: true,
+        layer3Enabled: true,
+        layer4Enabled: true
+    },
+    "Discovery Balanced": {
+        maxSpreadBps: 15,
+        minDepthUsd: 20_000,
+        maxCostBps: 25,
+        minRecentVolume: 1_000,
+        recentVolumeMinutes: 15,
+        minRealizedVol: 0.0004,
+        minVolume24h: 1_000_000,
+        topN: 16,
+        discoveryMaxSymbols: 40,
+        hotMoverTopN: 12,
+        volumeSpikeTopN: 10,
+        rangeExpansionTopN: 10,
+        hotMoverMinAbsMoveBps: 150,
+        hotMoverLookbacks: ["m15", "h1", "h4"],
+        includeHotMoversEvenIfNotTopN: true,
+        includeExecutionBlockedForDiagnostics: true,
+        forceIncludeSymbols: [],
+        depthBandsPct: DEPTH_BANDS,
+        quality_weights: {
+            vol_score: 1.4,
+            move_score: 1.8,
+            trend_align: 0.7,
+            spread_penalty: 1.2,
+            illiquidity_penalty: 1.2,
+            cost_to_edge_penalty: 1.0
         },
         layer1Enabled: true,
         layer2Enabled: true,

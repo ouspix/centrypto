@@ -69,6 +69,7 @@ describe("Trader-only v1 trigger scope", () => {
             "Scalper Strict",
             "Momentum Moderate",
             "Balanced PM v2",
+            "Discovery Balanced",
             "optimized",
             "Swing Relaxed",
             "Testnet Aggressive"
@@ -245,6 +246,30 @@ describe("Trader context builder", () => {
         expect(context.eligible_candidates).toHaveLength(0);
         expect(diagnostics.rejection_counts.STRATEGY_PLAYBOOK_BLOCK).toBe(1);
         expect(diagnostics.rejection_counts.STRATEGY_SYMBOL_SIDE_BLOCK).toBe(1);
+    });
+
+    it("surfaces execution-blocked opportunity diagnostics without creating candidates", async () => {
+        const markets = {
+            "FARTCOIN-PERP": baseMarket({
+                symbol: "FARTCOIN-PERP",
+                spread_bps: 30,
+                orderbook: { book_pressure: 0.55, bid_liquidity_usd: 100000, ask_liquidity_usd: 100000 },
+                returns: { m5: 0.02, m15: 0.08, h1: 0.20, h4: 0.18 },
+                vol_zscores: { vol_5m_vs_1h: 2.2, ret_5m_vs_1h: 3 }
+            })
+        };
+        new MarketDerivedMetricsService().applyDerivedMetrics(markets, DEFAULT_AGENT_CONFIG, "RISK_ON", false);
+
+        const { context } = await new TraderContextBuilder().build(baseSnapshot(markets), DEFAULT_AGENT_CONFIG, true, "diagnostics");
+
+        expect(context.eligible_candidates).toHaveLength(0);
+        expect(context.opportunity_diagnostics?.[0]).toMatchObject({
+            symbol: "FARTCOIN-PERP",
+            status: "EXECUTION_BLOCKED",
+            executionTradeable: false
+        });
+        expect(context.opportunity_diagnostics?.[0].playbook).toContain(":long");
+        expect(context.opportunity_diagnostics?.[0].executionBlockReasons).toContain("COST_GATE");
     });
 });
 

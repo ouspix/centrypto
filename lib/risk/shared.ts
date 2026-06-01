@@ -26,6 +26,18 @@ export const DEFAULT_RISK_PLAN_CAPS: Record<string, Partial<Record<GlobalRegime[
         RISK_OFF: { sl_bps: 70, tp_bps: 100 },
         CHOP: { sl_bps: 50, tp_bps: 80 }
     },
+    "Pullback Continuation": {
+        DEFAULT: { sl_bps: 90, tp_bps: 180 }
+    },
+    "Failed Bounce": {
+        DEFAULT: { sl_bps: 75, tp_bps: 140 }
+    },
+    "Failed Breakdown": {
+        DEFAULT: { sl_bps: 75, tp_bps: 140 }
+    },
+    "Capitulation Bounce": {
+        DEFAULT: { sl_bps: 50, tp_bps: 85 }
+    },
     DEFAULT: {
         DEFAULT: { sl_bps: 100, tp_bps: 200 }
     }
@@ -41,6 +53,18 @@ export const DEFAULT_RISK_PLAN_FLOORS: Record<string, Partial<Record<GlobalRegim
         CHOP: { sl_bps: 50, tp_bps: 80 },
         RISK_ON: { sl_bps: 60, tp_bps: 100 },
         RISK_OFF: { sl_bps: 50, tp_bps: 90 }
+    },
+    "Pullback Continuation": {
+        DEFAULT: { sl_bps: 40, tp_bps: 75 }
+    },
+    "Failed Bounce": {
+        DEFAULT: { sl_bps: 35, tp_bps: 65 }
+    },
+    "Failed Breakdown": {
+        DEFAULT: { sl_bps: 35, tp_bps: 65 }
+    },
+    "Capitulation Bounce": {
+        DEFAULT: { sl_bps: 30, tp_bps: 50 }
     },
     DEFAULT: {
         DEFAULT: { sl_bps: 10, tp_bps: 20 }

@@ -1,5 +1,7 @@
 import { AgentConfig } from "@/lib/agent-config";
 import { ScreenerConfig } from "@/lib/screener-config";
+import type { DiscoveryMetrics, DiscoveryReason, ExecutionDiagnostics } from "@/services/ScreenerService";
+import type { MarketStructure } from "@/services/MarketStructureService";
 
 export type Position = {
     symbol: string;
@@ -108,6 +110,11 @@ export type MarketEntry = {
     data_source?: string;
     data_unavailable?: boolean;
     news_blocked?: boolean;
+    discovery?: {
+        reasons: DiscoveryReason[];
+        metrics: DiscoveryMetrics;
+    };
+    execution?: ExecutionDiagnostics;
         derived?: {
             costs: {
                 fees_bps: number;
@@ -164,6 +171,7 @@ export type MarketEntry = {
                     trigger_margin: Record<string, number>;
                 };
             };
+            structure?: MarketStructure;
             rank?: number;
         };
     };

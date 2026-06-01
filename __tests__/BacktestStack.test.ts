@@ -255,7 +255,17 @@ describe("backtest stack", () => {
         await createMarketTables(db);
 
         const ts = new Date("2026-04-11T10:00:00Z");
-        await store.upsertRows([featureRow(ts, "BTC-PERP")]);
+        await store.upsertRows([featureRow(ts, "BTC-PERP", {
+            ret_1m: 0,
+            ret_5m: 0,
+            ret_15m: 0,
+            ret_1h: 0,
+            ret_4h: 0,
+            realized_vol_5m: 0.0001,
+            realized_vol_1h: 0.0001,
+            vol_ratio_5m_vs_1h: 0.5,
+            ret_sigma_5m_vs_1h: 0
+        })]);
         await db.$executeRawUnsafe(
             `INSERT INTO "MarketCandle" ("symbol", "timeframe", "openTime", "open", "high", "low", "close", "volume") VALUES (?, '1m', ?, 100, 101, 99, 100, 1)`,
             "BTC",

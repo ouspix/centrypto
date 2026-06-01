@@ -39,7 +39,8 @@ export class MarketSnapshotAssembler {
                 returns: {
                     m5: metrics.returns.m5,
                     m15: metrics.returns.m15,
-                    h1: metrics.returns.h1
+                    h1: metrics.returns.h1,
+                    h4: metrics.returns.h4
                 },
                 realized_vol: metrics.realized_vol,
                 volume_zscores: metrics.volume_zscores,
@@ -62,7 +63,13 @@ export class MarketSnapshotAssembler {
                 regime_tags: metrics.regime_tags,
                 high_low: metrics.high_low,
                 bbands: metrics.bbands,
-                assetIndex: assetIndexMap.get(symbol)
+                assetIndex: assetIndexMap.get(symbol),
+                volume24h: symbolData.volume24h,
+                discovery: {
+                    reasons: symbolData.discoveryReasons,
+                    metrics: symbolData.discoveryMetrics
+                },
+                execution: symbolData.execution
             };
         }
 

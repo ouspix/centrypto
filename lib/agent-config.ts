@@ -163,6 +163,18 @@ export interface AgentConfig {
         penalty_multipliers: Record<string, number>;
         decay_windows: Record<string, number>;
     };
+
+    opportunity?: {
+        enabled: boolean;
+        minInPlayScore: number;
+        minSetupScore: number;
+        minNearMissScore: number;
+        maxNearMissPerCycle: number;
+        journalAllDiscovered: boolean;
+        callOnNearMissAuto?: boolean;
+        callOnNearMissManual?: boolean;
+        includeOpportunityDiagnostics?: boolean;
+    };
 }
 
 const NETWORK_PROFILES: AgentConfig["network_profiles"] = {
@@ -188,6 +200,10 @@ const RISK_PLAN_MODEL: AgentConfig["risk_plan_model"] = {
         Momentum: { sl_mult: 1.2, tp_mult: 2.6 },
         Breakout: { sl_mult: 1.3, tp_mult: 2.8 },
         "Mean Reversion": { sl_mult: 0.9, tp_mult: 1.8 },
+        "Pullback Continuation": { sl_mult: 0.9, tp_mult: 1.9 },
+        "Failed Bounce": { sl_mult: 0.8, tp_mult: 1.8 },
+        "Failed Breakdown": { sl_mult: 0.8, tp_mult: 1.8 },
+        "Capitulation Bounce": { sl_mult: 0.7, tp_mult: 1.4 },
         "Liquidity Grab": { sl_mult: 1.0, tp_mult: 2.0 },
         "Discretionary Edge": { sl_mult: 1.1, tp_mult: 2.2 }
     },
@@ -212,6 +228,18 @@ const RISK_PLAN_MODEL: AgentConfig["risk_plan_model"] = {
             RISK_OFF: { sl_bps: 70, tp_bps: 100 },
             CHOP: { sl_bps: 50, tp_bps: 80 }
         },
+        "Pullback Continuation": {
+            DEFAULT: { sl_bps: 90, tp_bps: 180 }
+        },
+        "Failed Bounce": {
+            DEFAULT: { sl_bps: 75, tp_bps: 140 }
+        },
+        "Failed Breakdown": {
+            DEFAULT: { sl_bps: 75, tp_bps: 140 }
+        },
+        "Capitulation Bounce": {
+            DEFAULT: { sl_bps: 50, tp_bps: 85 }
+        },
         DEFAULT: {
             DEFAULT: { sl_bps: 100, tp_bps: 200 }
         }
@@ -226,6 +254,18 @@ const RISK_PLAN_MODEL: AgentConfig["risk_plan_model"] = {
             CHOP: { sl_bps: 50, tp_bps: 80 },
             RISK_ON: { sl_bps: 60, tp_bps: 100 },
             RISK_OFF: { sl_bps: 50, tp_bps: 90 }
+        },
+        "Pullback Continuation": {
+            DEFAULT: { sl_bps: 40, tp_bps: 75 }
+        },
+        "Failed Bounce": {
+            DEFAULT: { sl_bps: 35, tp_bps: 65 }
+        },
+        "Failed Breakdown": {
+            DEFAULT: { sl_bps: 35, tp_bps: 65 }
+        },
+        "Capitulation Bounce": {
+            DEFAULT: { sl_bps: 30, tp_bps: 50 }
         },
         DEFAULT: {
             DEFAULT: { sl_bps: 10, tp_bps: 20 }
@@ -286,12 +326,28 @@ const SENTIMENT_POLICY: AgentConfig["sentiment_policy"] = {
     decay_windows: { hack: 86400, generic: 3600 }
 };
 
+const OPPORTUNITY_POLICY: NonNullable<AgentConfig["opportunity"]> = {
+    enabled: true,
+    minInPlayScore: 60,
+    minSetupScore: 70,
+    minNearMissScore: 55,
+    maxNearMissPerCycle: 5,
+    journalAllDiscovered: true,
+    callOnNearMissAuto: false,
+    callOnNearMissManual: true,
+    includeOpportunityDiagnostics: true
+};
+
 const BALANCED_PM_RISK_PLAN_MODEL: AgentConfig["risk_plan_model"] = {
     vol_anchor_priority: ["atr_pct.m5", "realized_vol.m5", "atr_pct.h1", "realized_vol.h1"],
     multipliers_by_playbook: {
         Momentum: { sl_mult: 1.0, tp_mult: 2.1 },
         Breakout: { sl_mult: 1.0, tp_mult: 2.2 },
         "Mean Reversion": { sl_mult: 0.8, tp_mult: 1.8 },
+        "Pullback Continuation": { sl_mult: 0.9, tp_mult: 1.9 },
+        "Failed Bounce": { sl_mult: 0.8, tp_mult: 1.8 },
+        "Failed Breakdown": { sl_mult: 0.8, tp_mult: 1.8 },
+        "Capitulation Bounce": { sl_mult: 0.7, tp_mult: 1.4 },
         "Liquidity Grab": { sl_mult: 0.8, tp_mult: 1.8 },
         "Discretionary Edge": { sl_mult: 0.9, tp_mult: 2.0 }
     },
@@ -319,6 +375,18 @@ const BALANCED_PM_RISK_PLAN_MODEL: AgentConfig["risk_plan_model"] = {
             CHOP: { sl_bps: 45, tp_bps: 80 },
             DEFAULT: { sl_bps: 55, tp_bps: 90 }
         },
+        "Pullback Continuation": {
+            DEFAULT: { sl_bps: 90, tp_bps: 180 }
+        },
+        "Failed Bounce": {
+            DEFAULT: { sl_bps: 75, tp_bps: 140 }
+        },
+        "Failed Breakdown": {
+            DEFAULT: { sl_bps: 75, tp_bps: 140 }
+        },
+        "Capitulation Bounce": {
+            DEFAULT: { sl_bps: 50, tp_bps: 85 }
+        },
         DEFAULT: {
             DEFAULT: { sl_bps: 80, tp_bps: 160 }
         }
@@ -333,6 +401,18 @@ const BALANCED_PM_RISK_PLAN_MODEL: AgentConfig["risk_plan_model"] = {
             CHOP: { sl_bps: 50, tp_bps: 80 },
             RISK_ON: { sl_bps: 60, tp_bps: 100 },
             RISK_OFF: { sl_bps: 50, tp_bps: 90 }
+        },
+        "Pullback Continuation": {
+            DEFAULT: { sl_bps: 40, tp_bps: 75 }
+        },
+        "Failed Bounce": {
+            DEFAULT: { sl_bps: 35, tp_bps: 65 }
+        },
+        "Failed Breakdown": {
+            DEFAULT: { sl_bps: 35, tp_bps: 65 }
+        },
+        "Capitulation Bounce": {
+            DEFAULT: { sl_bps: 30, tp_bps: 50 }
         },
         DEFAULT: {
             DEFAULT: { sl_bps: 10, tp_bps: 20 }
@@ -767,6 +847,7 @@ function preset(input: {
     management_policy?: Partial<AgentConfig["management_policy"]>;
     sentiment_policy?: Partial<AgentConfig["sentiment_policy"]>;
     gates?: Partial<AgentConfig["gates"]>;
+    opportunity?: Partial<NonNullable<AgentConfig["opportunity"]>>;
 }): AgentConfig {
     const risk = { ...baseRisk(), ...input.risk };
     risk.max_position_fraction = risk.max_position_fraction ?? risk.max_position_fraction_per_symbol;
@@ -875,6 +956,10 @@ function preset(input: {
                 ...SENTIMENT_POLICY.decay_windows,
                 ...input.sentiment_policy?.decay_windows
             }
+        },
+        opportunity: {
+            ...OPPORTUNITY_POLICY,
+            ...input.opportunity
         }
     };
 }

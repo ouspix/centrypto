@@ -1,5 +1,5 @@
 import { getMetaAndAssetCtxs, getOHLCV } from "@/lib/hyperliquid-info";
-import { marketDbMain, marketDbTest } from "@/lib/market-db";
+import { getMarketDb, marketDbMain, withMarketDbRetry } from "@/lib/market-db";
 import { HyperliquidWS } from "@/lib/hyperliquid-ws";
 import { ActiveMarket, activeMarketAssets, buildMarketTickRow } from "./MarketUniverse";
 
@@ -17,7 +17,7 @@ export class MarketCollectorService {
      */
     public async collectTicks(isTestnet: boolean): Promise<void> {
         try {
-            const db = isTestnet ? marketDbTest : marketDbMain;
+            const db = await getMarketDb(isTestnet);
             const metaAndCtxs = await getMetaAndAssetCtxs(isTestnet);
 
             if (!metaAndCtxs) {
@@ -37,7 +37,7 @@ export class MarketCollectorService {
      * @param isTestnet
      */
     public async startCandleStream(isTestnet: boolean): Promise<void> {
-        const db = isTestnet ? marketDbTest : marketDbMain;
+        const db = await getMarketDb(isTestnet);
         const metaAndCtxs = await getMetaAndAssetCtxs(isTestnet);
 
         if (!metaAndCtxs) {
@@ -52,6 +52,7 @@ export class MarketCollectorService {
 
         // Buffer for batch writing
         let candleBuffer: any[] = [];
+        let isFlushing = false;
         const FLUSH_INTERVAL = 1000; // Write to DB every 1 second
 
         ws.on('candle', (c: any) => {
@@ -80,37 +81,43 @@ export class MarketCollectorService {
 
         // Flush loop
         setInterval(async () => {
+            if (isFlushing) return;
             if (candleBuffer.length === 0) return;
+            isFlushing = true;
 
             const batch = [...candleBuffer];
             candleBuffer = []; // Clear buffer
 
             try {
                 // Use transaction for batch upsert
-                await db.$transaction(
-                    batch.map(candle =>
-                        db.marketCandle.upsert({
-                            where: {
-                                symbol_timeframe_openTime: {
-                                    symbol: candle.symbol,
-                                    timeframe: candle.timeframe,
-                                    openTime: candle.openTime
-                                }
-                            },
-                            update: {
-                                high: candle.high,
-                                low: candle.low,
-                                close: candle.close,
-                                volume: candle.volume
-                            },
-                            create: candle
-                        })
+                await withMarketDbRetry(db, "flush candle stream", () =>
+                    db.$transaction(
+                        batch.map(candle =>
+                            db.marketCandle.upsert({
+                                where: {
+                                    symbol_timeframe_openTime: {
+                                        symbol: candle.symbol,
+                                        timeframe: candle.timeframe,
+                                        openTime: candle.openTime
+                                    }
+                                },
+                                update: {
+                                    high: candle.high,
+                                    low: candle.low,
+                                    close: candle.close,
+                                    volume: candle.volume
+                                },
+                                create: candle
+                            })
+                        )
                     )
                 );
                 // console.log(`[MarketCollector] Flushed ${batch.length} candle updates.`);
             } catch (error) {
                 console.error(`[MarketCollector] Error flushing candle buffer:`, error);
                 // Optionally re-add to buffer? No, live data moves fast, better to skip than clog.
+            } finally {
+                isFlushing = false;
             }
         }, FLUSH_INTERVAL);
     }
@@ -121,7 +128,7 @@ export class MarketCollectorService {
      */
     public async backfillHistory(isTestnet: boolean, force: boolean = false): Promise<void> {
         console.log(`[MarketCollector] Starting backfill for ${isTestnet ? 'Testnet' : 'Mainnet'}...`);
-        const db = isTestnet ? marketDbTest : marketDbMain;
+        const db = await getMarketDb(isTestnet);
         const metaAndCtxs = await getMetaAndAssetCtxs(isTestnet);
 
         if (!metaAndCtxs) {
@@ -146,22 +153,26 @@ export class MarketCollectorService {
             let didFetch = false;
             try {
                 // Smart Check: Do we need to backfill?
-                const latestCandle = await db.marketCandle.findFirst({
-                    where: { symbol: asset.name, timeframe: "1m" },
-                    orderBy: { openTime: 'desc' }
-                });
+                const latestCandle = await withMarketDbRetry(db, `read latest candle for ${symbol}`, () =>
+                    db.marketCandle.findFirst({
+                        where: { symbol: asset.name, timeframe: "1m" },
+                        orderBy: { openTime: 'desc' }
+                    })
+                );
 
                 const now = Date.now();
                 let startTime = now - this.MAX_LOOKBACK_MS;
 
                 if (latestCandle && !force) {
-                    const candleCount = await db.marketCandle.count({
-                        where: {
-                            symbol: asset.name,
-                            timeframe: "1m",
-                            openTime: { gte: new Date(now - this.MAX_LOOKBACK_MS) }
-                        }
-                    });
+                    const candleCount = await withMarketDbRetry(db, `count candles for ${symbol}`, () =>
+                        db.marketCandle.count({
+                            where: {
+                                symbol: asset.name,
+                                timeframe: "1m",
+                                openTime: { gte: new Date(now - this.MAX_LOOKBACK_MS) }
+                            }
+                        })
+                    );
 
                     const expectedCount = (this.MAX_LOOKBACK_MS / 60000);
                     const missingDataThreshold = expectedCount * 0.95;
@@ -185,33 +196,35 @@ export class MarketCollectorService {
                     for (let j = 0; j < candles.length; j += UPSERT_BATCH_SIZE) {
                         const candleBatch = candles.slice(j, j + UPSERT_BATCH_SIZE);
 
-                        await db.$transaction(
-                            candleBatch.map((c: any) =>
-                                db.marketCandle.upsert({
-                                    where: {
-                                        symbol_timeframe_openTime: {
+                        await withMarketDbRetry(db, `backfill candles for ${symbol}`, () =>
+                            db.$transaction(
+                                candleBatch.map((c: any) =>
+                                    db.marketCandle.upsert({
+                                        where: {
+                                            symbol_timeframe_openTime: {
+                                                symbol,
+                                                timeframe: "1m",
+                                                openTime: new Date(c.t)
+                                            }
+                                        },
+                                        update: {
+                                            high: parseFloat(c.h),
+                                            low: parseFloat(c.l),
+                                            close: parseFloat(c.c),
+                                            volume: parseFloat(c.v)
+                                        },
+                                        create: {
                                             symbol,
                                             timeframe: "1m",
-                                            openTime: new Date(c.t)
+                                            openTime: new Date(c.t),
+                                            open: parseFloat(c.o),
+                                            high: parseFloat(c.h),
+                                            low: parseFloat(c.l),
+                                            close: parseFloat(c.c),
+                                            volume: parseFloat(c.v)
                                         }
-                                    },
-                                    update: {
-                                        high: parseFloat(c.h),
-                                        low: parseFloat(c.l),
-                                        close: parseFloat(c.c),
-                                        volume: parseFloat(c.v)
-                                    },
-                                    create: {
-                                        symbol,
-                                        timeframe: "1m",
-                                        openTime: new Date(c.t),
-                                        open: parseFloat(c.o),
-                                        high: parseFloat(c.h),
-                                        low: parseFloat(c.l),
-                                        close: parseFloat(c.c),
-                                        volume: parseFloat(c.v)
-                                    }
-                                })
+                                    })
+                                )
                             )
                         );
                     }
@@ -247,7 +260,7 @@ export class MarketCollectorService {
 
         if (rows.length === 0) return;
 
-        await db.marketTick.createMany({ data: rows });
+        await withMarketDbRetry(db, "write tick snapshot", () => db.marketTick.createMany({ data: rows }));
         console.log(`[MarketCollector] Saved ${rows.length} ticks for ${isTestnet ? 'Testnet' : 'Mainnet'}`);
     }
 
