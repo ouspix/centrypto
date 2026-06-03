@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db";
 import { normalizeWalletAddress } from "@/lib/auth/wallet-session";
+import { buildActiveScreenerSummary, normalizeAutoTraderConfigOverride } from "@/lib/auto-trader-config";
 import { ensureCollectorReady } from "@/services/CollectorRunner";
 import { OrchestratorService } from "@/services/OrchestratorService";
 
@@ -72,7 +73,8 @@ export class AutoTraderService {
         const normalizedUser = normalizeWalletAddress(userAddress);
         const frequencySeconds = Math.max(MIN_FREQUENCY_SECONDS, Math.floor(Number(input.frequencySeconds) || 600));
         const model = String(input.model || DEFAULT_MODEL);
-        const config = input.configOverride === undefined ? null : JSON.stringify(input.configOverride);
+        const configOverride = normalizeAutoTraderConfigOverride(input.configOverride);
+        const config = JSON.stringify(configOverride);
         const now = new Date();
 
         const settings = await autoTraderModel().upsert({
@@ -128,7 +130,7 @@ export class AutoTraderService {
                 settings.userAddress,
                 settings.model,
                 settings.isTestnet,
-                parseConfig(settings.config)
+                normalizeAutoTraderConfigOverride(parseConfig(settings.config))
             );
             const nextRunAt = new Date(Date.now() + settings.frequencySeconds * 1000);
             const updated = await autoTraderModel().update({
@@ -222,7 +224,9 @@ export class AutoTraderService {
     }
 
     private toStatus(settings: AutoTraderRecord | null, running: boolean) {
-        const configOverride = parseConfig(settings?.config ?? null) as any;
+        const configOverride = settings
+            ? normalizeAutoTraderConfigOverride(parseConfig(settings.config))
+            : undefined;
         return {
             configured: !!settings,
             enabled: !!settings?.enabled,
@@ -233,6 +237,7 @@ export class AutoTraderService {
             model: settings?.model ?? DEFAULT_MODEL,
             configOverride,
             configPresetName: configOverride?.preset_name ?? configOverride?.profileName ?? configOverride?.preset ?? null,
+            activeScreenerSummary: settings ? buildActiveScreenerSummary(configOverride) : null,
             lastRunAt: settings?.lastRunAt?.toISOString() ?? null,
             nextRunAt: settings?.nextRunAt?.toISOString() ?? null,
             lastStatus: settings?.lastStatus ?? null,

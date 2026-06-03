@@ -41,6 +41,7 @@ import {
 import { assertWalletExecutionAllowed } from "@/lib/risk/execution-safety";
 import { redactSensitive, safeError } from "@/lib/log/safeLogger";
 import { traderError, traderLog, traderWarn } from "@/lib/log/traderLog";
+import { normalizeAutoTraderConfigOverride, normalizeScreenerConfig, resolveScreenerPresetName } from "@/lib/auto-trader-config";
 import { AutoTraderReviewService } from "@/services/AutoTraderReviewService";
 import { AutoTraderOrderManagementService } from "@/services/AutoTraderOrderManagementService";
 import { OpportunityJournalService } from "@/services/OpportunityJournalService";
@@ -1802,71 +1803,72 @@ ${JSON.stringify(context, null, 2)}`;
      * runAnalysisJob and analyzeMarket.
      */
     private mergeConfig(configOverride?: any): { config: AgentConfig; screenerConfig: ScreenerConfig } {
+        const normalizedOverride = normalizeAutoTraderConfigOverride(configOverride);
         const config: AgentConfig = {
             ...DEFAULT_AGENT_CONFIG,
-            ...configOverride,
-            network_profiles: { ...DEFAULT_AGENT_CONFIG.network_profiles, ...configOverride?.network_profiles },
+            ...normalizedOverride,
+            network_profiles: { ...DEFAULT_AGENT_CONFIG.network_profiles, ...normalizedOverride?.network_profiles },
             gates: {
                 ...DEFAULT_AGENT_CONFIG.gates,
-                ...configOverride?.gates,
+                ...normalizedOverride?.gates,
                 cost_bps_max_by_regime: {
                     ...DEFAULT_AGENT_CONFIG.gates.cost_bps_max_by_regime,
-                    ...configOverride?.gates?.cost_bps_max_by_regime
+                    ...normalizedOverride?.gates?.cost_bps_max_by_regime
                 },
                 edge_to_cost_mult_by_regime: {
                     ...DEFAULT_AGENT_CONFIG.gates.edge_to_cost_mult_by_regime,
-                    ...configOverride?.gates?.edge_to_cost_mult_by_regime
+                    ...normalizedOverride?.gates?.edge_to_cost_mult_by_regime
                 },
                 per_symbol_cost_override: {
                     ...DEFAULT_AGENT_CONFIG.gates.per_symbol_cost_override,
-                    ...configOverride?.gates?.per_symbol_cost_override
+                    ...normalizedOverride?.gates?.per_symbol_cost_override
                 }
             },
-            risk: { ...DEFAULT_AGENT_CONFIG.risk, ...configOverride?.risk },
+            risk: { ...DEFAULT_AGENT_CONFIG.risk, ...normalizedOverride?.risk },
             triggers: {
-                momentum: { ...DEFAULT_AGENT_CONFIG.triggers.momentum, ...configOverride?.triggers?.momentum },
-                mean_reversion: { ...DEFAULT_AGENT_CONFIG.triggers.mean_reversion, ...configOverride?.triggers?.mean_reversion },
-                breakout: { ...DEFAULT_AGENT_CONFIG.triggers.breakout, ...configOverride?.triggers?.breakout }
+                momentum: { ...DEFAULT_AGENT_CONFIG.triggers.momentum, ...normalizedOverride?.triggers?.momentum },
+                mean_reversion: { ...DEFAULT_AGENT_CONFIG.triggers.mean_reversion, ...normalizedOverride?.triggers?.mean_reversion },
+                breakout: { ...DEFAULT_AGENT_CONFIG.triggers.breakout, ...normalizedOverride?.triggers?.breakout }
             },
-            cost_sanity: { ...DEFAULT_AGENT_CONFIG.cost_sanity, ...configOverride?.cost_sanity },
-            correlation: { ...DEFAULT_AGENT_CONFIG.correlation, ...configOverride?.correlation },
+            cost_sanity: { ...DEFAULT_AGENT_CONFIG.cost_sanity, ...normalizedOverride?.cost_sanity },
+            correlation: { ...DEFAULT_AGENT_CONFIG.correlation, ...normalizedOverride?.correlation },
             risk_plan_model: {
                 ...DEFAULT_AGENT_CONFIG.risk_plan_model,
-                ...configOverride?.risk_plan_model,
-                vol_anchor_priority: configOverride?.risk_plan_model?.vol_anchor_priority ?? DEFAULT_AGENT_CONFIG.risk_plan_model.vol_anchor_priority,
+                ...normalizedOverride?.risk_plan_model,
+                vol_anchor_priority: normalizedOverride?.risk_plan_model?.vol_anchor_priority ?? DEFAULT_AGENT_CONFIG.risk_plan_model.vol_anchor_priority,
                 multipliers_by_playbook: {
                     ...DEFAULT_AGENT_CONFIG.risk_plan_model.multipliers_by_playbook,
-                    ...configOverride?.risk_plan_model?.multipliers_by_playbook
+                    ...normalizedOverride?.risk_plan_model?.multipliers_by_playbook
                 },
                 regime_adjustments: {
                     ...DEFAULT_AGENT_CONFIG.risk_plan_model.regime_adjustments,
-                    ...configOverride?.risk_plan_model?.regime_adjustments
+                    ...normalizedOverride?.risk_plan_model?.regime_adjustments
                 },
                 max_width_bps_by_playbook: {
                     ...DEFAULT_AGENT_CONFIG.risk_plan_model.max_width_bps_by_playbook,
-                    ...configOverride?.risk_plan_model?.max_width_bps_by_playbook
+                    ...normalizedOverride?.risk_plan_model?.max_width_bps_by_playbook
                 },
                 min_width_bps_by_playbook: {
                     ...DEFAULT_AGENT_CONFIG.risk_plan_model.min_width_bps_by_playbook,
-                    ...configOverride?.risk_plan_model?.min_width_bps_by_playbook
+                    ...normalizedOverride?.risk_plan_model?.min_width_bps_by_playbook
                 }
             },
             trade_cooldowns: {
                 ...DEFAULT_AGENT_CONFIG.trade_cooldowns,
-                ...configOverride?.trade_cooldowns
+                ...normalizedOverride?.trade_cooldowns
             },
             strategy_filters: {
                 ...DEFAULT_AGENT_CONFIG.strategy_filters,
-                ...configOverride?.strategy_filters,
-                playbookBlocklist: configOverride?.strategy_filters?.playbookBlocklist ?? DEFAULT_AGENT_CONFIG.strategy_filters.playbookBlocklist,
-                symbolSideBlocklist: configOverride?.strategy_filters?.symbolSideBlocklist ?? DEFAULT_AGENT_CONFIG.strategy_filters.symbolSideBlocklist
+                ...normalizedOverride?.strategy_filters,
+                playbookBlocklist: normalizedOverride?.strategy_filters?.playbookBlocklist ?? DEFAULT_AGENT_CONFIG.strategy_filters.playbookBlocklist,
+                symbolSideBlocklist: normalizedOverride?.strategy_filters?.symbolSideBlocklist ?? DEFAULT_AGENT_CONFIG.strategy_filters.symbolSideBlocklist
             },
             position_management: mergePositionManagementConfig(
-                configOverride?.position_management,
+                normalizedOverride?.position_management,
                 DEFAULT_AGENT_CONFIG.position_management
             ),
-            sentiment_policy: { ...DEFAULT_AGENT_CONFIG.sentiment_policy, ...configOverride?.sentiment_policy },
-            opportunity: { ...DEFAULT_AGENT_CONFIG.opportunity, ...configOverride?.opportunity }
+            sentiment_policy: { ...DEFAULT_AGENT_CONFIG.sentiment_policy, ...normalizedOverride?.sentiment_policy },
+            opportunity: { ...DEFAULT_AGENT_CONFIG.opportunity, ...normalizedOverride?.opportunity }
         };
         // Ensure both fraction fields are populated from each other when only one is provided
         config.risk.max_position_fraction = config.risk.max_position_fraction ?? config.risk.max_position_fraction_per_symbol;
@@ -1874,10 +1876,10 @@ ${JSON.stringify(context, null, 2)}`;
         config.risk.max_effective_leverage = config.risk.max_effective_leverage ?? config.risk.exchange_max_leverage_allowed;
         config.risk.exchange_max_leverage_allowed = config.risk.exchange_max_leverage_allowed ?? config.risk.max_effective_leverage;
 
-        const screenerConfig: ScreenerConfig = {
-            ...DEFAULT_SCREENER_CONFIG,
-            ...configOverride?.screener
-        };
+        const screenerConfig = normalizeScreenerConfig(
+            normalizedOverride.screener,
+            resolveScreenerPresetName(normalizedOverride)
+        );
 
         return { config, screenerConfig };
     }

@@ -339,6 +339,23 @@ describe('OrchestratorService trader-only loop', () => {
         expect(result.rawOutput).toContain('EDGE_GATE');
     });
 
+    it('passes the persisted Discovery Balanced screener config to SnapshotBuilder', async () => {
+        mockBuildSnapshot.mockResolvedValue(snapshotWithoutWork());
+
+        await new OrchestratorService().runAutonomousTraderCycle(
+            '0xUser',
+            'test-model',
+            true,
+            { screenerPresetName: 'Discovery Balanced' }
+        );
+
+        const screenerConfig = mockBuildSnapshot.mock.calls[0][3];
+        expect(screenerConfig.discoveryMaxSymbols).toBe(40);
+        expect(screenerConfig.hotMoverTopN).toBe(12);
+        expect(screenerConfig.maxSpreadBps).toBe(15);
+        expect(screenerConfig.minDepthUsd).toBe(20_000);
+    });
+
     it.each([
         ['mainnet', false],
         ['testnet', true],

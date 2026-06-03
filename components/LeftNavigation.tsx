@@ -18,7 +18,12 @@ import {
 } from "@/components/ui/sheet"
 import { ScreeningParameters } from "@/components/ScreeningParameters"
 import { useTrading } from "@/context/TradingContext"
-import { applyDraftScreeningConfig, readActiveScreeningConfig, SCREENING_CONFIG_APPLIED_EVENT } from "@/lib/screening-storage"
+import {
+    applyDraftScreeningConfig,
+    readActiveScreeningConfig,
+    screeningConfigFromAppliedEventDetail,
+    SCREENING_CONFIG_APPLIED_EVENT
+} from "@/lib/screening-storage"
 
 type TokenData = {
     symbol: string
@@ -41,7 +46,7 @@ export function LeftNavigation() {
         setScreeningConfig(readActiveScreeningConfig())
 
         const handleConfigApplied = (e: any) => {
-            setScreeningConfig(e.detail)
+            setScreeningConfig(screeningConfigFromAppliedEventDetail(e.detail).config)
         }
 
         window.addEventListener(SCREENING_CONFIG_APPLIED_EVENT, handleConfigApplied)

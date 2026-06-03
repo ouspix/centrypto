@@ -18,6 +18,12 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 import { useTrading } from "@/context/TradingContext"
 import { ConfigEditor } from "@/components/ui/ConfigEditor"
 import { AgentConfig, AGENT_PRESETS, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config"
+import {
+    readDraftScreeningState,
+    screeningConfigFromAppliedEventDetail,
+    ScreeningConfigState,
+    SCREENING_CONFIG_APPLIED_EVENT
+} from "@/lib/screening-storage"
 import { LlmRunStatus, TradeDecision, RiskAssessment } from "@/types/trading"
 
 type AnalysisResult = {
@@ -324,30 +330,62 @@ export function AIAdvisor() {
         localStorage.removeItem('agentPreset');
     }, []);
 
-    const readScreeningConfig = useCallback(() => {
-        try {
-            const saved = localStorage.getItem('screeningConfig');
-            if (saved) {
-                const screeningConfig = JSON.parse(saved);
-                console.log('📋 Screening config from localStorage:', screeningConfig);
-                return screeningConfig;
-            }
-            console.log('📋 No screening config in localStorage');
-        } catch (e) {
-            console.error('Failed to read screening config', e);
-        }
-        return null;
-    }, []);
-
-    const buildRuntimeConfigOverride = useCallback((baseConfig?: AgentConfig) => {
-        const screeningConfig = readScreeningConfig();
+    const buildRuntimeConfigOverride = useCallback((baseConfig?: AgentConfig, screeningState?: ScreeningConfigState) => {
+        const activeScreening = screeningState ?? readDraftScreeningState();
+        const baseScreener = (baseConfig as any)?.screener;
+        const useActiveScreening = activeScreening.hasStoredConfig || !baseScreener;
+        const screeningConfig = useActiveScreening ? activeScreening.config : baseScreener;
+        const screenerPresetName = useActiveScreening
+            ? activeScreening.presetName
+            : ((baseConfig as any)?.screenerPresetName ?? activeScreening.presetName);
         return {
             ...(baseConfig ?? {}),
+            screenerPresetName,
             screener: screeningConfig || (baseConfig as any)?.screener
         };
-    }, [readScreeningConfig]);
+    }, []);
 
     const runtimeConfigOverride = useCallback(() => buildRuntimeConfigOverride(customConfig), [buildRuntimeConfigOverride, customConfig]);
+
+    const persistAutoTraderSettings = useCallback(async (
+        enabled: boolean,
+        baseConfig?: AgentConfig,
+        screeningState?: ScreeningConfigState
+    ) => {
+        const configOverride = buildRuntimeConfigOverride(baseConfig, screeningState);
+        const response = await fetch('/api/auto-trader', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                enabled,
+                frequencySeconds: frequency,
+                model: selectedModel,
+                isTestnet,
+                configOverride
+            })
+        });
+        if (!response.ok) {
+            const payload = await response.json().catch(() => ({}));
+            if (response.status === 401) {
+                setWalletSessionAddress(null);
+                throw new Error('Wallet session expired');
+            }
+            throw new Error(payload.error || 'Failed to update auto trader configuration');
+        }
+
+        const data = await response.json();
+        setAutoTraderStatus(data);
+        setAutoTrading(!!data.enabled);
+        syncConfigFromStatus(data);
+        return data;
+    }, [
+        buildRuntimeConfigOverride,
+        frequency,
+        isTestnet,
+        selectedModel,
+        setWalletSessionAddress,
+        syncConfigFromStatus
+    ]);
 
     const handleSaveConfig = async (newConfig: AgentConfig, newPreset: string) => {
         const nextConfig = buildRuntimeConfigOverride(newConfig) as AgentConfig;
@@ -359,29 +397,7 @@ export function AIAdvisor() {
         if (hasWalletSession && autoTraderStatus?.configured) {
             setSavingAutoTrader(true);
             try {
-                const response = await fetch('/api/auto-trader', {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        enabled: autoTrading,
-                        frequencySeconds: frequency,
-                        model: selectedModel,
-                        isTestnet,
-                        configOverride: nextConfig
-                    })
-                });
-                if (!response.ok) {
-                    const payload = await response.json().catch(() => ({}));
-                    if (response.status === 401) {
-                        setWalletSessionAddress(null);
-                        throw new Error('Wallet session expired');
-                    }
-                    throw new Error(payload.error || 'Failed to update auto trader configuration');
-                }
-                const data = await response.json();
-                setAutoTraderStatus(data);
-                setAutoTrading(!!data.enabled);
-                syncConfigFromStatus(data);
+                await persistAutoTraderSettings(autoTrading, newConfig);
             } finally {
                 setSavingAutoTrader(false);
             }
@@ -433,6 +449,34 @@ export function AIAdvisor() {
             .catch(() => {});
     }, [address, hasWalletSession, isTestnet, syncConfigFromStatus])
 
+    useEffect(() => {
+        if (typeof window === "undefined") return;
+
+        const handleScreeningConfigApplied = async (event: Event) => {
+            if (!hasWalletSession || !autoTraderStatus?.configured) return;
+            const screeningState = screeningConfigFromAppliedEventDetail((event as CustomEvent).detail);
+
+            setSavingAutoTrader(true);
+            try {
+                await persistAutoTraderSettings(autoTrading, customConfig, screeningState);
+                toast.success('Server active screener updated');
+            } catch (error) {
+                toast.error(error instanceof Error ? error.message : 'Failed to update server active screener');
+            } finally {
+                setSavingAutoTrader(false);
+            }
+        };
+
+        window.addEventListener(SCREENING_CONFIG_APPLIED_EVENT, handleScreeningConfigApplied);
+        return () => window.removeEventListener(SCREENING_CONFIG_APPLIED_EVENT, handleScreeningConfigApplied);
+    }, [
+        autoTraderStatus?.configured,
+        autoTrading,
+        customConfig,
+        hasWalletSession,
+        persistAutoTraderSettings
+    ])
+
     const handleAutoTradingChange = async (enabled: boolean) => {
         if (!hasWalletSession) {
             toast.error('Authenticate wallet session before changing auto trading');
@@ -441,29 +485,7 @@ export function AIAdvisor() {
         if (killSwitch && enabled) return;
         setSavingAutoTrader(true);
         try {
-            const response = await fetch('/api/auto-trader', {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    enabled,
-                    frequencySeconds: frequency,
-                    model: selectedModel,
-                    isTestnet,
-                    configOverride: runtimeConfigOverride()
-                })
-            });
-            if (!response.ok) {
-                const payload = await response.json().catch(() => ({}));
-                if (response.status === 401) {
-                    setWalletSessionAddress(null);
-                    throw new Error('Wallet session expired');
-                }
-                throw new Error(payload.error || 'Failed to update auto trader');
-            }
-            const data = await response.json();
-            setAutoTraderStatus(data);
-            setAutoTrading(!!data.enabled);
-            syncConfigFromStatus(data);
+            await persistAutoTraderSettings(enabled, customConfig);
             toast.success(enabled ? 'Server auto trader enabled' : 'Server auto trader paused');
         } catch (error) {
             toast.error(error instanceof Error ? error.message : 'Failed to update auto trader');
@@ -609,6 +631,9 @@ export function AIAdvisor() {
     const formatUsd = (value: number | null | undefined) =>
         value === null || value === undefined ? "--" : `$${Math.round(value).toLocaleString()}`;
 
+    const formatOptionalNumber = (value: number | null | undefined) =>
+        value === null || value === undefined ? "--" : Number(value).toLocaleString();
+
     const formatUsdCents = (value: number | null | undefined) =>
         value === null || value === undefined || !Number.isFinite(value)
             ? "--"
@@ -620,6 +645,7 @@ export function AIAdvisor() {
     const accountEquity = typeof result?.snapshot?.account?.equity_usd === "number"
         ? result.snapshot.account.equity_usd
         : null;
+    const activeScreenerSummary = autoTraderStatus?.activeScreenerSummary;
     const topRejectionCounts = diagnostics
         ? Object.entries(diagnostics.rejection_counts)
             .sort(([, a], [, b]) => b - a)
@@ -704,6 +730,25 @@ export function AIAdvisor() {
                                 <span className="block text-[10px] uppercase text-slate-500">Next Run</span>
                                 <span className="font-mono text-slate-100">
                                     {autoTraderStatus.nextRunAt ? new Date(autoTraderStatus.nextRunAt).toLocaleTimeString() : "--"}
+                                </span>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeScreenerSummary && (
+                        <div className="rounded border border-slate-700/70 bg-slate-950/40 px-2 py-2 text-xs">
+                            <span className="block text-[10px] uppercase text-slate-500">Server active screener</span>
+                            <div className="mt-1 grid grid-cols-2 gap-x-3 gap-y-1 font-mono text-[11px] text-slate-100">
+                                <span>spread {formatBps(activeScreenerSummary.maxSpreadBps)}</span>
+                                <span>depth {formatUsd(activeScreenerSummary.minDepthUsd)}</span>
+                                <span>cost {formatBps(activeScreenerSummary.maxCostBps)}</span>
+                                <span>top {formatOptionalNumber(activeScreenerSummary.topN)}</span>
+                                <span>discover {formatOptionalNumber(activeScreenerSummary.discoveryMaxSymbols)}</span>
+                                <span>hot {formatOptionalNumber(activeScreenerSummary.hotMoverTopN)}</span>
+                                <span>volume {formatOptionalNumber(activeScreenerSummary.volumeSpikeTopN)}</span>
+                                <span>range {formatOptionalNumber(activeScreenerSummary.rangeExpansionTopN)}</span>
+                                <span className="col-span-2">
+                                    diagnostics {activeScreenerSummary.includeExecutionBlockedForDiagnostics === false ? "off" : "on"}
                                 </span>
                             </div>
                         </div>

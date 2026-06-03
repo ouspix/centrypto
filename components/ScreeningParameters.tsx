@@ -9,7 +9,7 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 import { LabelWithTooltip } from "@/components/ui/label-with-tooltip"
 import { Filter, ChevronDown, ChevronUp } from "lucide-react"
 import { ScreenerConfig, DEFAULT_SCREENER_CONFIG, SCREENER_PRESETS } from "@/lib/screener-config"
-import { readDraftScreeningConfig, saveDraftScreeningConfig } from "@/lib/screening-storage"
+import { readDraftScreeningState, saveDraftScreeningConfig } from "@/lib/screening-storage"
 
 export function ScreeningParameters() {
     const [config, setConfig] = useState<ScreenerConfig>(DEFAULT_SCREENER_CONFIG)
@@ -19,16 +19,17 @@ export function ScreeningParameters() {
 
     // Load editable draft on mount. The refresh/update button applies the draft.
     useEffect(() => {
-        setConfig(readDraftScreeningConfig())
-        setPreset('custom')
+        const state = readDraftScreeningState()
+        setConfig(state.config)
+        setPreset(state.presetName)
         setLoaded(true)
     }, [])
 
     // Save draft only. Do not trigger screening until the refresh/update button applies it.
     useEffect(() => {
         if (!loaded) return
-        saveDraftScreeningConfig(config)
-    }, [config, loaded])
+        saveDraftScreeningConfig(config, preset)
+    }, [config, preset, loaded])
 
     const updateConfig = (key: keyof ScreenerConfig, value: any) => {
         setConfig(prev => ({ ...prev, [key]: value }))

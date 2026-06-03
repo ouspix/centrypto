@@ -1,6 +1,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { AIAdvisor } from '@/components/AIAdvisor'
 import { AGENT_PRESETS } from '@/lib/agent-config'
+import { SCREENER_PRESETS } from '@/lib/screener-config'
 import { vi, describe, it, expect, beforeEach } from 'vitest'
 
 const mockUseTrading = vi.fn()
@@ -326,5 +327,159 @@ describe('AIAdvisor', () => {
         })
         expect(putBodies[0].configOverride.preset_name).toBe('optimized')
         expect(putBodies[0].configOverride.risk.max_positions).toBe(4)
+    })
+
+    it('starts auto-trader with all active Discovery Balanced screener keys', async () => {
+        const putBodies: any[] = []
+        localStorage.setItem('screeningConfig', JSON.stringify(SCREENER_PRESETS['Discovery Balanced']))
+        localStorage.setItem('screeningConfigPreset', 'Discovery Balanced')
+        mockUseTrading.mockReturnValue({
+            selectedPair: 'SOL',
+            isTestnet: true,
+            walletSessionAddress: connectedAddress,
+        })
+        mockUseAccount.mockReturnValue({ address: connectedAddress })
+        ;(global.fetch as any).mockImplementation((url: RequestInfo | URL, init?: RequestInit) => {
+            if (String(url).startsWith('/api/ai/models')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({ models: [{ name: 'test-model' }] }),
+                })
+            }
+            if (String(url).startsWith('/api/risk/kill-switch')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({ killSwitch: false }),
+                })
+            }
+            if (String(url).startsWith('/api/auto-trader') && init?.method === 'PUT') {
+                const parsed = JSON.parse(String(init.body))
+                putBodies.push(parsed)
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({
+                        configured: true,
+                        enabled: parsed.enabled,
+                        frequencySeconds: parsed.frequencySeconds,
+                        model: parsed.model,
+                        configPresetName: parsed.configOverride?.preset_name,
+                        configOverride: parsed.configOverride,
+                        activeScreenerSummary: {
+                            discoveryMaxSymbols: parsed.configOverride?.screener?.discoveryMaxSymbols,
+                        },
+                    }),
+                })
+            }
+            if (String(url).startsWith('/api/auto-trader')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({
+                        configured: true,
+                        enabled: false,
+                        frequencySeconds: 120,
+                        model: 'test-model',
+                        configPresetName: 'Balanced PM v2',
+                        configOverride: AGENT_PRESETS['Balanced PM v2'],
+                    }),
+                })
+            }
+            return Promise.reject(new Error(`Unexpected fetch: ${String(url)}`))
+        })
+
+        render(<AIAdvisor />)
+
+        await waitFor(() => {
+            expect(global.fetch).toHaveBeenCalledWith('/api/auto-trader?network=testnet')
+        })
+        fireEvent.click(screen.getByRole('switch'))
+
+        await waitFor(() => {
+            expect(putBodies).toHaveLength(1)
+        })
+        expect(putBodies[0].configOverride.screenerPresetName).toBe('Discovery Balanced')
+        expect(putBodies[0].configOverride.screener).toMatchObject({
+            discoveryMaxSymbols: 40,
+            hotMoverTopN: 12,
+            volumeSpikeTopN: 10,
+            rangeExpansionTopN: 10,
+            hotMoverMinAbsMoveBps: 150,
+            hotMoverLookbacks: ['m15', 'h1', 'h4'],
+            includeHotMoversEvenIfNotTopN: true,
+            includeExecutionBlockedForDiagnostics: true,
+        })
+    })
+
+    it('uses the selected screening draft when starting auto-trader from the UI', async () => {
+        const putBodies: any[] = []
+        localStorage.setItem('screeningConfigDraft', JSON.stringify(SCREENER_PRESETS['Discovery Balanced']))
+        localStorage.setItem('screeningConfigDraftPreset', 'Discovery Balanced')
+        mockUseTrading.mockReturnValue({
+            selectedPair: 'SOL',
+            isTestnet: true,
+            walletSessionAddress: connectedAddress,
+        })
+        mockUseAccount.mockReturnValue({ address: connectedAddress })
+        ;(global.fetch as any).mockImplementation((url: RequestInfo | URL, init?: RequestInit) => {
+            if (String(url).startsWith('/api/ai/models')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({ models: [{ name: 'test-model' }] }),
+                })
+            }
+            if (String(url).startsWith('/api/risk/kill-switch')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({ killSwitch: false }),
+                })
+            }
+            if (String(url).startsWith('/api/auto-trader') && init?.method === 'PUT') {
+                const parsed = JSON.parse(String(init.body))
+                putBodies.push(parsed)
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({
+                        configured: true,
+                        enabled: parsed.enabled,
+                        frequencySeconds: parsed.frequencySeconds,
+                        model: parsed.model,
+                        configOverride: parsed.configOverride,
+                        activeScreenerSummary: {
+                            discoveryMaxSymbols: parsed.configOverride?.screener?.discoveryMaxSymbols,
+                        },
+                    }),
+                })
+            }
+            if (String(url).startsWith('/api/auto-trader')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({
+                        configured: true,
+                        enabled: false,
+                        frequencySeconds: 120,
+                        model: 'test-model',
+                        configPresetName: 'Balanced PM v2',
+                        configOverride: {
+                            ...AGENT_PRESETS['Balanced PM v2'],
+                            screener: SCREENER_PRESETS['Balanced PM v2'],
+                        },
+                    }),
+                })
+            }
+            return Promise.reject(new Error(`Unexpected fetch: ${String(url)}`))
+        })
+
+        render(<AIAdvisor />)
+
+        await waitFor(() => {
+            expect(global.fetch).toHaveBeenCalledWith('/api/auto-trader?network=testnet')
+        })
+        fireEvent.click(screen.getByRole('switch'))
+
+        await waitFor(() => {
+            expect(putBodies).toHaveLength(1)
+        })
+        expect(putBodies[0].configOverride.screenerPresetName).toBe('Discovery Balanced')
+        expect(putBodies[0].configOverride.screener.discoveryMaxSymbols).toBe(40)
+        expect(putBodies[0].configOverride.screener.maxSpreadBps).toBe(15)
     })
 })

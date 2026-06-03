@@ -5,7 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { useTrading } from "@/context/TradingContext"
 import { cn } from "@/lib/utils"
-import { readActiveScreeningConfig, SCREENING_CONFIG_APPLIED_EVENT } from "@/lib/screening-storage"
+import {
+    readActiveScreeningConfig,
+    screeningConfigFromAppliedEventDetail,
+    SCREENING_CONFIG_APPLIED_EVENT
+} from "@/lib/screening-storage"
 import { AlertCircle, TrendingUp, TrendingDown } from "lucide-react"
 
 type Ticker = {
@@ -38,7 +42,7 @@ export function HyperliquidFeed() {
 
         const handleConfigApplied = (e: any) => {
             console.log('[HyperliquidFeed] Config applied event received', e.detail)
-            setScreeningConfig(e.detail)
+            setScreeningConfig(screeningConfigFromAppliedEventDetail(e.detail).config)
         }
 
         window.addEventListener(SCREENING_CONFIG_APPLIED_EVENT, handleConfigApplied)
