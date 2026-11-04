@@ -67,6 +67,10 @@ model CandidateJournal {
   validatorStatus String?
   validatorReason String?
   executed        Boolean  @default(false)
+  promotionReason String?
+  demotionReason  String?
+  matchedPriorBucket String?
+  configEpoch     DateTime?
   metadataJson    String?
   outcome5mBps    Float?
   outcome15mBps   Float?
@@ -98,6 +102,12 @@ model OpportunityJournal {
   featuresJson               String
   executionTradeable         Boolean
   executionBlockReasonsJson  String
+  promotionReason            String?
+  demotionReason             String?
+  matchedPriorBucket         String?
+  configEpoch                DateTime?
+  pathQuality                String?
+  policyOutcome              String?
   priceAtSignal              Float?
   outcome5mJson              String?
   outcome15mJson             String?
@@ -539,4 +549,286 @@ model UserHyperliquidApiWallet {
   @@unique([userAddress, isTestnet])
   @@index([apiWalletAddress])
   @@index([userAddress, isTestnet, apiWalletAddress])
+}
+
+model NewsRunContext {
+  id                 String   @id @default(uuid())
+  ownerAddress       String
+  snapshotId         Int?
+  runId              String?
+  briefingId         String?
+  contextJson        String
+  availableAt        DateTime @default(now())
+  @@index([ownerAddress, snapshotId])
+}
+
+model CodexJob {
+  id                 String   @id @default(uuid())
+  ownerAddress       String
+  purpose            String
+  model              String
+  payloadJson        String
+  schemaJson         String
+  metadataJson       String   @default("{}")
+  status             String   @default("pending")
+  priority           Int      @default(0)
+  attempts           Int      @default(0)
+  cancelRequested    Boolean  @default(false)
+  notBefore          DateTime @default(now())
+  startedAt          DateTime?
+  finishedAt         DateTime?
+  resultJson         String?
+  errorCode          String?
+  usageJson          String?
+  createdAt          DateTime @default(now())
+  @@index([status, priority, notBefore])
+  @@index([ownerAddress, createdAt])
+}
+
+model CodexRuntime {
+  id                 String   @id @default("local")
+  leaseOwner         String?
+  leaseUntil         DateTime?
+  heartbeatAt        DateTime?
+  backoffUntil       DateTime?
+  cliVersion         String?
+  modelsJson         String   @default("{}")
+  @@index([leaseUntil])
+}
+
+model DeskPublicCache {
+  id         Int      @id @default(autoincrement())
+  bookId     String
+  book       DeskBook @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  scope      String
+  key        String
+  revision   Int
+  fetchedAt  DateTime
+  expiresAt  DateTime
+  payload    String
+  @@unique([bookId, scope, key])
+  @@index([expiresAt])
+  @@index([bookId, fetchedAt])
+}
+
+model DeskBook {
+  publicCache      DeskPublicCache[]
+  id               String @id @default(uuid())
+  ownerAddress     String
+  accountAddress   String
+  isTestnet        Boolean
+  kind             String
+  enabled          Boolean @default(false)
+  version          Int @default(1)
+  mandateJson      String
+  frequencySeconds Int @default(600)
+  newsCursor       Int @default(0)
+  nextReviewAt     DateTime @default(now())
+  heartbeatAt      DateTime?
+  lastError        String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  wakes            DeskWake[]
+  shifts           DeskShift[]
+  records          DeskRecord[]
+  watches          DeskWatch[]
+  @@unique([accountAddress, isTestnet])
+  @@index([ownerAddress, isTestnet])
+}
+
+model DeskWake {
+  id             String @id @default(uuid())
+  bookId         String
+  book           DeskBook @relation(fields:[bookId], references:[id])
+  key            String
+  kind           String
+  mode           String
+  priority       Int
+  payload        String
+  version        Int
+  dueAt          DateTime
+  expiresAt      DateTime?
+  shiftId        String?
+  shift          DeskShift? @relation(fields:[shiftId],references:[id])
+  createdAt      DateTime @default(now())
+  @@unique([bookId,key])
+  @@index([bookId,shiftId,dueAt])
+}
+
+model DeskShift {
+  id             String @id @default(uuid())
+  bookId         String
+  book           DeskBook @relation(fields:[bookId],references:[id])
+  version        Int
+  mode           String
+  status         String
+  lease          String?
+  leaseUntil     DateTime?
+  attempts       Int @default(1)
+  briefJson      String
+  error          String?
+  createdAt      DateTime @default(now())
+  endedAt        DateTime?
+  wakes          DeskWake[]
+  @@index([bookId,status,createdAt])
+}
+
+model DeskRecord {
+  id             Int @id @default(autoincrement())
+  bookId         String
+  book           DeskBook @relation(fields:[bookId], references:[id])
+  shiftId        String?
+  key            String
+  kind           String
+  role           String
+  dataJson       String
+  createdAt      DateTime @default(now())
+  @@unique([bookId,key])
+  @@index([bookId,kind,id])
+  @@index([bookId,shiftId])
+}
+
+model DeskWatch {
+  id             String @id @default(uuid())
+  bookId         String
+  book           DeskBook @relation(fields:[bookId], references:[id])
+  key            String
+  mode           String
+  kind           String
+  instrumentId   String?
+  eventKey       String?
+  thesis         String
+  deadline       DateTime
+  threshold      Float?
+  referencePrice Float?
+  side           String?
+  status         String @default("open")
+  outcomeJson    String?
+  createdAt      DateTime @default(now())
+  @@unique([bookId,key])
+  @@index([bookId,status,deadline])
+}
+
+model DeskIntent {
+  id            String @id @default(uuid())
+  bookId        String
+  intentKey     String
+  cloid         String @unique
+  instrumentId  String
+  asset         Int
+  coin          String
+  requestJson   String
+  fingerprint   String
+  state         String
+  policyVersion Int
+  oid           String?
+  arrivalPrice  Float
+  quantity      Float
+  limitPrice    Float
+  reservedUsd   Float
+  side          String
+  filledQty     Float @default(0)
+  stopCloid     String?
+  targetCloid   String?
+  groupKey      String?
+  reason        String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  @@unique([bookId, intentKey])
+  @@index([bookId, state])
+}
+
+model DeskInventory {
+  id           String @id @default(uuid())
+  bookId       String
+  instrumentId String
+  quantity     Float
+  basis        Float
+  realizedUsd  Float @default(0)
+  fundingUsd   Float @default(0)
+  stopPrice    Float?
+  targetPrice  Float?
+  suspended    Boolean @default(false)
+  reason       String?
+  since        DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  @@unique([bookId, instrumentId])
+}
+model DeskCashFlow {
+  id           String @id @default(uuid())
+  bookId       String
+  venueKey     String
+  intentId     String?
+  instrumentId String
+  kind         String
+  quantity     Float
+  price        Float
+  feeUsd       Float
+  pnlUsd       Float
+  shortfallUsd Float
+  occurredAt   DateTime
+  @@unique([bookId, venueKey])
+  @@index([bookId, occurredAt])
+}
+model DeskExecutionState {
+  bookId        String @id
+  quoteJson     String?
+  cancelAt      DateTime?
+  lastQuotedAt  DateTime?
+  lastSync      DateTime?
+  lastError     String?
+  highWaterUsd  Float @default(0)
+  drawdownUsd   Float @default(0)
+  netPnlUsd     Float @default(0)
+  unrealizedUsd Float @default(0)
+  dailyPnlUsd   Float @default(0)
+  dayKey        String?
+  dayStartUsd   Float @default(0)
+  updatedAt     DateTime @updatedAt
+}
+model DeskExecutionLease {
+  key        String @id
+  token      String
+  expiresAt  DateTime
+  nonce      BigInt @default(0)
+}
+model DeskPair {
+  id         String @id @default(uuid())
+  bookId     String
+  intentKey  String
+  planJson   String
+  state      String
+  deadline   DateTime
+  reason     String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  @@unique([bookId, intentKey])
+  @@index([bookId, state])
+}
+
+// One usage stream per ephemeral Codex thread, registered before turn/start.
+model DeskTokenUsage {
+  threadId String @id
+  bookId String?
+  shiftId String?
+  role String
+  kind String
+  model String
+  turnId String?
+  status String @default("running")
+  startedAt DateTime @default(now())
+  finishedAt DateTime?
+  reportedAt DateTime?
+  totalTokens BigInt?
+  inputTokens BigInt?
+  cachedInputTokens BigInt?
+  cacheWriteInputTokens BigInt?
+  outputTokens BigInt?
+  reasoningOutputTokens BigInt?
+  @@index([bookId,model,startedAt])
+}
+
+model DeskTokenMeterEpoch {
+  id Int @id
+  installedAt DateTime @default(now())
 }

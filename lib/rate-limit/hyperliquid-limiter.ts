@@ -53,7 +53,7 @@ export async function waitForHyperliquidSlot(bucket: string = "hl:info:metaAndAs
 }
 
 export async function hyperliquidInfoPost<T>(
-    bucket: "hl:info:meta" | "hl:info:metaAndAssetCtxs" | "hl:info:clearinghouseState" | "hl:info:spotClearinghouseState" | "hl:info:allMids" | "hl:info:userFills" | "hl:info:userFillsByTime" | "hl:info:openOrders" | "hl:info:frontendOpenOrders" | "hl:info:orderStatus" | "hl:info:candleSnapshot" | "hl:info:l2Book" | "hl:info:extraAgents",
+    bucket: "hl:info:deskMeta" | "hl:info:spotMeta" | "hl:info:meta" | "hl:info:metaAndAssetCtxs" | "hl:info:clearinghouseState" | "hl:info:spotClearinghouseState" | "hl:info:allMids" | "hl:info:userFills" | "hl:info:userFillsByTime" | "hl:info:openOrders" | "hl:info:frontendOpenOrders" | "hl:info:orderStatus" | "hl:info:candleSnapshot" | "hl:info:l2Book" | "hl:info:extraAgents",
     apiUrl: string,
     body: unknown,
     options: RequestOptions = {}

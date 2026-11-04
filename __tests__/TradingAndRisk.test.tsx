@@ -32,8 +32,9 @@ vi.mock("@/components/LlmDecisionsLog", () => ({
 describe("TradingAndRisk", () => {
     beforeEach(() => {
         vi.clearAllMocks()
-        mockUseAccount.mockReturnValue({ isConnected: true })
-        mockUseTrading.mockReturnValue({ isTestnet: false })
+        const address = "0x1111111111111111111111111111111111111111"
+        mockUseAccount.mockReturnValue({ isConnected: true, address })
+        mockUseTrading.mockReturnValue({ isTestnet: false, walletSessionAddress: address })
         vi.mocked(fetch).mockResolvedValue({
             ok: true,
             json: async () => ({

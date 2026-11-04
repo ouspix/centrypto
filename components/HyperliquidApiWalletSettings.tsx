@@ -19,7 +19,7 @@ export function HyperliquidApiWalletSettings({
     walletSessionAddress
 }: {
     isTestnet: boolean
-    walletSessionAddress?: string | null
+    walletSessionAddress: string | null
 }) {
     const { address, isConnected } = useAccount()
     const [status, setStatus] = useState<ApiWalletStatus | null>(null)
@@ -32,7 +32,7 @@ export function HyperliquidApiWalletSettings({
     const [acknowledgedDelegatedKeyWarning, setAcknowledgedDelegatedKeyWarning] = useState(false)
 
     const network = isTestnet ? "testnet" : "mainnet"
-    const hasWalletSession = !address || walletSessionAddress === undefined || walletSessionAddress === address.toLowerCase()
+    const hasWalletSession = !!address && walletSessionAddress === address.toLowerCase()
 
     const loadStatus = useCallback(async () => {
         setLoading(true)
@@ -107,7 +107,7 @@ export function HyperliquidApiWalletSettings({
 
     if (!isConnected) return null
 
-    const configured = !!status?.configured
+    const configured = hasWalletSession && !!status?.configured
     const maskedAddress = status?.apiWalletAddress
         ? `${status.apiWalletAddress.slice(0, 6)}...${status.apiWalletAddress.slice(-4)}`
         : null
@@ -124,11 +124,15 @@ export function HyperliquidApiWalletSettings({
                     Hyperliquid API Wallet
                 </div>
                 <span className={`text-[11px] ${configured ? "text-emerald-400" : "text-amber-400"}`}>
-                    {loading ? "Checking..." : configured ? "Ready" : "Required"}
+                    {!hasWalletSession ? "Sign in" : loading ? "Checking..." : configured ? "Ready" : "Required"}
                 </span>
             </div>
 
-            {configured ? (
+            {!hasWalletSession ? (
+                <p className="text-xs text-slate-300">
+                    Select Auth required beside your wallet address and sign the session message to manage your API wallet.
+                </p>
+            ) : configured ? (
                 <div className="space-y-2">
                     {maskedAddress && (
                         <div className="flex items-center justify-between gap-2 text-xs text-slate-400">

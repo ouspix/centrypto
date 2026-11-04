@@ -4,7 +4,7 @@ import path from "path";
 import { spawn, spawnSync } from "child_process";
 import { createInterface } from "readline";
 import { Readable } from "stream";
-import { PrismaClient } from "@prisma/market-client";
+import { PrismaClient } from "@prisma/backtest-client";
 import { createBacktestDbClient, ensureBacktestDbSchema } from "./BacktestDb";
 import { ExecutionBookStore } from "./ExecutionBookStore";
 import { FeatureStore } from "./FeatureStore";

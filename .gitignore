@@ -56,6 +56,10 @@ next-env.d.ts
 
 # python
 .venv-backtest/
+.venv-ops/
+collector/dist/
+collector/profile/
+collector/.cache/
 sentiment/venv/
 *.pyc
 __pycache__/

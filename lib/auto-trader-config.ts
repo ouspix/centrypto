@@ -1,4 +1,5 @@
 import { DEFAULT_SCREENER_CONFIG, SCREENER_PRESETS, ScreenerConfig } from "@/lib/screener-config";
+import { normalizeCandidatePromotionConfig } from "@/lib/candidate-promotion";
 
 export type ActiveScreenerSummary = {
     maxSpreadBps: number;
@@ -64,7 +65,8 @@ export function normalizeAutoTraderConfigOverride(configOverride?: unknown): Rec
     return {
         ...loaded,
         ...(presetName ? { screenerPresetName: presetName } : {}),
-        screener
+        screener,
+        candidate_promotion: normalizeCandidatePromotionConfig(loaded.candidate_promotion)
     };
 }
 

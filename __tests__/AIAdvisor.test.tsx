@@ -1,8 +1,10 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { AIAdvisor } from '@/components/AIAdvisor'
 import { AGENT_PRESETS } from '@/lib/agent-config'
+import { candidatePromotionRulesHash, normalizeCandidatePromotionConfig } from '@/lib/candidate-promotion'
 import { SCREENER_PRESETS } from '@/lib/screener-config'
 import { vi, describe, it, expect, beforeEach } from 'vitest'
+import { toast } from 'sonner'
 
 const mockUseTrading = vi.fn()
 const mockUseAccount = vi.fn()
@@ -117,7 +119,10 @@ describe('AIAdvisor', () => {
         expect(screen.getByText('Hard trigger with controlled size.')).toBeDefined()
     })
 
-    it('handles API error gracefully', async () => {
+    it.each([
+        { label: 'network', response: undefined, message: 'API Error' },
+        { label: 'server', response: { ok: false, status: 503, json: async () => ({ error: 'Market data not ready', details: 'Mainnet candles are stale' }) }, message: 'Mainnet candles are stale' },
+    ])('shows $label errors and stops the analysis spinner', async ({ response, message }) => {
         const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
         mockUseTrading.mockReturnValue({
             selectedPair: 'SOL',
@@ -145,7 +150,7 @@ describe('AIAdvisor', () => {
                 })
             }
             if (String(url) === '/api/ai/analyze') {
-                return Promise.reject(new Error('API Error'))
+                return response ? Promise.resolve(response) : Promise.reject(new Error('API Error'))
             }
             return Promise.reject(new Error(`Unexpected fetch: ${String(url)}`))
         })
@@ -156,6 +161,7 @@ describe('AIAdvisor', () => {
 
         await waitFor(() => {
             expect(screen.getByText('Ready to Analyze')).toBeDefined()
+            expect(toast.error).toHaveBeenCalledWith(message)
         })
 
         consoleSpy.mockRestore()
@@ -261,6 +267,80 @@ describe('AIAdvisor', () => {
 
         const presetSelect = await screen.findByDisplayValue('Custom (edited)')
         expect(presetSelect).toHaveValue('custom')
+    })
+
+    it('renders saved candidate promotion server rules and draft match state', async () => {
+        const promotionRules = normalizeCandidatePromotionConfig({
+            config_epoch: '2026-06-05T08:00:00.000Z',
+            global_structure_rules: {
+                lateChase: 'BLOCK',
+                extendedBreakoutWithoutPullback: 'NEAR_MISS_ONLY',
+                freshContinuationBonus: true,
+                pullbackContinuationBonus: false,
+            },
+        })
+        mockUseTrading.mockReturnValue({
+            selectedPair: 'SOL',
+            isTestnet: true,
+            walletSessionAddress: connectedAddress,
+        })
+        mockUseAccount.mockReturnValue({ address: connectedAddress })
+        ;(global.fetch as any).mockImplementation((url: RequestInfo | URL) => {
+            if (String(url).startsWith('/api/ai/models')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({ models: [{ name: 'test-model' }] }),
+                })
+            }
+            if (String(url).startsWith('/api/risk/kill-switch')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({ killSwitch: false }),
+                })
+            }
+            if (String(url).startsWith('/api/auto-trader/prior-buckets')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({ buckets: [] }),
+                })
+            }
+            if (String(url).startsWith('/api/auto-trader')) {
+                return Promise.resolve({
+                    ok: true,
+                    json: async () => ({
+                        configured: true,
+                        enabled: false,
+                        frequencySeconds: 600,
+                        model: 'test-model',
+                        configOverride: {
+                            ...AGENT_PRESETS['Balanced PM v2'],
+                            candidate_promotion: promotionRules,
+                        },
+                        activeCandidatePromotionSummary: {
+                            rules: promotionRules,
+                            config_epoch: promotionRules.config_epoch,
+                            rules_hash: candidatePromotionRulesHash(promotionRules),
+                            live_prior_bucket_count: 0,
+                            shadow_prior_bucket_count: 0,
+                            demotion_rule_count: 2,
+                        },
+                    }),
+                })
+            }
+            return Promise.reject(new Error(`Unexpected fetch: ${String(url)}`))
+        })
+
+        render(<AIAdvisor />)
+
+        fireEvent.click(await screen.findByRole('button', { name: /open agent configuration/i }))
+        const promotionTab = await screen.findByRole('tab', { name: /promotion/i })
+        fireEvent.keyDown(promotionTab, { key: 'Enter', code: 'Enter' })
+        fireEvent.click(promotionTab)
+
+        expect(await screen.findByText('Candidate Promotion Rules')).toBeDefined()
+        expect(await screen.findByText('2026-06-05T08:00:00.000Z')).toBeDefined()
+        expect(screen.getByText('Draft matches server')).toBeDefined()
+        expect(screen.getAllByText('NEAR_MISS_ONLY').length).toBeGreaterThan(0)
     })
 
     it('persists agent preset changes to the server when auto-trader is configured', async () => {
@@ -391,7 +471,7 @@ describe('AIAdvisor', () => {
         await waitFor(() => {
             expect(global.fetch).toHaveBeenCalledWith('/api/auto-trader?network=testnet')
         })
-        fireEvent.click(screen.getByRole('switch'))
+        fireEvent.click(screen.getByRole('switch', { name: /auto trading/i }))
 
         await waitFor(() => {
             expect(putBodies).toHaveLength(1)
@@ -473,7 +553,7 @@ describe('AIAdvisor', () => {
         await waitFor(() => {
             expect(global.fetch).toHaveBeenCalledWith('/api/auto-trader?network=testnet')
         })
-        fireEvent.click(screen.getByRole('switch'))
+        fireEvent.click(screen.getByRole('switch', { name: /auto trading/i }))
 
         await waitFor(() => {
             expect(putBodies).toHaveLength(1)

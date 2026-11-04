@@ -24,7 +24,7 @@ import {
     ScreeningConfigState,
     SCREENING_CONFIG_APPLIED_EVENT
 } from "@/lib/screening-storage"
-import { LlmRunStatus, TradeDecision, RiskAssessment } from "@/types/trading"
+import { LlmRunStatus, TradeDecision, RiskAssessment, OpportunityDiagnostic } from "@/types/trading"
 
 type AnalysisResult = {
     decisions: TradeDecision[];
@@ -33,6 +33,7 @@ type AnalysisResult = {
     prompt: string;
     rawOutput: string;
     llmStatus?: LlmRunStatus;
+    opportunities?: OpportunityDiagnostic[];
 };
 
 export function AIAdvisor() {
@@ -197,6 +198,8 @@ export function AIAdvisor() {
     const [frequency, setFrequency] = useState(DEFAULT_TRADING_INTERVAL) // seconds
     const [selectedModel, setSelectedModel] = useState("deepseek/deepseek-v3.2-exp")
     const [availableModels, setAvailableModels] = useState<string[]>([])
+    const [modelAvailability, setModelAvailability] = useState<Record<string, boolean>>({})
+    const [modelAvailabilityReasons, setModelAvailabilityReasons] = useState<Record<string, string>>({})
     const [killSwitch, setKillSwitch] = useState(false)
     const [showConfig, setShowConfig] = useState(false)
     const [customConfig, setCustomConfig] = useState<AgentConfig | undefined>(undefined)
@@ -408,14 +411,21 @@ export function AIAdvisor() {
 
     // Fetch Models
     useEffect(() => {
-        fetch('/api/ai/models')
+        let active = true;
+        const refresh = () => fetch('/api/ai/models')
             .then(res => res.json())
             .then(data => {
-                if (data.models) {
+                if (active && data.models) {
                     setAvailableModels(data.models.map((m: any) => m.name));
+                    setModelAvailability(Object.fromEntries(data.models.map((m: any) => [m.name, m.available !== false])));
+                    const reasons: Record<string, string> = { authentication: 'sign in to Codex', model_unavailable: 'model access unavailable', quota: 'allowance cooling down', worker_unavailable: 'worker unavailable', unavailable: 'CLI unavailable' };
+                    setModelAvailabilityReasons(Object.fromEntries(data.models.map((m: any) => [m.name, reasons[m.unavailableReason] || 'worker unavailable'])));
                 }
             })
             .catch(err => console.error("Failed to fetch models", err));
+        void refresh();
+        const timer = setInterval(refresh, 30000);
+        return () => { active = false; clearInterval(timer); };
     }, [])
 
     useEffect(() => {
@@ -525,10 +535,9 @@ export function AIAdvisor() {
                 const payload = await response.json().catch(() => ({}));
                 if (response.status === 401) {
                     setWalletSessionAddress(null);
-                    toast.error('Wallet session expired. Sign again to run analysis.');
-                    throw new Error(payload.error || 'Wallet session expired');
+                    throw new Error('Wallet session expired. Sign again to run analysis.');
                 }
-                throw new Error(payload.error || 'Analysis failed')
+                throw new Error(payload.details || payload.error || 'Analysis failed')
             }
 
             const data = await response.json()
@@ -547,6 +556,7 @@ export function AIAdvisor() {
                 console.log("Analysis cancelled by user")
             } else {
                 console.error("Analysis failed", error)
+                toast.error(error instanceof Error ? error.message : 'Analysis failed');
                 setLoading(false)
             }
         } finally {
@@ -667,11 +677,11 @@ export function AIAdvisor() {
                                     <Settings className="h-4 w-4 text-slate-400" />
                                 </Button>
                             </SheetTrigger>
-                            <SheetContent side="right" className="w-[400px] sm:w-[540px] bg-slate-950/80 backdrop-blur-md border-slate-800 overflow-y-auto">
+                            <SheetContent side="right" className="w-[calc(100vw-1rem)] sm:w-[640px] sm:max-w-[640px] lg:w-[720px] lg:max-w-[720px] bg-slate-950/80 backdrop-blur-md border-slate-800 overflow-y-auto">
                                 <SheetHeader>
                                     <SheetTitle className="text-slate-100">Agent Configuration</SheetTitle>
                                     <SheetDescription className="text-slate-400">
-                                        Configure the AI Trader's risk management and decision logic.
+                                        Configure the AI Trader&apos;s risk management and decision logic.
                                     </SheetDescription>
                                 </SheetHeader>
                                 <div className="mt-6">
@@ -679,6 +689,10 @@ export function AIAdvisor() {
                                         initialConfig={customConfig || DEFAULT_AGENT_CONFIG}
                                         initialPreset={agentPreset}
                                         isTestnet={isTestnet}
+                                        autoTraderStatus={autoTraderStatus}
+                                        hasWalletSession={hasWalletSession}
+                                        savingAutoTrader={savingAutoTrader}
+                                        opportunities={result?.opportunities}
                                         onSave={handleSaveConfig}
                                         onCancel={() => setShowConfig(false)}
                                     />
@@ -713,6 +727,7 @@ export function AIAdvisor() {
                     <div className="flex items-center justify-between">
                         <span className="text-sm text-slate-200 font-semibold">Auto Trading</span>
                         <Switch
+                            aria-label="Auto Trading"
                             checked={autoTrading}
                             onCheckedChange={handleAutoTradingChange}
                             disabled={killSwitch || !hasWalletSession || savingAutoTrader}
@@ -778,10 +793,11 @@ export function AIAdvisor() {
                                     <SelectItem
                                         key={m}
                                         value={m}
+                                        disabled={modelAvailability[m] === false}
                                         title={m}
                                         className="focus:bg-slate-800 focus:text-emerald-400 text-sm"
                                     >
-                                        {m}
+                                        {m === 'codex:gpt-6.1-sol' ? `Codex · GPT-6.1 Sol${modelAvailability[m] === false ? ` (${modelAvailabilityReasons[m] || 'worker unavailable'})` : ''}` : m}
                                     </SelectItem>
                                 ))}
                             </SelectContent>

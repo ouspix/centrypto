@@ -16,6 +16,7 @@ export class MarketCollectorService {
      * @param isTestnet Whether to collect for testnet or mainnet
      */
     public async collectTicks(isTestnet: boolean): Promise<void> {
+        this.assertWorker();
         try {
             const db = await getMarketDb(isTestnet);
             const metaAndCtxs = await getMetaAndAssetCtxs(isTestnet);
@@ -37,6 +38,7 @@ export class MarketCollectorService {
      * @param isTestnet
      */
     public async startCandleStream(isTestnet: boolean): Promise<void> {
+        this.assertWorker();
         const db = await getMarketDb(isTestnet);
         const metaAndCtxs = await getMetaAndAssetCtxs(isTestnet);
 
@@ -127,6 +129,7 @@ export class MarketCollectorService {
      * Limits lookback to ~80 hours as requested.
      */
     public async backfillHistory(isTestnet: boolean, force: boolean = false): Promise<void> {
+        this.assertWorker();
         console.log(`[MarketCollector] Starting backfill for ${isTestnet ? 'Testnet' : 'Mainnet'}...`);
         const db = await getMarketDb(isTestnet);
         const metaAndCtxs = await getMetaAndAssetCtxs(isTestnet);
@@ -266,5 +269,9 @@ export class MarketCollectorService {
 
     private sleep(ms: number) {
         return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    private assertWorker() {
+        if (process.env.MARKET_COLLECTOR_ROLE !== "worker") throw new Error("Run market ingestion on the dedicated VPS worker");
     }
 }

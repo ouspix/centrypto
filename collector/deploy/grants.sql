@@ -1,0 +1,11 @@
+GRANT USAGE ON SCHEMA news TO centrypto_app, centrypto_browser;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA news TO centrypto_app;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA news TO centrypto_app;
+GRANT USAGE ON SCHEMA mainnet, testnet TO centrypto_app, centrypto_market;
+GRANT SELECT ON ALL TABLES IN SCHEMA mainnet, testnet TO centrypto_app;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA mainnet, testnet TO centrypto_market;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA mainnet, testnet TO centrypto_market;
+GRANT SELECT, UPDATE ON news."NewsCollector", news."NewsSource" TO centrypto_browser;
+GRANT SELECT, INSERT, DELETE ON news."NewsDocument" TO centrypto_browser;
+GRANT UPDATE ("publishedAt") ON news."NewsDocument" TO centrypto_browser;
+GRANT SELECT ON news."NewsAnalysis" TO centrypto_browser;

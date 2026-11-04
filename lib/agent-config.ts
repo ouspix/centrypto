@@ -1,5 +1,10 @@
 import { mergePositionManagementConfig } from "@/lib/trader/position-management-policy";
 import type { PositionManagementConfig } from "@/lib/trader/position-management-types";
+import {
+    DEFAULT_CANDIDATE_PROMOTION_CONFIG,
+    normalizeCandidatePromotionConfig,
+    type CandidatePromotionConfig
+} from "@/lib/candidate-promotion";
 
 export type PresetLiveMode = "live" | "limited_manual" | "non_live";
 export type RiskPlanWidthBps = { sl_bps: number; tp_bps: number };
@@ -175,6 +180,8 @@ export interface AgentConfig {
         callOnNearMissManual?: boolean;
         includeOpportunityDiagnostics?: boolean;
     };
+
+    candidate_promotion?: CandidatePromotionConfig;
 }
 
 const NETWORK_PROFILES: AgentConfig["network_profiles"] = {
@@ -848,6 +855,7 @@ function preset(input: {
     sentiment_policy?: Partial<AgentConfig["sentiment_policy"]>;
     gates?: Partial<AgentConfig["gates"]>;
     opportunity?: Partial<NonNullable<AgentConfig["opportunity"]>>;
+    candidate_promotion?: Partial<CandidatePromotionConfig>;
 }): AgentConfig {
     const risk = { ...baseRisk(), ...input.risk };
     risk.max_position_fraction = risk.max_position_fraction ?? risk.max_position_fraction_per_symbol;
@@ -960,7 +968,11 @@ function preset(input: {
         opportunity: {
             ...OPPORTUNITY_POLICY,
             ...input.opportunity
-        }
+        },
+        candidate_promotion: normalizeCandidatePromotionConfig({
+            ...DEFAULT_CANDIDATE_PROMOTION_CONFIG,
+            ...input.candidate_promotion
+        })
     };
 }
 

@@ -16,6 +16,8 @@ const PUBLIC_API_PREFIXES = [
 ];
 
 const WALLET_REQUIRED_PREFIXES = [
+    '/api/desk',
+    '/api/news',
     '/api/alerts',
     '/api/ai/analyze',
     '/api/ai/cancel',

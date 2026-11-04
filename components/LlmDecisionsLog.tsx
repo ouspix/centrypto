@@ -17,6 +17,15 @@ interface LlmDecision {
     notes: string | null
     side: string | null
     sizeFraction: number | null
+    validatorStatus?: string | null
+    executionStatus?: string | null
+    executionReason?: string | null
+    orderAttempts?: Array<{
+        status: string
+        statusReason: string | null
+        orderRole: string
+        oid: string | null
+    }>
 }
 
 interface LlmQuery {
@@ -72,12 +81,9 @@ function HistoryItem({ item }: { item: LlmQuery }) {
                                     <Badge
                                         key={i}
                                         variant="outline"
-                                        className={`text-[10px] h-5 px-1.5 whitespace-nowrap ${d.action === 'OPEN_POSITION' ? 'border-emerald-500/30 text-emerald-400' :
-                                            d.action === 'CLOSE_POSITION' ? 'border-red-500/30 text-red-400' :
-                                                'border-slate-700 text-slate-400'
-                                            }`}
+                                        className={`text-[10px] h-5 px-1.5 whitespace-nowrap ${decisionBadgeClass(d)}`}
                                     >
-                                        {d.action === 'OPEN_POSITION' ? 'OPEN' : d.action === 'CLOSE_POSITION' ? 'CLOSE' : d.action} {d.symbol}
+                                        {decisionActionLabel(d.action)} {d.symbol}{d.executionStatus ? ` · ${d.executionStatus}` : ""}
                                     </Badge>
                                 ))
                             ) : (
@@ -125,12 +131,15 @@ function HistoryItem({ item }: { item: LlmQuery }) {
                                 <div className="flex items-center gap-2">
                                     <Badge variant="outline" className={`
                                         text-[10px] px-1.5 py-0
-                                        ${decision.action === 'OPEN_POSITION' ? 'border-emerald-500/50 text-emerald-400' :
-                                            decision.action === 'CLOSE_POSITION' ? 'border-red-500/50 text-red-400' :
-                                                'border-slate-600 text-slate-400'}
+                                        ${decisionBadgeClass(decision)}
                                     `}>
                                         {decision.action}
                                     </Badge>
+                                    {decision.executionStatus && (
+                                        <Badge variant="outline" className={`text-[10px] px-1.5 py-0 ${executionBadgeClass(decision.executionStatus)}`}>
+                                            {decision.executionStatus}
+                                        </Badge>
+                                    )}
                                     <span className="font-bold text-slate-200 text-sm">{decision.symbol}</span>
                                 </div>
                                 <span className="text-xs text-slate-500">
@@ -143,6 +152,11 @@ function HistoryItem({ item }: { item: LlmQuery }) {
                                     {decision.reasonCode && (
                                         <p className="text-xs text-slate-300 mt-0.5">
                                             <span className="text-slate-500">Reason:</span> {decision.reasonCode}
+                                        </p>
+                                    )}
+                                    {decision.executionReason && (
+                                        <p className="text-xs text-amber-200 mt-0.5">
+                                            <span className="text-slate-500">Execution:</span> {decision.executionReason}
                                         </p>
                                     )}
                                     {decision.notes && (
@@ -162,6 +176,29 @@ function HistoryItem({ item }: { item: LlmQuery }) {
             )}
         </Card>
     )
+}
+
+function decisionActionLabel(action: string) {
+    if (action === "OPEN_POSITION") return "OPEN"
+    if (action === "CLOSE_POSITION") return "CLOSE"
+    if (action === "REDUCE_POSITION") return "REDUCE"
+    return action
+}
+
+function decisionBadgeClass(decision: LlmDecision) {
+    if (decision.executionStatus) return executionBadgeClass(decision.executionStatus)
+    if (decision.action === "OPEN_POSITION") return "border-emerald-500/30 text-emerald-400"
+    if (decision.action === "CLOSE_POSITION") return "border-red-500/30 text-red-400"
+    if (decision.action === "REDUCE_POSITION") return "border-amber-500/30 text-amber-300"
+    return "border-slate-700 text-slate-400"
+}
+
+function executionBadgeClass(status: string) {
+    if (status === "FILLED") return "border-emerald-500/40 text-emerald-300"
+    if (status === "RESTING" || status === "SUBMITTED") return "border-sky-500/40 text-sky-300"
+    if (status === "FAILED" || status === "ERROR" || status === "REJECTED") return "border-red-500/40 text-red-300"
+    if (status === "CANCELED") return "border-amber-500/40 text-amber-300"
+    return "border-slate-700 text-slate-400"
 }
 
 export function LlmDecisionsLog({ className }: { className?: string }) {

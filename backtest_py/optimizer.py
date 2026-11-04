@@ -27,6 +27,16 @@ OPTIMIZER_TOP_N_MIN = 10
 OPTIMIZER_TOP_N_MAX = 30
 DEFAULT_AGENT_PRESET_NAME = "Balanced PM v2"
 DEFAULT_SCREENING_PRESET_NAME = "Balanced PM v2"
+RECORDED_MIN_IN_PLAY_SCORE = 60.0
+RECORDED_MIN_SETUP_SCORE = 70.0
+RECORDED_MIN_NEAR_MISS_SCORE = 55.0
+RECORDED_RECOMMENDATION_MIN_EPISODES = 20
+RECORDED_NEAR_MISS_PROMOTION_REVIEW_NET_BPS = 20.0
+RECORDED_POLICY_GRID_TP_BPS = [20.0, 40.0, 60.0, 80.0, 120.0]
+RECORDED_POLICY_GRID_SL_BPS = [15.0, 30.0, 45.0, 60.0, 90.0]
+RECORDED_POLICY_GRID_TIME_STOP_MINUTES = [5, 15, 30, 60]
+RECORDED_POLICY_GRID_TRAILING_BPS: list[float | None] = [None, 30.0, 50.0]
+RECORDED_POLICY_GRID_PARTIALS: list[tuple[float, float] | None] = [None, (0.50, 40.0), (0.50, 60.0)]
 TRADER_AGENT_SYSTEM_PROMPT = """
 You are a crypto derivatives entry gate.
 
@@ -356,6 +366,7 @@ class OptimizerGates:
 
 @dataclass(frozen=True)
 class OptimizerSettings:
+    source: str
     data_root: Path
     output_dir: Path
     start_ms: int
@@ -397,8 +408,25 @@ class OptimizerSettings:
     fold_universe_file: str | None
     calibrate_candidates: bool
     calibrate_only: bool
+    calibrate_recorded_opportunities: bool
     calibration_horizons_minutes: list[int]
     calibration_max_rows: int
+    episode_gap_minutes: int
+    policy_grid: bool
+    no_s3: bool
+
+
+@dataclass
+class RecordedCalibrationEnrichment:
+    candidate_by_id: dict[str, list[dict[str, Any]]]
+    candidate_by_key: dict[tuple[str, str, str, str], list[dict[str, Any]]]
+    decision_by_candidate_id: dict[str, list[dict[str, Any]]]
+    lifecycle_by_decision_id: dict[str, list[dict[str, Any]]]
+    position_events_by_lifecycle_id: dict[str, list[dict[str, Any]]]
+    run_by_id: dict[str, dict[str, Any]]
+    run_by_snapshot_id: dict[str, list[dict[str, Any]]]
+    position_manager_blocked_snapshots: set[str]
+    table_rows: dict[str, int]
 
 
 @dataclass
@@ -863,6 +891,44 @@ def balanced_pm_screener_config() -> dict[str, Any]:
     return screener
 
 
+def discovery_balanced_screener_config() -> dict[str, Any]:
+    screener = balanced_pm_screener_config()
+    screener.update(
+        {
+            "maxSpreadBps": 15,
+            "minDepthUsd": 20_000,
+            "maxCostBps": 25,
+            "minRecentVolume": 1_000,
+            "recentVolumeMinutes": 15,
+            "minRealizedVol": 0.0004,
+            "minVolume24h": 1_000_000,
+            "topN": 16,
+            "discoveryMaxSymbols": 40,
+            "hotMoverTopN": 12,
+            "volumeSpikeTopN": 10,
+            "rangeExpansionTopN": 10,
+            "hotMoverMinAbsMoveBps": 150,
+            "hotMoverLookbacks": ["m15", "h1", "h4"],
+            "includeHotMoversEvenIfNotTopN": True,
+            "includeExecutionBlockedForDiagnostics": True,
+            "forceIncludeSymbols": [],
+            "quality_weights": {
+                "vol_score": 1.4,
+                "move_score": 1.8,
+                "trend_align": 0.7,
+                "spread_penalty": 1.2,
+                "illiquidity_penalty": 1.2,
+                "cost_to_edge_penalty": 1.0,
+            },
+            "layer1Enabled": True,
+            "layer2Enabled": True,
+            "layer3Enabled": True,
+            "layer4Enabled": True,
+        }
+    )
+    return screener
+
+
 def default_agent_config() -> dict[str, Any]:
     return agent_config_for_preset(DEFAULT_AGENT_PRESET_NAME)
 
@@ -884,9 +950,11 @@ def screener_config_for_preset(name: str | None) -> dict[str, Any]:
     normalized = normalize_preset_name(name or DEFAULT_SCREENING_PRESET_NAME)
     if normalized == normalize_preset_name("Balanced PM v2"):
         return balanced_pm_screener_config()
+    if normalized == normalize_preset_name("Discovery Balanced"):
+        return discovery_balanced_screener_config()
     if normalized == normalize_preset_name("Momentum Moderate"):
         return momentum_moderate_screener_config()
-    raise SystemExit(f"Unknown screening preset {name!r}. Supported presets: Balanced PM v2, Momentum Moderate.")
+    raise SystemExit(f"Unknown screening preset {name!r}. Supported presets: Balanced PM v2, Discovery Balanced, Momentum Moderate.")
 
 
 def normalize_preset_name(name: str) -> str:
@@ -904,6 +972,23 @@ def main(argv: Sequence[str] | None = None) -> int:
             "the Polars optimizer runs one in-process data plane to avoid per-worker heap copies.",
             flush=True,
         )
+
+    if settings.calibrate_recorded_opportunities:
+        print(f"[backtest:recorded-calibration] Loading recorded Parquet data from {settings.data_root}", flush=True)
+        summary = run_recorded_opportunity_calibration(settings)
+        print(
+            json.dumps(
+                {
+                    "out": str(settings.output_dir / "recorded_opportunity_summary.json"),
+                    "episode_count": summary["episode_count"],
+                    "classification_counts": summary["classification_counts"],
+                    "coverage": summary["coverage"],
+                },
+                indent=2,
+            ),
+            flush=True,
+        )
+        return 0
 
     print(f"[backtest:optimize:py] Loading Parquet data from {settings.data_root}", flush=True)
     context = load_context(settings)
@@ -1056,7 +1141,8 @@ def main(argv: Sequence[str] | None = None) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Centrypto Python/Polars backtest optimizer")
-    parser.add_argument("--data", default="data/backtest_parquet")
+    parser.add_argument("--data", "--data-root", dest="data", default="data/backtest_parquet")
+    parser.add_argument("--source", choices=["archive-parquet", "recorded-parquet"], default="archive-parquet")
     parser.add_argument("--output")
     parser.add_argument("--output-dir")
     parser.add_argument("--run-id", default="optimize_py")
@@ -1144,9 +1230,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--min-trades-floor", type=int, default=8)
     parser.add_argument("--min-trade-shortfall-penalty-score", type=float, default=200.0)
     parser.add_argument("--calibrate-candidates", default="false")
+    parser.add_argument("--calibrate-recorded-opportunities", default="false")
     parser.add_argument("--calibrate-only", default="false")
-    parser.add_argument("--calibration-horizons-minutes", default="15,60,240")
+    parser.add_argument("--calibration-horizons-minutes", default="5,15,60,240")
     parser.add_argument("--calibration-max-rows", type=int, default=0)
+    parser.add_argument("--episode-gap-minutes", type=int, default=20)
+    parser.add_argument("--policy-grid", default="true")
+    parser.add_argument("--no-s3", default="false")
     return parser
 
 
@@ -1154,10 +1244,17 @@ def settings_from_args(args: argparse.Namespace) -> OptimizerSettings:
     data_root = Path(args.data)
     start_ms = parse_ts(args.start)
     end_ms = parse_ts(args.end)
+    calibrate_recorded_opportunities = parse_bool(args.calibrate_recorded_opportunities, False)
+    calibrate_only = parse_bool(args.calibrate_only, False)
+    no_s3 = parse_bool(args.no_s3, False)
+    if calibrate_recorded_opportunities and args.source != "recorded-parquet":
+        raise SystemExit("--calibrate-recorded-opportunities requires --source recorded-parquet")
+    if calibrate_recorded_opportunities and not calibrate_only:
+        raise SystemExit("--calibrate-recorded-opportunities requires --calibrate-only true for v1")
     symbols = [symbol.strip() for symbol in args.symbols.split(",") if symbol.strip()]
-    if not symbols:
+    if not symbols and not calibrate_recorded_opportunities:
         symbols = symbols_from_manifest(data_root, args.top_symbols)
-    if not symbols:
+    if not symbols and not calibrate_recorded_opportunities:
         raise SystemExit("No symbols selected. Pass --symbols or export Parquet with a manifest first.")
     if args.decision_mode in {"recorded_llm", "real_llm"} and not parse_bool(args.llm_enabled, False):
         raise SystemExit(f"{args.decision_mode} requires --llm-enabled true")
@@ -1181,7 +1278,7 @@ def settings_from_args(args: argparse.Namespace) -> OptimizerSettings:
     selected_screener = screener_config_for_preset(screening_preset_name)
     param_specs = param_specs_for_profile(param_profile)
     top_n_ceiling = max_top_n_for_profile(param_specs, selected_screener)
-    if len(symbols) < top_n_ceiling:
+    if symbols and len(symbols) < top_n_ceiling:
         print(
             f"[backtest:optimize:py] Warning: loaded universe has {len(symbols)} symbols, "
             f"but optimized screener.topN can reach {top_n_ceiling}. "
@@ -1190,6 +1287,7 @@ def settings_from_args(args: argparse.Namespace) -> OptimizerSettings:
         )
 
     return OptimizerSettings(
+        source=args.source,
         data_root=data_root,
         output_dir=output_dir,
         start_ms=start_ms,
@@ -1229,10 +1327,14 @@ def settings_from_args(args: argparse.Namespace) -> OptimizerSettings:
         screening_preset_name=screening_preset_name,
         agent_preset_name=agent_preset_name,
         fold_universe_file=args.fold_universe_file,
-        calibrate_candidates=parse_bool(args.calibrate_candidates, False) or parse_bool(args.calibrate_only, False),
-        calibrate_only=parse_bool(args.calibrate_only, False),
+        calibrate_candidates=(parse_bool(args.calibrate_candidates, False) or calibrate_only) and not calibrate_recorded_opportunities,
+        calibrate_only=calibrate_only,
+        calibrate_recorded_opportunities=calibrate_recorded_opportunities,
         calibration_horizons_minutes=parse_horizon_minutes(args.calibration_horizons_minutes),
         calibration_max_rows=max(0, int(args.calibration_max_rows)),
+        episode_gap_minutes=max(1, int(args.episode_gap_minutes)),
+        policy_grid=parse_bool(args.policy_grid, True),
+        no_s3=no_s3,
     )
 
 
@@ -2396,6 +2498,2418 @@ def render_candidate_calibration_report(summary: dict[str, Any]) -> str:
     lines.extend(["", "## Playbook Snapshot", ""])
     for group in playbook_groups:
         lines.append(f"- {group.get('playbook')}: {group.get('count')} rows, bad accepted rate {group.get('bad_accepted_rate')}")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def run_recorded_opportunity_calibration(settings: OptimizerSettings) -> dict[str, Any]:
+    if not parquet_table_has_files(settings.data_root, "opportunity_journal"):
+        raise SystemExit("recorded opportunity calibration requires opportunity_journal Parquet data")
+
+    opportunities = (
+        scan_table(settings.data_root, "opportunity_journal")
+        .filter(pl.col("created_at_ms").is_between(settings.start_ms, settings.end_ms))
+        .collect()
+        .sort(["symbol", "side", "playbook", "setup_type", "status", "created_at_ms"])
+    )
+    if opportunities.is_empty():
+        raise SystemExit("No opportunity_journal rows found for requested calibration window.")
+
+    agent = agent_config_for_preset(settings.agent_preset_name)
+    fees_bps = safe_float(agent["network_profiles"][settings.network].get("fees_bps"), 0.0)
+    slippage_model = agent["network_profiles"][settings.network].get("slippage_model", {})
+    min_slippage_bps = safe_float(slippage_model.get("min_bps"), 0.0)
+    spread_mult = safe_float(slippage_model.get("spread_mult"), 0.0)
+
+    feature_index = load_recorded_feature_index(settings)
+    enrichment = load_recorded_calibration_enrichment(settings)
+    candles = load_recorded_candles_by_symbol(
+        settings,
+        sorted({base_symbol(str(symbol)) for symbol in opportunities["symbol"].to_list()}),
+    )
+    episodes = assign_recorded_opportunity_episodes(opportunities, settings.episode_gap_minutes)
+    rows = [
+        build_recorded_opportunity_row(
+            episode,
+            candles,
+            feature_index,
+            agent,
+            fees_bps,
+            min_slippage_bps,
+            spread_mult,
+            settings,
+            enrichment,
+        )
+        for episode in episodes
+    ]
+    summary = build_recorded_opportunity_summary(rows, settings)
+    write_recorded_opportunity_artifacts(settings.output_dir, rows, summary, settings)
+    return summary
+
+
+def optional_scan_table(root: Path, table: str) -> pl.LazyFrame | None:
+    if not parquet_table_has_files(root, table):
+        return None
+    return scan_table(root, table)
+
+
+def lazy_columns(frame: pl.LazyFrame) -> set[str]:
+    try:
+        return set(frame.collect_schema().names())
+    except AttributeError:  # pragma: no cover - compatibility for older Polars.
+        return set(frame.schema)
+
+
+def load_recorded_calibration_enrichment(settings: OptimizerSettings) -> RecordedCalibrationEnrichment:
+    candidates = collect_recorded_rows(
+        settings,
+        "candidate_journal",
+        [
+            "snapshot_id",
+            "timestamp_ms",
+            "candidate_id",
+            "symbol",
+            "side",
+            "playbook",
+            "status",
+            "llm_action",
+            "llm_confidence",
+            "validator_status",
+            "validator_reason",
+            "executed",
+            "metadata_json",
+            "created_at_ms",
+        ],
+        "created_at_ms",
+    )
+    decisions = collect_recorded_rows(
+        settings,
+        "auto_trader_decision",
+        [
+            "id",
+            "candidate_id",
+            "decision_type",
+            "action",
+            "symbol",
+            "side",
+            "skip_reason",
+            "risk_assessment_json",
+            "final_decision_json",
+            "pre_risk_decision_json",
+            "validator_status",
+            "validator_errors_json",
+            "created_at_ms",
+        ],
+        "created_at_ms",
+    )
+    lifecycles = collect_recorded_rows(
+        settings,
+        "auto_trader_trade_lifecycle",
+        [
+            "id",
+            "symbol",
+            "side",
+            "opened_at_ms",
+            "closed_at_ms",
+            "status",
+            "attributed_decision_ids",
+            "entry_price",
+            "exit_price",
+            "size_opened",
+            "size_closed",
+            "gross_realized_pnl",
+            "fees",
+            "net_realized_pnl",
+            "close_action",
+            "close_reason_code",
+            "mfe_bps",
+            "mae_bps",
+            "run_id",
+            "created_at_ms",
+        ],
+        "opened_at_ms",
+    )
+    runs = collect_recorded_rows(
+        settings,
+        "auto_trader_run",
+        [
+            "id",
+            "market_snapshot_id",
+            "status",
+            "error",
+            "started_at_ms",
+            "created_at_ms",
+        ],
+        "started_at_ms",
+    )
+    position_events = collect_recorded_rows(
+        settings,
+        "position_management_event",
+        [
+            "run_id",
+            "symbol",
+            "side",
+            "lifecycle_id",
+            "action",
+            "urgency",
+            "bypass_llm",
+            "reason_code",
+            "created_at_ms",
+        ],
+        "created_at_ms",
+    )
+
+    candidate_by_id: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    candidate_by_key: dict[tuple[str, str, str, str], list[dict[str, Any]]] = defaultdict(list)
+    for row in candidates:
+        candidate_id = str(row.get("candidate_id") or "")
+        if candidate_id:
+            candidate_by_id[candidate_id].append(row)
+        key = recorded_candidate_match_key(row.get("snapshot_id"), row.get("symbol"), row.get("side"), row.get("playbook"))
+        if key:
+            candidate_by_key[key].append(row)
+
+    decision_by_candidate_id: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in decisions:
+        candidate_id = str(row.get("candidate_id") or "")
+        if candidate_id:
+            decision_by_candidate_id[candidate_id].append(row)
+
+    lifecycle_by_decision_id: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in lifecycles:
+        for decision_id in json_list(row.get("attributed_decision_ids")):
+            lifecycle_by_decision_id[decision_id].append(row)
+
+    position_events_by_lifecycle_id: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in position_events:
+        lifecycle_id = str(row.get("lifecycle_id") or "")
+        if lifecycle_id:
+            position_events_by_lifecycle_id[lifecycle_id].append(row)
+
+    run_by_id: dict[str, dict[str, Any]] = {}
+    run_by_snapshot_id: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in runs:
+        run_id = str(row.get("id") or "")
+        if run_id:
+            run_by_id[run_id] = row
+        snapshot_id = recorded_snapshot_id(row.get("market_snapshot_id"))
+        if snapshot_id:
+            run_by_snapshot_id[snapshot_id].append(row)
+
+    blocked_snapshots: set[str] = set()
+    for row in position_events:
+        if not recorded_position_manager_blocks_new_entries(row):
+            continue
+        run = run_by_id.get(str(row.get("run_id") or ""))
+        snapshot_id = recorded_snapshot_id(run.get("market_snapshot_id")) if run else ""
+        if snapshot_id:
+            blocked_snapshots.add(snapshot_id)
+
+    for groups in (
+        candidate_by_id,
+        candidate_by_key,
+        decision_by_candidate_id,
+        lifecycle_by_decision_id,
+        position_events_by_lifecycle_id,
+        run_by_snapshot_id,
+    ):
+        for rows in groups.values():
+            rows.sort(key=lambda row: safe_float(row.get("created_at_ms"), 0.0))
+
+    return RecordedCalibrationEnrichment(
+        candidate_by_id=dict(candidate_by_id),
+        candidate_by_key=dict(candidate_by_key),
+        decision_by_candidate_id=dict(decision_by_candidate_id),
+        lifecycle_by_decision_id=dict(lifecycle_by_decision_id),
+        position_events_by_lifecycle_id=dict(position_events_by_lifecycle_id),
+        run_by_id=run_by_id,
+        run_by_snapshot_id=dict(run_by_snapshot_id),
+        position_manager_blocked_snapshots=blocked_snapshots,
+        table_rows={
+            "candidate_journal": len(candidates),
+            "auto_trader_decision": len(decisions),
+            "auto_trader_trade_lifecycle": len(lifecycles),
+            "auto_trader_run": len(runs),
+            "position_management_event": len(position_events),
+        },
+    )
+
+
+def collect_recorded_rows(
+    settings: OptimizerSettings,
+    table: str,
+    wanted_columns: Sequence[str],
+    time_column: str,
+) -> list[dict[str, Any]]:
+    scan = optional_scan_table(settings.data_root, table)
+    if scan is None:
+        return []
+    columns = lazy_columns(scan)
+    selected = [column for column in wanted_columns if column in columns]
+    if not selected:
+        return []
+    frame = scan
+    if time_column in columns:
+        frame = frame.filter(pl.col(time_column).is_between(settings.start_ms - 10 * 60_000, settings.end_ms + 10 * 60_000))
+    try:
+        df = frame.select(selected).collect()
+    except Exception:
+        return []
+    return [dict(row) for row in df.iter_rows(named=True)]
+
+
+def load_recorded_feature_index(settings: OptimizerSettings) -> dict[str, list[dict[str, Any]]]:
+    features_scan = optional_scan_table(settings.data_root, "market_feature")
+    if features_scan is None:
+        return {}
+    columns = lazy_columns(features_scan)
+    wanted = [
+        column
+        for column in [
+            "ts_ms",
+            "symbol",
+            "best_bid",
+            "best_ask",
+            "mid_price",
+            "spread_bps",
+            "bid_depth_10bps_usd",
+            "ask_depth_10bps_usd",
+            "depth_10bps_usd",
+            "book_pressure_10bps",
+            "ret_5m",
+            "ret_15m",
+            "ret_1h",
+            "realized_vol_5m",
+            "vol_ratio_5m_vs_1h",
+            "ret_sigma_5m_vs_1h",
+            "trend_alignment_score",
+        ]
+        if column in columns
+    ]
+    if "ts_ms" not in wanted or "symbol" not in wanted:
+        return {}
+    frame = (
+        features_scan
+        .filter(pl.col("ts_ms").is_between(settings.start_ms - 5 * 60_000, settings.end_ms))
+        .select(wanted)
+        .collect()
+        .sort(["symbol", "ts_ms"])
+    )
+    out: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in frame.iter_rows(named=True):
+        out[str(row["symbol"])].append(dict(row))
+    return dict(out)
+
+
+def load_recorded_candles_by_symbol(settings: OptimizerSettings, base_symbols: Sequence[str]) -> dict[str, CandleSeries]:
+    candles_scan = optional_scan_table(settings.data_root, "market_candle")
+    if candles_scan is None:
+        return {}
+    symbols = sorted({base_symbol(symbol) for symbol in base_symbols})
+    if not symbols:
+        return {}
+    max_horizon_minutes = max(settings.calibration_horizons_minutes or [60])
+    if settings.policy_grid:
+        max_horizon_minutes = max(max_horizon_minutes, max(RECORDED_POLICY_GRID_TIME_STOP_MINUTES))
+    max_horizon_ms = max_horizon_minutes * 60_000
+    columns = lazy_columns(candles_scan)
+    frame = candles_scan.filter(
+        pl.col("open_time_ms").is_between(settings.start_ms, settings.end_ms + max_horizon_ms),
+        pl.col("symbol").is_in(symbols),
+        pl.col("timeframe") == "1m",
+    )
+    if "source" in columns:
+        frame = frame.filter(~pl.col("source").cast(pl.Utf8, strict=False).fill_null("").str.contains("synthetic"))
+    candles = (
+        frame
+        .select("open_time_ms", "symbol", "open", "high", "low", "close")
+        .collect()
+        .sort(["symbol", "open_time_ms"])
+    )
+    out: dict[str, CandleSeries] = {}
+    if candles.is_empty():
+        return out
+    for group in candles.partition_by("symbol", maintain_order=True):
+        symbol = str(group["symbol"][0])
+        out[symbol] = CandleSeries(
+            ts_ms=[int(value) for value in group["open_time_ms"].to_list()],
+            open=[safe_float(value) for value in group["open"].to_list()],
+            high=[safe_float(value) for value in group["high"].to_list()],
+            low=[safe_float(value) for value in group["low"].to_list()],
+            close=[safe_float(value) for value in group["close"].to_list()],
+        )
+    return out
+
+
+def assign_recorded_opportunity_episodes(opportunities: pl.DataFrame, gap_minutes: int) -> list[dict[str, Any]]:
+    episodes: list[dict[str, Any]] = []
+    gap_ms = max(1, int(gap_minutes)) * 60_000
+    previous_key: tuple[str, str, str, str, str] | None = None
+    current: dict[str, Any] | None = None
+
+    for row in opportunities.iter_rows(named=True):
+        record = dict(row)
+        created_at_ms = int(record["created_at_ms"])
+        key = (
+            str(record.get("symbol") or ""),
+            str(record.get("side") or ""),
+            str(record.get("playbook") or ""),
+            str(record.get("setup_type") or ""),
+            str(record.get("status") or ""),
+        )
+        starts_new = (
+            current is None
+            or previous_key != key
+            or created_at_ms - int(current["episode_end_ms"]) > gap_ms
+        )
+        if starts_new:
+            episode_id = f"episode_{len(episodes) + 1:08d}"
+            current = {
+                "opportunity_episode_id": episode_id,
+                "episode_first_opportunity_id": str(record.get("id") or ""),
+                "episode_start_ms": created_at_ms,
+                "episode_end_ms": created_at_ms,
+                "episode_row_count": 1,
+                "signal": record,
+            }
+            episodes.append(current)
+        else:
+            current["episode_end_ms"] = created_at_ms
+            current["episode_row_count"] = int(current["episode_row_count"]) + 1
+        previous_key = key
+    return episodes
+
+
+def nearest_feature(features: dict[str, list[dict[str, Any]]], symbol: str, ts_ms: int) -> dict[str, Any]:
+    rows = features.get(symbol) or features.get(to_perp_symbol(symbol)) or []
+    if not rows:
+        return {}
+    ts_values = [int(row["ts_ms"]) for row in rows]
+    index = bisect_right(ts_values, ts_ms)
+    candidates = []
+    if index > 0:
+        candidates.append(rows[index - 1])
+    if index < len(rows):
+        candidates.append(rows[index])
+    if not candidates:
+        return {}
+    return min(candidates, key=lambda row: abs(int(row["ts_ms"]) - ts_ms))
+
+
+def json_list(value: Any) -> list[str]:
+    if isinstance(value, list):
+        return [str(item) for item in value]
+    try:
+        parsed = json.loads(str(value))
+    except (TypeError, json.JSONDecodeError):
+        return []
+    return [str(item) for item in parsed] if isinstance(parsed, list) else []
+
+
+def json_dict(value: Any) -> dict[str, Any]:
+    if isinstance(value, dict):
+        return value
+    try:
+        parsed = json.loads(str(value))
+    except (TypeError, json.JSONDecodeError):
+        return {}
+    return parsed if isinstance(parsed, dict) else {}
+
+
+def nested_json_get(value: Any, path: Sequence[str], default: Any = None) -> Any:
+    current = value
+    for key in path:
+        if not isinstance(current, dict):
+            return default
+        current = current.get(key)
+    return current if current is not None else default
+
+
+def recorded_snapshot_id(value: Any) -> str:
+    if value is None:
+        return ""
+    text = str(value).strip()
+    if not text or text.lower() in {"none", "null", "nan"}:
+        return ""
+    if text.endswith(".0"):
+        text = text[:-2]
+    return text
+
+
+def normalize_recorded_playbook(value: Any) -> str:
+    text = str(value or "").strip()
+    if not text or text.lower() in {"none", "null", "nan"}:
+        return "NO_PLAYBOOK"
+    return text
+
+
+def normalize_recorded_setup(value: Any) -> str:
+    text = str(value or "").strip()
+    if not text or text.lower() in {"none", "null", "nan"}:
+        return "NO_SETUP"
+    return text
+
+
+def recorded_playbook_base(value: Any) -> str:
+    playbook = normalize_recorded_playbook(value)
+    if playbook == "NO_PLAYBOOK":
+        return ""
+    return playbook.split(":")[0].strip()
+
+
+def recorded_playbook_token(value: Any) -> str:
+    base = recorded_playbook_base(value)
+    return " ".join(base.upper().replace("_", " ").split())
+
+
+def recorded_candidate_id(symbol: Any, side: Any, playbook: Any) -> str:
+    base = recorded_playbook_base(playbook)
+    if not base:
+        return ""
+    return f"{symbol}:{side}:{base.replace(' ', '_')}"
+
+
+def recorded_candidate_match_key(snapshot_id: Any, symbol: Any, side: Any, playbook: Any) -> tuple[str, str, str, str] | None:
+    snapshot = recorded_snapshot_id(snapshot_id)
+    symbol_text = str(symbol or "").strip().upper()
+    side_text = str(side or "").strip().lower()
+    playbook_text = recorded_playbook_token(playbook)
+    if not snapshot or not symbol_text or not side_text or not playbook_text:
+        return None
+    return (snapshot, symbol_text, side_text, playbook_text)
+
+
+def nearest_recorded_row(rows: Sequence[dict[str, Any]], ts_ms: int) -> dict[str, Any] | None:
+    if not rows:
+        return None
+    return min(rows, key=lambda row: abs(int(safe_float(row.get("created_at_ms"), ts_ms)) - ts_ms))
+
+
+def match_recorded_candidate(
+    signal: dict[str, Any],
+    enrichment: RecordedCalibrationEnrichment,
+    playbook: str,
+) -> dict[str, Any] | None:
+    created_at_ms = int(signal.get("created_at_ms") or 0)
+    candidate_id = recorded_candidate_id(signal.get("symbol"), signal.get("side"), playbook)
+    candidates: list[dict[str, Any]] = []
+    if candidate_id:
+        candidates.extend(enrichment.candidate_by_id.get(candidate_id, []))
+    key = recorded_candidate_match_key(signal.get("snapshot_id"), signal.get("symbol"), signal.get("side"), playbook)
+    if key:
+        candidates.extend(enrichment.candidate_by_key.get(key, []))
+    if not candidates:
+        return None
+    snapshot = recorded_snapshot_id(signal.get("snapshot_id"))
+    if snapshot:
+        exact = [row for row in candidates if recorded_snapshot_id(row.get("snapshot_id")) == snapshot]
+        if exact:
+            candidates = exact
+    return nearest_recorded_row(candidates, created_at_ms)
+
+
+def match_recorded_decision(
+    signal: dict[str, Any],
+    enrichment: RecordedCalibrationEnrichment,
+    playbook: str,
+    candidate: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    candidate_id = str(candidate.get("candidate_id") or "") if candidate else ""
+    if not candidate_id:
+        candidate_id = recorded_candidate_id(signal.get("symbol"), signal.get("side"), playbook)
+    if not candidate_id:
+        return None
+    return nearest_recorded_row(enrichment.decision_by_candidate_id.get(candidate_id, []), int(signal.get("created_at_ms") or 0))
+
+
+def recorded_position_manager_blocks_new_entries(row: dict[str, Any]) -> bool:
+    action = str(row.get("action") or "")
+    urgency = str(row.get("urgency") or "").upper()
+    reason = str(row.get("reason_code") or "").upper()
+    bypass = parse_bool(row.get("bypass_llm"), False)
+    passive = action in {"HOLD_POSITION", "NO_ACTION"}
+    if urgency == "EMERGENCY":
+        return True
+    if urgency == "HIGH" and bypass and not passive:
+        return True
+    return reason in {"OPEN_WAS_GREEN_NOW_RED", "MISSING_PROTECTIVE_STOP"}
+
+
+def recorded_run_skipped_no_work(signal: dict[str, Any], enrichment: RecordedCalibrationEnrichment) -> bool:
+    snapshot = recorded_snapshot_id(signal.get("snapshot_id"))
+    runs = enrichment.run_by_snapshot_id.get(snapshot, []) if snapshot else []
+    for run in runs:
+        status = str(run.get("status") or "").upper()
+        error = str(run.get("error") or "")
+        if status == "SKIPPED" and ("No eligible candidates" in error or "LLM call skipped" in error):
+            return True
+    return False
+
+
+def recorded_risk_rejected(decision: dict[str, Any] | None) -> bool:
+    if not decision:
+        return False
+    risk = json_dict(decision.get("risk_assessment_json"))
+    if risk and risk.get("approved") is False:
+        return True
+    final_decision = json_dict(decision.get("final_decision_json"))
+    return str(final_decision.get("action") or "").upper() in {"SKIP", "DO_NOTHING"} and str(decision.get("action") or "").upper() == "OPEN_POSITION"
+
+
+def recorded_validator_rejected(candidate: dict[str, Any] | None, decision: dict[str, Any] | None) -> bool:
+    candidate_status = str(candidate.get("status") or "").lower() if candidate else ""
+    candidate_validator = str(candidate.get("validator_status") or "").lower() if candidate else ""
+    decision_validator = str(decision.get("validator_status") or "").lower() if decision else ""
+    return (
+        "validator_rejected" in candidate_status
+        or candidate_validator == "rejected"
+        or decision_validator == "rejected"
+    )
+
+
+def recorded_llm_skipped_candidate(candidate: dict[str, Any] | None, decision: dict[str, Any] | None) -> bool:
+    candidate_status = str(candidate.get("status") or "").lower() if candidate else ""
+    llm_action = str(candidate.get("llm_action") or "").upper() if candidate else ""
+    decision_action = str(decision.get("action") or "").upper() if decision else ""
+    return (
+        candidate_status in {"eligible_but_llm_skipped", "no_llm_decision"}
+        or llm_action == "SKIP"
+        or decision_action == "SKIP"
+    )
+
+
+def signal_reason_text(reasons: Sequence[str], features: dict[str, Any]) -> str:
+    extras = [
+        nested_json_get(features, ["candidate_builder", "reason"], ""),
+        nested_json_get(features, ["candidate_builder", "primaryReason"], ""),
+        nested_json_get(features, ["diagnostics", "primaryReason"], ""),
+    ]
+    return " ".join([str(reason) for reason in list(reasons) + extras if reason]).upper()
+
+
+def recorded_stage_reason_from_text(text: str) -> str | None:
+    if "POSITION_MANAGER" in text and "BLOCK" in text:
+        return "POSITION_MANAGER_BLOCKED_NEW_ENTRIES"
+    if "COOLDOWN" in text:
+        return "COOLDOWN_BLOCK"
+    if "REGIME" in text:
+        return "REGIME_POLICY_BLOCK"
+    if "STRATEGY" in text or "PLAYBOOK_BLOCK" in text or "SYMBOL_SIDE_BLOCK" in text or "BB_EXPANSION" in text:
+        return "STRATEGY_FILTER_BLOCK"
+    if "MAX_NEW" in text or "MAX NEW" in text or "SLOT" in text:
+        return "MAX_NEW_TRADES_LIMIT"
+    if "POOL" in text or "TOPN" in text or "TOP_N" in text:
+        return "CANDIDATE_POOL_LIMIT"
+    return None
+
+
+def resolve_recorded_primary_block_reason(
+    signal: dict[str, Any],
+    blocks: Sequence[str],
+    reasons: Sequence[str],
+    features: dict[str, Any],
+    playbook: str,
+    setup_type: str,
+    candidate: dict[str, Any] | None,
+    decision: dict[str, Any] | None,
+    enrichment: RecordedCalibrationEnrichment,
+) -> str:
+    cleaned_blocks = [str(block).strip() for block in blocks if str(block).strip()]
+    if cleaned_blocks:
+        return cleaned_blocks[0]
+
+    snapshot = recorded_snapshot_id(signal.get("snapshot_id"))
+    status = str(signal.get("status") or "").upper()
+    stage_text = signal_reason_text(reasons, features)
+    explicit = recorded_stage_reason_from_text(stage_text)
+    if explicit:
+        return explicit
+    if snapshot and snapshot in enrichment.position_manager_blocked_snapshots and status in {"CANDIDATE", "NEAR_MISS"}:
+        return "POSITION_MANAGER_BLOCKED_NEW_ENTRIES"
+    if recorded_risk_rejected(decision):
+        return "RISK_REJECTED"
+    if recorded_validator_rejected(candidate, decision):
+        return "VALIDATOR_REJECTED"
+    if recorded_llm_skipped_candidate(candidate, decision):
+        return "LLM_SKIPPED_CANDIDATE"
+    if recorded_run_skipped_no_work(signal, enrichment) and status in {"CANDIDATE", "NEAR_MISS"}:
+        return "LLM_SKIPPED_NO_WORK"
+
+    in_play_score = safe_float(signal.get("in_play_score"), 0.0)
+    setup_score = safe_float(signal.get("setup_score"), 0.0)
+    has_candidate_journal = enrichment.table_rows.get("candidate_journal", 0) > 0
+
+    if status in {"CANDIDATE", "EXECUTED"}:
+        if has_candidate_journal and candidate is None:
+            constraints = nested_json_get(features, ["constraints"], {})
+            max_new = safe_optional_float(nested_json_get(constraints, ["max_new_trades_allowed"]))
+            if max_new is not None and max_new <= 0:
+                return "MAX_NEW_TRADES_LIMIT"
+            return "CANDIDATE_POOL_LIMIT"
+        return "CANDIDATE_PROMOTED"
+    if status == "HARD_BLOCKED":
+        return "STRATEGY_FILTER_BLOCK"
+    if in_play_score < RECORDED_MIN_IN_PLAY_SCORE:
+        return "BELOW_INPLAY_THRESHOLD"
+    if status == "NO_SETUP" or setup_type == "NO_SETUP":
+        return "BELOW_SETUP_THRESHOLD"
+    if setup_score < RECORDED_MIN_SETUP_SCORE:
+        return "BELOW_SETUP_THRESHOLD"
+    if status == "NEAR_MISS" or setup_score < RECORDED_MIN_SETUP_SCORE or in_play_score < RECORDED_MIN_IN_PLAY_SCORE:
+        return "BELOW_CANDIDATE_SCORE"
+    if playbook == "NO_PLAYBOOK":
+        return "BELOW_SETUP_THRESHOLD"
+    return "BELOW_CANDIDATE_SCORE"
+
+
+def score_bucket(value: Any) -> str:
+    score = safe_optional_float(value)
+    if score is None:
+        return "UNKNOWN"
+    if score < 40:
+        return "00-39"
+    if score < RECORDED_MIN_NEAR_MISS_SCORE:
+        return "40-54"
+    if score < RECORDED_MIN_IN_PLAY_SCORE:
+        return "55-59"
+    if score < RECORDED_MIN_SETUP_SCORE:
+        return "60-69"
+    if score < 80:
+        return "70-79"
+    return "80-100"
+
+
+def cost_bucket(value: Any) -> str:
+    cost = safe_optional_float(value)
+    if cost is None:
+        return "UNKNOWN"
+    if cost < 5:
+        return "00-05"
+    if cost < 10:
+        return "05-10"
+    if cost < 15:
+        return "10-15"
+    if cost < 25:
+        return "15-25"
+    return "25+"
+
+
+def depth_bucket(value: Any) -> str:
+    depth = safe_optional_float(value)
+    if depth is None:
+        return "UNKNOWN"
+    if depth < 25_000:
+        return "000k-025k"
+    if depth < 100_000:
+        return "025k-100k"
+    if depth < 250_000:
+        return "100k-250k"
+    if depth < 1_000_000:
+        return "250k-1m"
+    return "1m+"
+
+
+def spread_bucket(value: Any) -> str:
+    spread = safe_optional_float(value)
+    if spread is None:
+        return "UNKNOWN"
+    if spread < 2:
+        return "00-02"
+    if spread < 5:
+        return "02-05"
+    if spread < 10:
+        return "05-10"
+    if spread < 15:
+        return "10-15"
+    return "15+"
+
+
+def recorded_candidate_source(
+    status: str,
+    candidate: dict[str, Any] | None,
+    decision: dict[str, Any] | None,
+    primary_block_reason: str,
+) -> str:
+    normalized_status = str(status or "").upper()
+    if normalized_status == "NEAR_MISS":
+        return "NEAR_MISS"
+    if normalized_status not in {"CANDIDATE", "EXECUTED"}:
+        return "NON_CANDIDATE"
+    if candidate:
+        candidate_status = str(candidate.get("status") or "").upper()
+        if candidate_status:
+            return f"CANDIDATE_JOURNAL_{candidate_status}"
+    if decision:
+        action = str(decision.get("action") or "").upper()
+        if action:
+            return f"AUTO_TRADER_DECISION_{action}"
+    if primary_block_reason in {"CANDIDATE_POOL_LIMIT", "MAX_NEW_TRADES_LIMIT", "POSITION_MANAGER_BLOCKED_NEW_ENTRIES"}:
+        return primary_block_reason
+    return "OPPORTUNITY_ENGINE_CANDIDATE"
+
+
+def recorded_signal_regime(signal: dict[str, Any], feature: dict[str, Any]) -> str:
+    for source in (signal, feature):
+        regime = source.get("regime")
+        if regime:
+            return str(regime)
+    ret_15m = safe_float(signal.get("feature_ret_15m"), safe_float(feature.get("ret_15m"), 0.0))
+    ret_1h = safe_float(signal.get("feature_ret_1h"), safe_float(feature.get("ret_1h"), 0.0))
+    if ret_15m > 0 and ret_1h > 0:
+        return "RISK_ON"
+    if ret_15m < 0 and ret_1h < 0:
+        return "RISK_OFF"
+    return "CHOP"
+
+
+def recorded_float(signal: dict[str, Any], feature: dict[str, Any], signal_key: str, feature_key: str, default: float = 0.0) -> float:
+    value = safe_optional_float(signal.get(signal_key))
+    if value is not None:
+        return value
+    return safe_float(feature.get(feature_key), default)
+
+
+def recorded_slippage_bps(spread_bps: float, min_slippage_bps: float, spread_mult: float) -> float:
+    return max(min_slippage_bps, max(0.0, spread_bps) * spread_mult)
+
+
+def recorded_entry_price(side: str, mid_price: float, best_bid: float | None, best_ask: float | None, spread_bps: float, slippage_bps: float) -> float:
+    if side == "long":
+        if best_ask is not None and best_ask > 0:
+            return best_ask * (1 + slippage_bps / 10_000)
+        return mid_price * (1 + (spread_bps / 2 + slippage_bps) / 10_000)
+    if best_bid is not None and best_bid > 0:
+        return best_bid * (1 - slippage_bps / 10_000)
+    return mid_price * (1 - (spread_bps / 2 + slippage_bps) / 10_000)
+
+
+def recorded_exit_price(side: str, raw_price: float, spread_bps: float, slippage_bps: float) -> float:
+    if side == "long":
+        return raw_price * (1 - (spread_bps / 2 + slippage_bps) / 10_000)
+    return raw_price * (1 + (spread_bps / 2 + slippage_bps) / 10_000)
+
+
+def recorded_opportunity_risk_row(
+    signal: dict[str, Any],
+    feature: dict[str, Any],
+    mid_price: float,
+    spread_bps: float,
+    slippage_bps: float,
+    cost_bps: float,
+) -> dict[str, Any]:
+    playbook = normalize_recorded_playbook(signal.get("playbook"))
+    return {
+        "symbol": str(signal.get("symbol") or ""),
+        "side": str(signal.get("side") or ""),
+        "playbook": playbook,
+        "regime": recorded_signal_regime(signal, feature),
+        "mid_price": mid_price,
+        "best_bid": safe_optional_float(feature.get("best_bid")),
+        "best_ask": safe_optional_float(feature.get("best_ask")),
+        "spread_bps": spread_bps,
+        "slippage_bps": slippage_bps,
+        "cost_bps": cost_bps,
+        "expected_move_bps": max(
+            abs(recorded_float(signal, feature, "feature_ret_15m", "ret_15m", 0.0)),
+            abs(recorded_float(signal, feature, "feature_ret_1h", "ret_1h", 0.0)),
+        )
+        * 10_000,
+        "ret_5m": safe_float(feature.get("ret_5m"), 0.0),
+        "ret_15m": recorded_float(signal, feature, "feature_ret_15m", "ret_15m", 0.0),
+        "ret_1h": recorded_float(signal, feature, "feature_ret_1h", "ret_1h", 0.0),
+        "realized_vol_5m": safe_float(feature.get("realized_vol_5m"), 0.0),
+        "ret_sigma_5m_vs_1h": recorded_float(signal, feature, "feature_ret_sigma_5m_vs_1h", "ret_sigma_5m_vs_1h", 0.0),
+        "vol_ratio_5m_vs_1h": recorded_float(signal, feature, "feature_vol_ratio_5m_vs_1h", "vol_ratio_5m_vs_1h", 0.0),
+    }
+
+
+def build_recorded_opportunity_row(
+    episode: dict[str, Any],
+    candles_by_symbol: dict[str, CandleSeries],
+    feature_index: dict[str, list[dict[str, Any]]],
+    agent: dict[str, Any],
+    fees_bps: float,
+    min_slippage_bps: float,
+    spread_mult: float,
+    settings: OptimizerSettings,
+    enrichment: RecordedCalibrationEnrichment,
+) -> dict[str, Any]:
+    signal = dict(episode["signal"])
+    created_at_ms = int(signal["created_at_ms"])
+    symbol = str(signal.get("symbol") or "")
+    base = base_symbol(symbol)
+    side = str(signal.get("side") or "")
+    feature = nearest_feature(feature_index, symbol, created_at_ms)
+    features_json = json_dict(signal.get("features_json"))
+    mid_price = safe_float(
+        signal.get("price_at_signal"),
+        safe_float(feature.get("mid_price"), safe_float(nested_json_get(features_json, ["market", "price"]), 0.0)),
+    )
+    spread_bps = recorded_float(signal, feature, "feature_spread_bps", "spread_bps", 0.0)
+    slippage_bps = recorded_slippage_bps(spread_bps, min_slippage_bps, spread_mult)
+    cost_bps = safe_float(signal.get("feature_cost_bps"), spread_bps + 2 * fees_bps + 2 * slippage_bps)
+    best_bid = safe_optional_float(feature.get("best_bid"))
+    best_ask = safe_optional_float(feature.get("best_ask"))
+    entry_realistic = recorded_entry_price(side, mid_price, best_bid, best_ask, spread_bps, slippage_bps) if mid_price > 0 else 0.0
+    risk_row = recorded_opportunity_risk_row(signal, feature, mid_price, spread_bps, slippage_bps, cost_bps)
+    stop_loss_pct, take_profit_pct = compute_risk_plan(risk_row, agent)
+    blocks = json_list(signal.get("execution_block_reasons_json"))
+    discovery_reasons = json_list(signal.get("discovery_reasons_json"))
+    opportunity_reasons = json_list(signal.get("reasons_json"))
+    playbook = normalize_recorded_playbook(signal.get("playbook"))
+    setup_type = normalize_recorded_setup(signal.get("setup_type"))
+    candidate = match_recorded_candidate(signal, enrichment, playbook)
+    decision = match_recorded_decision(signal, enrichment, playbook, candidate)
+    primary_block_reason = resolve_recorded_primary_block_reason(
+        signal,
+        blocks,
+        opportunity_reasons + discovery_reasons,
+        features_json,
+        playbook,
+        setup_type,
+        candidate,
+        decision,
+        enrichment,
+    )
+    depth_usd = recorded_float(signal, feature, "feature_depth_usd", "depth_10bps_usd", 0.0)
+    in_play_score = safe_float(signal.get("in_play_score"), 0.0)
+    setup_score = safe_float(signal.get("setup_score"), 0.0)
+    candidate_source = recorded_candidate_source(str(signal.get("status") or ""), candidate, decision, primary_block_reason)
+
+    out: dict[str, Any] = {
+        "opportunity_episode_id": episode["opportunity_episode_id"],
+        "episode_first_opportunity_id": episode["episode_first_opportunity_id"],
+        "episode_start_ms": episode["episode_start_ms"],
+        "episode_start": iso_ms(int(episode["episode_start_ms"])),
+        "episode_end_ms": episode["episode_end_ms"],
+        "episode_end": iso_ms(int(episode["episode_end_ms"])),
+        "episode_row_count": episode["episode_row_count"],
+        "opportunity_id": str(signal.get("id") or ""),
+        "created_at_ms": created_at_ms,
+        "created_at": iso_ms(created_at_ms),
+        "symbol": symbol,
+        "side": side,
+        "status": str(signal.get("status") or ""),
+        "playbook": playbook,
+        "setup_type": setup_type,
+        "in_play_score": round_float(in_play_score),
+        "setup_score": round_float(setup_score),
+        "in_play_score_bucket": score_bucket(in_play_score),
+        "setup_score_bucket": score_bucket(setup_score),
+        "discovery_reasons": discovery_reasons,
+        "opportunity_reasons": opportunity_reasons,
+        "execution_block_reasons": blocks,
+        "primary_block_reason": primary_block_reason,
+        "candidate_source": candidate_source,
+        "candidate_journal_status": candidate.get("status") if candidate else None,
+        "candidate_journal_llm_action": candidate.get("llm_action") if candidate else None,
+        "candidate_journal_validator_status": candidate.get("validator_status") if candidate else None,
+        "candidate_journal_validator_reason": candidate.get("validator_reason") if candidate else None,
+        "auto_trader_decision_action": decision.get("action") if decision else None,
+        "auto_trader_validator_status": decision.get("validator_status") if decision else None,
+        "entry_price_mid": round_float(mid_price),
+        "entry_price_realistic": round_float(entry_realistic),
+        "spread_bps": round_float(spread_bps),
+        "spread_bucket": spread_bucket(spread_bps),
+        "slippage_bps": round_float(slippage_bps),
+        "fees_bps": round_float(fees_bps),
+        "cost_bps": round_float(cost_bps),
+        "cost_bucket": cost_bucket(cost_bps),
+        "depth_usd": round_float(depth_usd),
+        "depth_bucket": depth_bucket(depth_usd),
+        "regime": risk_row["regime"],
+        "stop_loss_bps": round_float(stop_loss_pct * 10_000),
+        "take_profit_bps": round_float(take_profit_pct * 10_000),
+    }
+    candles = candles_by_symbol.get(base)
+    out.update(recorded_late_entry_metrics(candles, side, created_at_ms, mid_price))
+    out.update(recorded_actual_trade_fields(decision, enrichment, created_at_ms))
+    for horizon in settings.calibration_horizons_minutes:
+        out.update(recorded_outcome_for_horizon(
+            candles,
+            side,
+            created_at_ms,
+            mid_price,
+            entry_realistic,
+            spread_bps,
+            slippage_bps,
+            fees_bps,
+            cost_bps,
+            stop_loss_pct,
+            take_profit_pct,
+            horizon,
+        ))
+    reference_horizon = reference_recorded_horizon(out, settings.calibration_horizons_minutes)
+    classification_horizon = reference_horizon or reference_calibration_horizon(settings.calibration_horizons_minutes)
+    if reference_horizon is not None:
+        apply_late_entry_flags(out, reference_horizon)
+    out["legacy_classification"] = classify_recorded_legacy_classification(out, settings.calibration_horizons_minutes)
+    out["policy_outcome"] = classify_current_policy_outcome(out, classification_horizon)
+    out["path_quality"] = classify_path_quality(out, classification_horizon)
+    out["combined_classification"] = combined_recorded_classification(out["path_quality"], out["policy_outcome"])
+    out["classification"] = out["combined_classification"]
+    apply_recorded_policy_grid(out, candles, settings)
+    actual_net = safe_optional_float(out.get("actual_trade_net_bps"))
+    current_net = safe_optional_float(out.get("current_policy_net_bps"))
+    best_net = safe_optional_float(out.get("best_policy_net_bps"))
+    if actual_net is not None and current_net is not None:
+        out["actual_vs_current_policy_delta_bps"] = round_float(actual_net - current_net)
+    if actual_net is not None and best_net is not None:
+        out["actual_vs_best_policy_delta_bps"] = round_float(actual_net - best_net)
+    return out
+
+
+def recorded_outcome_for_horizon(
+    candles: CandleSeries | None,
+    side: str,
+    entry_ts_ms: int,
+    mid_price: float,
+    entry_realistic: float,
+    spread_bps: float,
+    slippage_bps: float,
+    fees_bps: float,
+    cost_bps: float,
+    stop_loss_pct: float,
+    take_profit_pct: float,
+    horizon_minutes: int,
+) -> dict[str, Any]:
+    suffix = f"{int(horizon_minutes)}m"
+    expected = max(1, int(horizon_minutes))
+    out: dict[str, Any] = {
+        f"covered_{suffix}": False,
+        f"coverage_{suffix}": 0.0,
+        f"gross_return_mid_{suffix}_bps": None,
+        f"net_return_realistic_{suffix}_bps": None,
+        f"current_policy_gross_{suffix}_bps": None,
+        f"current_policy_net_{suffix}_bps": None,
+        f"current_policy_max_drawdown_{suffix}_bps": None,
+        f"current_policy_exit_reason_{suffix}": None,
+        f"return_{suffix}_bps": None,
+        f"gross_return_{suffix}_bps": None,
+        f"cost_adjusted_mfe_{suffix}_bps": None,
+        f"cost_adjusted_return_{suffix}_bps": None,
+        f"mfe_{suffix}_bps": None,
+        f"mae_{suffix}_bps": None,
+        f"time_to_mfe_{suffix}_minutes": None,
+        f"time_to_mae_{suffix}_minutes": None,
+        f"favorable_before_adverse_{suffix}": False,
+        f"adverse_before_favorable_{suffix}": False,
+        f"mfe_before_20bps_adverse_{suffix}_bps": None,
+        f"mfe_before_30bps_adverse_{suffix}_bps": None,
+        f"mfe_before_50bps_adverse_{suffix}_bps": None,
+        f"mae_before_20bps_favorable_{suffix}_bps": None,
+        f"mae_before_30bps_favorable_{suffix}_bps": None,
+        f"mfe_mae_ratio_{suffix}": None,
+        f"path_efficiency_{suffix}": None,
+        f"tp_hit_{suffix}": False,
+        f"sl_hit_{suffix}": False,
+        f"first_trigger_{suffix}": None,
+        f"first_trigger_ts_{suffix}": None,
+    }
+    if candles is None or mid_price <= 0 or entry_realistic <= 0:
+        return out
+    scan_until_ms = entry_ts_ms + int(horizon_minutes) * 60_000
+    start_index = bisect_right(candles.ts_ms, entry_ts_ms)
+    end_index = start_index
+    while end_index < len(candles.ts_ms) and candles.ts_ms[end_index] <= scan_until_ms:
+        end_index += 1
+    available = end_index - start_index
+    coverage = min(1.0, available / expected)
+    out[f"coverage_{suffix}"] = round_float(coverage)
+    if coverage < 0.80 or available <= 0:
+        return out
+
+    first_trigger: str | None = None
+    first_trigger_ts_ms: int | None = None
+    policy_exit_raw = candles.close[end_index - 1]
+    path_exit_mid = candles.close[end_index - 1]
+    mfe_bps = 0.0
+    mae_bps = 0.0
+    policy_mae_bps = 0.0
+    time_to_mfe_minutes: float | None = None
+    time_to_mae_minutes: float | None = None
+    first_favorable_ts_ms: int | None = None
+    first_adverse_ts_ms: int | None = None
+    mfe_before_adverse = {20.0: 0.0, 30.0: 0.0, 50.0: 0.0}
+    mae_before_favorable = {20.0: 0.0, 30.0: 0.0}
+    adverse_threshold_open = {threshold: True for threshold in mfe_before_adverse}
+    favorable_threshold_open = {threshold: True for threshold in mae_before_favorable}
+
+    for index in range(start_index, end_index):
+        open_price = candles.open[index]
+        high = candles.high[index]
+        low = candles.low[index]
+        close = candles.close[index]
+        candle_ts_ms = candles.ts_ms[index]
+        path_exit_mid = close
+
+        before_mfe = mfe_bps
+        before_mae = mae_bps
+        mfe_bps, mae_bps = update_excursions(side, mid_price, high, low, mfe_bps, mae_bps)
+        if mfe_bps > before_mfe:
+            time_to_mfe_minutes = (candle_ts_ms - entry_ts_ms) / 60_000
+        if mae_bps < before_mae:
+            time_to_mae_minutes = (candle_ts_ms - entry_ts_ms) / 60_000
+
+        favorable_bps, adverse_bps = recorded_candle_favorable_adverse_bps(side, mid_price, high, low)
+        if first_favorable_ts_ms is None and favorable_bps >= 20.0:
+            first_favorable_ts_ms = candle_ts_ms
+        if first_adverse_ts_ms is None and adverse_bps <= -20.0:
+            first_adverse_ts_ms = candle_ts_ms
+
+        for threshold in list(mfe_before_adverse):
+            if not adverse_threshold_open[threshold]:
+                continue
+            if adverse_bps <= -threshold:
+                adverse_threshold_open[threshold] = False
+            else:
+                mfe_before_adverse[threshold] = max(mfe_before_adverse[threshold], favorable_bps)
+        for threshold in list(mae_before_favorable):
+            if not favorable_threshold_open[threshold]:
+                continue
+            if favorable_bps >= threshold:
+                favorable_threshold_open[threshold] = False
+            else:
+                mae_before_favorable[threshold] = min(mae_before_favorable[threshold], adverse_bps)
+
+        if first_trigger is None:
+            policy_exit_raw = close
+            _, policy_mae_bps = update_excursions(side, entry_realistic, high, low, 0.0, policy_mae_bps)
+            trigger = resolve_sl_tp_trigger(side, entry_realistic, stop_loss_pct, take_profit_pct, open_price, high, low)
+            if trigger:
+                first_trigger = trigger
+                first_trigger_ts_ms = candle_ts_ms
+                policy_exit_raw = trigger_price_for(side, entry_realistic, stop_loss_pct, take_profit_pct, trigger)
+
+    policy_exit_realistic = recorded_exit_price(side, policy_exit_raw, spread_bps, slippage_bps)
+    gross_mid = gross_return_bps(side, mid_price, path_exit_mid)
+    gross_path = gross_return_bps(side, mid_price, path_exit_mid)
+    return_bps = gross_path - cost_bps
+    current_policy_gross = gross_return_bps(side, entry_realistic, policy_exit_realistic)
+    current_policy_net = current_policy_gross - 2 * fees_bps
+    favorable_before_adverse = first_favorable_ts_ms is not None and (
+        first_adverse_ts_ms is None or first_favorable_ts_ms < first_adverse_ts_ms
+    )
+    adverse_before_favorable = first_adverse_ts_ms is not None and (
+        first_favorable_ts_ms is None or first_adverse_ts_ms < first_favorable_ts_ms
+    )
+    mfe_mae_ratio = mfe_bps / max(abs(mae_bps), 1.0)
+    path_efficiency = return_bps / max(abs(mfe_bps), abs(mae_bps), 1.0)
+    out.update(
+        {
+            f"covered_{suffix}": True,
+            f"gross_return_mid_{suffix}_bps": round_float(gross_mid),
+            f"net_return_realistic_{suffix}_bps": round_float(current_policy_net),
+            f"current_policy_gross_{suffix}_bps": round_float(current_policy_gross),
+            f"current_policy_net_{suffix}_bps": round_float(current_policy_net),
+            f"current_policy_max_drawdown_{suffix}_bps": round_float(policy_mae_bps),
+            f"current_policy_exit_reason_{suffix}": first_trigger or "time_stop",
+            f"return_{suffix}_bps": round_float(return_bps),
+            f"gross_return_{suffix}_bps": round_float(gross_path),
+            f"cost_adjusted_mfe_{suffix}_bps": round_float(max(0.0, mfe_bps) - cost_bps),
+            f"cost_adjusted_return_{suffix}_bps": round_float(return_bps),
+            f"mfe_{suffix}_bps": round_float(max(0.0, mfe_bps)),
+            f"mae_{suffix}_bps": round_float(mae_bps),
+            f"time_to_mfe_{suffix}_minutes": round_float(time_to_mfe_minutes) if time_to_mfe_minutes is not None else None,
+            f"time_to_mae_{suffix}_minutes": round_float(time_to_mae_minutes) if time_to_mae_minutes is not None else None,
+            f"favorable_before_adverse_{suffix}": favorable_before_adverse,
+            f"adverse_before_favorable_{suffix}": adverse_before_favorable,
+            f"mfe_before_20bps_adverse_{suffix}_bps": round_float(mfe_before_adverse[20.0]),
+            f"mfe_before_30bps_adverse_{suffix}_bps": round_float(mfe_before_adverse[30.0]),
+            f"mfe_before_50bps_adverse_{suffix}_bps": round_float(mfe_before_adverse[50.0]),
+            f"mae_before_20bps_favorable_{suffix}_bps": round_float(mae_before_favorable[20.0]),
+            f"mae_before_30bps_favorable_{suffix}_bps": round_float(mae_before_favorable[30.0]),
+            f"mfe_mae_ratio_{suffix}": round_float(mfe_mae_ratio),
+            f"path_efficiency_{suffix}": round_float(path_efficiency),
+            f"tp_hit_{suffix}": first_trigger == "take_profit",
+            f"sl_hit_{suffix}": first_trigger == "stop_loss",
+            f"first_trigger_{suffix}": first_trigger,
+            f"first_trigger_ts_{suffix}": iso_ms(first_trigger_ts_ms) if first_trigger_ts_ms is not None else None,
+        }
+    )
+    return out
+
+
+def recorded_candle_favorable_adverse_bps(side: str, entry_price: float, high: float, low: float) -> tuple[float, float]:
+    if entry_price <= 0:
+        return 0.0, 0.0
+    if side == "long":
+        return 10_000 * (high / entry_price - 1), min(0.0, 10_000 * (low / entry_price - 1))
+    return 10_000 * (1 - low / entry_price), min(0.0, 10_000 * (1 - high / entry_price))
+
+
+def classify_recorded_legacy_classification(row: dict[str, Any], horizons: Sequence[int]) -> str:
+    status = str(row.get("status") or "")
+    accepted = status in {"CANDIDATE", "EXECUTED"}
+    horizon = reference_recorded_horizon(row, horizons)
+    if horizon is None:
+        return "uncovered"
+    suffix = f"{horizon}m"
+    net_return = safe_float(row.get(f"net_return_realistic_{suffix}_bps"), 0.0)
+    cost = safe_float(row.get("cost_bps"), 0.0)
+    first_trigger = row.get(f"first_trigger_{suffix}")
+    threshold = max(20.0, cost * 3.0)
+    if not accepted and (first_trigger == "take_profit" or net_return >= threshold):
+        return "missed_opportunity"
+    if status == "EXECUTION_BLOCKED" and (first_trigger == "stop_loss" or net_return <= 0):
+        return "good_block"
+    if accepted and (first_trigger == "stop_loss" or net_return < 0):
+        return "bad_candidate"
+    if accepted and net_return > 0:
+        return "good_candidate"
+    return "neutral"
+
+
+def classify_current_policy_outcome(row: dict[str, Any], horizon: str | int = "60m") -> str:
+    suffix = recorded_horizon_suffix(horizon)
+    if not row.get(f"covered_{suffix}"):
+        return "UNCOVERED"
+    status = str(row.get("status") or "").upper()
+    accepted = status in {"CANDIDATE", "EXECUTED"}
+    net_return = safe_float(row.get(f"current_policy_net_{suffix}_bps"), safe_float(row.get(f"net_return_realistic_{suffix}_bps"), 0.0))
+    gross_return = safe_float(row.get(f"current_policy_gross_{suffix}_bps"), 0.0)
+    mfe = safe_float(row.get(f"mfe_{suffix}_bps"), 0.0)
+    cost_adjusted_mfe = safe_float(row.get(f"cost_adjusted_mfe_{suffix}_bps"), mfe - safe_float(row.get("cost_bps"), 0.0))
+    cost = safe_float(row.get("cost_bps"), 0.0)
+    first_trigger = row.get(f"first_trigger_{suffix}")
+    threshold = max(20.0, cost * 3.0)
+
+    if not accepted and (first_trigger == "take_profit" or net_return >= threshold or cost_adjusted_mfe >= threshold):
+        if status == "EXECUTION_BLOCKED":
+            return "GOOD_BLOCK_UNDER_CURRENT_POLICY"
+        return "MISSED_UNDER_CURRENT_POLICY"
+    if gross_return > 0 and net_return <= 0:
+        return "CURRENT_POLICY_FEE_CHURN"
+    if first_trigger == "take_profit":
+        return "CURRENT_POLICY_WIN"
+    if accepted and (first_trigger == "stop_loss" or net_return < 0):
+        return "CURRENT_POLICY_LOSS"
+    if first_trigger == "stop_loss":
+        return "CURRENT_POLICY_STOPPED"
+    if cost_adjusted_mfe >= threshold and net_return <= 0:
+        return "CURRENT_POLICY_MISSED_MFE"
+    if net_return < 0:
+        return "CURRENT_POLICY_LOSS"
+    if net_return > 0:
+        return "CURRENT_POLICY_WIN"
+    return "CURRENT_POLICY_NEUTRAL"
+
+
+def classify_path_quality(row: dict[str, Any], horizon: str | int = "60m") -> str:
+    suffix = recorded_horizon_suffix(horizon)
+    if not row.get(f"covered_{suffix}"):
+        return "UNCOVERED_PATH"
+    cost = safe_float(row.get("cost_bps"), 0.0)
+    mfe = safe_float(row.get(f"mfe_{suffix}_bps"), 0.0)
+    mae = safe_float(row.get(f"mae_{suffix}_bps"), 0.0)
+    return_bps = safe_float(row.get(f"return_{suffix}_bps"), 0.0)
+    cost_adjusted_mfe = safe_float(row.get(f"cost_adjusted_mfe_{suffix}_bps"), mfe - cost)
+    favorable_before_adverse = bool(row.get(f"favorable_before_adverse_{suffix}"))
+    adverse_before_favorable = bool(row.get(f"adverse_before_favorable_{suffix}"))
+    mae_before_favorable = abs(safe_float(row.get(f"mae_before_20bps_favorable_{suffix}_bps"), 0.0))
+    primary_block = str(row.get("primary_block_reason") or "").upper()
+    untradeable_gate = primary_block in {"SPREAD_GATE", "COST_GATE", "DEPTH_GATE"}
+    if mfe >= 20.0 and cost_adjusted_mfe < 15.0 and (untradeable_gate or cost >= 0.50 * max(mfe, 1.0)):
+        return "UNTRADEABLE_PATH"
+    if bool(row.get("is_late_chase")) or bool(row.get("is_extended_breakout")):
+        if cost_adjusted_mfe < 20.0 and abs(mae) > max(mfe, 10.0):
+            return "LATE_PATH"
+    if (
+        cost_adjusted_mfe >= max(20.0, 3.0 * cost)
+        and favorable_before_adverse
+        and mae_before_favorable <= 30.0
+    ):
+        return "GOOD_PATH"
+    if cost_adjusted_mfe >= 20.0 and abs(mae) >= 40.0 and not favorable_before_adverse:
+        return "NOISY_PATH"
+    if cost_adjusted_mfe < 15.0 and return_bps <= 0:
+        return "BAD_PATH"
+    if adverse_before_favorable and abs(mae) > max(cost_adjusted_mfe, 20.0):
+        return "BAD_PATH"
+    if cost_adjusted_mfe >= 20.0:
+        return "NOISY_PATH"
+    return "BAD_PATH" if return_bps <= 0 else "NOISY_PATH"
+
+
+def recorded_horizon_suffix(horizon: str | int) -> str:
+    text = str(horizon)
+    return text if text.endswith("m") else f"{int(float(text))}m"
+
+
+def combined_recorded_classification(path_quality: str, policy_outcome: str) -> str:
+    if path_quality == "UNCOVERED_PATH" and policy_outcome == "UNCOVERED":
+        return "UNCOVERED"
+    return f"{path_quality}_{policy_outcome}"
+
+
+def reference_recorded_horizon(row: dict[str, Any], horizons: Sequence[int]) -> int | None:
+    values = sorted({int(value) for value in horizons if int(value) > 0})
+    if 60 in values and row.get("covered_60m"):
+        return 60
+    covered = [value for value in values if row.get(f"covered_{value}m")]
+    return covered[-1] if covered else None
+
+
+def recorded_late_entry_metrics(
+    candles: CandleSeries | None,
+    side: str,
+    entry_ts_ms: int,
+    entry_price: float,
+) -> dict[str, Any]:
+    out: dict[str, Any] = {
+        "pre_signal_return_5m_bps": None,
+        "pre_signal_return_15m_bps": None,
+        "pre_signal_return_60m_bps": None,
+        "impulse_direction": None,
+        "impulse_bps": None,
+        "impulse_age_minutes": None,
+        "distance_from_local_high_bps": None,
+        "distance_from_local_low_bps": None,
+        "pullback_pct_of_impulse": None,
+        "is_late_chase": False,
+        "is_extended_breakout": False,
+        "is_fresh_continuation": False,
+        "is_pullback_continuation": False,
+    }
+    if candles is None or entry_price <= 0 or not candles.ts_ms:
+        return out
+    end_index = bisect_right(candles.ts_ms, entry_ts_ms) - 1
+    if end_index < 0:
+        return out
+    entry_reference = entry_price
+    returns: dict[int, float | None] = {}
+    for minutes in [5, 15, 60]:
+        start_ts = entry_ts_ms - minutes * 60_000
+        start_index = bisect_right(candles.ts_ms, start_ts) - 1
+        if start_index < 0:
+            returns[minutes] = None
+            continue
+        start_price = candles.close[start_index]
+        returns[minutes] = 10_000 * (entry_reference / start_price - 1) if start_price > 0 else None
+        out[f"pre_signal_return_{minutes}m_bps"] = round_float(returns[minutes]) if returns[minutes] is not None else None
+
+    impulse_minutes = max([5, 15, 60], key=lambda minutes: abs(returns[minutes] or 0.0))
+    impulse = returns[impulse_minutes]
+    if impulse is not None:
+        out["impulse_bps"] = round_float(impulse)
+        out["impulse_direction"] = "UP" if impulse > 0 else "DOWN" if impulse < 0 else "FLAT"
+
+    window_start_ts = entry_ts_ms - 60 * 60_000
+    start_index = max(0, bisect_right(candles.ts_ms, window_start_ts) - 1)
+    window_indexes = [index for index in range(start_index, end_index + 1) if candles.ts_ms[index] <= entry_ts_ms]
+    if not window_indexes:
+        return out
+    high_index = max(window_indexes, key=lambda index: candles.high[index])
+    low_index = min(window_indexes, key=lambda index: candles.low[index])
+    local_high = candles.high[high_index]
+    local_low = candles.low[low_index]
+    out["distance_from_local_high_bps"] = round_float(10_000 * (entry_reference / local_high - 1)) if local_high > 0 else None
+    out["distance_from_local_low_bps"] = round_float(10_000 * (entry_reference / local_low - 1)) if local_low > 0 else None
+    if impulse is not None and abs(impulse) > 0:
+        if impulse > 0:
+            pullback_bps = max(0.0, 10_000 * (local_high / entry_reference - 1)) if entry_reference > 0 else 0.0
+            out["impulse_age_minutes"] = round_float(max(0, entry_ts_ms - candles.ts_ms[high_index]) / 60_000)
+        else:
+            pullback_bps = max(0.0, 10_000 * (entry_reference / local_low - 1)) if local_low > 0 else 0.0
+            out["impulse_age_minutes"] = round_float(max(0, entry_ts_ms - candles.ts_ms[low_index]) / 60_000)
+        out["pullback_pct_of_impulse"] = round_float(min(1.0, pullback_bps / max(abs(impulse), 1.0)))
+    return out
+
+
+def apply_late_entry_flags(row: dict[str, Any], horizon: int | str) -> None:
+    suffix = recorded_horizon_suffix(horizon)
+    side = str(row.get("side") or "").lower()
+    impulse = safe_optional_float(row.get("impulse_bps"))
+    pre_15m = safe_optional_float(row.get("pre_signal_return_15m_bps"))
+    pullback = safe_optional_float(row.get("pullback_pct_of_impulse"))
+    if impulse is None:
+        return
+    favorable_impulse = (side == "long" and impulse > 0) or (side == "short" and impulse < 0)
+    mfe = safe_float(row.get(f"mfe_{suffix}_bps"), 0.0)
+    mae = safe_float(row.get(f"mae_{suffix}_bps"), 0.0)
+    cost_adjusted_mfe = safe_float(row.get(f"cost_adjusted_mfe_{suffix}_bps"), 0.0)
+    adverse_first = bool(row.get(f"adverse_before_favorable_{suffix}"))
+    distance_high = safe_optional_float(row.get("distance_from_local_high_bps"))
+    distance_low = safe_optional_float(row.get("distance_from_local_low_bps"))
+    near_long_high = side == "long" and distance_high is not None and distance_high >= -10.0
+    near_short_low = side == "short" and distance_low is not None and distance_low <= 10.0
+    near_favorable_extreme = near_long_high or near_short_low
+    row["is_late_chase"] = bool(
+        pre_15m is not None
+        and abs(pre_15m) >= 40.0
+        and (cost_adjusted_mfe < 20.0 or adverse_first)
+        and abs(mae) > max(mfe, 10.0)
+    )
+    row["is_extended_breakout"] = bool(
+        favorable_impulse
+        and abs(impulse) >= 40.0
+        and near_favorable_extreme
+        and (pullback is None or pullback <= 0.15)
+    )
+    row["is_pullback_continuation"] = bool(
+        favorable_impulse
+        and abs(impulse) >= 30.0
+        and pullback is not None
+        and 0.20 <= pullback <= 0.70
+        and not adverse_first
+    )
+    row["is_fresh_continuation"] = bool(
+        favorable_impulse
+        and abs(impulse) >= 20.0
+        and (pullback is None or pullback < 0.20)
+        and not row["is_late_chase"]
+    )
+
+
+def recorded_policy_grid_name(
+    tp_bps: float,
+    sl_bps: float,
+    time_stop_minutes: int,
+    trailing_bps: float | None,
+    partial: tuple[float, float] | None,
+) -> str:
+    trailing_label = "off" if trailing_bps is None else f"{int(trailing_bps)}bps"
+    partial_label = "off" if partial is None else f"{int(partial[0] * 100)}pct_at_{int(partial[1])}bps"
+    return f"tp{int(tp_bps)}_sl{int(sl_bps)}_time{int(time_stop_minutes)}_trail{trailing_label}_partial{partial_label}"
+
+
+def recorded_policy_grid_variants() -> list[dict[str, Any]]:
+    variants: list[dict[str, Any]] = []
+    for tp_bps in RECORDED_POLICY_GRID_TP_BPS:
+        for sl_bps in RECORDED_POLICY_GRID_SL_BPS:
+            for time_stop_minutes in RECORDED_POLICY_GRID_TIME_STOP_MINUTES:
+                for trailing_bps in RECORDED_POLICY_GRID_TRAILING_BPS:
+                    for partial in RECORDED_POLICY_GRID_PARTIALS:
+                        variants.append(
+                            {
+                                "name": recorded_policy_grid_name(tp_bps, sl_bps, time_stop_minutes, trailing_bps, partial),
+                                "tp_bps": tp_bps,
+                                "sl_bps": sl_bps,
+                                "time_stop_minutes": time_stop_minutes,
+                                "trailing_bps": trailing_bps,
+                                "partial": partial,
+                            }
+                        )
+    return variants
+
+
+def simulate_recorded_policy_variant(
+    candles: CandleSeries | None,
+    side: str,
+    entry_ts_ms: int,
+    entry_price: float,
+    spread_bps: float,
+    slippage_bps: float,
+    fees_bps: float,
+    variant: dict[str, Any],
+) -> dict[str, Any] | None:
+    if candles is None or entry_price <= 0:
+        return None
+    time_stop_minutes = int(variant["time_stop_minutes"])
+    start_index = bisect_right(candles.ts_ms, entry_ts_ms)
+    scan_until_ms = entry_ts_ms + time_stop_minutes * 60_000
+    end_index = start_index
+    while end_index < len(candles.ts_ms) and candles.ts_ms[end_index] <= scan_until_ms:
+        end_index += 1
+    available = end_index - start_index
+    if available <= 0 or available / max(1, time_stop_minutes) < 0.80:
+        return None
+
+    tp_bps = float(variant["tp_bps"])
+    sl_bps = float(variant["sl_bps"])
+    trailing_bps = variant.get("trailing_bps")
+    partial = variant.get("partial")
+    full_tp_price = trigger_price_for(side, entry_price, sl_bps / 10_000, tp_bps / 10_000, "take_profit")
+    initial_stop = trigger_price_for(side, entry_price, sl_bps / 10_000, tp_bps / 10_000, "stop_loss")
+    stop_price = initial_stop
+    high_water = entry_price
+    low_water = entry_price
+    remaining = 1.0
+    realized_gross = 0.0
+    partial_done = False
+    max_drawdown_bps = 0.0
+    exit_reason = "time_stop"
+    exit_ts_ms = candles.ts_ms[end_index - 1]
+
+    def add_exit(raw_price: float, fraction: float) -> None:
+        nonlocal realized_gross, remaining
+        exit_price = recorded_exit_price(side, raw_price, spread_bps, slippage_bps)
+        realized_gross += gross_return_bps(side, entry_price, exit_price) * fraction
+        remaining = max(0.0, remaining - fraction)
+
+    for index in range(start_index, end_index):
+        high = candles.high[index]
+        low = candles.low[index]
+        close = candles.close[index]
+        candle_ts_ms = candles.ts_ms[index]
+        _, policy_mae = update_excursions(side, entry_price, high, low, 0.0, max_drawdown_bps)
+        max_drawdown_bps = min(max_drawdown_bps, policy_mae)
+
+        if trailing_bps is not None:
+            if side == "long":
+                high_water = max(high_water, high)
+                if gross_return_bps(side, entry_price, high_water) >= float(trailing_bps):
+                    stop_price = max(stop_price, high_water * (1 - float(trailing_bps) / 10_000))
+            else:
+                low_water = min(low_water, low)
+                if gross_return_bps(side, entry_price, low_water) >= float(trailing_bps):
+                    stop_price = min(stop_price, low_water * (1 + float(trailing_bps) / 10_000))
+
+        stop_touched = low <= stop_price if side == "long" else high >= stop_price
+        if stop_touched:
+            add_exit(stop_price, remaining)
+            exit_reason = "trailing_stop" if trailing_bps is not None and stop_price != initial_stop else "stop_loss"
+            exit_ts_ms = candle_ts_ms
+            break
+
+        if partial is not None and not partial_done:
+            fraction, target_bps = partial
+            partial_price = trigger_price_for(side, entry_price, sl_bps / 10_000, float(target_bps) / 10_000, "take_profit")
+            partial_touched = high >= partial_price if side == "long" else low <= partial_price
+            if partial_touched:
+                add_exit(partial_price, min(float(fraction), remaining))
+                partial_done = True
+                if remaining <= 0:
+                    exit_reason = "partial_take_profit"
+                    exit_ts_ms = candle_ts_ms
+                    break
+
+        tp_touched = high >= full_tp_price if side == "long" else low <= full_tp_price
+        if tp_touched:
+            add_exit(full_tp_price, remaining)
+            exit_reason = "take_profit"
+            exit_ts_ms = candle_ts_ms
+            break
+
+        if index == end_index - 1 and remaining > 0:
+            add_exit(close, remaining)
+            exit_reason = "time_stop"
+            exit_ts_ms = candle_ts_ms
+
+    gross_bps = realized_gross
+    net_bps = gross_bps - 2 * fees_bps
+    return {
+        "policy_name": str(variant["name"]),
+        "net_bps": round_float(net_bps),
+        "gross_bps": round_float(gross_bps),
+        "max_drawdown_bps": round_float(max_drawdown_bps),
+        "exit_reason": exit_reason,
+        "exit_ts_ms": exit_ts_ms,
+    }
+
+
+def apply_recorded_policy_grid(
+    row: dict[str, Any],
+    candles: CandleSeries | None,
+    settings: OptimizerSettings,
+) -> None:
+    row.update(
+        {
+            "best_policy_name": None,
+            "best_policy_net_bps": None,
+            "best_policy_gross_bps": None,
+            "best_policy_max_drawdown_bps": None,
+            "best_policy_exit_reason": None,
+            "profitable_policy_count": 0,
+            "tested_policy_count": 0,
+            "robust_policy_score": None,
+            "current_policy_net_bps": None,
+            "current_policy_rank": None,
+            "current_policy_delta_vs_best": None,
+        }
+    )
+    ref = reference_recorded_horizon(row, settings.calibration_horizons_minutes)
+    if ref is not None:
+        suffix = f"{ref}m"
+        row["current_policy_net_bps"] = row.get(f"current_policy_net_{suffix}_bps")
+    if not settings.policy_grid:
+        return
+    simulations = [
+        result
+        for variant in recorded_policy_grid_variants()
+        if (
+            result := simulate_recorded_policy_variant(
+                candles,
+                str(row.get("side") or ""),
+                int(row.get("created_at_ms") or 0),
+                safe_float(row.get("entry_price_realistic"), 0.0),
+                safe_float(row.get("spread_bps"), 0.0),
+                safe_float(row.get("slippage_bps"), 0.0),
+                safe_float(row.get("fees_bps"), 0.0),
+                variant,
+            )
+        )
+        is not None
+    ]
+    if not simulations:
+        return
+    simulations.sort(key=lambda item: safe_float(item.get("net_bps"), -math.inf), reverse=True)
+    best = simulations[0]
+    current_net = safe_optional_float(row.get("current_policy_net_bps"))
+    profitable_count = len([item for item in simulations if safe_float(item.get("net_bps"), 0.0) > 0])
+    row.update(
+        {
+            "best_policy_name": best.get("policy_name"),
+            "best_policy_net_bps": best.get("net_bps"),
+            "best_policy_gross_bps": best.get("gross_bps"),
+            "best_policy_max_drawdown_bps": best.get("max_drawdown_bps"),
+            "best_policy_exit_reason": best.get("exit_reason"),
+            "profitable_policy_count": profitable_count,
+            "tested_policy_count": len(simulations),
+            "robust_policy_score": round_float(profitable_count / len(simulations)),
+        }
+    )
+    if current_net is not None:
+        row["current_policy_rank"] = 1 + len([item for item in simulations if safe_float(item.get("net_bps"), -math.inf) > current_net])
+        row["current_policy_delta_vs_best"] = round_float(current_net - safe_float(best.get("net_bps"), 0.0))
+
+
+def recorded_actual_trade_fields(
+    decision: dict[str, Any] | None,
+    enrichment: RecordedCalibrationEnrichment,
+    created_at_ms: int,
+) -> dict[str, Any]:
+    out: dict[str, Any] = {
+        "actual_trade_net_bps": None,
+        "actual_trade_exit_reason": None,
+        "actual_trade_close_action": None,
+        "actual_trade_pm_actions": None,
+        "actual_trade_mfe_bps": None,
+        "actual_trade_mae_bps": None,
+        "actual_vs_current_policy_delta_bps": None,
+        "actual_vs_best_policy_delta_bps": None,
+    }
+    if not decision:
+        return out
+    lifecycles = enrichment.lifecycle_by_decision_id.get(str(decision.get("id") or ""), [])
+    if not lifecycles:
+        return out
+    lifecycle = min(lifecycles, key=lambda row: abs(int(safe_float(row.get("opened_at_ms"), created_at_ms)) - created_at_ms))
+    entry_price = safe_float(lifecycle.get("entry_price"), 0.0)
+    size = abs(safe_float(lifecycle.get("size_closed"), safe_float(lifecycle.get("size_opened"), 0.0)))
+    notional = entry_price * size
+    net_pnl = safe_optional_float(lifecycle.get("net_realized_pnl"))
+    if net_pnl is not None and notional > 0:
+        out["actual_trade_net_bps"] = round_float(10_000 * net_pnl / notional)
+    lifecycle_id = str(lifecycle.get("id") or "")
+    pm_actions = [
+        {
+            "action": row.get("action"),
+            "reason_code": row.get("reason_code"),
+            "urgency": row.get("urgency"),
+            "created_at": iso_ms(int(safe_float(row.get("created_at_ms"), 0.0))) if safe_float(row.get("created_at_ms"), 0.0) > 0 else None,
+        }
+        for row in enrichment.position_events_by_lifecycle_id.get(lifecycle_id, [])
+    ]
+    out.update(
+        {
+            "actual_trade_exit_reason": lifecycle.get("close_reason_code") or lifecycle.get("status"),
+            "actual_trade_close_action": lifecycle.get("close_action"),
+            "actual_trade_pm_actions": pm_actions or None,
+            "actual_trade_mfe_bps": round_float(safe_float(lifecycle.get("mfe_bps"), 0.0)) if safe_optional_float(lifecycle.get("mfe_bps")) is not None else None,
+            "actual_trade_mae_bps": round_float(safe_float(lifecycle.get("mae_bps"), 0.0)) if safe_optional_float(lifecycle.get("mae_bps")) is not None else None,
+        }
+    )
+    return out
+
+
+def recorded_summary_groups(rows: Sequence[dict[str, Any]], keys: Sequence[str], reference_horizon_minutes: int) -> list[dict[str, Any]]:
+    grouped: dict[tuple[str, ...], list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        grouped[tuple(str(row.get(key) or "") for key in keys)].append(row)
+    suffix = f"{reference_horizon_minutes}m"
+    out: list[dict[str, Any]] = []
+    for key_values, group in grouped.items():
+        covered = [row for row in group if row.get(f"covered_{suffix}")]
+        returns = [safe_float(row.get(f"current_policy_net_{suffix}_bps"), safe_float(row.get(f"net_return_realistic_{suffix}_bps"), 0.0)) for row in covered]
+        best_returns = [safe_float(row.get("best_policy_net_bps"), 0.0) for row in group if safe_optional_float(row.get("best_policy_net_bps")) is not None]
+        mfes = [safe_float(row.get(f"mfe_{suffix}_bps"), 0.0) for row in covered]
+        tp_hits = len([row for row in covered if row.get(f"tp_hit_{suffix}")])
+        sl_hits = len([row for row in covered if row.get(f"sl_hit_{suffix}")])
+        record = {key: value for key, value in zip(keys, key_values, strict=False)}
+        path_counts = Counter(str(row.get("path_quality") or "unknown") for row in group)
+        policy_counts = Counter(str(row.get("policy_outcome") or "unknown") for row in group)
+        record.update(
+            {
+                "count": len(group),
+                "covered_count": len(covered),
+                "coverage_rate": round_float(len(covered) / len(group)) if group else 0.0,
+                f"avg_net_return_{suffix}_bps": avg(returns),
+                f"avg_mfe_{suffix}_bps": avg(mfes),
+                "avg_best_policy_net_bps": avg(best_returns),
+                "avg_robust_policy_score": avg([safe_float(row.get("robust_policy_score"), 0.0) for row in group if safe_optional_float(row.get("robust_policy_score")) is not None]),
+                "avg_current_policy_rank": avg([safe_float(row.get("current_policy_rank"), 0.0) for row in group if safe_optional_float(row.get("current_policy_rank")) is not None]),
+                f"tp_hit_rate_{suffix}": round_float(tp_hits / len(covered)) if covered else 0.0,
+                f"sl_hit_rate_{suffix}": round_float(sl_hits / len(covered)) if covered else 0.0,
+                "candidate_count": len([row for row in group if row.get("status") in {"CANDIDATE", "EXECUTED"}]),
+                "GOOD_PATH_count": path_counts.get("GOOD_PATH", 0),
+                "BAD_PATH_count": path_counts.get("BAD_PATH", 0),
+                "NOISY_PATH_count": path_counts.get("NOISY_PATH", 0),
+                "LATE_PATH_count": path_counts.get("LATE_PATH", 0),
+                "UNTRADEABLE_PATH_count": path_counts.get("UNTRADEABLE_PATH", 0),
+                "UNCOVERED_PATH_count": path_counts.get("UNCOVERED_PATH", 0),
+                "GOOD_PATH_rate": round_float(path_counts.get("GOOD_PATH", 0) / len(group)) if group else 0.0,
+                "BAD_PATH_rate": round_float(path_counts.get("BAD_PATH", 0) / len(group)) if group else 0.0,
+                "CURRENT_POLICY_WIN_count": policy_counts.get("CURRENT_POLICY_WIN", 0),
+                "CURRENT_POLICY_LOSS_count": policy_counts.get("CURRENT_POLICY_LOSS", 0),
+                "CURRENT_POLICY_STOPPED_count": policy_counts.get("CURRENT_POLICY_STOPPED", 0),
+                "CURRENT_POLICY_MISSED_MFE_count": policy_counts.get("CURRENT_POLICY_MISSED_MFE", 0),
+                "CURRENT_POLICY_FEE_CHURN_count": policy_counts.get("CURRENT_POLICY_FEE_CHURN", 0),
+                "MISSED_UNDER_CURRENT_POLICY_count": policy_counts.get("MISSED_UNDER_CURRENT_POLICY", 0),
+                "GOOD_BLOCK_UNDER_CURRENT_POLICY_count": policy_counts.get("GOOD_BLOCK_UNDER_CURRENT_POLICY", 0),
+                "policy_win_rate": round_float(policy_counts.get("CURRENT_POLICY_WIN", 0) / len(group)) if group else 0.0,
+                "current_policy_loss_rate": round_float(
+                    sum(policy_counts.get(value, 0) for value in current_policy_negative_outcomes()) / len(group)
+                ) if group else 0.0,
+                "legacy_missed_opportunity_rate": round_float(len([row for row in group if row.get("legacy_classification") == "missed_opportunity"]) / len(group)) if group else 0.0,
+                "legacy_good_block_rate": round_float(len([row for row in group if row.get("legacy_classification") == "good_block"]) / len(group)) if group else 0.0,
+                "legacy_bad_candidate_rate": round_float(len([row for row in group if row.get("legacy_classification") == "bad_candidate"]) / len(group)) if group else 0.0,
+            }
+        )
+        out.append(record)
+    return sorted(out, key=lambda item: (-int(item["count"]), tuple(str(item.get(key) or "") for key in keys)))
+
+
+def recorded_candidate_rows(rows: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
+    return [row for row in rows if row.get("status") in {"CANDIDATE", "EXECUTED"}]
+
+
+def current_policy_negative_outcomes() -> set[str]:
+    return {
+        "CURRENT_POLICY_LOSS",
+        "CURRENT_POLICY_STOPPED",
+        "CURRENT_POLICY_MISSED_MFE",
+        "CURRENT_POLICY_TOO_TIGHT",
+        "CURRENT_POLICY_TOO_WIDE",
+        "CURRENT_POLICY_FEE_CHURN",
+    }
+
+
+def recorded_net_values(rows: Sequence[dict[str, Any]], suffix: str) -> list[float]:
+    return [
+        safe_float(row.get(f"current_policy_net_{suffix}_bps"), safe_float(row.get(f"net_return_realistic_{suffix}_bps"), 0.0))
+        for row in rows
+        if row.get(f"covered_{suffix}")
+    ]
+
+
+def build_recorded_candidate_quality_report(rows: Sequence[dict[str, Any]], reference_horizon_minutes: int) -> dict[str, Any]:
+    suffix = f"{reference_horizon_minutes}m"
+    candidates = recorded_candidate_rows(rows)
+    near_misses = [row for row in rows if row.get("status") == "NEAR_MISS"]
+    path_counts = Counter(str(row.get("path_quality") or "unknown") for row in candidates)
+    policy_counts = Counter(str(row.get("policy_outcome") or "unknown") for row in candidates)
+    return {
+        "candidate_count": len(candidates),
+        "path_quality_counts": dict(path_counts),
+        "policy_outcome_counts": dict(policy_counts),
+        "candidate_good_path_count": path_counts.get("GOOD_PATH", 0),
+        "candidate_bad_path_count": path_counts.get("BAD_PATH", 0),
+        "candidate_noisy_path_count": path_counts.get("NOISY_PATH", 0),
+        "candidate_late_path_count": path_counts.get("LATE_PATH", 0),
+        "candidate_untradeable_path_count": path_counts.get("UNTRADEABLE_PATH", 0),
+        "candidate_current_policy_win_count": policy_counts.get("CURRENT_POLICY_WIN", 0),
+        "candidate_current_policy_loss_count": policy_counts.get("CURRENT_POLICY_LOSS", 0),
+        "candidate_current_policy_missed_mfe_count": policy_counts.get("CURRENT_POLICY_MISSED_MFE", 0),
+        "candidate_bad_path_rate": round_float(path_counts.get("BAD_PATH", 0) / len(candidates)) if candidates else 0.0,
+        f"avg_net_return_{suffix}_bps": avg(recorded_net_values(candidates, suffix)),
+        "near_miss_count": len(near_misses),
+        f"near_miss_avg_net_return_{suffix}_bps": avg(recorded_net_values(near_misses, suffix)),
+        "avg_net_by_candidate_source": recorded_summary_groups(candidates, ["candidate_source"], reference_horizon_minutes),
+        "avg_net_by_playbook_side_regime": recorded_summary_groups(candidates, ["playbook", "side", "regime"], reference_horizon_minutes),
+        "candidate_vs_near_miss": recorded_summary_groups(
+            [row for row in rows if row.get("status") in {"CANDIDATE", "EXECUTED", "NEAR_MISS"}],
+            ["status"],
+            reference_horizon_minutes,
+        ),
+    }
+
+
+def recorded_prior_keys() -> list[str]:
+    return ["playbook", "side", "regime", "in_play_score_bucket", "setup_score_bucket", "cost_bucket"]
+
+
+def build_recorded_rolling_prior(rows: Sequence[dict[str, Any]], horizon_minutes: int) -> list[dict[str, Any]]:
+    suffix = f"{horizon_minutes}m"
+    keys = recorded_prior_keys()
+    grouped: dict[tuple[str, ...], list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        grouped[tuple(str(row.get(key) or "") for key in keys)].append(row)
+    out: list[dict[str, Any]] = []
+    for key_values, group in grouped.items():
+        covered = [row for row in group if row.get(f"covered_{suffix}")]
+        returns = recorded_net_values(group, suffix)
+        record = {key: value for key, value in zip(keys, key_values, strict=False)}
+        record.update(
+            {
+                "key": "|".join(key_values),
+                "horizon_minutes": horizon_minutes,
+                "episode_count": len(group),
+                "covered_count": len(covered),
+                "avg_60m_net_bps": avg(returns),
+                "tp_hit_rate": round_float(len([row for row in covered if row.get(f"tp_hit_{suffix}")]) / len(covered)) if covered else 0.0,
+                "sl_hit_rate": round_float(len([row for row in covered if row.get(f"sl_hit_{suffix}")]) / len(covered)) if covered else 0.0,
+                "MISSED_UNDER_CURRENT_POLICY_rate": round_float(len([row for row in group if row.get("policy_outcome") == "MISSED_UNDER_CURRENT_POLICY"]) / len(group)) if group else 0.0,
+                "BAD_PATH_rate": round_float(len([row for row in group if row.get("path_quality") == "BAD_PATH"]) / len(group)) if group else 0.0,
+                "current_policy_loss_rate": round_float(
+                    len([row for row in group if row.get("policy_outcome") in current_policy_negative_outcomes()]) / len(group)
+                ) if group else 0.0,
+            }
+        )
+        out.append(record)
+    return sorted(out, key=lambda row: (-int(row["episode_count"]), str(row["key"])))
+
+
+def build_recorded_candidate_suppression_recommendations(
+    rows: Sequence[dict[str, Any]],
+    horizon_minutes: int,
+) -> list[dict[str, Any]]:
+    suffix = f"{horizon_minutes}m"
+    keys = recorded_prior_keys()
+    grouped: dict[tuple[str, ...], list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        grouped[tuple(str(row.get(key) or "") for key in keys)].append(row)
+
+    recommendations: list[dict[str, Any]] = []
+    for key_values, group in grouped.items():
+        base = {key: value for key, value in zip(keys, key_values, strict=False)}
+        key = "|".join(key_values)
+        candidates = [row for row in group if row.get("status") in {"CANDIDATE", "EXECUTED"} and row.get(f"covered_{suffix}")]
+        near_misses = [row for row in group if row.get("status") == "NEAR_MISS" and row.get(f"covered_{suffix}")]
+        candidate_avg = avg(recorded_net_values(candidates, suffix))
+        near_miss_avg = avg(recorded_net_values(near_misses, suffix))
+        if len(candidates) >= RECORDED_RECOMMENDATION_MIN_EPISODES and candidate_avg < 0:
+            recommendations.append(
+                {
+                    **base,
+                    "key": key,
+                    "recommendation": "DEMOTE_CANDIDATE_BUCKET_TO_NEAR_MISS",
+                    "episode_count": len(candidates),
+                    "avg_net_bps": candidate_avg,
+                    "threshold_bps": 0.0,
+                    "note": "Diagnostic only; verify BAD_PATH rate versus current-policy failures before changing selection.",
+                }
+            )
+        if len(near_misses) >= RECORDED_RECOMMENDATION_MIN_EPISODES and near_miss_avg > RECORDED_NEAR_MISS_PROMOTION_REVIEW_NET_BPS:
+            recommendations.append(
+                {
+                    **base,
+                    "key": key,
+                    "recommendation": "REVIEW_NEAR_MISS_PROMOTION_THRESHOLD",
+                    "episode_count": len(near_misses),
+                    "avg_net_bps": near_miss_avg,
+                    "threshold_bps": RECORDED_NEAR_MISS_PROMOTION_REVIEW_NET_BPS,
+                    "note": "Diagnostic only; do not deploy automatically.",
+                }
+            )
+    return sorted(recommendations, key=lambda row: (str(row["recommendation"]), -int(row["episode_count"]), str(row["key"])))
+
+
+def count_rows_by(rows: Sequence[dict[str, Any]], keys: Sequence[str]) -> list[dict[str, Any]]:
+    grouped: dict[tuple[str, ...], list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        grouped[tuple(str(row.get(key) or "") for key in keys)].append(row)
+    out: list[dict[str, Any]] = []
+    for key_values, group in grouped.items():
+        record = {key: value for key, value in zip(keys, key_values, strict=False)}
+        record["episodes"] = len(group)
+        out.append(record)
+    return sorted(out, key=lambda item: (-int(item["episodes"]), tuple(str(item.get(key) or "") for key in keys)))
+
+
+def recorded_path_quality_by_status(rows: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
+    statuses = sorted({str(row.get("status") or "unknown") for row in rows})
+    labels = ["GOOD_PATH", "BAD_PATH", "NOISY_PATH", "LATE_PATH", "UNTRADEABLE_PATH", "UNCOVERED_PATH"]
+    out: list[dict[str, Any]] = []
+    for status in statuses:
+        group = [row for row in rows if str(row.get("status") or "unknown") == status]
+        counts = Counter(str(row.get("path_quality") or "unknown") for row in group)
+        record = {"status": status, "episodes": len(group)}
+        record.update({label: counts.get(label, 0) for label in labels})
+        out.append(record)
+    return sorted(out, key=lambda row: (-int(row["episodes"]), str(row["status"])))
+
+
+def recorded_policy_outcome_by_status(rows: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
+    statuses = sorted({str(row.get("status") or "unknown") for row in rows})
+    labels = [
+        "CURRENT_POLICY_WIN",
+        "CURRENT_POLICY_LOSS",
+        "CURRENT_POLICY_STOPPED",
+        "CURRENT_POLICY_MISSED_MFE",
+        "CURRENT_POLICY_TOO_TIGHT",
+        "CURRENT_POLICY_FEE_CHURN",
+        "MISSED_UNDER_CURRENT_POLICY",
+        "GOOD_BLOCK_UNDER_CURRENT_POLICY",
+        "CURRENT_POLICY_NEUTRAL",
+        "UNCOVERED",
+    ]
+    out: list[dict[str, Any]] = []
+    for status in statuses:
+        group = [row for row in rows if str(row.get("status") or "unknown") == status]
+        counts = Counter(str(row.get("policy_outcome") or "unknown") for row in group)
+        record = {"status": status, "episodes": len(group)}
+        record.update({label: counts.get(label, 0) for label in labels})
+        out.append(record)
+    return sorted(out, key=lambda row: (-int(row["episodes"]), str(row["status"])))
+
+
+def recorded_combined_matrix(rows: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
+    grouped: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        grouped[(str(row.get("path_quality") or "unknown"), str(row.get("policy_outcome") or "unknown"))].append(row)
+    out: list[dict[str, Any]] = []
+    for (path_quality, policy_outcome), group in grouped.items():
+        out.append(
+            {
+                "path_quality": path_quality,
+                "policy_outcome": policy_outcome,
+                "episodes": len(group),
+                "avg_current_policy_net_bps": avg([safe_float(row.get("current_policy_net_bps"), 0.0) for row in group if safe_optional_float(row.get("current_policy_net_bps")) is not None]),
+                "avg_best_policy_net_bps": avg([safe_float(row.get("best_policy_net_bps"), 0.0) for row in group if safe_optional_float(row.get("best_policy_net_bps")) is not None]),
+                "avg_robust_policy_score": avg([safe_float(row.get("robust_policy_score"), 0.0) for row in group if safe_optional_float(row.get("robust_policy_score")) is not None]),
+            }
+        )
+    return sorted(out, key=lambda row: (-int(row["episodes"]), str(row["path_quality"]), str(row["policy_outcome"])))
+
+
+def recorded_candidate_path_quality(rows: Sequence[dict[str, Any]], reference_horizon_minutes: int) -> list[dict[str, Any]]:
+    return recorded_summary_groups(recorded_candidate_rows(rows), ["status", "path_quality"], reference_horizon_minutes)
+
+
+def recorded_candidate_policy_outcome(rows: Sequence[dict[str, Any]], reference_horizon_minutes: int) -> list[dict[str, Any]]:
+    return recorded_summary_groups(recorded_candidate_rows(rows), ["status", "policy_outcome"], reference_horizon_minutes)
+
+
+def recorded_candidate_source_by_path_quality(rows: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
+    grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        grouped[str(row.get("candidate_source") or "unknown")].append(row)
+    out: list[dict[str, Any]] = []
+    for source, group in grouped.items():
+        path_counts = Counter(str(row.get("path_quality") or "unknown") for row in group)
+        policy_counts = Counter(str(row.get("policy_outcome") or "unknown") for row in group)
+        out.append(
+            {
+                "candidate_source": source,
+                "episodes": len(group),
+                "GOOD_PATH_rate": round_float(path_counts.get("GOOD_PATH", 0) / len(group)) if group else 0.0,
+                "BAD_PATH_rate": round_float(path_counts.get("BAD_PATH", 0) / len(group)) if group else 0.0,
+                "policy_win_rate": round_float(policy_counts.get("CURRENT_POLICY_WIN", 0) / len(group)) if group else 0.0,
+                "avg_best_policy_net": avg([safe_float(row.get("best_policy_net_bps"), 0.0) for row in group if safe_optional_float(row.get("best_policy_net_bps")) is not None]),
+                "robust_policy_score": avg([safe_float(row.get("robust_policy_score"), 0.0) for row in group if safe_optional_float(row.get("robust_policy_score")) is not None]),
+            }
+        )
+    return sorted(out, key=lambda row: (-int(row["episodes"]), str(row["candidate_source"])))
+
+
+def recorded_policy_sensitivity(rows: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
+    grouped: dict[tuple[str, str, str], list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        grouped[
+            (
+                str(row.get("status") or "unknown"),
+                str(row.get("candidate_source") or "unknown"),
+                str(row.get("playbook") or "unknown"),
+            )
+        ].append(row)
+    out: list[dict[str, Any]] = []
+    for (status, source, playbook), group in grouped.items():
+        out.append(
+            {
+                "status": status,
+                "candidate_source": source,
+                "playbook": playbook,
+                "episodes": len(group),
+                "current_avg_net": avg([safe_float(row.get("current_policy_net_bps"), 0.0) for row in group if safe_optional_float(row.get("current_policy_net_bps")) is not None]),
+                "best_policy_avg_net": avg([safe_float(row.get("best_policy_net_bps"), 0.0) for row in group if safe_optional_float(row.get("best_policy_net_bps")) is not None]),
+                "robust_policy_score": avg([safe_float(row.get("robust_policy_score"), 0.0) for row in group if safe_optional_float(row.get("robust_policy_score")) is not None]),
+                "current_policy_rank": avg([safe_float(row.get("current_policy_rank"), 0.0) for row in group if safe_optional_float(row.get("current_policy_rank")) is not None]),
+            }
+        )
+    return sorted(out, key=lambda row: (-int(row["episodes"]), str(row["status"]), str(row["candidate_source"]), str(row["playbook"])))
+
+
+def recorded_late_entry_analysis(rows: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
+    for flag in ["is_late_chase", "is_extended_breakout", "is_pullback_continuation", "is_fresh_continuation"]:
+        group = [row for row in rows if bool(row.get(flag))]
+        out.append(
+            {
+                "flag": flag,
+                "episodes": len(group),
+                "avg_current_net": avg([safe_float(row.get("current_policy_net_bps"), 0.0) for row in group if safe_optional_float(row.get("current_policy_net_bps")) is not None]),
+                "avg_best_net": avg([safe_float(row.get("best_policy_net_bps"), 0.0) for row in group if safe_optional_float(row.get("best_policy_net_bps")) is not None]),
+                "bad_policy_rate": round_float(len([row for row in group if row.get("policy_outcome") in current_policy_negative_outcomes()]) / len(group)) if group else 0.0,
+            }
+        )
+    return out
+
+
+def recorded_specific_counts(rows: Sequence[dict[str, Any]]) -> dict[str, int]:
+    return {
+        "CANDIDATE_GOOD_PATH_CURRENT_POLICY_LOSS": len([
+            row for row in rows
+            if row.get("status") in {"CANDIDATE", "EXECUTED"}
+            and row.get("path_quality") == "GOOD_PATH"
+            and row.get("policy_outcome") == "CURRENT_POLICY_LOSS"
+        ]),
+        "CANDIDATE_BAD_PATH_CURRENT_POLICY_LOSS": len([
+            row for row in rows
+            if row.get("status") in {"CANDIDATE", "EXECUTED"}
+            and row.get("path_quality") == "BAD_PATH"
+            and row.get("policy_outcome") == "CURRENT_POLICY_LOSS"
+        ]),
+        "NEAR_MISS_GOOD_PATH": len([
+            row for row in rows
+            if row.get("status") == "NEAR_MISS" and row.get("path_quality") == "GOOD_PATH"
+        ]),
+        "GOOD_PATH_CURRENT_POLICY_MISSED_MFE": len([
+            row for row in rows
+            if row.get("path_quality") == "GOOD_PATH" and row.get("policy_outcome") == "CURRENT_POLICY_MISSED_MFE"
+        ]),
+        "GOOD_PATH_CURRENT_POLICY_LOSS": len([
+            row for row in rows
+            if row.get("path_quality") == "GOOD_PATH" and row.get("policy_outcome") == "CURRENT_POLICY_LOSS"
+        ]),
+        "EXECUTION_BLOCKED_GOOD_PATH": len([
+            row for row in rows
+            if row.get("status") == "EXECUTION_BLOCKED" and row.get("path_quality") == "GOOD_PATH"
+        ]),
+        "BAD_PATH_CURRENT_POLICY_WIN": len([
+            row for row in rows
+            if row.get("path_quality") == "BAD_PATH" and row.get("policy_outcome") == "CURRENT_POLICY_WIN"
+        ]),
+    }
+
+
+def build_recorded_opportunity_summary(rows: list[dict[str, Any]], settings: OptimizerSettings) -> dict[str, Any]:
+    ref = reference_calibration_horizon(settings.calibration_horizons_minutes)
+    rolling_horizon = 60 if 60 in {int(value) for value in settings.calibration_horizons_minutes} else ref
+    coverage = {
+        f"{int(horizon)}m": {
+            "covered": len([row for row in rows if row.get(f"covered_{int(horizon)}m")]),
+            "total": len(rows),
+            "coverage_rate": round_float(len([row for row in rows if row.get(f"covered_{int(horizon)}m")]) / len(rows)) if rows else 0.0,
+        }
+        for horizon in settings.calibration_horizons_minutes
+    }
+    return {
+        "mode": "recorded_opportunity_calibration",
+        "note": "Diagnostic report only. Do not deploy calibration output as a production config.",
+        "source": settings.source,
+        "base_agent": settings.agent_preset_name,
+        "screening_preset": settings.screening_preset_name,
+        "start": iso_ms(settings.start_ms),
+        "end": iso_ms(settings.end_ms),
+        "horizons_minutes": settings.calibration_horizons_minutes,
+        "reference_horizon_minutes": ref,
+        "policy_grid_enabled": settings.policy_grid,
+        "episode_count": len(rows),
+        "status_counts": dict(Counter(str(row.get("status") or "unknown") for row in rows)),
+        "classification_counts": dict(Counter(str(row.get("combined_classification") or row.get("classification") or "unknown") for row in rows)),
+        "legacy_classification_counts": dict(Counter(str(row.get("legacy_classification") or "unknown") for row in rows)),
+        "path_quality_counts": dict(Counter(str(row.get("path_quality") or "unknown") for row in rows)),
+        "policy_outcome_counts": dict(Counter(str(row.get("policy_outcome") or "unknown") for row in rows)),
+        "combined_classification_counts": dict(Counter(str(row.get("combined_classification") or "unknown") for row in rows)),
+        "coverage": coverage,
+        "specific_counts": recorded_specific_counts(rows),
+        "candidate_quality": build_recorded_candidate_quality_report(rows, ref),
+        "path_quality_by_status": recorded_path_quality_by_status(rows),
+        "policy_outcome_by_status": recorded_policy_outcome_by_status(rows),
+        "combined_matrix": recorded_combined_matrix(rows),
+        "candidate_path_quality": recorded_candidate_path_quality(rows, ref),
+        "candidate_policy_outcome": recorded_candidate_policy_outcome(rows, ref),
+        "candidate_source_by_path_quality": recorded_candidate_source_by_path_quality(rows),
+        "policy_sensitivity": recorded_policy_sensitivity(rows),
+        "policy_grid_summary": recorded_policy_sensitivity(rows),
+        "late_entry_analysis": recorded_late_entry_analysis(rows),
+        "current_policy_avg_rank": avg([safe_float(row.get("current_policy_rank"), 0.0) for row in rows if safe_optional_float(row.get("current_policy_rank")) is not None]),
+        "rolling_prior_horizon_minutes": rolling_horizon,
+        "rolling_prior": build_recorded_rolling_prior(rows, rolling_horizon),
+        "candidate_suppression_recommendations": build_recorded_candidate_suppression_recommendations(rows, rolling_horizon),
+        "recommendation_policy": {
+            "min_episodes": RECORDED_RECOMMENDATION_MIN_EPISODES,
+            "candidate_demote_if_avg_net_below_bps": 0.0,
+            "near_miss_review_if_avg_net_above_bps": RECORDED_NEAR_MISS_PROMOTION_REVIEW_NET_BPS,
+            "applied_automatically": False,
+        },
+        "groups": {
+            "status": recorded_summary_groups(rows, ["status"], ref),
+            "primary_block_reason": recorded_summary_groups(rows, ["primary_block_reason"], ref),
+            "symbol": recorded_summary_groups(rows, ["symbol"], ref),
+            "playbook_side_regime": recorded_summary_groups(rows, ["playbook", "side", "regime"], ref),
+            "in_play_score_bucket": recorded_summary_groups(rows, ["in_play_score_bucket"], ref),
+            "setup_score_bucket": recorded_summary_groups(rows, ["setup_score_bucket"], ref),
+            "cost_bucket": recorded_summary_groups(rows, ["cost_bucket"], ref),
+            "depth_bucket": recorded_summary_groups(rows, ["depth_bucket"], ref),
+            "spread_bucket": recorded_summary_groups(rows, ["spread_bucket"], ref),
+        },
+        "artifacts": {
+            "rows": "recorded_opportunity_calibration.jsonl",
+            "rows_parquet": "recorded_opportunity_rows.parquet",
+            "episodes": "recorded_opportunity_episodes.jsonl",
+            "episodes_parquet": "recorded_opportunity_episodes.parquet",
+            "summary": "recorded_opportunity_summary.json",
+            "report": "recorded_opportunity_report.md",
+            "by_status": "by_status.csv",
+            "by_path_quality": "by_path_quality.csv",
+            "by_policy_outcome": "by_policy_outcome.csv",
+            "by_combined_classification": "by_combined_classification.csv",
+            "by_primary_block_reason": "by_primary_block_reason.csv",
+            "by_symbol": "by_symbol.csv",
+            "by_playbook_side_regime": "by_playbook_side_regime.csv",
+            "by_in_play_score_bucket": "by_in_play_score_bucket.csv",
+            "by_setup_score_bucket": "by_setup_score_bucket.csv",
+            "by_cost_bucket": "by_cost_bucket.csv",
+            "by_depth_bucket": "by_depth_bucket.csv",
+            "by_spread_bucket": "by_spread_bucket.csv",
+            "candidate_quality_by_source": "candidate_quality_by_source.csv",
+            "candidate_source_by_path_quality": "candidate_source_by_path_quality.csv",
+            "candidate_quality_by_playbook_side_regime": "candidate_quality_by_playbook_side_regime.csv",
+            "candidate_vs_near_miss": "candidate_vs_near_miss.csv",
+            "candidate_path_quality": "candidate_path_quality.csv",
+            "candidate_policy_outcome": "candidate_policy_outcome.csv",
+            "good_path_current_policy_loss": "good_path_current_policy_loss.csv",
+            "near_miss_good_path": "near_miss_good_path.csv",
+            "execution_blocked_good_path": "execution_blocked_good_path.csv",
+            "policy_grid_summary": "policy_grid_summary.csv",
+            "late_entry_analysis": "late_entry_analysis.csv",
+            "rolling_prior": "rolling_prior.csv",
+            "candidate_suppression_recommendations": "candidate_suppression_recommendations.csv",
+            "top_missed_opportunities": "top_missed_opportunities.csv",
+            "good_blocks": "good_blocks.csv",
+            "bad_candidates": "bad_candidates.csv",
+            "candidate_vs_near_miss_rows": "candidate_vs_near_miss_rows.csv",
+        },
+    }
+
+
+def flatten_recorded_rows_for_csv(rows: Sequence[dict[str, Any]], horizons: Sequence[int]) -> list[dict[str, Any]]:
+    fields = [
+        "opportunity_episode_id",
+        "episode_first_opportunity_id",
+        "episode_start",
+        "episode_row_count",
+        "symbol",
+        "side",
+        "status",
+        "classification",
+        "legacy_classification",
+        "policy_outcome",
+        "path_quality",
+        "combined_classification",
+        "playbook",
+        "setup_type",
+        "primary_block_reason",
+        "opportunity_reasons",
+        "candidate_source",
+        "candidate_journal_status",
+        "candidate_journal_llm_action",
+        "candidate_journal_validator_status",
+        "candidate_journal_validator_reason",
+        "auto_trader_decision_action",
+        "auto_trader_validator_status",
+        "in_play_score",
+        "in_play_score_bucket",
+        "setup_score",
+        "setup_score_bucket",
+        "entry_price_mid",
+        "entry_price_realistic",
+        "spread_bps",
+        "spread_bucket",
+        "slippage_bps",
+        "fees_bps",
+        "cost_bps",
+        "cost_bucket",
+        "depth_usd",
+        "depth_bucket",
+        "regime",
+        "stop_loss_bps",
+        "take_profit_bps",
+        "pre_signal_return_5m_bps",
+        "pre_signal_return_15m_bps",
+        "pre_signal_return_60m_bps",
+        "impulse_direction",
+        "impulse_bps",
+        "impulse_age_minutes",
+        "distance_from_local_high_bps",
+        "distance_from_local_low_bps",
+        "pullback_pct_of_impulse",
+        "is_late_chase",
+        "is_extended_breakout",
+        "is_fresh_continuation",
+        "is_pullback_continuation",
+        "best_policy_name",
+        "best_policy_net_bps",
+        "best_policy_gross_bps",
+        "best_policy_max_drawdown_bps",
+        "best_policy_exit_reason",
+        "profitable_policy_count",
+        "tested_policy_count",
+        "robust_policy_score",
+        "current_policy_net_bps",
+        "current_policy_rank",
+        "current_policy_delta_vs_best",
+        "actual_trade_net_bps",
+        "actual_trade_exit_reason",
+        "actual_trade_close_action",
+        "actual_trade_pm_actions",
+        "actual_trade_mfe_bps",
+        "actual_trade_mae_bps",
+        "actual_vs_current_policy_delta_bps",
+        "actual_vs_best_policy_delta_bps",
+    ]
+    horizon_fields: list[str] = []
+    for horizon in horizons:
+        suffix = f"{int(horizon)}m"
+        horizon_fields.extend(
+            [
+                f"covered_{suffix}",
+                f"coverage_{suffix}",
+                f"gross_return_mid_{suffix}_bps",
+                f"net_return_realistic_{suffix}_bps",
+                f"current_policy_gross_{suffix}_bps",
+                f"current_policy_net_{suffix}_bps",
+                f"current_policy_max_drawdown_{suffix}_bps",
+                f"current_policy_exit_reason_{suffix}",
+                f"return_{suffix}_bps",
+                f"gross_return_{suffix}_bps",
+                f"cost_adjusted_mfe_{suffix}_bps",
+                f"cost_adjusted_return_{suffix}_bps",
+                f"mfe_{suffix}_bps",
+                f"mae_{suffix}_bps",
+                f"time_to_mfe_{suffix}_minutes",
+                f"time_to_mae_{suffix}_minutes",
+                f"favorable_before_adverse_{suffix}",
+                f"adverse_before_favorable_{suffix}",
+                f"mfe_before_20bps_adverse_{suffix}_bps",
+                f"mfe_before_30bps_adverse_{suffix}_bps",
+                f"mfe_before_50bps_adverse_{suffix}_bps",
+                f"mae_before_20bps_favorable_{suffix}_bps",
+                f"mae_before_30bps_favorable_{suffix}_bps",
+                f"mfe_mae_ratio_{suffix}",
+                f"path_efficiency_{suffix}",
+                f"tp_hit_{suffix}",
+                f"sl_hit_{suffix}",
+                f"first_trigger_{suffix}",
+            ]
+        )
+    return [{field: row.get(field) for field in fields + horizon_fields} for row in rows]
+
+
+def write_recorded_opportunity_artifacts(
+    output_dir: Path,
+    rows: list[dict[str, Any]],
+    summary: dict[str, Any],
+    settings: OptimizerSettings,
+) -> None:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    ref = reference_calibration_horizon(settings.calibration_horizons_minutes)
+    suffix = f"{ref}m"
+    write_jsonl(output_dir / "recorded_opportunity_calibration.jsonl", rows)
+    write_parquet_rows(output_dir / "recorded_opportunity_rows.parquet", rows)
+    episode_rows = [
+        {
+            "opportunity_episode_id": row.get("opportunity_episode_id"),
+            "episode_first_opportunity_id": row.get("episode_first_opportunity_id"),
+            "episode_start_ms": row.get("episode_start_ms"),
+            "episode_start": row.get("episode_start"),
+            "episode_end_ms": row.get("episode_end_ms"),
+            "episode_end": row.get("episode_end"),
+            "episode_row_count": row.get("episode_row_count"),
+            "symbol": row.get("symbol"),
+            "side": row.get("side"),
+            "status": row.get("status"),
+            "legacy_classification": row.get("legacy_classification"),
+            "policy_outcome": row.get("policy_outcome"),
+            "path_quality": row.get("path_quality"),
+            "combined_classification": row.get("combined_classification"),
+        }
+        for row in rows
+    ]
+    write_jsonl(
+        output_dir / "recorded_opportunity_episodes.jsonl",
+        episode_rows,
+    )
+    write_parquet_rows(output_dir / "recorded_opportunity_episodes.parquet", episode_rows)
+    write_json(output_dir / "recorded_opportunity_summary.json", summary)
+    write_csv(output_dir / "by_status.csv", summary["groups"]["status"])
+    write_csv(output_dir / "by_path_quality.csv", recorded_summary_groups(rows, ["path_quality"], ref))
+    write_csv(output_dir / "by_policy_outcome.csv", recorded_summary_groups(rows, ["policy_outcome"], ref))
+    write_csv(output_dir / "by_combined_classification.csv", recorded_summary_groups(rows, ["combined_classification"], ref))
+    write_csv(output_dir / "by_primary_block_reason.csv", summary["groups"]["primary_block_reason"])
+    write_csv(output_dir / "by_symbol.csv", summary["groups"]["symbol"])
+    write_csv(output_dir / "by_playbook_side_regime.csv", summary["groups"]["playbook_side_regime"])
+    write_csv(output_dir / "by_in_play_score_bucket.csv", summary["groups"]["in_play_score_bucket"])
+    write_csv(output_dir / "by_setup_score_bucket.csv", summary["groups"]["setup_score_bucket"])
+    write_csv(output_dir / "by_cost_bucket.csv", summary["groups"]["cost_bucket"])
+    write_csv(output_dir / "by_depth_bucket.csv", summary["groups"]["depth_bucket"])
+    write_csv(output_dir / "by_spread_bucket.csv", summary["groups"]["spread_bucket"])
+    write_csv(output_dir / "candidate_quality_by_source.csv", summary["candidate_quality"]["avg_net_by_candidate_source"])
+    write_csv(output_dir / "candidate_source_by_path_quality.csv", summary["candidate_source_by_path_quality"])
+    write_csv(output_dir / "candidate_quality_by_playbook_side_regime.csv", summary["candidate_quality"]["avg_net_by_playbook_side_regime"])
+    write_csv(output_dir / "candidate_vs_near_miss.csv", summary["candidate_quality"]["candidate_vs_near_miss"])
+    write_csv(output_dir / "candidate_path_quality.csv", summary["candidate_path_quality"])
+    write_csv(output_dir / "candidate_policy_outcome.csv", summary["candidate_policy_outcome"])
+    write_csv(output_dir / "policy_grid_summary.csv", summary["policy_grid_summary"])
+    write_csv(output_dir / "late_entry_analysis.csv", summary["late_entry_analysis"])
+    write_csv(output_dir / "rolling_prior.csv", summary["rolling_prior"])
+    write_csv(output_dir / "candidate_suppression_recommendations.csv", summary["candidate_suppression_recommendations"])
+    top_missed = sorted(
+        [row for row in rows if row.get("policy_outcome") == "MISSED_UNDER_CURRENT_POLICY"],
+        key=lambda row: safe_float(row.get(f"current_policy_net_{suffix}_bps"), -999_999.0),
+        reverse=True,
+    )[:250]
+    good_blocks = sorted(
+        [row for row in rows if row.get("policy_outcome") == "GOOD_BLOCK_UNDER_CURRENT_POLICY"],
+        key=lambda row: safe_float(row.get(f"current_policy_net_{suffix}_bps"), 999_999.0),
+    )[:250]
+    bad_candidates = sorted(
+        [row for row in rows if row.get("legacy_classification") == "bad_candidate"],
+        key=lambda row: safe_float(row.get(f"current_policy_net_{suffix}_bps"), 999_999.0),
+    )[:250]
+    candidate_vs_near_miss = [row for row in rows if row.get("status") in {"CANDIDATE", "NEAR_MISS"}]
+    good_path_current_policy_loss = [
+        row for row in rows
+        if row.get("path_quality") == "GOOD_PATH" and row.get("policy_outcome") in current_policy_negative_outcomes()
+    ]
+    near_miss_good_path = [row for row in rows if row.get("status") == "NEAR_MISS" and row.get("path_quality") == "GOOD_PATH"]
+    execution_blocked_good_path = [
+        row for row in rows
+        if row.get("status") == "EXECUTION_BLOCKED" and row.get("path_quality") == "GOOD_PATH"
+    ]
+    write_csv(output_dir / "top_missed_opportunities.csv", flatten_recorded_rows_for_csv(top_missed, settings.calibration_horizons_minutes))
+    write_csv(output_dir / "good_blocks.csv", flatten_recorded_rows_for_csv(good_blocks, settings.calibration_horizons_minutes))
+    write_csv(output_dir / "bad_candidates.csv", flatten_recorded_rows_for_csv(bad_candidates, settings.calibration_horizons_minutes))
+    write_csv(output_dir / "candidate_vs_near_miss_rows.csv", flatten_recorded_rows_for_csv(candidate_vs_near_miss, settings.calibration_horizons_minutes))
+    write_csv(output_dir / "good_path_current_policy_loss.csv", flatten_recorded_rows_for_csv(good_path_current_policy_loss, settings.calibration_horizons_minutes))
+    write_csv(output_dir / "near_miss_good_path.csv", flatten_recorded_rows_for_csv(near_miss_good_path, settings.calibration_horizons_minutes))
+    write_csv(output_dir / "execution_blocked_good_path.csv", flatten_recorded_rows_for_csv(execution_blocked_good_path, settings.calibration_horizons_minutes))
+    (output_dir / "recorded_opportunity_report.md").write_text(render_recorded_opportunity_report(summary), encoding="utf-8")
+
+
+def render_recorded_opportunity_report(summary: dict[str, Any]) -> str:
+    ref = int(summary.get("reference_horizon_minutes") or 60)
+    specific = summary.get("specific_counts", {})
+
+    def table(rows: Sequence[dict[str, Any]], columns: Sequence[str], limit: int | None = None) -> list[str]:
+        selected = list(rows[:limit] if limit is not None else rows)
+        if not selected:
+            return ["_No rows._"]
+        header = "| " + " | ".join(columns) + " |"
+        divider = "| " + " | ".join(["---"] * len(columns)) + " |"
+        body = [
+            "| " + " | ".join(str(row.get(column, "")) for column in columns) + " |"
+            for row in selected
+        ]
+        return [header, divider, *body]
+
+    lines = [
+        "# Recorded Opportunity Calibration",
+        "",
+        "Diagnostic report only. Opportunity path quality is separated from current TP/SL policy outcome. Do not deploy calibration output as a production config.",
+        "",
+        f"- Window: {summary.get('start')} to {summary.get('end')}",
+        f"- Base agent: {summary.get('base_agent')}",
+        f"- Screening preset: {summary.get('screening_preset')}",
+        f"- Episodes: {summary.get('episode_count', 0)}",
+        f"- Status counts: {json.dumps(summary.get('status_counts', {}), sort_keys=True)}",
+        f"- Path quality counts: {json.dumps(summary.get('path_quality_counts', {}), sort_keys=True)}",
+        f"- Policy outcome counts: {json.dumps(summary.get('policy_outcome_counts', {}), sort_keys=True)}",
+        f"- Combined classification counts: {json.dumps(summary.get('combined_classification_counts', {}), sort_keys=True)}",
+        f"- Coverage: {json.dumps(summary.get('coverage', {}), sort_keys=True)}",
+        f"- Current policy avg rank among grid policies: {summary.get('current_policy_avg_rank')}",
+        "",
+        "## Key Diagnostics",
+        "",
+        f"- CANDIDATE + GOOD_PATH + CURRENT_POLICY_LOSS: {specific.get('CANDIDATE_GOOD_PATH_CURRENT_POLICY_LOSS', 0)} episodes",
+        f"- CANDIDATE + BAD_PATH + CURRENT_POLICY_LOSS: {specific.get('CANDIDATE_BAD_PATH_CURRENT_POLICY_LOSS', 0)} episodes",
+        f"- NEAR_MISS + GOOD_PATH: {specific.get('NEAR_MISS_GOOD_PATH', 0)} episodes",
+        f"- GOOD_PATH + CURRENT_POLICY_MISSED_MFE: {specific.get('GOOD_PATH_CURRENT_POLICY_MISSED_MFE', 0)} episodes",
+        f"- GOOD_PATH + CURRENT_POLICY_LOSS: {specific.get('GOOD_PATH_CURRENT_POLICY_LOSS', 0)} episodes",
+        f"- BAD_PATH + CURRENT_POLICY_WIN: {specific.get('BAD_PATH_CURRENT_POLICY_WIN', 0)} episodes",
+        f"- EXECUTION_BLOCKED + GOOD_PATH: {specific.get('EXECUTION_BLOCKED_GOOD_PATH', 0)} episodes",
+        "",
+        "## A. Opportunity Path Quality By Status",
+        "",
+    ]
+    lines.extend(table(
+        summary.get("path_quality_by_status", []),
+        ["status", "episodes", "GOOD_PATH", "BAD_PATH", "NOISY_PATH", "LATE_PATH", "UNTRADEABLE_PATH", "UNCOVERED_PATH"],
+    ))
+    lines.extend(["", "## B. Current Policy Outcome By Status", ""])
+    lines.extend(table(
+        summary.get("policy_outcome_by_status", []),
+        ["status", "episodes", "CURRENT_POLICY_WIN", "CURRENT_POLICY_LOSS", "CURRENT_POLICY_STOPPED", "CURRENT_POLICY_MISSED_MFE", "CURRENT_POLICY_FEE_CHURN"],
+    ))
+    lines.extend(["", "## C. Combined Matrix", ""])
+    lines.extend(table(
+        summary.get("combined_matrix", []),
+        ["path_quality", "policy_outcome", "episodes", "avg_current_policy_net_bps", "avg_best_policy_net_bps", "avg_robust_policy_score"],
+        limit=30,
+    ))
+    candidate_quality = summary.get("candidate_quality", {})
+    lines.extend(["", "## Candidate Quality", ""])
+    lines.append(
+        f"- Candidate Path Quality: GOOD_PATH {candidate_quality.get('candidate_good_path_count', 0)}, "
+        f"BAD_PATH {candidate_quality.get('candidate_bad_path_count', 0)}, "
+        f"NOISY_PATH {candidate_quality.get('candidate_noisy_path_count', 0)}, "
+        f"LATE_PATH {candidate_quality.get('candidate_late_path_count', 0)}, "
+        f"UNTRADEABLE_PATH {candidate_quality.get('candidate_untradeable_path_count', 0)}"
+    )
+    lines.append(
+        f"- Candidate Policy Outcome: CURRENT_POLICY_WIN {candidate_quality.get('candidate_current_policy_win_count', 0)}, "
+        f"CURRENT_POLICY_LOSS {candidate_quality.get('candidate_current_policy_loss_count', 0)}, "
+        f"CURRENT_POLICY_MISSED_MFE {candidate_quality.get('candidate_current_policy_missed_mfe_count', 0)}"
+    )
+    lines.append("- CANDIDATE + GOOD_PATH + current-policy failure points to risk plan or position-management capture, not necessarily candidate selection.")
+    lines.append("- CANDIDATE + BAD_PATH + current-policy failure points to candidate selection or entry timing.")
+    lines.append(f"- Near-miss count: {candidate_quality.get('near_miss_count', 0)}")
+    lines.extend(["", "## D. Candidate Source By Path Quality", ""])
+    lines.extend(table(
+        summary.get("candidate_source_by_path_quality", []),
+        ["candidate_source", "episodes", "GOOD_PATH_rate", "BAD_PATH_rate", "policy_win_rate", "avg_best_policy_net", "robust_policy_score"],
+        limit=20,
+    ))
+    lines.extend(["", "## E. Policy Sensitivity", ""])
+    lines.extend(table(
+        summary.get("policy_sensitivity", []),
+        ["status", "candidate_source", "playbook", "episodes", "current_avg_net", "best_policy_avg_net", "robust_policy_score", "current_policy_rank"],
+        limit=20,
+    ))
+    lines.extend(["", "## F. Late Entry Analysis", ""])
+    lines.extend(table(
+        summary.get("late_entry_analysis", []),
+        ["flag", "episodes", "avg_current_net", "avg_best_net", "bad_policy_rate"],
+    ))
+    lines.extend(["", "## Candidate Vs Near Miss", ""])
+    lines.extend(table(
+        candidate_quality.get("candidate_vs_near_miss", []),
+        ["status", "count", f"avg_net_return_{ref}m_bps", "GOOD_PATH_rate", "BAD_PATH_rate", "policy_win_rate", "current_policy_loss_rate"],
+    ))
+    lines.extend(["", "## Primary Block Reason", ""])
+    lines.extend(table(
+        summary.get("groups", {}).get("primary_block_reason", []),
+        ["primary_block_reason", "count", "GOOD_PATH_rate", "BAD_PATH_rate", "MISSED_UNDER_CURRENT_POLICY_count", "GOOD_BLOCK_UNDER_CURRENT_POLICY_count"],
+        limit=15,
+    ))
+    recommendations = summary.get("candidate_suppression_recommendations", [])
+    lines.extend(["", "## Candidate Suppression Recommendations", ""])
+    lines.append("Diagnostic only. No recommendation has been deployed automatically.")
+    if recommendations:
+        for recommendation in recommendations[:20]:
+            lines.append(
+                f"- {recommendation.get('recommendation')} {recommendation.get('key')}: "
+                f"{recommendation.get('episode_count')} episodes, avg net {recommendation.get('avg_net_bps')}"
+            )
+    else:
+        lines.append("- No recommendation met the configured support thresholds.")
+    lines.extend(["", "## Rolling Prior", ""])
+    lines.append(
+        f"- Horizon: {summary.get('rolling_prior_horizon_minutes')}m. "
+        "See rolling_prior.csv for playbook + side + regime + score/cost bucket priors."
+    )
     lines.append("")
     return "\n".join(lines)
 
@@ -6335,6 +8849,48 @@ def write_csv(path: Path, rows: Sequence[dict[str, Any]], fieldnames: Sequence[s
         writer.writeheader()
         for row in rows:
             writer.writerow({field: clean_for_csv(row.get(field)) for field in fieldnames})
+
+
+def write_parquet_rows(path: Path, rows: Sequence[dict[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fields: list[str] = []
+    cleaned_rows: list[dict[str, Any]] = []
+    for row in rows:
+        cleaned_row = {str(key): clean_for_parquet(value) for key, value in row.items()}
+        cleaned_rows.append(cleaned_row)
+        for field in cleaned_row:
+            if field not in fields:
+                fields.append(field)
+    columns = {
+        field: normalize_parquet_column([row.get(field) for row in cleaned_rows])
+        for field in fields
+    }
+    pl.DataFrame(columns).write_parquet(path, compression="zstd", statistics=True)
+
+
+def normalize_parquet_column(values: Sequence[Any]) -> list[Any]:
+    non_null = [value for value in values if value is not None]
+    if not non_null:
+        return list(values)
+    types = {type(value) for value in non_null}
+    if str in types:
+        return [None if value is None else str(value) for value in values]
+    if types <= {bool}:
+        return list(values)
+    if types <= {int}:
+        return list(values)
+    if types <= {int, float}:
+        return [None if value is None else float(value) for value in values]
+    return [None if value is None else str(value) for value in values]
+
+
+def clean_for_parquet(value: Any) -> Any:
+    cleaned = clean_for_json(value)
+    if isinstance(cleaned, (dict, list)):
+        return json.dumps(cleaned, sort_keys=True)
+    if isinstance(cleaned, (str, int, float, bool)) or cleaned is None:
+        return cleaned
+    return str(cleaned)
 
 
 def clean_for_csv(value: Any) -> Any:

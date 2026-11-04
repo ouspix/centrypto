@@ -2,7 +2,7 @@ import fs from "fs/promises";
 import os from "os";
 import path from "path";
 import { Readable } from "stream";
-import { PrismaClient } from "@prisma/market-client";
+import { PrismaClient } from "@prisma/backtest-client";
 import { describe, expect, it } from "vitest";
 import { AGENT_PRESETS, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
 import { SCREENER_PRESETS } from "@/lib/screener-config";

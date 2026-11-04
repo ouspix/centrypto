@@ -5,13 +5,18 @@ import type { OpportunityDiagnostic } from "@/types/trading";
 
 const mockCreateMany = vi.hoisted(() => vi.fn());
 const mockOpportunityFindFirst = vi.hoisted(() => vi.fn());
+const mockOpportunityFindMany = vi.hoisted(() => vi.fn());
+const mockOpportunityUpdate = vi.hoisted(() => vi.fn());
 const mockSnapshotFindFirst = vi.hoisted(() => vi.fn());
+const mockMarketCandleFindMany = vi.hoisted(() => vi.fn());
 
 vi.mock("@/lib/db", () => ({
     prisma: {
         opportunityJournal: {
             createMany: mockCreateMany,
-            findFirst: mockOpportunityFindFirst
+            findFirst: mockOpportunityFindFirst,
+            findMany: mockOpportunityFindMany,
+            update: mockOpportunityUpdate
         },
         marketStateSnapshot: {
             findFirst: mockSnapshotFindFirst
@@ -19,12 +24,24 @@ vi.mock("@/lib/db", () => ({
     }
 }));
 
+vi.mock("@/lib/market-db", () => ({
+    getMarketDb: vi.fn().mockResolvedValue({
+        marketCandle: {
+            findMany: mockMarketCandleFindMany
+        }
+    }),
+    withMarketDbRetry: vi.fn((_db, _label, fn) => fn())
+}));
+
 describe("OpportunityJournalService", () => {
     beforeEach(() => {
         vi.clearAllMocks();
         mockCreateMany.mockResolvedValue({ count: 1 });
         mockOpportunityFindFirst.mockResolvedValue(null);
+        mockOpportunityFindMany.mockResolvedValue([]);
+        mockOpportunityUpdate.mockResolvedValue({});
         mockSnapshotFindFirst.mockResolvedValue(null);
+        mockMarketCandleFindMany.mockResolvedValue([]);
     });
 
     it("persists execution-blocked opportunity diagnostics with market features", async () => {
@@ -40,7 +57,19 @@ describe("OpportunityJournalService", () => {
             warnings: ["EXECUTION_COST_HIGH"],
             executionTradeable: false,
             executionBlockReasons: ["COST_GATE"],
-            discoveryReasons: ["HOT_MOVER", "VOLUME_SPIKE"]
+            discoveryReasons: ["HOT_MOVER", "VOLUME_SPIKE"],
+            structure_flags: {
+                is_late_chase: true,
+                is_fresh_continuation: false,
+                is_pullback_continuation: false,
+                is_extended_breakout: true
+            },
+            promotion_reason: "PRIOR_BUCKET_SHADOW:Momentum:long|long|RISK_ON|60-69|60-69|25+",
+            demotion_reason: "LATE_CHASE_BLOCK",
+            matched_prior_bucket: "Momentum:long|long|RISK_ON|60-69|60-69|25+",
+            config_epoch: "2026-06-05T08:00:00.000Z",
+            path_quality: "LATE_PATH",
+            policy_outcome: "GOOD_BLOCK_UNDER_CURRENT_POLICY"
         };
         const markets = {
             "FARTCOIN-PERP": market({
@@ -80,13 +109,23 @@ describe("OpportunityJournalService", () => {
             setupScore: 69,
             playbook: "Momentum:long",
             executionTradeable: false,
-            priceAtSignal: 1.23
+            priceAtSignal: 1.23,
+            promotionReason: "PRIOR_BUCKET_SHADOW:Momentum:long|long|RISK_ON|60-69|60-69|25+",
+            demotionReason: "LATE_CHASE_BLOCK",
+            matchedPriorBucket: "Momentum:long|long|RISK_ON|60-69|60-69|25+",
+            configEpoch: new Date("2026-06-05T08:00:00.000Z"),
+            pathQuality: "LATE_PATH",
+            policyOutcome: "GOOD_BLOCK_UNDER_CURRENT_POLICY"
         });
         expect(row.timestamp).toEqual(new Date(1777231828 * 1000));
         expect(JSON.parse(row.discoveryReasonsJson)).toEqual(["HOT_MOVER", "VOLUME_SPIKE"]);
         expect(JSON.parse(row.executionBlockReasonsJson)).toEqual(["COST_GATE"]);
         expect(JSON.parse(row.featuresJson)).toMatchObject({
             execution: { tradeable: false, costBps: 34 },
+            structure_flags: {
+                is_late_chase: true,
+                is_extended_breakout: true
+            },
             derived: { costs: { cost_bps: 34 } },
             market: { price: 1.23 }
         });
@@ -108,11 +147,23 @@ describe("OpportunityJournalService", () => {
             reasonsJson: JSON.stringify(["IMPULSE_UP"]),
             warningsJson: JSON.stringify(["EXECUTION_COST_HIGH"]),
             featuresJson: JSON.stringify({
-                execution: { tradeable: true, costBps: 5, spreadBps: 1, depthUsd: 120000 }
+                execution: { tradeable: true, costBps: 5, spreadBps: 1, depthUsd: 120000 },
+                structure_flags: {
+                    is_late_chase: false,
+                    is_fresh_continuation: true,
+                    is_pullback_continuation: false,
+                    is_extended_breakout: false
+                }
             }),
             executionTradeable: true,
             executionBlockReasonsJson: JSON.stringify([]),
-            priceAtSignal: 50000
+            priceAtSignal: 50000,
+            promotionReason: "STRUCTURE_FRESH_CONTINUATION_BONUS",
+            demotionReason: null,
+            matchedPriorBucket: "Breakout:long|long|RISK_ON|60-69|60-69|05-10",
+            configEpoch: new Date("2026-06-05T08:00:00.000Z"),
+            pathQuality: "GOOD_PATH",
+            policyOutcome: "MISSED_UNDER_CURRENT_POLICY"
         });
 
         const diagnostics = await OpportunityJournalService.getInstance().getLatestSymbolDiagnostics({
@@ -137,7 +188,15 @@ describe("OpportunityJournalService", () => {
             inPlayScore: 63,
             candidateStatus: "NEAR_MISS",
             priceAtSignal: 50000,
+            pathQuality: "GOOD_PATH",
+            policyOutcome: "MISSED_UNDER_CURRENT_POLICY",
+            promotionReason: "STRUCTURE_FRESH_CONTINUATION_BONUS",
+            matchedPriorBucket: "Breakout:long|long|RISK_ON|60-69|60-69|05-10",
+            configEpoch: "2026-06-05T08:00:00.000Z",
             source: "opportunity_journal"
+        });
+        expect(diagnostics.structureFlags).toMatchObject({
+            is_fresh_continuation: true
         });
         expect(diagnostics.setupSignals[0]).toMatchObject({
             setupType: "BREAKOUT_EXPANSION",
@@ -188,6 +247,46 @@ describe("OpportunityJournalService", () => {
                 costBps: 4
             }
         });
+    });
+
+    it("backfills forward outcomes and classifications from 1m candles", async () => {
+        const timestamp = new Date("2026-06-05T08:00:00.000Z");
+        mockOpportunityFindMany.mockResolvedValue([{
+            id: "op-1",
+            network: "testnet",
+            symbol: "BTC-PERP",
+            side: "long",
+            status: "NEAR_MISS",
+            timestamp,
+            priceAtSignal: 100,
+            featuresJson: JSON.stringify({
+                execution: { costBps: 5 },
+                structure_flags: {
+                    is_late_chase: false,
+                    is_fresh_continuation: true,
+                    is_pullback_continuation: false,
+                    is_extended_breakout: false
+                }
+            })
+        }]);
+        mockMarketCandleFindMany.mockResolvedValue(Array.from({ length: 61 }, (_, index) => ({
+            openTime: new Date(timestamp.getTime() + index * 60_000),
+            high: 100 + index * 0.08,
+            low: 99.9,
+            close: 100 + index * 0.06
+        })));
+
+        const result = await OpportunityJournalService.getInstance().updateForwardOutcomes();
+
+        expect(result.updated).toBe(1);
+        expect(mockOpportunityUpdate).toHaveBeenCalledTimes(1);
+        const data = mockOpportunityUpdate.mock.calls[0][0].data;
+        expect(JSON.parse(data.outcome5mJson)).toMatchObject({ horizon_minutes: 5, covered: true });
+        expect(JSON.parse(data.outcome15mJson)).toMatchObject({ horizon_minutes: 15, covered: true });
+        expect(JSON.parse(data.outcome1hJson)).toMatchObject({ horizon_minutes: 60, covered: true });
+        expect(JSON.parse(data.outcome4hJson)).toMatchObject({ horizon_minutes: 240, covered: false });
+        expect(data.pathQuality).toBe("GOOD_PATH");
+        expect(data.policyOutcome).toBe("MISSED_UNDER_CURRENT_POLICY");
     });
 });
 

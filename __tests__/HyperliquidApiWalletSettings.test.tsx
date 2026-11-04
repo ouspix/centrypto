@@ -1,8 +1,10 @@
-import { render, screen, waitFor } from "@testing-library/react"
+import { fireEvent, render, screen, waitFor } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { HyperliquidApiWalletSettings } from "@/components/HyperliquidApiWalletSettings"
 
 const mockUseAccount = vi.fn()
+const address = "0x0c87F000000000000000000000000000000043B5"
+const sessionAddress = address.toLowerCase()
 
 vi.mock("wagmi", async () => {
     const actual = await vi.importActual("wagmi")
@@ -15,7 +17,7 @@ vi.mock("wagmi", async () => {
 describe("HyperliquidApiWalletSettings", () => {
     beforeEach(() => {
         vi.clearAllMocks()
-        mockUseAccount.mockReturnValue({ isConnected: true })
+        mockUseAccount.mockReturnValue({ isConnected: true, address })
     })
 
     it("hides the private key form when an API wallet is already configured", async () => {
@@ -29,7 +31,7 @@ describe("HyperliquidApiWalletSettings", () => {
             })
         } as Response)
 
-        render(<HyperliquidApiWalletSettings isTestnet={false} />)
+        render(<HyperliquidApiWalletSettings isTestnet={false} walletSessionAddress={sessionAddress} />)
 
         await waitFor(() => {
             expect(screen.getByText("Ready")).toBeDefined()
@@ -51,7 +53,7 @@ describe("HyperliquidApiWalletSettings", () => {
             })
         } as Response)
 
-        render(<HyperliquidApiWalletSettings isTestnet={false} />)
+        render(<HyperliquidApiWalletSettings isTestnet={false} walletSessionAddress={sessionAddress} />)
 
         await waitFor(() => {
             expect(screen.getByText("Required")).toBeDefined()
@@ -60,4 +62,31 @@ describe("HyperliquidApiWalletSettings", () => {
         expect(screen.getByLabelText("Delegated API Wallet Private Key")).toBeDefined()
         expect(screen.getByRole("button", { name: "Save" })).toBeDefined()
     })
+
+    it.each([null, "0x1111111111111111111111111111111111111111"])(
+        "waits for a matching session before offering to save (session %s)",
+        async initialSession => {
+            vi.mocked(fetch)
+                .mockResolvedValueOnce({ ok: true, json: async () => ({ configured: false }) } as Response)
+                .mockResolvedValueOnce({ ok: true, json: async () => ({ configured: true }) } as Response)
+
+            const { rerender } = render(<HyperliquidApiWalletSettings isTestnet={false} walletSessionAddress={initialSession} />)
+            expect(screen.queryByRole("button", { name: "Save" })).toBeNull()
+            expect(screen.getByText(/select Auth required/i)).toBeVisible()
+            expect(fetch).not.toHaveBeenCalled()
+
+            rerender(<HyperliquidApiWalletSettings isTestnet={false} walletSessionAddress={sessionAddress} />)
+            await screen.findByText("Required")
+            fireEvent.change(screen.getByLabelText("Delegated API Wallet Private Key"), { target: { value: "test-key" } })
+            fireEvent.click(screen.getByRole("checkbox"))
+            fireEvent.click(screen.getByRole("button", { name: "Save" }))
+
+            expect(fetch).toHaveBeenCalledWith("/api/hyperliquid/api-wallet", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ privateKey: "test-key", isTestnet: false, acknowledgeDelegatedKeyWarning: true })
+            })
+            expect(await screen.findByText("Ready")).toBeVisible()
+        }
+    )
 })

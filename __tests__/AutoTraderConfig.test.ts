@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { buildActiveScreenerSummary, normalizeAutoTraderConfigOverride } from "@/lib/auto-trader-config";
 import { buildAutoTraderActivityReport } from "@/lib/auto-trader-activity-report";
+import {
+    candidatePromotionRulesEqual,
+    candidatePromotionRulesHash,
+    normalizeCandidatePromotionConfig
+} from "@/lib/candidate-promotion";
 import { SCREENER_PRESETS } from "@/lib/screener-config";
 
 describe("auto-trader config normalization", () => {
@@ -81,6 +86,36 @@ describe("auto-trader config normalization", () => {
             rangeExpansionTopN: 10,
             includeExecutionBlockedForDiagnostics: true
         });
+    });
+
+    it("normalizes candidate promotion rules with inert defaults", () => {
+        const normalized = normalizeAutoTraderConfigOverride({});
+
+        expect(normalized.candidate_promotion).toMatchObject({
+            config_epoch: null,
+            global_structure_rules: {
+                lateChase: "ALLOW",
+                extendedBreakoutWithoutPullback: "ALLOW",
+                freshContinuationBonus: false,
+                pullbackContinuationBonus: false
+            },
+            playbook_overrides: {},
+            prior_buckets: {}
+        });
+    });
+
+    it("compares candidate promotion rules without config_epoch", () => {
+        const left = normalizeCandidatePromotionConfig({
+            config_epoch: "2026-06-05T10:00:00.000Z",
+            global_structure_rules: { lateChase: "BLOCK" }
+        });
+        const right = normalizeCandidatePromotionConfig({
+            config_epoch: "2026-06-05T11:00:00.000Z",
+            global_structure_rules: { lateChase: "BLOCK" }
+        });
+
+        expect(candidatePromotionRulesEqual(left, right)).toBe(true);
+        expect(candidatePromotionRulesHash(left)).toBe(candidatePromotionRulesHash(right));
     });
 });
 

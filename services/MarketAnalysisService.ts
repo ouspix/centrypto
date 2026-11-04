@@ -89,6 +89,7 @@ export class MarketAnalysisService {
     private candleCache: Record<string, Candle[]> = {};
 
     public async getMetricsForSymbol(symbol: string, isTestnet: boolean, allowFetch: boolean = false): Promise<MarketMetrics> {
+        allowFetch = allowFetch && process.env.MARKET_COLLECTOR_ROLE === "worker";
         // 1. Fetch 1m candles with caching
         const candles = await this.fetchCandlesWithCache(symbol, isTestnet, allowFetch);
 

@@ -1,5 +1,5 @@
 import path from "path";
-import { PrismaClient } from "@prisma/market-client";
+import { PrismaClient } from "@prisma/backtest-client";
 
 export const DEFAULT_BACKTEST_DB_PATH = "prisma/backtest.db";
 

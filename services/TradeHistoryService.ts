@@ -1,4 +1,5 @@
-import { getUserFills } from "@/lib/hyperliquid-info";
+import { getClearinghouseState, getUserFills } from "@/lib/hyperliquid-info";
+import { prisma } from "@/lib/db";
 
 export type TradeStatus = 'open' | 'closed';
 export type TradeSide = 'long' | 'short';
@@ -11,7 +12,7 @@ export type Trade = {
     entryPrice: number;
     exitPrice?: number;
     size: number;
-    leverage: number;
+    leverage: number | null;
     realizedPnl?: number;
     fees: number;
     status: TradeStatus;
@@ -33,11 +34,92 @@ export type TradeAnalytics = {
     totalPnl: number;
     avgWin: number;
     avgLoss: number;
+    totalFees: number;
     largestWin: number;
     largestLoss: number;
     profitFactor: number;
     avgHoldTime: number; // in hours
 };
+
+function numberFrom(value: unknown): number | null {
+    const parsed = typeof value === 'number'
+        ? value
+        : typeof value === 'string'
+            ? parseFloat(value)
+            : NaN;
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : null;
+}
+
+function buildCurrentLeverageMap(clearinghouseState: any): Record<string, number> {
+    const leverageMap: Record<string, number> = {};
+    const assetPositions = Array.isArray(clearinghouseState?.assetPositions)
+        ? clearinghouseState.assetPositions
+        : [];
+
+    for (const assetPosition of assetPositions) {
+        const coin = assetPosition?.position?.coin;
+        const leverage = numberFrom(assetPosition?.position?.leverage?.value);
+        if (typeof coin === 'string' && leverage) {
+            leverageMap[coin] = leverage;
+        }
+    }
+
+    return leverageMap;
+}
+
+function parseJsonObject(value: unknown): Record<string, any> | null {
+    if (typeof value !== 'string' || value.trim().length === 0) return null;
+    try {
+        const parsed = JSON.parse(value);
+        return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : null;
+    } catch {
+        return null;
+    }
+}
+
+function leverageFromPlanJson(value: unknown): number | null {
+    const plan = parseJsonObject(value);
+    if (!plan) return null;
+
+    return numberFrom(plan.exchangeLeverage)
+        ?? numberFrom(plan.leverage)
+        ?? numberFrom(plan.order?.exchangeLeverage)
+        ?? numberFrom(plan.order?.leverage);
+}
+
+function uniqueStrings(values: unknown[]): string[] {
+    return Array.from(new Set(values
+        .filter(value => value !== null && value !== undefined && String(value).length > 0)
+        .map(value => String(value))));
+}
+
+function fillIdentityKeys(fill: any): string[] {
+    const keys: string[] = [];
+    if (fill?.hash) keys.push(`hash:${String(fill.hash)}`);
+    if (fill?.oid) keys.push(`oid:${String(fill.oid)}`);
+    if (fill?.tid) keys.push(`tid:${String(fill.tid)}`);
+    return keys;
+}
+
+function leverageFromRecordedFill(fill: any, recordedLeverageByFillKey: Record<string, number>): number | null {
+    for (const key of fillIdentityKeys(fill)) {
+        const leverage = recordedLeverageByFillKey[key];
+        if (leverage) return leverage;
+    }
+    return null;
+}
+
+function leverageForFill(
+    fill: any,
+    currentLeverageBySymbol: Record<string, number>,
+    recordedLeverageByFillKey: Record<string, number>
+): number | null {
+    return numberFrom(fill?.leverage?.value)
+        ?? numberFrom(fill?.leverage)
+        ?? leverageFromRecordedFill(fill, recordedLeverageByFillKey)
+        ?? currentLeverageBySymbol[fill?.coin]
+        ?? null;
+}
 
 export class TradeHistoryService {
     /**
@@ -45,7 +127,12 @@ export class TradeHistoryService {
      */
     async getTrades(userAddress: string, isTestnet: boolean = false, limit: number = 100, sinceMs?: number): Promise<Trade[]> {
         try {
-            const fills = await getUserFills(userAddress, isTestnet);
+            const [fills, clearinghouseState] = await Promise.all([
+                getUserFills(userAddress, isTestnet),
+                getClearinghouseState(userAddress, isTestnet)
+            ]);
+            const currentLeverageBySymbol = buildCurrentLeverageMap(clearinghouseState);
+            const recordedLeverageByFillKey = await this.getRecordedLeverageByFillKey(userAddress, isTestnet, fills);
 
             // Map fills to Trade objects
             const mapped = fills.map((fill: any) => {
@@ -75,7 +162,7 @@ export class TradeHistoryService {
                     entryPrice: price,
                     exitPrice: isClose ? price : undefined,
                     size: size,
-                    leverage: 0, // API doesn't return leverage for fills
+                    leverage: leverageForFill(fill, currentLeverageBySymbol, recordedLeverageByFillKey),
                     realizedPnl: pnl,
                     fees: fee,
                     status: isClose ? 'closed' : 'open',
@@ -104,12 +191,55 @@ export class TradeHistoryService {
         }
     }
 
+    private async getRecordedLeverageByFillKey(
+        userAddress: string,
+        isTestnet: boolean,
+        fills: any[]
+    ): Promise<Record<string, number>> {
+        const hashes = uniqueStrings(fills.map(fill => fill?.hash));
+        const oids = uniqueStrings(fills.map(fill => fill?.oid));
+        const tids = uniqueStrings(fills.map(fill => fill?.tid));
+        const or: any[] = [];
+        if (hashes.length) or.push({ hash: { in: hashes } });
+        if (oids.length) or.push({ oid: { in: oids } });
+        if (tids.length) or.push({ tid: { in: tids } });
+        if (or.length === 0) return {};
+
+        try {
+            const recordedFills = await prisma.autoTraderFill.findMany({
+                where: {
+                    accountAddress: userAddress.toLowerCase(),
+                    network: isTestnet ? 'testnet' : 'mainnet',
+                    OR: or
+                },
+                include: {
+                    decision: true,
+                    orderAttempt: { include: { decision: true } }
+                }
+            });
+
+            const leverageByKey: Record<string, number> = {};
+            for (const recordedFill of recordedFills) {
+                const leverage = leverageFromPlanJson(recordedFill.orderAttempt?.decision?.submittedOrderPlanJson)
+                    ?? leverageFromPlanJson(recordedFill.decision?.submittedOrderPlanJson);
+                if (!leverage) continue;
+
+                for (const key of fillIdentityKeys(recordedFill)) {
+                    leverageByKey[key] = leverage;
+                }
+            }
+            return leverageByKey;
+        } catch {
+            return {};
+        }
+    }
+
     /**
      * Get trade analytics for a user based on fills
      */
-    async getAnalytics(userAddress: string, isTestnet: boolean = false): Promise<TradeAnalytics> {
+    async getAnalytics(userAddress: string, isTestnet: boolean = false, sinceMs?: number): Promise<TradeAnalytics> {
         try {
-            const trades = await this.getTrades(userAddress, isTestnet, 1000); // Fetch more for analytics
+            const trades = await this.getTrades(userAddress, isTestnet, 1000, sinceMs); // Fetch more for analytics
 
             let totalTrades = 0;
             let openTrades = 0;
@@ -117,6 +247,7 @@ export class TradeHistoryService {
             let winningTrades = 0;
             let losingTrades = 0;
             let totalPnl = 0;
+            let totalFees = 0;
             let totalWinPnl = 0;
             let totalLossPnl = 0;
             let maxWin = 0;
@@ -124,6 +255,10 @@ export class TradeHistoryService {
 
             trades.forEach(trade => {
                 totalTrades++;
+                const fee = trade.fees || 0;
+                if (Number.isFinite(fee)) {
+                    totalFees += Math.abs(fee);
+                }
                 if (trade.status === 'closed') {
                     closedTrades++;
                     const pnl = trade.realizedPnl || 0;
@@ -216,6 +351,7 @@ export class TradeHistoryService {
                 totalPnl,
                 avgWin,
                 avgLoss,
+                totalFees,
                 largestWin: maxWin,
                 largestLoss: maxLoss,
                 profitFactor,
@@ -233,6 +369,7 @@ export class TradeHistoryService {
                 totalPnl: 0,
                 avgWin: 0,
                 avgLoss: 0,
+                totalFees: 0,
                 largestWin: 0,
                 largestLoss: 0,
                 profitFactor: 0,

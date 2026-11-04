@@ -449,6 +449,7 @@ export function ensureCollectorRunning(isTestnet: boolean) {
 }
 
 export function startCollectorWorker(isTestnet: boolean) {
+    if (process.env.MARKET_COLLECTOR_ROLE !== "worker") throw new Error("Market collection belongs on the VPS; set MARKET_COLLECTOR_ROLE=worker only on its dedicated worker.");
     getCollectorRunner(isTestnet).start();
 }
 
@@ -467,8 +468,7 @@ export async function ensureCollectorReady(isTestnet: boolean) {
 }
 
 function canStartCollectorFromApi(): boolean {
-    if (process.env.NODE_ENV !== "production") return process.env.ALLOW_API_COLLECTOR_START === "true";
-    return process.env.ALLOW_API_COLLECTOR_START === "true";
+    return false;
 }
 
 export async function getMarketDataReadiness(isTestnet: boolean): Promise<MarketDataReadiness> {
@@ -490,7 +490,7 @@ export async function getMarketDataReadiness(isTestnet: boolean): Promise<Market
         const coverageRows = await db.$queryRawUnsafe<Array<CandleCoverageRow>>(
             `SELECT "symbol" as "symbol", COUNT(*) as "candleCount"
              FROM "MarketCandle"
-             WHERE "timeframe" = ? AND "openTime" >= ?
+             WHERE "timeframe" = $1 AND "openTime" >= $2
              GROUP BY "symbol"`,
             "1m",
             lookbackStart

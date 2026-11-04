@@ -1,10 +1,20 @@
 # Centrypto
 
-Centrypto is a testnet-first crypto trading research app for Hyperliquid. It combines market collection, screening, sentiment, an AI trader workflow, manual execution controls, and a TypeScript backtester under `src/backtest`.
+[Autonomous trading desk: installation, books and operator controls](docs/autonomous-desk.md)
+
+Centrypto is a testnet-first crypto trading research app for Hyperliquid. It combines VPS market/news collection, private evidence-backed news intelligence, screening, an AI trader workflow, manual execution controls, and a TypeScript backtester under `src/backtest`.
+
+See [architecture](docs/architecture.md), [module index](docs/module-index.md), and
+[news intelligence and VPS operations](docs/news-intelligence-operations.md) for
+the deployment split, source setup, model preflight, migrations and rollout.
 
 ## Custody And Safety Model
 
 The user wallet is the user identity. API routes that read or write wallet-scoped data require a verified wallet session from an HTTP-only cookie. Clients may pass wallet addresses for display compatibility, but privileged routes derive ownership from the verified session and reject spoofed addresses.
+
+News sources, collected evidence and briefings belong to the installation's
+shared news account. Every authenticated app session and trader uses that news
+setup across trading wallets.
 
 Normal production trades are user-bound. This repo does not use a global server private key for normal production execution. Each wallet/network can register one delegated Hyperliquid API wallet; the backend verifies that the API wallet is approved for the authenticated Hyperliquid account, stores the API wallet private key encrypted at rest, and signs orders only with that user-specific key. The server-key execution path remains explicitly dev/testnet-only, requires `ALLOW_SERVER_DEV_BOT_EXECUTION=true`, and only uses `HYPERLIQUID_TESTNET_PRIVATE_KEY`.
 
@@ -36,11 +46,19 @@ Core:
 
 ```bash
 DATABASE_URL="file:./backend.db"
-MARKET_DATABASE_URL="file:./market.db"
+MARKET_DATABASE_URL="postgresql://centrypto_app:<password>@127.0.0.1:55432/centrypto?schema=mainnet&connection_limit=2"
+MARKET_TEST_DATABASE_URL="postgresql://centrypto_app:<password>@127.0.0.1:55432/centrypto?schema=testnet&connection_limit=2"
+NEWS_DATABASE_URL="postgresql://centrypto_app:<password>@127.0.0.1:55432/centrypto?schema=news&connection_limit=2"
+MARKET_COLLECTOR_ROLE="client"
+NEWS_TRADER_CONTEXT_ENABLED="shadow"
+BACKTEST_DATABASE_URL="file:./backtest.db"
 WALLET_SESSION_SECRET="change-me"
 INTERNAL_API_TOKEN="change-me"
 HYPERLIQUID_API_WALLET_ENCRYPTION_KEY="32-byte-hex-or-base64-key"
 ```
+
+Set `NEWS_TRADER_CONTEXT_ENABLED="healthy"` to use current signals from healthy
+sources immediately. Use `"shadow"` for the full-registry observation period.
 
 Optional AI and data:
 
@@ -70,7 +88,7 @@ Never paste the main wallet private key. The backend rejects keys whose derived 
 
 ## Prisma And DB
 
-Generate both Prisma clients:
+Generate the application, VPS market, VPS news and local backtest clients:
 
 ```bash
 npm run prisma:generate
@@ -81,6 +99,8 @@ This runs:
 ```bash
 npm run prisma:generate:main
 npm run prisma:generate:market
+npm run prisma:generate:news
+npm run prisma:generate:backtest
 ```
 
 Apply main DB migrations with:
@@ -89,7 +109,9 @@ Apply main DB migrations with:
 npm run prisma:migrate
 ```
 
-Market DB schema lives under `prisma/market`.
+Runtime market data uses PostgreSQL under `prisma/runtime-market`; the SQLite
+schema under `prisma/market` is for local backtests. The app reads market/news
+directly through the SSH tunnel. `DATABASE_URL` stays local.
 
 ## Processes
 
@@ -99,22 +121,26 @@ Web app:
 npm run dev
 ```
 
-Collector worker:
+Local database connection and Codex inference:
 
 ```bash
-npm run collector
+npm run runtime:local
 ```
 
-The collector starts tick/candle streams and runs a startup 48h backfill in 5-symbol batches. The screener is considered ready once at least 5 symbols have two days of 1m candle coverage and live ticks/candles are fresh.
+The VPS `centrypto-market` service runs tick/candle streams and startup backfill.
+The screener requires at least five symbols with two days of 1m candle coverage
+and fresh ticks/candles. `npm run collector` is a worker entry point requiring the
+VPS writer role; the desktop app cannot start a collector.
 
-Sentiment:
+Legacy public sentiment tools (retained for migration/history):
 
 ```bash
 npm run sentiment:score
 npm run sentiment:aggregate
 ```
 
-In production, API requests do not start collectors or heavy backfills. Run collectors as separate worker processes. Local API-start fallback is opt-in with `ALLOW_API_COLLECTOR_START=true`.
+API requests never start collectors or heavy backfills. Private news uses the
+Chrome extension and local Luna pipeline; legacy public sentiment stays separate.
 
 ## Backtesting
 

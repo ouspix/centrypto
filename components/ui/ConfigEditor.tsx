@@ -1,7 +1,9 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import { AgentConfig, DEFAULT_AGENT_CONFIG, AGENT_PRESETS } from "@/lib/agent-config";
+import { normalizeCandidatePromotionConfig, type CandidatePromotionConfig } from "@/lib/candidate-promotion";
 import { getMeta } from "@/lib/hyperliquid-info";
+import { CandidatePromotionRulesPanel } from "@/components/CandidatePromotionRulesPanel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -12,11 +14,16 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { LabelWithTooltip } from "@/components/ui/label-with-tooltip";
 import { Plus, Save, RotateCcw, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
+import type { OpportunityDiagnostic } from "@/types/trading";
 
 interface ConfigEditorProps {
     initialConfig?: AgentConfig;
     initialPreset?: string;
     isTestnet?: boolean;
+    autoTraderStatus?: any;
+    hasWalletSession?: boolean;
+    savingAutoTrader?: boolean;
+    opportunities?: OpportunityDiagnostic[];
     onSave: (config: AgentConfig, presetName: string) => void | Promise<void>;
     onCancel: () => void;
 }
@@ -176,14 +183,25 @@ function mergeEditorConfig(initialConfig?: AgentConfig): AgentConfig {
         trade_cooldowns: {
             ...DEFAULT_AGENT_CONFIG.trade_cooldowns,
             ...(initialConfig?.trade_cooldowns || {})
-        }
+        },
+        candidate_promotion: normalizeCandidatePromotionConfig(initialConfig?.candidate_promotion)
     };
     merged.risk.max_position_fraction = merged.risk.max_position_fraction ?? merged.risk.max_position_fraction_per_symbol;
     merged.risk.max_position_fraction_per_symbol = merged.risk.max_position_fraction_per_symbol ?? merged.risk.max_position_fraction;
     return cloneConfig(merged);
 }
 
-export function ConfigEditor({ initialConfig, initialPreset, isTestnet = true, onSave, onCancel }: ConfigEditorProps) {
+export function ConfigEditor({
+    initialConfig,
+    initialPreset,
+    isTestnet = true,
+    autoTraderStatus,
+    hasWalletSession = false,
+    savingAutoTrader = false,
+    opportunities,
+    onSave,
+    onCancel
+}: ConfigEditorProps) {
     const [config, setConfig] = useState<AgentConfig>(() => mergeEditorConfig(initialConfig));
     const [preset, setPreset] = useState<string>(initialPreset || 'default');
     const [symbolOptions, setSymbolOptions] = useState<string[]>([]);
@@ -300,6 +318,14 @@ export function ConfigEditor({ initialConfig, initialPreset, isTestnet = true, o
                     : [...current, playbook]
             };
         });
+    };
+
+    const updateCandidatePromotion = (candidatePromotion: CandidatePromotionConfig) => {
+        setConfig(prev => ({
+            ...cloneConfig(prev),
+            candidate_promotion: normalizeCandidatePromotionConfig(candidatePromotion)
+        }));
+        setPreset('custom');
     };
 
     const handleSave = async () => {
@@ -423,7 +449,8 @@ export function ConfigEditor({ initialConfig, initialPreset, isTestnet = true, o
                 ...DEFAULT_AGENT_CONFIG.trade_cooldowns,
                 ...((presetCfg as any).trade_cooldowns || {})
             },
-            network_profiles: { ...DEFAULT_AGENT_CONFIG.network_profiles, ...(presetCfg as any).network_profiles }
+            network_profiles: { ...DEFAULT_AGENT_CONFIG.network_profiles, ...(presetCfg as any).network_profiles },
+            candidate_promotion: normalizeCandidatePromotionConfig((presetCfg as any).candidate_promotion)
         }));
         setPreset(key);
     };
@@ -468,13 +495,14 @@ export function ConfigEditor({ initialConfig, initialPreset, isTestnet = true, o
                         </div>
                     </div>
                     <Tabs defaultValue="risk" className="w-full h-full flex flex-col">
-                        <TabsList className="grid w-full grid-cols-6 bg-slate-900/30 p-1 mb-5 rounded-lg border border-slate-800/50 shrink-0 gap-1">
-                            <TabsTrigger value="risk" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Risk</TabsTrigger>
-                            <TabsTrigger value="triggers" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Triggers</TabsTrigger>
-                            <TabsTrigger value="regime" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Regime</TabsTrigger>
-                            <TabsTrigger value="gates" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Gates</TabsTrigger>
-                            <TabsTrigger value="filters" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Filters</TabsTrigger>
-                            <TabsTrigger value="network" className="rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all py-1.5">Network</TabsTrigger>
+                        <TabsList className="grid h-auto w-full grid-cols-2 sm:grid-cols-4 bg-slate-900/30 p-1 mb-5 rounded-lg border border-slate-800/50 shrink-0 gap-1">
+                            <TabsTrigger value="risk" className="min-w-0 h-8 rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all px-2 py-1.5 truncate">Risk</TabsTrigger>
+                            <TabsTrigger value="triggers" className="min-w-0 h-8 rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all px-2 py-1.5 truncate">Triggers</TabsTrigger>
+                            <TabsTrigger value="regime" className="min-w-0 h-8 rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all px-2 py-1.5 truncate">Regime</TabsTrigger>
+                            <TabsTrigger value="gates" className="min-w-0 h-8 rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all px-2 py-1.5 truncate">Gates</TabsTrigger>
+                            <TabsTrigger value="filters" className="min-w-0 h-8 rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all px-2 py-1.5 truncate">Filters</TabsTrigger>
+                            <TabsTrigger value="promotion" className="min-w-0 h-8 rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all px-2 py-1.5 truncate">Promotion</TabsTrigger>
+                            <TabsTrigger value="network" className="min-w-0 h-8 rounded-md data-[state=active]:bg-slate-800 data-[state=active]:text-slate-100 text-slate-500 font-medium text-xs transition-all px-2 py-1.5 truncate">Network</TabsTrigger>
                         </TabsList>
 
                         <div className="flex-1">
@@ -1115,6 +1143,21 @@ export function ConfigEditor({ initialConfig, initialPreset, isTestnet = true, o
                                         </div>
                                     </div>
                                 </div>
+                            </TabsContent>
+
+                            {/* PROMOTION */}
+                            <TabsContent value="promotion" className="mt-0">
+                                <CandidatePromotionRulesPanel
+                                    config={config}
+                                    autoTraderStatus={autoTraderStatus}
+                                    isTestnet={isTestnet}
+                                    hasWalletSession={hasWalletSession}
+                                    saving={savingAutoTrader}
+                                    opportunities={opportunities}
+                                    embedded
+                                    showOpportunityDrawer={false}
+                                    onDraftChange={updateCandidatePromotion}
+                                />
                             </TabsContent>
 
                             {/* NETWORK */}

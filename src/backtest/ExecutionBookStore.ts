@@ -1,5 +1,5 @@
 import path from "path";
-import { PrismaClient } from "@prisma/market-client";
+import { PrismaClient } from "@prisma/backtest-client";
 import { createBacktestDbClient, ensureBacktestDbSchema } from "./BacktestDb";
 import { ExecutionBookSnapshot, L2BookLevel } from "./BacktestTypes";
 

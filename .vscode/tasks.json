@@ -39,6 +39,51 @@
                 "Run Market Collector"
             ],
             "problemMatcher": []
+        },
+        {
+            "label": "Recorded: Export Mainnet Parquet",
+            "type": "shell",
+            "command": ".venv-backtest/bin/python",
+            "args": [
+                "-m",
+                "backtest_py.export_recorded_backend",
+                "--backend-db",
+                "prisma/backend.db",
+                "--market-db",
+                "auto",
+                "--network",
+                "mainnet",
+                "--start",
+                "activation",
+                "--end",
+                "latest",
+                "--out",
+                "data/recorded_parquet/latest",
+                "--snapshot-db",
+                "true",
+                "--force",
+                "--interval-seconds",
+                "10",
+                "--candle-lookahead-minutes",
+                "240"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Recorded: Calibration Report",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-lc",
+                "set -euo pipefail; MANIFEST=data/recorded_parquet/latest/manifest.json; test -f \"$MANIFEST\" || { echo \"Missing $MANIFEST. Run Recorded: Export Mainnet Parquet first.\" >&2; exit 1; }; START=$(.venv-backtest/bin/python -c \"import json; print(json.load(open(\\\"data/recorded_parquet/latest/manifest.json\\\"))[\\\"start\\\"])\"); END=$(.venv-backtest/bin/python -c \"import json; print(json.load(open(\\\"data/recorded_parquet/latest/manifest.json\\\"))[\\\"end\\\"])\"); .venv-backtest/bin/python scripts/backtest_optimize_polars.py --source recorded-parquet --data-root data/recorded_parquet/latest --network mainnet --start \"$START\" --end \"$END\" --output-dir data/calibration/latest --base-agent \"Balanced PM v2\" --screening \"Discovery Balanced\" --calibrate-recorded-opportunities true --calibrate-only true --calibration-horizons-minutes 5,15,60,240 --episode-gap-minutes 20 --no-s3 true"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
         }
     ]
 }

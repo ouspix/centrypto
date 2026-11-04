@@ -1,11 +1,11 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../../node_modules/@prisma/market-client"
+  output   = "../../node_modules/@prisma/backtest-client"
 }
 
 datasource db {
   provider = "sqlite"
-  url      = env("MARKET_DATABASE_URL")
+  url      = env("BACKTEST_DATABASE_URL")
 }
 
 model MarketTick {

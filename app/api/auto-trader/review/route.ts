@@ -4,15 +4,15 @@ import { normalizeCoinToPerp } from "@/lib/auto-trader-review/review-utils";
 import { AutoTraderReviewService } from "@/services/AutoTraderReviewService";
 
 export const dynamic = "force-dynamic";
+const REVIEW_WINDOW_MS = 24 * 60 * 60 * 1000;
 
 export async function GET(request: Request) {
     try {
         const session = requireWalletSession(request);
         const { searchParams } = new URL(request.url);
         const network = searchParams.get("network") === "testnet" ? "testnet" : "mainnet";
-        const range = searchParams.get("range") ?? "7d";
         const endTime = new Date();
-        const startTime = new Date(endTime.getTime() - rangeToMs(range));
+        const startTime = new Date(endTime.getTime() - REVIEW_WINDOW_MS);
         const symbolParam = searchParams.get("symbol");
         const includeUnattributed = searchParams.get("includeUnattributed") !== "false";
 
@@ -35,13 +35,4 @@ export async function GET(request: Request) {
             error: error instanceof Error ? error.message : "Failed to load auto-trader review"
         }, { status: 500 });
     }
-}
-
-function rangeToMs(range: string): number {
-    const map: Record<string, number> = {
-        "24h": 24 * 60 * 60 * 1000,
-        "7d": 7 * 24 * 60 * 60 * 1000,
-        "30d": 30 * 24 * 60 * 60 * 1000
-    };
-    return map[range] ?? map["7d"];
 }

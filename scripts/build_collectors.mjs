@@ -1,0 +1,16 @@
+import { build } from "esbuild";
+import fs from "node:fs/promises";
+import path from "node:path";
+const out = path.resolve("collector/dist");
+if (out !== path.join(process.cwd(), "collector", "dist")) throw new Error("Unexpected collector output path");
+await fs.rm(out, { recursive: true, force: true });
+await fs.mkdir(out, { recursive: true });
+const serverOnly = { name: "server-only", setup(builder) { builder.onResolve({ filter: /^server-only$/ }, () => ({ path: "empty", namespace: "server-only" })); builder.onLoad({ filter: /.*/, namespace: "server-only" }, () => ({ contents: "", loader: "js" })); } };
+await build({ entryPoints: { bridge: "collector/server.ts", browser: "collector/browser.ts", market: "scripts/start_collector.ts" }, outdir: out, bundle: true, platform: "node", target: "node22", format: "cjs", plugins: [serverOnly], external: ["@prisma/client", "@prisma/news-client", "@prisma/market-client", "puppeteer", "bufferutil", "utf-8-validate"], logLevel: "warning" });
+await fs.cp("collector/extension", path.join(out, "extension"), { recursive: true });
+await fs.cp("collector/deploy", path.join(out, "deploy"), { recursive: true });
+await fs.mkdir(path.join(out, "generated"), { recursive: true });
+await fs.cp("node_modules/@prisma/news-client", path.join(out, "generated/news-client"), { recursive: true });
+await fs.cp("node_modules/@prisma/market-client", path.join(out, "generated/market-client"), { recursive: true });
+await fs.writeFile(path.join(out, "package.json"), JSON.stringify({ name: "centrypto-vps-collectors", private: true, version: "1.0.0", dependencies: { "@prisma/client": "5.22.0", puppeteer: "25.16.0" } }, null, 2));
+console.log("Built isolated VPS collectors; no application secrets or Codex credentials are included.");

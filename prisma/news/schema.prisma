@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+  output = "../../node_modules/@prisma/news-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("NEWS_DATABASE_URL")
+}
+
+// News is wallet-owned. Never read these tables through public sentiment routes.
+model NewsCollector {
+  id                 String   @id @default(uuid())
+  ownerAddress       String
+  name               String
+  instanceId         String   @default("racknerd")
+  enabled            Boolean  @default(true)
+  importCursor       Int      @default(0)
+  lastSyncAt         DateTime?
+  healthJson         String   @default("{}")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  sources            NewsSource[]
+  @@index([ownerAddress])
+}
+
+model NewsSource {
+  id                 String   @id @default(uuid())
+  ownerAddress       String
+  collectorId        String
+  collector          NewsCollector @relation(fields: [collectorId], references: [id], onDelete: Cascade)
+  name               String
+  adapter            String
+  url                String
+  isPrivate          Boolean  @default(false)
+  enabled            Boolean  @default(true)
+  priority           Int      @default(0)
+  intervalSeconds    Int      @default(300)
+  status             String   @default("pending")
+  lastSuccessAt      DateTime?
+  lastError          String?
+  nextPollAt         DateTime @default(now())
+  leaseTaskId        String?
+  leaseUntil         DateTime?
+  cursorJson         String   @default("[]")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  documents          NewsDocument[]
+  @@unique([ownerAddress, url])
+  @@index([ownerAddress, enabled])
+}
+
+model NewsDocument {
+  id                 String   @id @default(uuid())
+  ownerAddress       String
+  sourceId           String
+  source             NewsSource @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+  externalId         String
+  revisionHash       String
+  storyHash          String
+  canonicalUrl       String
+  author             String?
+  text               String
+  publishedAt        DateTime?
+  collectedAt        DateTime
+  availableAt        DateTime @default(now())
+  completeness       String
+  mediaLinksJson     String   @default("[]")
+  status             String   @default("pending")
+  analysisJobId      String?
+  expiresAt          DateTime
+  @@unique([sourceId, externalId, revisionHash])
+  @@index([ownerAddress, status, availableAt])
+  @@index([ownerAddress, storyHash])
+}
+
+model NewsAnalysis {
+  id                 String   @id @default(uuid())
+  ownerAddress       String
+  jobId              String   @unique
+  model              String
+  inputHash          String
+  resultJson         String
+  availableAt        DateTime @default(now())
+  expiresAt          DateTime
+  @@index([ownerAddress, inputHash])
+}
+
+model NewsEvent {
+  id                 String   @id @default(uuid())
+  ownerAddress       String
+  analysisId         String
+  eventKey           String
+  signalJson         String
+  availableAt        DateTime @default(now())
+  expiresAt          DateTime
+  @@unique([ownerAddress, eventKey])
+  @@index([ownerAddress, expiresAt])
+}
+
+model NewsBriefing {
+  id                 String   @id @default(uuid())
+  ownerAddress       String
+  analysisId         String
+  summary            String
+  signalsJson        String
+  coverageJson       String
+  availableAt        DateTime @default(now())
+  expiresAt          DateTime
+  @@index([ownerAddress, availableAt])
+}
+
+// Immutable analysis revisions. The mutable NewsEvent is the dashboard projection.
+model NewsEventRevision {
+  id             Int      @id @default(autoincrement())
+  ownerAddress   String
+  eventKey       String
+  analysisId     String
+  material       Boolean
+  detailsJson    String
+  availableAt    DateTime
+  @@unique([ownerAddress, analysisId, eventKey])
+  @@index([ownerAddress, eventKey, id])
+  @@index([ownerAddress, material, id])
+}

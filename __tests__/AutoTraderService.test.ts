@@ -41,6 +41,7 @@ function settingsRecord(overrides: Record<string, any> = {}) {
 describe("AutoTraderService config persistence", () => {
     beforeEach(() => {
         vi.clearAllMocks();
+        autoTraderSettingsMock.findUnique.mockResolvedValue(null);
         autoTraderSettingsMock.upsert.mockImplementation(({ update }) => {
             return Promise.resolve(settingsRecord({
                 enabled: update.enabled,
@@ -88,5 +89,88 @@ describe("AutoTraderService config persistence", () => {
         expect(status.configOverride!.screener.discoveryMaxSymbols).toBe(40);
         expect(status.activeScreenerSummary!.discoveryMaxSymbols).toBe(40);
         expect(status.activeScreenerSummary!.hotMoverTopN).toBe(12);
+    });
+
+    it("preserves candidate promotion config_epoch when promotion rules do not change", async () => {
+        autoTraderSettingsMock.findUnique.mockResolvedValue(settingsRecord({
+            config: JSON.stringify({
+                candidate_promotion: {
+                    config_epoch: "2026-06-05T08:00:00.000Z",
+                    global_structure_rules: {
+                        lateChase: "ALLOW",
+                        extendedBreakoutWithoutPullback: "ALLOW",
+                        freshContinuationBonus: false,
+                        pullbackContinuationBonus: false
+                    },
+                    playbook_overrides: {},
+                    prior_buckets: {}
+                }
+            })
+        }));
+
+        await AutoTraderService.getInstance().configure(
+            "0x00000000000000000000000000000000000000ab",
+            true,
+            {
+                enabled: true,
+                frequencySeconds: 900,
+                model: "another-model",
+                configOverride: {
+                    candidate_promotion: {
+                        global_structure_rules: {
+                            lateChase: "ALLOW",
+                            extendedBreakoutWithoutPullback: "ALLOW",
+                            freshContinuationBonus: false,
+                            pullbackContinuationBonus: false
+                        }
+                    }
+                }
+            }
+        );
+
+        const persisted = JSON.parse(autoTraderSettingsMock.upsert.mock.calls[0][0].update.config);
+        expect(persisted.candidate_promotion.config_epoch).toBe("2026-06-05T08:00:00.000Z");
+    });
+
+    it("bumps candidate promotion config_epoch when promotion rules change", async () => {
+        autoTraderSettingsMock.findUnique.mockResolvedValue(settingsRecord({
+            config: JSON.stringify({
+                candidate_promotion: {
+                    config_epoch: "2026-06-05T08:00:00.000Z",
+                    global_structure_rules: {
+                        lateChase: "ALLOW",
+                        extendedBreakoutWithoutPullback: "ALLOW",
+                        freshContinuationBonus: false,
+                        pullbackContinuationBonus: false
+                    },
+                    playbook_overrides: {},
+                    prior_buckets: {}
+                }
+            })
+        }));
+
+        await AutoTraderService.getInstance().configure(
+            "0x00000000000000000000000000000000000000ab",
+            true,
+            {
+                enabled: true,
+                frequencySeconds: 900,
+                model: "another-model",
+                configOverride: {
+                    candidate_promotion: {
+                        global_structure_rules: {
+                            lateChase: "BLOCK",
+                            extendedBreakoutWithoutPullback: "ALLOW",
+                            freshContinuationBonus: false,
+                            pullbackContinuationBonus: false
+                        }
+                    }
+                }
+            }
+        );
+
+        const persisted = JSON.parse(autoTraderSettingsMock.upsert.mock.calls[0][0].update.config);
+        expect(persisted.candidate_promotion.config_epoch).not.toBe("2026-06-05T08:00:00.000Z");
+        expect(new Date(persisted.candidate_promotion.config_epoch).toString()).not.toBe("Invalid Date");
     });
 });

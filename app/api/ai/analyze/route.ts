@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { AnalysisJobLimitError, OrchestratorService } from '@/services/OrchestratorService';
 import { ensureCollectorReady, MarketDataStaleError } from '@/services/CollectorRunner';
 import { requireWalletSession, WalletSessionError } from '@/lib/auth/wallet-session';
+import { ensureAppDbReady } from '@/lib/db';
 
 export async function POST(request: Request) {
     try {
@@ -15,6 +16,8 @@ export async function POST(request: Request) {
             configOverride // New full config
         } = body;
         const userAddress = session.address;
+
+        await ensureAppDbReady();
 
         // Get singleton instance
         const orchestrator = OrchestratorService.getInstance();

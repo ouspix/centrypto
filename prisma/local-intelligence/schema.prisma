@@ -1,0 +1,53 @@
+generator client {
+ provider = "prisma-client-js"
+}
+
+datasource db {
+ provider = "sqlite"
+ url = env("DATABASE_URL")
+}
+
+model NewsRunContext {
+  id                 String   @id @default(uuid())
+  ownerAddress       String
+  snapshotId         Int?
+  runId              String?
+  briefingId         String?
+  contextJson        String
+  availableAt        DateTime @default(now())
+  @@index([ownerAddress, snapshotId])
+}
+
+model CodexJob {
+  id                 String   @id @default(uuid())
+  ownerAddress       String
+  purpose            String
+  model              String
+  payloadJson        String
+  schemaJson         String
+  metadataJson       String   @default("{}")
+  status             String   @default("pending")
+  priority           Int      @default(0)
+  attempts           Int      @default(0)
+  cancelRequested    Boolean  @default(false)
+  notBefore          DateTime @default(now())
+  startedAt          DateTime?
+  finishedAt         DateTime?
+  resultJson         String?
+  errorCode          String?
+  usageJson          String?
+  createdAt          DateTime @default(now())
+  @@index([status, priority, notBefore])
+  @@index([ownerAddress, createdAt])
+}
+
+model CodexRuntime {
+  id                 String   @id @default("local")
+  leaseOwner         String?
+  leaseUntil         DateTime?
+  heartbeatAt        DateTime?
+  backoffUntil       DateTime?
+  cliVersion         String?
+  modelsJson         String   @default("{}")
+  @@index([leaseUntil])
+}

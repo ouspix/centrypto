@@ -101,6 +101,7 @@ const FILL_PAGE_LIMIT = 2000;
 const FALLBACK_MATCH_WINDOW_MS = 2 * 60_000;
 const FALLBACK_NOTIONAL_TOLERANCE_FRACTION = 0.2;
 const FALLBACK_NOTIONAL_TOLERANCE_USD = 5;
+const DEFAULT_SYNC_WINDOW_MS = 24 * 60 * 60 * 1000;
 
 export class AutoTraderReviewService {
     private static instance: AutoTraderReviewService;
@@ -857,6 +858,8 @@ export class AutoTraderReviewService {
 
     public async syncFills(input: SyncInput): Promise<{ fetched: number; upserted: number; matched: number; fallbackMatched: number; unmatched: number; lifecycles: number }> {
         if (!this.modelsAvailable()) return { fetched: 0, upserted: 0, matched: 0, fallbackMatched: 0, unmatched: 0, lifecycles: 0 };
+        const endTimeMs = input.endTimeMs ?? Date.now();
+        const startTimeMs = input.startTimeMs ?? endTimeMs - DEFAULT_SYNC_WINDOW_MS;
         const fills = await this.fetchFills(input);
         let upserted = 0;
 
@@ -891,8 +894,8 @@ export class AutoTraderReviewService {
         }
 
         await this.backfillOrderIdsByCloid(input.accountAddress, input.network);
-        const attribution = await this.attributeFills(input.accountAddress, input.network);
-        const lifecycles = await this.rebuildLifecycles(input.accountAddress, input.network);
+        const attribution = await this.attributeFills(input.accountAddress, input.network, startTimeMs, endTimeMs);
+        const lifecycles = await this.rebuildLifecycles(input.accountAddress, input.network, startTimeMs, endTimeMs);
 
         return {
             fetched: fills.length,
@@ -918,7 +921,7 @@ export class AutoTraderReviewService {
         if (!query.includeUnattributed) whereLifecycle.attributionMethod = { not: "UNMATCHED" };
 
         const positionEventModel = this.model("autoTraderPositionManagementEvent", false);
-        const [lifecycles, runs, fills, openSnapshots, reliableRun, positionManagementEvents] = await Promise.all([
+        const [lifecycles, runs, fills, openSnapshots, reliableRun, positionManagementEvents, candidatePromotionImpact] = await Promise.all([
             this.model("autoTraderTradeLifecycle").findMany({
                 where: whereLifecycle,
                 orderBy: [{ status: "asc" }, { openedAt: "desc" }],
@@ -969,7 +972,8 @@ export class AutoTraderReviewService {
                     orderBy: { createdAt: "desc" },
                     take: 200
                 })
-                : Promise.resolve([])
+                : Promise.resolve([]),
+            this.candidatePromotionImpact(query)
         ]);
 
         const reliableSince = this.reliableSinceFor(query.accountAddress, query.network, runs, reliableRun);
@@ -985,9 +989,12 @@ export class AutoTraderReviewService {
         const closed = lifecycles.filter((row: any) => row.status === "CLOSED");
         const open = lifecycles.filter((row: any) => row.status === "OPEN");
         const redFlags = closed.filter((row: any) => row.closedGreenToRed || row.closedLateGiveback || row.observedGreenToRed || row.lateGiveback);
+        const warning = reliableSinceDate && reliableSinceDate.getTime() <= query.startTime.getTime()
+            ? ""
+            : `Historical attribution before instrumentation is approximate. Reliable attribution starts from: ${reliableSince ?? "not established yet"}.`;
 
         return {
-            warning: `Historical attribution before instrumentation is approximate. Reliable attribution starts from: ${reliableSince ?? "not established yet"}.`,
+            warning,
             summary: summarizeLifecycles(lifecycles, fills),
             attributedSummary: summarizeLifecycles(attributed, fills.filter((row: any) => row.attributionStatus !== "UNMATCHED")),
             unattributedSummary: summarizeUnattributed(unattributedFills),
@@ -997,6 +1004,7 @@ export class AutoTraderReviewService {
             redFlags: redFlags.map(lifecycleDto),
             positionManagementEvents: positionManagementEvents.map(positionManagementEventDto),
             positionManagementSummary: summarizePositionManagementEvents(positionManagementEvents),
+            candidatePromotionImpact,
             skippedOpportunities: await this.skippedOpportunities(query, runs),
             syncStatus: {
                 fillCount: fills.length,
@@ -1012,8 +1020,63 @@ export class AutoTraderReviewService {
         };
     }
 
+    private async candidatePromotionImpact(query: ReviewQuery): Promise<any> {
+        const model = this.model("opportunityJournal", false);
+        if (!model?.findMany) {
+            return emptyCandidatePromotionImpact();
+        }
+
+        const where: any = {
+            network: query.network,
+            timestamp: { gte: query.startTime, lte: query.endTime },
+            OR: [
+                { promotionReason: { not: null } },
+                { demotionReason: { not: null } }
+            ]
+        };
+        if (query.symbol) where.symbol = query.symbol;
+        if (query.accountAddress) {
+            where.AND = [
+                {
+                    OR: [
+                        { accountAddress: query.accountAddress },
+                        { accountAddress: null }
+                    ]
+                }
+            ];
+        }
+
+        const rows = await model.findMany({
+            where,
+            orderBy: { timestamp: "desc" },
+            take: 500
+        });
+
+        const events = rows.map(candidatePromotionEventDto);
+        const outcomeRows = events.filter((row: any) => Number.isFinite(row.outcome1hNetBps));
+        const livePromotionRows = events.filter((row: any) => row.impactType === "LIVE_PROMOTION");
+        const liveOutcomeRows = livePromotionRows.filter((row: any) => Number.isFinite(row.outcome1hNetBps));
+        const promotedCandidateRows = livePromotionRows.filter((row: any) => row.promotionApplied);
+        const promotedCandidateOutcomeRows = promotedCandidateRows.filter((row: any) => Number.isFinite(row.outcome1hNetBps));
+        const demotionRows = events.filter((row: any) => row.impactType === "DEMOTION");
+        const shadowRows = events.filter((row: any) => row.impactType === "SHADOW");
+
+        return {
+            totalEvents: events.length,
+            livePromotions: livePromotionRows.length,
+            shadowMatches: shadowRows.length,
+            demotions: demotionRows.length,
+            promotedCandidates: promotedCandidateRows.length,
+            avgOutcome1hNetBps: average(outcomeRows.map((row: any) => row.outcome1hNetBps)),
+            avgLivePromotion1hNetBps: average(liveOutcomeRows.map((row: any) => row.outcome1hNetBps)),
+            avgPromotedCandidate1hNetBps: average(promotedCandidateOutcomeRows.map((row: any) => row.outcome1hNetBps)),
+            latestConfigEpoch: events.reduce((latest: string | null, row: any) => latestDate(latest, row.configEpoch), null),
+            events: events.slice(0, 25)
+        };
+    }
+
     private async fetchFills(input: SyncInput): Promise<any[]> {
-        const start = input.startTimeMs ?? Date.now() - 30 * 24 * 60 * 60 * 1000;
+        const start = input.startTimeMs ?? Date.now() - DEFAULT_SYNC_WINDOW_MS;
         const end = input.endTimeMs ?? Date.now();
         const results: any[] = [];
         let cursor = start;
@@ -1032,7 +1095,12 @@ export class AutoTraderReviewService {
 
         if (results.length === 0 && !input.startTimeMs) {
             const recent = await getUserFills(input.accountAddress, input.network === "testnet");
-            return Array.isArray(recent) ? recent : [];
+            return Array.isArray(recent)
+                ? recent.filter((fill: any) => {
+                    const time = Number(fill?.time ?? 0);
+                    return Number.isFinite(time) && time >= start && time <= end;
+                })
+                : [];
         }
         return results;
     }
@@ -1066,9 +1134,15 @@ export class AutoTraderReviewService {
         }
     }
 
-    private async attributeFills(accountAddress: string, network: AutoTraderNetwork): Promise<{ matched: number; fallbackMatched: number; unmatched: number }> {
+    private async attributeFills(
+        accountAddress: string,
+        network: AutoTraderNetwork,
+        startTimeMs?: number,
+        endTimeMs?: number
+    ): Promise<{ matched: number; fallbackMatched: number; unmatched: number }> {
+        const time = boundedTimeWhere(startTimeMs, endTimeMs);
         const fills = await this.model("autoTraderFill").findMany({
-            where: { accountAddress, network },
+            where: { accountAddress, network, ...(time ? { time } : {}) },
             orderBy: { time: "asc" }
         });
 
@@ -1175,20 +1249,48 @@ export class AutoTraderReviewService {
         }
     }
 
-    private async rebuildLifecycles(accountAddress: string, network: AutoTraderNetwork): Promise<number> {
+    private async rebuildLifecycles(
+        accountAddress: string,
+        network: AutoTraderNetwork,
+        startTimeMs?: number,
+        endTimeMs?: number
+    ): Promise<number> {
+        const end = endTimeMs ?? Date.now();
+        const rebuildStart = typeof startTimeMs === "number"
+            ? Math.max(0, startTimeMs - DEFAULT_SYNC_WINDOW_MS)
+            : undefined;
+        const time = boundedTimeWhere(rebuildStart, end);
         const fills = await this.model("autoTraderFill").findMany({
-            where: { accountAddress, network },
+            where: { accountAddress, network, ...(time ? { time } : {}) },
             include: { orderAttempt: true },
             orderBy: { time: "asc" }
         });
+        if (fills.length === 0) return 0;
         const lifecycleFills = fills.map((fill: any) => ({
             ...fill,
             orderAttemptRole: fill.orderAttempt?.orderRole ?? null,
             orderAttemptStatus: fill.orderAttempt?.status ?? null
         }));
         const reconstructed = reconstructTradeLifecycles({ accountAddress, network, fills: lifecycleFills });
+        const symbols = Array.from(new Set(fills.map((fill: any) => fill.normalizedSymbol).filter(Boolean)));
+        const overlapStart = rebuildStart !== undefined ? new Date(rebuildStart) : undefined;
 
-        await this.model("autoTraderTradeLifecycle").deleteMany({ where: { accountAddress, network } });
+        await this.model("autoTraderTradeLifecycle").deleteMany({
+            where: {
+                accountAddress,
+                network,
+                ...(symbols.length > 0 ? { symbol: { in: symbols } } : {}),
+                ...(overlapStart
+                    ? {
+                        OR: [
+                            { openedAt: { gte: overlapStart } },
+                            { closedAt: { gte: overlapStart } },
+                            { status: "OPEN" }
+                        ]
+                    }
+                    : {})
+            }
+        });
 
         let count = 0;
         for (const lifecycle of reconstructed) {
@@ -1472,6 +1574,66 @@ function summarizeUnattributed(fills: any[]): any {
     };
 }
 
+function emptyCandidatePromotionImpact(): any {
+    return {
+        totalEvents: 0,
+        livePromotions: 0,
+        shadowMatches: 0,
+        demotions: 0,
+        promotedCandidates: 0,
+        avgOutcome1hNetBps: null,
+        avgLivePromotion1hNetBps: null,
+        avgPromotedCandidate1hNetBps: null,
+        latestConfigEpoch: null,
+        events: []
+    };
+}
+
+function candidatePromotionEventDto(row: any): any {
+    const promotionReason = row.promotionReason ?? null;
+    const demotionReason = row.demotionReason ?? null;
+    const outcome1h = parseJsonObject(row.outcome1hJson);
+    const reasons = parseJsonArray(row.reasonsJson);
+    const promotionApplied = Boolean(
+        promotionReason &&
+        row.status === "CANDIDATE" &&
+        reasons.includes(promotionReason)
+    );
+    return {
+        id: row.id,
+        timestamp: row.timestamp instanceof Date ? row.timestamp.toISOString() : new Date(row.timestamp).toISOString(),
+        symbol: row.symbol,
+        side: row.side,
+        playbook: row.playbook ?? null,
+        status: row.status,
+        impactType: candidatePromotionImpactType(promotionReason, demotionReason),
+        promotionApplied,
+        promotionReason,
+        demotionReason,
+        matchedPriorBucket: row.matchedPriorBucket ?? null,
+        configEpoch: row.configEpoch ? new Date(row.configEpoch).toISOString() : null,
+        pathQuality: row.pathQuality ?? null,
+        policyOutcome: row.policyOutcome ?? null,
+        outcome1hNetBps: finiteOrNull(outcome1h?.net_return_bps),
+        outcome1hGrossBps: finiteOrNull(outcome1h?.gross_return_bps),
+        outcome1hMfeBps: finiteOrNull(outcome1h?.mfe_bps),
+        outcome1hMaeBps: finiteOrNull(outcome1h?.mae_bps)
+    };
+}
+
+function candidatePromotionImpactType(promotionReason: string | null, demotionReason: string | null): string {
+    if (demotionReason) return "DEMOTION";
+    if (promotionReason?.startsWith("PRIOR_BUCKET_SHADOW")) return "SHADOW";
+    if (promotionReason) return "LIVE_PROMOTION";
+    return "UNKNOWN";
+}
+
+function average(values: Array<number | null | undefined>): number | null {
+    const valid = values.filter((value): value is number => typeof value === "number" && Number.isFinite(value));
+    if (!valid.length) return null;
+    return round2(valid.reduce((sum, value) => sum + value, 0) / valid.length);
+}
+
 function lifecycleDto(row: any): any {
     return {
         id: row.id,
@@ -1606,6 +1768,13 @@ function codeVersion(): string | null {
 function finiteOrNull(value: unknown): number | null {
     const number = typeof value === "number" ? value : Number(value);
     return Number.isFinite(number) ? number : null;
+}
+
+function boundedTimeWhere(startTimeMs?: number, endTimeMs?: number): { gte?: Date; lte?: Date } | null {
+    const where: { gte?: Date; lte?: Date } = {};
+    if (typeof startTimeMs === "number" && Number.isFinite(startTimeMs)) where.gte = new Date(startTimeMs);
+    if (typeof endTimeMs === "number" && Number.isFinite(endTimeMs)) where.lte = new Date(endTimeMs);
+    return where.gte || where.lte ? where : null;
 }
 
 function fillSummary(fills: any[]): {

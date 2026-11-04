@@ -1,5 +1,5 @@
 import path from "path";
-import { PrismaClient } from "@prisma/market-client";
+import { PrismaClient } from "@prisma/backtest-client";
 import { AgentConfig } from "@/lib/agent-config";
 import { ScreenerConfig } from "@/lib/screener-config";
 import { AccountState, MarketEntry, StateSnapshot } from "@/types/snapshot";

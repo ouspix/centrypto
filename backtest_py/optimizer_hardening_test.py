@@ -48,6 +48,78 @@ class OptimizerHardeningTest(unittest.TestCase):
         self.assertEqual(settings.agent_preset_name, "Momentum Moderate")
         self.assertEqual(settings.screening_preset_name, "Momentum Moderate")
 
+    def test_recorded_calibration_flags_and_data_root_alias_work(self) -> None:
+        parser = optimizer.build_parser()
+        args = parser.parse_args([
+            "--source",
+            "recorded-parquet",
+            "--data-root",
+            "data/recorded_parquet/latest",
+            "--start",
+            "2026-01-01T00:00:00Z",
+            "--end",
+            "2026-01-02T00:00:00Z",
+            "--calibrate-recorded-opportunities",
+            "true",
+            "--calibrate-only",
+            "true",
+            "--no-s3",
+            "true",
+        ])
+        settings = optimizer.settings_from_args(args)
+
+        self.assertEqual(settings.source, "recorded-parquet")
+        self.assertEqual(settings.data_root, Path("data/recorded_parquet/latest"))
+        self.assertTrue(settings.calibrate_recorded_opportunities)
+        self.assertFalse(settings.calibrate_candidates)
+        self.assertTrue(settings.calibrate_only)
+        self.assertTrue(settings.no_s3)
+        self.assertEqual(settings.symbols, [])
+
+        bad_source = parser.parse_args([
+            "--start",
+            "2026-01-01T00:00:00Z",
+            "--end",
+            "2026-01-02T00:00:00Z",
+            "--symbols",
+            "BTC",
+            "--calibrate-recorded-opportunities",
+            "true",
+            "--calibrate-only",
+            "true",
+        ])
+        with self.assertRaises(SystemExit):
+            optimizer.settings_from_args(bad_source)
+
+        bad_mode = parser.parse_args([
+            "--source",
+            "recorded-parquet",
+            "--start",
+            "2026-01-01T00:00:00Z",
+            "--end",
+            "2026-01-02T00:00:00Z",
+            "--symbols",
+            "BTC",
+            "--calibrate-recorded-opportunities",
+            "true",
+        ])
+        with self.assertRaises(SystemExit):
+            optimizer.settings_from_args(bad_mode)
+
+    def test_discovery_balanced_python_screener_matches_live_keys(self) -> None:
+        screener = optimizer.screener_config_for_preset("Discovery Balanced")
+
+        self.assertEqual(screener["maxSpreadBps"], 15)
+        self.assertEqual(screener["minDepthUsd"], 20_000)
+        self.assertEqual(screener["maxCostBps"], 25)
+        self.assertEqual(screener["topN"], 16)
+        self.assertEqual(screener["discoveryMaxSymbols"], 40)
+        self.assertEqual(screener["hotMoverTopN"], 12)
+        self.assertEqual(screener["volumeSpikeTopN"], 10)
+        self.assertEqual(screener["rangeExpansionTopN"], 10)
+        self.assertEqual(screener["hotMoverMinAbsMoveBps"], 150)
+        self.assertTrue(screener["includeExecutionBlockedForDiagnostics"])
+
     def test_signals_only_profile_does_not_mutate_risk_or_screener_hard_gates(self) -> None:
         base_agent = optimizer.default_agent_config()
         base_screener = optimizer.default_screener_config()
@@ -206,6 +278,7 @@ class OptimizerHardeningTest(unittest.TestCase):
                 encoding="utf-8",
             )
             settings = optimizer.OptimizerSettings(
+                source="archive-parquet",
                 data_root=output_dir,
                 output_dir=output_dir,
                 start_ms=optimizer.parse_ts("2026-01-01T00:00:00Z"),
@@ -247,8 +320,12 @@ class OptimizerHardeningTest(unittest.TestCase):
                 fold_universe_file=str(fold_file),
                 calibrate_candidates=False,
                 calibrate_only=False,
+                calibrate_recorded_opportunities=False,
                 calibration_horizons_minutes=[15, 60, 240],
                 calibration_max_rows=0,
+                episode_gap_minutes=20,
+                policy_grid=False,
+                no_s3=False,
             )
             context = optimizer.BacktestContext(
                 features=pl.DataFrame(),
@@ -1147,6 +1224,271 @@ class OptimizerHardeningTest(unittest.TestCase):
             self.assertEqual(rejected["classification"], "missed_opportunity")
             self.assertTrue(accepted["accepted_static"])
             self.assertEqual(accepted["classification"], "bad_accepted")
+
+    def test_recorded_path_metrics_long_short_and_cost_adjustment(self) -> None:
+        long_row = recorded_test_row(
+            optimizer.CandleSeries(
+                ts_ms=[60_000],
+                open=[100.0],
+                high=[100.8],
+                low=[99.8],
+                close=[100.4],
+            ),
+            side="long",
+            cost_bps=2.0,
+            horizon=1,
+            stop_loss_bps=100.0,
+            take_profit_bps=200.0,
+        )
+        self.assertAlmostEqual(long_row["mfe_1m_bps"], 80.0)
+        self.assertAlmostEqual(long_row["mae_1m_bps"], -20.0)
+        self.assertAlmostEqual(long_row["cost_adjusted_mfe_1m_bps"], 78.0)
+
+        short_row = recorded_test_row(
+            optimizer.CandleSeries(
+                ts_ms=[60_000],
+                open=[100.0],
+                high=[100.15],
+                low=[99.3],
+                close=[99.6],
+            ),
+            side="short",
+            cost_bps=3.0,
+            horizon=1,
+            stop_loss_bps=100.0,
+            take_profit_bps=200.0,
+        )
+        self.assertAlmostEqual(short_row["mfe_1m_bps"], 70.0)
+        self.assertAlmostEqual(short_row["mae_1m_bps"], -15.0)
+        self.assertAlmostEqual(short_row["cost_adjusted_mfe_1m_bps"], 67.0)
+
+    def test_recorded_path_quality_is_independent_from_policy_settings(self) -> None:
+        candles = optimizer.CandleSeries(
+            ts_ms=[60_000, 120_000],
+            open=[100.0, 100.4],
+            high=[100.8, 100.6],
+            low=[100.0, 99.7],
+            close=[100.5, 100.2],
+        )
+        tight = recorded_test_row(candles, horizon=2, stop_loss_bps=20.0, take_profit_bps=120.0)
+        loose = recorded_test_row(candles, horizon=2, stop_loss_bps=100.0, take_profit_bps=120.0)
+
+        self.assertEqual(tight["path_quality"], "GOOD_PATH")
+        self.assertEqual(loose["path_quality"], "GOOD_PATH")
+        self.assertEqual(tight["policy_outcome"], "CURRENT_POLICY_LOSS")
+        self.assertEqual(loose["policy_outcome"], "CURRENT_POLICY_WIN")
+
+    def test_recorded_combined_path_policy_edge_cases_are_possible(self) -> None:
+        good_loss = recorded_test_row(
+            optimizer.CandleSeries(
+                ts_ms=[60_000, 120_000],
+                open=[100.0, 100.4],
+                high=[100.8, 100.5],
+                low=[100.0, 99.8],
+                close=[100.5, 99.8],
+            ),
+            horizon=2,
+            stop_loss_bps=100.0,
+            take_profit_bps=120.0,
+        )
+        self.assertEqual(good_loss["path_quality"], "GOOD_PATH")
+        self.assertEqual(good_loss["policy_outcome"], "CURRENT_POLICY_LOSS")
+        self.assertEqual(good_loss["combined_classification"], "GOOD_PATH_CURRENT_POLICY_LOSS")
+
+        bad_win = recorded_test_row(
+            optimizer.CandleSeries(
+                ts_ms=[60_000],
+                open=[100.0],
+                high=[100.12],
+                low=[99.95],
+                close=[99.8],
+            ),
+            horizon=1,
+            cost_bps=0.0,
+            stop_loss_bps=50.0,
+            take_profit_bps=10.0,
+        )
+        self.assertEqual(bad_win["path_quality"], "BAD_PATH")
+        self.assertEqual(bad_win["policy_outcome"], "CURRENT_POLICY_WIN")
+        self.assertEqual(bad_win["combined_classification"], "BAD_PATH_CURRENT_POLICY_WIN")
+
+    def test_recorded_noisy_and_untradeable_path_detection(self) -> None:
+        noisy = recorded_test_row(
+            optimizer.CandleSeries(
+                ts_ms=[60_000],
+                open=[100.0],
+                high=[100.8],
+                low=[99.5],
+                close=[100.2],
+            ),
+            horizon=1,
+            cost_bps=2.0,
+            stop_loss_bps=100.0,
+            take_profit_bps=200.0,
+        )
+        self.assertEqual(noisy["path_quality"], "NOISY_PATH")
+
+        untradeable = recorded_test_row(
+            optimizer.CandleSeries(
+                ts_ms=[60_000],
+                open=[100.0],
+                high=[100.5],
+                low=[100.0],
+                close=[100.2],
+            ),
+            horizon=1,
+            cost_bps=45.0,
+            stop_loss_bps=100.0,
+            take_profit_bps=200.0,
+            primary_block_reason="COST_GATE",
+        )
+        self.assertEqual(untradeable["path_quality"], "UNTRADEABLE_PATH")
+
+    def test_recorded_policy_grid_returns_best_policy_and_robust_score(self) -> None:
+        parser = optimizer.build_parser()
+        settings = optimizer.settings_from_args(parser.parse_args([
+            "--data",
+            ".",
+            "--output-dir",
+            ".",
+            "--start",
+            "2026-01-01T00:00:00Z",
+            "--end",
+            "2026-01-01T00:10:00Z",
+            "--symbols",
+            "BTC",
+            "--calibration-horizons-minutes",
+            "2",
+            "--policy-grid",
+            "true",
+        ]))
+        candles = optimizer.CandleSeries(
+            ts_ms=[60_000, 120_000, 180_000, 240_000, 300_000],
+            open=[100.0, 100.4, 100.6, 100.7, 100.8],
+            high=[100.8, 100.9, 101.0, 101.1, 101.2],
+            low=[100.0, 100.2, 100.4, 100.5, 100.6],
+            close=[100.5, 100.8, 100.9, 101.0, 101.1],
+        )
+        row = recorded_test_row(candles, horizon=2, stop_loss_bps=100.0, take_profit_bps=120.0)
+        optimizer.apply_recorded_policy_grid(row, candles, settings)
+
+        self.assertIsNotNone(row["best_policy_name"])
+        self.assertGreater(row["tested_policy_count"], 0)
+        self.assertGreater(row["profitable_policy_count"], 0)
+        self.assertGreater(row["robust_policy_score"], 0)
+        self.assertIsNotNone(row["current_policy_rank"])
+
+    def test_recorded_candidate_report_splits_path_from_policy(self) -> None:
+        good_loss = recorded_test_row(
+            optimizer.CandleSeries(
+                ts_ms=[60_000, 120_000],
+                open=[100.0, 100.4],
+                high=[100.8, 100.5],
+                low=[100.0, 99.8],
+                close=[100.5, 99.8],
+            ),
+            horizon=2,
+            stop_loss_bps=100.0,
+            take_profit_bps=120.0,
+        )
+        bad_loss = recorded_test_row(
+            optimizer.CandleSeries(
+                ts_ms=[60_000],
+                open=[100.0],
+                high=[100.1],
+                low=[99.7],
+                close=[99.8],
+            ),
+            horizon=1,
+            stop_loss_bps=100.0,
+            take_profit_bps=120.0,
+        )
+        report = optimizer.build_recorded_candidate_quality_report([good_loss, bad_loss], 1)
+
+        self.assertIn("path_quality_counts", report)
+        self.assertIn("policy_outcome_counts", report)
+        self.assertEqual(report["candidate_good_path_count"], 1)
+        self.assertEqual(report["candidate_bad_path_count"], 1)
+
+    def test_recorded_lifecycle_linkage_is_optional(self) -> None:
+        enrichment = optimizer.RecordedCalibrationEnrichment(
+            candidate_by_id={},
+            candidate_by_key={},
+            decision_by_candidate_id={},
+            lifecycle_by_decision_id={},
+            position_events_by_lifecycle_id={},
+            run_by_id={},
+            run_by_snapshot_id={},
+            position_manager_blocked_snapshots=set(),
+            table_rows={},
+        )
+
+        fields = optimizer.recorded_actual_trade_fields(None, enrichment, 0)
+
+        self.assertIsNone(fields["actual_trade_net_bps"])
+        self.assertIsNone(fields["actual_vs_current_policy_delta_bps"])
+
+    def test_recorded_parquet_writer_handles_late_string_values(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "rows.parquet"
+            rows = [{"candidate_journal_status": None, "value": index} for index in range(150)]
+            rows.append({"candidate_journal_status": "executed", "value": 151})
+
+            optimizer.write_parquet_rows(path, rows)
+
+            frame = pl.read_parquet(path)
+            self.assertEqual(frame.height, 151)
+            self.assertEqual(frame["candidate_journal_status"].to_list()[-1], "executed")
+
+
+def recorded_test_row(
+    candles: optimizer.CandleSeries,
+    *,
+    side: str = "long",
+    status: str = "CANDIDATE",
+    horizon: int = 1,
+    cost_bps: float = 2.0,
+    stop_loss_bps: float = 100.0,
+    take_profit_bps: float = 120.0,
+    primary_block_reason: str = "CANDIDATE_PROMOTED",
+) -> dict:
+    row = {
+        "status": status,
+        "side": side,
+        "created_at_ms": 0,
+        "entry_price_mid": 100.0,
+        "entry_price_realistic": 100.0,
+        "spread_bps": 0.0,
+        "slippage_bps": 0.0,
+        "fees_bps": 0.0,
+        "cost_bps": cost_bps,
+        "primary_block_reason": primary_block_reason,
+        "candidate_source": "OPPORTUNITY_ENGINE_CANDIDATE",
+        "playbook": "Momentum",
+        "regime": "RISK_ON",
+    }
+    row.update(
+        optimizer.recorded_outcome_for_horizon(
+            candles,
+            side,
+            0,
+            100.0,
+            100.0,
+            0.0,
+            0.0,
+            0.0,
+            cost_bps,
+            stop_loss_bps / 10_000,
+            take_profit_bps / 10_000,
+            horizon,
+        )
+    )
+    row["legacy_classification"] = optimizer.classify_recorded_legacy_classification(row, [horizon])
+    row["policy_outcome"] = optimizer.classify_current_policy_outcome(row, horizon)
+    row["path_quality"] = optimizer.classify_path_quality(row, horizon)
+    row["combined_classification"] = optimizer.combined_recorded_classification(row["path_quality"], row["policy_outcome"])
+    row["classification"] = row["combined_classification"]
+    return row
 
 
 def candidate_with_trigger(vol_ratio: float) -> dict:

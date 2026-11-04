@@ -102,7 +102,7 @@ export function TechnicalChart() {
                 horzLines: { color: '#1e293b' },
             },
             width: chartContainerRef.current.clientWidth,
-            height: 400,
+            height: chartContainerRef.current.clientHeight || 420,
             timeScale: {
                 timeVisible: true,
                 secondsVisible: false,
@@ -173,16 +173,20 @@ export function TechnicalChart() {
 
         chartRef.current = chart
 
-        const handleResize = () => {
-            if (chartContainerRef.current) {
-                chart.applyOptions({ width: chartContainerRef.current.clientWidth })
-            }
+        const resizeChart = () => {
+            if (!chartContainerRef.current) return
+            const { clientWidth, clientHeight } = chartContainerRef.current
+            chart.applyOptions({
+                width: clientWidth,
+                height: clientHeight || 420
+            })
         }
-
-        window.addEventListener('resize', handleResize)
+        const resizeObserver = new ResizeObserver(resizeChart)
+        resizeObserver.observe(chartContainerRef.current)
+        resizeChart()
 
         return () => {
-            window.removeEventListener('resize', handleResize)
+            resizeObserver.disconnect()
             chart.remove()
         }
     }, [])
@@ -281,7 +285,7 @@ export function TechnicalChart() {
                         <Loader2 className="h-8 w-8 animate-spin text-indigo-500" />
                     </div>
                 )}
-                <div ref={chartContainerRef} className="w-full h-[450px]" />
+                <div ref={chartContainerRef} className="h-full min-h-[420px] w-full" />
             </CardContent>
         </Card>
     )

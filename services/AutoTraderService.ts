@@ -1,6 +1,13 @@
 import { prisma } from "@/lib/db";
 import { normalizeWalletAddress } from "@/lib/auth/wallet-session";
 import { buildActiveScreenerSummary, normalizeAutoTraderConfigOverride } from "@/lib/auto-trader-config";
+import {
+    candidatePromotionRulesEqual,
+    candidatePromotionRulesHash,
+    normalizeCandidatePromotionConfig,
+    withCandidatePromotionEpoch
+} from "@/lib/candidate-promotion";
+import { validateLivePriorBuckets } from "@/lib/candidate-promotion-priors";
 import { ensureCollectorReady } from "@/services/CollectorRunner";
 import { OrchestratorService } from "@/services/OrchestratorService";
 
@@ -73,7 +80,18 @@ export class AutoTraderService {
         const normalizedUser = normalizeWalletAddress(userAddress);
         const frequencySeconds = Math.max(MIN_FREQUENCY_SECONDS, Math.floor(Number(input.frequencySeconds) || 600));
         const model = String(input.model || DEFAULT_MODEL);
+        const existing = await this.findSettings(normalizedUser, isTestnet);
+        const existingConfig = existing
+            ? normalizeAutoTraderConfigOverride(parseConfig(existing.config))
+            : undefined;
         const configOverride = normalizeAutoTraderConfigOverride(input.configOverride);
+        const existingPromotion = normalizeCandidatePromotionConfig(existingConfig?.candidate_promotion);
+        const incomingPromotion = normalizeCandidatePromotionConfig(configOverride.candidate_promotion);
+        const promotionEpoch = existing && candidatePromotionRulesEqual(existingPromotion, incomingPromotion)
+            ? existingPromotion.config_epoch ?? null
+            : new Date().toISOString();
+        configOverride.candidate_promotion = withCandidatePromotionEpoch(incomingPromotion, promotionEpoch);
+        await validateLivePriorBuckets(configOverride.candidate_promotion);
         const config = JSON.stringify(configOverride);
         const now = new Date();
 
@@ -238,6 +256,11 @@ export class AutoTraderService {
             configOverride,
             configPresetName: configOverride?.preset_name ?? configOverride?.profileName ?? configOverride?.preset ?? null,
             activeScreenerSummary: settings ? buildActiveScreenerSummary(configOverride) : null,
+            activeCandidatePromotionSummary: settings ? buildActiveCandidatePromotionSummary(configOverride?.candidate_promotion) : null,
+            config_epoch: configOverride?.candidate_promotion?.config_epoch ?? null,
+            candidatePromotionRulesHash: configOverride?.candidate_promotion
+                ? candidatePromotionRulesHash(configOverride.candidate_promotion)
+                : null,
             lastRunAt: settings?.lastRunAt?.toISOString() ?? null,
             nextRunAt: settings?.nextRunAt?.toISOString() ?? null,
             lastStatus: settings?.lastStatus ?? null,
@@ -262,4 +285,25 @@ function parseConfig(config: string | null): unknown {
     } catch {
         return undefined;
     }
+}
+
+function buildActiveCandidatePromotionSummary(config?: unknown) {
+    const normalized = normalizeCandidatePromotionConfig(config);
+    const priorStatuses = Object.values(normalized.prior_buckets).map(bucket => bucket.status);
+    const overrides = Object.values(normalized.playbook_overrides);
+    const globalRules = normalized.global_structure_rules;
+    const demotionRuleCount = [
+        globalRules.lateChase !== "ALLOW",
+        globalRules.extendedBreakoutWithoutPullback !== "ALLOW",
+        ...overrides.map(override => override.action !== "enabled")
+    ].filter(Boolean).length;
+
+    return {
+        rules: normalized,
+        config_epoch: normalized.config_epoch ?? null,
+        rules_hash: candidatePromotionRulesHash(normalized),
+        live_prior_bucket_count: priorStatuses.filter(status => status === "LIVE").length,
+        shadow_prior_bucket_count: priorStatuses.filter(status => status === "SHADOW").length,
+        demotion_rule_count: demotionRuleCount
+    };
 }

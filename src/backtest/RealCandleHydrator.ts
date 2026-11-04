@@ -2,7 +2,7 @@ import crypto from "crypto";
 import { spawn, spawnSync } from "child_process";
 import { createInterface } from "readline";
 import { Readable } from "stream";
-import { PrismaClient } from "@prisma/market-client";
+import { PrismaClient } from "@prisma/backtest-client";
 import { waitForHyperliquidSlot } from "@/lib/hyperliquid-info";
 import { createBacktestDbClient, ensureBacktestDbSchema } from "./BacktestDb";
 

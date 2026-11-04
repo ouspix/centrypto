@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { DEFAULT_AGENT_CONFIG } from '@/lib/agent-config';
+import { prisma } from '@/lib/db';
 import { OrchestratorService } from '@/services/OrchestratorService';
 
 const mockBuildSnapshot = vi.fn();
@@ -354,6 +355,43 @@ describe('OrchestratorService trader-only loop', () => {
         expect(screenerConfig.hotMoverTopN).toBe(12);
         expect(screenerConfig.maxSpreadBps).toBe(15);
         expect(screenerConfig.minDepthUsd).toBe(20_000);
+    });
+
+    it('persists candidate promotion explanation fields in CandidateJournal rows', async () => {
+        const context = {
+            snapshot_id: 77,
+            timestamp: 1777231828,
+            profile: 'test-profile',
+            global_regime: 'RISK_ON',
+            eligible_candidates: [{
+                candidate_id: 'BTC-PERP:long:Momentum',
+                symbol: 'BTC-PERP',
+                side: 'long',
+                eligible_playbooks: ['Momentum:long'],
+                promotion_reason: 'PRIOR_BUCKET_LIVE:Momentum:long|long|RISK_ON|60-69|70-79|05-10',
+                demotion_reason: null,
+                matched_prior_bucket: 'Momentum:long|long|RISK_ON|60-69|70-79|05-10',
+                config_epoch: '2026-06-05T08:00:00.000Z'
+            }],
+            existing_positions: []
+        };
+
+        await (new OrchestratorService() as any).journalTraderContext(
+            context,
+            [],
+            { accepted: true, reason: 'accepted' },
+            new Map()
+        );
+
+        const row = (prisma as any).candidateJournal.createMany.mock.calls[0][0].data[0];
+        expect(row).toMatchObject({
+            snapshotId: 77,
+            candidateId: 'BTC-PERP:long:Momentum',
+            promotionReason: 'PRIOR_BUCKET_LIVE:Momentum:long|long|RISK_ON|60-69|70-79|05-10',
+            demotionReason: null,
+            matchedPriorBucket: 'Momentum:long|long|RISK_ON|60-69|70-79|05-10',
+            configEpoch: new Date('2026-06-05T08:00:00.000Z')
+        });
     });
 
     it.each([

@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
-import { mode } from 'viem/chains';
+import { CodexQueueService } from '@/services/CodexQueueService';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
     const models = [];
@@ -12,7 +14,7 @@ export async function GET() {
         if (response.ok) {
             const data = await response.json();
             if (data.models) {
-                models.push(...data.models);
+                models.push(...data.models.map((model: object) => ({ ...model, provider: 'ollama', available: true })));
             }
         }
     } catch (e) {
@@ -34,5 +36,12 @@ export async function GET() {
         models.push({ name: "anthropic/claude-3-sonnet" });
     }
 
-    return NextResponse.json({ models });
+    try {
+        const health = await new CodexQueueService().availability();
+        const unavailableReason = !health.available ? 'worker_unavailable' : health.models['gpt-6.1-sol']?.error || (health.backoffUntil && health.backoffUntil > new Date() ? 'quota' : null);
+        models.push({ name: 'codex:gpt-6.1-sol', provider: 'codex', modelId: 'gpt-6.1-sol', available: health.available && !!health.models['gpt-6.1-sol']?.available && (!health.backoffUntil || health.backoffUntil <= new Date()), unavailableReason, reasoningEfforts: ['medium'] });
+    } catch {
+        models.push({ name: 'codex:gpt-6.1-sol', provider: 'codex', modelId: 'gpt-6.1-sol', available: false, reasoningEfforts: ['medium'] });
+    }
+    return NextResponse.json({ models: models.map(model => ({ provider: 'openrouter', available: true, ...model })) }, { headers: { 'Cache-Control': 'no-store' } });
 }

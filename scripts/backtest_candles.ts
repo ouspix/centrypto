@@ -1,6 +1,6 @@
 import { FeatureStore } from "@/src/backtest/FeatureStore";
 import { MarketFeatureRow } from "@/src/backtest/BacktestTypes";
-import { PrismaClient } from "@prisma/market-client";
+import { PrismaClient } from "@prisma/backtest-client";
 import { createBacktestDbClient, ensureBacktestDbSchema } from "@/src/backtest/BacktestDb";
 import { hydrateRealCandlesForBacktest } from "@/src/backtest/RealCandleHydrator";
 

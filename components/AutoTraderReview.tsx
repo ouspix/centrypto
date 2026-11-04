@@ -5,7 +5,6 @@ import { AlertTriangle, RefreshCw, RotateCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useTrading } from "@/context/TradingContext"
 import { toast } from "sonner"
 
@@ -18,6 +17,7 @@ type ReviewData = {
     closedLifecycles: any[]
     runs: any[]
     redFlags: any[]
+    candidatePromotionImpact: any
     skippedOpportunities: any[]
     syncStatus: {
         fillCount: number
@@ -43,11 +43,8 @@ type Summary = {
     avgHoldMinutes: number
 }
 
-const ranges = ["24h", "7d", "30d"]
-
 export function AutoTraderReview({ className }: { className?: string }) {
     const { isTestnet, walletSessionAddress } = useTrading()
-    const [range, setRange] = useState("7d")
     const [data, setData] = useState<ReviewData | null>(null)
     const [loading, setLoading] = useState(false)
     const [syncing, setSyncing] = useState(false)
@@ -60,7 +57,7 @@ export function AutoTraderReview({ className }: { className?: string }) {
         }
         setLoading(true)
         try {
-            const res = await fetch(`/api/auto-trader/review?network=${network}&range=${range}`)
+            const res = await fetch(`/api/auto-trader/review?network=${network}`)
             const payload = await res.json()
             if (!res.ok) throw new Error(payload.error || "Failed to load review")
             setData(payload)
@@ -78,7 +75,7 @@ export function AutoTraderReview({ className }: { className?: string }) {
             const res = await fetch("/api/auto-trader/review/sync", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ network, range })
+                body: JSON.stringify({ network })
             })
             const payload = await res.json()
             if (!res.ok) throw new Error(payload.error || "Sync failed")
@@ -93,10 +90,12 @@ export function AutoTraderReview({ className }: { className?: string }) {
 
     useEffect(() => {
         load()
-    }, [walletSessionAddress, network, range])
+    }, [walletSessionAddress, network])
 
     const redFlagRows = useMemo(() => data?.redFlags?.slice(0, 8) ?? [], [data])
     const closedRows = useMemo(() => data?.closedLifecycles?.slice(0, 12) ?? [], [data])
+    const promotionImpact = data?.candidatePromotionImpact
+    const promotionEvents = useMemo(() => promotionImpact?.events?.slice(0, 8) ?? [], [promotionImpact])
 
     if (!walletSessionAddress) {
         return (
@@ -109,15 +108,9 @@ export function AutoTraderReview({ className }: { className?: string }) {
     return (
         <div className={`flex flex-col h-full min-h-0 ${className ?? ""}`}>
             <div className="flex items-center justify-between gap-2 border-b border-slate-800 p-3">
-                <Tabs value={range} onValueChange={setRange} className="min-w-0">
-                    <TabsList className="h-8 bg-slate-950 border border-slate-800">
-                        {ranges.map(value => (
-                            <TabsTrigger key={value} value={value} className="h-7 px-2 text-xs">
-                                {value}
-                            </TabsTrigger>
-                        ))}
-                    </TabsList>
-                </Tabs>
+                <Badge variant="outline" className="h-8 border-slate-700 bg-slate-950 px-3 text-xs text-slate-200">
+                    Last 24h
+                </Badge>
                 <div className="flex gap-1">
                     <Button variant="ghost" size="icon" className="h-8 w-8" onClick={load} disabled={loading}>
                         <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
@@ -155,6 +148,24 @@ export function AutoTraderReview({ className }: { className?: string }) {
                     />
                     <MetricCard label="Synced fills" value={String(data?.syncStatus.fillCount ?? 0)} />
                 </div>
+
+                <Section title="Candidate Promotion Impact">
+                    <div className="grid grid-cols-2 gap-2 p-3">
+                        <MiniMetric label="Shadow" value={String(promotionImpact?.shadowMatches ?? 0)} />
+                        <MiniMetric label="Live matches" value={String(promotionImpact?.livePromotions ?? 0)} tone={(promotionImpact?.livePromotions ?? 0) > 0 ? "good" : "muted"} />
+                        <MiniMetric label="Promoted" value={String(promotionImpact?.promotedCandidates ?? 0)} tone={(promotionImpact?.promotedCandidates ?? 0) > 0 ? "good" : "muted"} />
+                        <MiniMetric label="Demoted" value={String(promotionImpact?.demotions ?? 0)} tone={(promotionImpact?.demotions ?? 0) > 0 ? "warn" : "muted"} />
+                        <MiniMetric label="Promoted 1h avg" value={formatBps(promotionImpact?.avgPromotedCandidate1hNetBps)} tone={(promotionImpact?.avgPromotedCandidate1hNetBps ?? 0) > 0 ? "good" : (promotionImpact?.avgPromotedCandidate1hNetBps ?? 0) < 0 ? "bad" : "muted"} />
+                    </div>
+                    {promotionEvents.length === 0 ? <Empty /> : promotionEvents.map((row: any) => (
+                        <CompactRow key={row.id}
+                            left={`${row.symbol} ${row.side}${row.playbook ? ` ${row.playbook}` : ""}`}
+                            right={formatPromotionEventType(row)}
+                            sub={`${formatReason(row.promotionReason ?? row.demotionReason)} | 1h ${formatBps(row.outcome1hNetBps)} | ${row.pathQuality ?? "path pending"} | ${row.policyOutcome ?? "policy pending"} | ${formatTime(row.timestamp)}`}
+                            bad={row.impactType === "DEMOTION" || Number(row.outcome1hNetBps ?? 0) < 0}
+                        />
+                    ))}
+                </Section>
 
                 <Section title="Open Positions">
                     {(data?.openPositions ?? []).length === 0 ? <Empty /> : data!.openPositions.slice(0, 8).map(row => (
@@ -214,6 +225,16 @@ export function AutoTraderReview({ className }: { className?: string }) {
     )
 }
 
+function MiniMetric({ label, value, tone = "muted" }: { label: string; value: string; tone?: "good" | "bad" | "warn" | "muted" }) {
+    const color = tone === "good" ? "text-emerald-400" : tone === "bad" ? "text-red-400" : tone === "warn" ? "text-amber-300" : "text-slate-200"
+    return (
+        <div className="rounded border border-slate-800 bg-slate-950/50 p-2">
+            <div className="text-[10px] uppercase text-slate-500">{label}</div>
+            <div className={`mt-0.5 font-mono text-sm font-semibold ${color}`}>{value}</div>
+        </div>
+    )
+}
+
 function MetricCard({ label, value, tone = "muted" }: { label: string; value: string; tone?: "good" | "bad" | "warn" | "muted" }) {
     const color = tone === "good" ? "text-emerald-400" : tone === "bad" ? "text-red-400" : tone === "warn" ? "text-amber-300" : "text-slate-200"
     return (
@@ -269,6 +290,19 @@ function formatBps(value: number | null | undefined) {
 function formatPct(value: number | null | undefined) {
     if (value === null || value === undefined || !Number.isFinite(Number(value))) return "--"
     return `${Number(value).toFixed(1)}%`
+}
+
+function formatReason(value: string | null | undefined) {
+    if (!value) return "no reason"
+    return value.replace(/_/g, " ").replace(/:/g, " ").toLowerCase().replace(/\b\w/g, char => char.toUpperCase())
+}
+
+function formatPromotionEventType(row: any) {
+    if (row?.promotionApplied) return "PROMOTED"
+    if (row?.impactType === "LIVE_PROMOTION") return "LIVE"
+    if (row?.impactType === "DEMOTION") return "DEMOTE"
+    if (row?.impactType === "SHADOW") return "SHADOW"
+    return "MATCH"
 }
 
 function formatTime(value: string) {

@@ -4,6 +4,21 @@ import { TradeHistoryService } from '@/services/TradeHistoryService';
 
 const tradeService = new TradeHistoryService();
 
+function getSinceMsForRange(range: string | null): number | undefined {
+    if (!range) return undefined;
+
+    const now = Date.now();
+    const msMap: Record<string, number> = {
+        '24h': 24 * 60 * 60 * 1000,
+        '3d': 3 * 24 * 60 * 60 * 1000,
+        '7d': 7 * 24 * 60 * 60 * 1000,
+        '1m': 30 * 24 * 60 * 60 * 1000,
+        '1y': 365 * 24 * 60 * 60 * 1000,
+    };
+    const windowMs = msMap[range];
+    return windowMs ? now - windowMs : undefined;
+}
+
 export async function GET(request: NextRequest) {
     try {
         const session = requireWalletSession(request);
@@ -19,25 +34,11 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ error: 'userAddress does not match wallet session' }, { status: 403 });
         }
 
-        if (analytics) {
-            const analyticsData = await tradeService.getAnalytics(session.address, isTestnet);
-            return NextResponse.json({ analytics: analyticsData });
-        }
+        const sinceMs = getSinceMsForRange(range);
 
-        let sinceMs: number | undefined = undefined;
-        if (range) {
-            const now = Date.now();
-            const msMap: Record<string, number> = {
-                '24h': 24 * 60 * 60 * 1000,
-                '3d': 3 * 24 * 60 * 60 * 1000,
-                '7d': 7 * 24 * 60 * 60 * 1000,
-                '1m': 30 * 24 * 60 * 60 * 1000,
-                '1y': 365 * 24 * 60 * 60 * 1000,
-            };
-            const windowMs = msMap[range];
-            if (windowMs) {
-                sinceMs = now - windowMs;
-            }
+        if (analytics) {
+            const analyticsData = await tradeService.getAnalytics(session.address, isTestnet, sinceMs);
+            return NextResponse.json({ analytics: analyticsData });
         }
 
         const trades = await tradeService.getTrades(session.address, isTestnet, limit, sinceMs);

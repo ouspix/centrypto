@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Centrypto Source Collector",
+  "version": "1.0.10",
+  "description": "Automatically reads explicitly configured news sources in a dedicated collector profile.",
+  "permissions": ["alarms", "storage", "scripting", "tabs", "offscreen"],
+  "host_permissions": ["http://127.0.0.1:4318/*", "https://x.com/*", "https://twitter.com/*", "https://www.reddit.com/*", "https://reddit.com/*", "https://old.reddit.com/*", "https://discord.com/*", "https://web.telegram.org/*", "https://t.me/*", "https://www.coindesk.com/*", "https://cointelegraph.com/*", "https://decrypt.co/*", "https://www.federalreserve.gov/*", "https://www.sec.gov/*", "https://www.bls.gov/*", "https://www.panewslab.com/*", "https://rss.odaily.news/*", "https://coinpost.jp/*", "https://www.blocktempo.com/*", "https://www.theblock.co/*", "https://www.dlnews.com/*", "https://status.solana.com/*", "https://status.coinbase.com/*", "https://status.circle.com/*", "https://blog.ethereum.org/*"],
+  "optional_host_permissions": ["https://*/*"],
+  "background": {"service_worker": "background.js", "type": "module"},
+  "options_page": "options.html"
+}

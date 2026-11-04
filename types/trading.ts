@@ -102,6 +102,13 @@ export type NearMissCandidate = {
     warnings: string[];
     executionTradeable: boolean;
     executionBlockReasons: string[];
+    structure_flags?: CandidateStructureFlags;
+    promotion_reason?: string | null;
+    demotion_reason?: string | null;
+    matched_prior_bucket?: string | null;
+    config_epoch?: string | null;
+    path_quality?: string | null;
+    policy_outcome?: string | null;
 };
 
 export type OpportunityDiagnostic = NearMissCandidate & {
@@ -156,6 +163,7 @@ export type Playbook =
     | "Capitulation Bounce:short";
 
 export type TraderContext = {
+    news_intelligence?: import("@/types/news").NewsContext;
     snapshot_id: number | null;
     timestamp: number;
     global_regime: "RISK_ON" | "RISK_OFF" | "CHOP";
@@ -210,7 +218,7 @@ export type EligibleCandidate = {
     symbol: string;
     side: TradeSide;
     eligible_playbooks: Playbook[];
-    has_hard_trigger: true;
+    has_hard_trigger: boolean;
     trigger_diagnostics: {
         trigger_profile: string;
         triggered_playbooks: Playbook[];
@@ -262,6 +270,11 @@ export type EligibleCandidate = {
         correlation_size_multiplier: number;
     };
     warnings: string[];
+    structure_flags?: CandidateStructureFlags;
+    promotion_reason?: string | null;
+    demotion_reason?: string | null;
+    matched_prior_bucket?: string | null;
+    config_epoch?: string | null;
 };
 
 export type TraderValidationResult = {
@@ -277,3 +290,10 @@ export type CandidateJournalStatus =
     | "executed"
     | "managed_position"
     | "no_llm_decision";
+
+export type CandidateStructureFlags = {
+    is_late_chase: boolean;
+    is_fresh_continuation: boolean;
+    is_pullback_continuation: boolean;
+    is_extended_breakout: boolean;
+};

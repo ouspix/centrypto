@@ -1,6 +1,7 @@
 import { AgentConfig } from "@/lib/agent-config";
 import { prisma } from "@/lib/db";
 import { OpportunityEngine } from "@/lib/trader/OpportunityEngine";
+import { CandidatePromotionPolicy, type CandidatePromotionPolicyDecision } from "@/lib/trader/CandidatePromotionPolicy";
 import { marketDbMain, marketDbTest } from "@/lib/market-db";
 import { computeRiskPlan, inferSideFromPlaybook } from "@/lib/risk/shared";
 import {
@@ -15,6 +16,7 @@ import {
     TradeSide
 } from "@/types/trading";
 import { GlobalRegime, MarketEntry, Position, StateSnapshot } from "@/types/snapshot";
+import { NewsIntelligenceService } from "@/services/NewsIntelligenceService";
 
 const V1_PLAYBOOKS = new Set<Playbook>([
     "Momentum:long",
@@ -58,12 +60,32 @@ export class TraderContextBuilder {
     ): Promise<CandidateBuildResult> {
         const existingPositions = this.buildManagedPositions(snapshot);
         const selection = await this.buildEligibleCandidates(snapshot, config, isTestnet, profile, existingPositions.length, accountAddress);
-        const eligibleCandidates = selection.candidates;
-        const candidateMap = new Map(eligibleCandidates.map(candidate => [candidate.candidate_id, candidate]));
         const opportunityContext = this.buildOpportunityContext(snapshot, config);
+        const promotionResult = await this.applyCandidatePromotionPolicy({
+            snapshot,
+            config,
+            isTestnet,
+            profile,
+            accountAddress,
+            candidates: selection.candidates,
+            opportunityDiagnostics: opportunityContext.diagnostics
+        });
+        opportunityContext.nearMisses = opportunityContext.diagnostics
+            .filter(opportunity => opportunity.status === "NEAR_MISS")
+            .slice(0, config.opportunity?.maxNearMissPerCycle ?? 5);
+        const eligibleCandidates = promotionResult.candidates;
+        const candidateMap = new Map(eligibleCandidates.map(candidate => [candidate.candidate_id, candidate]));
+        const diagnostics = {
+            ...selection.diagnostics,
+            eligible_candidate_count: eligibleCandidates.length
+        };
+        const newsContext = accountAddress && process.env.NEWS_TRADER_CONTEXT_ENABLED && process.env.NEWS_TRADER_CONTEXT_ENABLED !== "false"
+            ? await new NewsIntelligenceService().traderContext(Object.keys(snapshot.markets), new Date(snapshot.timestamp * 1000))
+            : null;
 
         return {
             context: {
+                ...(newsContext ? { news_intelligence: newsContext } : {}),
                 snapshot_id: snapshot.meta?.snapshot_id ?? null,
                 timestamp: snapshot.timestamp,
                 global_regime: snapshot.global_regime.current,
@@ -81,10 +103,10 @@ export class TraderContextBuilder {
                 eligible_candidates: eligibleCandidates,
                 near_miss_candidates: opportunityContext.nearMisses,
                 opportunity_diagnostics: opportunityContext.diagnostics,
-                max_new_trades_allowed: selection.diagnostics.max_new_trades_allowed
+                max_new_trades_allowed: diagnostics.max_new_trades_allowed
             },
             candidateMap,
-            diagnostics: selection.diagnostics
+            diagnostics
         };
     }
 
@@ -297,6 +319,207 @@ export class TraderContextBuilder {
                 rejections
             )
         };
+    }
+
+    private async applyCandidatePromotionPolicy(input: {
+        snapshot: StateSnapshot;
+        config: AgentConfig;
+        isTestnet: boolean;
+        profile: string;
+        accountAddress?: string | null;
+        candidates: EligibleCandidate[];
+        opportunityDiagnostics: OpportunityDiagnostic[];
+    }): Promise<{ candidates: EligibleCandidate[] }> {
+        const policy = new CandidatePromotionPolicy(input.config);
+        const diagnosticsByKey = new Map<string, OpportunityDiagnostic>();
+        for (const diagnostic of input.opportunityDiagnostics) {
+            diagnosticsByKey.set(opportunityKey(diagnostic.symbol, diagnostic.side, diagnostic.playbook), diagnostic);
+        }
+
+        const keptCandidates: EligibleCandidate[] = [];
+        for (const candidate of input.candidates) {
+            const market = input.snapshot.markets[candidate.symbol];
+            const playbook = candidate.eligible_playbooks[0];
+            if (!market || !playbook) {
+                keptCandidates.push(candidate);
+                continue;
+            }
+            const diagnostic = diagnosticsByKey.get(opportunityKey(candidate.symbol, candidate.side, playbook));
+            const decision = policy.evaluate({
+                market,
+                side: candidate.side,
+                playbook,
+                regime: input.snapshot.global_regime.current,
+                inPlayScore: diagnostic?.inPlayScore ?? null,
+                setupScore: diagnostic?.setupScore ?? null,
+                costBps: candidate.market_quality.cost_bps,
+                currentStatus: diagnostic?.status ?? "CANDIDATE"
+            });
+            this.applyPromotionMetadata(candidate, diagnostic, decision);
+            if (decision.finalStatus === "demote") {
+                if (diagnostic) {
+                    diagnostic.status = "NEAR_MISS";
+                    diagnostic.reasons = uniqueStrings([...diagnostic.reasons, decision.demotionReason ?? "CANDIDATE_DEMOTED"]);
+                }
+                continue;
+            }
+            keptCandidates.push(candidate);
+        }
+
+        const candidateKeys = new Set(keptCandidates.map(candidate =>
+            opportunityKey(candidate.symbol, candidate.side, candidate.eligible_playbooks[0])
+        ));
+        const heldSymbols = new Set((input.snapshot.account.current_positions || []).map(position => position.symbol));
+
+        for (const diagnostic of input.opportunityDiagnostics) {
+            if (diagnostic.status !== "NEAR_MISS") continue;
+            if (!diagnostic.playbook) continue;
+            if (candidateKeys.has(opportunityKey(diagnostic.symbol, diagnostic.side, diagnostic.playbook))) continue;
+
+            const market = input.snapshot.markets[diagnostic.symbol];
+            if (!market || heldSymbols.has(market.symbol)) continue;
+            const decision = policy.evaluate({
+                market,
+                side: diagnostic.side,
+                playbook: diagnostic.playbook,
+                regime: input.snapshot.global_regime.current,
+                inPlayScore: diagnostic.inPlayScore,
+                setupScore: diagnostic.setupScore,
+                costBps: market.execution?.costBps ?? market.derived?.costs?.cost_bps ?? null,
+                currentStatus: diagnostic.status
+            });
+            this.applyPromotionMetadata(null, diagnostic, decision);
+            if (decision.finalStatus !== "promote") continue;
+
+            const promoted = await this.buildPromotedCandidate({
+                snapshot: input.snapshot,
+                config: input.config,
+                isTestnet: input.isTestnet,
+                profile: input.profile,
+                accountAddress: input.accountAddress,
+                market,
+                opportunity: diagnostic,
+                decision
+            });
+            if (!promoted) continue;
+
+            diagnostic.status = "CANDIDATE";
+            diagnostic.reasons = uniqueStrings([...diagnostic.reasons, decision.promotionReason ?? "CANDIDATE_PROMOTED"]);
+            keptCandidates.push(promoted);
+            candidateKeys.add(opportunityKey(promoted.symbol, promoted.side, promoted.eligible_playbooks[0]));
+        }
+
+        return { candidates: keptCandidates };
+    }
+
+    private async buildPromotedCandidate(input: {
+        snapshot: StateSnapshot;
+        config: AgentConfig;
+        isTestnet: boolean;
+        profile: string;
+        accountAddress?: string | null;
+        market: MarketEntry;
+        opportunity: OpportunityDiagnostic;
+        decision: CandidatePromotionPolicyDecision;
+    }): Promise<EligibleCandidate | null> {
+        const { snapshot, config, market, opportunity } = input;
+        if (snapshot.constraints.kill_switch) return null;
+        if (market.news_blocked || !market.derived) return null;
+        if (!market.derived.entry?.entry_ok) return null;
+        if (!market.derived.liquidity?.tradeable) return null;
+        if (opportunity.executionTradeable === false) return null;
+        const playbook = opportunity.playbook;
+        if (!playbook || !V1_PLAYBOOKS.has(playbook as Playbook)) return null;
+        const side = opportunity.side;
+        if (inferSideFromPlaybook(playbook) !== side) return null;
+        if (this.isSymbolSideBlocked(market.symbol, side, config)) return null;
+
+        const strategyFiltered = this.applyStrategyPlaybookFilters(market, side, [playbook as Playbook], config);
+        if (strategyFiltered.playbooks.length === 0) return null;
+        const regime = this.applyRegimePolicy(snapshot.global_regime.current, side, strategyFiltered.playbooks, market, config);
+        if (!regime.allowed) return null;
+        const primaryPlaybook = strategyFiltered.playbooks[0];
+        const cooldownReason = await this.cooldownRejectionReason({
+            accountAddress: input.accountAddress,
+            network: input.isTestnet ? "testnet" : "mainnet",
+            symbol: market.symbol,
+            side,
+            playbook: primaryPlaybook,
+            config
+        });
+        if (cooldownReason) return null;
+
+        const riskPlan = computeRiskPlan(primaryPlaybook, market, config, snapshot.global_regime.current, config.risk.max_effective_leverage);
+        if (!riskPlan) return null;
+        const risk = this.buildRiskFields(riskPlan, market);
+        if (!this.costSanityOk(primaryPlaybook, risk, market, config)) return null;
+        const correlation = await this.buildCorrelation(snapshot, market.symbol, side, input.isTestnet, config);
+        const sizing = this.buildSizing(snapshot, config, market, side, riskPlan.stop_loss_pct, regime.multiplier, correlation);
+        if (sizing.max_allowed_size_fraction <= 0 || sizing.suggested_size_fraction <= 0) return null;
+
+        const triggerMargin = {
+            ...(market.derived.risk?.trigger_diagnostics?.trigger_margin ?? {}),
+            regime_size_multiplier: regime.multiplier,
+            promotion_in_play_score: opportunity.inPlayScore,
+            promotion_setup_score: opportunity.setupScore ?? 0
+        };
+
+        return {
+            candidate_id: this.buildCandidateId(market.symbol, side, primaryPlaybook),
+            symbol: market.symbol,
+            side,
+            eligible_playbooks: strategyFiltered.playbooks,
+            has_hard_trigger: Boolean(market.derived.risk?.trigger_diagnostics?.has_hard_trigger),
+            trigger_diagnostics: {
+                trigger_profile: `${input.profile}:candidate_promotion`,
+                triggered_playbooks: strategyFiltered.playbooks,
+                trigger_margin: triggerMargin
+            },
+            market_quality: {
+                rank: market.derived.rank ?? null,
+                cost_bps: market.derived.costs.cost_bps,
+                edge_bps: market.derived.edge.edge_bps,
+                edge_to_cost_mult: market.derived.entry?.edge_to_cost_mult ?? 0,
+                book_pressure: market.orderbook.book_pressure,
+                vol_ratio_5m_vs_1h: market.derived.normalized.vol_ratio_5m_vs_1h,
+                ret_sigma_5m_vs_1h: market.derived.normalized.ret_sigma_5m_vs_1h,
+                trend_aligned: market.derived.triggers.trend_aligned,
+                min_depth_usd: market.derived.liquidity.min_depth_usd
+            },
+            risk,
+            sizing,
+            correlation,
+            warnings: this.buildCandidateWarnings(snapshot.global_regime.current, side, correlation, [
+                ...regime.warnings,
+                input.decision.promotionReason ?? "candidate promotion"
+            ]),
+            structure_flags: input.decision.structureFlags,
+            promotion_reason: input.decision.promotionReason,
+            demotion_reason: null,
+            matched_prior_bucket: input.decision.matchedPriorBucket,
+            config_epoch: input.decision.configEpoch
+        };
+    }
+
+    private applyPromotionMetadata(
+        candidate: EligibleCandidate | null,
+        diagnostic: OpportunityDiagnostic | undefined,
+        decision: CandidatePromotionPolicyDecision
+    ): void {
+        if (candidate) {
+            candidate.structure_flags = decision.structureFlags;
+            candidate.promotion_reason = decision.promotionReason ?? decision.shadowReason;
+            candidate.demotion_reason = decision.demotionReason;
+            candidate.matched_prior_bucket = decision.matchedPriorBucket;
+            candidate.config_epoch = decision.configEpoch;
+        }
+        if (diagnostic) {
+            diagnostic.structure_flags = decision.structureFlags;
+            diagnostic.promotion_reason = decision.promotionReason ?? decision.shadowReason;
+            diagnostic.demotion_reason = decision.demotionReason;
+            diagnostic.matched_prior_bucket = decision.matchedPriorBucket;
+            diagnostic.config_epoch = decision.configEpoch;
+        }
     }
 
     private buildDiagnostics(
@@ -903,4 +1126,12 @@ function hasBbExpansion(market: MarketEntry): boolean {
         raw.bbands?.state === "expansion" ||
         raw.derived?.technicals?.bb_expansion === true ||
         raw.derived?.technicals?.bb_expansion === "true";
+}
+
+function opportunityKey(symbol: string, side: string | null | undefined, playbook: string | null | undefined): string {
+    return `${symbol}:${side ?? "unknown"}:${playbook ?? "NO_PLAYBOOK"}`;
+}
+
+function uniqueStrings(values: Array<string | null | undefined>): string[] {
+    return Array.from(new Set(values.filter((value): value is string => !!value)));
 }

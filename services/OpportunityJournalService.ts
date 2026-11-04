@@ -1,4 +1,6 @@
 import { prisma } from "@/lib/db";
+import { getMarketDb, withMarketDbRetry } from "@/lib/market-db";
+import { emptyStructureFlags, type CandidateStructureFlags } from "@/lib/candidate-promotion";
 import type { MarketEntry, StateSnapshot } from "@/types/snapshot";
 import type { OpportunityDiagnostic } from "@/types/trading";
 
@@ -35,6 +37,13 @@ export type SymbolOpportunityDiagnostics = {
         side: string | null;
     }>;
     candidateStatus: string | null;
+    pathQuality: string | null;
+    policyOutcome: string | null;
+    structureFlags: CandidateStructureFlags;
+    promotionReason: string | null;
+    demotionReason: string | null;
+    matchedPriorBucket: string | null;
+    configEpoch: string | null;
     pipeline: Array<{
         stage: string;
         status: "passed" | "blocked" | "not_available";
@@ -81,6 +90,12 @@ export class OpportunityJournalService {
                 featuresJson: jsonValue(buildFeatureSnapshot(market, opportunity)),
                 executionTradeable: opportunity.executionTradeable,
                 executionBlockReasonsJson: jsonArray(opportunity.executionBlockReasons),
+                promotionReason: opportunity.promotion_reason ?? null,
+                demotionReason: opportunity.demotion_reason ?? null,
+                matchedPriorBucket: opportunity.matched_prior_bucket ?? null,
+                configEpoch: parseConfigEpoch(opportunity.config_epoch),
+                pathQuality: opportunity.path_quality ?? null,
+                policyOutcome: opportunity.policy_outcome ?? null,
                 priceAtSignal: finiteOrNull(market?.price)
             };
         });
@@ -126,6 +141,13 @@ export class OpportunityJournalService {
             },
             setupSignals: [],
             candidateStatus: null,
+            pathQuality: null,
+            policyOutcome: null,
+            structureFlags: emptyStructureFlags(),
+            promotionReason: null,
+            demotionReason: null,
+            matchedPriorBucket: null,
+            configEpoch: null,
             pipeline: [
                 { stage: "discovery", status: "not_available", reasons: ["SYMBOL_NOT_FOUND"] }
             ],
@@ -137,7 +159,61 @@ export class OpportunityJournalService {
     }
 
     public async updateForwardOutcomes(): Promise<{ updated: number }> {
-        return { updated: 0 };
+        const model = (prisma as any).opportunityJournal;
+        if (!model?.findMany || !model?.update) return { updated: 0 };
+        const cutoff = new Date(Date.now() - 65 * 60_000);
+        const dueWhere = {
+            timestamp: { lte: cutoff },
+            OR: [
+                { outcome1hJson: null },
+                { pathQuality: null },
+                { policyOutcome: null }
+            ]
+        };
+        const priorityRows = await model.findMany({
+            where: {
+                AND: [
+                    dueWhere,
+                    {
+                        OR: [
+                            { promotionReason: { not: null } },
+                            { demotionReason: { not: null } }
+                        ]
+                    }
+                ]
+            },
+            orderBy: { timestamp: "asc" },
+            take: 100
+        });
+        const priorityIds = priorityRows.map((row: any) => row.id);
+        const remainingTake = Math.max(0, 100 - priorityRows.length);
+        const remainingRows = remainingTake > 0
+            ? await model.findMany({
+                where: {
+                    AND: [
+                        dueWhere,
+                        priorityIds.length > 0 ? { id: { notIn: priorityIds } } : {}
+                    ]
+                },
+                orderBy: { timestamp: "asc" },
+                take: remainingTake
+            })
+            : [];
+        const rows = Array.from(new Map(
+            [...priorityRows, ...remainingRows].map((row: any) => [row.id, row])
+        ).values());
+
+        let updated = 0;
+        for (const row of rows) {
+            const outcome = await buildForwardOutcome(row);
+            if (!outcome) continue;
+            await model.update({
+                where: { id: row.id },
+                data: outcome
+            });
+            updated++;
+        }
+        return { updated };
     }
 
     private async findLatestJournalRow(input: {
@@ -187,7 +263,8 @@ function buildFeatureSnapshot(market: MarketEntry | undefined, opportunity: Oppo
             execution: {
                 tradeable: opportunity.executionTradeable,
                 blockReasons: opportunity.executionBlockReasons
-            }
+            },
+            structure_flags: opportunity.structure_flags ?? emptyStructureFlags()
         };
     }
 
@@ -197,6 +274,7 @@ function buildFeatureSnapshot(market: MarketEntry | undefined, opportunity: Oppo
             tradeable: opportunity.executionTradeable,
             blockReasons: opportunity.executionBlockReasons
         },
+        structure_flags: opportunity.structure_flags ?? null,
         structure: market.derived?.structure ?? null,
         derived: {
             rank: market.derived?.rank ?? null,
@@ -238,6 +316,7 @@ function diagnosticsFromJournalRow(
     const executionBlockReasons = parseArray(row.executionBlockReasonsJson);
     const features = parseJson(row.featuresJson) as any;
     const execution = executionFromMarketOrFeatures(snapshotMarket, features, row.executionTradeable, executionBlockReasons);
+    const structureFlags = normalizeStructureFlags(features?.structure_flags);
 
     return {
         symbol: row.symbol,
@@ -257,6 +336,13 @@ function diagnosticsFromJournalRow(
             }]
             : [],
         candidateStatus: row.status ?? null,
+        pathQuality: row.pathQuality ?? null,
+        policyOutcome: row.policyOutcome ?? null,
+        structureFlags,
+        promotionReason: row.promotionReason ?? null,
+        demotionReason: row.demotionReason ?? null,
+        matchedPriorBucket: row.matchedPriorBucket ?? null,
+        configEpoch: dateString(row.configEpoch),
         pipeline: buildPipeline({
             discovered: discoveryReasons.length > 0 || !!row.status,
             tradeable: row.executionTradeable,
@@ -293,6 +379,13 @@ function diagnosticsFromMarket(
         execution: executionFromMarketOrFeatures(market, null, tradeable, executionBlockReasons),
         setupSignals: [],
         candidateStatus: null,
+        pathQuality: null,
+        policyOutcome: null,
+        structureFlags: emptyStructureFlags(),
+        promotionReason: null,
+        demotionReason: null,
+        matchedPriorBucket: null,
+        configEpoch: null,
         pipeline: buildPipeline({
             discovered: discoveryReasons.length > 0,
             tradeable,
@@ -355,6 +448,181 @@ function buildPipeline(input: {
     ];
 }
 
+async function buildForwardOutcome(row: any): Promise<Record<string, any> | null> {
+    const entryPrice = finiteOrNull(row.priceAtSignal);
+    if (!entryPrice || entryPrice <= 0) return null;
+    const timestamp = row.timestamp instanceof Date ? row.timestamp : new Date(row.timestamp);
+    if (!Number.isFinite(timestamp.getTime())) return null;
+    const network = row.network === "testnet" ? "testnet" : "mainnet";
+    const db = await getMarketDb(network === "testnet");
+    const start = new Date(timestamp.getTime());
+    const end = new Date(timestamp.getTime() + 4 * 60 * 60_000);
+    const symbol = baseSymbol(row.symbol);
+    const candles = await withMarketDbRetry(db, "opportunity outcome candles", async () => {
+        const primary = await db.marketCandle.findMany({
+            where: {
+                symbol,
+                timeframe: "1m",
+                openTime: { gte: start, lte: end }
+            },
+            orderBy: { openTime: "asc" }
+        });
+        if (primary.length > 0) return primary;
+        return db.marketCandle.findMany({
+            where: {
+                symbol: row.symbol,
+                timeframe: "1m",
+                openTime: { gte: start, lte: end }
+            },
+            orderBy: { openTime: "asc" }
+        });
+    });
+    if (candles.length === 0) return null;
+
+    const features = parseJson(row.featuresJson) as any;
+    const costBps = finiteOrNull(features?.execution?.costBps ?? features?.derived?.costs?.cost_bps) ?? 0;
+    const flags = normalizeStructureFlags(features?.structure_flags);
+    const outcomes = {
+        outcome5mJson: jsonValue(computeOutcomeForHorizon({ candles, entryPrice, side: row.side, costBps, horizonMinutes: 5, start })),
+        outcome15mJson: jsonValue(computeOutcomeForHorizon({ candles, entryPrice, side: row.side, costBps, horizonMinutes: 15, start })),
+        outcome1hJson: jsonValue(computeOutcomeForHorizon({ candles, entryPrice, side: row.side, costBps, horizonMinutes: 60, start })),
+        outcome4hJson: jsonValue(computeOutcomeForHorizon({ candles, entryPrice, side: row.side, costBps, horizonMinutes: 240, start }))
+    };
+    const outcome1h = JSON.parse(outcomes.outcome1hJson);
+    const classificationInput = {
+        status: row.status,
+        cost_bps: costBps,
+        is_late_chase: flags.is_late_chase,
+        is_extended_breakout: flags.is_extended_breakout,
+        covered_60m: outcome1h.covered,
+        current_policy_net_60m_bps: outcome1h.net_return_bps,
+        current_policy_gross_60m_bps: outcome1h.gross_return_bps,
+        net_return_realistic_60m_bps: outcome1h.net_return_bps,
+        return_60m_bps: outcome1h.gross_return_bps,
+        mfe_60m_bps: outcome1h.mfe_bps,
+        mae_60m_bps: outcome1h.mae_bps,
+        cost_adjusted_mfe_60m_bps: outcome1h.cost_adjusted_mfe_bps,
+        favorable_before_adverse_60m: outcome1h.favorable_before_adverse,
+        adverse_before_favorable_60m: outcome1h.adverse_before_favorable,
+        mae_before_20bps_favorable_60m_bps: outcome1h.mae_before_20bps_favorable_bps,
+        first_trigger_60m: outcome1h.first_trigger
+    };
+
+    return {
+        ...outcomes,
+        pathQuality: classifyPathQuality(classificationInput),
+        policyOutcome: classifyCurrentPolicyOutcome(classificationInput)
+    };
+}
+
+function computeOutcomeForHorizon(input: {
+    candles: Array<{ openTime: Date; high: number; low: number; close: number }>;
+    entryPrice: number;
+    side: string | null | undefined;
+    costBps: number;
+    horizonMinutes: number;
+    start: Date;
+}) {
+    const endMs = input.start.getTime() + input.horizonMinutes * 60_000;
+    const candles = input.candles.filter(candle => candle.openTime.getTime() <= endMs);
+    if (candles.length === 0) {
+        return { horizon_minutes: input.horizonMinutes, covered: false };
+    }
+    const side = input.side === "short" ? "short" : "long";
+    let mfe = 0;
+    let mae = 0;
+    let favorableBeforeAdverse = false;
+    let adverseBeforeFavorable = false;
+    let firstTrigger: string | null = null;
+    let maeBefore20bpsFavorable = 0;
+    let hitFavorable20 = false;
+
+    for (const candle of candles) {
+        const favorable = side === "long"
+            ? 10_000 * (candle.high / input.entryPrice - 1)
+            : 10_000 * (1 - candle.low / input.entryPrice);
+        const adverse = side === "long"
+            ? 10_000 * (candle.low / input.entryPrice - 1)
+            : 10_000 * (1 - candle.high / input.entryPrice);
+        mfe = Math.max(mfe, favorable);
+        mae = Math.min(mae, adverse);
+        if (!firstTrigger && favorable >= 20) firstTrigger = "take_profit";
+        if (!firstTrigger && adverse <= -20) firstTrigger = "stop_loss";
+        if (!favorableBeforeAdverse && favorable >= 20 && mae > -20) favorableBeforeAdverse = true;
+        if (!adverseBeforeFavorable && adverse <= -20 && mfe < 20) adverseBeforeFavorable = true;
+        if (!hitFavorable20) {
+            maeBefore20bpsFavorable = Math.min(maeBefore20bpsFavorable, adverse);
+            if (favorable >= 20) hitFavorable20 = true;
+        }
+    }
+
+    const close = candles[candles.length - 1].close;
+    const grossReturn = side === "long"
+        ? 10_000 * (close / input.entryPrice - 1)
+        : 10_000 * (input.entryPrice / close - 1);
+    const netReturn = grossReturn - input.costBps;
+
+    return {
+        horizon_minutes: input.horizonMinutes,
+        covered: candles.length >= Math.max(1, input.horizonMinutes - 1),
+        gross_return_bps: round4(grossReturn),
+        net_return_bps: round4(netReturn),
+        mfe_bps: round4(Math.max(0, mfe)),
+        mae_bps: round4(mae),
+        cost_adjusted_mfe_bps: round4(Math.max(0, mfe) - input.costBps),
+        favorable_before_adverse: favorableBeforeAdverse,
+        adverse_before_favorable: adverseBeforeFavorable,
+        mae_before_20bps_favorable_bps: round4(maeBefore20bpsFavorable),
+        first_trigger: firstTrigger
+    };
+}
+
+function classifyCurrentPolicyOutcome(row: Record<string, any>): string {
+    if (!row.covered_60m) return "UNCOVERED";
+    const status = String(row.status ?? "").toUpperCase();
+    const accepted = status === "CANDIDATE" || status === "EXECUTED";
+    const netReturn = finiteOrZero(row.current_policy_net_60m_bps ?? row.net_return_realistic_60m_bps);
+    const grossReturn = finiteOrZero(row.current_policy_gross_60m_bps);
+    const mfe = finiteOrZero(row.mfe_60m_bps);
+    const cost = finiteOrZero(row.cost_bps);
+    const costAdjustedMfe = finiteOrZero(row.cost_adjusted_mfe_60m_bps ?? mfe - cost);
+    const firstTrigger = row.first_trigger_60m;
+    const threshold = Math.max(20, cost * 3);
+
+    if (!accepted && (firstTrigger === "take_profit" || netReturn >= threshold || costAdjustedMfe >= threshold)) {
+        return status === "EXECUTION_BLOCKED" ? "GOOD_BLOCK_UNDER_CURRENT_POLICY" : "MISSED_UNDER_CURRENT_POLICY";
+    }
+    if (grossReturn > 0 && netReturn <= 0) return "CURRENT_POLICY_FEE_CHURN";
+    if (firstTrigger === "take_profit") return "CURRENT_POLICY_WIN";
+    if (accepted && (firstTrigger === "stop_loss" || netReturn < 0)) return "CURRENT_POLICY_LOSS";
+    if (firstTrigger === "stop_loss") return "CURRENT_POLICY_STOPPED";
+    if (costAdjustedMfe >= threshold && netReturn <= 0) return "CURRENT_POLICY_MISSED_MFE";
+    if (netReturn < 0) return "CURRENT_POLICY_LOSS";
+    if (netReturn > 0) return "CURRENT_POLICY_WIN";
+    return "CURRENT_POLICY_NEUTRAL";
+}
+
+function classifyPathQuality(row: Record<string, any>): string {
+    if (!row.covered_60m) return "UNCOVERED_PATH";
+    const cost = finiteOrZero(row.cost_bps);
+    const mfe = finiteOrZero(row.mfe_60m_bps);
+    const mae = finiteOrZero(row.mae_60m_bps);
+    const returnBps = finiteOrZero(row.return_60m_bps);
+    const costAdjustedMfe = finiteOrZero(row.cost_adjusted_mfe_60m_bps ?? mfe - cost);
+    const favorableBeforeAdverse = Boolean(row.favorable_before_adverse_60m);
+    const adverseBeforeFavorable = Boolean(row.adverse_before_favorable_60m);
+    const maeBeforeFavorable = Math.abs(finiteOrZero(row.mae_before_20bps_favorable_60m_bps));
+    if (Boolean(row.is_late_chase) || Boolean(row.is_extended_breakout)) {
+        if (costAdjustedMfe < 20 && Math.abs(mae) > Math.max(mfe, 10)) return "LATE_PATH";
+    }
+    if (costAdjustedMfe >= Math.max(20, 3 * cost) && favorableBeforeAdverse && maeBeforeFavorable <= 30) return "GOOD_PATH";
+    if (costAdjustedMfe >= 20 && Math.abs(mae) >= 40 && !favorableBeforeAdverse) return "NOISY_PATH";
+    if (costAdjustedMfe < 15 && returnBps <= 0) return "BAD_PATH";
+    if (adverseBeforeFavorable && Math.abs(mae) > Math.max(costAdjustedMfe, 20)) return "BAD_PATH";
+    if (costAdjustedMfe >= 20) return "NOISY_PATH";
+    return returnBps <= 0 ? "BAD_PATH" : "NOISY_PATH";
+}
+
 function toDate(value: number | Date): Date {
     if (value instanceof Date) return value;
     return new Date(value < 1_000_000_000_000 ? value * 1000 : value);
@@ -396,4 +664,33 @@ function finiteOrNull(value: unknown): number | null {
 function dateString(value: unknown): string | null {
     const date = value instanceof Date ? value : value ? new Date(value as any) : null;
     return date && Number.isFinite(date.getTime()) ? date.toISOString() : null;
+}
+
+function parseConfigEpoch(value: string | null | undefined): Date | null {
+    if (!value) return null;
+    const date = new Date(value);
+    return Number.isFinite(date.getTime()) ? date : null;
+}
+
+function normalizeStructureFlags(value: unknown): CandidateStructureFlags {
+    if (!value || typeof value !== "object") return emptyStructureFlags();
+    const raw = value as Record<string, unknown>;
+    return {
+        is_late_chase: Boolean(raw.is_late_chase),
+        is_fresh_continuation: Boolean(raw.is_fresh_continuation),
+        is_pullback_continuation: Boolean(raw.is_pullback_continuation),
+        is_extended_breakout: Boolean(raw.is_extended_breakout)
+    };
+}
+
+function finiteOrZero(value: unknown): number {
+    return finiteOrNull(value) ?? 0;
+}
+
+function round4(value: number): number {
+    return Number.isFinite(value) ? parseFloat(value.toFixed(4)) : 0;
+}
+
+function baseSymbol(symbol: string): string {
+    return String(symbol ?? "").replace(/-PERP$/, "");
 }

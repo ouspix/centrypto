@@ -49,7 +49,7 @@ type Trade = {
     entryPrice: number;
     exitPrice?: number;
     size: number;
-    leverage: number;
+    leverage: number | null;
     realizedPnl?: number;
     fees: number;
     status: 'open' | 'closed';
@@ -69,6 +69,7 @@ type TradeAnalytics = {
     totalPnl: number;
     avgWin: number;
     avgLoss: number;
+    totalFees?: number;
     largestWin: number;
     largestLoss: number;
     profitFactor: number;
@@ -77,6 +78,15 @@ type TradeAnalytics = {
 
 const TRADE_RANGES = ['24h', '3d', '7d', '1m', '1y'] as const;
 type TradeRange = typeof TRADE_RANGES[number];
+
+function parsePositiveNumber(value: number | string | null | undefined) {
+    const parsed = typeof value === 'number'
+        ? value
+        : typeof value === 'string'
+            ? parseFloat(value)
+            : NaN
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : null
+}
 
 // PnL Chart Component
 function PnlChart({ trades }: { trades: Trade[] }) {
@@ -216,7 +226,10 @@ export function PositionsTable() {
                 // Extract leverage for all assets
                 const levMap: Record<string, number> = {}
                 data.assetPositions.forEach((ap: any) => {
-                    levMap[ap.position.coin] = ap.position.leverage.value
+                    const leverage = parsePositiveNumber(ap.position.leverage?.value)
+                    if (typeof ap.position.coin === 'string' && leverage) {
+                        levMap[ap.position.coin] = leverage
+                    }
                 })
                 setLeverageMap(levMap)
 
@@ -279,12 +292,12 @@ export function PositionsTable() {
         }
     }
 
-    const fetchAnalytics = async () => {
+    const fetchAnalytics = async (range: TradeRange = selectedRange) => {
         if (!address || !hasWalletSession) return
 
         try {
             const network = isTestnet ? 'testnet' : 'mainnet'
-            const response = await fetch(`/api/trades?userAddress=${address}&analytics=true&network=${network}`)
+            const response = await fetch(`/api/trades?userAddress=${address}&analytics=true&network=${network}&range=${range}`)
             const data = await response.json()
             if (data.analytics) {
                 setAnalytics(data.analytics)
@@ -301,13 +314,13 @@ export function PositionsTable() {
 
         if (isConnected && address && hasWalletSession) {
             fetchTrades(selectedRange)
-            fetchAnalytics()
+            fetchAnalytics(selectedRange)
             const interval = setInterval(() => {
                 fetchData()
                 // Only refresh trades/analytics every 30s to save resources
                 if (Date.now() % 30000 < 5000) {
                     fetchTrades(selectedRange)
-                    fetchAnalytics()
+                    fetchAnalytics(selectedRange)
                 }
             }, 5000)
             return () => clearInterval(interval)
@@ -384,6 +397,12 @@ export function PositionsTable() {
     const formatPnl = (pnl: number) => {
         const sign = pnl >= 0 ? '+' : ''
         return `${sign}$${pnl.toFixed(2)}`
+    }
+
+    const formatLeverage = (leverage?: number | string | null) => {
+        const value = parsePositiveNumber(leverage)
+        if (value === null) return '-'
+        return `${Number.isInteger(value) ? value.toFixed(0) : value.toFixed(2).replace(/\.?0+$/, '')}x`
     }
 
     if (!mounted) return null
@@ -637,6 +656,7 @@ export function PositionsTable() {
                                     const openBadgeClass = isBuy
                                         ? 'border-emerald-500/40 text-emerald-200'
                                         : 'border-rose-500/40 text-rose-200';
+                                    const displayLeverage = trade.leverage ?? leverageMap[trade.symbol] ?? null;
 
                                     return (
                                         <div
@@ -695,7 +715,7 @@ export function PositionsTable() {
                                                     </div>
                                                     <div>
                                                         <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Lev</span>
-                                                        <div className="font-mono text-purple-400 text-sm">{trade.leverage}x</div>
+                                                        <div className="font-mono text-purple-400 text-sm">{formatLeverage(displayLeverage)}</div>
                                                     </div>
                                                 </div>
 
@@ -733,7 +753,7 @@ export function PositionsTable() {
                                                 </div>
                                                 <div className="flex justify-between">
                                                     <span className="text-xs text-slate-500">Lev</span>
-                                                    <span className="font-mono text-purple-400">{trade.leverage}x</span>
+                                                    <span className="font-mono text-purple-400">{formatLeverage(displayLeverage)}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -773,13 +793,7 @@ export function PositionsTable() {
                                     <div className="flex-1 p-3 bg-slate-950/50 rounded-lg border border-slate-800 flex flex-col justify-center space-y-3">
                                         <div className="flex justify-between items-center">
                                             <span className="text-slate-500 text-base">Total Trades</span>
-                                            <span className="font-mono text-slate-300 text-lg font-semibold">{positions.length + analytics.closedTrades}</span>
-                                        </div>
-                                        <div className="flex justify-between items-center">
-                                            <span className="text-slate-500 text-base">Open / Closed</span>
-                                            <span className="font-mono text-slate-300 text-lg font-semibold">
-                                                {positions.length} / {analytics.closedTrades}
-                                            </span>
+                                            <span className="font-mono text-slate-300 text-lg font-semibold">{analytics.closedTrades}</span>
                                         </div>
                                         <div className="flex justify-between items-center">
                                             <span className="text-slate-500 text-base">Wins / Losses</span>
@@ -790,13 +804,21 @@ export function PositionsTable() {
                                             </span>
                                         </div>
                                         <div className="flex justify-between items-center">
-                                            <span className="text-slate-500 text-base">Avg Win</span>
-                                            <span className="font-mono text-green-400 text-lg font-semibold">+${analytics.avgWin.toFixed(2)}</span>
+                                            <span className="text-slate-500 text-base">Avg Win / Loss</span>
+                                            <span className="font-mono text-slate-300 text-lg font-semibold">
+                                                <span className="text-green-400">+${analytics.avgWin.toFixed(2)}</span>
+                                                {' / '}
+                                                <span className="text-red-400">-${analytics.avgLoss.toFixed(2)}</span>
+                                            </span>
                                         </div>
-                                        <div className="flex justify-between items-center">
-                                            <span className="text-slate-500 text-base">Avg Loss</span>
-                                            <span className="font-mono text-red-400 text-lg font-semibold">-${analytics.avgLoss.toFixed(2)}</span>
-                                        </div>
+                                        {(analytics.totalFees ?? 0) > 0 && (
+                                            <div className="flex justify-between items-center">
+                                                <span className="text-slate-500 text-base">Fees</span>
+                                                <span className="font-mono text-red-300 text-lg font-semibold">
+                                                    -${(analytics.totalFees ?? 0).toFixed(2)}
+                                                </span>
+                                            </div>
+                                        )}
                                         <div className="flex justify-between items-center">
                                             <span className="text-slate-500 text-base" title="Gross Profit / Gross Loss">Profit Factor</span>
                                             <span className="font-mono text-purple-400 text-lg font-semibold">

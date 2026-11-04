@@ -3,7 +3,7 @@ import { spawnSync } from "child_process";
 import fs from "fs/promises";
 import os from "os";
 import path from "path";
-import { PrismaClient } from "@prisma/market-client";
+import { PrismaClient } from "@prisma/backtest-client";
 import { marketDbMain } from "@/lib/market-db";
 import { createBacktestDbClient, ensureBacktestDbSchema } from "@/src/backtest/BacktestDb";
 
