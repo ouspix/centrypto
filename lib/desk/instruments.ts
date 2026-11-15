@@ -23,13 +23,15 @@ type SpotMeta = { tokens: Token[]; universe: { name: string; index: number; toke
 // The k-prefix on native meme contracts means one contract represents 1,000
 // units. Preserve the venue coin for prices, quantities and orders.
 const multiplierCoins = new Set(["kPEPE", "kSHIB", "kBONK", "kFLOKI", "kLUNC", "kDOGS", "kNEIRO", "kBABYDOGE"]);
+export const nativePerpBase = (coin: string) => multiplierCoins.has(coin) ? coin.slice(1) : coin;
+
 export function nativeInstruments(isTestnet: boolean, perps: Perp[], spot: SpotMeta): DeskInstrument[] {
     const network = isTestnet ? "testnet" : "mainnet";
     const instruments: DeskInstrument[] = [];
     perps.forEach((perp, asset) => {
         if (perp.isDelisted || !perp.name || perp.name.includes(":") || !Number.isInteger(perp.szDecimals)) return;
         const multiplier = multiplierCoins.has(perp.name) ? 1000 : 1;
-        instruments.push({ id: `${network}:perp:${perp.name}`, asset, coin: perp.name, base: multiplier === 1000 ? perp.name.slice(1) : perp.name,
+        instruments.push({ id: `${network}:perp:${perp.name}`, asset, coin: perp.name, base: nativePerpBase(perp.name),
             quote: "USDC", kind: "perp", szDecimals: perp.szDecimals, isTestnet, multiplier, tokenId: null, evmContract: null });
     });
     const tokens = new Map(spot.tokens.map(token => [token.index, token]));
@@ -42,13 +44,13 @@ export function nativeInstruments(isTestnet: boolean, perps: Perp[], spot: SpotM
     return instruments;
 }
 
-export async function listInstruments(isTestnet: boolean): Promise<DeskInstrument[]> {
+export async function listInstruments(isTestnet: boolean, scope: "all" | "perp" = "all"): Promise<DeskInstrument[]> {
     const url = hyperliquidInfoUrl(isTestnet);
-    const options = { ttlMs: 5_000, allowStale: false };
-    const [perps, spot] = await Promise.all([
-        hyperliquidInfoPost<{ universe: Perp[] }>("hl:info:deskMeta", url, { type: "meta" }, options),
-        hyperliquidInfoPost<SpotMeta>("hl:info:spotMeta", url, { type: "spotMeta" }, options)
-    ]);
+    const options = { ttlMs: 60_000, allowStale: false };
+    const perps = await hyperliquidInfoPost<{ universe: Perp[] }>("hl:info:deskMeta", url, { type: "meta" }, options);
+    if (!Array.isArray(perps?.universe)) throw new Error("Incomplete Hyperliquid perpetual registry");
+    if (scope === "perp") return nativeInstruments(isTestnet, perps.universe, { tokens: [], universe: [] });
+    const spot = await hyperliquidInfoPost<SpotMeta>("hl:info:spotMeta", url, { type: "spotMeta" }, options);
     if (!Array.isArray(perps?.universe) || !Array.isArray(spot?.tokens) || !Array.isArray(spot?.universe)) throw new Error("Incomplete Hyperliquid instrument registry");
     return nativeInstruments(isTestnet, perps.universe, spot);
 }

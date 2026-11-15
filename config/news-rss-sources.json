@@ -1,0 +1,5 @@
+[
+  {"name":"CoinDesk", "url":"https://www.coindesk.com/arc/outboundfeeds/rss?outputType=xml"},
+  {"name":"Cointelegraph", "url":"https://cointelegraph.com/rss"},
+  {"name":"Decrypt", "url":"https://decrypt.co/feed"}
+]

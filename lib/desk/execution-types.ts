@@ -1,4 +1,5 @@
 import type { DeskBook } from "@prisma/client";
+import type { AssetLeverage } from "@/lib/hyperliquid-info";
 import type { DeskInstrument } from "./instruments";
 
 export type DeskOrder = {
@@ -11,6 +12,10 @@ export type DeskOrder = {
     takeProfitPrice?: number;
     thesis: string;
     eventId?: string;
+    strategyVersion?: string;
+    proposalKey?: string;
+    maxHoldHours?: number;
+    entryExpiresAt?: string;
 };
 export type DeskPairPlan = {
     legs: [DeskOrder, DeskOrder];
@@ -82,10 +87,13 @@ export function positive(v: unknown, label: string): number {
     if (n <= 0) throw new Error(`Invalid ${label}`);
     return n;
 }
-export type VenueStatus = { oid: string; status: string; cloid?: string | null } | null;
+export type VenueStatus = { oid: string; status: string; cloid?: string | null;
+    coin?:string;side?:"B"|"A";originalQuantity?:number;remainingQuantity?:number;statusTimestamp?:number;
+} | null;
 export type SignedAction = { type: string } & Record<string, unknown>;
 export type DeskVenue = {
     instruments(testnet: boolean): Promise<DeskInstrument[]>;
+    orderLeverage?(book: DeskBook, coin: string): Promise<AssetLeverage | null>;
     account(book: DeskBook, instruments: DeskInstrument[]): Promise<DeskAccount>;
     book(book: DeskBook, instrument: DeskInstrument): Promise<DeskL2>;
     fills(book: DeskBook, startTime: number, endTime: number): Promise<ExchangeFill[]>;

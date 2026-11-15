@@ -5,6 +5,7 @@ export type HyperliquidAsset = {
 
 export type HyperliquidAssetCtx = {
     markPx?: unknown;
+    prevDayPx?: unknown;
     indexPx?: unknown;
     oraclePx?: unknown;
     openInterest?: unknown;

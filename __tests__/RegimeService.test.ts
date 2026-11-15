@@ -23,12 +23,6 @@ function market(ret15m: number, volZ: number, depth = 100_000): MarketEntry {
         },
         funding: { current_8h: 0 },
         open_interest: { current: 0 },
-        sentiment: {
-            score: 0,
-            mentionsVsBaseline: 0,
-            disagreement: 0,
-            change2h: 0
-        }
     };
 }
 

@@ -36,23 +36,6 @@ async function migrateData() {
         }
         console.log(`✓ Migrated ${marketSnapshots.length} market snapshots`);
 
-        // Migrate Messages
-        console.log('Migrating Messages...');
-        const messages = await sourcePrisma.message.findMany();
-        let msgCount = 0;
-        for (const message of messages) {
-            await targetPrisma.message.upsert({
-                where: { id: message.id },
-                update: message,
-                create: message
-            });
-            msgCount++;
-            if (msgCount % 100 === 0) {
-                console.log(`  ... ${msgCount}/${messages.length}`);
-            }
-        }
-        console.log(`✓ Migrated ${messages.length} messages`);
-
         // Migrate PriceAlerts
         console.log('Migrating PriceAlerts...');
         const alerts = await sourcePrisma.priceAlert.findMany();
@@ -76,35 +59,6 @@ async function migrateData() {
             });
         }
         console.log(`✓ Migrated ${screeningSnapshots.length} screening snapshots`);
-
-        // Migrate SymbolBaselines
-        console.log('Migrating SymbolBaselines...');
-        const baselines = await sourcePrisma.symbolBaseline.findMany();
-        for (const baseline of baselines) {
-            await targetPrisma.symbolBaseline.upsert({
-                where: { id: baseline.id },
-                update: baseline,
-                create: baseline
-            });
-        }
-        console.log(`✓ Migrated ${baselines.length} symbol baselines`);
-
-        // Migrate SymbolSentimentSnapshots
-        console.log('Migrating SymbolSentimentSnapshots...');
-        const sentimentSnapshots = await sourcePrisma.symbolSentimentSnapshot.findMany();
-        let sentCount = 0;
-        for (const snapshot of sentimentSnapshots) {
-            await targetPrisma.symbolSentimentSnapshot.upsert({
-                where: { id: snapshot.id },
-                update: snapshot,
-                create: snapshot
-            });
-            sentCount++;
-            if (sentCount % 100 === 0) {
-                console.log(`  ... ${sentCount}/${sentimentSnapshots.length}`);
-            }
-        }
-        console.log(`✓ Migrated ${sentimentSnapshots.length} sentiment snapshots`);
 
         // Migrate Trades
         console.log('Migrating Trades...');

@@ -1,5 +1,4 @@
 import { MarketAnalysisService, MarketMetrics, OrderBookMetrics } from "./MarketAnalysisService";
-import { SentimentService } from "./SentimentService";
 import { marketDbMain, marketDbTest } from "@/lib/market-db";
 import { AgentConfig, DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
 import { ScreenerConfig, DEFAULT_SCREENER_CONFIG } from "@/lib/screener-config";
@@ -23,7 +22,6 @@ const QUERY_TTLS_MS = {
     recentTicks: 5_000,
     recentVolume: 15_000,
     metrics: 30_000,
-    sentiment: 5 * 60_000,
     orderBook: 5_000
 };
 
@@ -38,7 +36,6 @@ export type EnrichedMarketData = {
     recentQuoteVolume?: number | null;
     metrics: MarketMetrics;
     bookMetrics: OrderBookMetrics;
-    sentiment: any;
     isTestnet: boolean;
 };
 
@@ -82,7 +79,6 @@ export type ExecutionDiagnostics = {
 export type ScreenedSymbol = EnrichedMarketData & {
     score: number;
     qualityScore: number;
-    sentiment: any;
     discoveryReasons: DiscoveryReason[];
     discoveryMetrics: DiscoveryMetrics;
     execution: ExecutionDiagnostics;
@@ -90,7 +86,6 @@ export type ScreenedSymbol = EnrichedMarketData & {
 
 export class ScreenerService {
     private marketAnalysisService: MarketAnalysisService;
-    private sentimentService: SentimentService;
     private orderBookManager: OrderBookManager;
     private ws: HyperliquidWS;
     private readonly isTestnet: boolean;
@@ -98,7 +93,6 @@ export class ScreenerService {
 
     constructor(isTestnet: boolean = true, options: { disableLive?: boolean } = {}) {
         this.marketAnalysisService = new MarketAnalysisService();
-        this.sentimentService = new SentimentService();
 
         this.isTestnet = isTestnet;
 
@@ -155,9 +149,8 @@ export class ScreenerService {
 
             for (const symbol of fallbackSymbols) {
                 try {
-                    const [metrics, sentiment, bookMetrics] = await Promise.all([
+                    const [metrics, bookMetrics] = await Promise.all([
                         this.getMetrics(symbol, true),
-                        this.getSentiment(symbol),
                         this.getBookMetricsWithFallback(symbol, screenerCfg.depthBandsPct)
                     ]);
 
@@ -171,7 +164,6 @@ export class ScreenerService {
                         recentQuoteVolume: null,
                         metrics,
                         bookMetrics,
-                        sentiment,
                         isTestnet
                     };
                     fallbackCandidates.push(candidate);
@@ -188,7 +180,7 @@ export class ScreenerService {
             : new Map<string, number>();
         this.assertNotAborted(signal);
 
-        const enrichedCandidates: (EnrichedMarketData & { sentiment: any })[] = [];
+        const enrichedCandidates: EnrichedMarketData[] = [];
 
         const batchSize = 10;
         for (let i = 0; i < allTicks.length; i += batchSize) {
@@ -203,11 +195,8 @@ export class ScreenerService {
                     const oiDelta5m = (tick.openInterest || 0) - (baselineTick.openInterest || 0);
                     const fundingDelta5m = (tick.fundingRate || 0) - (baselineTick.fundingRate || 0);
 
-                    const [metrics, sentiment] = await Promise.all([
-                        // Screening should not trigger live candle backfills; the collector owns hydration.
-                        this.getMetrics(tick.symbol, false),
-                        this.getSentiment(tick.symbol)
-                    ]);
+                    // Screening should not trigger live candle backfills; the collector owns hydration.
+                    const metrics = await this.getMetrics(tick.symbol, false);
 
                     const candidate = {
                         symbol: tick.symbol,
@@ -230,7 +219,6 @@ export class ScreenerService {
                             cost_bps: 0,
                             depth_bands_usd: { bid: {}, ask: {} }
                         },
-                        sentiment,
                         isTestnet
                     };
 
@@ -402,12 +390,6 @@ export class ScreenerService {
         );
     }
 
-    private getSentiment(symbol: string) {
-        const key = `sentiment:${symbol}`;
-        return this.cached(key, QUERY_TTLS_MS.sentiment, () =>
-            this.sentimentService.getSentimentForCoin(symbol)
-        );
-    }
 
     private networkKey() {
         return this.isTestnet ? "testnet" : "mainnet";
@@ -502,7 +484,7 @@ export class ScreenerService {
         });
     }
 
-    public filterByActivity(candidates: (EnrichedMarketData & { sentiment: any })[], heldSymbols: string[], config: ScreenerConfig): (EnrichedMarketData & { sentiment: any })[] {
+    public filterByActivity(candidates: EnrichedMarketData[], heldSymbols: string[], config: ScreenerConfig): EnrichedMarketData[] {
         const heldSet = new Set(heldSymbols.map(normalizeBaseSymbol));
         return candidates.filter(c => {
             if (heldSet.has(normalizeBaseSymbol(c.symbol))) return true;
@@ -654,7 +636,6 @@ export class ScreenerService {
                 ...candidate,
                 score: qualityScore,
                 qualityScore,
-                sentiment: candidate.sentiment,
                 discoveryReasons: [],
                 discoveryMetrics: this.buildDiscoveryMetrics(candidate),
                 execution: this.buildExecutionDiagnostics(candidate, heldSymbols, config, agentConfig)

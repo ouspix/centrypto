@@ -1,14 +1,14 @@
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { NewsIntelligencePanel } from "@/components/NewsIntelligencePanel";
-const state = vi.hoisted(() => ({ wallet: "0xowner" as string | null }));
-vi.mock("@/context/TradingContext", () => ({ useTrading: () => ({ selectedPair: "BTC-PERP", walletSessionAddress: state.wallet }) }));
+const state = vi.hoisted(() => ({ wallet: "0xowner" as string | null, pair: "BTC-PERP" }));
+vi.mock("@/context/TradingContext", () => ({ useTrading: () => ({ selectedPair: state.pair, walletSessionAddress: state.wallet }) }));
 const briefing = { status: "incomplete", summary: "Coverage needs account renewal", signals: [], availableAt: null, coverage: { configured: 2, healthy: 1, pendingDocuments: 4, gaps: [] } };
 function responses(url: string) {
     const value = url.includes("/briefing") ? briefing : url.includes("/sources") ? { sources: [] } : url.includes("/events") ? { events: [] } : { collectors: [], contextMode: "shadow", codex: { available: false, models: {} } };
     return Promise.resolve({ ok: true, json: async () => value });
 }
-beforeEach(() => { state.wallet = "0xowner"; vi.mocked(fetch).mockReset(); vi.mocked(fetch).mockImplementation(responses as any); });
+beforeEach(() => { state.wallet = "0xowner"; state.pair = "BTC-PERP"; vi.mocked(fetch).mockReset(); vi.mocked(fetch).mockImplementation(responses as any); });
 describe("news intelligence dashboard", () => {
     it("requires a verified wallet before fetching or showing private intelligence", () => {
         state.wallet = null;
@@ -26,6 +26,17 @@ describe("news intelligence dashboard", () => {
         expect(screen.getByText(/after 24 hours/)).toBeInTheDocument();
         fireEvent.click(screen.getByRole("button", { name: "Sources" }));
         expect(screen.getByLabelText("Source URL")).toBeInTheDocument();
+    });
+    it("requests fresh briefing and history on asset change and gives an asset-specific empty state", async () => {
+        const view = render(<NewsIntelligencePanel />);
+        await screen.findByText("No active stories for BTC.");
+        state.pair = "HYPE-PERP";
+        view.rerender(<NewsIntelligencePanel />);
+        await screen.findByText("No active stories for HYPE.");
+        expect(screen.queryByText("No active stories for BTC.")).toBeNull();
+        expect(screen.queryByText(briefing.summary)).toBeNull();
+        expect(fetch).toHaveBeenCalledWith("/api/news/briefing?symbol=HYPE", expect.anything());
+        expect(fetch).toHaveBeenCalledWith("/api/news/events?symbol=HYPE", expect.anything());
     });
     it("shows the healthy-source policy immediately even with incomplete coverage", async () => {
         vi.mocked(fetch).mockImplementation(async url => {

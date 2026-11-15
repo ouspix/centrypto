@@ -1,11 +1,12 @@
 import "server-only";
+import { usesAppPostgres } from "@/lib/app-database-provider";
 import { createHash } from "node:crypto";
 import type { DeskBook, DeskShift, PrismaClient } from "@prisma/client";
 import type { PublicCache, PublicCacheEntry, PublicCacheWrite, PublicTopic } from "./research";
 
 const maxPayloadBytes = 32768;
 const maxBookRows = 128;
-const maxLifetimeMs = 30 * 60_000;
+const maxLifetimeMs = 60 * 60_000;
 
 /** Only validated public sources and their receipts belong here. The caller owns the shift,
  * and does not accept a wallet, namespace, version or cache key from model-generated input. */
@@ -14,7 +15,7 @@ export function bookPublicCache(db: PrismaClient, book: DeskBook, shift: DeskShi
     const scope = createHash("sha256")
         .update(
             JSON.stringify([
-                "research-v1",
+                "research-v2",
                 book.ownerAddress,
                 book.accountAddress,
                 book.isTestnet,
@@ -40,7 +41,21 @@ export function bookPublicCache(db: PrismaClient, book: DeskBook, shift: DeskShi
                 : topic.id === "public:collateral:usdc"
                   ? "USDC"
                   : topic.label;
-        const rows = await db.$queryRaw<{ revision: number | bigint }[]>`
+        const rows = usesAppPostgres(db) ? await db.$queryRaw<{ revision: number }[]>`
+            WITH news AS (
+                SELECT payload::jsonb AS item FROM "DeskWake" WHERE "bookId"=${bookId} AND key LIKE 'news:%'
+            ), matches AS (
+                SELECT DISTINCT item->>'eventKey' AS key FROM news
+                WHERE ${broad} OR (item->'instrumentIds') ? ${topic.id}
+                   OR lower(item->>'publicSubject')=lower(${named})
+                   OR lower(item#>>'{signal,facts,subject,symbol}')=lower(${named})
+                   OR lower(item#>>'{signal,facts,subject,venue}')=lower(${named})
+                   OR EXISTS (SELECT 1 FROM jsonb_array_elements(item#>'{signal,facts,targets}') t
+                              WHERE lower(t->>'symbol')=lower(${named}))
+            )
+            SELECT coalesce(max((item->>'revisionId')::integer),0) AS revision FROM news
+            WHERE item->>'eventKey' IN (SELECT key FROM matches)
+        ` : await db.$queryRaw<{ revision: number | bigint }[]>`
             WITH news AS (
                 SELECT payload, json_extract(payload,'$.eventKey') eventKey FROM DeskWake
                 WHERE bookId=${bookId} AND key LIKE 'news:%' AND json_valid(payload)

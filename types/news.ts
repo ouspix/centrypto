@@ -12,6 +12,7 @@ export type NewsFacts = {
     origins: Array<{ evidenceId: string; origin: string; basis: "official_notice" | "independent_reporting" | "relay" | "unknown" }>;
 };
 export type NewsSignal = {
+    eventAvailableAt?: string;
     facts?: NewsFacts;
     eventKey: string;
     symbols: string[];

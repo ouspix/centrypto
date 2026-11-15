@@ -77,6 +77,7 @@ class CollectorRunner {
     private firstTickPromise: Promise<void> | null = null;
     private priorityBackfillPromise: Promise<void> | null = null;
     private lastTickAt = 0;
+    private tickInFlight = false;
     private backfillStarted = false;
 
     constructor(isTestnet: boolean) {
@@ -105,6 +106,8 @@ class CollectorRunner {
 
     private startTickLoop() {
         const run = async () => {
+            if (this.tickInFlight) return;
+            this.tickInFlight = true;
             try {
                 const start = Date.now();
                 await this.collector.collectTicks(this.isTestnet);
@@ -113,6 +116,8 @@ class CollectorRunner {
                 console.log(`[CollectorRunner] Tick snapshot finished in ${duration}ms`);
             } catch (err) {
                 console.error("[CollectorRunner] Tick loop error:", err);
+            } finally {
+                this.tickInFlight = false;
             }
         };
 
@@ -191,12 +196,19 @@ class CollectorRunner {
         const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
         const maxAgeMs = Number(process.env.MARKET_DATA_MAX_STALE_MS ?? DEFAULT_MARKET_DATA_MAX_STALE_MS);
 
-        const ticks = await withMarketDbRetry(db, "rank symbols by recent volume", () =>
+        // A day's tick history contains millions of rows. Reduce it on the
+        // database before loading one current snapshot per symbol into Node.
+        const latest = await withMarketDbRetry(db, "find latest ticks for ranking", () =>
+            db.marketTick.groupBy({ by: ["symbol"], where: { ts: { gte: since } }, _max: { ts: true } })
+        );
+        const keys = latest.flatMap(row => row._max.ts ? [{ symbol: row.symbol, ts: row._max.ts }] : []);
+        const ticks = keys.length ? await withMarketDbRetry(db, "rank symbols by recent volume", () =>
             db.marketTick.findMany({
-                where: { ts: { gte: since } },
+                where: { OR: keys },
+                select: { symbol: true, ts: true, volume24h: true },
                 orderBy: { ts: "desc" },
             })
-        );
+        ) : [];
 
         if (ticks.length > 0) {
             const latestMap = new Map<string, typeof ticks[0]>();
@@ -354,7 +366,8 @@ class CollectorRunner {
                     body: JSON.stringify({
                         type: "candleSnapshot",
                         req: { coin: symbol, interval: "1m", startTime }
-                    })
+                    }),
+                    signal: AbortSignal.timeout(15000),
                 });
 
                 if (res.status === 429) {
@@ -542,7 +555,7 @@ async function assertMarketDataReady(isTestnet: boolean): Promise<void> {
     if (readiness.ready) return;
 
     throw new MarketDataStaleError(
-        `${readiness.message} Run \`npm run collector\` and wait for startup backfill to finish.`,
+        `${readiness.message} Check the VPS \`centrypto-market\` service and its logs; wait for ingestion and startup backfill to catch up.`,
         readiness
     );
 }

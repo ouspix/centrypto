@@ -1,5 +1,5 @@
 /**
- * Shared risk utility functions used by both OrchestratorService and RiskCheckModule.
+ * Market-analysis risk and cost utilities. Live execution is enforced by desk/execution-risk.
  * Extracted to eliminate duplication.
  */
 

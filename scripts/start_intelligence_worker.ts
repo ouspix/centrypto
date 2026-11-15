@@ -14,8 +14,8 @@ async function main() {
     const news = new NewsIntelligenceService();
     const ownerIndex = process.argv.indexOf("--owner");
     if (process.argv.includes("--seed-defaults") || process.argv.includes("--seed-curated") || process.argv.includes("--retry-rejected")) {
-        const saved = await prisma.autoTraderSettings.findFirst({ orderBy: { updatedAt: "desc" }, select: { userAddress: true } });
-        const address = ownerIndex >= 0 ? process.argv[ownerIndex + 1] : saved?.userAddress;
+        const { newsAccountAddress } = await import("../lib/news/account");
+        const address = ownerIndex >= 0 ? process.argv[ownerIndex + 1] : newsAccountAddress();
         if (!address || !/^0x[0-9a-fA-F]{40}$/.test(address)) throw new Error("Connect a wallet and use the source registry, or supply --owner <wallet>");
         if (process.argv.includes("--retry-rejected")) {
             console.log(JSON.stringify({ event: "rejected_evidence_requeued", ...(await news.retryRejected(address)) }));
@@ -40,6 +40,9 @@ async function main() {
     if (process.argv.includes("--check-only")) { await prisma.$disconnect(); await newsDb.$disconnect(); return; }
     let heartbeatBusy = false;
     const heartbeat = setInterval(() => { if (!heartbeatBusy) { heartbeatBusy = true; void queue.heartbeat().catch(() => {}).finally(() => { heartbeatBusy = false; }); } }, 5000);
+    const { refreshOfficialCalendars } = await import("../lib/news/official-calendar-store");
+    const { newsAccountAddress } = await import("../lib/news/account");
+    let calendarPending: Promise<void> | null = null;
     let lastMaintenance = 0;
     let lastNewsError = 0;
     let lastModelCheck = Date.now();
@@ -49,6 +52,11 @@ async function main() {
                 await news.finalizeAnalyses();
                 if (Date.now() - lastMaintenance > 60_000) {
                     lastMaintenance = Date.now();
+                    if (!calendarPending && process.env.NEWS_COLLECTOR_OWNER_ADDRESS?.trim()) {
+                        calendarPending = refreshOfficialCalendars(newsAccountAddress(), stop.signal)
+                            .catch(() => { if (!stop.signal.aborted) console.warn("Official news calendar refresh unavailable"); })
+                            .finally(() => { calendarPending = null; });
+                    }
                     const owners = await newsDb.newsSource.findMany({ where: { enabled: true }, distinct: ["ownerAddress"], select: { ownerAddress: true } });
                     for (const row of owners) await news.enqueueAnalysis(row.ownerAddress);
                     await news.cleanup();
@@ -65,5 +73,5 @@ async function main() {
                 if (!(await queue.runOne(stop.signal))) await new Promise(resolve => setTimeout(resolve, 1000));
             } catch { console.error("Local inference queue will retry."); await new Promise(resolve => setTimeout(resolve, 5000)); }
         }
-    } finally { clearInterval(heartbeat); await prisma.$disconnect(); await newsDb.$disconnect(); }
+    } finally { clearInterval(heartbeat); await calendarPending; await prisma.$disconnect(); await newsDb.$disconnect(); }
 }

@@ -20,8 +20,9 @@ async function handle(request: NextRequest, context: RouteContext) {
         if (request.method === "POST" && route === "sources/seed") return NextResponse.json({ created: await service.seedSources(address) }, { headers });
         if (request.method === "GET") {
             if (route === "sources") return NextResponse.json({ sources: await service.sources(address) }, { headers });
-            if (route === "briefing") return NextResponse.json(await service.briefing(address, request.nextUrl.searchParams.get("symbol")?.split(",")), { headers });
-            if (route === "events") return NextResponse.json({ events: await service.events(address) }, { headers });
+            const symbols = request.nextUrl.searchParams.get("symbol")?.split(",");
+            if (route === "briefing") return NextResponse.json(symbols ? await service.assetBriefing(address, symbols) : await service.briefing(address), { headers });
+            if (route === "events") return NextResponse.json({ events: symbols ? await service.assetEvents(address, symbols) : await service.events(address) }, { headers });
             if (route === "evidence") return NextResponse.json({ evidence: await service.evidence(address, (request.nextUrl.searchParams.get("ids") || "").split(",")) }, { headers });
             if (route === "collector") return NextResponse.json({ collectors: await newsDb.newsCollector.findMany({ where: { ownerAddress: address }, select: { id: true, name: true, enabled: true, lastSyncAt: true, healthJson: true } }), contextMode: process.env.NEWS_TRADER_CONTEXT_ENABLED || "shadow", codex: await new CodexQueueService().availability() }, { headers });
         }

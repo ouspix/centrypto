@@ -19,6 +19,7 @@ const claimLabels = { confirmed_announcement: "Announcement", reported_claim: "R
 
 export function NewsIntelligencePanel() {
     const { selectedPair, walletSessionAddress } = useTrading();
+    const symbol = selectedPair.replace(/-PERP$/, "");
     const activeWallet = useRef(walletSessionAddress);
     activeWallet.current = walletSessionAddress;
     const activePair = useRef(selectedPair);
@@ -31,6 +32,7 @@ export function NewsIntelligencePanel() {
     const [evidenceLoading, setEvidenceLoading] = useState(false);
     const evidenceRequest = useRef(0);
     const [showSources, setShowSources] = useState(false);
+    const sourceSettings = useRef<HTMLDivElement>(null);
     const [draft, setDraft] = useState(emptySource);
     const [editingId, setEditingId] = useState<string | null>(null);
     const [busy, setBusy] = useState(false);
@@ -41,16 +43,16 @@ export function NewsIntelligencePanel() {
 
     const refresh = useCallback(async (signal?: AbortSignal) => {
         if (!walletSessionAddress) return;
-        const symbol = selectedPair.replace(/-PERP$/, "");
+        const query = `?symbol=${encodeURIComponent(symbol)}`;
         const [briefingResponse, sourceResponse, eventResponse, healthResponse] = await Promise.all([
-            fetch(`/api/news/briefing?symbol=${encodeURIComponent(symbol)}`, { signal }), fetch("/api/news/sources", { signal }), fetch("/api/news/events", { signal }), fetch("/api/news/collector", { signal })
+            fetch(`/api/news/briefing${query}`, { signal }), fetch("/api/news/sources", { signal }), fetch(`/api/news/events${query}`, { signal }), fetch("/api/news/collector", { signal })
         ]);
         if (![briefingResponse, sourceResponse, eventResponse, healthResponse].every(response => response.ok)) throw new Error("News intelligence could not be loaded. Check your wallet session and database connection.");
         const [nextBriefing, nextSources, nextEvents, health] = await Promise.all([briefingResponse.json(), sourceResponse.json(), eventResponse.json(), healthResponse.json()]);
-        if (activeWallet.current !== walletSessionAddress || activePair.current !== selectedPair) return;
+        if (signal?.aborted || activeWallet.current !== walletSessionAddress || activePair.current !== selectedPair) return;
         setBriefing(nextBriefing);
         setSources(nextSources.sources);
-        setEvents(nextEvents.events.filter((event: NewsSignal) => !event.symbols.length || event.symbols.includes(symbol)).slice(0, 10));
+        setEvents(nextEvents.events);
         const modelError = health.codex.models["gpt-6-luna"]?.error;
         setCodexStatus(health.codex.backoffUntil && new Date(health.codex.backoffUntil) > new Date() ? "Local Codex allowance is cooling down; evidence remains queued" : modelError === "authentication" ? "Sign in to Codex on this PC to resume Luna analysis" : modelError === "model_unavailable" ? "GPT-6 Luna access is unavailable for this Codex account" : health.codex.available && health.codex.models["gpt-6-luna"]?.available ? "Local Luna worker available" : "Local Luna worker unavailable; collected evidence remains queued");
         const collectorHealth = health.collectors.map((collector: { healthJson: string }) => { try { return JSON.parse(collector.healthJson); } catch { return {}; } });
@@ -65,12 +67,17 @@ export function NewsIntelligencePanel() {
         const lost = collectorHealth.reduce((sum: number, item: { retention?: { unprocessedRemoved: number } }) => sum + (item.retention?.unprocessedRemoved || 0), 0);
         setRetentionNotice(lost ? `${lost} older unprocessed evidence item(s) expired or exceeded backlog retention. Historical coverage has gaps.` : "");
         setError("");
-    }, [selectedPair, walletSessionAddress]);
+    }, [selectedPair, symbol, walletSessionAddress]);
 
     useEffect(() => {
         setDraft(emptySource); setEditingId(null); setShowSources(false); setBusy(false);
         setRolloutStatus(""); setRetentionNotice("");
     }, [walletSessionAddress]);
+
+    useEffect(() => {
+        const settings = sourceSettings.current;
+        if (showSources && settings?.parentElement) settings.parentElement.scrollTop = settings.offsetTop;
+    }, [showSources]);
 
     useEffect(() => {
         setBriefing(null); setSources([]); setEvents([]); setEvidence([]); setError("");
@@ -114,18 +121,18 @@ export function NewsIntelligencePanel() {
         finally { if (isCurrent()) setEvidenceLoading(false); }
     };
 
-    return <section className="min-w-0 self-start overflow-hidden rounded-xl border border-slate-800 bg-slate-900 text-slate-100" aria-label="News intelligence">
-        <div className="flex items-center justify-between gap-3 border-b border-slate-800 px-4 py-4">
+    return <section className="flex h-full min-h-0 min-w-0 flex-col overflow-hidden rounded-xl border border-slate-800 bg-slate-900 text-slate-100" aria-label="News intelligence">
+        <div className="flex shrink-0 items-center justify-between gap-3 border-b border-slate-800 px-4 py-4">
             <div className="flex min-w-0 items-center gap-3">
                 <span className="rounded-lg border border-sky-400/20 bg-sky-400/10 p-2 text-sky-300"><Newspaper aria-hidden="true" className="h-4 w-4" /></span>
                 <div>
-                    <h2 className="text-sm font-semibold">News intelligence <span className="ml-1 text-slate-500">· {selectedPair.replace(/-PERP$/, "")}</span></h2>
+                    <h2 className="text-sm font-semibold">News intelligence <span className="ml-1 text-slate-500">· {symbol}</span></h2>
                     <p className="mt-0.5 text-xs text-slate-400">AI summaries of collected news</p>
                 </div>
             </div>
             <button type="button" onClick={() => setShowSources(value => !value)} aria-expanded={showSources} className="shrink-0 rounded-md border border-slate-700 px-3 py-1.5 text-xs text-slate-300 transition hover:border-slate-500 hover:text-white disabled:opacity-50" disabled={!walletSessionAddress}>Sources</button>
         </div>
-        {!walletSessionAddress ? <p className="p-4 text-sm text-slate-300">Verify your wallet session to view private news intelligence and configure collection.</p> : <div>
+        {!walletSessionAddress ? <p className="min-h-0 overflow-y-auto p-4 text-sm text-slate-300">Verify your wallet session to view private news intelligence and configure collection.</p> : <div className="relative min-h-0 flex-1 overflow-y-auto overscroll-contain">
             <div role="status" aria-live="polite" className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 px-4 py-3 text-xs text-slate-400">
                 <span className="flex items-center gap-2">
                     <span aria-hidden="true" className={`h-1.5 w-1.5 rounded-full ${briefing?.status === "healthy" ? "bg-emerald-400" : "bg-amber-400"}`} />
@@ -139,17 +146,15 @@ export function NewsIntelligencePanel() {
                 {!!briefing?.coverage.rejectedDocuments && <p className="text-amber-300">Analysis is unavailable for {briefing.coverage.rejectedDocuments} evidence item(s): model output failed validation. <button type="button" disabled={busy} className="underline" onClick={() => { setBusy(true); void fetch('/api/news/analysis/retry', { method: 'POST' }).then(response => { if (!response.ok) throw new Error('Could not retry analysis'); return refresh(); }).catch(reason => setError(reason.message)).finally(() => setBusy(false)); }}>Retry analysis</button></p>}
             </div>
             {briefing?.signals.length === 0 && <div className="px-4 py-5 text-sm leading-relaxed text-slate-300">
-                <p>No active AI summaries for this asset.</p>
-                <p className="mt-2 text-xs text-slate-400">{briefing.summary}</p>
+                <p>{briefing.status === "unavailable" ? "News intelligence is unavailable." : `No active stories for ${symbol}.`}</p>
             </div>}
-            <ol className="max-h-[420px] space-y-2 overflow-y-auto overscroll-contain px-4 py-3" aria-label="News event timeline">
+            <ol className="space-y-2 px-4 py-3" aria-label="News event timeline">
                 {(briefing?.signals || []).map((signal, index) => <li key={`${signal.eventKey}-${index}`}>
                     <details className="group rounded-lg border border-slate-700/60 bg-slate-950/40 transition hover:border-slate-600">
                         <summary className="cursor-pointer list-none rounded-lg p-3 outline-none focus-visible:ring-2 focus-visible:ring-sky-400 [&::-webkit-details-marker]:hidden">
                             <div className="flex flex-wrap items-center gap-2 text-[11px]">
                                 <span className={`rounded px-1.5 py-0.5 font-medium capitalize ${directionStyles[signal.direction]}`}>{signal.direction}</span>
                                 <span className="text-slate-400">{claimLabels[signal.claimType]}</span>
-                                <span className="ml-auto max-w-[55%] truncate font-mono text-slate-500" title={signal.symbols.join(", ")}>{signal.symbols.length ? signal.symbols.join(" · ") : "Broad market"}</span>
                             </div>
                             <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-200 group-open:line-clamp-none">{signal.summary}</p>
                             <div className="mt-2 flex items-center justify-between text-[11px] text-slate-500">
@@ -185,12 +190,11 @@ export function NewsIntelligencePanel() {
                     <div className="mt-3 space-y-2 text-xs leading-relaxed text-slate-400">
                         <p>{codexStatus}</p><p>{rolloutStatus}</p>
                         {retentionNotice && <p className="text-amber-300">{retentionNotice}</p>}
-                        {briefing?.summary && <div className="border-t border-slate-800 pt-2"><p className="mb-1 font-medium text-slate-300">Latest batch summary · AI generated</p><p>{briefing.summary}</p></div>}
                     </div>
                 </details>
                 {events.length > 0 && <details><summary className="cursor-pointer text-xs text-slate-400">Recent event history</summary><ul className="mt-2 max-h-60 space-y-2 overflow-y-auto">{events.map((event, index) => <li className="text-xs leading-relaxed text-slate-400" key={`${event.eventKey}-${index}`}>{event.summary}{new Date(event.expiresAt) < new Date() ? " (expired)" : ""}</li>)}</ul></details>}
             </div>
-            {showSources && <div className="space-y-3 border-t border-slate-700 p-4">
+            {showSources && <div ref={sourceSettings} className="space-y-3 border-t border-slate-700 p-4">
                 <h3 className="font-medium">Automatic source registry</h3>
                 <button type="button" disabled={busy} className="text-sm text-sky-300 underline" onClick={() => { setBusy(true); void fetch('/api/news/sources/seed', { method: 'POST' }).then(response => { if (!response.ok) throw new Error('Could not add default news feeds'); return refresh(); }).catch(reason => setError(reason.message)).finally(() => setBusy(false)); }}>Add standard public news feeds</button>
                 <a className="ml-3 text-sm text-sky-300 underline" href="http://localhost:6089/vnc.html?autoconnect=1&resize=scale" target="_blank" rel="noopener noreferrer">Open remote browser</a>

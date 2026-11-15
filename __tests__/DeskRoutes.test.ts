@@ -33,6 +33,28 @@ beforeEach(() => {
     h.auth.mockReturnValue({ address: "owner" });
 });
 describe("desk operator boundary", () => {
+    it("accepts the browser Host when Next reconstructs the URL with its bind address", async () => {
+        h.ownership.mockRejectedValue(new DeskInputError("Book not found.", 404));
+        for (const host of ["localhost:3000", "127.0.0.1:3000", "192.168.1.12:3000"]) {
+            const response = await POST(new Request("http://0.0.0.0:3000/api/desk", {
+                method: "POST", headers: { host, origin: `http://${host}`, "Content-Type": "application/json" },
+                body: JSON.stringify({ action: "message", bookId: "target" }),
+            }));
+            expect(response.status).toBe(404); // Reaches ownership, rather than failing origin validation.
+        }
+        expect(h.ownership).toHaveBeenCalledTimes(3);
+    });
+    it("still rejects foreign origins and mismatched ports with a browser-facing Host", async () => {
+        for (const origin of ["http://evil.example", "http://localhost:3001", "https://localhost:3000"]) {
+            const response = await POST(new Request("http://0.0.0.0:3000/api/desk", {
+                method: "POST", headers: { host: "localhost:3000", origin, "Content-Type": "application/json" },
+                body: JSON.stringify({ action: "message", bookId: "target" }),
+            }));
+            expect(response.status).toBe(403);
+        }
+        expect(h.ownership).not.toHaveBeenCalled();
+    });
+
     it("rejects unauthenticated and cross-origin mutations before ownership or execution", async () => {
         h.auth.mockImplementationOnce(() => {
             throw new WalletSessionError("sign in");

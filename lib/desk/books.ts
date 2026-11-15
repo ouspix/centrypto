@@ -1,10 +1,13 @@
+import { EXECUTABLE_STRATEGIES } from "./decision-policy";
 import "server-only";
+import { assertNewsStrategyExecutable, NEWS_STRATEGY_VERSION } from "./news-strategy";
 import { randomUUID } from "crypto";
 import type { DeskBook, Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db";
 import { hyperliquidInfoUrl } from "@/lib/hyperliquid-info";
 import { getHyperliquidApiWalletStatus } from "@/lib/hyperliquid-api-wallet";
-import { parseDeskMandate } from "./mandate";
+import { parseDeskMandate, DIRECTIONAL_HOST_LIMITS } from "./mandate";
+import { withAccountExecutionLease } from "./execution-lease";
 
 export class DeskInputError extends Error {
     constructor(
@@ -78,28 +81,9 @@ export async function updateBook(book: DeskBook, data: Record<string, unknown>) 
         if (!(await getHyperliquidApiWalletStatus(book.ownerAddress, book.isTestnet)).configured)
             throw new DeskInputError("Configure the delegated trading wallet first.");
     }
-    return prisma.$transaction(async (tx) => {
-        if (enabled) {
-            const active = await tx.autoTraderSettings.findFirst({
-                where: {
-                    userAddress: { in: [book.accountAddress, book.ownerAddress] },
-                    isTestnet: book.isTestnet,
-                    enabled: true,
-                },
-            });
-            const running = await tx.autoTraderRun.findFirst({
-                where: {
-                    accountAddress: { in: [book.accountAddress, book.ownerAddress] },
-                    network: book.isTestnet ? "testnet" : "mainnet",
-                    status: "RUNNING",
-                },
-            });
-            if (active || running)
-                throw new DeskInputError(
-                    "Stop the existing auto-trader and wait for its current cycle to finish.",
-                    409,
-                );
-        }
+    return withAccountExecutionLease(prisma, book.ownerAddress, book.isTestnet, async (check) => {
+      await check();
+      return prisma.$transaction(async (tx) => {
         const result = await tx.deskBook.updateMany({
             where: { id: book.id, version: book.version },
             data: {
@@ -121,10 +105,41 @@ export async function updateBook(book: DeskBook, data: Record<string, unknown>) 
             },
         });
         return tx.deskBook.findUniqueOrThrow({ where: { id: book.id } });
+      });
     });
 }
 
 export type DeskMode = "live" | "research";
+/** Owner-only API operation. Agents have no tool that can change strategy rollout. */
+export async function setStrategyState(book:DeskBook,data:Record<string,unknown>){
+    if(data.version!==book.version)throw new DeskInputError("Book changed. Refresh and try again.",409);
+    if (data.strategyVersion === NEWS_STRATEGY_VERSION) {
+        try { assertNewsStrategyExecutable(NEWS_STRATEGY_VERSION, false); }
+        catch (error) { throw new DeskInputError((error as Error).message); }
+    }
+    if(!EXECUTABLE_STRATEGIES.includes(data.strategyVersion as typeof EXECUTABLE_STRATEGIES[number])||!["research_only","active"].includes(String(data.state)))throw new DeskInputError("Choose a supported strategy state.");
+    const mandate=parseDeskMandate(book.mandateJson);
+    if(book.kind!=="directional"||!mandate.maxOpenRiskUsd||!mandate.maxConcurrentPositions||!mandate.costAllowanceBps||mandate.capitalUsd>DIRECTIONAL_HOST_LIMITS.capitalUsd)throw new DeskInputError(`Install directional risk controls within the ${DIRECTIONAL_HOST_LIMITS.capitalUsd} USDC capital ceiling first.`);
+    return withAccountExecutionLease(prisma,book.ownerAddress,book.isTestnet,async check=>{
+        await check();
+        return prisma.$transaction(async tx=>{
+            const current=await tx.deskBook.findUniqueOrThrow({where:{id:book.id}});
+            if(current.version!==book.version)throw new DeskInputError("Book changed. Refresh and try again.",409);
+            const key=`strategy-rollout:${data.strategyVersion}`,value={version:data.strategyVersion,state:data.state,changedAt:new Date().toISOString(),capitalCeilingUsd:DIRECTIONAL_HOST_LIMITS.capitalUsd,bookVersion:book.version};
+            await tx.deskRecord.upsert({where:{bookId_key:{bookId:book.id,key}},create:{bookId:book.id,key,kind:"strategy_rollout",role:"operator",dataJson:JSON.stringify(value)},update:{dataJson:JSON.stringify(value),createdAt:new Date()}});
+            if(data.state==="active")for(const other of EXECUTABLE_STRATEGIES.filter(v=>v!==data.strategyVersion)){
+                const old=await tx.deskRecord.findUnique({where:{bookId_key:{bookId:book.id,key:`strategy-rollout:${other}`}}});
+                if(old && JSON.parse(old.dataJson).state==="active"){
+                    const retired={...JSON.parse(old.dataJson),state:"research_only",changedAt:value.changedAt,supersededBy:data.strategyVersion};
+                    await tx.deskRecord.update({where:{id:old.id},data:{dataJson:JSON.stringify(retired),createdAt:new Date()}});
+                    await record(tx,book.id,null,randomUUID(),"strategy_authority","operator",retired);
+                }
+            }
+            await record(tx,book.id,null,randomUUID(),"strategy_authority","operator",value);
+            return value; // Does not enable the book or change testnet/paper status.
+        });
+    });
+}
 export function queueWake(
     tx: Prisma.TransactionClient,
     book: DeskBook,

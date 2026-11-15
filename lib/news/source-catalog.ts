@@ -6,7 +6,7 @@ export type SourceProfile = {
     region: string;
     category: string;
 };
-type CatalogEntry = { url: string; publisher?: string; language?: string; region?: string; category?: string; lookbackHours?: number; evidenceHosts?: string[] };
+type CatalogEntry = { url: string; publisher?: string; language?: string; region?: string; category?: string; lookbackHours?: number; evidenceHosts?: string[]; feedFormat?: "bithumb-notices" };
 const entries = new Map((catalog as CatalogEntry[]).map(source => [new URL(source.url).toString(), source]));
 
 export function sourceProfile(url: string): SourceProfile | null {
@@ -18,7 +18,11 @@ export function sourceProfile(url: string): SourceProfile | null {
 
 // Only the checked-in catalog can authorize cross-host RSS evidence. Neither a
 // feed item nor a source-management request can widen this publisher boundary.
-export function collectionPolicy(url: string): { evidenceHosts: string[]; lookbackHours?: number } {
+export function collectionPolicy(url: string): { evidenceHosts: string[]; lookbackHours?: number; feedFormat?: "bithumb-notices" } {
     const source = entries.get(url);
-    return { evidenceHosts: source?.evidenceHosts || [], ...(source?.lookbackHours ? { lookbackHours: source.lookbackHours } : {}) };
+    return {
+        evidenceHosts: source?.evidenceHosts || [],
+        ...(source?.lookbackHours ? { lookbackHours: source.lookbackHours } : {}),
+        ...(source?.feedFormat ? { feedFormat: source.feedFormat } : {}),
+    };
 }

@@ -1,6 +1,9 @@
-import { formatPrice, formatSize } from "@nktkas/hyperliquid/utils";
+import { EXECUTABLE_STRATEGIES } from "./decision-policy";
+import { venuePrice } from "./venue-price";
+import { assertNewsStrategyExecutable } from "./news-strategy";
+import { formatSize } from "@nktkas/hyperliquid/utils";
 import type { DeskInstrument } from "./instruments";
-import type { DeskMandate } from "./mandate";
+import { DIRECTIONAL_HOST_LIMITS, type DeskMandate } from "./mandate";
 import { finite, positive, fx, positionKey, type DeskAccount, type DeskL2, type DeskOrder, type Level } from "./execution-types";
 
 export function depthWithinBand(levels: Level[], buy: boolean, boundary: number, currency: number) {
@@ -22,8 +25,10 @@ export function parseDeskOrder(value: DeskOrder): DeskOrder {
         throw new Error("Order needs an instrument, side and thesis");
     if (value.reduceOnly !== undefined && typeof value.reduceOnly !== "boolean")
         throw new Error("Invalid reduceOnly flag");
+    assertNewsStrategyExecutable(value.strategyVersion, value.reduceOnly);
     if (value.eventId !== undefined && (typeof value.eventId !== "string" || value.eventId.length > 180))
         throw new Error("Invalid event reference");
+    if(value.strategyVersion!==undefined && (!EXECUTABLE_STRATEGIES.includes(value.strategyVersion as typeof EXECUTABLE_STRATEGIES[number]) || typeof value.proposalKey!=="string" || !/^[a-z0-9][a-z0-9_-]{0,79}$/.test(value.proposalKey) || typeof value.maxHoldHours!=="number" || !Number.isFinite(value.maxHoldHours) || value.maxHoldHours<2 || value.maxHoldHours>48 || typeof value.entryExpiresAt!=="string" || !Number.isFinite(Date.parse(value.entryExpiresAt))))throw new Error("Strategy orders need version, proposal key, 2-48h hold and entry expiry");
     return {
         instrumentId: value.instrumentId,
         side: value.side,
@@ -35,6 +40,7 @@ export function parseDeskOrder(value: DeskOrder): DeskOrder {
             value.takeProfitPrice === undefined ? undefined : positive(value.takeProfitPrice, "target price"),
         thesis: value.thesis.trim(),
         eventId: value.eventId,
+        ...(value.strategyVersion?{strategyVersion:value.strategyVersion,proposalKey:value.proposalKey,maxHoldHours:value.maxHoldHours,entryExpiresAt:value.entryExpiresAt}:{}),
     };
 }
 
@@ -69,6 +75,8 @@ export function assessDeskOrder(input: {
     suspended: boolean;
     dailyPnlUsd: number;
     deskGrossUsd: number;
+    openRiskUsd?: number;
+    openInstrumentIds?: string[];
     quoting: boolean;
     now?: number;
 }) {
@@ -93,7 +101,7 @@ export function assessDeskOrder(input: {
         throw new Error("Foreign position or inventory mismatch; handover required");
     const quantity = Number(formatSize(order.quantity.toFixed(i.szDecimals + 4), i.szDecimals));
     const tick = (px: number) =>
-        Number(formatPrice(Number.isInteger(px) ? String(px) : px.toFixed(16), i.szDecimals, i.kind === "perp"));
+        venuePrice(px, i.szDecimals, i.kind === "perp");
     const limitPrice = positive(tick(order.limitPrice), "rounded limit");
     positive(quantity, "rounded size");
     if (!buy && limitPrice < order.limitPrice - 1e-10 * Math.max(1, order.limitPrice))
@@ -148,6 +156,7 @@ export function assessDeskOrder(input: {
     if (target && (buy ? target <= Math.max(limitPrice, ask) : target >= Math.min(limitPrice, bid)))
         throw new Error("Target is on the wrong side");
     if (!reducing) {
+        if(order.entryExpiresAt && Date.parse(order.entryExpiresAt)<=(input.now??Date.now()))throw new Error("Entry plan expired");
         if (a.riskWarnings?.length) throw new Error(a.riskWarnings.join("; "));
         if (Math.min(a.rollingPnl, input.dailyPnlUsd) <= -m.maxDailyLossUsd)
             throw new Error("Daily loss limit reached");
@@ -155,7 +164,7 @@ export function assessDeskOrder(input: {
             throw new Error("Order cap or executable depth exceeded");
         if (
             totalReserve + Math.max(a.grossUsd, input.deskGrossUsd) + usd >
-            Math.min(m.capitalUsd, a.equity) * m.maxGrossLeverage
+            Math.min(m.capitalUsd, m.maxOpenRiskUsd!==undefined?DIRECTIONAL_HOST_LIMITS.capitalUsd:Infinity, a.equity) * m.maxGrossLeverage
         )
             throw new Error("Gross capital/leverage budget exceeded");
         if (instrumentReserve + Math.abs(live) * mid * currency + usd > m.maxInstrumentUsd)
@@ -163,12 +172,21 @@ export function assessDeskOrder(input: {
         if (i.kind === "spot" && buy && quantity * limitPrice > (a.freeSpot.get(i.quoteTokenIndex!) ?? 0))
             throw new Error("Insufficient quote currency available");
         if (!stop && !quoting && i.kind === "perp") throw new Error("A perpetual entry requires an exchange stop");
-        const loss = stop && i.kind === "perp" ? Math.abs(limitPrice - stop) * quantity * currency : usd;
+        const costs = usd * (m.costAllowanceBps ?? 0) / 10000;
+        const loss = (stop && i.kind === "perp" ? Math.abs(limitPrice - stop) * quantity * currency : usd) + costs;
         const priorRisk =
             stop && i.kind === "perp"
                 ? Math.abs(mid - stop) * Math.abs(owned) * currency
                 : Math.abs(owned) * mid * currency;
         if (loss + priorRisk > m.maxRiskPerTradeUsd) throw new Error("Trade risk budget exceeded");
+        if(m.maxOpenRiskUsd!==undefined){
+            if(input.openRiskUsd===undefined)throw new Error("Aggregate open risk unavailable");
+            if(loss+input.openRiskUsd>m.maxOpenRiskUsd)throw new Error("Aggregate open risk budget exceeded");
+        }
+        if(m.maxConcurrentPositions!==undefined){
+            if(!input.openInstrumentIds)throw new Error("Portfolio position count unavailable");
+            if(new Set([...input.openInstrumentIds,i.id]).size>m.maxConcurrentPositions)throw new Error("Concurrent position limit exceeded");
+        }
     }
     return {
         quantity,

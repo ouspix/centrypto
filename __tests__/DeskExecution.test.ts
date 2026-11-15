@@ -5,7 +5,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { DeskExecution } from "@/lib/desk/execution";
-import { DEFAULT_DESK_MANDATE } from "@/lib/desk/mandate";
+import { DEFAULT_DESK_MANDATE, SWING_DESK_MANDATE } from "@/lib/desk/mandate";
 import { nativeInstruments } from "@/lib/desk/instruments";
 import type {
     DeskAccount,
@@ -16,6 +16,7 @@ import type {
     VenueStatus,
 } from "@/lib/desk/execution-types";
 import { positionKey } from "@/lib/desk/execution-types";
+import { reviewedProposal } from "./fixtures/allocation-review";
 
 const instruments = nativeInstruments(true, [{ name: "kPEPE", szDecimals: 2 }], {
     tokens: [
@@ -38,6 +39,11 @@ const buy = (s = perp): DeskOrder => ({
     thesis: "Verified change in token supply",
     eventId: "supply:1",
 });
+async function saveAllocation(db: PrismaClient, book: DeskBook, order: DeskOrder) {
+    if (order.strategyVersion !== "desk-discretionary-1") return;
+    await db.deskRecord.create({ data: { bookId: book.id, key: `proposal:${book.version}:live:${order.proposalKey}`,
+        kind: "trade_proposal", role: "lead", dataJson: JSON.stringify(reviewedProposal(order)) } });
+}
 const mandate = {
     ...DEFAULT_DESK_MANDATE,
     capitalUsd: 4000,
@@ -62,6 +68,9 @@ class Fixture {
     fills: ExchangeFill[] = [];
     actions: SignedAction[] = [];
     partial = false;
+    partialStatus = "canceled";
+    withholdFills = false;
+    fillQueries:number[] = [];
     loseAcknowledgement = false;
     stale = false;
     rejectGuard = false;
@@ -92,7 +101,7 @@ class Fixture {
             time: Date.now() - (this.stale ? 6000 : 0),
             levels: [[{ px: String(this.bid), sz: "1000" }], [{ px: String(this.ask), sz: "1000" }]],
         }),
-        fills: async (b, s, e) => this.fills.filter((f) => f.time >= s && f.time <= e),
+        fills: async (b, s, e) => {this.fillQueries.push(s);return this.withholdFills?[]:this.fills.filter((f) => f.time >= s && f.time <= e);},
         funding: async () => this.fund,
         status: async (b, id) => this.statuses.get(id) ?? null,
         write: async (b, a, n, authorize, onDispatch) => {
@@ -128,7 +137,7 @@ class Fixture {
                     reduceOnly: true,
                     isTrigger: true,
                 });
-                this.statuses.set(w.c, { oid: String(oid), status: "open", cloid: w.c });
+                this.statuses.set(w.c, { oid: String(oid), status: "open", cloid: w.c,originalQuantity:+w.s,remainingQuantity:+w.s,statusTimestamp:Date.now(),coin:i.coin,side:w.b?"B":"A" });
                 return { status: "ok", response: { data: { statuses: [{ resting: { oid } }] } } };
             }
             const oid = this.actions.length + 100,
@@ -137,7 +146,8 @@ class Fixture {
             const status = {
                 oid: String(oid),
                 cloid: w.c,
-                status: alo ? "open" : this.partial ? "canceled" : "filled",
+                status: alo ? "open" : this.partial ? this.partialStatus : "filled",
+                originalQuantity:+w.s,remainingQuantity:alo?+w.s:+w.s-quantity,statusTimestamp:Date.now(),coin:i.coin,side:(w.b?"B":"A") as "B"|"A",
             };
             this.statuses.set(w.c, status);
             this.statuses.set(oid, status);
@@ -183,6 +193,7 @@ beforeEach(async () => {
     const paths = [
         "prisma/migrations/20261102000000_desk_books/migration.sql",
         "prisma/migrations/20261102010000_desk_execution/migration.sql",
+        "prisma/migrations/20261113110000_order_leverage_snapshots/migration.sql",
     ];
     for (const p of paths) {
         const src = await fs.readFile(p, "utf8");
@@ -214,6 +225,156 @@ afterEach(async () => {
     await fs.rm(dir, { recursive: true, force: true });
 });
 describe("autonomous desk execution", () => {
+    it("requires an allocation for preview and submission, persists its origin, and leaves reductions available", async () => {
+        const order = { ...buy(), strategyVersion: "desk-discretionary-1", proposalKey: "allocation-test", maxHoldHours: 2,
+            entryExpiresAt: new Date(Date.now() + 60000).toISOString() };
+        await db.deskRecord.create({ data: { bookId: book.id, key: "strategy-rollout:desk-discretionary-1", kind: "strategy_rollout", role: "operator", dataJson: JSON.stringify({ state: "active" }) } });
+        await expect(engine.preview(book.id, order)).rejects.toThrow(/current live/);
+        await expect(engine.execute(book.id, "missing-allocation", order)).rejects.toThrow(/current live/);
+        expect(fixture.actions).toHaveLength(0);
+        await saveAllocation(db, book, order);
+        const entry = await engine.execute(book.id, "reviewed-entry", order);
+        await engine.reconcile(book.id);
+        const receipt = await db.deskRecord.findUniqueOrThrow({ where: { bookId_key: { bookId: book.id, key: `entry-allocation:${entry.id}` } } });
+        expect(JSON.parse(receipt.dataJson)).toMatchObject({ intentId: entry.id, proposalRevision: 1, allocation: { version: "allocation-1", theme: { family: "recovery" } } });
+        await db.deskRecord.delete({ where: { bookId_key: { bookId: book.id, key: `proposal:${book.version}:live:${order.proposalKey}` } } });
+        await engine.execute(book.id, "reviewed-entry", order); // idempotent despite a subsequently removed plan
+        expect(fixture.actions).toHaveLength(1);
+        await engine.execute(book.id, "reduce", { instrumentId: perp.id, side: "sell", quantity: 2, limitPrice: 100,
+            reduceOnly: true, thesis: "Emergency reduction remains available without an allocation review" });
+        await engine.reconcile(book.id);
+        expect(fixture.pos.get(positionKey(perp))).toBe(0);
+        expect((await db.deskRecord.findUniqueOrThrow({ where: { id: receipt.id } })).dataJson).toBe(receipt.dataJson);
+    });
+    it("rechecks the reviewed proposal before signing and never silently adopts a revised assessment", async () => {
+        const order = { ...buy(), strategyVersion: "desk-discretionary-1", proposalKey: "changed-allocation", maxHoldHours: 2,
+            entryExpiresAt: new Date(Date.now() + 60000).toISOString() };
+        await saveAllocation(db, book, order);
+        await db.deskRecord.create({ data: { bookId: book.id, key: "strategy-rollout:desk-discretionary-1", kind: "strategy_rollout", role: "operator", dataJson: JSON.stringify({ state: "active" }) } });
+        fixture.beforeSign = async () => {
+            const changed = reviewedProposal(order); changed.revision = 2;
+            await db.deskRecord.update({ where: { bookId_key: { bookId: book.id, key: `proposal:${book.version}:live:${order.proposalKey}` } }, data: { dataJson: JSON.stringify(changed) } });
+        };
+        const result = await engine.execute(book.id, "changed-before-signing", order);
+        expect(result.state).toBe("rejected");
+        expect(fixture.actions).toHaveLength(0);
+    });
+    it("records perp leverage before submitting and attaches the acknowledged order ID", async () => {
+        fixture.venue.orderLeverage = async () => ({ type: "cross", value: 5 });
+        fixture.beforeSign = async () => {
+            expect(await db.orderLeverageSnapshot.count({ where: { accountAddress: book.accountAddress } })).toBe(2);
+        };
+
+        const intent = await engine.execute(book.id, "leverage", buy());
+        expect(intent.oid).toBeTruthy();
+        const rows = await db.orderLeverageSnapshot.findMany({ where: { accountAddress: book.accountAddress } });
+        expect(rows).toEqual(expect.arrayContaining([
+            expect.objectContaining({ cloid: intent.cloid, oid: intent.oid, leverage: 5, marginMode: "cross" }),
+            expect.objectContaining({ cloid: intent.stopCloid, leverage: 5 }),
+        ]));
+    });
+
+    async function absentIntent(reason = "Exchange exchange HTTP 422") {
+        return db.deskIntent.create({ data: {
+            bookId: book.id, intentKey: "expired-422", cloid: "entry-422", stopCloid: "stop-422",
+            instrumentId: perp.id, asset: perp.asset, coin: perp.coin, side: "sell",
+            quantity: 2, limitPrice: 100, arrivalPrice: 100, reservedUsd: 200, fingerprint: "test",
+            policyVersion: book.version, state: "unknown", reason,
+            createdAt: new Date(Date.now() - 600_000),
+            requestJson: JSON.stringify({ strategyVersion: "desk-discretionary-1", reduceOnly: false,
+                entryExpiresAt: new Date(Date.now() - 300_000).toISOString() }),
+        } });
+    }
+    async function ageAbsence(id: string) {
+        await db.deskRecord.update({ where: { bookId_key: { bookId: book.id, key: "submission-absence:" + id } },
+            data: { dataJson: JSON.stringify({ checkedAt: new Date(Date.now() - 61_000).toISOString() }) } });
+    }
+    it("serializes actual entry and protective prices without toFixed binary tails", async () => {
+        fixture.bid = 560.3; fixture.ask = 560.31;
+        await engine.execute(book.id, "xmr-prices", { ...buy(), side: "sell", quantity: 0.46,
+            limitPrice: 560.3, stopPrice: 570.56 });
+        const orders = fixture.actions[0].orders as WireOrder[];
+        expect(orders[0].p).toBe("560.3");
+        expect(orders[1].p).toBe("570.56");
+        expect(orders[1].t.trigger?.triggerPx).toBe("570.56");
+    });
+    it("releases an expired HTTP 422 only after two complete absence checks, without sending an order", async () => {
+        const row = await absentIntent();
+        await engine.reconcile(book.id);
+        expect((await db.deskIntent.findUniqueOrThrow({ where: { id: row.id } })).state).toBe("unknown");
+        await engine.reconcile(book.id); // a rapid repeat is insufficient
+        expect((await db.deskIntent.findUniqueOrThrow({ where: { id: row.id } })).reservedUsd).toBe(200);
+        await ageAbsence(row.id);
+        await engine.reconcile(book.id);
+        const done = await db.deskIntent.findUniqueOrThrow({ where: { id: row.id } });
+        expect(done.state).toBe("abandoned"); expect(done.reservedUsd).toBe(0);
+        expect(fixture.fillQueries).toContain(row.createdAt.getTime() - 120_000);
+        expect(fixture.actions).toHaveLength(0);
+        expect(await db.deskRecord.count({ where: { bookId: book.id, kind: "order_reconciliation" } })).toBe(1);
+        await engine.reconcile(book.id);
+        expect(await db.deskRecord.count({ where: { bookId: book.id, kind: "order_reconciliation" } })).toBe(1);
+    });
+    it.each(["timeout", "unexpired", "partial", "child", "position", "fill", "open", "read_failure"])(
+        "retains uncertainty for %s evidence and never retries", async (condition) => {
+            const row = await absentIntent(condition === "timeout" ? "Request timed out" : undefined);
+            if (condition !== "timeout") { await engine.reconcile(book.id); await ageAbsence(row.id); }
+            if (condition === "unexpired") await db.deskIntent.update({ where: { id: row.id }, data: {
+                requestJson: JSON.stringify({ strategyVersion: "desk-discretionary-1", entryExpiresAt: new Date(Date.now() + 60_000).toISOString() }) } });
+            if (condition === "partial") await db.deskIntent.update({ where: { id: row.id }, data: { filledQty: 0.5 } });
+            if (condition === "child") fixture.statuses.set("stop-422", { oid: "123", status: "open" });
+            if (condition === "position") fixture.pos.set(positionKey(perp), 1);
+            if (condition === "fill") fixture.fills.push({ coin: perp.coin, oid: 432, tid: 1,
+                time: row.createdAt.getTime() + 1000, px: "100", sz: "1", side: "A", fee: "0", closedPnl: "0", hash: "old-fill" });
+            if (condition === "open") fixture.open.push({ coin: perp.coin, oid: 123, side: "A", sz: "1", limitPx: "100" });
+            if (condition === "read_failure") fixture.venue.fills = async () => { throw new Error("Unavailable fills"); };
+            if (condition === "read_failure") await expect(engine.reconcile(book.id)).rejects.toThrow("Unavailable fills");
+            else await engine.reconcile(book.id);
+            const current = await db.deskIntent.findUniqueOrThrow({ where: { id: row.id } });
+            expect(current.state).toBe("unknown"); expect(current.reservedUsd).toBe(200);
+            expect(fixture.actions).toHaveLength(0);
+        },
+    );
+    it("blocks the unvalidated news family even if a rollout row claims it is active", async () => {
+        await db.deskRecord.create({ data: { bookId: book.id, key: "strategy-rollout:news-momentum-1",
+            kind: "strategy_rollout", role: "operator", dataJson: JSON.stringify({ state: "active" }) } });
+        const order = { ...buy(), strategyVersion: "news-momentum-1", proposalKey: "news-test",
+            maxHoldHours: 2, entryExpiresAt: new Date(Date.now() + 60_000).toISOString() };
+        await expect(engine.preview(book.id, order)).rejects.toThrow(/implementation-only/);
+        await expect(engine.execute(book.id, "news-test", order)).rejects.toThrow(/implementation-only/);
+        expect(fixture.actions).toHaveLength(0);
+        expect(await db.deskIntent.count({ where: { bookId: book.id } })).toBe(0);
+    });
+    it.each(["continuation-1","desk-discretionary-1"])("keeps %s entries research-only and rejects expired plans before signing",async(strategyVersion)=>{
+        await db.deskBook.update({where:{id:book.id},data:{mandateJson:JSON.stringify(SWING_DESK_MANDATE)}});
+        const plan={...buy(),strategyVersion,proposalKey:"pullback-test",maxHoldHours:2,entryExpiresAt:new Date(Date.now()+3600000).toISOString()};
+        await saveAllocation(db, book, plan);
+        await expect(engine.execute(book.id,"research-only",plan)).rejects.toThrow(/research-only/);
+        await expect(engine.execute(book.id,"old-plan",{...plan,entryExpiresAt:new Date(Date.now()-1000).toISOString()})).rejects.toThrow(/expired/);
+        expect(fixture.actions).toHaveLength(0);
+    });
+    it.each(["continuation-1","desk-discretionary-1"])("rechecks %s activation immediately before signing",async(strategyVersion)=>{
+        await db.deskBook.update({where:{id:book.id},data:{mandateJson:JSON.stringify(SWING_DESK_MANDATE)}});
+        const rollout=await db.deskRecord.create({data:{bookId:book.id,key:`strategy-rollout:${strategyVersion}`,kind:"strategy_rollout",role:"operator",dataJson:JSON.stringify({state:"active"})}});
+        fixture.beforeSign=async()=>{await db.deskRecord.update({where:{id:rollout.id},data:{dataJson:JSON.stringify({state:"research_only"})}});};
+        const order={...buy(),strategyVersion,proposalKey:"pullback-test",maxHoldHours:2,entryExpiresAt:new Date(Date.now()+3600000).toISOString()};
+        await saveAllocation(db, book, order);
+        const result=await engine.execute(book.id,"activation-revoked",order);
+        expect(result.state).toBe("rejected");expect(fixture.actions).toHaveLength(0);
+    });
+    it.each(["continuation-1","desk-discretionary-1"])("persists %s fill-time horizon and performs only a reducing time exit after restart while stopped",async(strategyVersion)=>{
+        await db.deskBook.update({where:{id:book.id},data:{mandateJson:JSON.stringify(SWING_DESK_MANDATE)}});
+        await db.deskRecord.create({data:{bookId:book.id,key:`strategy-rollout:${strategyVersion}`,kind:"strategy_rollout",role:"operator",dataJson:JSON.stringify({state:"active"})}});
+        const plan={...buy(),strategyVersion,proposalKey:"pullback-test",maxHoldHours:2,entryExpiresAt:new Date(Date.now()+3600000).toISOString()};
+        await saveAllocation(db, book, plan);
+        await engine.execute(book.id,"planned-entry",plan);await engine.reconcile(book.id);
+        const row=await db.deskRecord.findUniqueOrThrow({where:{bookId_key:{bookId:book.id,key:`position-plan:${perp.id}`}}});
+        const value=JSON.parse(row.dataJson);expect(Date.parse(value.maxHoldUntil)-Date.parse(value.openedAt)).toBe(7200000);
+        await db.deskRecord.update({where:{id:row.id},data:{dataJson:JSON.stringify({...value,maxHoldUntil:new Date(Date.now()-1000).toISOString()})}});
+        await db.deskBook.update({where:{id:book.id},data:{enabled:false}});
+        engine=new DeskExecution(db,fixture.venue);await engine.tick(book.id);await engine.reconcile(book.id);
+        expect(fixture.pos.get(positionKey(perp))).toBe(0);
+        expect((await engine.state(book.id)).inventory[0].quantity).toBe(0);
+    });
     it("reconciles an uncertain partial meme fill on restart, attributes fees and never resubmits the same intent", async () => {
         fixture.partial = true;
         fixture.loseAcknowledgement = true;
@@ -231,6 +392,89 @@ describe("autonomous desk execution", () => {
         expect(state.fills[0].feeUsd).toBe(0.03);
         expect(state.intents[0].requestJson).toContain("supply:1");
         expect(fixture.actions).toHaveLength(1);
+    });
+    it("settles terminal partial IOC fills, preserving original quantity and both live protections",async()=>{
+        fixture.partial=true;fixture.partialStatus="filled";
+        const entry=await engine.execute(book.id,"partial-ioc",{...buy(),takeProfitPrice:104});
+        await engine.tick(book.id);
+        const done=await db.deskIntent.findUniqueOrThrow({where:{id:entry.id}});
+        expect(done).toMatchObject({quantity:2,filledQty:1,state:"filled",reservedUsd:0});
+        expect(fixture.open.map(o=>[o.oid,o.sz,o.triggerPx,o.reduceOnly])).toHaveLength(2);
+        const protections=structuredClone(fixture.open),actions=fixture.actions.length;
+        await engine.reconcile(book.id);await engine.tick(book.id);
+        expect(fixture.open).toEqual(protections);expect(fixture.actions).toHaveLength(actions);
+        expect(await db.deskCashFlow.count()).toBe(1);
+        expect((await engine.execute(book.id,"partial-ioc",{...buy(),takeProfitPrice:104})).id).toBe(entry.id);
+        expect(fixture.actions).toHaveLength(actions);
+    });
+    it("retains reservations until delayed terminal fills are journaled and recovers beyond the rolling window",async()=>{
+        fixture.partial=true;fixture.partialStatus="filled";fixture.withholdFills=true;
+        const entry=await engine.execute(book.id,"delayed-partial",buy());
+        await engine.reconcile(book.id);
+        expect(await db.deskIntent.findUniqueOrThrow({where:{id:entry.id}})).toMatchObject({state:"settling",filledQty:0,reservedUsd:expect.any(Number)});
+        expect((await db.deskIntent.findUniqueOrThrow({where:{id:entry.id}})).reservedUsd).toBeGreaterThan(0);
+        const old=Date.now()-600000;
+        await db.deskBook.update({where:{id:book.id},data:{createdAt:new Date(old-10000)}});
+        await db.deskIntent.update({where:{id:entry.id},data:{createdAt:new Date(old)}});
+        fixture.fills[0].time=old+1000;fixture.statuses.get(entry.cloid)!.statusTimestamp=old+1000;fixture.withholdFills=false;
+        await engine.reconcile(book.id);
+        expect(fixture.fillQueries.some(s=>s<=old)).toBe(true);
+        expect(await db.deskIntent.findUniqueOrThrow({where:{id:entry.id}})).toMatchObject({state:"filled",filledQty:1,reservedUsd:0});
+        const queries=fixture.fillQueries.length;await engine.reconcile(book.id);
+        expect(fixture.fillQueries.length-queries).toBe(1);expect(await db.deskCashFlow.count()).toBe(1);
+    });
+    it("does not release a terminal reservation with contradictory live orders or an unknown venue state",async()=>{
+        fixture.partial=true;fixture.partialStatus="filled";
+        const entry=await engine.execute(book.id,"contradiction",buy());
+        fixture.open.push({coin:perp.coin,oid:Number(entry.oid),cloid:entry.cloid,side:"B",sz:"1",limitPx:"100.05"});
+        await engine.reconcile(book.id);
+        expect((await db.deskIntent.findUniqueOrThrow({where:{id:entry.id}})).reservedUsd).toBeGreaterThan(0);
+        fixture.open=[];fixture.statuses.get(entry.cloid)!.status="future_unknown_state";
+        await engine.reconcile(book.id);
+        expect(await db.deskIntent.findUniqueOrThrow({where:{id:entry.id}})).toMatchObject({state:"unknown",reservedUsd:expect.any(Number)});
+        expect((await db.deskIntent.findUniqueOrThrow({where:{id:entry.id}})).reservedUsd).toBeGreaterThan(0);
+    });
+    it.each(["repair", "foreign-position", "foreign-order", "other-suspension", "missing-close-flow"])(
+        "reconciles a suspended flat close only with complete proof (%s)", async condition => {
+            await engine.execute(book.id, "entry", buy());
+            await engine.reconcile(book.id);
+            const close = await engine.execute(book.id, "close", { ...buy(), side: "sell", stopPrice: undefined, limitPrice: 100, reduceOnly: true });
+            await engine.reconcile(book.id);
+            const inv = await db.deskInventory.findFirstOrThrow({where:{bookId:book.id,instrumentId:perp.id}});
+            expect(inv.quantity).toBe(0);
+            await db.deskIntent.update({where:{id:close.id},data:{state:"settling",reservedUsd:200}});
+            await db.deskInventory.update({where:{id:inv.id},data:{suspended:true,
+                reason:condition==="other-suspension"?"Unattributed exchange fill on managed position":"Exchange inventory differs from desk ledger"}});
+            if(condition==="foreign-position")fixture.pos.set(positionKey(perp),1);
+            if(condition==="foreign-order")fixture.open.push({coin:perp.coin,oid:999,side:"B",sz:"1",limitPx:"100"});
+            if(condition==="missing-close-flow"){
+                await db.deskCashFlow.deleteMany({where:{intentId:close.id}});
+                fixture.withholdFills=true;
+            }
+            const actions=fixture.actions.length;
+            await engine.reconcile(book.id);
+            const after=await db.deskInventory.findUniqueOrThrow({where:{id:inv.id}});
+            const intent=await db.deskIntent.findUniqueOrThrow({where:{id:close.id}});
+            if(condition==="repair"){
+                expect(after).toMatchObject({quantity:0,suspended:false,reason:null,realizedUsd:inv.realizedUsd});
+                expect(intent).toMatchObject({state:"filled",reservedUsd:0,filledQty:2});
+                await engine.reconcile(book.id);
+                expect(await db.deskRecord.count({where:{kind:"inventory_reconciliation"}})).toBe(1);
+            } else {
+                expect(after.suspended).toBe(true);expect(intent.reservedUsd).toBe(200);
+            }
+            expect(fixture.actions).toHaveLength(actions);
+        });
+    it("prices working entry risk by stop distance while preserving notional capital reservations",async()=>{
+        await db.deskBook.update({where:{id:book.id},data:{mandateJson:JSON.stringify(SWING_DESK_MANDATE)}});
+        const pending=await db.deskIntent.create({data:{bookId:book.id,intentKey:"other",cloid:"0xother",instrumentId:"testnet:perp:OTHER",coin:"OTHER",asset:999,state:"working",side:"buy",quantity:1,filledQty:0,limitPrice:100,arrivalPrice:100,reservedUsd:100,policyVersion:book.version,fingerprint:"other",requestJson:JSON.stringify({stopPrice:98})}});
+        fixture.statuses.set(pending.cloid,{oid:"999",status:"open",cloid:pending.cloid});
+        const plan={...buy(),strategyVersion:"continuation-1",proposalKey:"fresh",maxHoldHours:2,entryExpiresAt:new Date(Date.now()+3600000).toISOString()};
+        expect((await engine.preview(book.id,plan)).quantity).toBe(2);
+        expect((await db.deskIntent.findUniqueOrThrow({where:{id:pending.id}})).reservedUsd).toBe(100);
+        await db.deskIntent.update({where:{id:pending.id},data:{requestJson:"{}"}});
+        await expect(engine.preview(book.id,plan)).rejects.toThrow(/Aggregate open risk/);
+        expect(fixture.actions).toHaveLength(0);
     });
     it("rejects mandate breaches, stale quotes and foreign positions before signing", async () => {
         await expect(engine.execute(book.id, "big", { ...buy(), quantity: 8 })).rejects.toThrow(/cap|budget/);

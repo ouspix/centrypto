@@ -8,7 +8,7 @@ datasource db {
   url = env("NEWS_DATABASE_URL")
 }
 
-// News is wallet-owned. Never read these tables through public sentiment routes.
+// News is wallet-owned. Only authenticated, account-scoped services may read these tables.
 model NewsCollector {
   id                 String   @id @default(uuid())
   ownerAddress       String
@@ -68,6 +68,7 @@ model NewsDocument {
   mediaLinksJson     String   @default("[]")
   status             String   @default("pending")
   analysisJobId      String?
+  analysisRetryUsed  Boolean  @default(false)
   expiresAt          DateTime
   @@unique([sourceId, externalId, revisionHash])
   @@index([ownerAddress, status, availableAt])
@@ -122,4 +123,16 @@ model NewsEventRevision {
   @@unique([ownerAddress, analysisId, eventKey])
   @@index([ownerAddress, eventKey, id])
   @@index([ownerAddress, material, id])
+}
+
+model NewsCalendarRevision {
+  id           String   @id @default(uuid())
+  ownerAddress String
+  source       String
+  hash         String
+  observedAt   DateTime @default(now())
+  checkedAt    DateTime @default(now())
+  status       String
+  dataJson     String
+  @@index([ownerAddress, source, observedAt])
 }

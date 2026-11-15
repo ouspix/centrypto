@@ -5,6 +5,8 @@ GRANT USAGE ON SCHEMA mainnet, testnet TO centrypto_app, centrypto_market;
 GRANT SELECT ON ALL TABLES IN SCHEMA mainnet, testnet TO centrypto_app;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA mainnet, testnet TO centrypto_market;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA mainnet, testnet TO centrypto_market;
+-- Observation history is append-only for collection and read-only for the app.
+REVOKE UPDATE, DELETE, TRUNCATE ON mainnet."MarketCandleObservation", testnet."MarketCandleObservation" FROM centrypto_app, centrypto_market;
 GRANT SELECT, UPDATE ON news."NewsCollector", news."NewsSource" TO centrypto_browser;
 GRANT SELECT, INSERT, DELETE ON news."NewsDocument" TO centrypto_browser;
 GRANT UPDATE ("publishedAt") ON news."NewsDocument" TO centrypto_browser;

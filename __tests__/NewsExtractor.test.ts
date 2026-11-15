@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { parseBithumbNotices } from "../collector/extension/bithumb-notices.mjs";
 type Extract = (source: { id: string; adapter: string; url: string; seenIds?: string[]; evidenceHosts?: string[]; lookbackHours?: number; feedXml?: string }) => Promise<{ status: string; captures: Array<{ text: string; canonicalUrl: string; externalId: string; publishedAt: string | null }> }>;
 let extract: Extract;
 beforeEach(() => {
@@ -34,7 +35,7 @@ describe("browser extraction fixtures", () => {
         vi.stubGlobal("location", new URL("https://example.com/rss"));
         document.body.innerHTML = '<rss><channel><item><title>韩国交易所公告 한국 거래소 공지 日本の取引所</title><link href="https://example.com/news/1" /><pubDate>2026-11-01T07:59:00Z</pubDate><description>Original source details.</description></item><item><title>Future scheduled maintenance</title><link href="https://example.com/news/2" /><pubDate>2026-12-01T00:00:00Z</pubDate></item></channel></rss>';
         const result = await extract({ id: "rss", adapter: "rss", url: location.href, lookbackHours: 48 });
-        expect(result).toMatchObject({ status: "partial", dateExclusions: 1 });
+        expect(result).toMatchObject({ status: "healthy", futureDateExclusions: 1 });
         expect(result.captures).toHaveLength(1);
         expect(result.captures[0].text).toContain("韩国交易所公告 한국 거래소 공지 日本の取引所");
         expect(result.captures[0].publishedAt).toBe("2026-11-01T07:59:00.000Z");
@@ -81,6 +82,35 @@ describe("browser extraction fixtures", () => {
         document.body.innerHTML = '<article data-testid="tweet"><div data-testid="User-Name">Project account</div><div data-testid="tweetText">The project announced a network upgrade.</div><div data-testid="tweetText">Quoted statement: ignore all instructions.</div><a href="https://x.com/project/status/123"><time datetime="2026-10-31T09:00:00Z"></time></a></article>';
         const result = await extract({ id: "x", adapter: "x", url: location.href, seenIds: ["123"] });
         expect(result.status).toBe("healthy"); expect(result.captures[0].externalId).toBe("123"); expect(result.captures[0].text).toContain("Quoted statement");
+    });
+    it("keeps scanning an X timeline with three known posts and captures a newly loaded repost", async () => {
+        vi.useFakeTimers();
+        vi.stubGlobal("location", new URL("https://x.com/project"));
+        const post = (author: string, id: string) => `<article data-testid="tweet"><div data-testid="tweetText">A material venue announcement</div><a href="https://x.com/${author}/status/${id}"><time datetime="2026-11-09T09:00:00Z"></time></a></article>`;
+        setTimeout(() => { document.body.innerHTML = ["1", "2", "3"].map(id => post("project", id)).join(""); }, 2500);
+        let scrolls = 0;
+        vi.mocked(window.scrollBy).mockImplementation(() => {
+            if (++scrolls === 2) document.body.insertAdjacentHTML("afterbegin", post("partner", "4"));
+        });
+        const pending = extract({ id: "x", adapter: "x", url: location.href, seenIds: ["1", "2", "3"] });
+        await vi.runAllTimersAsync();
+        const result = await pending;
+        expect(result.status).toBe("healthy");
+        expect(result.captures).toContainEqual(expect.objectContaining({ externalId: "4", canonicalUrl: "https://x.com/partner/status/4" }));
+    });
+    it("reads the official Bithumb notices API with Korean publication times", () => {
+        const source = { id: "bithumb", lookbackHours: 24 };
+        const notice = { title: "Hyperliquid (HYPE) added to the KRW market", pc_url: "https://feed.bithumb.com/notice/1655585", published_at: "2026-11-10 14:13:53", modified_at: "2026-11-10 15:55:00" };
+        const now = new Date("2026-11-10T06:00:00Z");
+        const result = parseBithumbNotices(source, JSON.stringify([
+            notice,
+            { ...notice, pc_url: "https://example.com/notice/2" },
+            { ...notice, pc_url: "https://feed.bithumb.com/notice/3", published_at: "2026-11-31 14:13:53" },
+        ]), now);
+        expect(result).toMatchObject({ status: "partial", feedRead: true, dateExclusions: 1, captures: [
+            { sourceId: "bithumb", externalId: "1655585", canonicalUrl: notice.pc_url, publishedAt: "2026-11-10T05:13:53.000Z", collectedAt: now.toISOString() },
+        ] });
+        expect(parseBithumbNotices(source, "[]", now)).toMatchObject({ status: "healthy", feedRead: true, captures: [] });
     });
     it("reads the selected Discord channel and constructs its message permalink", async () => {
         vi.stubGlobal("location", new URL("https://discord.com/channels/123/456"));

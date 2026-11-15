@@ -7,10 +7,10 @@ import re
 import subprocess
 
 root = Path(__file__).resolve().parents[1]
-roots = {'app', 'backtest_py', 'components', 'config', 'context', 'hooks', 'lib', 'prompts', 'prisma', 'scripts', 'sentiment', 'services', 'src', 'types', '__tests__', 'examples', 'collector', '.github'}
+roots = {'app', 'backtest_py', 'components', 'config', 'context', 'hooks', 'lib', 'prompts', 'prisma', 'scripts', 'services', 'src', 'types', '__tests__', 'examples', 'collector', '.github'}
 extensions = {'.ts', '.tsx', '.js', '.mjs', '.cjs', '.py', '.json', '.prisma', '.sh', '.ps1', '.sql', '.html', '.css', '.yml', '.yaml', '.toml'}
 listed = subprocess.check_output(['git', 'ls-files', '-c', '-o', '--exclude-standard', '-z'], cwd=root).decode().split('\0')
-files = sorted({Path(name) for name in listed if name and (len(Path(name).parts) == 1 or Path(name).parts[0] in roots) and Path(name).suffix in extensions and Path(name).name not in {'package-lock.json', 'next-env.d.ts'}})
+files = sorted({Path(name) for name in listed if name and (root/name).is_file() and not Path(name).name.startswith('.tmp') and (len(Path(name).parts) == 1 or Path(name).parts[0] in roots) and Path(name).suffix in extensions and Path(name).name not in {'package-lock.json', 'next-env.d.ts'}})
 known = set(files)
 
 def resolve(candidate):

@@ -1,14 +1,11 @@
 import { MarketAnalysisService } from "./MarketAnalysisService";
-import { SentimentService } from "./SentimentService";
 import { MarketEntry, Position } from "@/types/snapshot";
 
 export class HeldPositionMarketResolver {
     private marketAnalysisService: MarketAnalysisService;
-    private sentimentService: SentimentService;
 
-    constructor(marketAnalysisService: MarketAnalysisService, sentimentService: SentimentService) {
+    constructor(marketAnalysisService: MarketAnalysisService) {
         this.marketAnalysisService = marketAnalysisService;
-        this.sentimentService = sentimentService;
     }
 
     public async backfillPositions(
@@ -34,10 +31,9 @@ export class HeldPositionMarketResolver {
             const openInterest = ctx ? parseFloat(ctx.openInterest) * price : 0;
 
             try {
-                const [metrics, bookMetrics, sentiment] = await Promise.all([
+                const [metrics, bookMetrics] = await Promise.all([
                     this.marketAnalysisService.getMetricsForSymbol(baseSymbol, isTestnet, true),
-                    this.marketAnalysisService.getOrderBookMetrics(baseSymbol, isTestnet, true, depthBandsPct),
-                    this.sentimentService.getSentimentForCoin(baseSymbol)
+                    this.marketAnalysisService.getOrderBookMetrics(baseSymbol, isTestnet, true, depthBandsPct)
                 ]);
 
                 const bid = bookMetrics.depth_usd.bid_1pct || 0;
@@ -73,12 +69,6 @@ export class HeldPositionMarketResolver {
                     open_interest: {
                         current: openInterest
                     },
-                    sentiment: {
-                        score: sentiment.score,
-                        mentionsVsBaseline: sentiment.mentions_vs_baseline,
-                        disagreement: sentiment.disagreement,
-                        change2h: sentiment.change_2h ?? 0
-                    },
                     regime_tags: metrics.regime_tags,
                     data_source: "fallback_on_demand",
                     assetIndex: assetIndexMap.get(baseSymbol)
@@ -107,7 +97,6 @@ export class HeldPositionMarketResolver {
                     atr_pct: { m5: 0, h1: 0 },
                     funding: { current_8h: funding },
                     open_interest: { current: openInterest },
-                    sentiment: { score: 0, mentionsVsBaseline: 0, disagreement: 0, change2h: 0 },
                     regime_tags: [],
                     data_unavailable: true,
                     data_source: "missing"

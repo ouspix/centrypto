@@ -1,0 +1,95 @@
+.desk-controls-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(15rem, 23%);
+    grid-template-areas: "mandate authority" "handover authority";
+    background: radial-gradient(ellipse at 70% 0%, #213c3c20, transparent 65%);
+}
+
+.desk-control-form {
+    display: grid;
+    align-content: start;
+    gap: 18px;
+    min-width: 0;
+    padding: 24px var(--desk-panel-inset);
+}
+
+.desk-control-mandate { grid-area: mandate; }
+
+.desk-control-handover {
+    grid-area: handover;
+    border-top: 1px solid var(--desk-panel-line);
+}
+
+.desk-control-authority {
+    grid-area: authority;
+    display: grid;
+    align-content: start;
+    gap: 16px;
+    min-width: 0;
+    padding: 24px 20px;
+    border-left: 1px solid var(--desk-panel-line);
+    background: #0a141c;
+}
+
+.desk-control-authority > div {
+    display: grid;
+    gap: 7px;
+    padding-top: 14px;
+    border-top: 1px solid var(--desk-panel-line);
+}
+
+.desk-control-authority h4 {
+    color: #d5e2e5;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.desk-control-authority p,
+.desk-control-handover h3 + p {
+    color: var(--desk-panel-muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.desk-control-handover h3 + p { margin-top: 5px; }
+.desk-control-status { color: #c4d1d6; font-weight: 600; }
+.desk-control-status[data-active=true] { color: var(--desk-panel-accent); }
+.desk-control-status[data-alert=true] { color: #f5b6b6; }
+
+.desk-control-fields {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.desk-control-handover .desk-control-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.desk-control-fields label { align-content: end; }
+
+.desk-control-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 14px;
+    border-top: 1px solid var(--desk-panel-line);
+}
+
+@media (max-width: 1000px) {
+    .desk-control-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 720px) {
+    .desk-controls-layout {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "mandate" "authority" "handover";
+    }
+
+    .desk-control-authority {
+        padding-inline: 16px;
+        border-top: 1px solid var(--desk-panel-line);
+        border-left: 0;
+    }
+
+    .desk-control-handover .desk-control-fields { grid-template-columns: minmax(0, 1fr); }
+}

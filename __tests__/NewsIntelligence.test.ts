@@ -1,12 +1,66 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-const mocks = vi.hoisted(() => ({ sources: vi.fn(), count: vi.fn(), briefing: vi.fn(), evidence: vi.fn(), events: vi.fn(), findSource: vi.fn() }));
-vi.mock("@/lib/news-db", () => ({ newsDb: { newsSource: { findMany: mocks.sources, findFirst: mocks.findSource }, newsDocument: { count: mocks.count, findMany: mocks.evidence }, newsBriefing: { findFirst: mocks.briefing }, newsEvent: { findMany: mocks.events } } }));
-vi.mock("@/lib/db", () => ({ prisma: {} }));
+const mocks = vi.hoisted(() => ({
+    sources: vi.fn(), count: vi.fn(), briefing: vi.fn(), evidence: vi.fn(), events: vi.fn(), findSource: vi.fn(),
+    updateDocuments: vi.fn(), transaction: vi.fn(), findAnalysis: vi.fn(),
+    findJobs: vi.fn(), findJob: vi.fn(), updateJob: vi.fn()
+}));
+vi.mock("@/lib/news-db", () => ({ newsDb: {
+    newsSource: { findMany: mocks.sources, findFirst: mocks.findSource },
+    newsDocument: { count: mocks.count, findMany: mocks.evidence, updateMany: mocks.updateDocuments },
+    newsBriefing: { findFirst: mocks.briefing },
+    newsEvent: { findMany: mocks.events },
+    newsAnalysis: { findUnique: mocks.findAnalysis },
+    $transaction: mocks.transaction
+} }));
+vi.mock("@/lib/db", () => ({ prisma: { codexJob: { findMany: mocks.findJobs, findUnique: mocks.findJob, update: mocks.updateJob } } }));
 import { NewsIntelligenceService } from "@/services/NewsIntelligenceService";
 const service = new NewsIntelligenceService();
 const asOf = new Date("2026-10-31T09:00:00Z");
 beforeEach(() => { vi.clearAllMocks(); vi.stubEnv("NEWS_COLLECTOR_OWNER_ADDRESS", "0xabc"); mocks.sources.mockResolvedValue([]); mocks.count.mockResolvedValue(0); mocks.briefing.mockResolvedValue(null); mocks.events.mockResolvedValue([]); });
 afterEach(() => { vi.unstubAllEnvs(); });
+
+describe("invalid news analysis retry", () => {
+    beforeEach(() => {
+        mocks.findJobs.mockResolvedValue([]);
+        mocks.findAnalysis.mockResolvedValue(null);
+        mocks.evidence.mockResolvedValue([{ analysisJobId: "news-job" }]);
+        mocks.transaction.mockImplementation((updates: Promise<unknown>[]) => Promise.all(updates));
+        mocks.updateDocuments.mockResolvedValue({ count: 1 });
+    });
+
+    it.each(["runner validation", "semantic validation"])("requeues evidence once after %s", async (failure) => {
+        mocks.findJob.mockResolvedValue(failure === "runner validation"
+            ? { ownerAddress: "0xabc", status: "failed", errorCode: "invalid_output" }
+            : { ownerAddress: "0xabc", status: "completed", metadataJson: '{"universe":[]}', resultJson: '{"summary":"","signals":[null]}' });
+
+        await service.finalizeAnalyses();
+
+        const where = { ownerAddress: "0xabc", analysisJobId: "news-job", status: "analyzing" };
+        expect(mocks.updateDocuments.mock.calls).toEqual([
+            [{ where: { ...where, analysisRetryUsed: true }, data: { status: "rejected" } }],
+            [{ where: { ...where, analysisRetryUsed: false }, data: { status: "pending", analysisJobId: null, analysisRetryUsed: true } }]
+        ]);
+        expect(mocks.transaction).toHaveBeenCalledOnce();
+        if (failure === "semantic validation") {
+            expect(mocks.updateJob).toHaveBeenCalledWith({
+                where: { id: "news-job" }, data: { status: "failed", errorCode: "invalid_output" }
+            });
+        }
+    });
+
+    it("requeues a timed-out batch without using its validation retry", async () => {
+        mocks.findJob.mockResolvedValue({ status: "failed", errorCode: "timeout" });
+
+        await service.finalizeAnalyses();
+
+        expect(mocks.updateDocuments).toHaveBeenCalledOnce();
+        expect(mocks.updateDocuments).toHaveBeenCalledWith({
+            where: { analysisJobId: "news-job", status: "analyzing" },
+            data: { status: "pending", analysisJobId: null }
+        });
+    });
+});
+
 describe("private news context", () => {
     it("scopes source and evidence reads to the authenticated wallet", async () => {
         mocks.evidence.mockResolvedValue([]);
@@ -44,6 +98,26 @@ describe("private news context", () => {
             orderBy: [{ availableAt: "desc" }, { id: "asc" }],
             select: { signalJson: true }
         });
+    });
+    it("shows asset subjects and exposures in the panel while excluding market-wide and unrelated news", async () => {
+        const event = (summary: string, symbols: string[], facts?: object) => ({
+            signalJson: JSON.stringify({ summary, symbols, expiresAt: "2026-10-31T10:00:00Z", facts })
+        });
+        mocks.briefing.mockResolvedValue({ id: "batch", availableAt: asOf, summary: "Current batch" });
+        mocks.events.mockResolvedValue([
+            event("Market commentary", ["BTC", "ETH"], { subject: {}, targets: [{ relation: "market", symbol: "BTC", mechanism: "USD liquidity" }] }),
+            event("Legacy BTC", ["BTC"]),
+            event("PEPE migration", [], { subject: { symbol: "PEPE" }, targets: [] }),
+            event("Venue suspends PEPE deposits", [], { subject: {}, targets: [{ relation: "venue", symbol: "PEPE", mechanism: "Deposit suspension" }] }),
+            event("Legacy PEPE", ["PEPE"]),
+            event("Unrelated application", ["PEPE"], { subject: {}, targets: [{ relation: "unresolved", symbol: "PEPE", mechanism: "Association only" }] })
+        ]);
+
+        const expected = ["PEPE migration", "Venue suspends PEPE deposits", "Legacy PEPE"];
+        const briefing = await service.assetBriefing("0xABC", ["kPEPE-PERP"], asOf);
+        expect(briefing.signals.map(signal => signal.summary)).toEqual(expected);
+        expect((await service.assetEvents("0xABC", ["kPEPE-PERP"])).map(signal => signal.summary)).toEqual(expected);
+        expect((await service.assetBriefing("0xABC", ["HYPE"], asOf)).signals).toEqual([]);
     });
     it("passes only signals fully supported by fresh healthy sources, even before a healthy observation day", async () => {
         vi.stubEnv("NEWS_TRADER_CONTEXT_ENABLED", "healthy");

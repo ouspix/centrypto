@@ -62,37 +62,37 @@ export function DeskUsage({ bookId }: { bookId: string }) {
         usage.end > usage.installedAt
     );
     return (
-        <section className="desk-card desk-stack" aria-label="Sol token usage">
-            <div className="desk-toolbar">
-                <div>
-                    <h2>Sol token usage</h2>
-                    <small>Local desk · gpt-6.1-sol</small>
-                </div>
-                <div className="desk-tabs">
-                    <button type="button" aria-pressed={!lifetime} onClick={() => setLifetime(false)}>
+        <section className="desk-panel-body desk-panel-stack" aria-label="Sol token usage">
+            <div>
+                <h3>Sol token usage</h3>
+                <p className="desk-muted">Local desk · gpt-6.1-sol</p>
+            </div>
+            <div className="desk-usage-toolbar">
+                <div className="desk-usage-period" role="group" aria-label="Usage period">
+                    <button type="button" className="desk-panel-secondary" aria-pressed={!lifetime} onClick={() => setLifetime(false)}>
                         Day
                     </button>
-                    <button type="button" aria-pressed={lifetime} onClick={() => setLifetime(true)}>
+                    <button type="button" className="desk-panel-secondary" aria-pressed={lifetime} onClick={() => setLifetime(true)}>
                         All recorded
                     </button>
                 </div>
+                {!lifetime && (
+                    <div className="desk-usage-date">
+                        <label className="desk-panel-field">
+                            Usage date (Paris)
+                            <input type="date" value={day || usage?.day || ""} onChange={(e) => setDay(e.target.value)} />
+                        </label>
+                        <button type="button" className="desk-panel-secondary" onClick={() => setDay("")} disabled={!day}>
+                            Today
+                        </button>
+                    </div>
+                )}
             </div>
-            {!lifetime && (
-                <div className="desk-toolbar">
-                    <label>
-                        Usage date (Paris)
-                        <input type="date" value={day || usage?.day || ""} onChange={(e) => setDay(e.target.value)} />
-                    </label>
-                    <button type="button" onClick={() => setDay("")} disabled={!day}>
-                        Today
-                    </button>
-                </div>
-            )}
             {error ? (
-                <p role="status">{error}</p>
+                <p role="status" className="desk-panel-error">{error}</p>
             ) : usage && s ? (
                 <>
-                    <p>
+                    <p className="desk-muted">
                         {lifetime
                             ? `Recorded since ${usage.installedAt ? dateLocal(usage.installedAt) : "meter installation"}`
                             : `Turns started ${dateLocal(usage.start)} up to ${dateLocal(usage.end)} (exclusive)`}
@@ -106,58 +106,58 @@ export function DeskUsage({ bookId }: { bookId: string }) {
                                     Partial day. Recording started at {dateLocal(usage.installedAt!)}.
                                 </p>
                             )}
-                            <div className="desk-statbar">
+                            <dl className="desk-panel-metrics">
                                 {[
                                     ["Recorded tokens", s.counts.totalTokens],
                                     ["Input", s.counts.inputTokens],
                                     ["Output", s.counts.outputTokens],
                                 ].map(([label, n]) => (
                                     <div key={label}>
-                                        <span>{label}</span>
-                                        <strong>{fmt(n)}</strong>
+                                        <dt>{label}</dt>
+                                        <dd>{fmt(n)}</dd>
                                     </div>
                                 ))}
-                            </div>
-                            <p className="desk-muted">
-                                Input includes {fmt(s.counts.cachedInputTokens)} cached and{" "}
-                                {fmt(s.counts.cacheWriteInputTokens)} cache-write tokens. Output includes{" "}
-                                {fmt(s.counts.reasoningOutputTokens)} reasoning tokens.
-                            </p>
-                            <p>
-                                {s.reported} of {s.attempts} model attempts reported usage · {s.unfinished} unfinished ·{" "}
-                                {s.failed} failed or cancelled
-                            </p>
-                            {(s.missing > 0 || s.unfinished > 0 || s.failed > 0) && (
-                                <p className="desk-dissent">
-                                    Counts include the last reported usage for interrupted attempts. {s.missing}{" "}
-                                    {s.missing === 1 ? "attempt has" : "attempts have"} no token report.
+                            </dl>
+                            <div className="desk-panel-card desk-panel-stack">
+                                <p className="desk-muted">
+                                    Input includes {fmt(s.counts.cachedInputTokens)} cached and{" "}
+                                    {fmt(s.counts.cacheWriteInputTokens)} cache-write tokens. Output includes{" "}
+                                    {fmt(s.counts.reasoningOutputTokens)} reasoning tokens.
                                 </p>
-                            )}
-                            {!!s.byKind.length && (
-                                <dl className="desk-fields">
-                                    {s.byKind.map((row) => (
-                                        <div key={row.kind}>
-                                            <dt>{kinds[row.kind] ?? row.kind}</dt>
-                                            <dd>
-                                                {fmt(row.totalTokens)} tokens · {row.attempts} attempts
-                                            </dd>
-                                        </div>
-                                    ))}
-                                </dl>
-                            )}
-                            {!!s.byRole.length && (
-                                <details>
-                                    <summary>Recorded tokens by role</summary>
+                                <p>
+                                    {s.reported} of {s.attempts} model attempts reported usage · {s.unfinished} unfinished ·{" "}
+                                    {s.failed} failed or cancelled
+                                </p>
+                                {(s.missing > 0 || s.unfinished > 0 || s.failed > 0) && (
+                                    <p className="desk-dissent">
+                                        Counts include the last reported usage for interrupted attempts. {s.missing}{" "}
+                                        {s.missing === 1 ? "attempt has" : "attempts have"} no token report.
+                                    </p>
+                                )}
+                                {!!s.byKind.length && (
                                     <dl className="desk-fields">
-                                        {s.byRole.map((row) => (
-                                            <div key={row.role}>
-                                                <dt>{row.role}</dt>
-                                                <dd>{fmt(row.totalTokens)}</dd>
+                                        {s.byKind.map((row) => (
+                                            <div key={row.kind}>
+                                                <dt>{kinds[row.kind] ?? row.kind}</dt>
+                                                <dd>{fmt(row.totalTokens)} tokens · {row.attempts} attempts</dd>
                                             </div>
                                         ))}
                                     </dl>
-                                </details>
-                            )}
+                                )}
+                                {!!s.byRole.length && (
+                                    <details className="desk-panel-details">
+                                        <summary>Recorded tokens by role</summary>
+                                        <dl className="desk-fields">
+                                            {s.byRole.map((row) => (
+                                                <div key={row.role}>
+                                                    <dt>{row.role}</dt>
+                                                    <dd>{fmt(row.totalTokens)}</dd>
+                                                </div>
+                                            ))}
+                                        </dl>
+                                    </details>
+                                )}
+                            </div>
                         </>
                     )}
                     <small className="desk-muted">

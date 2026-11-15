@@ -2,6 +2,7 @@ import { getMetaAndAssetCtxs, getOHLCV } from "@/lib/hyperliquid-info";
 import { getMarketDb, marketDbMain, withMarketDbRetry } from "@/lib/market-db";
 import { HyperliquidWS } from "@/lib/hyperliquid-ws";
 import { ActiveMarket, activeMarketAssets, buildMarketTickRow } from "./MarketUniverse";
+import { candleObservation } from "@/lib/market-observations";
 
 type MarketDb = typeof marketDbMain;
 
@@ -10,6 +11,9 @@ export class MarketCollectorService {
     private readonly MAX_LOOKBACK_MS = 48 * 60 * 60 * 1000;
     // Space out backfill API calls to avoid HL burst limits (≈1.25 rps by default)
     private readonly BACKFILL_REQUEST_SPACING_MS = 800;
+    private readonly books = new Map<string, { at: number; receivedAt: Date; bid: number; bidSize: number; ask: number; askSize: number }>();
+    private readonly bookCoins = new Set((process.env.COLLECTOR_BOOK_SYMBOLS || "BTC,ETH,SOL,HYPE,BNB,XRP,DOGE,LINK")
+        .split(",").map(s => s.trim()).filter(Boolean).slice(0, 20));
 
     /**
      * Collects a snapshot of the entire market (ticks) and saves it to the DB.
@@ -51,9 +55,32 @@ export class MarketCollectorService {
         const symbols = activeMarketAssets(universe, metaAndCtxs.assetCtxs).map(({ asset }) => asset.name);
 
         const ws = new HyperliquidWS(isTestnet);
+        const subscribed = new Set<string>();
+        const rotateBooks = async () => {
+            const snapshot=await getMetaAndAssetCtxs(isTestnet);if(!snapshot)return;
+            const active=activeMarketAssets(snapshot.universe,snapshot.assetCtxs);
+            const coins=active.map(v=>v.asset.name).sort();
+            const offset=coins.length?Math.floor(Date.now()/600000)*10%coins.length:0;
+            const rotating=Array.from({length:Math.min(10,coins.length)},(_,i)=>coins[(offset+i)%coins.length]);
+            const movers=active.map(v=>({coin:v.asset.name,change:Math.abs(Number(v.ctx?.markPx)/Number(v.ctx?.prevDayPx)-1)})).filter(v=>Number.isFinite(v.change)).sort((a,b)=>b.change-a.change).slice(0,5).map(v=>v.coin);
+            const desired=new Set([...this.bookCoins,...movers,...rotating].filter(c=>coins.includes(c)).slice(0,28));
+            for(const coin of subscribed)if(!desired.has(coin)){ws.unsubscribeFromL2Book(coin);subscribed.delete(coin);this.books.delete(`${isTestnet}:${coin}`);}
+            for(const coin of desired)if(!subscribed.has(coin)){ws.subscribeToL2Book(coin);subscribed.add(coin);}
+        };
+        ws.on('l2Book', (book: any) => {
+            if (!subscribed.has(book?.coin)) return;
+            const at = Number(book.time), bid = Number(book.levels?.[0]?.[0]?.px), ask = Number(book.levels?.[1]?.[0]?.px);
+            const bidSize = Number(book.levels?.[0]?.[0]?.sz), askSize = Number(book.levels?.[1]?.[0]?.sz);
+            if (![at, bid, ask, bidSize, askSize].every(Number.isFinite) || bid <= 0 || ask <= bid || bidSize <= 0 || askSize <= 0) return;
+            const key = `${isTestnet}:${book.coin}`;
+            if (at < (this.books.get(key)?.at ?? 0)) return;
+            this.books.set(key, { at, receivedAt: new Date(), bid, ask, bidSize, askSize });
+        });
 
         // Buffer for batch writing
-        let candleBuffer: any[] = [];
+        const candleBuffer = new Map<string, any>();
+        const MAX_BUFFER_CANDLES = 2000;
+        const FLUSH_BATCH_SIZE = 200;
         let isFlushing = false;
         const FLUSH_INTERVAL = 1000; // Write to DB every 1 second
 
@@ -62,7 +89,9 @@ export class MarketCollectorService {
             // Only process 1m candles (though we only subscribe to 1m)
             if (c.i !== '1m') return;
 
-            candleBuffer.push({
+            const key = `${c.s}:${c.t}`;
+            candleBuffer.delete(key);
+            candleBuffer.set(key, {
                 symbol: c.s,
                 timeframe: '1m',
                 openTime: new Date(c.t),
@@ -70,31 +99,41 @@ export class MarketCollectorService {
                 high: parseFloat(c.h),
                 low: parseFloat(c.l),
                 close: parseFloat(c.c),
-                volume: parseFloat(c.v)
+                volume: parseFloat(c.v),
+                receivedAt: new Date(), source: "hyperliquid_websocket"
             });
+            // Repeated updates replace the same candle. Bound memory even if
+            // storage falls behind; startup backfill repairs older gaps.
+            if (candleBuffer.size > MAX_BUFFER_CANDLES) {
+                candleBuffer.delete(candleBuffer.keys().next().value!);
+            }
         });
 
         ws.on('open', () => {
             console.log(`[MarketCollector] WS Connected. Subscribing to ${symbols.length} symbols...`);
             ws.subscribeToCandles(symbols);
+            subscribed.clear();
+            void rotateBooks().catch(error=>console.warn("[MarketCollector] Depth rotation unavailable",error?.name));
         });
 
         ws.connect();
+        setInterval(()=>{void rotateBooks().catch(error=>console.warn("[MarketCollector] Depth rotation unavailable",error?.name));},600000);
 
         // Flush loop
         setInterval(async () => {
             if (isFlushing) return;
-            if (candleBuffer.length === 0) return;
+            if (candleBuffer.size === 0) return;
             isFlushing = true;
 
-            const batch = [...candleBuffer];
-            candleBuffer = []; // Clear buffer
+            const entries = Array.from(candleBuffer.entries()).slice(0, FLUSH_BATCH_SIZE);
+            const batch = entries.map(([, candle]) => candle);
+            for (const [key] of entries) candleBuffer.delete(key);
 
             try {
                 // Use transaction for batch upsert
                 await withMarketDbRetry(db, "flush candle stream", () =>
                     db.$transaction(
-                        batch.map(candle =>
+                        batch.flatMap(candle => [
                             db.marketCandle.upsert({
                                 where: {
                                     symbol_timeframe_openTime: {
@@ -104,20 +143,25 @@ export class MarketCollectorService {
                                     }
                                 },
                                 update: {
+                                    open: candle.open,
                                     high: candle.high,
                                     low: candle.low,
                                     close: candle.close,
-                                    volume: candle.volume
+                                    volume: candle.volume,
+                                    receivedAt: candle.receivedAt, source: candle.source
                                 },
                                 create: candle
-                            })
-                        )
+                            }),
+                            db.marketCandleObservation.create({ data: candleObservation(candle) })
+                        ])
                     )
                 );
                 // console.log(`[MarketCollector] Flushed ${batch.length} candle updates.`);
             } catch (error) {
                 console.error(`[MarketCollector] Error flushing candle buffer:`, error);
-                // Optionally re-add to buffer? No, live data moves fast, better to skip than clog.
+                // Preserve newer in-flight updates, retry failed rows and keep memory bounded.
+                for(const [key,candle] of entries)if(!candleBuffer.has(key))candleBuffer.set(key,candle);
+                while(candleBuffer.size>MAX_BUFFER_CANDLES)candleBuffer.delete(candleBuffer.keys().next().value!);
             } finally {
                 isFlushing = false;
             }
@@ -192,6 +236,7 @@ export class MarketCollectorService {
                 // 3. Fetch History
                 didFetch = true;
                 const candles = await getOHLCV(symbol, "1m", isTestnet, startTime);
+                const receivedAt = new Date();
 
                 if (candles && candles.length > 0) {
                     // Split into smaller chunks to avoid "Transaction too large" or timeouts
@@ -201,7 +246,7 @@ export class MarketCollectorService {
 
                         await withMarketDbRetry(db, `backfill candles for ${symbol}`, () =>
                             db.$transaction(
-                                candleBatch.map((c: any) =>
+                                candleBatch.flatMap((c: any) => [
                                     db.marketCandle.upsert({
                                         where: {
                                             symbol_timeframe_openTime: {
@@ -211,10 +256,12 @@ export class MarketCollectorService {
                                             }
                                         },
                                         update: {
+                                            open: parseFloat(c.o),
                                             high: parseFloat(c.h),
                                             low: parseFloat(c.l),
                                             close: parseFloat(c.c),
-                                            volume: parseFloat(c.v)
+                                            volume: parseFloat(c.v),
+                                            receivedAt, source: "hyperliquid_backfill"
                                         },
                                         create: {
                                             symbol,
@@ -224,10 +271,16 @@ export class MarketCollectorService {
                                             high: parseFloat(c.h),
                                             low: parseFloat(c.l),
                                             close: parseFloat(c.c),
-                                            volume: parseFloat(c.v)
+                                            volume: parseFloat(c.v),
+                                            receivedAt, source: "hyperliquid_backfill"
                                         }
-                                    })
-                                )
+                                    }),
+                                    db.marketCandleObservation.create({ data: candleObservation({
+                                        symbol, timeframe: "1m", openTime: new Date(c.t), receivedAt,
+                                        source: "hyperliquid_backfill", open: parseFloat(c.o), high: parseFloat(c.h),
+                                        low: parseFloat(c.l), close: parseFloat(c.c), volume: parseFloat(c.v)
+                                    }) })
+                                ])
                             )
                         );
                     }
@@ -258,7 +311,16 @@ export class MarketCollectorService {
     private async writeTickSnapshot(db: MarketDb, activeMarkets: ActiveMarket[], isTestnet: boolean): Promise<void> {
         const now = new Date();
         const rows = activeMarkets
-            .map(({ asset, ctx }) => buildMarketTickRow(asset.name, ctx, now))
+            .map(({ asset, ctx }) => {
+                const row = buildMarketTickRow(asset.name, ctx, now);
+                if (!row) return null;
+                const book = this.books.get(`${isTestnet}:${asset.name}`);
+                // Timestamp is the observation time. Never carry disconnected or future quotes into history.
+                const observed = { ...row, receivedAt: now, source: "hyperliquid_live" };
+                if (!book || book.at > +now || +now - book.at > 2000) return observed;
+                return { ...observed, bookBidPx: book.bid, bookBidSz: book.bidSize, bookAskPx: book.ask, bookAskSz: book.askSize,
+                    bookEventAt: new Date(book.at), bookReceivedAt: book.receivedAt };
+            })
             .filter((row): row is NonNullable<typeof row> => row !== null);
 
         if (rows.length === 0) return;

@@ -9,11 +9,8 @@ import {
     WALLET_SESSION_COOKIE
 } from "@/lib/auth/wallet-session";
 import { POST as refreshSession } from "@/app/api/auth/session/route";
+import { GET as getResearch, POST as postResearch } from "@/app/api/backtest/run/route";
 import { GET as getTrades } from "@/app/api/trades/route";
-import { POST as postAnalyze } from "@/app/api/ai/analyze/route";
-import { POST as postCancel } from "@/app/api/ai/cancel/route";
-import { GET as getJobStatus } from "@/app/api/ai/job-status/route";
-import { GET as getAutoTrader, PUT as putAutoTrader } from "@/app/api/auto-trader/route";
 import { GET as getAlerts, POST as postAlerts, DELETE as deleteAlerts, PATCH as patchAlerts } from "@/app/api/alerts/route";
 import { GET as getApiWallet, POST as postApiWallet, DELETE as deleteApiWallet } from "@/app/api/hyperliquid/api-wallet/route";
 import { GET as getKillSwitch, PUT as putKillSwitch } from "@/app/api/risk/kill-switch/route";
@@ -115,11 +112,8 @@ describe("wallet session auth", () => {
 
     it("returns 401 without a wallet session on wallet-required API routes", async () => {
         const cases: Array<[string, (request: any) => Promise<Response>, Request]> = [
-            ["POST /api/ai/analyze", postAnalyze, jsonRequest("http://localhost/api/ai/analyze", "POST", { isManual: true })],
-            ["POST /api/ai/cancel", postCancel, jsonRequest("http://localhost/api/ai/cancel", "POST", {})],
-            ["GET /api/ai/job-status", getJobStatus, new Request("http://localhost/api/ai/job-status?jobId=job-1")],
-            ["GET /api/auto-trader", getAutoTrader, new Request("http://localhost/api/auto-trader?network=testnet")],
-            ["PUT /api/auto-trader", putAutoTrader, jsonRequest("http://localhost/api/auto-trader", "PUT", {})],
+            ["GET /api/backtest/run", getResearch, new Request("http://localhost/api/backtest/run")],
+            ["POST /api/backtest/run", postResearch, jsonRequest("http://localhost/api/backtest/run", "POST", {})],
             ["GET /api/alerts", getAlerts, new Request("http://localhost/api/alerts")],
             ["POST /api/alerts", postAlerts, jsonRequest("http://localhost/api/alerts", "POST", {})],
             ["DELETE /api/alerts", deleteAlerts, new Request("http://localhost/api/alerts?alertId=alert-1", { method: "DELETE" })],

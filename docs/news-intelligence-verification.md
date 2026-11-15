@@ -41,7 +41,7 @@ false. A desktop HTTP request returned 357 recent BTC 1m candles from PostgreSQL
   Ollama models. The existing selected model was preserved. No trades were run.
 - Unauthenticated private news HTTP access returned 401. Automated coverage
   checks wallet ownership, collector-owner pairing, stale wallet responses and
-  drafts, and public sentiment's separation from the private news database.
+  drafts, and authenticated access to the private news database.
 - The SSH tunnel recovered under the local supervisor; import transactions
   resumed after disconnection. The Windows logon task is registered. VPS Chrome
   and both collectors remained independently supervised by systemd.

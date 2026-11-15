@@ -15,9 +15,10 @@ for (const [schemaFile, variable, schema] of [["prisma/news/schema.prisma", "NEW
 const file = path.resolve(".env.local");
 let contents = await fs.readFile(file, "utf8").catch(() => "");
 if (!credentials.owner_address) {
-    const { PrismaClient } = await import("@prisma/client");
+    const { PrismaClient } = /^postgres(?:ql)?:/.test(dotenv.parse(contents).DATABASE_URL ?? "")
+        ? await import("@prisma/app-postgres-client") : await import("@prisma/client");
     const app = new PrismaClient({ datasources: { db: { url: dotenv.parse(contents).DATABASE_URL || `file:${path.resolve("prisma/backend.db")}` } } });
-    try { credentials.owner_address = (await app.autoTraderSettings.findFirst({ orderBy: { updatedAt: "desc" }, select: { userAddress: true } }))?.userAddress.toLowerCase(); }
+    try { credentials.owner_address = (await app.deskBook.findFirst({ orderBy: { updatedAt: "desc" }, select: { ownerAddress: true } }))?.ownerAddress.toLowerCase(); }
     finally { await app.$disconnect(); }
 }
 if (!/^0x[0-9a-f]{40}$/.test(credentials.owner_address || "")) throw new Error("Pair a verified application wallet with this browser before setup");

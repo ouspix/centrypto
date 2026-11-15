@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    // Production builds must not overwrite a running development server's assets.
+    distDir: process.env.NODE_ENV === 'development' ? '.next-dev' : '.next',
     webpack: (config) => {
         config.externals.push('pino-pretty', 'lokijs', 'encoding')
         config.resolve.fallback = {

@@ -24,6 +24,10 @@ model MarketTick {
   bookBidSz    Float?
   bookAskPx    Float?
   bookAskSz    Float?
+  receivedAt   DateTime?
+  bookEventAt  DateTime?
+  bookReceivedAt DateTime?
+  source       String?
 
   @@index([ts])
   @@index([symbol, ts])
@@ -41,8 +45,30 @@ model MarketCandle {
   close     Float
   volume    Float
   source    String?
+  receivedAt DateTime?
 
   @@unique([symbol, timeframe, openTime])
   @@index([symbol, timeframe, openTime])
   @@index([timeframe, openTime, symbol])
+}
+
+// Append-only observations; latest MarketCandle remains a convenience view.
+// Legacy rows have no inferred receipt history.
+model MarketCandleObservation {
+  id          BigInt   @id @default(autoincrement())
+  symbol      String
+  timeframe   String
+  openTime    DateTime
+  closeTime   DateTime
+  receivedAt  DateTime
+  recordedAt  DateTime @default(now())
+  source      String
+  open        Float
+  high        Float
+  low         Float
+  close       Float
+  volume      Float
+
+  @@index([symbol, timeframe, openTime, receivedAt])
+  @@index([recordedAt])
 }

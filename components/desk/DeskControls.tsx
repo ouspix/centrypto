@@ -1,25 +1,27 @@
 "use client";
 import { useEffect, useState } from "react";
-import { DEFAULT_DESK_MANDATE, parseDeskMandate, type DeskMandate } from "@/lib/desk/mandate";
+import { Save, SlidersHorizontal } from "lucide-react";
+import { SWING_DESK_MANDATE, parseDeskMandate, type DeskMandate } from "@/lib/desk/mandate";
 import { mandateLabels, shortAddress, type Book, type Action } from "./desk-view";
+import { DeskPanelHeader } from "./DeskPanelHeader";
 
 function MandateInputs({ value, onChange }: { value: DeskMandate; onChange: (next: DeskMandate) => void }) {
     return (
-        <div className="desk-formgrid">
+        <>
             {(Object.keys(mandateLabels) as (keyof DeskMandate)[]).map((key) => (
-                <label key={key}>
+                <label className="desk-panel-field" key={key}>
                     {mandateLabels[key]}
                     <input
                         type="number"
                         step="any"
                         min="0.00001"
-                        required
+                        required={value[key]!==undefined}
                         value={Number.isFinite(value[key]) ? value[key] : ""}
                         onChange={(e) => onChange({ ...value, [key]: e.target.valueAsNumber })}
                     />
                 </label>
             ))}
-        </div>
+        </>
     );
 }
 
@@ -36,7 +38,7 @@ export function CreateDeskBook({
 }) {
     const [kind, setKind] = useState("directional"),
         [account, setAccount] = useState(owner),
-        [mandate, setMandate] = useState(DEFAULT_DESK_MANDATE),
+        [mandate, setMandate] = useState<DeskMandate>(SWING_DESK_MANDATE),
         [error, setError] = useState("");
     return (
         <form
@@ -81,7 +83,9 @@ export function CreateDeskBook({
                     spellCheck={false}
                 />
             </label>
-            <MandateInputs value={mandate} onChange={setMandate} />
+            <div className="desk-formgrid">
+                <MandateInputs value={mandate} onChange={setMandate} />
+            </div>
             {error && <p role="alert">{error}</p>}
             <button disabled={busy} type="submit">
                 Create stopped book
@@ -124,42 +128,48 @@ function Handover({ book, act, busy }: { book: Book; act: Action; busy: boolean 
     }, [book.id, book.isTestnet, match]);
     return (
         <form
-            className="desk-card desk-stack"
+            className="desk-control-form desk-control-handover"
             onSubmit={async (e) => {
                 e.preventDefault();
                 if (chosen && (await act({ action: "handover", bookId: book.id, instrumentId: chosen }))) setMatch("");
             }}
         >
-            <h2>Hand over an existing position</h2>
-            <p>Transfer management of the selected instrument’s current position to this book.</p>
-            <label>
-                Find instrument
-                <input
-                    value={match}
-                    maxLength={80}
-                    onChange={(e) => {
-                        setChosen("");
-                        setItems([]);
-                        setMatch(e.target.value);
-                    }}
-                    placeholder="Ticker or public name"
-                />
-            </label>
-            <label>
-                Position to hand over
-                <select required value={chosen} onChange={(e) => setChosen(e.target.value)}>
-                    <option value="">Select the exact spot pair or perpetual</option>
-                    {items.map((i) => (
-                        <option key={i.id} value={i.id}>
-                            {i.base}/{i.quote} · {i.kind} · {i.id}
-                        </option>
-                    ))}
-                </select>
-            </label>
-            {error && <p role="alert">{error}</p>}
-            <button disabled={busy || !chosen} type="submit">
-                Hand over selected position
-            </button>
+            <div>
+                <h3>Hand over an existing position</h3>
+                <p>Transfer management of the selected instrument’s current position to this book.</p>
+            </div>
+            <div className="desk-control-fields">
+                <label className="desk-panel-field">
+                    Find instrument
+                    <input
+                        value={match}
+                        maxLength={80}
+                        onChange={(e) => {
+                            setChosen("");
+                            setItems([]);
+                            setMatch(e.target.value);
+                        }}
+                        placeholder="Ticker or public name"
+                    />
+                </label>
+                <label className="desk-panel-field">
+                    Position to hand over
+                    <select required value={chosen} onChange={(e) => setChosen(e.target.value)}>
+                        <option value="">Select the exact spot pair or perpetual</option>
+                        {items.map((i) => (
+                            <option key={i.id} value={i.id}>
+                                {i.base}/{i.quote} · {i.kind} · {i.id}
+                            </option>
+                        ))}
+                    </select>
+                </label>
+            </div>
+            {error && <p role="alert" className="desk-panel-error">{error}</p>}
+            <div className="desk-control-actions">
+                <button className="desk-panel-secondary" disabled={busy || !chosen} type="submit">
+                    Hand over selected position
+                </button>
+            </div>
         </form>
     );
 }
@@ -167,79 +177,122 @@ function Handover({ book, act, busy }: { book: Book; act: Action; busy: boolean 
 export function DeskControls({
     book,
     killSwitch,
+    strategy,
     busy,
     act,
+    onClose,
 }: {
     book: Book;
     killSwitch: boolean;
+    strategy?: {version:string;state:string}|null;
     busy: boolean;
     act: Action;
+    onClose: () => void;
 }) {
     const [draft, setDraft] = useState<DeskMandate>(() => parseDeskMandate(book.mandateJson)),
         [frequency, setFrequency] = useState(book.frequencySeconds),
         [error, setError] = useState("");
     const liveSettings = { action: "configure", bookId: book.id, version: book.version };
+    const strategyActive = strategy?.state === "active";
     return (
-        <div className="desk-stack">
-            <section className="desk-card desk-stack">
-                <h2>Trading authority</h2>
-                <p>
-                    {book.kind === "quoting" ? "Quoting subaccount" : "Directional book"}{" "}
-                    {shortAddress(book.accountAddress)} on {book.isTestnet ? "testnet" : "mainnet"} ·{" "}
-                    {book.enabled ? "Enabled" : "Stopped"}
-                </p>
-                <button
-                    type="button"
-                    className={book.enabled ? "desk-danger" : ""}
-                    disabled={busy || (!book.enabled && killSwitch)}
-                    onClick={() => void act({ ...liveSettings, enabled: !book.enabled })}
+        <div className="desk-panel desk-controls">
+            <DeskPanelHeader title="Controls" icon={SlidersHorizontal} isTestnet={book.isTestnet} onClose={onClose} />
+            <div className="desk-controls-layout">
+                <form
+                    className="desk-control-form desk-control-mandate"
+                    onSubmit={async (e) => {
+                        e.preventDefault();
+                        setError("");
+                        try {
+                            await act({ ...liveSettings, mandate: parseDeskMandate(draft), frequencySeconds: frequency });
+                        } catch (err) {
+                            setError(err instanceof Error ? err.message : "Invalid mandate");
+                        }
+                    }}
                 >
-                    {book.enabled ? "Stop book" : `Enable live ${book.isTestnet ? "testnet" : "mainnet"} trading`}
-                </button>
-                <p>
-                    Wallet kill switch affects all books on this network. Current state:{" "}
-                    <strong>{killSwitch ? "active" : "clear"}</strong>.
-                </p>
-                <button
-                    className="desk-danger"
-                    type="button"
-                    disabled={busy}
-                    onClick={() => void act({ action: "kill", bookId: book.id, enabled: !killSwitch })}
-                >
-                    {killSwitch ? "Clear wallet kill switch" : "Activate wallet kill switch"}
-                </button>
-            </section>
-            <form
-                className="desk-card desk-stack"
-                onSubmit={async (e) => {
-                    e.preventDefault();
-                    setError("");
-                    try {
-                        await act({ ...liveSettings, mandate: parseDeskMandate(draft), frequencySeconds: frequency });
-                    } catch (err) {
-                        setError(err instanceof Error ? err.message : "Invalid mandate");
-                    }
-                }}
-            >
-                <h2>Book mandate</h2>
-                <MandateInputs value={draft} onChange={setDraft} />
-                <label>
-                    Review interval (seconds)
-                    <input
-                        type="number"
-                        required
-                        min={60}
-                        max={86400}
-                        value={Number.isFinite(frequency) ? frequency : ""}
-                        onChange={(e) => setFrequency(e.target.valueAsNumber)}
-                    />
-                </label>
-                {error && <p role="alert">{error}</p>}
-                <button disabled={busy} type="submit">
-                    Save mandate
-                </button>
-            </form>
-            <Handover book={book} busy={busy} act={act} />
+                    <h3>Book mandate</h3>
+                    <div className="desk-control-fields">
+                        <MandateInputs value={draft} onChange={setDraft} />
+                        <label className="desk-panel-field">
+                            Review interval (seconds)
+                            <input
+                                type="number"
+                                required
+                                min={60}
+                                max={86400}
+                                value={Number.isFinite(frequency) ? frequency : ""}
+                                onChange={(e) => setFrequency(e.target.valueAsNumber)}
+                            />
+                        </label>
+                    </div>
+                    {error && <p role="alert" className="desk-panel-error">{error}</p>}
+                    <div className="desk-control-actions">
+                        <button className="desk-panel-primary" disabled={busy} type="submit">
+                            Save mandate <Save size={15} aria-hidden="true" />
+                        </button>
+                    </div>
+                </form>
+                <section className="desk-control-authority">
+                    <h3>Trading authority</h3>
+                    <div>
+                        <h4>{book.kind === "quoting" ? "Quoting subaccount" : "Directional book"}</h4>
+                        <p>
+                            {shortAddress(book.accountAddress)} ·{" "}
+                            <strong className="desk-control-status" data-active={book.enabled}>
+                                {book.enabled ? (book.isTestnet ? "Paper active" : "Live active") : "Stopped"}
+                            </strong>
+                        </p>
+                        {book.isTestnet && <p>Paper trading places actual orders on Hyperliquid testnet with test funds. Mainnet balances and permissions remain separate.</p>}
+                        <button
+                            type="button"
+                            className={book.enabled ? "desk-panel-secondary desk-danger" : "desk-panel-secondary"}
+                            disabled={busy || (!book.enabled && killSwitch)}
+                            onClick={() => void act({ ...liveSettings, enabled: !book.enabled })}
+                        >
+                            {book.enabled ? "Stop book" : book.isTestnet ? "Activate paper trading (testnet)" : "Enable live mainnet trading"}
+                        </button>
+                    </div>
+                    {!!draft.maxOpenRiskUsd && (
+                        <div>
+                            <h4>{strategy?.version === "desk-discretionary-1" ? "Discretionary desk" : "Continuation strategy"}</h4>
+                            <p>
+                                <strong className="desk-control-status" data-active={strategyActive}>
+                                    {strategyActive ? "Entries activated" : "Research only"}
+                                </strong>
+                            </p>
+                            {!strategyActive && <p>Review its evidence before activation.</p>}
+                            <button
+                                type="button"
+                                className="desk-panel-secondary"
+                                disabled={busy}
+                                onClick={() => void act({
+                                    action: "strategy_state", bookId: book.id, version: book.version,
+                                    strategyVersion: strategy?.version ?? "continuation-1",
+                                    state: strategyActive ? "research_only" : "active",
+                                })}
+                            >
+                                {strategyActive ? "Return strategy to research only" : "Activate strategy entries"}
+                            </button>
+                        </div>
+                    )}
+                    <div>
+                        <h4>Wallet kill switch</h4>
+                        <p>
+                            <strong className="desk-control-status" data-alert={killSwitch}>{killSwitch ? "Active" : "Clear"}</strong>
+                            {" · Affects all books on this network."}
+                        </p>
+                        <button
+                            className="desk-panel-secondary desk-danger"
+                            type="button"
+                            disabled={busy}
+                            onClick={() => void act({ action: "kill", bookId: book.id, enabled: !killSwitch })}
+                        >
+                            {killSwitch ? "Clear wallet kill switch" : "Activate wallet kill switch"}
+                        </button>
+                    </div>
+                </section>
+                <Handover book={book} busy={busy} act={act} />
+            </div>
         </div>
     );
 }

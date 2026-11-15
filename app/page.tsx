@@ -31,9 +31,12 @@ export default function Home() {
             </div>
 
             {/* Market Feed & Data */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="grid auto-rows-fr grid-cols-1 gap-4 lg:grid-cols-2">
               <HyperliquidFeed />
-              <NewsIntelligencePanel />
+              {/* The feed sets the row height, including when the panels stack. */}
+              <div className="min-w-0 [contain:size]">
+                <NewsIntelligencePanel />
+              </div>
             </div>
 
             {/* Bottom Data Table - Positions */}

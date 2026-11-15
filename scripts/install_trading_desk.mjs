@@ -3,7 +3,8 @@ import fs from "node:fs/promises";
 import { spawnSync } from "node:child_process";
 import dotenv from "dotenv";
 dotenv.config({ path: ".env.local" });
-const { PrismaClient: AppClient } = await import("@prisma/client");
+const appPostgres = /^postgres(?:ql)?:/.test(process.env.DATABASE_URL ?? "");
+const { PrismaClient: AppClient } = appPostgres ? await import("@prisma/app-postgres-client") : await import("@prisma/client");
 const { PrismaClient: NewsClient } = await import("@prisma/news-client");
 const apply = process.argv.includes("--apply");
 const scopes = [
@@ -11,9 +12,9 @@ const scopes = [
         name: "application",
         Client: AppClient,
         variable: "DATABASE_URL",
-        schema: "prisma/schema.prisma",
-        folder: "prisma/migrations",
-        allowed: ["20261102000000_desk_books", "20261102010000_desk_execution", "20261103000000_desk_token_usage", "20261103010000_desk_public_cache"],
+        schema: appPostgres ? "prisma/app-postgres/schema.prisma" : "prisma/schema.prisma",
+        folder: appPostgres ? "prisma/app-postgres/migrations" : "prisma/migrations",
+        allowed: appPostgres ? ["20261104000000_application_baseline", "20261113090000_desk_market_snapshot"] : ["20261102000000_desk_books", "20261102010000_desk_execution", "20261103000000_desk_token_usage", "20261103010000_desk_public_cache", "20261113090000_desk_market_snapshot"],
     },
     {
         name: "news",
@@ -21,7 +22,7 @@ const scopes = [
         variable: "NEWS_DATABASE_URL",
         schema: "prisma/news/schema.prisma",
         folder: "prisma/news/migrations",
-        allowed: ["20261102000000_desk_event_revisions"],
+        allowed: ["20261102000000_desk_event_revisions", "20261113090100_official_news_calendars", "20261113090200_calendar_worker_grants"],
     },
 ];
 async function migrationUrl(scope) {

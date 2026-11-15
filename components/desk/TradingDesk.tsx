@@ -1,115 +1,52 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Activity, BarChart3, BookOpen, ClipboardList, MessageSquare, Monitor, SlidersHorizontal } from "lucide-react";
 import { useTrading } from "@/context/TradingContext";
 import { DeskBlotter, DeskJournal } from "./DeskBlotter";
 import { CreateDeskBook, DeskControls } from "./DeskControls";
+import { DeskOffice } from "./DeskOffice";
+import { DeskChat } from "./DeskChat";
+import { DeskMarketContext } from "./DeskMarketContext";
+import { DeskUsage } from "./DeskUsage";
+import { DeskPanelHeader } from "./DeskPanelHeader";
 import {
-    dateTime,
-    field,
-    readData,
     shortAddress,
     type Action,
     type Book,
-    type JournalEntry,
     type Overview,
 } from "./desk-view";
 
-function DeskChat({ book, records, busy, act }: { book: Book; records: JournalEntry[]; busy: boolean; act: Action }) {
-    const [kind, setKind] = useState<"research" | "instruction">("research"),
-        [message, setMessage] = useState("");
-    const retry = useRef<{ key: string; id: string } | null>(null);
-    const history = records
-        .filter((r) => r.kind === "message" || (r.kind === "note" && r.role === "lead"))
-        .slice(0, 8)
-        .reverse();
-    const selected = book.enabled ? kind : "research";
-    return (
-        <aside className="desk-card desk-stack desk-chat">
-            <h2>Desk chat</h2>
-            <div className="desk-messages">
-                {history.length === 0 && (
-                    <p className="desk-muted">Ask the lead about an opportunity, a pass, or a position.</p>
-                )}
-                {history.map((r) => {
-                    const d = readData(r.dataJson);
-                    return (
-                        <article key={r.id} className="desk-entry">
-                            <header>
-                                <strong>{r.role === "lead" ? "Head trader" : "Operator"}</strong>
-                                <time>{dateTime(r.createdAt)}</time>
-                            </header>
-                            <p>{field(d, "message") || field(d, "summary")}</p>
-                        </article>
-                    );
-                })}
-            </div>
-            <form
-                className="desk-stack"
-                onSubmit={async (e) => {
-                    e.preventDefault();
-                    const text = message.trim();
-                    if (!text || busy) return;
-                    const key = JSON.stringify([book.id, selected, text]);
-                    if (retry.current?.key !== key) retry.current = { key, id: crypto.randomUUID() };
-                    if (
-                        await act({
-                            action: "message",
-                            bookId: book.id,
-                            kind: selected,
-                            message: text,
-                            requestId: retry.current.id,
-                        })
-                    ) {
-                        setMessage("");
-                        retry.current = null;
-                    }
-                }}
-            >
-                <label>
-                    Message type
-                    <select value={selected} onChange={(e) => setKind(e.target.value as typeof kind)}>
-                        <option value="research">Research request</option>
-                        <option value="instruction" disabled={!book.enabled}>
-                            Trading instruction
-                        </option>
-                    </select>
-                </label>
-                <label>
-                    Message to the desk
-                    <textarea
-                        required
-                        maxLength={4000}
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        placeholder={
-                            selected === "research"
-                                ? "What changed in the SOL thesis?"
-                                : "Which order should the live lead work?"
-                        }
-                    />
-                </label>
-                <button type="submit" disabled={busy || !message.trim()}>
-                    {selected === "research" ? "Send research request" : "Send live instruction"}
-                </button>
-            </form>
-        </aside>
-    );
-}
+const deskTools = {
+    "Desk simulation": Monitor,
+    "Market context": Activity,
+    Journal: BookOpen,
+    Chat: MessageSquare,
+    "Book details": ClipboardList,
+    Usage: BarChart3,
+    Controls: SlidersHorizontal,
+};
+type DeskTool = keyof typeof deskTools;
+const deskToolNames = Object.keys(deskTools) as DeskTool[];
 
 function DeskSession({ owner, testnet }: { owner: string; testnet: boolean }) {
     const [selectedId, setSelectedId] = useState("");
     const [view, setView] = useState<Overview | null>(null),
-        [panel, setPanel] = useState<"Blotter" | "Journal" | "Controls">("Blotter");
+        [panel, setPanel] = useState<DeskTool>("Desk simulation");
     const [adding, setAdding] = useState(false),
         [error, setError] = useState(""),
+        [operationError, setOperationError] = useState(""),
         [notice, setNotice] = useState(""),
         [busy, setBusy] = useState(false);
-    const [updated, setUpdated] = useState("");
     const mounted = useRef(true),
         requestSeq = useRef(0),
         working = useRef(false);
     const read = useRef<AbortController | null>(null),
         write = useRef<AbortController | null>(null);
+    const deskToolsNav = useRef<HTMLElement>(null);
+    function closePanel() {
+        deskToolsNav.current?.querySelector<HTMLButtonElement>('button[aria-pressed="true"]')?.focus();
+        setPanel("Desk simulation");
+    }
     const refresh = useCallback(async () => {
         const seq = ++requestSeq.current;
         read.current?.abort();
@@ -137,7 +74,6 @@ function DeskSession({ owner, testnet }: { owner: string; testnet: boolean }) {
                 throw new Error("Desk account context changed. Verify the wallet session.");
             }
             setView(next);
-            setUpdated(new Date().toISOString());
             setError("");
         } catch (e) {
             if (mounted.current && !controller.signal.aborted && seq === requestSeq.current)
@@ -170,6 +106,7 @@ function DeskSession({ owner, testnet }: { owner: string; testnet: boolean }) {
         setView(null);
         setSelectedId(id);
         setError("");
+        setOperationError("");
         setNotice("");
         setAdding(false);
     }
@@ -177,6 +114,7 @@ function DeskSession({ owner, testnet }: { owner: string; testnet: boolean }) {
         if (working.current) return false;
         working.current = true;
         setBusy(true);
+        setOperationError("");
         setNotice("");
         setError("");
         const controller = new AbortController();
@@ -203,7 +141,7 @@ function DeskSession({ owner, testnet }: { owner: string; testnet: boolean }) {
             return true;
         } catch (e) {
             if (mounted.current && !controller.signal.aborted)
-                setError(e instanceof Error ? e.message : "Desk operation failed.");
+                setOperationError(e instanceof Error ? e.message : "Desk operation failed.");
             return false;
         } finally {
             working.current = false;
@@ -213,14 +151,28 @@ function DeskSession({ owner, testnet }: { owner: string; testnet: boolean }) {
     const book = view?.book;
     return (
         <div className="desk-stack">
-            <div className="desk-toolbar">
-                <div>
-                    <small>{testnet ? "TESTNET" : "MAINNET"} · VERIFIED WALLET</small>
-                    <p>{shortAddress(owner)}</p>
+            {book && !adding && (
+                <nav ref={deskToolsNav} className="desk-tools" aria-label="Desk tools">
+                    {deskToolNames.map((name) => {
+                        const Icon = deskTools[name];
+                        return (
+                            <button type="button" key={name} aria-pressed={panel === name} aria-controls="desk-tool-panel"
+                                onClick={() => setPanel(current => current === name ? "Desk simulation" : name)}>
+                                <Icon size={14} aria-hidden="true" /> {name}
+                            </button>
+                        );
+                    })}
+                </nav>
+            )}
+            <div className="desk-session-bar">
+                <div className="desk-session-context">
+                    <h2>{book ? book.kind === "quoting" ? "Market-making book" : "Directional book" : "Your books"}</h2>
+                    <small>{testnet ? "Testnet" : "Mainnet"} · {shortAddress(owner)}</small>
                 </div>
+                <div className="desk-session-actions">
                 {!!view?.books.length && (
                     <label>
-                        Active book
+                        <span className="desk-visually-hidden">Active book</span>
                         <select disabled={busy} value={book?.id ?? ""} onChange={(e) => select(e.target.value)}>
                             {view.books.map((b) => (
                                 <option key={b.id} value={b.id}>
@@ -242,10 +194,23 @@ function DeskSession({ owner, testnet }: { owner: string; testnet: boolean }) {
                         {adding ? "Back to book" : "New book"}
                     </button>
                 )}
+                {book && !adding && (
+                    <>
+                        <span className={view?.killSwitch ? "desk-authority is-stopped" : "desk-authority"}>
+                            {view?.killSwitch ? "Stop active" : book.enabled ? (view?.strategy?.state==="research_only" ? "Research active · new strategy stopped" : "Live orders enabled") : "Trading stopped"}
+                        </span>
+                        <button className="desk-danger desk-emergency" type="button"
+                            disabled={busy || view?.killSwitch}
+                            onClick={() => void act({ action: "kill", bookId: book.id, enabled: true })}>
+                            {view?.killSwitch ? "Emergency stop active" : "Emergency stop"}
+                        </button>
+                    </>
+                )}
+                </div>
             </div>
-            {error && (
+            {(operationError || error) && (
                 <p role="alert" className="desk-alert">
-                    {error}
+                    {operationError || error}
                 </p>
             )}
             {notice && (
@@ -257,51 +222,32 @@ function DeskSession({ owner, testnet }: { owner: string; testnet: boolean }) {
             {view && (adding || !book) && <CreateDeskBook owner={owner} testnet={testnet} busy={busy} act={act} />}
             {view && book && !adding && (
                 <div key={book.id} className="desk-stack">
-                    <div className="desk-toolbar">
-                        <div>
-                            <h2>{book.kind === "quoting" ? "Market-making book" : "Directional book"}</h2>
-                            <p className="desk-muted">
-                                Worker heartbeat {dateTime(book.heartbeatAt)} · View updated {dateTime(updated)}
-                            </p>
-                        </div>
-                        <strong className={view.killSwitch ? "desk-flag danger" : "desk-flag"}>
-                            {view.killSwitch
-                                ? "Wallet kill switch active"
-                                : book.enabled
-                                  ? "Enabled for live orders"
-                                  : "Stopped"}
-                        </strong>
-                    </div>
+                    {view.strategy && <p className="desk-muted">{view.strategy.version} · {view.strategy.state === "active" ? "Strategy activated by operator" : "Whole-market research · strategy entries awaiting operator activation"}. Paper orders require a separately enabled testnet book.</p>}
                     {book.lastError && (
-                        <p role="alert" className="desk-alert">
-                            {book.lastError}
-                        </p>
+                        <details className="desk-saved-error">
+                            <summary>Saved worker warning</summary>
+                            <p>{book.lastError}</p>
+                            <p className="desk-muted">Saved on the book. See Desk simulation for current analyst activity.</p>
+                        </details>
                     )}
-                    <nav className="desk-tabs" aria-label="Desk views">
-                        {(["Blotter", "Journal", "Controls"] as const).map((p) => (
-                            <button type="button" key={p} aria-pressed={panel === p} onClick={() => setPanel(p)}>
-                                {p}
-                            </button>
-                        ))}
-                    </nav>
-                    <div className="desk-columns">
-                        <div>
-                            {panel === "Blotter" ? (
-                                <DeskBlotter data={view} act={act} busy={busy} />
-                            ) : panel === "Journal" ? (
-                                <DeskJournal data={view} />
-                            ) : (
-                                <DeskControls
-                                    key={book.id + ":" + book.version}
-                                    book={book}
-                                    killSwitch={view.killSwitch}
-                                    busy={busy}
-                                    act={act}
-                                />
-                            )}
-                        </div>
-                        <DeskChat book={book} records={view.records} busy={busy} act={act} />
-                    </div>
+                    <section id="desk-tool-panel" aria-label={panel}>
+                        {panel === "Desk simulation" ? (
+                            <DeskOffice book={book} />
+                        ) : panel === "Chat" ? (
+                            <DeskChat book={book} chat={view.chat ?? []} busy={busy} act={act} error={operationError} onClose={closePanel} />
+                        ) : panel === "Controls" ? (
+                            <DeskControls key={book.id + ":" + book.version} book={book} killSwitch={view.killSwitch}
+                                strategy={view.strategy} busy={busy} act={act} onClose={closePanel} />
+                        ) : (
+                            <div className="desk-panel">
+                                <DeskPanelHeader title={panel} icon={deskTools[panel]} isTestnet={book.isTestnet} onClose={closePanel} />
+                                {panel === "Market context" && <DeskMarketContext book={book} />}
+                                {panel === "Journal" && <DeskJournal data={view} />}
+                                {panel === "Book details" && <DeskBlotter data={view} act={act} busy={busy} showUsage={false} />}
+                                {panel === "Usage" && <DeskUsage bookId={book.id} />}
+                            </div>
+                        )}
+                    </section>
                 </div>
             )}
         </div>

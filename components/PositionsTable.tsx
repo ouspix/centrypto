@@ -18,6 +18,7 @@ import { Loader2, RefreshCw, X, TrendingUp, Clock, History, TrendingDown, Dollar
 import { useTrading } from "@/context/TradingContext"
 import { placeOrderAction, cancelOrderAction } from "@/app/actions/trade"
 import { getCloseOrderParams } from "@/lib/trade-utils"
+import type { Trade } from "@/services/TradeHistoryService"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
 type Position = {
@@ -41,24 +42,6 @@ type OpenOrder = {
     timestamp: number
 }
 
-type Trade = {
-    id: string;
-    symbol: string;
-    side: 'long' | 'short';
-    action: 'buy' | 'sell';
-    entryPrice: number;
-    exitPrice?: number;
-    size: number;
-    leverage: number | null;
-    realizedPnl?: number;
-    fees: number;
-    status: 'open' | 'closed';
-    openedAt: Date;
-    closedAt?: Date;
-    strategyName?: string;
-    type?: string;
-};
-
 type TradeAnalytics = {
     totalTrades: number;
     openTrades: number;
@@ -72,12 +55,24 @@ type TradeAnalytics = {
     totalFees?: number;
     largestWin: number;
     largestLoss: number;
-    profitFactor: number;
+    // JSON serializes the service's Infinity (profits with no losses) as null.
+    profitFactor: number | null;
     avgHoldTime: number;
 };
 
 const TRADE_RANGES = ['24h', '3d', '7d', '1m', '1y'] as const;
 type TradeRange = typeof TRADE_RANGES[number];
+
+const tradePriceFormat = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 5,
+    maximumFractionDigits: 5,
+});
+
+function formatTradePrice(price?: number | null) {
+    return typeof price === 'number' && Number.isFinite(price) ? tradePriceFormat.format(price) : '—';
+}
 
 function parsePositiveNumber(value: number | string | null | undefined) {
     const parsed = typeof value === 'number'
@@ -395,8 +390,8 @@ export function PositionsTable() {
     }
 
     const formatPnl = (pnl: number) => {
-        const sign = pnl >= 0 ? '+' : ''
-        return `${sign}$${pnl.toFixed(2)}`
+        const sign = pnl >= 0 ? '+' : '-'
+        return `${sign}$${Math.abs(pnl).toFixed(2)}`
     }
 
     const formatLeverage = (leverage?: number | string | null) => {
@@ -649,14 +644,22 @@ export function PositionsTable() {
                             <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1">
                                 {trades.map((trade) => {
                                     const isBuy = trade.action === 'buy';
+                                    const isClosing = trade.status === 'closed';
                                     const accentBorder = isBuy ? 'border-l-4 border-l-emerald-500' : 'border-l-4 border-l-rose-500';
                                     const actionBadgeClass = isBuy
                                         ? 'border-emerald-500/30 text-emerald-300 bg-emerald-500/5'
                                         : 'border-rose-500/30 text-rose-300 bg-rose-500/5';
-                                    const openBadgeClass = isBuy
-                                        ? 'border-emerald-500/40 text-emerald-200'
-                                        : 'border-rose-500/40 text-rose-200';
-                                    const displayLeverage = trade.leverage ?? leverageMap[trade.symbol] ?? null;
+                                    const leverageLabel = trade.leverageSource === 'order' ? 'Order Lev.'
+                                        : trade.leverageSource === 'current' ? 'Current Lev.' : 'Lev.';
+                                    const leverageValue = trade.leverage === null ? 'Unavailable'
+                                        : [formatLeverage(trade.leverage), trade.marginMode].filter(Boolean).join(' ');
+                                    const leverageTitle = trade.leverageObservedAt
+                                        ? `Observed at order submission (${new Date(trade.leverageObservedAt).toLocaleString()})`
+                                        : undefined;
+                                    const entryLabel = isClosing ? 'Avg. Entry' : 'Entry';
+                                    const fee = Number.isFinite(trade.fees) && trade.feeToken
+                                        ? `${trade.fees} ${trade.feeToken}`
+                                        : '—';
 
                                     return (
                                         <div
@@ -687,7 +690,7 @@ export function PositionsTable() {
                                                         </Badge>
                                                     </div>
                                                     <div className="flex items-center gap-2 text-xs text-slate-500">
-                                                        <span>{formatDate(trade.openedAt)}</span>
+                                                        <span>{formatDate(trade.closedAt ?? trade.openedAt)}</span>
                                                         {trade.strategyName && (
                                                             <>
                                                                 <span>•</span>
@@ -700,8 +703,8 @@ export function PositionsTable() {
                                                 {/* Middle: Stats Grid */}
                                                 <div className="hidden sm:grid grid-cols-3 gap-x-8 gap-y-1 text-right">
                                                     <div>
-                                                        <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Entry</span>
-                                                        <div className="font-mono text-slate-300 text-sm">${trade.entryPrice.toFixed(2)}</div>
+                                                        <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">{entryLabel}</span>
+                                                        <div className="font-mono text-slate-300 text-sm">{formatTradePrice(trade.entryPrice)}</div>
                                                     </div>
                                                     <div>
                                                         <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Size</span>
@@ -710,28 +713,32 @@ export function PositionsTable() {
                                                     <div>
                                                         <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Exit</span>
                                                         <div className="font-mono text-slate-300 text-sm">
-                                                            {trade.exitPrice ? `$${trade.exitPrice.toFixed(2)}` : '-'}
+                                                            {formatTradePrice(trade.exitPrice)}
                                                         </div>
                                                     </div>
                                                     <div>
-                                                        <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Lev</span>
-                                                        <div className="font-mono text-purple-400 text-sm">{formatLeverage(displayLeverage)}</div>
+                                                        <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">{leverageLabel}</span>
+                                                        <div className="font-mono text-purple-400 text-sm" title={leverageTitle}>{leverageValue}</div>
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-[10px] uppercase tracking-wider text-slate-500 font-medium">Fill Fee</span>
+                                                        <div className="font-mono text-slate-300 text-sm">{fee}</div>
                                                     </div>
                                                 </div>
 
                                                 {/* Right: PnL */}
                                                 <div className="text-right min-w-[100px]">
-                                                    {trade.status === 'closed' && trade.realizedPnl !== undefined ? (
+                                                    {isClosing && trade.realizedPnl !== undefined ? (
                                                         <>
-                                                            <div className="text-[10px] uppercase tracking-wider text-slate-500 font-medium mb-0.5">Realized P&L</div>
+                                                            <div className="text-[10px] uppercase tracking-wider text-slate-500 font-medium mb-0.5" title="Exchange-reported closed P&L. Fill fees are shown separately.">Realized P&L</div>
                                                             <div className={`text-2xl font-bold font-mono tracking-tight ${trade.realizedPnl >= 0 ? 'text-emerald-400' : 'text-red-400'
                                                                 }`}>
                                                                 {formatPnl(trade.realizedPnl)}
                                                             </div>
                                                         </>
                                                     ) : (
-                                                        <Badge variant="outline" className={`${openBadgeClass} px-3 py-1 bg-slate-900/60`}>
-                                                            OPEN
+                                                        <Badge variant="outline" className={`${actionBadgeClass} px-3 py-1`}>
+                                                            {isClosing ? 'CLOSING FILL' : 'OPENING FILL'}
                                                         </Badge>
                                                     )}
                                                 </div>
@@ -740,20 +747,24 @@ export function PositionsTable() {
                                             {/* Mobile Stats (visible only on small screens) */}
                                             <div className="mt-4 grid grid-cols-2 gap-4 border-t border-slate-800/50 pt-3 sm:hidden">
                                                 <div className="flex justify-between">
-                                                    <span className="text-xs text-slate-500">Entry</span>
-                                                    <span className="font-mono text-slate-300">${trade.entryPrice.toFixed(2)}</span>
+                                                    <span className="text-xs text-slate-500">{entryLabel}</span>
+                                                    <span className="font-mono text-slate-300">{formatTradePrice(trade.entryPrice)}</span>
                                                 </div>
                                                 <div className="flex justify-between">
                                                     <span className="text-xs text-slate-500">Exit</span>
-                                                    <span className="font-mono text-slate-300">{trade.exitPrice ? `$${trade.exitPrice.toFixed(2)}` : '-'}</span>
+                                                    <span className="font-mono text-slate-300">{formatTradePrice(trade.exitPrice)}</span>
                                                 </div>
                                                 <div className="flex justify-between">
                                                     <span className="text-xs text-slate-500">Size</span>
                                                     <span className="font-mono text-slate-300">{trade.size.toFixed(4)}</span>
                                                 </div>
                                                 <div className="flex justify-between">
-                                                    <span className="text-xs text-slate-500">Lev</span>
-                                                    <span className="font-mono text-purple-400">{formatLeverage(displayLeverage)}</span>
+                                                    <span className="text-xs text-slate-500">{leverageLabel}</span>
+                                                    <span className="font-mono text-purple-400" title={leverageTitle}>{leverageValue}</span>
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <span className="text-xs text-slate-500">Fill Fee</span>
+                                                    <span className="font-mono text-slate-300">{fee}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -822,7 +833,11 @@ export function PositionsTable() {
                                         <div className="flex justify-between items-center">
                                             <span className="text-slate-500 text-base" title="Gross Profit / Gross Loss">Profit Factor</span>
                                             <span className="font-mono text-purple-400 text-lg font-semibold">
-                                                {analytics.profitFactor === Infinity ? '∞' : analytics.profitFactor.toFixed(2)}
+                                                {analytics.profitFactor === Infinity || (analytics.profitFactor === null && analytics.winningTrades > 0 && analytics.losingTrades === 0)
+                                                    ? '∞'
+                                                    : typeof analytics.profitFactor === 'number' && Number.isFinite(analytics.profitFactor)
+                                                        ? analytics.profitFactor.toFixed(2)
+                                                        : '—'}
                                             </span>
                                         </div>
                                         <div className="flex justify-between items-center">

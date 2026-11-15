@@ -1,5 +1,5 @@
 import { ScreenerConfig } from "@/lib/screener-config";
-import { findMatchingScreenerPresetName, normalizeScreenerConfig } from "@/lib/auto-trader-config";
+import { findMatchingScreenerPresetName, normalizeScreenerConfig } from "@/lib/screener-normalization";
 
 export const ACTIVE_SCREENING_CONFIG_KEY = "screeningConfig";
 export const DRAFT_SCREENING_CONFIG_KEY = "screeningConfigDraft";

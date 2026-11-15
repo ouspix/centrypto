@@ -51,6 +51,5 @@ function market(input: {
         realized_vol: { m1: 0.001, m5: 0.002, m15: 0.002, h1: 0.003, h4: 0.003 },
         funding: { current_8h: 0, delta_5m: 0 },
         open_interest: { current: 1_000_000, delta_5m: 10_000 },
-        sentiment: { score: 0, mentionsVsBaseline: 0, disagreement: 0, change2h: 0 }
     };
 }

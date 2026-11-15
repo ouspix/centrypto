@@ -1,5 +1,7 @@
+import { registerAppPostgres, usesAppPostgres } from './app-database-provider';
 import path from 'path';
 import { PrismaClient } from '@prisma/client';
+import { PrismaClient as PostgresClient } from '@prisma/app-postgres-client';
 
 export function appDatabaseUrl(url: string): string {
   if (!url.startsWith('file:')) return url;
@@ -20,11 +22,15 @@ const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;
 };
 
-export const prisma =
+const postgres = /^postgres(?:ql)?:/.test(process.env.DATABASE_URL);
+const Client = (postgres ? PostgresClient : PrismaClient) as typeof PrismaClient;
+
+// Both clients are generated from the same models.
+export const prisma: PrismaClient =
   globalForPrisma.prisma ??
-  new PrismaClient({
-    log: ['error', 'warn'],
-  });
+  new Client({ log: ['error', 'warn'] });
+
+if (postgres) registerAppPostgres(prisma);
 
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma;
@@ -35,6 +41,7 @@ const readyClients = new WeakMap<PrismaClient, Promise<void>>();
 // The web app and inference worker share this file. WAL lets job-status reads
 // coexist with writes instead of timing out while a result is being saved.
 export function ensureAppDbReady(client: PrismaClient = prisma): Promise<void> {
+  if (usesAppPostgres(client)) return client.$connect();
   const ready = readyClients.get(client);
   if (ready) return ready;
 

@@ -18,9 +18,11 @@ globalThis.CentryptoExtract = async function (source) {
     const missingTelegramDates = new Set();
     let rssItems = 0;
     let dateExclusions = 0;
+    let futureDateExclusions = 0;
     let invalidFeedLinks = 0;
     let dateDiagnostic = null;
     const authenticatedTelegram = source.adapter === "telegram" && selected.hostname === "web.telegram.org";
+    const xTimeline = source.adapter === "x" && !/\/status\/\d+/.test(selected.pathname);
     const telegramPublicationTime = node => {
         const dateTitle = node.querySelector(".message-time[title]")?.getAttribute("title")?.split(/\r?\n/)[0] || "";
         const explicit = iso(node.querySelector("time")?.dateTime) || (/\b\d{4}\b/.test(dateTitle) ? iso(dateTitle) : null);
@@ -106,7 +108,8 @@ globalThis.CentryptoExtract = async function (source) {
                 // Status feeds may contain future scheduled-maintenance dates.
                 // Exclude these entries rather than rejecting all valid items or
                 // inventing a publication date that could leak future evidence.
-                if (!publishedAt || new Date(publishedAt).getTime() > new Date(base.collectedAt).getTime() + 60_000) { dateExclusions++; continue; }
+                if (!publishedAt) { dateExclusions++; continue; }
+                if (new Date(publishedAt).getTime() > new Date(base.collectedAt).getTime() + 60_000) { futureDateExclusions++; continue; }
                 if (source.lookbackHours && new Date(publishedAt).getTime() < new Date(base.collectedAt).getTime() - source.lookbackHours * 3600_000) continue;
                 if (!add({ externalId: text(node.querySelector("guid,id")) || link, canonicalUrl: link, author: text(node.querySelector("author")), publishedAt, text: text(node.querySelector("title")) + " " + text(html.content) })) invalidFeedLinks++;
             }
@@ -120,6 +123,15 @@ globalThis.CentryptoExtract = async function (source) {
     let previous = 0;
     let partial = false;
     let openedNewest = false;
+    if (xTimeline) {
+        // Chrome can finish navigation several seconds before X mounts any posts.
+        for (let attempt = 0; attempt < 24 && !document.querySelector('[data-testid="tweet"]'); attempt++) {
+            const status = failureStatus();
+            if (status !== "parser_failed") return { status, captures: [] };
+            await new Promise(resolve => setTimeout(resolve, 500));
+        }
+        if (!document.querySelector('[data-testid="tweet"]')) return { status: failureStatus(), captures: [] };
+    }
     if (authenticatedTelegram) {
         // The document load event precedes Telegram's asynchronous chat load.
         for (let attempt = 0; attempt < 40 && !document.querySelector('.Message[data-message-id],.message[data-mid],.bubble[data-mid]'); attempt++) {
@@ -146,9 +158,16 @@ globalThis.CentryptoExtract = async function (source) {
         read();
         if (!captures.size && failureStatus() !== "parser_failed") return { status: failureStatus(), captures: [] };
         const known = [...captures.keys()].filter(id => (source.seenIds || []).includes(id)).length;
-        if (known >= 3 || (step > 0 && known > 0 && known === captures.size)) break;
+        // X can render familiar cards before inserting new posts or reposts.
+        // Sample the initial viewport again before scrolling past it.
+        if (xTimeline && step === 0) {
+            previous = captures.size;
+            await new Promise(resolve => setTimeout(resolve, 1200));
+            continue;
+        }
+        if ((!xTimeline || step >= 3) && (known >= 3 || (step > 0 && known > 0 && known === captures.size))) break;
         if (["article", "rss"].includes(source.adapter)) break;
-        if (step > 1 && captures.size > 0 && captures.size === previous) { partial = (source.seenIds || []).length > 0 && known === 0; break; }
+        if (step > (xTimeline ? 2 : 1) && captures.size > 0 && captures.size === previous) { partial = (source.seenIds || []).length > 0 && known === 0; break; }
         previous = captures.size;
         const telegramList = source.adapter === "telegram" ? document.querySelector("#MiddleColumn .MessageList,.MessageList,.bubbles-inner") : null;
         const scrollable = source.adapter === "discord" ? document.querySelector('[data-list-id="chat-messages"]')?.parentElement : telegramList ? telegramList.scrollHeight > telegramList.clientHeight ? telegramList : telegramList.parentElement : null;
@@ -158,6 +177,6 @@ globalThis.CentryptoExtract = async function (source) {
         await new Promise(resolve => setTimeout(resolve, 900));
     }
     partial ||= missingTelegramDates.size > 0 || captures.size > 200 || dateExclusions > 0 || invalidFeedLinks > 0;
-    if (captures.size || (source.adapter === "rss" && (rssItems > 0 || fetchedFeed))) return { status: partial ? "partial" : "healthy", captures: [...captures.values()].slice(0, 200).map(item => ({ ...item, completeness: partial ? "partial" : item.completeness })), ...(fetchedFeed ? { feedRead: true } : {}), ...(dateExclusions ? { dateExclusions } : {}) };
+    if (captures.size || (source.adapter === "rss" && (rssItems > 0 || fetchedFeed))) return { status: partial ? "partial" : "healthy", captures: [...captures.values()].slice(0, 200).map(item => ({ ...item, completeness: partial ? "partial" : item.completeness })), ...(fetchedFeed ? { feedRead: true } : {}), ...(dateExclusions ? { dateExclusions } : {}), ...(futureDateExclusions ? { futureDateExclusions } : {}) };
     return { status: failureStatus(), captures: [], ...(authenticatedTelegram ? { dateDiagnostic: dateDiagnostic || { header: "[no message dates read]", clock: "" } } : {}) };
 };

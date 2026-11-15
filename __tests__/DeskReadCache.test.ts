@@ -6,7 +6,8 @@ import path from "node:path";
 import { PrismaClient, type DeskBook, type DeskShift } from "@prisma/client";
 import { beforeAll, afterAll, describe, expect, it, vi } from "vitest";
 import { ShiftReads, ShiftObservationBoard } from "@/lib/desk/read-cache";
-import { publicResearchTools } from "@/lib/desk/research";
+import { instrumentResearchTopic, publicResearchTools } from "@/lib/desk/research";
+import { nativeInstruments } from "@/lib/desk/instruments";
 import { bookPublicCache } from "@/lib/desk/public-cache";
 import type { DeskTurn, ToolContext } from "@/lib/desk/runtime";
 import type { DeskTool } from "@/lib/desk/roundtable";
@@ -133,9 +134,62 @@ it("persists only verified public receipts, reuses after restart, invalidates on
     await expect(read(restart, id)).rejects.toThrow(/superseded/);
     expect((await query(restart)).reused).toBe(false);
     expect((await read(restart, id)).reused).toBe(false);
-    now += 16 * 60000;
+    now += 61 * 60000;
     const expired = tools(a);
     await expect(read(expired, id)).rejects.toThrow(/receipt/);
     expect((await query(expired)).reused).toBe(false);
     expect(JSON.stringify(await db.deskPublicCache.findMany())).not.toContain("unseen.example");
+});
+
+it("keeps exact venue identity in searches and reads, rejects namesakes and caches an unresolved lookup across restarts", async () => {
+    let now = Date.now();
+    const book = await newBook("0x-private-identity-test-owner");
+    const item = nativeInstruments(false, [], { tokens: [
+        { index: 0, name: "USDC", szDecimals: 6, tokenId: "0xcash" },
+        { index: 641, name: "MGW", szDecimals: 1, tokenId: "0x3da4372a3031c0f476d1a23dfe2deeee", evmContract: { address: "0xbridge" } },
+    ], universe: [{ index: 497, name: "@497", tokens: [641, 0] }] })[0];
+    let matched = false;
+    const transport = vi.fn(async (turn: DeskTurn, seen: (item: Record<string, unknown>) => void) => {
+        expect(turn.input).toContain("Hyperliquid mainnet");
+        expect(turn.input).toContain(item.tokenId);
+        expect(turn.input).toContain("0xbridge");
+        expect(turn.input).toContain("@497");
+        expect(turn.input).not.toContain(book.ownerAddress);
+        seen({ url });
+        return JSON.stringify({ sources: [{ url, title: matched ? "Token issuer" : "Football contract",
+            finding: "Public claim", publishedAt: null, subjectMatch: matched ? "matched" : "unrelated",
+            identityBasis: matched ? "Issuer identifies the supplied token ID on Hyperliquid" : "Ticker namesake only" }] });
+    });
+    const tools = () => publicResearchTools({ topics: async () => [instrumentResearchTopic(item)], transport,
+        cache: bookPublicCache(db, book, { version: 1, mode: "live" } as DeskShift, () => now), now: () => now });
+    const search = () => call(tools(), "search_public_sources", { topicId: item.id, angle: "official announcement" });
+    expect((await search()).sources).toEqual([]);
+    now += 20 * 60000;
+    expect((await search()).reused).toBe(true);
+    expect(transport).toHaveBeenCalledTimes(1);
+    matched = true;
+    await material(book, 10, "identity-confirmed", [item.id]);
+    const resolved = await search();
+    expect(resolved.reused).toBe(false);
+    expect(resolved.sources).toHaveLength(1);
+    await call(tools(), "read_public_source", { evidenceId: resolved.sources[0].evidenceId });
+    expect(transport).toHaveBeenCalledTimes(3);
+    now += 61 * 60000;
+    await search();
+    expect(transport).toHaveBeenCalledTimes(4);
+});
+
+it("does not cache transport failures and keeps urgent negative searches on a five minute expiry", async () => {
+    let now = Date.now();
+    const book = await newBook("negative-urgent");
+    const transport = vi.fn().mockRejectedValueOnce(Error("offline")).mockResolvedValue('{"sources":[]}');
+    const tools = () => publicResearchTools({ topics: async () => [topic], transport,
+        cache: bookPublicCache(db, book, { version: 1, mode: "live" } as DeskShift, () => now), now: () => now });
+    const search = () => call(tools(), "search_public_sources", { topicId: topic.id, angle: "security and operational status" });
+    await expect(search()).rejects.toThrow("offline");
+    expect((await search()).reused).toBe(false);
+    expect((await search()).reused).toBe(true);
+    now += 5 * 60000;
+    expect((await search()).reused).toBe(false);
+    expect(transport).toHaveBeenCalledTimes(3);
 });

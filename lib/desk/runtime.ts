@@ -9,21 +9,25 @@ import Ajv from "ajv";
 import { codexEnvironment } from "@/lib/llm/codex-runner";
 import type { DeskRole } from "./roles";
 import { beginTokenMeter, deskModel, type UsageKind } from "./token-usage";
+import { turnDeadline } from "./turn-deadline";
 
 export const DESK_CODEX_VERSION = "0.166.0";
 const defaultModel = deskModel;
 const exec = promisify(execFile);
 const schemaValidator = new Ajv({ strict: false, addUsedSchema: false });
 type JsonObject = Record<string, unknown>;
-export type ToolContext = { role: DeskRole; shiftId: string; callId: string; signal: AbortSignal; bookId?: string };
+export type ToolContext = { role: DeskRole; shiftId: string; callId: string; signal: AbortSignal; bookId?: string; invocationId?: string };
 export type DeskTool = {
     name: string;
     description: string;
     inputSchema: JsonObject;
     access: "read" | "journal" | "lead" | "execution";
     run: (args: JsonObject, context: ToolContext) => Promise<unknown>;
+    onValidationError?: (args:unknown,context:ToolContext,error:string)=>Promise<void>;
 };
 export type DeskTurn = {
+    effort?: "low" | "medium";
+    budget?: { inputCharacters: number; outputTokens: number; wallMs: number };
     meter?: { kind: UsageKind; bookId?: string };
     role: DeskRole;
     shiftId: string;
@@ -205,6 +209,11 @@ class AppServerRpc {
     }
 }
 
+export function toolSchemaError(errors: import("ajv").ErrorObject[] | null | undefined) {
+    const details=errors?.slice(0,3).map(e=>`${e.instancePath || "/"}: ${e.message} (${JSON.stringify(e.params)})`).join("; ") || "expected an object";
+    return "Arguments do not match tool schema: "+details.slice(0,420)+". Correct these fields and retry.";
+}
+
 function checkedToolRegistry(tools: DeskTool[]) {
     const registry = new Map<string, { tool: DeskTool; validate: ReturnType<Ajv["compile"]> }>();
     for (const tool of tools) {
@@ -220,6 +229,8 @@ function checkedToolRegistry(tools: DeskTool[]) {
 async function callAppServer(turn: DeskTurn, web?: { seen: (item: JsonObject) => void }): Promise<string> {
     if (turn.signal?.aborted) throw new Error("Desk turn cancelled");
     if (turn.input.length > 200000) throw new Error("Desk brief exceeds 200000 characters");
+    if (turn.budget && (turn.input.length + turn.instructions.length > turn.budget.inputCharacters || turn.tools.length))
+        throw new Error("Bounded inference requires compact input and no tools");
     const registry = checkedToolRegistry(turn.tools);
     await assertDeskProtocolVersion();
     const directory = await mkdtemp(path.join(tmpdir(), "centrypto-desk-"));
@@ -228,7 +239,7 @@ async function callAppServer(turn: DeskTurn, web?: { seen: (item: JsonObject) =>
     let status: "completed" | "failed" | "cancelled" = "failed";
     let turnId: string | undefined;
     let rpc: AppServerRpc | undefined;
-    let timer: ReturnType<typeof setTimeout> | undefined;
+    let deadline: ReturnType<typeof turnDeadline> | undefined;
     const stop = () => rpc?.fail(new Error("Desk turn cancelled"));
     try {
         const child = spawn(binary(), ["app-server", "--stdio", ...secureCliFlags(!!web)], {
@@ -266,14 +277,22 @@ async function callAppServer(turn: DeskTurn, web?: { seen: (item: JsonObject) =>
                     let text: string,
                         success = false;
                     try {
-                        if (!record(p.arguments) || !entry.validate(p.arguments))
-                            throw new Error("Arguments do not match tool schema");
-                        const result = await entry.tool.run(p.arguments, {
-                            role: turn.role,
-                            shiftId: turn.shiftId,
-                            callId: p.callId,
-                            signal: controller.signal,
-                        });
+                        if (!record(p.arguments) || !entry.validate(p.arguments)) {
+                            const error = toolSchemaError(entry.validate.errors);
+                            await entry.tool.onValidationError?.(p.arguments,{role:turn.role,shiftId:turn.shiftId,
+                                callId:turnId+":"+p.callId,signal:controller.signal},error);
+                            throw new Error(error);
+                        }
+                        const resume = deadline!.pause();
+                        let result: unknown;
+                        try {
+                            result = await entry.tool.run(p.arguments, {
+                                role: turn.role,
+                                shiftId: turn.shiftId,
+                                callId: p.callId,
+                                signal: controller.signal,
+                            });
+                        } finally { resume(); }
                         text = deskModelJson(result);
                         if (text.length > 48000)
                             text = JSON.stringify({
@@ -296,7 +315,11 @@ async function callAppServer(turn: DeskTurn, web?: { seen: (item: JsonObject) =>
                 }
                 if (msg.method === "thread/tokenUsage/updated") {
                     if (typeof p.turnId === "string" && (!turnId || p.turnId === turnId)) {
-                        await meter?.snapshot(p.turnId, p.tokenUsage?.total);
+                        await meter?.snapshot(p.turnId, p.tokenUsage?.total).catch(() => {
+                            console.warn("[Trading desk] Token usage write will retry at the next snapshot or finish.");
+                        });
+                        if (turn.budget && Number(p.tokenUsage?.total?.outputTokens) > turn.budget.outputTokens)
+                            throw new Error("Bounded inference output budget exceeded");
                     }
                     return;
                 }
@@ -336,7 +359,8 @@ async function callAppServer(turn: DeskTurn, web?: { seen: (item: JsonObject) =>
                 completed.reject(error);
             },
         );
-        timer = setTimeout(() => rpc!.fail(new Error("Codex desk turn timed out")), web ? 90000 : 210000);
+        deadline = turnDeadline(turn.budget?.wallMs ?? (web ? 90000 : 210000), turn.budget?.wallMs ?? (web ? 90000 : 600000), reason =>
+            rpc!.fail(new Error(reason === "wall" ? "Codex desk turn exceeded its wall-time limit" : "Codex desk turn timed out")));
         turn.signal?.addEventListener("abort", stop, { once: true });
         if (turn.signal?.aborted) stop();
         await rpc.request("initialize", {
@@ -386,7 +410,7 @@ async function callAppServer(turn: DeskTurn, web?: { seen: (item: JsonObject) =>
         });
         const response = await rpc.request("turn/start", {
             threadId,
-            effort: "medium",
+            effort: turn.effort ?? "medium",
             outputSchema: turn.schema,
             input: [{ type: "text", text: turn.input, text_elements: [] }],
         });
@@ -396,12 +420,14 @@ async function callAppServer(turn: DeskTurn, web?: { seen: (item: JsonObject) =>
         status = "completed";
         return result;
     } finally {
-        if (timer) clearTimeout(timer);
+        deadline?.dispose();
         turn.signal?.removeEventListener("abort", stop);
         rpc?.fail(new Error("Desk turn finished"));
         controller.abort();
         try {
-            await meter?.finish(turn.signal?.aborted && status !== "completed" ? "cancelled" : status, turnId);
+            await meter?.finish(turn.signal?.aborted && status !== "completed" ? "cancelled" : status, turnId).catch(() => {
+                console.warn("[Trading desk] Token meter finalization unavailable; recovery will reconcile it.");
+            });
         } finally {
             await rm(directory, { recursive: true, force: true });
         }

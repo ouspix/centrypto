@@ -2,7 +2,7 @@ import "server-only";
 import { privateKeyToAccount } from "viem/accounts";
 import { signL1Action } from "@nktkas/hyperliquid/signing";
 import { getUserHyperliquidApiWalletCredential } from "@/lib/hyperliquid-api-wallet";
-import { hyperliquidInfoUrl } from "@/lib/hyperliquid-info";
+import { getActiveAssetLeverage, hyperliquidInfoUrl } from "@/lib/hyperliquid-info";
 import { quoteUsdRates, listInstruments } from "./instruments";
 import {
     finite,
@@ -15,6 +15,7 @@ import {
 } from "./execution-types";
 import type { DeskBook } from "@prisma/client";
 import type { DeskInstrument } from "./instruments";
+import { exchangeHttpError } from "./exchange-error";
 
 async function post<T>(book: DeskBook, endpoint: "info" | "exchange", payload: unknown): Promise<T> {
     // No stale cache or automatic retry on the execution path, especially after a timeout.
@@ -26,7 +27,10 @@ async function post<T>(book: DeskBook, endpoint: "info" | "exchange", payload: u
         body: JSON.stringify(payload),
         signal: AbortSignal.timeout(8000),
     });
-    if (!res.ok) throw new Error(`Exchange ${endpoint} HTTP ${res.status}`);
+    if (!res.ok) {
+        const body = await res.text().catch(() => "Response body unavailable");
+        throw exchangeHttpError(endpoint, res.status, body);
+    }
     return res.json() as Promise<T>;
 }
 
@@ -114,6 +118,7 @@ async function account(book: DeskBook, instruments: DeskInstrument[]): Promise<D
 
 export const hyperliquidDeskVenue: DeskVenue = {
     instruments: listInstruments,
+    orderLeverage: (book, coin) => getActiveAssetLeverage(book.accountAddress, coin, book.isTestnet),
     account,
     book: (b, i) => post(b, "info", { type: "l2Book", coin: i.coin }),
     fills: (b, s, e) => history<ExchangeFill>(b, "userFillsByTime", s, e),
@@ -121,11 +126,13 @@ export const hyperliquidDeskVenue: DeskVenue = {
     async status(b, oid) {
         const r = await post<{
             status: string;
-            order?: { order: { oid: number; cloid?: string | null }; status: string };
+            order?: { order: { oid: number; cloid?: string | null; coin:string; side:"B"|"A";origSz:string;sz:string }; status: string;statusTimestamp:number };
         }>(b, "info", { type: "orderStatus", user: b.accountAddress, oid });
         if (r.status === "unknownOid") return null;
         if (r.status !== "order" || !r.order?.order?.oid) throw new Error("Invalid exchange order status");
-        return { oid: String(r.order.order.oid), status: r.order.status, cloid: r.order.order.cloid };
+        const order=r.order.order;
+        return { oid: String(order.oid), status: r.order.status, cloid: order.cloid,coin:order.coin,side:order.side,
+            originalQuantity:finite(order.origSz,"order original quantity"),remainingQuantity:finite(order.sz,"order remaining quantity"),statusTimestamp:finite(r.order.statusTimestamp,"order status timestamp") };
     },
     async write(book, action, nonce, authorize, onDispatch) {
         if (!["order", "cancelByCloid", "scheduleCancel"].includes(action.type))

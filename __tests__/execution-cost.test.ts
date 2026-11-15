@@ -102,7 +102,6 @@ function enrichedCandidate(input: {
             cost_bps: 0,
             depth_bands_usd: { bid: {}, ask: {} }
         },
-        sentiment: { score: 0, mentions_vs_baseline: 0, disagreement: 0, change_2h: 0 },
         isTestnet: true
     };
 }
@@ -128,6 +127,5 @@ function marketEntry(input: {
         atr_pct: { m5: 0.01, h1: 0.02 },
         funding: { current_8h: 0 },
         open_interest: { current: 1_000_000 },
-        sentiment: { score: 0, mentionsVsBaseline: 0, disagreement: 0, change2h: 0 }
     };
 }

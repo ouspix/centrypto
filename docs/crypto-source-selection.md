@@ -81,8 +81,7 @@ listings, KRW premiums and regional restrictions need distinct interpretation.
 
 `config/news-sources.json` records URLs, priorities, language, region, publisher,
 rationale, provenance and bounded RSS policy. Runtime source rows remain editable
-in Centrypto. New public sources stay wallet-scoped; public sentiment APIs do not
-read this database.
+in Centrypto. New public sources stay account-scoped; authenticated services enforce access to this database.
 
 Run `DOTENV_CONFIG_PATH=.env.local tsx -r dotenv/config
 scripts/configure_news_sources.ts` to inspect missing entries, then append

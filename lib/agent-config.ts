@@ -1,5 +1,3 @@
-import { mergePositionManagementConfig } from "@/lib/trader/position-management-policy";
-import type { PositionManagementConfig } from "@/lib/trader/position-management-types";
 import {
     DEFAULT_CANDIDATE_PROMOTION_CONFIG,
     normalizeCandidatePromotionConfig,
@@ -146,8 +144,6 @@ export interface AgentConfig {
         };
     };
 
-    position_management: PositionManagementConfig;
-
     gates: {
         depth_usd_min: number;
         cost_bps_max_by_regime: {
@@ -161,12 +157,6 @@ export interface AgentConfig {
             CHOP: number;
         };
         per_symbol_cost_override?: Record<string, number>;
-    };
-
-    sentiment_policy: {
-        tag_blocklist: string[];
-        penalty_multipliers: Record<string, number>;
-        decay_windows: Record<string, number>;
     };
 
     opportunity?: {
@@ -327,12 +317,6 @@ const MANAGEMENT_POLICY: AgentConfig["management_policy"] = {
     }
 };
 
-const SENTIMENT_POLICY: AgentConfig["sentiment_policy"] = {
-    tag_blocklist: ["hack", "exploit", "sec_enforcement", "outage"],
-    penalty_multipliers: { negative_news: 0.5, hype: 1.2 },
-    decay_windows: { hack: 86400, generic: 3600 }
-};
-
 const OPPORTUNITY_POLICY: NonNullable<AgentConfig["opportunity"]> = {
     enabled: true,
     minInPlayScore: 60,
@@ -427,393 +411,6 @@ const BALANCED_PM_RISK_PLAN_MODEL: AgentConfig["risk_plan_model"] = {
     }
 };
 
-const BALANCED_PM_POSITION_MANAGEMENT: PositionManagementConfig = enablePositionRepair({
-    enabled: true,
-    version: "pm-v2-balanced-20260527",
-    global: {
-        minAgeBeforeManagementMinutes: 2,
-        emergencyMaxLossBps: 100,
-        liquidationDistanceMinPct: 8,
-        estimatedRoundTripFeeBps: 10,
-        exitFeeBufferBps: 7,
-        breakevenProfitBufferBps: 4,
-        minSecondsBetweenActionsPerPosition: 60,
-        blockNewEntriesWhenUrgentExit: true,
-        blockNewEntriesWhenPortfolioDrawdown: true,
-        staleOrderToleranceBps: 10,
-        staleOrderMaxAgeMinutes: 10
-    },
-    policies: {
-        meanReversion: {
-            DEFAULT: {
-                enabled: true,
-                minAgeBeforeManagementMinutes: 2,
-                discoveryTimeStopMinutes: 10,
-                profitableTimeStopMinutes: 18,
-                protectAfterMfeBps: 18,
-                breakevenBufferBps: 6,
-                partialTakeProfitAfterMfeBps: 35,
-                partialCloseFraction: 0.65,
-                trailingActivationMfeBps: 50,
-                trailingDistanceBps: 20,
-                maxGivebackPct: 40,
-                hardStopBps: 70,
-                maxAllowedTakeProfitBps: 90,
-                maxAllowedStopLossBps: 60,
-                allowRunner: false,
-                closeOnThesisInvalidation: true,
-                closeOnRegimeConflict: true,
-                repairMissingStop: false,
-                repairStaleTakeProfit: false
-            },
-            CHOP: {
-                enabled: true,
-                minAgeBeforeManagementMinutes: 2,
-                discoveryTimeStopMinutes: 8,
-                profitableTimeStopMinutes: 15,
-                protectAfterMfeBps: 15,
-                breakevenBufferBps: 6,
-                partialTakeProfitAfterMfeBps: 28,
-                partialCloseFraction: 0.7,
-                trailingActivationMfeBps: 45,
-                trailingDistanceBps: 18,
-                maxGivebackPct: 35,
-                hardStopBps: 60,
-                maxAllowedTakeProfitBps: 80,
-                maxAllowedStopLossBps: 50,
-                allowRunner: false,
-                closeOnThesisInvalidation: true,
-                closeOnRegimeConflict: true,
-                repairMissingStop: false,
-                repairStaleTakeProfit: false
-            },
-            RISK_ON: {
-                enabled: true,
-                minAgeBeforeManagementMinutes: 2,
-                discoveryTimeStopMinutes: 10,
-                profitableTimeStopMinutes: 18,
-                protectAfterMfeBps: 18,
-                breakevenBufferBps: 6,
-                partialTakeProfitAfterMfeBps: 35,
-                partialCloseFraction: 0.65,
-                trailingActivationMfeBps: 50,
-                trailingDistanceBps: 20,
-                maxGivebackPct: 40,
-                hardStopBps: 70,
-                maxAllowedTakeProfitBps: 110,
-                maxAllowedStopLossBps: 70,
-                allowRunner: false,
-                closeOnThesisInvalidation: true,
-                closeOnRegimeConflict: true,
-                repairMissingStop: false,
-                repairStaleTakeProfit: false
-            },
-            RISK_OFF: {
-                enabled: true,
-                minAgeBeforeManagementMinutes: 2,
-                discoveryTimeStopMinutes: 6,
-                profitableTimeStopMinutes: 12,
-                protectAfterMfeBps: 15,
-                breakevenBufferBps: 6,
-                partialTakeProfitAfterMfeBps: 28,
-                partialCloseFraction: 0.8,
-                trailingActivationMfeBps: 45,
-                trailingDistanceBps: 15,
-                maxGivebackPct: 35,
-                hardStopBps: 50,
-                maxAllowedTakeProfitBps: 80,
-                maxAllowedStopLossBps: 50,
-                allowRunner: false,
-                closeOnThesisInvalidation: true,
-                closeOnRegimeConflict: true,
-                repairMissingStop: false,
-                repairStaleTakeProfit: false
-            }
-        },
-        momentum: {
-            DEFAULT: {
-                enabled: true,
-                minAgeBeforeManagementMinutes: 3,
-                discoveryTimeStopMinutes: 25,
-                profitableTimeStopMinutes: 45,
-                protectAfterMfeBps: 25,
-                breakevenBufferBps: 7,
-                partialTakeProfitAfterMfeBps: 50,
-                partialCloseFraction: 0.4,
-                trailingActivationMfeBps: 70,
-                trailingDistanceBps: 30,
-                maxGivebackPct: 50,
-                hardStopBps: 110,
-                maxAllowedTakeProfitBps: 180,
-                maxAllowedStopLossBps: 100,
-                allowRunner: true,
-                closeOnThesisInvalidation: true,
-                closeOnRegimeConflict: true,
-                repairMissingStop: false,
-                repairStaleTakeProfit: false
-            },
-            CHOP: {
-                enabled: true,
-                minAgeBeforeManagementMinutes: 3,
-                discoveryTimeStopMinutes: 12,
-                profitableTimeStopMinutes: 22,
-                protectAfterMfeBps: 20,
-                breakevenBufferBps: 7,
-                partialTakeProfitAfterMfeBps: 40,
-                partialCloseFraction: 0.6,
-                trailingActivationMfeBps: 60,
-                trailingDistanceBps: 22,
-                maxGivebackPct: 42,
-                hardStopBps: 80,
-                maxAllowedTakeProfitBps: 120,
-                maxAllowedStopLossBps: 80,
-                allowRunner: false,
-                closeOnThesisInvalidation: true,
-                closeOnRegimeConflict: true,
-                repairMissingStop: false,
-                repairStaleTakeProfit: false
-            },
-            RISK_ON: {
-                enabled: true,
-                minAgeBeforeManagementMinutes: 3,
-                discoveryTimeStopMinutes: 25,
-                profitableTimeStopMinutes: 45,
-                protectAfterMfeBps: 25,
-                breakevenBufferBps: 7,
-                partialTakeProfitAfterMfeBps: 50,
-                partialCloseFraction: 0.4,
-                trailingActivationMfeBps: 75,
-                trailingDistanceBps: 30,
-                maxGivebackPct: 50,
-                hardStopBps: 120,
-                maxAllowedTakeProfitBps: 220,
-                maxAllowedStopLossBps: 120,
-                allowRunner: true,
-                closeOnThesisInvalidation: true,
-                closeOnRegimeConflict: false,
-                repairMissingStop: false,
-                repairStaleTakeProfit: false
-            },
-            RISK_OFF: {
-                enabled: true,
-                minAgeBeforeManagementMinutes: 3,
-                discoveryTimeStopMinutes: 20,
-                profitableTimeStopMinutes: 35,
-                protectAfterMfeBps: 20,
-                breakevenBufferBps: 7,
-                partialTakeProfitAfterMfeBps: 45,
-                partialCloseFraction: 0.5,
-                trailingActivationMfeBps: 65,
-                trailingDistanceBps: 28,
-                maxGivebackPct: 45,
-                hardStopBps: 100,
-                maxAllowedTakeProfitBps: 180,
-                maxAllowedStopLossBps: 100,
-                allowRunner: true,
-                closeOnThesisInvalidation: true,
-                closeOnRegimeConflict: true,
-                repairMissingStop: false,
-                repairStaleTakeProfit: false
-            }
-        },
-        breakout: {
-            DEFAULT: {
-                enabled: true,
-                minAgeBeforeManagementMinutes: 2,
-                discoveryTimeStopMinutes: 15,
-                profitableTimeStopMinutes: 35,
-                protectAfterMfeBps: 25,
-                breakevenBufferBps: 7,
-                partialTakeProfitAfterMfeBps: 50,
-                partialCloseFraction: 0.5,
-                trailingActivationMfeBps: 75,
-                trailingDistanceBps: 30,
-                maxGivebackPct: 45,
-                hardStopBps: 100,
-                maxAllowedTakeProfitBps: 180,
-                maxAllowedStopLossBps: 100,
-                allowRunner: true,
-                closeOnThesisInvalidation: true,
-                closeOnRegimeConflict: true,
-                repairMissingStop: false,
-                repairStaleTakeProfit: false
-            },
-            CHOP: {
-                enabled: true,
-                minAgeBeforeManagementMinutes: 2,
-                discoveryTimeStopMinutes: 10,
-                profitableTimeStopMinutes: 20,
-                protectAfterMfeBps: 20,
-                breakevenBufferBps: 7,
-                partialTakeProfitAfterMfeBps: 40,
-                partialCloseFraction: 0.6,
-                trailingActivationMfeBps: 60,
-                trailingDistanceBps: 22,
-                maxGivebackPct: 40,
-                hardStopBps: 80,
-                maxAllowedTakeProfitBps: 120,
-                maxAllowedStopLossBps: 80,
-                allowRunner: false,
-                closeOnThesisInvalidation: true,
-                closeOnRegimeConflict: true,
-                repairMissingStop: false,
-                repairStaleTakeProfit: false
-            },
-            RISK_ON: {
-                enabled: true,
-                minAgeBeforeManagementMinutes: 2,
-                discoveryTimeStopMinutes: 15,
-                profitableTimeStopMinutes: 35,
-                protectAfterMfeBps: 25,
-                breakevenBufferBps: 7,
-                partialTakeProfitAfterMfeBps: 50,
-                partialCloseFraction: 0.5,
-                trailingActivationMfeBps: 75,
-                trailingDistanceBps: 30,
-                maxGivebackPct: 45,
-                hardStopBps: 100,
-                maxAllowedTakeProfitBps: 220,
-                maxAllowedStopLossBps: 120,
-                allowRunner: true,
-                closeOnThesisInvalidation: true,
-                closeOnRegimeConflict: false,
-                repairMissingStop: false,
-                repairStaleTakeProfit: false
-            },
-            RISK_OFF: {
-                enabled: true,
-                minAgeBeforeManagementMinutes: 2,
-                discoveryTimeStopMinutes: 12,
-                profitableTimeStopMinutes: 30,
-                protectAfterMfeBps: 22,
-                breakevenBufferBps: 7,
-                partialTakeProfitAfterMfeBps: 45,
-                partialCloseFraction: 0.55,
-                trailingActivationMfeBps: 65,
-                trailingDistanceBps: 25,
-                maxGivebackPct: 42,
-                hardStopBps: 90,
-                maxAllowedTakeProfitBps: 180,
-                maxAllowedStopLossBps: 100,
-                allowRunner: true,
-                closeOnThesisInvalidation: true,
-                closeOnRegimeConflict: true,
-                repairMissingStop: false,
-                repairStaleTakeProfit: false
-            }
-        },
-        unknown: {
-            DEFAULT: {
-                enabled: true,
-                minAgeBeforeManagementMinutes: 2,
-                discoveryTimeStopMinutes: 12,
-                profitableTimeStopMinutes: 20,
-                protectAfterMfeBps: 18,
-                breakevenBufferBps: 7,
-                partialTakeProfitAfterMfeBps: 40,
-                partialCloseFraction: 0.6,
-                trailingActivationMfeBps: 60,
-                trailingDistanceBps: 25,
-                maxGivebackPct: 40,
-                hardStopBps: 80,
-                maxAllowedTakeProfitBps: 120,
-                maxAllowedStopLossBps: 80,
-                allowRunner: false,
-                closeOnThesisInvalidation: true,
-                closeOnRegimeConflict: true,
-                repairMissingStop: false,
-                repairStaleTakeProfit: false
-            },
-            CHOP: {
-                enabled: true,
-                minAgeBeforeManagementMinutes: 2,
-                discoveryTimeStopMinutes: 10,
-                profitableTimeStopMinutes: 18,
-                protectAfterMfeBps: 18,
-                breakevenBufferBps: 7,
-                partialTakeProfitAfterMfeBps: 35,
-                partialCloseFraction: 0.7,
-                trailingActivationMfeBps: 50,
-                trailingDistanceBps: 20,
-                maxGivebackPct: 40,
-                hardStopBps: 70,
-                maxAllowedTakeProfitBps: 100,
-                maxAllowedStopLossBps: 70,
-                allowRunner: false,
-                closeOnThesisInvalidation: true,
-                closeOnRegimeConflict: true,
-                repairMissingStop: false,
-                repairStaleTakeProfit: false
-            },
-            RISK_ON: {
-                enabled: true,
-                minAgeBeforeManagementMinutes: 2,
-                discoveryTimeStopMinutes: 12,
-                profitableTimeStopMinutes: 20,
-                protectAfterMfeBps: 20,
-                breakevenBufferBps: 7,
-                partialTakeProfitAfterMfeBps: 40,
-                partialCloseFraction: 0.6,
-                trailingActivationMfeBps: 60,
-                trailingDistanceBps: 25,
-                maxGivebackPct: 45,
-                hardStopBps: 80,
-                maxAllowedTakeProfitBps: 140,
-                maxAllowedStopLossBps: 80,
-                allowRunner: false,
-                closeOnThesisInvalidation: true,
-                closeOnRegimeConflict: true,
-                repairMissingStop: false,
-                repairStaleTakeProfit: false
-            },
-            RISK_OFF: {
-                enabled: true,
-                minAgeBeforeManagementMinutes: 2,
-                discoveryTimeStopMinutes: 10,
-                profitableTimeStopMinutes: 18,
-                protectAfterMfeBps: 18,
-                breakevenBufferBps: 7,
-                partialTakeProfitAfterMfeBps: 35,
-                partialCloseFraction: 0.7,
-                trailingActivationMfeBps: 50,
-                trailingDistanceBps: 20,
-                maxGivebackPct: 40,
-                hardStopBps: 70,
-                maxAllowedTakeProfitBps: 100,
-                maxAllowedStopLossBps: 70,
-                allowRunner: false,
-                closeOnThesisInvalidation: true,
-                closeOnRegimeConflict: true,
-                repairMissingStop: false,
-                repairStaleTakeProfit: false
-            }
-        }
-    }
-});
-
-function enablePositionRepair(config: PositionManagementConfig): PositionManagementConfig {
-    const patchedPolicies = Object.fromEntries(
-        Object.entries(config.policies).map(([playbook, regimes]) => [
-            playbook,
-            Object.fromEntries(
-                Object.entries(regimes).map(([regime, policy]) => [
-                    regime,
-                    {
-                        ...policy,
-                        repairMissingStop: true,
-                        repairStaleTakeProfit: true
-                    }
-                ])
-            )
-        ])
-    ) as PositionManagementConfig["policies"];
-
-    return {
-        ...config,
-        policies: patchedPolicies
-    };
-}
-
 function baseRisk(): AgentConfig["risk"] {
     return {
         max_positions: 5,
@@ -849,10 +446,8 @@ function preset(input: {
     risk_plan_model?: Partial<AgentConfig["risk_plan_model"]>;
     strategy_filters?: Partial<AgentConfig["strategy_filters"]>;
     trade_cooldowns?: Partial<AgentConfig["trade_cooldowns"]>;
-    position_management?: Partial<PositionManagementConfig>;
     regime?: Partial<AgentConfig["regime"]>;
     management_policy?: Partial<AgentConfig["management_policy"]>;
-    sentiment_policy?: Partial<AgentConfig["sentiment_policy"]>;
     gates?: Partial<AgentConfig["gates"]>;
     opportunity?: Partial<NonNullable<AgentConfig["opportunity"]>>;
     candidate_promotion?: Partial<CandidatePromotionConfig>;
@@ -938,7 +533,6 @@ function preset(input: {
                 }
             }
         },
-        position_management: mergePositionManagementConfig(input.position_management),
         gates: {
             ...defaultGates,
             ...input.gates,
@@ -951,19 +545,6 @@ function preset(input: {
                 ...input.gates?.edge_to_cost_mult_by_regime
             },
             per_symbol_cost_override: input.gates?.per_symbol_cost_override ?? defaultGates.per_symbol_cost_override
-        },
-        sentiment_policy: {
-            ...SENTIMENT_POLICY,
-            ...input.sentiment_policy,
-            tag_blocklist: input.sentiment_policy?.tag_blocklist ?? SENTIMENT_POLICY.tag_blocklist,
-            penalty_multipliers: {
-                ...SENTIMENT_POLICY.penalty_multipliers,
-                ...input.sentiment_policy?.penalty_multipliers
-            },
-            decay_windows: {
-                ...SENTIMENT_POLICY.decay_windows,
-                ...input.sentiment_policy?.decay_windows
-            }
         },
         opportunity: {
             ...OPPORTUNITY_POLICY,
@@ -1105,7 +686,6 @@ export const AGENT_PRESETS: Record<string, AgentConfig> = {
                 { symbol: "TAO-PERP", side: "long" }
             ]
         },
-        position_management: BALANCED_PM_POSITION_MANAGEMENT,
         correlation: {
             corr_gt_050_multiplier: 0.65,
             corr_gt_070_multiplier: 0.4,
@@ -1152,17 +732,6 @@ export const AGENT_PRESETS: Record<string, AgentConfig> = {
             edge_to_cost_mult_by_regime: { RISK_ON: 4.2, RISK_OFF: 5.5, CHOP: 4.8 },
             per_symbol_cost_override: {}
         },
-        sentiment_policy: {
-            tag_blocklist: ["hack", "exploit", "sec_enforcement", "outage"],
-            penalty_multipliers: {
-                negative_news: 0.5,
-                hype: 1.0
-            },
-            decay_windows: {
-                hack: 86400,
-                generic: 3600
-            }
-        }
     }),
     optimized: preset({
         name: "optimized",

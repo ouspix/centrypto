@@ -140,7 +140,6 @@ function candidate(symbol: string, overrides: {
             cost_bps: 0,
             depth_bands_usd: { bid: {}, ask: {} }
         },
-        sentiment: { score: 0, mentions_vs_baseline: 0, disagreement: 0, change_2h: 0 },
         isTestnet: true
     };
 }

@@ -17,6 +17,8 @@ type RequestOptions = {
 const DEFAULT_MIN_DELAY_MS: Record<string, number> = {
     "hl:info:meta": 250,
     "hl:info:metaAndAssetCtxs": 350,
+    "hl:info:deskAssetCtxs": 350,
+    "hl:info:fundingHistory": 500,
     "hl:info:clearinghouseState": 250,
     "hl:info:spotClearinghouseState": 250,
     "hl:info:allMids": 250,
@@ -53,7 +55,7 @@ export async function waitForHyperliquidSlot(bucket: string = "hl:info:metaAndAs
 }
 
 export async function hyperliquidInfoPost<T>(
-    bucket: "hl:info:deskMeta" | "hl:info:spotMeta" | "hl:info:meta" | "hl:info:metaAndAssetCtxs" | "hl:info:clearinghouseState" | "hl:info:spotClearinghouseState" | "hl:info:allMids" | "hl:info:userFills" | "hl:info:userFillsByTime" | "hl:info:openOrders" | "hl:info:frontendOpenOrders" | "hl:info:orderStatus" | "hl:info:candleSnapshot" | "hl:info:l2Book" | "hl:info:extraAgents",
+    bucket: "hl:info:deskAssetCtxs" | "hl:info:fundingHistory" | "hl:info:deskMeta" | "hl:info:spotMeta" | "hl:info:meta" | "hl:info:metaAndAssetCtxs" | "hl:info:clearinghouseState" | "hl:info:spotClearinghouseState" | "hl:info:allMids" | "hl:info:userFills" | "hl:info:userFillsByTime" | "hl:info:openOrders" | "hl:info:frontendOpenOrders" | "hl:info:orderStatus" | "hl:info:candleSnapshot" | "hl:info:l2Book" | "hl:info:extraAgents",
     apiUrl: string,
     body: unknown,
     options: RequestOptions = {}
@@ -131,6 +133,9 @@ async function fetchWithRateLimit<T>(
     while (true) {
         const response = await enqueue(bucket, () => fetch(apiUrl, {
             method: "POST",
+            // This module owns freshness; Next's persistent fetch cache must not
+            // turn a successful refresh into another copy of an old balance.
+            cache: "no-store",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
         }));

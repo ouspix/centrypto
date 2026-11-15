@@ -6,9 +6,10 @@ import { CollectorSource, NewsCapture, NewsContext, NewsSignal } from "@/types/n
 import { CodexQueueService } from "@/services/CodexQueueService";
 import { newsOutputSchema } from "@/lib/llm/schemas";
 import { prepareModelRequest } from "@/lib/llm/provider";
+import { batchReady, exactPublication, retryDelay, urgentNews } from "@/lib/news/analysis-batch";
 import { NEWS_ANALYST_PROMPT } from "@/prompts/NewsAnalyst";
-import { listInstruments } from "@/lib/desk/instruments";
-import { buildRevision, legacySymbolMatch, type RevisionDetails } from "@/lib/news/desk-routing";
+import { listInstruments, nativePerpBase } from "@/lib/desk/instruments";
+import { assetNewsMatch, buildRevision, legacySymbolMatch, type RevisionDetails } from "@/lib/news/desk-routing";
 import fs from "fs/promises";
 import path from "path";
 import { sourceProfile, SourceProfile } from "@/lib/news/source-catalog";
@@ -19,6 +20,10 @@ const owner = (address: string) => address.toLowerCase();
 const json = <T>(value: string, fallback: T): T => { try { return JSON.parse(value); } catch { return fallback; } };
 const unavailable = (asOf: Date): NewsContext => ({ status: "unavailable", briefingId: null, availableAt: null, asOf: asOf.toISOString(), summary: "News intelligence is unavailable.", signals: [], coverage: { configured: 0, healthy: 0, pendingDocuments: 0, gaps: [] } });
 
+function assetNewsSymbols(symbols: string[]) {
+    const coins = symbols.map(symbol => symbol.trim().replace(/-PERP$/i, "")).filter(Boolean);
+    return new Set(coins.flatMap(coin => [coin.toUpperCase(), nativePerpBase(coin).toUpperCase()]));
+}
 
 export class NewsIntelligenceService {
     async traderContext(symbols: string[], asOf: Date): Promise<NewsContext | null> {
@@ -44,7 +49,7 @@ export class NewsIntelligenceService {
         return this.briefing(address, symbols, asOf);
     }
     async seedSources(address: string) {
-        const feeds: Array<{ name: string; url: string; disabled?: boolean }> = JSON.parse(await fs.readFile(path.join(process.cwd(), "config/feeds.json"), "utf8"));
+        const feeds: Array<{ name: string; url: string; disabled?: boolean }> = JSON.parse(await fs.readFile(path.join(process.cwd(), "config/news-rss-sources.json"), "utf8"));
         const existing = new Set((await this.sources(address)).map(source => source.url));
         let created = 0;
         for (const feed of feeds.filter(feed => !feed.disabled && feed.url.startsWith("https://"))) {
@@ -110,6 +115,24 @@ export class NewsIntelligenceService {
     }
 
     async briefing(address: string, symbols?: string[], asOf = new Date(), healthySourcesOnly = false): Promise<NewsContext> {
+        const allowed = symbols ? new Set(symbols.map(symbol => symbol.replace(/-PERP$/, ""))) : undefined;
+        return this.readBriefing(address, asOf, signal => legacySymbolMatch(signal, allowed), healthySourcesOnly ? { symbols: allowed } : undefined);
+    }
+
+    async assetBriefing(address: string, symbols: string[], asOf = new Date()): Promise<NewsContext> {
+        const allowed = assetNewsSymbols(symbols);
+        return this.readBriefing(address, asOf, signal => assetNewsMatch(signal, allowed));
+    }
+
+    async marketBriefing(address: string, asOf = new Date()) {
+        return this.readBriefing(address, asOf, marketNewsMatch, { match: marketNewsMatch });
+    }
+
+    async catalystBriefing(address: string, asOf = new Date()) {
+        return this.readBriefing(address, asOf, catalystNewsMatch, { match: catalystNewsMatch });
+    }
+
+    private async readBriefing(address: string, asOf: Date, matches: (signal: NewsSignal) => boolean, healthySources?: { symbols?: Set<string>; match?: (signal: NewsSignal) => boolean }): Promise<NewsContext> {
         const ownerAddress = owner(address);
         try {
             const [sources, pending, rejected, briefing] = await Promise.all([
@@ -123,9 +146,8 @@ export class NewsIntelligenceService {
             const healthy = healthyIds.size;
             const gaps = active.filter(source => !healthyIds.has(source.id)).map(source => `${source.name}: ${source.status === "healthy" ? "outside freshness window" : source.status}`);
             const context: NewsContext = { status: !active.length ? "no_sources" : healthy < active.length ? "incomplete" : pending ? "pending" : rejected ? "unavailable" : briefing ? "healthy" : "unavailable", briefingId: briefing?.id ?? null, availableAt: briefing?.availableAt.toISOString() ?? null, asOf: asOf.toISOString(), summary: briefing?.summary ?? (!active.length ? "Configure sources to start automatic news collection." : pending ? "New evidence is waiting for local Luna analysis." : "No analyzed briefing is available."), signals: [], coverage: { configured: active.length, healthy, pendingDocuments: pending, rejectedDocuments: rejected, gaps } };
-            const allowed = symbols ? new Set(symbols.map(symbol => symbol.replace(/-PERP$/, ""))) : undefined;
-            if (briefing && healthySourcesOnly) {
-                context.signals = await this.healthyTraderSignals(ownerAddress, healthyIds, allowed, briefing.availableAt, asOf);
+            if (briefing && healthySources) {
+                context.signals = await this.healthyTraderSignals(ownerAddress, healthyIds, healthySources.symbols, briefing.availableAt, asOf, healthySources.match);
                 // The stored prose summarizes the entire batch, including sources excluded from trading.
                 context.summary = `Signals cite only healthy sources. ${healthy} of ${active.length} configured sources are healthy.`;
             } else if (briefing) {
@@ -137,23 +159,23 @@ export class NewsIntelligenceService {
                     select: { signalJson: true }
                 });
                 context.signals = events.map(event => JSON.parse(event.signalJson) as NewsSignal)
-                    .filter(signal => new Date(signal.expiresAt) > asOf && legacySymbolMatch(signal, allowed))
+                    .filter(signal => new Date(signal.expiresAt) > asOf && matches(signal))
                     .slice(0, 30);
             }
             return context;
         } catch { return unavailable(asOf); }
     }
 
-    private async healthyTraderSignals(ownerAddress: string, healthyIds: Set<string>, symbols: Set<string> | undefined, availableAt: Date, asOf: Date) {
+    private async healthyTraderSignals(ownerAddress: string, healthyIds: Set<string>, symbols: Set<string> | undefined, availableAt: Date, asOf: Date, matches = (signal: NewsSignal) => legacySymbolMatch(signal, symbols)) {
         if (!healthyIds.size) return [];
         // Apply the briefing's 30-signal budget after checking symbols and sources.
         const events = await newsDb.newsEvent.findMany({
             where: { ownerAddress, availableAt: { lte: availableAt }, expiresAt: { gt: asOf } },
             orderBy: [{ availableAt: "desc" }, { id: "asc" }],
-            select: { signalJson: true }
+            select: { signalJson: true, availableAt: true }
         });
-        const candidates = events.map(event => JSON.parse(event.signalJson) as NewsSignal)
-            .filter(signal => legacySymbolMatch(signal, symbols) && signal.evidenceIds.length > 0);
+        const candidates = events.map(event => ({ ...(JSON.parse(event.signalJson) as NewsSignal), eventAvailableAt: event.availableAt?.toISOString() ?? availableAt.toISOString() }))
+            .filter(signal => matches(signal) && signal.evidenceIds.length > 0);
         const ids = [...new Set(candidates.flatMap(signal => signal.evidenceIds))];
         if (!ids.length) return [];
         const documents = await newsDb.newsDocument.findMany({
@@ -173,6 +195,32 @@ export class NewsIntelligenceService {
         return rows.map(row => ({ id: row.id, availableAt: row.availableAt, expiresAt: row.expiresAt, ...json<Record<string, unknown>>(row.signalJson, {}) }));
     }
 
+    async assetEvents(address: string, symbols: string[], limit = 10) {
+        const allowed = assetNewsSymbols(symbols);
+        const events: NewsSignal[] = [];
+        let cursor: string | undefined;
+        const pageSize = 100;
+        while (allowed.size && events.length < limit) {
+            const rows = await newsDb.newsEvent.findMany({
+                where: { ownerAddress: owner(address), OR: [...allowed].map(symbol => ({
+                    signalJson: { contains: JSON.stringify(symbol), mode: "insensitive" }
+                })) },
+                orderBy: [{ availableAt: "desc" }, { id: "asc" }],
+                select: { id: true, signalJson: true },
+                take: pageSize,
+                ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {})
+            });
+            for (const row of rows) {
+                const signal = json<NewsSignal | null>(row.signalJson, null);
+                if (signal && assetNewsMatch(signal, allowed)) events.push(signal);
+                if (events.length === limit) break;
+            }
+            if (rows.length < pageSize) break;
+            cursor = rows[rows.length - 1].id;
+        }
+        return events;
+    }
+
     async evidence(address: string, ids: string[]) {
         return newsDb.newsDocument.findMany({ where: { ownerAddress: owner(address), id: { in: ids.slice(0, 100) } }, select: { id: true, sourceId: true, canonicalUrl: true, author: true, publishedAt: true, collectedAt: true, text: true, completeness: true, source: { select: { name: true, isPrivate: true } } } });
     }
@@ -187,21 +235,49 @@ export class NewsIntelligenceService {
         if (existing) return false;
         const pending = await newsDb.newsDocument.findMany({ where: { ownerAddress, status: "pending" }, include: { source: true }, orderBy: [{ source: { priority: "desc" } }, { availableAt: "asc" }], take: 200 });
         if (!pending.length) return false;
-        const highPriority = pending.some(doc => doc.source.priority === 1);
-        const last = await newsDb.newsAnalysis.findFirst({ where: { ownerAddress }, orderBy: { availableAt: "desc" } });
-        if (last && Date.now() - last.availableAt.getTime() < (highPriority ? 60_000 : 300_000)) return false;
+        const recent = await prisma.codexJob.findMany({
+            where: { ownerAddress, purpose: "news" }, orderBy: { createdAt: "desc" }, take: 4,
+            select: { status: true, errorCode: true, finishedAt: true }
+        });
+        if (recent[0]?.finishedAt && Date.now() - recent[0].finishedAt.getTime() < retryDelay(recent)) return false;
+        const prior = await newsDb.newsDocument.findMany({
+            where: { ownerAddress, status: "analyzed", analysisJobId: { not: null },
+                availableAt: { gte: new Date(Date.now() - DAY) }, storyHash: { in: [...new Set(pending.map(doc => doc.storyHash))] } },
+            select: { sourceId: true, publishedAt: true, author: true, revisionHash: true, completeness: true, mediaLinksJson: true, analysisJobId: true }
+        });
+        const completed = new Map(prior.map(doc => [exactPublication(doc), doc.analysisJobId]));
+        const fresh = [];
+        const copies = new Map<string, string[]>();
+        for (const doc of pending) {
+            const key = exactPublication(doc);
+            const jobId = key && completed.get(key);
+            if (jobId) {
+                const ids = copies.get(jobId) ?? [];
+                ids.push(doc.id);
+                copies.set(jobId, ids);
+            } else fresh.push(doc);
+        }
+        for (const [analysisJobId, ids] of copies) {
+            await newsDb.newsDocument.updateMany({ where: { ownerAddress, id: { in: ids }, status: "pending" },
+                data: { status: "duplicate", analysisJobId } });
+        }
+        if (!fresh.some(doc => doc.analysisRetryUsed) && !batchReady(fresh, Date.now())) return false;
+        fresh.sort((a, b) => Number(urgentNews(b)) - Number(urgentNews(a)) || +a.availableAt - +b.availableAt);
         const health = await new CodexQueueService().availability();
         if (!health.available || !health.models["gpt-6-luna"]?.available || (health.backoffUntil && health.backoffUntil > new Date())) return false;
         const universe = new Set<string>(["BTC", "ETH"]);
         try { for (const instrument of await listInstruments(false)) universe.add(instrument.base); } catch { /* Cached/default symbols still allow macro analysis. */ }
-        const held = await prisma.autoTraderPositionSnapshot.findMany({ where: { run: { accountAddress: ownerAddress } }, orderBy: { observedAt: "desc" }, take: 100, select: { symbol: true } });
-        for (const position of held) universe.add(position.symbol.replace(/-PERP$/, ""));
-        const documents: Array<{ id: string; text: string; publishedAt: Date | null; collectedAt: Date; storyHash: string; source: string; url: string; sourceProfile: SourceProfile | null }> = [];
+        const held = await prisma.deskInventory.findMany({ where: { quantity: { not: 0 } }, take: 100, select: { instrumentId: true } });
+        for (const position of held) { const coin = position.instrumentId.split(":perp:")[1]; if (coin) universe.add(coin); }
+        const documents: Array<{ id: string; text?: string; sameTextAs?: string; publishedAt: Date | null; collectedAt: Date; storyHash: string; source: string; url: string; sourceProfile: SourceProfile | null }> = [];
+        const textOwners = new Map<string, string>();
         let size = 0;
-        for (const doc of pending) {
-            const text = doc.text.slice(0, 6000);
+        for (const doc of fresh) {
+            const sameTextAs = textOwners.get(doc.revisionHash);
+            const text = sameTextAs ? "" : doc.text.slice(0, 6000);
             if (documents.length >= 40 || size + text.length > 60_000) break;
-            documents.push({ id: doc.id, text, publishedAt: doc.publishedAt, collectedAt: doc.collectedAt, storyHash: doc.storyHash, source: doc.source.name, url: doc.canonicalUrl, sourceProfile: sourceProfile(doc.source.url) });
+            textOwners.set(doc.revisionHash, sameTextAs ?? doc.id);
+            documents.push({ id: doc.id, ...(sameTextAs ? { sameTextAs } : { text }), publishedAt: doc.publishedAt, collectedAt: doc.collectedAt, storyHash: doc.storyHash, source: doc.source.name, url: doc.canonicalUrl, sourceProfile: sourceProfile(doc.source.url) });
             size += text.length;
         }
         const related = await newsDb.newsEvent.findMany({ where: { ownerAddress, availableAt: { gt: new Date(Date.now() - DAY) } }, orderBy: { availableAt: "desc" }, take: 30, select: { eventKey: true, signalJson: true } });
@@ -223,6 +299,20 @@ export class NewsIntelligenceService {
         return true;
     }
 
+    private async retryInvalidAnalysis(ownerAddress: string, analysisJobId: string) {
+        const where = { ownerAddress, analysisJobId, status: "analyzing" };
+        await newsDb.$transaction([
+            newsDb.newsDocument.updateMany({
+                where: { ...where, analysisRetryUsed: true },
+                data: { status: "rejected" }
+            }),
+            newsDb.newsDocument.updateMany({
+                where: { ...where, analysisRetryUsed: false },
+                data: { status: "pending", analysisJobId: null, analysisRetryUsed: true }
+            })
+        ]);
+    }
+
     async finalizeAnalyses() {
         const preparing = await prisma.codexJob.findMany({ where: { purpose: "news", status: "preparing" } });
         for (const job of preparing) {
@@ -239,6 +329,10 @@ export class NewsIntelligenceService {
         for (const jobId of new Set(documents.map(doc => doc.analysisJobId!))) {
             const job = await prisma.codexJob.findUnique({ where: { id: jobId } });
             if (!job || ["failed", "cancelled"].includes(job.status)) {
+                if (job?.errorCode === "invalid_output") {
+                    await this.retryInvalidAnalysis(job.ownerAddress, jobId);
+                    continue;
+                }
                 await newsDb.newsDocument.updateMany({ where: { analysisJobId: jobId, status: "analyzing" }, data: { status: "pending", analysisJobId: null } });
                 continue;
             }
@@ -254,7 +348,7 @@ export class NewsIntelligenceService {
             try { result = validateSignals(JSON.parse(job.resultJson), evidence, activeAssets, now); }
             catch {
                 await prisma.codexJob.update({ where: { id: jobId }, data: { status: "failed", errorCode: "invalid_output" } });
-                await newsDb.newsDocument.updateMany({ where: { analysisJobId: jobId, ownerAddress: job.ownerAddress }, data: { status: "rejected" } });
+                await this.retryInvalidAnalysis(job.ownerAddress, jobId);
                 continue;
             }
             // Database/tunnel failures remain retryable; they are not model-output failures.
@@ -292,4 +386,13 @@ export class NewsIntelligenceService {
         await prisma.newsRunContext.deleteMany({ where: { availableAt: { lt: derivedCutoff } } });
         await prisma.codexJob.deleteMany({ where: { createdAt: { lt: rawCutoff }, status: { in: ["completed", "failed", "cancelled"] } } });
     }
+}
+
+function marketNewsMatch(signal: NewsSignal) {
+    return !!signal.facts?.targets.some(target => target.relation === "market" && target.channel !== "none" && target.mechanism.trim());
+}
+function catalystNewsMatch(signal: NewsSignal) {
+    return !!signal.facts && ["catalyst", "scheduled", "operational_risk"].includes(signal.facts.impact) &&
+        !["correction", "retraction", "resolution"].includes(signal.facts.change) &&
+        signal.facts.targets.some(target => ["direct", "indirect"].includes(target.relation) && target.symbol && target.channel !== "none" && target.mechanism.trim());
 }

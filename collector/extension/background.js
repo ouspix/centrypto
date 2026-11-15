@@ -1,3 +1,5 @@
+import { parseBithumbNotices } from "./bithumb-notices.mjs";
+
 const BRIDGE = "http://127.0.0.1:4318";
 let polling = false;
 let initializing = false;
@@ -19,35 +21,46 @@ async function collect(task) {
     return pending;
 }
 async function collectFeed(task) {
-    let stage = "extract";
+    let stage = "navigation";
     try {
         const url = new URL(task.source.url);
         if (url.protocol !== "https:" || url.username || url.password || url.port) throw new Error("Invalid feed URL");
         if (!(await chrome.permissions.contains({ origins: [url.origin + "/*"] }))) return await request("/v1/captures", "POST", { taskId: task.id, status: "permission_required", captures: [] });
-        const response = await fetch(url.href, { credentials: "omit", redirect: "error", headers: { Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml" }, signal: AbortSignal.timeout(15000) });
+        // CoinDesk canonicalized this path to a slashless URL (308). Keep
+        // redirects rejected, request the known same-origin feed directly.
+        if(url.hostname==="www.coindesk.com"&&url.pathname==="/arc/outboundfeeds/rss/")url.pathname="/arc/outboundfeeds/rss";
+        const bithumbNotices = task.source.feedFormat === "bithumb-notices";
+        const accept = bithumbNotices ? "application/json" : "application/rss+xml, application/atom+xml, application/xml, text/xml";
+        const response = await fetch(url.href, { credentials: "omit", redirect: "error", headers: { Accept: accept }, signal: AbortSignal.timeout(15000) });
         if ([401, 403].includes(response.status)) return await request("/v1/captures", "POST", { taskId: task.id, status: "inaccessible", captures: [] });
         if (!response.ok) throw new Error("Feed unavailable");
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
         let bytes = 0;
-        let feedXml = "";
+        let feedBody = "";
         try {
             for (;;) {
                 const { done, value } = await reader.read();
                 if (done) break;
                 bytes += value.byteLength;
                 if (bytes > 5_000_000) throw new Error("Feed too large");
-                feedXml += decoder.decode(value, { stream: true });
+                feedBody += decoder.decode(value, { stream: true });
             }
-            feedXml += decoder.decode();
+            feedBody += decoder.decode();
         } finally { await reader.cancel().catch(() => {}); }
+        stage = "extract";
+        if (bithumbNotices) {
+            const result = parseBithumbNotices(task.source, feedBody);
+            stage = "submit";
+            return await request("/v1/captures", "POST", { taskId: task.id, ...result });
+        }
         const parserUrl = chrome.runtime.getURL("rss-parser.html");
         const contexts = await chrome.runtime.getContexts({ contextTypes: ["OFFSCREEN_DOCUMENT"], documentUrls: [parserUrl] });
         if (!contexts.length) {
             if (!creatingFeedParser) creatingFeedParser = chrome.offscreen.createDocument({ url: "rss-parser.html", reasons: ["DOM_PARSER"], justification: "Parse registered public RSS text without download tabs or media." }).finally(() => { creatingFeedParser = null; });
             await creatingFeedParser;
         }
-        const result = await chrome.runtime.sendMessage({ target: "rss-parser", source: { ...task.source, feedXml, seenIds: task.seenIds || [] } });
+        const result = await chrome.runtime.sendMessage({ target: "rss-parser", source: { ...task.source, feedXml: feedBody, seenIds: task.seenIds || [] } });
         if (!result) throw new Error("Feed parser unavailable");
         stage = "submit";
         await request("/v1/captures", "POST", { taskId: task.id, ...result });

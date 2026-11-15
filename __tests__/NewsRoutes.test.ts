@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { NextRequest } from "next/server";
-const mocks = vi.hoisted(() => ({ session: vi.fn(), sources: vi.fn(), save: vi.fn(), evidence: vi.fn(), briefing: vi.fn() }));
+const mocks = vi.hoisted(() => ({ session: vi.fn(), sources: vi.fn(), save: vi.fn(), evidence: vi.fn(), briefing: vi.fn(), assetBriefing: vi.fn(), assetEvents: vi.fn() }));
 vi.mock("@/lib/auth/wallet-session", () => ({ requireWalletSession: mocks.session, WalletSessionError: class extends Error { status = 401; } }));
-vi.mock("@/services/NewsIntelligenceService", () => ({ NewsIntelligenceService: vi.fn(() => ({ sources: mocks.sources, saveSource: mocks.save, evidence: mocks.evidence, briefing: mocks.briefing })) }));
+vi.mock("@/services/NewsIntelligenceService", () => ({ NewsIntelligenceService: vi.fn(() => ({ sources: mocks.sources, saveSource: mocks.save, evidence: mocks.evidence, briefing: mocks.briefing, assetBriefing: mocks.assetBriefing, assetEvents: mocks.assetEvents })) }));
 vi.mock("@/lib/news-db", () => ({ newsDb: {} }));
 vi.mock("@/services/CodexQueueService", () => ({ CodexQueueService: vi.fn(() => ({})) }));
 import { GET, POST } from "@/app/api/news/[...path]/route";
@@ -26,6 +26,16 @@ describe("news endpoint ownership", () => {
         const response = await GET(new NextRequest("http://localhost/api/news/evidence?ids=other-wallet-item"), { params: { path: ["evidence"] } });
         expect(response.headers.get("Cache-Control")).toBe("private, no-store");
         expect(mocks.evidence).toHaveBeenCalledWith("0xaccount", ["other-wallet-item"]);
+    });
+    it("scopes the panel briefing and history to the selected asset", async () => {
+        mocks.assetBriefing.mockResolvedValue({ signals: [] });
+        mocks.assetEvents.mockResolvedValue([]);
+        const briefing = await GET(new NextRequest("http://localhost/api/news/briefing?symbol=SOL"), { params: { path: ["briefing"] } });
+        const history = await GET(new NextRequest("http://localhost/api/news/events?symbol=SOL"), { params: { path: ["events"] } });
+        expect(await briefing.json()).toEqual({ signals: [] });
+        expect(await history.json()).toEqual({ events: [] });
+        expect(mocks.assetBriefing).toHaveBeenCalledWith("0xaccount", ["SOL"]);
+        expect(mocks.assetEvents).toHaveBeenCalledWith("0xaccount", ["SOL"]);
     });
     it("does not expose database exception text containing source fields", async () => {
         mocks.sources.mockRejectedValue(new Error('Invalid prisma.newsSource.findMany invocation: sensitive database details'));

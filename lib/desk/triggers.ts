@@ -1,8 +1,12 @@
+import { watchView } from "./watch-state";
 import "server-only";
+import { filterMarketAlerts } from "./alert-liquidity";
+import { observeTechnicalWatches } from "./technical-watches";
 import { observePasses, releaseNewsPasses, routePasses } from "./pass-review";
 import { LIVE_ORDER_STATES } from "./execution-risk";
 import { watchOwner } from "./routine-work";
 import type { DeskBook } from "@prisma/client";
+import { usesAppPostgres } from "@/lib/app-database-provider";
 import { prisma } from "@/lib/db";
 import { deskNewsSince, type DeskNewsWake } from "@/lib/news/desk-events";
 import type { DeskInstrument } from "./instruments";
@@ -70,7 +74,16 @@ async function priorBookEvents(bookId: string, eventKeys: string[]) {
     // Bound the lookup to the current page of corrections. Only this book's own
     // discussions, instructions and watches can make an old event relevant.
     const keys = JSON.stringify(eventKeys);
-    const rows = await prisma.$queryRaw<Array<{ eventKey: string }>>`
+    const rows = usesAppPostgres(prisma) ? await prisma.$queryRaw<Array<{ eventKey: string }>>`
+        WITH keys AS (SELECT jsonb_array_elements_text(${keys}::jsonb) AS key)
+        SELECT "eventKey" FROM "DeskWatch" WHERE "bookId" = ${bookId} AND "eventKey" IN (SELECT key FROM keys)
+        UNION
+        SELECT "requestJson"::jsonb->>'eventId' FROM "DeskIntent" WHERE "bookId" = ${bookId}
+            AND "requestJson"::jsonb->>'eventId' IN (SELECT key FROM keys)
+        UNION
+        SELECT payload::jsonb->>'eventKey' FROM "DeskWake" WHERE "bookId" = ${bookId}
+            AND "shiftId" IS NOT NULL AND key LIKE 'news:%' AND payload::jsonb->>'eventKey' IN (SELECT key FROM keys)
+    ` : await prisma.$queryRaw<Array<{ eventKey: string }>>`
         SELECT eventKey FROM DeskWatch WHERE bookId = ${bookId}
             AND eventKey IN (SELECT value FROM json_each(${keys}))
         UNION
@@ -211,7 +224,7 @@ export async function ingestNews(book: DeskBook) {
 export async function wakeOnFills(book: DeskBook) {
     // Reconciliation imports exchange fills with stable IDs. Coalesce catch-up fills into shifts.
     const fills = await prisma.deskCashFlow.findMany({
-        where: { bookId: book.id, occurredAt: { gte: new Date(Date.now() - 3600000) } },
+        where: { bookId: book.id, kind: { not: "funding" }, occurredAt: { gte: new Date(Date.now() - 3600000) } },
         orderBy: { occurredAt: "desc" },
         take: 100,
     });
@@ -220,7 +233,9 @@ export async function wakeOnFills(book: DeskBook) {
         select: { key: true },
     });
     const keys = new Set(known.map((k) => k.key));
-    for (const f of fills.filter((f) => !keys.has("fill:" + f.id)))
+    // Funding is already reconciled into the cash ledger. It changes no position
+    // quantity and must not impersonate a fill. Exposure/protection runs separately.
+    for (const f of fills.filter((f) => f.kind !== "funding" && !keys.has("fill:" + f.id)))
         await queueWake(
             prisma,
             book,
@@ -233,10 +248,12 @@ export async function wakeOnFills(book: DeskBook) {
 }
 
 export async function processWatches(book: DeskBook) {
+    await observeTechnicalWatches(prisma,book);
     const watches = await prisma.deskWatch.findMany({
         where: { bookId: book.id, status: "open" },
         orderBy: { deadline: "asc" },
-        take: 250,
+        // All saved conditions are evaluated; observational records cannot hide later alerts.
+
     });
     if (!watches.length) return;
     const prices = watches.some((w) => w.instrumentId && w.threshold !== null)
@@ -276,7 +293,7 @@ export async function processWatches(book: DeskBook) {
                 changed.count &&
                 w.kind !== "pass" &&
                 (w.mode === "research" || book.enabled) &&
-                (crossed || (w.kind === "review" && Date.now() - w.deadline.getTime() < book.frequencySeconds * 1000))
+                (crossed || w.kind === "review")
             ) {
                 await queueWake(
                     tx,
@@ -286,6 +303,9 @@ export async function processWatches(book: DeskBook) {
                     w.mode === "live" ? "live" : "research",
                     {
                         role: await watchOwner(tx, w),
+                        watchId:w.id,subjects:watchView(w).subjects,proposalKeys:watchView(w).proposalKeys,
+                        overdueMs:Math.max(0,Date.now()-+w.deadline),
+                        instruction:"Review every retained subject. This is a review obligation, never stale entry permission; use fresh facts where needed.",
                         thesis: w.thesis,
                         instrumentId: w.instrumentId,
                         eventKey: w.eventKey,
@@ -295,7 +315,7 @@ export async function processWatches(book: DeskBook) {
                     },
                     6,
                     new Date(),
-                    new Date(Date.now() + book.frequencySeconds * 1000),
+                    w.kind==="review"?null:new Date(Date.now() + book.frequencySeconds * 1000),
                 );
             }
         });
@@ -327,6 +347,7 @@ export async function sampleMarket(book: DeskBook, now = new Date()) {
     const previous = new Map<string, number>(before ? JSON.parse(before.dataJson) : []);
     const moves = detectMoves(previous, prices)
         .sort((a, b) => Math.abs(b.move) - Math.abs(a.move));
+    const filtered = await filterMarketAlerts(book, moves, now);
     const passes = await observePasses(book, new Map(prices.map(p => [p.instrumentId, p.mid])), new Set(moves.map(m => m.instrumentId)), now);
     await prisma.$transaction(async (tx) => {
         if (!await tx.deskBook.count({ where: { id: book.id, version: book.version, enabled: true } }) ||
@@ -348,7 +369,8 @@ export async function sampleMarket(book: DeskBook, now = new Date()) {
             bookId: book.id, key: key + ":pass-routing", kind: "pass_review", role: "market",
             dataJson: JSON.stringify(deferred.map(({ instrumentId, move }) => ({ instrumentId, move, ...handled.get(instrumentId) }))),
         } });
-        const actionable = moves.filter(m => !handled.has(m.instrumentId)).slice(0, 10);
+        if(filtered.suppressed.length) await tx.deskRecord.create({data:{bookId:book.id,key:key+":liquidity-filter",kind:"market_alert_filter",role:"market",dataJson:JSON.stringify({suppressed:filtered.suppressed,accepted:filtered.moves.map(m=>m.instrumentId)})}});
+        const actionable = filtered.moves.filter(m => !handled.has(m.instrumentId)).slice(0, 10);
         if (actionable.length)
             await queueWake(tx, book, key, "market_move", "live", { moves: actionable }, 5, now, new Date(+now + 300000));
         await tx.deskRecord.deleteMany({

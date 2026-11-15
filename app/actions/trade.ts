@@ -1,5 +1,10 @@
 "use server";
 
+import { randomBytes } from "node:crypto";
+import { prisma } from "@/lib/db";
+import { getActiveAssetLeverage } from "@/lib/hyperliquid-info";
+import { linkLeverageOrderIds, recordOrderLeverage } from "@/lib/order-leverage";
+import { withManualExecution } from "@/lib/desk/execution-lease";
 import { DEFAULT_AGENT_CONFIG } from "@/lib/agent-config";
 import { requireWalletSessionFromCookies, WalletSessionError } from "@/lib/auth/wallet-session";
 import {
@@ -9,6 +14,7 @@ import {
 } from "@/lib/hyperliquid-api-wallet";
 import {
     cancelOrderWithPrivateKey,
+    executionWalletAddress,
     getAssetMeta,
     placeOrderWithPrivateKey,
     updateLeverageWithPrivateKey,
@@ -21,34 +27,54 @@ export type { PlaceOrderRequest } from "@/lib/hyperliquid-execution";
 
 type ActionResult = { success: true; data: any } | { success: false; error: string };
 
+const orderCloid = (): `0x${string}` => `0x${randomBytes(16).toString("hex")}`;
+
 export async function placeOrderAction(
     order: PlaceOrderRequest,
     isTestnet: boolean
 ): Promise<ActionResult> {
     try {
         const session = requireWalletSessionFromCookies();
-        await assertWalletExecutionAllowed(session.address, isTestnet);
-        await validateLeverage(order, isTestnet);
+        const controlled = await withManualExecution(prisma, session.address, isTestnet, !!order.reduceOnly, async (check) => {
+            if (!order.reduceOnly) await assertWalletExecutionAllowed(session.address, isTestnet);
+            const asset = await getAssetMeta(order.asset, isTestnet);
+            if (!asset) throw new Error(`Asset metadata not found for index ${order.asset}`);
+            validateLeverage(order, asset.maxLeverage);
 
-        const credential = await resolveExecutionCredential(session.address, isTestnet);
+            const credential = await resolveExecutionCredential(session.address, isTestnet);
 
-        if (!order.reduceOnly && order.leverage) {
-            await updateLeverageWithPrivateKey(
-                credential.privateKey,
-                {
-                    asset: order.asset,
-                    isCross: DEFAULT_AGENT_CONFIG.risk.margin_mode !== "isolated",
-                    leverage: order.leverage
-                },
-                isTestnet
-            );
-        }
+            if (!order.reduceOnly && order.leverage) {
+                await updateLeverageWithPrivateKey(
+                    credential.privateKey,
+                    {
+                        asset: order.asset,
+                        isCross: DEFAULT_AGENT_CONFIG.risk.margin_mode !== "isolated",
+                        leverage: order.leverage
+                    },
+                    isTestnet
+                );
+            }
 
-        const result = await placeOrderWithPrivateKey(credential.privateKey, order, isTestnet);
-        if (credential.mode === "user_api_wallet") {
-            await markHyperliquidApiWalletUsed(session.address, isTestnet);
-        }
-        return { success: true, data: { ...result, executionMode: credential.mode } };
+            const account = credential.mode === "server_dev_testnet_bot"
+                ? executionWalletAddress(credential.privateKey)
+                : session.address;
+            const cloids = {
+                entry: order.cloids?.entry ?? orderCloid(),
+                stopLoss: order.stopLossPrice ? order.cloids?.stopLoss ?? orderCloid() : undefined,
+                takeProfit: order.takeProfitPrice ? order.cloids?.takeProfit ?? orderCloid() : undefined,
+            };
+            const orderIds = [cloids.entry, cloids.stopLoss, cloids.takeProfit].filter(id => id !== undefined);
+            const leverage = await getActiveAssetLeverage(account.toLowerCase(), asset.name, isTestnet);
+            const recorded = await recordOrderLeverage(prisma, account, isTestnet, asset.name, orderIds, leverage);
+            await check();
+            const result = await placeOrderWithPrivateKey(credential.privateKey, { ...order, cloids }, isTestnet);
+            if (recorded) await linkLeverageOrderIds(prisma, account, isTestnet, orderIds, result);
+            if (credential.mode === "user_api_wallet") {
+                await markHyperliquidApiWalletUsed(session.address, isTestnet);
+            }
+            return { ...result, executionMode: credential.mode };
+        });
+        return { success: true, data: { ...controlled.value, deskPaused: controlled.deskPaused } };
     } catch (error) {
         safeError("Wallet-bound placeOrderAction failed", error);
         return { success: false, error: error instanceof Error ? error.message : "Failed to place order" };
@@ -61,15 +87,18 @@ export async function cancelOrderAction(
 ): Promise<ActionResult> {
     try {
         const session = requireWalletSessionFromCookies();
-        await assertWalletExecutionAllowed(session.address, isTestnet);
+        const controlled = await withManualExecution(prisma, session.address, isTestnet, true, async (check) => {
 
         const credential = await resolveExecutionCredential(session.address, isTestnet);
 
+        await check();
         const result = await cancelOrderWithPrivateKey(credential.privateKey, cancelRequest, isTestnet);
         if (credential.mode === "user_api_wallet") {
             await markHyperliquidApiWalletUsed(session.address, isTestnet);
         }
-        return { success: true, data: { ...result, executionMode: credential.mode } };
+        return { ...result, executionMode: credential.mode };
+        });
+        return { success: true, data: { ...controlled.value, deskPaused: controlled.deskPaused } };
     } catch (error) {
         safeError("Wallet-bound cancelOrderAction failed", error);
         return { success: false, error: error instanceof WalletSessionError ? error.message : error instanceof Error ? error.message : "Failed to cancel order" };
@@ -104,18 +133,15 @@ function getDevTestnetExecutionKey(isTestnet: boolean): string | null {
     return process.env.HYPERLIQUID_TESTNET_PRIVATE_KEY ?? null;
 }
 
-async function validateLeverage(order: PlaceOrderRequest, isTestnet: boolean): Promise<void> {
+function validateLeverage(order: PlaceOrderRequest, venueMax: number): void {
     if (!order.leverage) return;
     const leverage = Math.floor(order.leverage);
     if (!Number.isFinite(leverage) || leverage < 1) {
         throw new Error("Leverage must be at least 1x");
     }
 
-    const assetMeta = await getAssetMeta(order.asset, isTestnet);
-    if (!assetMeta) throw new Error(`Asset metadata not found for index ${order.asset}`);
-
     const appMax = DEFAULT_AGENT_CONFIG.risk.exchange_max_leverage_allowed;
-    const maxAllowed = Math.min(assetMeta.maxLeverage, appMax);
+    const maxAllowed = Math.min(venueMax, appMax);
     if (leverage > maxAllowed) {
         throw new Error(`Leverage ${leverage}x exceeds max ${maxAllowed}x for this asset and risk config`);
     }

@@ -1,8 +1,11 @@
+import { decimalPrice, venuePrice } from "./venue-price";
+import { pendingOrderExposure } from "./pending-exposure";
 import "server-only";
 import { AsyncLocalStorage } from "node:async_hooks";
 import { createHash, randomUUID } from "crypto";
 import type { DeskBook, DeskIntent, PrismaClient } from "@prisma/client";
 import { prisma } from "@/lib/db";
+import { linkLeverageOrderIds, recordOrderLeverage } from "@/lib/order-leverage";
 import { formatPrice, formatSize } from "@nktkas/hyperliquid/utils";
 import type { DeskInstrument } from "./instruments";
 import { parseDeskMandate } from "./mandate";
@@ -20,6 +23,8 @@ import {
     type SignedAction,
 } from "./execution-types";
 import { hyperliquidDeskVenue } from "./venue";
+import { assertAllocationTicket } from "./allocation-review";
+import { DISCRETIONARY_VERSION } from "./decision-policy";
 export type { DeskOrder, DeskPairPlan, DeskQuoteConfig } from "./execution-types";
 
 const authority = new AsyncLocalStorage<() => Promise<void>>();
@@ -30,7 +35,9 @@ type Source = "directional" | "pair" | "quote" | "protection";
 const digest = (s: string) => createHash("sha256").update(s).digest("hex");
 const cloid = (book: string, key: string) => "0x" + digest(JSON.stringify([book, key])).slice(0, 32);
 const ref = (bookId: string, intentKey: string) => ({ bookId_intentKey: { bookId, intentKey } });
-const form = (n: number) => n.toFixed(14).replace(/\.?0+$/, "");
+// Prices and sizes have already been validated/quantized. Serialize without
+// reintroducing IEEE-754 tails (560.3.toFixed(14) is 560.29999999999995).
+const form = decimalPrice;
 function envelope(raw: unknown) {
     const e = raw as {
         status?: string;
@@ -121,6 +128,7 @@ export class DeskExecution {
         cleanup: boolean,
         recheck?: () => Promise<void>,
         onDispatch = () => {},
+        leverageOrder?: { coin: string; cloids: string[] },
     ) {
         await this.authorize(l, cleanup);
         const row = await this.db.deskExecutionLease.findUniqueOrThrow({ where: { key: l.key } });
@@ -134,7 +142,12 @@ export class DeskExecution {
             ).count
         )
             throw new Error("Nonce ownership lost");
-        return this.venue.write(
+        const { book } = l;
+        const leverage = leverageOrder && await this.venue.orderLeverage?.(book, leverageOrder.coin);
+        const recorded = leverageOrder && leverage && await recordOrderLeverage(
+            this.db, book.accountAddress, book.isTestnet, leverageOrder.coin, leverageOrder.cloids, leverage,
+        );
+        const ack = await this.venue.write(
             l.book,
             action,
             nonce,
@@ -144,6 +157,10 @@ export class DeskExecution {
             },
             onDispatch,
         );
+        if (leverageOrder && recorded) {
+            await linkLeverageOrderIds(this.db, book.accountAddress, book.isTestnet, leverageOrder.cloids, ack);
+        }
+        return ack;
     }
     private async prepare(l: Lock, o: DeskOrder, source: Source, omit?: string) {
         const b = l.book,
@@ -232,22 +249,42 @@ export class DeskExecution {
             )
         )
             throw new Error("Existing unsettled order on instrument");
+        const portfolio = await this.db.deskInventory.findMany({where:{bookId,quantity:{not:0}}});
+        const policy = parseDeskMandate(b.mandateJson);
+        let openRiskUsd = reserved.reduce((sum,r)=>sum+pendingOrderExposure(r,policy.costAllowanceBps??0).riskUsd,0);
+        for(const position of portfolio){
+            const mark=account.marks.get(position.instrumentId);
+            if(!mark && policy.maxOpenRiskUsd!==undefined && !o.reduceOnly)throw new Error("Aggregate risk requires current marks for every position");
+            const value=Math.abs(position.quantity)*(mark??position.basis);
+            openRiskUsd += position.stopPrice && !position.suspended
+                ? Math.max(0,((mark??position.basis)-position.stopPrice)*position.quantity)+value*(policy.costAllowanceBps??0)/10000
+                : value;
+        }
         const depth = await this.venue.book(b, i);
+        if(policy.maxOpenRiskUsd!==undefined && source!=="protection" && source!=="quote" && !o.reduceOnly && !o.strategyVersion)throw new Error("Directional entries require a versioned strategy plan, proposal key, hold horizon and entry expiry");
         const preview = assessDeskOrder({
+            openRiskUsd,
+            openInstrumentIds:[...portfolio.map(p=>p.instrumentId),...reserved.filter(r=>r.reservedUsd>0).map(r=>r.instrumentId)],
             order: o,
             instrument: i,
             instruments: iList,
             account,
             depth,
             mandate: parseDeskMandate(b.mandateJson),
-            reserved,
+            reserved:reserved.map(r=>({...r,reservedUsd:pendingOrderExposure(r,policy.costAllowanceBps??0).notionalUsd})),
             owned: inv?.quantity ?? 0,
             suspended: !!inv?.suspended,
             deskGrossUsd,
             dailyPnlUsd: metrics.dailyPnlUsd,
             quoting: source === "quote",
         });
-        return { i, preview, account };
+        let allocation: ReturnType<typeof assertAllocationTicket> | null = null;
+        if (o.strategyVersion === DISCRETIONARY_VERSION && !preview.reducing) {
+            const row = await this.db.deskRecord.findUnique({ where: { bookId_key: {
+                bookId, key: `proposal:${b.version}:live:${o.proposalKey}` } } });
+            allocation = assertAllocationTicket(row?.kind === "trade_proposal" ? JSON.parse(row.dataJson) : null, o);
+        }
+        return { i, preview, account, allocation };
     }
     preview(bookId: string, order: DeskOrder) {
         return this.locked(bookId, async (l) => (await this.prepare(l, parseDeskOrder(order), "directional")).preview);
@@ -269,13 +306,19 @@ export class DeskExecution {
         }
         if ((b.kind === "quoting") !== (source === "quote") && source !== "protection")
             throw new Error("Use the dedicated quote engine for a quoting book");
-        await this.authorize(l, false);
-        const { i, preview: p } = await this.prepare(l, o, source);
+        const cleanup=source==="protection" && o.reduceOnly===true;
+        await this.authorize(l, cleanup);
+        const { i, preview: p, allocation } = await this.prepare(l, o, source);
+        if(o.strategyVersion && !p.reducing){
+            const rollout=await this.db.deskRecord.findUnique({where:{bookId_key:{bookId,key:`strategy-rollout:${o.strategyVersion}`}}});
+            if(!rollout || JSON.parse(rollout.dataJson).state!=="active")throw new Error("Strategy remains research-only; operator activation required after prospective assessment");
+        }
         const cid = cloid(bookId, key),
             bracket = i.kind === "perp" && !p.reducing;
         const stopCloid = bracket && p.stopPrice ? cloid(bookId, key + "#stop") : null,
             targetCloid = bracket && p.targetPrice ? cloid(bookId, key + "#target") : null;
-        const draft = await this.db.deskIntent.create({
+        const draft = await this.db.$transaction(async tx => {
+        const intent = await tx.deskIntent.create({
             data: {
                 bookId,
                 intentKey: key,
@@ -296,6 +339,13 @@ export class DeskExecution {
                 stopCloid,
                 targetCloid,
             },
+        });
+        if (allocation) await tx.deskRecord.create({ data: {
+            bookId, key: `entry-allocation:${intent.id}`, kind: "entry_allocation", role: "host",
+            dataJson: JSON.stringify({ intentId: intent.id, instrumentId: i.id, side: o.side,
+                quantity: p.quantity, limitPrice: p.limitPrice, bookVersion: b.version, ...allocation }),
+        } });
+        return intent;
         });
         const buy = o.side === "buy",
             orders: Record<string, unknown>[] = [
@@ -335,7 +385,7 @@ export class DeskExecution {
             const rawAck = await this.write(
                 l,
                 { type: "order", orders, grouping: orders.length > 1 ? "normalTpsl" : "na" },
-                false,
+                cleanup,
                 async () => {
                     if (Date.now() - riskCheckedAt > 1000) {
                         const latest = await this.prepare(l, o, source, draft.id);
@@ -343,7 +393,8 @@ export class DeskExecution {
                             latest.i.asset !== i.asset ||
                             latest.preview.quantity !== p.quantity ||
                             latest.preview.reducing !== p.reducing ||
-                            latest.preview.limitPrice !== p.limitPrice
+                            latest.preview.limitPrice !== p.limitPrice ||
+                            JSON.stringify(latest.allocation) !== JSON.stringify(allocation)
                         )
                             throw new Error("Instrument or risk changed before signing");
                         if (source === "pair" && groupKey && !key.includes("/unwind")) {
@@ -361,11 +412,16 @@ export class DeskExecution {
                         }
                         riskCheckedAt = Date.now();
                     }
-                    await this.authorize(l, false);
+                    if(o.strategyVersion && !p.reducing){
+                        const rollout=await this.db.deskRecord.findUnique({where:{bookId_key:{bookId,key:`strategy-rollout:${o.strategyVersion}`}}});
+                        if(!rollout || JSON.parse(rollout.dataJson).state!=="active")throw new Error("Strategy activation changed before signing");
+                    }
+                    await this.authorize(l, cleanup);
                 },
                 () => {
                     dispatched = true;
                 },
+                i.kind === "perp" ? { coin: i.coin, cloids: orders.map(order => String(order.c)) } : undefined,
             );
             const statuses = envelope(rawAck);
             if (!statuses?.length || typeof statuses[0] !== "object")
@@ -511,15 +567,15 @@ export class DeskExecution {
             )
                 throw new Error("Position ownership unresolved");
             const stop = positive(
-                formatPrice(positive(stopPrice, "stop").toFixed(14), i.szDecimals, i.kind === "perp"),
+                venuePrice(positive(stopPrice, "stop"), i.szDecimals, i.kind === "perp"),
                 "stop",
             );
             const target =
                 takeProfitPrice === undefined
                     ? null
                     : positive(
-                          formatPrice(
-                              positive(takeProfitPrice, "target").toFixed(14),
+                          venuePrice(
+                              positive(takeProfitPrice, "target"),
                               i.szDecimals,
                               i.kind === "perp",
                           ),
@@ -528,9 +584,16 @@ export class DeskExecution {
             const long = inv.quantity > 0;
             if (long ? stop >= bid : stop <= ask) throw new Error("Protective stop is already crossed");
             if (target && (long ? target <= ask : target >= bid)) throw new Error("Target is already crossed");
-            const risk = Math.abs(mid - stop) * Math.abs(inv.quantity) * fx(i, account);
-            if (risk > parseDeskMandate(l.book.mandateJson).maxRiskPerTradeUsd)
+            const mandate=parseDeskMandate(l.book.mandateJson);
+            const risk = (Math.abs(mid - stop)+mid*(mandate.costAllowanceBps??0)/10000) * Math.abs(inv.quantity) * fx(i, account);
+            if (risk > mandate.maxRiskPerTradeUsd)
                 throw new Error("Revised stop exceeds remaining risk budget");
+            if(mandate.maxOpenRiskUsd!==undefined){
+                const [others,pending]=await Promise.all([this.db.deskInventory.findMany({where:{bookId,quantity:{not:0},instrumentId:{not:i.id}}}),this.db.deskIntent.findMany({where:{bookId,state:{in:LIVE_ORDER_STATES}}})]);
+                let total=risk+pending.reduce((n,r)=>n+pendingOrderExposure(r,mandate.costAllowanceBps??0).riskUsd,0);
+                for(const p of others){const item=list.find(v=>v.id===p.instrumentId);if(!item)throw new Error("Unpriced portfolio risk");const mark=positive(account.marks.get(p.instrumentId),"portfolio mark"),value=Math.abs(p.quantity)*mark*fx(item,account);total+=item.kind==="perp"&&p.stopPrice&&!p.suspended?Math.max(0,(mark-p.stopPrice)*p.quantity)*fx(item,account)+value*(mandate.costAllowanceBps??0)/10000:value;}
+                if(total>mandate.maxOpenRiskUsd)throw new Error("Revised stop exceeds aggregate risk budget");
+            }
             await this.db.deskInventory.update({
                 where: { id: inv.id },
                 data: { stopPrice: stop, targetPrice: target },
@@ -659,7 +722,7 @@ export class DeskExecution {
                                     a: i.asset,
                                     b: live < 0,
                                     p: form(desired),
-                                    s: formatSize(Math.abs(live).toFixed(14), i.szDecimals),
+                                    s: formatSize(decimalPrice(Math.abs(live)), i.szDecimals),
                                     r: true,
                                     t: { trigger: { isMarket: true, triggerPx: form(desired), tpsl: type } },
                                     c: cid,
@@ -670,7 +733,7 @@ export class DeskExecution {
                         const ack = envelope(
                             await this.write(l, action, false, undefined, () => {
                                 dispatched = true;
-                            }),
+                            }, { coin: i.coin, cloids: [cid] }),
                         )?.[0];
                         if (typeof ack === "object" && ack.error) throw new Error("Venue rejection: " + ack.error);
                         if (typeof ack !== "object" || !ack.resting)
@@ -926,7 +989,7 @@ export class DeskExecution {
             )
                 throw new Error("Foreign orders present on quoting subaccount");
             if (account.riskWarnings?.length) throw new Error(account.riskWarnings.join("; "));
-            const outstanding = live.reduce((sum, o) => sum + o.reservedUsd, 0);
+            const outstanding = live.reduce((sum, o) => sum + pendingOrderExposure(o,parseDeskMandate(l.book.mandateJson).costAllowanceBps??0).notionalUsd, 0);
             if (
                 Math.min(account.rollingPnl, record.dailyPnlUsd) <= -m.maxDailyLossUsd ||
                 account.grossUsd + outstanding > Math.min(account.equity, m.capitalUsd) * m.maxGrossLeverage
@@ -1005,8 +1068,20 @@ export class DeskExecution {
             let quoteLoopStarted = false;
             try {
                 const list = await this.instruments(b);
-                const { account } = await syncLedger(this.db, this.venue, b, list);
+                const { account, metrics } = await syncLedger(this.db, this.venue, b, list);
                 await this.protect(l, list, account);
+                // Persisted fill-time plans survive worker restarts. Cleanup exits continue even when the book is stopped.
+                const plans=await this.db.deskRecord.findMany({where:{bookId,kind:"position_plan"}});
+                for(const row of plans){
+                    const plan=JSON.parse(row.dataJson);
+                    if(Date.parse(plan.maxHoldUntil)>Date.now())continue;
+                    const held=await this.db.deskInventory.findUnique({where:keyed(bookId,plan.instrumentId)});
+                    if(!held?.quantity||held.suspended||+held.since!==Date.parse(plan.openedAt))continue;
+                    const instrument=list.find(x=>x.id===plan.instrumentId);if(!instrument)continue;
+                    const q=inspectBook(await this.venue.book(b,instrument));
+                    await this.submit(l,`time-exit/${held.id}/${held.since.getTime()}/${Math.floor(Date.now()/60000)}`,{instrumentId:instrument.id,side:held.quantity>0?"sell":"buy",quantity:Math.abs(held.quantity),limitPrice:held.quantity>0?q.bid:q.ask,reduceOnly:true,thesis:`Time exit for ${plan.strategyVersion} / ${plan.proposalKey}`},"protection");
+                }
+
                 for (const p of await this.db.deskPair.findMany({
                     where: { bookId, state: { in: ["first", "hedging", "unwind"] } },
                 }))
@@ -1044,6 +1119,7 @@ export class DeskExecution {
                     where: { bookId },
                     data: { lastError: account.riskWarnings?.join("; ") || null },
                 });
+                return { account, observedAt: metrics.lastSync };
             } catch (err) {
                 const lastError = err instanceof Error ? err.message : "Desk reconciliation failed";
                 if (b.kind === "quoting" && !quoteLoopStarted) {

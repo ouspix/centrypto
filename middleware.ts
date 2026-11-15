@@ -11,7 +11,6 @@ const PUBLIC_API_PREFIXES = [
     '/api/hyperliquid/account',
     '/api/indicators',
     '/api/screener',
-    '/api/sentiment',
     '/api/trade/execute'
 ];
 
@@ -19,20 +18,14 @@ const WALLET_REQUIRED_PREFIXES = [
     '/api/desk',
     '/api/news',
     '/api/alerts',
-    '/api/ai/analyze',
-    '/api/ai/cancel',
-    '/api/ai/job-status',
-    '/api/auto-trader',
+    '/api/backtest/run',
     '/api/hyperliquid/api-wallet',
     '/api/risk/kill-switch',
     '/api/trades'
 ];
 
 const INTERNAL_REQUIRED_PREFIXES = [
-    '/api/ai/cleanup-jobs',
-    '/api/backtest/run',
     '/api/cron',
-    '/api/llm/history'
 ];
 
 const RATE_LIMIT_WINDOW_MS = 60_000;

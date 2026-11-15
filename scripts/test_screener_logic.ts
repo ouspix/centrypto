@@ -24,7 +24,6 @@ function createMockCandidate(symbol: string, overrides: Partial<EnrichedMarketDa
             cost_bps: 5,
             depth_bands_usd: { bid: {}, ask: {} }
         },
-        sentiment: { score: 0 },
         isTestnet: false,
         ...overrides
     } as EnrichedMarketData;

@@ -3,7 +3,7 @@ import type { PrismaClient } from "@prisma/client";
 import { prisma } from "@/lib/db";
 
 export const deskModel = "gpt-6.1-sol";
-export type UsageKind = "role" | "consult" | "public-search" | "public-read" | "probe";
+export type UsageKind = "role" | "consult" | "public-search" | "public-read" | "probe" | "triage";
 export const tokenFields = [
     "totalTokens",
     "inputTokens",
@@ -36,31 +36,63 @@ type Start = { threadId: string; bookId?: string; shiftId?: string; role: string
 export async function beginTokenMeter(start: Start, db: PrismaClient = prisma, now = new Date()) {
     await db.deskTokenUsage.create({ data: { ...start, startedAt: now } });
     let writes: Promise<unknown> = Promise.resolve();
+    let latest: { counts: Counts; turnId: string } | undefined;
+    const flush = (value: NonNullable<typeof latest>) => db.deskTokenUsage.updateMany({
+        where: { threadId: start.threadId, status: "running", OR: [{ turnId: null }, { turnId: value.turnId }],
+            AND: [{ OR: [{ totalTokens: null }, { totalTokens: { lte: value.counts.totalTokens } }] }] },
+        data: { ...value.counts, turnId: value.turnId, reportedAt: new Date() },
+    });
     return {
         snapshot(turnId: string, raw: unknown): Promise<void> {
             const counts = readUsageSnapshot(raw);
             if (!counts || !turnId) return Promise.resolve(); // Missing telemetry is never imputed.
-            writes = writes.then(() =>
-                db.deskTokenUsage.updateMany({
-                    where: {
-                        threadId: start.threadId,
-                        status: "running",
-                        OR: [{ turnId: null }, { turnId }],
-                        AND: [{ OR: [{ totalTokens: null }, { totalTokens: { lte: counts.totalTokens } }] }],
-                    },
-                    data: { ...counts, turnId, reportedAt: new Date() },
-                }),
-            );
+            if (latest && (latest.turnId !== turnId || counts.totalTokens < latest.counts.totalTokens)) return Promise.resolve();
+            latest = { counts, turnId };
+            const value = latest;
+            // A failed write must not poison every subsequent notification/finish.
+            writes = writes.catch(() => undefined).then(() => flush(value));
             return writes.then(() => undefined);
         },
         async finish(status: "completed" | "failed" | "cancelled", turnId?: string) {
-            await writes;
-            await db.deskTokenUsage.updateMany({
-                where: { threadId: start.threadId, status: "running" },
-                data: { status, turnId, finishedAt: new Date() },
-            });
+            await writes.catch(() => undefined);
+            try {
+                if (latest) await flush(latest);
+            } finally {
+                // Even if usage remains unavailable, do not leave a finished call
+                // labelled running. Missing totals stay null, not invented zeros.
+                await db.deskTokenUsage.updateMany({
+                    where: { threadId: start.threadId, status: "running" },
+                    data: { status, turnId: turnId ?? latest?.turnId, finishedAt: new Date() },
+                });
+            }
         },
     };
+}
+
+export const tokenMeterRecovery = { terminalGraceMs: 30_000, maximumTurnMs: 12 * 60_000, batchSize: 100 } as const;
+
+/** Bounded bookkeeping only; never cancels a model or changes the parent shift.
+ * All transports have a <=10-minute wall budget. A newer live retry is a separate
+ * thread and survives this cleanup. Compare-and-set preserves concurrent finishes.
+ */
+export async function reconcileTokenMeters(db: PrismaClient = prisma, now = new Date()) {
+    const rows = await db.deskTokenUsage.findMany({ where: { status: "running", startedAt: { lt: new Date(+now - tokenMeterRecovery.terminalGraceMs) } },
+        orderBy: { startedAt: "asc" }, take: tokenMeterRecovery.batchSize });
+    const shifts = await db.deskShift.findMany({ where: { id: { in: rows.flatMap(r => r.shiftId ? [r.shiftId] : []) } },
+        select: { id: true, status: true, endedAt: true } });
+    const recovered: string[] = [];
+    for (const row of rows) {
+        const parent = shifts.find(s => s.id === row.shiftId);
+        const terminal = parent && ["completed", "deferred", "failed", "expired", "superseded"].includes(parent.status) &&
+            !!parent.endedAt && +now - +parent.endedAt >= tokenMeterRecovery.terminalGraceMs;
+        const impossibleActive = +now - +row.startedAt > tokenMeterRecovery.maximumTurnMs;
+        if (!terminal && !impossibleActive) continue;
+        const changed = await db.deskTokenUsage.updateMany({ where: { threadId: row.threadId, status: "running",
+            startedAt: row.startedAt, reportedAt: row.reportedAt, totalTokens: row.totalTokens },
+            data: { status: "interrupted", finishedAt: now } });
+        if (changed.count) recovered.push(row.threadId);
+    }
+    return { inspected: rows.length, interrupted: recovered };
 }
 
 export const usageTimezone = "Europe/Paris";
@@ -134,7 +166,7 @@ async function summarize(db: PrismaClient, bookId: string, from?: Date, to?: Dat
         attempts += g._count._all;
         reported += g._count.totalTokens;
         if (g.status === "running") unfinished += g._count._all;
-        if (g.status === "failed" || g.status === "cancelled") failed += g._count._all;
+        if (["failed", "cancelled", "interrupted"].includes(g.status)) failed += g._count._all;
         const kind = (byKind[g.kind] ??= { attempts: 0, totalTokens: BigInt(0) });
         kind.attempts += g._count._all;
         kind.totalTokens += g._sum.totalTokens ?? BigInt(0);

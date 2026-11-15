@@ -1,5 +1,24 @@
 import { getClearinghouseState, getUserFills } from "@/lib/hyperliquid-info";
 import { prisma } from "@/lib/db";
+import { safeWarn } from "@/lib/log/safeLogger";
+
+type VenueFill = {
+    coin: string;
+    side: 'B' | 'A';
+    dir?: string;
+    sz: string;
+    px: string;
+    startPosition?: string;
+    closedPnl?: string;
+    fee?: string;
+    feeToken?: string;
+    leverage?: number | string | { value: number | string };
+    hash: string;
+    oid: number;
+    cloid?: string | null;
+    tid?: number;
+    time: number;
+};
 
 export type TradeStatus = 'open' | 'closed';
 export type TradeSide = 'long' | 'short';
@@ -9,12 +28,16 @@ export type Trade = {
     id: string;
     symbol: string;
     side: TradeSide;
-    entryPrice: number;
+    entryPrice: number | null;
     exitPrice?: number;
     size: number;
     leverage: number | null;
+    leverageSource?: 'fill' | 'order' | 'current';
+    leverageObservedAt?: Date;
+    marginMode?: 'cross' | 'isolated';
     realizedPnl?: number;
     fees: number;
+    feeToken?: string;
     status: TradeStatus;
     openedAt: Date;
     closedAt?: Date;
@@ -67,58 +90,22 @@ function buildCurrentLeverageMap(clearinghouseState: any): Record<string, number
     return leverageMap;
 }
 
-function parseJsonObject(value: unknown): Record<string, any> | null {
-    if (typeof value !== 'string' || value.trim().length === 0) return null;
+async function getLeverageSnapshots(userAddress: string, isTestnet: boolean, fills: VenueFill[]) {
+    if (!fills.length) return [];
+    const cloids = [...new Set(fills.flatMap(fill => fill.cloid ? [fill.cloid.toLowerCase()] : []))];
+    const oids = [...new Set(fills.map(fill => String(fill.oid)))];
     try {
-        const parsed = JSON.parse(value);
-        return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : null;
-    } catch {
-        return null;
+        return await prisma.orderLeverageSnapshot.findMany({
+            where: {
+                accountAddress: userAddress.toLowerCase(),
+                isTestnet,
+                OR: [{ cloid: { in: cloids } }, { oid: { in: oids } }],
+            },
+        });
+    } catch (error) {
+        safeWarn("Could not read recorded order leverage", error);
+        return [];
     }
-}
-
-function leverageFromPlanJson(value: unknown): number | null {
-    const plan = parseJsonObject(value);
-    if (!plan) return null;
-
-    return numberFrom(plan.exchangeLeverage)
-        ?? numberFrom(plan.leverage)
-        ?? numberFrom(plan.order?.exchangeLeverage)
-        ?? numberFrom(plan.order?.leverage);
-}
-
-function uniqueStrings(values: unknown[]): string[] {
-    return Array.from(new Set(values
-        .filter(value => value !== null && value !== undefined && String(value).length > 0)
-        .map(value => String(value))));
-}
-
-function fillIdentityKeys(fill: any): string[] {
-    const keys: string[] = [];
-    if (fill?.hash) keys.push(`hash:${String(fill.hash)}`);
-    if (fill?.oid) keys.push(`oid:${String(fill.oid)}`);
-    if (fill?.tid) keys.push(`tid:${String(fill.tid)}`);
-    return keys;
-}
-
-function leverageFromRecordedFill(fill: any, recordedLeverageByFillKey: Record<string, number>): number | null {
-    for (const key of fillIdentityKeys(fill)) {
-        const leverage = recordedLeverageByFillKey[key];
-        if (leverage) return leverage;
-    }
-    return null;
-}
-
-function leverageForFill(
-    fill: any,
-    currentLeverageBySymbol: Record<string, number>,
-    recordedLeverageByFillKey: Record<string, number>
-): number | null {
-    return numberFrom(fill?.leverage?.value)
-        ?? numberFrom(fill?.leverage)
-        ?? leverageFromRecordedFill(fill, recordedLeverageByFillKey)
-        ?? currentLeverageBySymbol[fill?.coin]
-        ?? null;
 }
 
 export class TradeHistoryService {
@@ -127,110 +114,99 @@ export class TradeHistoryService {
      */
     async getTrades(userAddress: string, isTestnet: boolean = false, limit: number = 100, sinceMs?: number): Promise<Trade[]> {
         try {
-            const [fills, clearinghouseState] = await Promise.all([
+            const [fills, clearinghouseState]: [VenueFill[], unknown] = await Promise.all([
                 getUserFills(userAddress, isTestnet),
                 getClearinghouseState(userAddress, isTestnet)
             ]);
             const currentLeverageBySymbol = buildCurrentLeverageMap(clearinghouseState);
-            const recordedLeverageByFillKey = await this.getRecordedLeverageByFillKey(userAddress, isTestnet, fills);
+            const snapshots = await getLeverageSnapshots(userAddress, isTestnet, fills);
+            const leverageByCloid = new Map(snapshots.map(row => [row.cloid, row]));
+            const leverageByOid = new Map(snapshots.flatMap(row => row.oid ? [[`${row.coin}:${row.oid}`, row] as const] : []));
 
-            // Map fills to Trade objects
-            const mapped = fills.map((fill: any) => {
+            const positions = new Map<string, { quantity: number; entryPrice: number | null }>();
+            // Hyperliquid returns the newest fills first, including fills in the same block.
+            // Keep their execution order when replaying cost basis before applying the UI range.
+            const chronological = [...fills].reverse().sort((a, b) => a.time - b.time);
+            const mapped: Trade[] = chronological.map((fill) => {
                 const isBuy = fill.side === 'B';
                 const size = parseFloat(fill.sz);
                 const price = parseFloat(fill.px);
-                const pnl = parseFloat(fill.closedPnl || '0');
-                const fee = parseFloat(fill.fee || '0');
-                const timestamp = new Date(fill.time).getTime();
                 const action: TradeAction = isBuy ? 'buy' : 'sell';
+                const type: string = fill.dir || (isBuy ? 'Buy' : 'Sell');
+                const isSpot = fill.coin.startsWith('@') || fill.coin.includes('/');
+                const start = parseFloat(fill.startPosition ?? '');
+                const delta = isBuy ? size : -size;
+                const canReplay = !isSpot && Number.isFinite(start);
+                const isClose = canReplay ? start * delta < 0 : type.includes('Close');
+                const isShort = canReplay && isClose ? start < 0 : fill.dir ? type.includes('Short') : !isBuy;
+                const side: TradeSide = isShort ? 'short' : 'long';
 
-                // Determine side based on direction if available, otherwise guess
-                // dir examples: "Open Long", "Close Long", "Open Short", "Close Short"
-                let side: TradeSide = 'long';
-                if (fill.dir) {
-                    side = fill.dir.includes('Short') ? 'short' : 'long';
-                } else {
-                    side = isBuy ? 'long' : 'short'; // Fallback
+                let previousEntry: number | null = null;
+                if (canReplay && Number.isFinite(delta) && Number.isFinite(price)) {
+                    const previous = positions.get(fill.coin);
+                    if (previous && Math.abs(previous.quantity - start) < 1e-9) {
+                        previousEntry = previous.entryPrice;
+                    }
+                    const end = start + delta;
+                    if (Math.abs(end) < 1e-9) {
+                        positions.delete(fill.coin);
+                    } else {
+                        let entryPrice = previousEntry;
+                        if (start === 0 || start * end < 0) {
+                            entryPrice = price;
+                        } else if (!isClose && previousEntry !== null) {
+                            entryPrice = (Math.abs(start) * previousEntry + size * price) / Math.abs(end);
+                        }
+                        positions.set(fill.coin, { quantity: end, entryPrice });
+                    }
+                } else if (!isSpot) {
+                    positions.delete(fill.coin);
                 }
 
-                const isClose = fill.dir ? fill.dir.includes('Close') : false;
+                const fillLeverage = numberFrom(typeof fill.leverage === 'object' ? fill.leverage?.value : fill.leverage);
+                const matchedOrder = leverageByOid.get(`${fill.coin}:${fill.oid}`)
+                    ?? (fill.cloid ? leverageByCloid.get(fill.cloid.toLowerCase()) : undefined);
+                const orderLeverage = matchedOrder?.coin === fill.coin
+                    && (matchedOrder.oid === null || matchedOrder.oid === String(fill.oid))
+                    && matchedOrder.observedAt.getTime() <= fill.time ? matchedOrder : undefined;
+                const observation = fillLeverage === null ? orderLeverage : undefined;
+                const currentLeverage = currentLeverageBySymbol[fill.coin];
+                const closedPnl = parseFloat(fill.closedPnl ?? '');
+                const timestamp = new Date(fill.time);
 
                 return {
-                    id: `${fill.hash}-${fill.oid}`,
+                    id: `${fill.coin}:${fill.oid}:${fill.tid ?? fill.hash}`,
                     symbol: fill.coin,
-                    side: side,
-                    entryPrice: price,
+                    side,
+                    entryPrice: isClose ? previousEntry : price,
                     exitPrice: isClose ? price : undefined,
-                    size: size,
-                    leverage: leverageForFill(fill, currentLeverageBySymbol, recordedLeverageByFillKey),
-                    realizedPnl: pnl,
-                    fees: fee,
+                    size,
+                    leverage: fillLeverage ?? orderLeverage?.leverage ?? currentLeverage ?? null,
+                    leverageSource: fillLeverage !== null ? 'fill' : orderLeverage ? 'order' : currentLeverage ? 'current' : undefined,
+                    leverageObservedAt: observation?.observedAt,
+                    marginMode: observation?.marginMode === 'cross' || observation?.marginMode === 'isolated'
+                        ? observation.marginMode : undefined,
+                    realizedPnl: isClose && Number.isFinite(closedPnl) ? closedPnl : undefined,
+                    fees: parseFloat(fill.fee || '0'),
+                    feeToken: fill.feeToken,
                     status: isClose ? 'closed' : 'open',
-                    openedAt: new Date(fill.time),
-                    closedAt: isClose ? new Date(fill.time) : undefined,
-                    userAddress: userAddress,
+                    openedAt: timestamp,
+                    closedAt: isClose ? timestamp : undefined,
+                    userAddress,
                     action,
-                    type: fill.dir || (isBuy ? 'Buy' : 'Sell'),
-                    __timestamp: timestamp // internal: helps filter by time
+                    type,
                 };
             });
 
+            mapped.reverse();
             const filtered = sinceMs
-                ? mapped.filter((trade: any) => Number.isFinite(trade.__timestamp) && trade.__timestamp >= sinceMs)
+                ? mapped.filter(trade => trade.openedAt.getTime() >= sinceMs)
                 : mapped;
 
-            return filtered
-                .slice(0, limit)
-                .map((trade: any) => {
-                    const { __timestamp, ...rest } = trade;
-                    return rest;
-                });
+            return filtered.slice(0, limit);
         } catch (error) {
             console.error("Failed to get trades:", error);
             return [];
-        }
-    }
-
-    private async getRecordedLeverageByFillKey(
-        userAddress: string,
-        isTestnet: boolean,
-        fills: any[]
-    ): Promise<Record<string, number>> {
-        const hashes = uniqueStrings(fills.map(fill => fill?.hash));
-        const oids = uniqueStrings(fills.map(fill => fill?.oid));
-        const tids = uniqueStrings(fills.map(fill => fill?.tid));
-        const or: any[] = [];
-        if (hashes.length) or.push({ hash: { in: hashes } });
-        if (oids.length) or.push({ oid: { in: oids } });
-        if (tids.length) or.push({ tid: { in: tids } });
-        if (or.length === 0) return {};
-
-        try {
-            const recordedFills = await prisma.autoTraderFill.findMany({
-                where: {
-                    accountAddress: userAddress.toLowerCase(),
-                    network: isTestnet ? 'testnet' : 'mainnet',
-                    OR: or
-                },
-                include: {
-                    decision: true,
-                    orderAttempt: { include: { decision: true } }
-                }
-            });
-
-            const leverageByKey: Record<string, number> = {};
-            for (const recordedFill of recordedFills) {
-                const leverage = leverageFromPlanJson(recordedFill.orderAttempt?.decision?.submittedOrderPlanJson)
-                    ?? leverageFromPlanJson(recordedFill.decision?.submittedOrderPlanJson);
-                if (!leverage) continue;
-
-                for (const key of fillIdentityKeys(recordedFill)) {
-                    leverageByKey[key] = leverage;
-                }
-            }
-            return leverageByKey;
-        } catch {
-            return {};
         }
     }
 

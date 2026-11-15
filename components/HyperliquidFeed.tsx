@@ -10,7 +10,7 @@ import {
     screeningConfigFromAppliedEventDetail,
     SCREENING_CONFIG_APPLIED_EVENT
 } from "@/lib/screening-storage"
-import { AlertCircle, TrendingUp, TrendingDown } from "lucide-react"
+import { AlertCircle, ArrowDown, ArrowDownUp, ArrowUp, TrendingUp, TrendingDown } from "lucide-react"
 
 type Ticker = {
     coin: string
@@ -25,9 +25,25 @@ type Ticker = {
     openInterest?: number
 }
 
+const columns = [
+    { key: "coin", label: "Asset" },
+    { key: "mid", label: "Price" },
+    { key: "change24h", label: "24h %" },
+    { key: "volume24h", label: "Volume 24h" },
+] as const
+type SortKey = (typeof columns)[number]["key"]
+type SortDirection = "ascending" | "descending"
+
+function isFiniteNumber(value: number | undefined): value is number {
+    return value !== undefined && Number.isFinite(value)
+}
+
 export function HyperliquidFeed() {
     const [allTickers, setAllTickers] = useState<Ticker[]>([]) // Raw data from WS
-    const [tickers, setTickers] = useState<Ticker[]>([]) // Filtered data
+    const [sort, setSort] = useState<{ key: SortKey; direction: SortDirection }>({
+        key: "volume24h",
+        direction: "descending",
+    })
     const [status, setStatus] = useState<"connected" | "disconnected" | "connecting">("disconnected")
     const enrichedDataRef = useRef<Record<string, any>>({})
     const [screeningConfig, setScreeningConfig] = useState<any>(null)
@@ -139,8 +155,6 @@ export function HyperliquidFeed() {
                             }
                         })
 
-                    // Sort by volume (highest first)
-                    tickerList.sort((a, b) => (b.volume24h || 0) - (a.volume24h || 0))
                     setAllTickers(tickerList) // Store raw WS data
 
                     // Update current price in context if selected pair is found
@@ -243,17 +257,32 @@ export function HyperliquidFeed() {
         }
     }, [screeningConfig, isTestnet])
 
-    // Filter tickers whenever raw data or allowed symbols change
-    useEffect(() => {
-        if (!allowedSymbols) {
-            setTickers(allTickers)
-        } else {
-            setTickers(allTickers.filter(t => allowedSymbols.has(t.coin)))
-        }
-    }, [allTickers, allowedSymbols])
+    const filteredTickers = useMemo(() => {
+        const { key, direction } = sort
+        const order = direction === "ascending" ? 1 : -1
+        const visible = allowedSymbols
+            ? allTickers.filter(ticker => allowedSymbols.has(ticker.coin))
+            : [...allTickers]
 
-    // No need for client-side filtering anymore - the screener API handles it
-    const filteredTickers = tickers;
+        return visible.sort((a, b) => {
+            const byAsset = a.coin.localeCompare(b.coin)
+            if (key === "coin") return order * byAsset
+            const left = a[key]
+            const right = b[key]
+            if (!isFiniteNumber(left)) return isFiniteNumber(right) ? 1 : byAsset
+            if (!isFiniteNumber(right)) return -1
+            return order * (left - right) || byAsset
+        })
+    }, [allTickers, allowedSymbols, sort])
+
+    function sortBy(key: SortKey) {
+        setSort(current => ({
+            key,
+            direction: current.key === key
+                ? current.direction === "ascending" ? "descending" : "ascending"
+                : key === "coin" ? "ascending" : "descending",
+        }))
+    }
 
     return (
         <Card className="bg-slate-900 text-slate-100 border-slate-800 flex flex-col" style={{ maxHeight: '80vh' }}>
@@ -282,47 +311,67 @@ export function HyperliquidFeed() {
                         <span>{screenerNotice}</span>
                     </div>
                 )}
-                <div className="space-y-1">
+                <div role="table" aria-label="Market Feed" className="space-y-1">
                     {/* Header */}
-                    <div className="grid grid-cols-12 gap-2 text-sm font-semibold text-slate-400 mb-2 px-2 sticky top-0 bg-slate-900 pb-2 z-10">
-                        <span className="col-span-3">Asset</span>
-                        <span className="col-span-3 text-right">Price</span>
-                        <span className="col-span-3 text-right">24h %</span>
-                        <span className="col-span-3 text-right">Volume 24h</span>
+                    <div role="row" className="grid grid-cols-12 gap-2 text-sm font-semibold text-slate-400 mb-2 px-2 sticky top-0 bg-slate-900 pb-2 z-10">
+                        {columns.map(({ key, label }) => {
+                            const direction = sort.key === key ? sort.direction : undefined
+                            const Icon = direction === "ascending" ? ArrowUp : direction === "descending" ? ArrowDown : ArrowDownUp
+                            return (
+                                <div key={key} role="columnheader" aria-sort={direction} className="col-span-3">
+                                    <button
+                                        type="button"
+                                        onClick={() => sortBy(key)}
+                                        className={cn(
+                                            "flex w-full items-center gap-1 rounded text-right hover:text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-400",
+                                            key !== "coin" && "justify-end",
+                                            direction && "text-sky-300"
+                                        )}
+                                    >
+                                        {label}
+                                        <Icon aria-hidden="true" className="h-3.5 w-3.5 shrink-0" />
+                                    </button>
+                                </div>
+                            )
+                        })}
                     </div>
 
                     {/* Ticker Rows */}
                     {filteredTickers.map((ticker) => (
                         <div
                             key={ticker.coin}
+                            role="row"
                             className={cn(
                                 "grid grid-cols-12 gap-2 text-sm items-center border-b border-slate-800/50 py-2.5 px-2 last:border-0 cursor-pointer hover:bg-slate-800/50 rounded transition-colors",
                                 selectedPair === ticker.coin && "bg-slate-800 border-l-4 border-l-blue-500"
                             )}
                             onClick={() => setSelectedPair(ticker.coin)}
                         >
-                            <span className="col-span-3 font-bold text-slate-200 text-base">{ticker.coin}</span>
-                            <span className="col-span-3 text-right font-mono text-blue-300 text-base">
-                                ${ticker.mid.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            <span role="cell" className="col-span-3 font-bold text-slate-200 text-base">{ticker.coin}</span>
+                            <span role="cell" className="col-span-3 text-right font-mono text-blue-300 text-base">
+                                {isFiniteNumber(ticker.mid) ? `$${ticker.mid.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "N/A"}
                             </span>
-                            <span className={cn(
+                            <span role="cell" className={cn(
                                 "col-span-3 text-right font-semibold flex items-center justify-end gap-1 text-sm",
-                                ticker.change24h && ticker.change24h > 0 ? "text-green-400" : "text-red-400"
+                                isFiniteNumber(ticker.change24h) && ticker.change24h !== 0
+                                    ? ticker.change24h > 0 ? "text-green-400" : "text-red-400"
+                                    : "text-slate-400"
                             )}>
-                                {ticker.change24h && ticker.change24h > 0 ? <TrendingUp className="h-4 w-4" /> : <TrendingDown className="h-4 w-4" />}
-                                {ticker.change24h ? `${ticker.change24h > 0 ? '+' : ''}${ticker.change24h.toFixed(2)}%` : 'N/A'}
+                                {isFiniteNumber(ticker.change24h) && ticker.change24h > 0 && <TrendingUp aria-hidden="true" className="h-4 w-4" />}
+                                {isFiniteNumber(ticker.change24h) && ticker.change24h < 0 && <TrendingDown aria-hidden="true" className="h-4 w-4" />}
+                                {isFiniteNumber(ticker.change24h) ? `${ticker.change24h > 0 ? '+' : ''}${ticker.change24h.toFixed(2)}%` : 'N/A'}
                             </span>
-                            <span className="col-span-3 text-right font-mono text-slate-300 text-sm">
-                                {ticker.volume24h ? `$${(ticker.volume24h / 1_000_000).toFixed(1)}M` : 'N/A'}
+                            <span role="cell" className="col-span-3 text-right font-mono text-slate-300 text-sm">
+                                {isFiniteNumber(ticker.volume24h) ? `$${(ticker.volume24h / 1_000_000).toFixed(1)}M` : 'N/A'}
                             </span>
                         </div>
                     ))}
-                    {filteredTickers.length === 0 && status === "connected" && (
-                        <div className="text-center text-base text-slate-500 py-4">
-                            {tickers.length > 0 ? 'No markets match screening criteria' : 'Waiting for data...'}
-                        </div>
-                    )}
                 </div>
+                {filteredTickers.length === 0 && status === "connected" && (
+                    <div className="text-center text-base text-slate-500 py-4">
+                        {allTickers.length > 0 ? 'No markets match screening criteria' : 'Waiting for data...'}
+                    </div>
+                )}
             </CardContent>
         </Card>
     )

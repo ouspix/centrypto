@@ -15,6 +15,7 @@
 
 # next.js
 /.next/
+/.next-dev/
 /out/
 
 # production
@@ -31,8 +32,6 @@ yarn-error.log*
 .pnpm-debug.log*
 debug_llm_response.log
 history.json
-sentiment.log
-sentiment_service.log
 chrome_console.log
 chrome_output.txt
 test_output.txt
@@ -60,7 +59,6 @@ next-env.d.ts
 collector/dist/
 collector/profile/
 collector/.cache/
-sentiment/venv/
 *.pyc
 __pycache__/
 logs/*
@@ -68,3 +66,9 @@ prisma/market/dev.db
 data/hyperliquid/
 data/features/
 data/*
+
+# Generated companion to prisma/schema.prisma
+prisma/app-postgres/schema.prisma
+
+# Interval-specific observed research cache
+.runtime/

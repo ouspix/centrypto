@@ -21,13 +21,7 @@ vi.mock("@/components/TradeForm", () => ({
     TradeForm: () => <div>Manual order form</div>
 }))
 
-vi.mock("@/components/AIAdvisor", () => ({
-    AIAdvisor: () => <div>AI agent panel</div>
-}))
 
-vi.mock("@/components/LlmDecisionsLog", () => ({
-    LlmDecisionsLog: () => <div>LLM decision log</div>
-}))
 
 describe("TradingAndRisk", () => {
     beforeEach(() => {
@@ -46,16 +40,18 @@ describe("TradingAndRisk", () => {
         } as Response)
     })
 
-    it("places API wallet status directly under the Trading & Risk header", async () => {
+    it("places API wallet status directly under the Manual trading header", async () => {
         render(<TradingAndRisk />)
 
         await waitFor(() => {
             expect(screen.getByText("Ready")).toBeDefined()
         })
 
-        const title = screen.getByText("Trading & Risk")
+        expect(screen.queryByText("AI Agent")).toBeNull()
+        expect(screen.getByRole("link", { name: /autonomous desk/i }).getAttribute("href")).toBe("/desk")
+        const title = screen.getByText("Manual trading")
         const walletStatus = screen.getByText("Hyperliquid API Wallet")
-        const manualTab = screen.getByRole("tab", { name: /manual/i })
+        const manualTab = screen.getByText("Manual order form")
 
         expect(title.compareDocumentPosition(walletStatus) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
         expect(walletStatus.compareDocumentPosition(manualTab) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()

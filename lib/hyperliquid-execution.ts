@@ -56,6 +56,10 @@ export async function getAssetMeta(asset: number, isTestnet: boolean) {
     return universe[asset];
 }
 
+export function executionWalletAddress(privateKey: string): Hex {
+    return privateKeyToAccount(formatPrivateKey(privateKey)).address;
+}
+
 export function roundToTickSize(price: number, szDecimals: number): number {
     const maxDecimals = 6 - szDecimals;
     const maxSigFigs = 5;

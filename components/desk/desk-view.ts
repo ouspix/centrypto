@@ -89,13 +89,16 @@ export type Metrics = {
     cancelAt: string | null;
     lastError: string | null;
 };
+export type ChatThread = { message: JournalEntry; reply: JournalEntry | null; status: string };
 export type Overview = {
+    chat?: ChatThread[];
     books: Book[];
     book: Book | null;
     records: JournalEntry[];
     shifts: Shift[];
     watches: Watch[];
     killSwitch: boolean;
+    strategy?: {version:string;state:string} | null;
     state: { inventory: Inventory[]; intents: Intent[]; fills: Fill[]; pairs: Pair[]; metrics: Metrics | null } | null;
 };
 export type Action = (payload: Record<string, unknown>) => Promise<boolean>;
@@ -109,6 +112,9 @@ export const mandateLabels: Record<keyof DeskMandate, string> = {
     maxRiskPerTradeUsd: "Risk per trade ($)",
     maxSlippageBps: "Maximum slippage (bps)",
     minDepthUsd: "Minimum book depth ($)",
+    maxOpenRiskUsd: "Aggregate open risk ($)",
+    maxConcurrentPositions: "Maximum positions",
+    costAllowanceBps: "Risk cost allowance (bps)",
 };
 export const dollars = (n: number | null | undefined) =>
     n == null || !Number.isFinite(n)

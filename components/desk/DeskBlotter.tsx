@@ -16,13 +16,13 @@ function Table({
     empty: string;
 }) {
     return (
-        <section className="desk-card">
-            <h2>{title}</h2>
+        <section className="desk-panel-card">
+            <h3>{title}</h3>
             {!rows.length ? (
                 <p className="desk-muted">{empty}</p>
             ) : (
-                <div className="desk-scroll">
-                    <table aria-label={title}>
+                <div className="desk-panel-scroll desk-scroll" role="region" aria-label={`${title} table`} tabIndex={0}>
+                    <table className="desk-panel-table" aria-label={title}>
                         <thead>
                             <tr>
                                 {headers.map((h) => (
@@ -48,13 +48,13 @@ function Table({
     );
 }
 
-export function DeskBlotter({ data, act, busy }: { data: Overview; act: Action; busy: boolean }) {
+export function DeskBlotter({ data, act, busy, showUsage = true }: { data: Overview; act: Action; busy: boolean; showUsage?: boolean }) {
     const state = data.state;
     const metrics = state?.metrics;
     const intents = new Map((state?.intents ?? []).map((i) => [i.id, i]));
     return (
-        <div className="desk-stack">
-            <section className="desk-statbar" aria-label="Book performance">
+        <div className="desk-panel-body desk-panel-stack">
+            <dl className="desk-panel-metrics" aria-label="Book performance">
                 {[
                     ["Net P&L", metrics?.netPnlUsd],
                     ["Today", metrics?.dailyPnlUsd],
@@ -62,12 +62,12 @@ export function DeskBlotter({ data, act, busy }: { data: Overview; act: Action; 
                     ["Max drawdown", metrics?.drawdownUsd],
                 ].map(([label, n]) => (
                     <div key={label}>
-                        <span>{label}</span>
-                        <strong>{dollars(typeof n === "number" ? n : null)}</strong>
+                        <dt>{label}</dt>
+                        <dd>{dollars(typeof n === "number" ? n : null)}</dd>
                     </div>
                 ))}
-            </section>
-            {data.book && <DeskUsage key={data.book.id} bookId={data.book.id}/>}
+            </dl>
+            {showUsage && data.book && <DeskUsage key={data.book.id} bookId={data.book.id}/>}
             <Table
                 title="Inventory"
                 headers={["Instrument", "Quantity", "Basis", "Realized", "Funding", "Ownership"]}
@@ -102,6 +102,7 @@ export function DeskBlotter({ data, act, busy }: { data: Overview; act: Action; 
                                 {i.state === "unknown" && (
                                     <button
                                         type="button"
+                                        className="desk-panel-secondary"
                                         disabled={busy}
                                         title="Verify absence at the exchange before releasing the reservation"
                                         onClick={() =>
@@ -164,8 +165,8 @@ export function DeskBlotter({ data, act, busy }: { data: Overview; act: Action; 
                 }))}
             />
             {data.book?.kind === "quoting" && (
-                <section className="desk-card">
-                    <h2>Quoting mandate</h2>
+                <section className="desk-panel-card">
+                    <h3>Quoting mandate</h3>
                     <p>{metrics?.quoteJson ? "Authorized" : "No active quote grant"}</p>
                     {metrics?.quoteJson && <DataFields value={readData(metrics.quoteJson)} />}
                     <p>
@@ -175,7 +176,7 @@ export function DeskBlotter({ data, act, busy }: { data: Overview; act: Action; 
                 </section>
             )}
             <p className="desk-muted">Exchange reconciliation {dateTime(metrics?.lastSync)}</p>
-            {metrics?.lastError && <p role="alert">{metrics.lastError}</p>}
+            {metrics?.lastError && <p role="alert" className="desk-panel-error">{metrics.lastError}</p>}
         </div>
     );
 }
@@ -195,100 +196,84 @@ function DataFields({ value }: { value: Record<string, unknown> }) {
 
 export function DeskJournal({ data }: { data: Overview }) {
     const discussion = data.records.filter((r) => ["message", "note", "thesis", "consult"].includes(r.kind));
-    const audit = data.records.filter((r) => !discussion.includes(r));
+    const audit = data.records.filter((r) => !discussion.includes(r) && r.kind !== "role_activity");
     return (
-        <div className="desk-stack">
-            <section className="desk-card">
-                <h2>Roundtable and instructions</h2>
-                {!discussion.length && <p className="desk-muted">No discussion recorded.</p>}
-                {discussion.map((r) => {
-                    const d = readData(r.dataJson);
-                    const role = roleMandates[r.role as DeskRole]?.title ?? r.role;
-                    return (
-                        <article className="desk-entry" key={r.id}>
-                            <header>
-                                <strong>{role}</strong>
-                                <time>{dateTime(r.createdAt)}</time>
-                            </header>
-                            {r.kind === "message" && (
-                                <small>{d.mode === "live" ? "Trading instruction" : "Research request"}</small>
-                            )}
-                            <p>
-                                {field(d, "summary") ||
-                                    field(d, "message") ||
-                                    field(d, "thesis") ||
-                                    field(d, "question")}
-                            </p>
-                            {d.summary && d.thesis ? (
-                                <p>
-                                    <b>Thesis</b> {field(d, "thesis")}
-                                </p>
-                            ) : null}
-                            {field(d, "invalidation") && (
-                                <p>
-                                    <b>Invalidation</b> {field(d, "invalidation")}
-                                </p>
-                            )}
-                            {field(d, "dissent") && (
-                                <p className="desk-dissent">
-                                    <b>Dissent</b> {field(d, "dissent")}
-                                </p>
-                            )}
-                            {Array.isArray(d.evidenceIds) && d.evidenceIds.length > 0 && (
-                                <small>Evidence {d.evidenceIds.join(" · ")}</small>
-                            )}
-                            {field(d, "followUpAt") && <small>Review {dateTime(field(d, "followUpAt"))}</small>}
+        <div className="desk-journal">
+            <section className="desk-panel-body desk-panel-stack">
+                <h3>Roundtable and instructions</h3>
+                {discussion.length === 0 ? (
+                    <p className="desk-muted">No discussion recorded.</p>
+                ) : (
+                    <div className="desk-journal-list desk-panel-scroll" role="region" aria-label="Roundtable entries" tabIndex={0}>
+                        {discussion.map((r) => {
+                            const d = readData(r.dataJson);
+                            const role = roleMandates[r.role as DeskRole]?.title ?? r.role;
+                            return (
+                                <article className="desk-entry desk-journal-entry" data-operator={r.role === "operator"} key={r.id}>
+                                    <header>
+                                        <strong>{role}</strong>
+                                        <time dateTime={r.createdAt}>{dateTime(r.createdAt)}</time>
+                                    </header>
+                                    {r.kind === "message" && (
+                                        <small>{d.mode === "live" ? "Trading instruction" : "Research request"}</small>
+                                    )}
+                                    <p>{field(d, "summary") || field(d, "message") || field(d, "thesis") || field(d, "question")}</p>
+                                    {d.summary && d.thesis ? <p><b>Thesis</b> {field(d, "thesis")}</p> : null}
+                                    {field(d, "invalidation") && <p><b>Invalidation</b> {field(d, "invalidation")}</p>}
+                                    {field(d, "dissent") && <p className="desk-dissent"><b>Dissent</b> {field(d, "dissent")}</p>}
+                                    {Array.isArray(d.evidenceIds) && d.evidenceIds.length > 0 && (
+                                        <small>Evidence {d.evidenceIds.join(" · ")}</small>
+                                    )}
+                                    {field(d, "followUpAt") && <small>Review {dateTime(field(d, "followUpAt"))}</small>}
+                                </article>
+                            );
+                        })}
+                    </div>
+                )}
+            </section>
+            <div className="desk-journal-sidebar">
+                <section className="desk-panel-stack">
+                    <h3>Watches and passed opportunities</h3>
+                    {data.watches.length === 0 && <p className="desk-muted">No watches or passes.</p>}
+                    {data.watches.map((w) => (
+                        <article key={w.id} className="desk-entry desk-journal-entry">
+                            <strong>{w.kind} · {w.instrumentId ?? "Portfolio"} · {w.status}</strong>
+                            <p>{w.thesis}</p>
+                            <small>
+                                Review {dateTime(w.deadline)}
+                                {w.referencePrice != null && ` · First executable ${w.referencePrice}`}
+                                {w.threshold != null && ` · Trigger ${w.threshold}`}
+                            </small>
+                            {w.eventKey && <small>Event {w.eventKey}</small>}
+                            {w.outcomeJson && <DataFields value={readData(w.outcomeJson)} />}
                         </article>
-                    );
-                })}
-            </section>
-            <section className="desk-card">
-                <h2>Watches and passed opportunities</h2>
-                {!data.watches.length && <p className="desk-muted">No watches or passes.</p>}
-                {data.watches.map((w) => (
-                    <article key={w.id} className="desk-entry">
-                        <strong>
-                            {w.kind} · {w.instrumentId ?? "Portfolio"} · {w.status}
-                        </strong>
-                        <p>{w.thesis}</p>
-                        <small>
-                            Review {dateTime(w.deadline)}
-                            {w.referencePrice != null && ` · First executable ${w.referencePrice}`}
-                            {w.threshold != null && ` · Trigger ${w.threshold}`}
-                        </small>
-                        {w.eventKey && <small>Event {w.eventKey}</small>}
-                        {w.outcomeJson && <DataFields value={readData(w.outcomeJson)} />}
-                    </article>
-                ))}
-            </section>
-            <section className="desk-card">
-                <h2>Shifts</h2>
-                {!data.shifts.length && <p className="desk-muted">No shifts recorded.</p>}
-                {data.shifts.map((s) => (
-                    <details key={s.id}>
-                        <summary>
-                            {dateTime(s.createdAt)} · {s.mode} · {s.status}
-                        </summary>
-                        {s.error && <p>{s.error}</p>}
-                        <DataFields value={readData(s.briefJson)} />
-                    </details>
-                ))}
-            </section>
-            <section className="desk-card">
-                <h2>Tools and control history</h2>
-                {!audit.length && <p className="desk-muted">No tool calls or control changes.</p>}
-                {audit.map((r) => {
-                    const d = readData(r.dataJson);
-                    return (
-                        <details key={r.id}>
-                            <summary>
-                                {dateTime(r.createdAt)} · {r.role} · {r.kind} {field(d, "name")}
-                            </summary>
-                            <DataFields value={d} />
+                    ))}
+                </section>
+                <section>
+                    <h3>Shifts</h3>
+                    {data.shifts.length === 0 && <p className="desk-muted">No shifts recorded.</p>}
+                    {data.shifts.map((s) => (
+                        <details className="desk-panel-details" key={s.id}>
+                            <summary>{dateTime(s.createdAt)} · {s.mode} · {s.status}</summary>
+                            {s.error && <p>{s.error}</p>}
+                            <DataFields value={readData(s.briefJson)} />
                         </details>
-                    );
-                })}
-            </section>
+                    ))}
+                </section>
+                <section>
+                    <h3>Tools and control history</h3>
+                    {audit.length === 0 && <p className="desk-muted">No tool calls or control changes.</p>}
+                    {audit.map((r) => {
+                        const d = readData(r.dataJson);
+                        return (
+                            <details className="desk-panel-details" key={r.id}>
+                                <summary>{dateTime(r.createdAt)} · {r.role} · {r.kind} {field(d, "name")}</summary>
+                                <DataFields value={d} />
+                            </details>
+                        );
+                    })}
+                </section>
+            </div>
         </div>
     );
 }

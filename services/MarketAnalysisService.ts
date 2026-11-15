@@ -92,6 +92,11 @@ export class MarketAnalysisService {
         allowFetch = allowFetch && process.env.MARKET_COLLECTOR_ROLE === "worker";
         // 1. Fetch 1m candles with caching
         const candles = await this.fetchCandlesWithCache(symbol, isTestnet, allowFetch);
+        return this.calculateMetrics(candles);
+    }
+
+    /** Shared calculation for explicitly observed candles; callers own coverage checks. */
+    public calculateMetrics(candles: Candle[]): MarketMetrics {
 
         // Initialize defaults
         const metrics: MarketMetrics = {

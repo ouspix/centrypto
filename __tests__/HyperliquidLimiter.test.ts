@@ -40,6 +40,35 @@ describe("Hyperliquid limiter", () => {
         expect(global.fetch).toHaveBeenCalledTimes(2);
     });
 
+    it("refreshes account balances after the TTL without using the framework fetch cache", async () => {
+        vi.useFakeTimers();
+        try {
+            let liveBalance = "1246.638863";
+            let frameworkCachedBalance: string | undefined;
+            global.fetch = vi.fn(async (_url, options) => {
+                // Model Next's persistent cache, independent of the limiter TTL.
+                const balance = options?.cache === "no-store"
+                    ? liveBalance
+                    : (frameworkCachedBalance ??= liveBalance);
+                return { ok: true, status: 200, json: async () => ({ balance }) } as Response;
+            });
+            const read = () => hyperliquidInfoPost("hl:info:spotClearinghouseState",
+                "https://example.test/info", { type: "spotClearinghouseState", user: "0xabc" },
+                { ttlMs: 2000 });
+
+            expect(await read()).toEqual({ balance: "1246.638863" });
+            liveBalance = "1254.056697";
+            expect(await read()).toEqual({ balance: "1246.638863" });
+            expect(global.fetch).toHaveBeenCalledTimes(1);
+
+            vi.setSystemTime(Date.now() + 2001);
+            expect(await read()).toEqual({ balance: "1254.056697" });
+            expect(global.fetch).toHaveBeenCalledTimes(2);
+        } finally {
+            vi.useRealTimers();
+        }
+    });
+
     it("serves stale safe reads when refresh fails", async () => {
         vi.useFakeTimers();
         vi.setSystemTime(new Date("2026-04-30T00:00:00Z"));

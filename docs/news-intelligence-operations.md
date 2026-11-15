@@ -24,7 +24,7 @@ flowchart LR
       Sol --> Validation["Existing decision validation and risk controls"]
       Existing --> Validation
       Validation --> Delegated["Existing delegated execution"]
-      App --> SQLite["Local application SQLite + replay audit"]
+      App --> SQLite["Local application PostgreSQL + replay audit"]
       Backtests["Historical backtests"] --> Archive["Local backtest SQLite / files"]
     end
 ```
@@ -54,8 +54,7 @@ and writes ignored `data/deployment/collector-owner.txt`; upload that file
 and run `collector/deploy/pair_owner.py <owner-file>` as the VPS administrator
 before activation (or to update the existing bridge). No private key is involved.
 
-The local supervisor starts the tunnel and inference worker, retries disconnected
-processes, and never starts trading. Run `npm run runtime:local` in WSL, or install
+The local supervisor starts the tunnel, inference worker, desk worker and historical-research worker, and retries disconnected processes. Already enabled desk books can trade on their configured network. Run `npm run runtime:local` in WSL, or install
 the Windows logon task with `scripts/install_local_runtime.ps1`. Avoid running
 the PM2 alternative and logon task together; a file lock prevents two supervisors.
 Logs are in ignored `logs/intelligence/`. `npm run runtime:status` reports source,
@@ -155,7 +154,7 @@ channels are never collection tasks.
 ## Data and retention
 
 `prisma/runtime-market` is PostgreSQL market storage; `prisma/news` is PostgreSQL
-private news storage; `prisma/schema.prisma` remains local application SQLite;
+private news storage; `prisma/schema.prisma` defines the shared application models used by the local PostgreSQL deployment;
 `prisma/market` generates the separate SQLite backtest client. Generate all four
 clients with `npm run prisma:generate`. Do not run the SQLite market migration
 against PostgreSQL. `scripts/configure_vps.mjs` applies the PostgreSQL migrations
@@ -175,8 +174,7 @@ the database commit; revision uniqueness makes capture retries idempotent.
 Raw evidence expires after 30 days, unprocessed backlog is limited to 500 MB,
 and derived intelligence and local replay snapshots expire after 90 days.
 Retention losses are counted and displayed. Source removal deletes its evidence
-and invalidates wallet-derived briefings for rebuilding. Public legacy sentiment
-routes read only their original local public tables and never read private news.
+and invalidates wallet-derived briefings for rebuilding. The legacy sentiment pipeline, public routes and application tables have been removed. The authenticated desk sentiment tool uses News Intelligence through the configured collector account, preserving evidence dates and source health.
 
 ## Models and staged rollout
 
@@ -188,6 +186,8 @@ Authentication stays in the local user's normal Codex configuration.
 CLI execution is local; prompts are sent to the model service through your Codex
 account. Model credentials are not installed on the VPS.
 
+Routine reporting waits for eight documents or ten minutes from the oldest pending item, checked on the worker's maintenance tick. Priority alerts outside the reporting-wire category are eligible at the next tick. Each job retains the 40-document and 60,000-character limits. Identical text within one request is supplied once with separate evidence references. An exact dated copy from the same source can reuse a completed analysis. Original evidence stays searchable. Repeated runner failures back off to thirty minutes.
+
 The queue allows one execution, prioritizes waiting trader jobs, kills executions
 after 90 seconds, and backs off quota errors. It does not interrupt a running news
 job for a trader. Subprocesses get isolated working directories, a restricted
@@ -196,8 +196,9 @@ Authentication/model failures are visible; no alternate model is silently used.
 Existing saved OpenRouter/Ollama strings and defaults remain valid.
 
 The Luna output schema contains the exact frozen asset universe and current
-evidence IDs, with a second semantic validator before storage. Rejected evidence
-is visible and can be requeued using **Retry analysis**. `scripts/diagnose_news.ts`
+evidence IDs, with a second semantic validator before storage. Evidence that fails
+validation is requeued automatically once. If validation fails again, the evidence
+is visible as rejected and can be requeued using **Retry analysis**. `scripts/diagnose_news.ts`
 prints validation codes without raw text. `scripts/evaluate_news.ts` sends a
 synthetic rumor/copy/contradiction/multilingual/injection fixture through the same
 local queue; it never inserts fixture evidence into the news database.
@@ -235,4 +236,4 @@ freshness for 24 hours before declaring the requested cadence achieved.
 `npm run test:market-parity` runs the existing historical screener integration
 test separately against the configured market dataset. Its assertions remain
 unchanged; the pre-existing rank-count discrepancy (expected 1, received 20) is a
-separate issue. Local Python backtest suites remain applicable.
+separate issue. Historical archive recovery checks remain applicable; strategy replay is now tested by the desk research suites.

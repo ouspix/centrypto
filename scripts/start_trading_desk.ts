@@ -11,8 +11,10 @@ if (original)
 async function main() {
     const { ensureAppDbReady, prisma } = await import("../lib/db");
     const { TradingDeskWorker } = await import("../services/TradingDeskWorker");
+    const { ROLE_VERSION } = await import("../lib/desk/roles");
     await ensureAppDbReady();
     const worker = new TradingDeskWorker();
+    console.info(`[Trading desk] Started pid=${process.pid} roleVersion=${ROLE_VERSION}`);
     let stop = false;
     process.once("SIGTERM", () => {
         stop = true;

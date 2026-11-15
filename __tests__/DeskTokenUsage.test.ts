@@ -4,7 +4,7 @@ import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { PrismaClient } from "@prisma/client";
-import { beginTokenMeter, deskModel, readBookUsage, readUsageSnapshot, usageDayWindow } from "@/lib/desk/token-usage";
+import { beginTokenMeter, deskModel, readBookUsage, readUsageSnapshot, usageDayWindow, reconcileTokenMeters } from "@/lib/desk/token-usage";
 import { codexDeskTransport, verifyDeskRuntime, deskProbeCoolingDown } from "@/lib/desk/runtime";
 
 let db: PrismaClient, directory: string;
@@ -40,6 +40,40 @@ afterAll(async () => {
 });
 
 describe("desk token accounting", () => {
+    it("recovers from a failed snapshot write and still finalizes with exact observed counts", async () => {
+        const update = vi.fn((args: any) => db.deskTokenUsage.updateMany(args)).mockRejectedValueOnce(new Error("database outage"));
+        const faultDb = { deskTokenUsage: { create: (args: any) => db.deskTokenUsage.create(args), updateMany: update } } as unknown as PrismaClient;
+        const meter = await beginTokenMeter({ threadId: "transient-write", model: deskModel, role: "lead", kind: "role" }, faultDb);
+        await expect(meter.snapshot("turn", counts(1))).rejects.toThrow("database outage");
+        await meter.snapshot("turn", counts(2));
+        await meter.finish("completed", "turn");
+        expect(await db.deskTokenUsage.findUnique({ where: { threadId: "transient-write" } })).toMatchObject({ status: "completed", totalTokens: BigInt(200) });
+    });
+    it("finalizes even if the last usage flush fails, without inventing missing telemetry", async () => {
+        const update = vi.fn((args: any) => db.deskTokenUsage.updateMany(args)).mockRejectedValueOnce(new Error("database outage"));
+        const faultDb = { deskTokenUsage: { create: (args: any) => db.deskTokenUsage.create(args), updateMany: update } } as unknown as PrismaClient;
+        const meter = await beginTokenMeter({ threadId: "failed-flush", model: deskModel, role: "lead", kind: "role" }, faultDb);
+        await expect(meter.snapshot("turn", counts(1))).rejects.toThrow();
+        update.mockRejectedValueOnce(new Error("still unavailable"));
+        await expect(meter.finish("cancelled", "turn")).rejects.toThrow();
+        expect(await db.deskTokenUsage.findUnique({ where: { threadId: "failed-flush" } })).toMatchObject({ status: "cancelled", totalTokens: null });
+    });
+    it("closes orphan meters while preserving totals, nulls and active retries", async () => {
+        const now = new Date("2026-11-12T17:00Z");
+        const rows = [
+            { threadId: "terminal", shiftId: "ended", startedAt: new Date(+now - 120000), reportedAt: new Date(+now - 90000), totalTokens: BigInt(350) },
+            { threadId: "unmetered", shiftId: "ended", startedAt: new Date(+now - 120000), reportedAt: null, totalTokens: null },
+            { threadId: "active-retry", shiftId: "live", startedAt: new Date(+now - 60000), reportedAt: now, totalTokens: BigInt(100) },
+            { threadId: "dead-process", shiftId: "live", startedAt: new Date(+now - 800000), reportedAt: null, totalTokens: null },
+        ];
+        const fake = { deskTokenUsage: { findMany: vi.fn(async () => rows), updateMany: vi.fn(async () => ({ count: 1 })) },
+            deskShift: { findMany: vi.fn(async () => [{ id: "ended", status: "completed", endedAt: new Date(+now - 60000) }, { id: "live", status: "running", endedAt: null }]) } };
+        expect((await reconcileTokenMeters(fake as any, now)).interrupted).toEqual(["terminal", "unmetered", "dead-process"]);
+        for (const [args] of fake.deskTokenUsage.updateMany.mock.calls as unknown as Array<[any]>) {
+            expect(args.data).toEqual({ status: "interrupted", finishedAt: now });
+            expect(args.where).toHaveProperty("reportedAt");
+        }
+    });
     it("uses the day of turn start, including both Paris DST transitions", () => {
         expect(usageDayWindow("2026-03-29")).toMatchObject({
             start: new Date("2026-03-28T23:00Z"),

@@ -15,6 +15,12 @@ const OFFICIAL = new Map([
     ["https://status.circle.com/history.rss", "Circle"],
     ["https://status.coinbase.com/history.rss", "Coinbase"],
     ["https://blog.ethereum.org/en/feed.xml", "Ethereum Foundation"],
+    ["https://x.com/Enter_Elysium", "Elysium"],
+    ["https://x.com/tradexyz", "Trade[XYZ]"],
+    ["https://x.com/CoinbaseAssets", "Coinbase"],
+    ["https://x.com/avax", "Avalanche"],
+    ["https://t.me/s/upbit_news", "Upbit"],
+    ["https://feed-api.bithumb.com/v1/notices?count=20", "Bithumb"],
 ]);
 const normalize = (s: string) => s.toLocaleLowerCase("en-US").replace(/[^\p{L}\p{N}]/gu, "");
 export type DeskEvidence = {
@@ -222,6 +228,14 @@ export function legacySymbolMatch(signal: NewsSignal, symbols?: Set<string>) {
                 symbols.has(t.symbol) &&
                 !!t.mechanism.trim()),
     );
+}
+
+export function assetNewsMatch(signal: NewsSignal, symbols: Set<string>) {
+    if (!signal.facts) return signal.symbols.some(symbol => symbols.has(symbol.toUpperCase()));
+    const subject = signal.facts.subject?.symbol;
+    if (subject && symbols.has(subject.toUpperCase())) return true;
+    return resolvableTargets(signal).some(target =>
+        target.relation !== "market" && !!target.symbol && symbols.has(target.symbol.toUpperCase()));
 }
 
 export type DeskNewsWake = {

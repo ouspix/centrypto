@@ -22,6 +22,9 @@ async function main() {
             const latest = await db.marketTick.findFirst({ orderBy: { ts: "desc" }, select: { ts: true } });
             console.log(JSON.stringify({ network, latestMarketTick: latest?.ts, collectorRole: process.env.MARKET_COLLECTOR_ROLE }));
         }
+        const books = await prisma.deskBook.findMany({ select: { id: true, enabled: true, isTestnet: true, heartbeatAt: true, lastError: true } });
+        const research = await prisma.deskResearchRun.groupBy({ by: ["status"], _count: true });
+        console.log(JSON.stringify({ books: books.map(book => ({ ...book, executionEnvironment: book.isTestnet ? "paper_testnet" : "live_mainnet" })), research }));
         const jobs = await prisma.codexJob.groupBy({ by: ["purpose", "status", "errorCode"], _count: true });
         console.log(JSON.stringify({ jobs }));
         if (process.argv.includes("--migration")) {

@@ -22,31 +22,6 @@ model Candle {
   @@index([symbol, interval, t])
 }
 
-model MarketStateSnapshot {
-  id        Int      @id @default(autoincrement())
-  data      String
-  createdAt DateTime @default(now())
-}
-
-model Message {
-  id             Int      @id @default(autoincrement())
-  externalId     String
-  source         String
-  symbol         String
-  text           String
-  ts             DateTime
-  likeCount      Int?
-  retweetCount   Int?
-  replyCount     Int?
-  sentimentScore Float?
-  sentimentConf  Float?
-  tagsJson       String?
-  language       String?
-
-  @@unique([externalId, source, symbol])
-  @@index([symbol, ts])
-}
-
 model PriceAlert {
   id            String    @id
   symbol        String
@@ -67,30 +42,6 @@ model ScreeningSnapshot {
   id        Int      @id @default(autoincrement())
   data      String
   createdAt DateTime @default(now())
-}
-
-model SymbolBaseline {
-  id             Int      @id @default(autoincrement())
-  symbol         String   @unique
-  avgMentions24h Float
-  updatedAt      DateTime
-}
-
-model SymbolSentimentSnapshot {
-  id                 Int      @id @default(autoincrement())
-  symbol             String
-  windowMinutes      Int
-  score              Float
-  change2h           Float
-  mentions           Int
-  mentionsVsBaseline Float
-  disagreement       Float
-  sourceMixJson      String
-  tagsJson           String
-  updatedAt          DateTime @default(now())
-
-  @@index([symbol, windowMinutes, updatedAt])
-  @@index([symbol, updatedAt])
 }
 
 model Trade {

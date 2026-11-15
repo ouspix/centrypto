@@ -4,7 +4,7 @@ import { MarketAnalysisService } from "./MarketAnalysisService";
 
 const REGIME_DEPTH_BANDS = ["0.10", "1.00"];
 
-const REGIME_UNIVERSE = {
+export const REGIME_UNIVERSE = {
     majors: {
         symbols: ["BTC-PERP", "ETH-PERP"],
         weights: {
@@ -197,12 +197,6 @@ export class RegimeUniverseService {
             },
             open_interest: {
                 current: candidate.openInterest
-            },
-            sentiment: {
-                score: 0,
-                mentionsVsBaseline: 0,
-                disagreement: 0,
-                change2h: 0
             },
             regime_tags: metrics.regime_tags,
             high_low: metrics.high_low,

@@ -1,12 +1,23 @@
 import type { PrismaClient, DeskBook, DeskIntent } from "@prisma/client";
 import type { DeskInstrument } from "./instruments";
-import { finite, positive, positionKey, fx, type DeskAccount, type DeskVenue } from "./execution-types";
+import { finite, positive, positionKey, fx, type DeskAccount, type DeskVenue, type VenueStatus } from "./execution-types";
 import { inventoryAfter, LIVE_ORDER_STATES } from "./execution-risk";
+import { reconcileAbsentSubmission } from "./absent-submission";
 
 export function keyed(bookId: string, instrumentId: string) {
     return { bookId_instrumentId: { bookId, instrumentId } };
 }
 const active = (i: DeskIntent) => LIVE_ORDER_STATES.includes(i.state);
+const terminalStatus=(status:string)=>status==="filled"||status==="canceled"||status==="rejected"||status==="scheduledCancel"||/^(?:margin|vaultWithdrawal|openInterestCap|selfTrade|reduceOnly|siblingFilled|delisted|liquidated)Canceled$/.test(status)||/^(?:tick|minTradeNtl|perpMargin|reduceOnly|badAloPx|iocCancel|badTriggerPx|marketOrderNoLiquidity|positionIncreaseAtOpenInterestCap|positionFlipAtOpenInterestCap|tooAggressiveAtOpenInterestCap|openInterestIncrease|insufficientSpotBalance|oracle|perpMaxPosition)Rejected$/.test(status);
+/** A terminal IOC may report filled with a nonzero canceled remainder. */
+function terminalFilledQuantity(order:DeskIntent,status:NonNullable<VenueStatus>,through:number){
+    if(!terminalStatus(status.status)||status.statusTimestamp!==undefined&&status.statusTimestamp>through)return null;
+    if(status.cloid&&status.cloid!==order.cloid||status.coin&&status.coin!==order.coin||status.side&&status.side!==(order.side==="buy"?"B":"A"))return null;
+    const original=status.originalQuantity,remaining=status.remainingQuantity;
+    if(original===undefined||remaining===undefined)return status.status==="filled"?order.quantity:null;
+    if(!Number.isFinite(original)||!Number.isFinite(remaining)||original<=0||remaining<0||remaining>original||Math.abs(original-order.quantity)>Math.max(1e-9,order.quantity*1e-9))return null;
+    return original-remaining;
+}
 export async function syncLedger(db: PrismaClient, venue: DeskVenue, book: DeskBook, instruments: DeskInstrument[]) {
     const bookId = book.id,
         end = Date.now(),
@@ -15,11 +26,12 @@ export async function syncLedger(db: PrismaClient, venue: DeskVenue, book: DeskB
         book.createdAt.getTime(),
         (state?.lastSync?.getTime() ?? book.createdAt.getTime()) - 120_000,
     );
-    const [fills, funding, orders] = await Promise.all([
+    let [fills, funding, orders] = await Promise.all([
         venue.fills(book, start, end),
         venue.funding(book, start, end),
         db.deskIntent.findMany({ where: { bookId } }),
     ]);
+    const statuses = new Map<string,NonNullable<VenueStatus>>();
     const byOid = new Map<string, DeskIntent>(),
         byCloid = new Map<string, DeskIntent>();
     for (const o of orders) {
@@ -28,18 +40,23 @@ export async function syncLedger(db: PrismaClient, venue: DeskVenue, book: DeskB
         if (!active(o)) continue;
         const s = await venue.status(book, o.cloid);
         if (!s) continue; // Network-ambiguous submission stays reserved until positively reconciled.
+        if(s.cloid&&s.cloid!==o.cloid||o.oid&&s.oid!==o.oid)continue;
+        statuses.set(o.id,s);
         byOid.set(s.oid, o);
         const state =
             s.status === "open" || s.status === "triggered"
                 ? "working"
-                : s.status === "filled"
-                  ? "settling"
-                  : "terminal";
+                : terminalStatus(s.status) ? "settling" : "unknown";
         await db.deskIntent.update({
             where: { id: o.id },
-            data: { oid: s.oid, state, reservedUsd: state === "terminal" ? 0 : undefined, reason: s.status },
+            data: { oid: s.oid, state, reason: s.status },
         });
     }
+    // Recover delayed fills outside the rolling window only when an exact terminal
+    // receipt proves the journal is missing executions. Never infer fills from status.
+    const recoveryStarts=orders.flatMap(o=>{const s=statuses.get(o.id),expected=s?terminalFilledQuantity(o,s,end):null;
+        return expected!==null&&expected>o.filledQty+1e-9&&o.createdAt.getTime()<start?[Math.max(book.createdAt.getTime(),o.createdAt.getTime()-1000)]:[];});
+    if(recoveryStarts.length)fills=[...fills,...await venue.fills(book,Math.min(...recoveryStarts),end)];
     const account = await venue.account(book, instruments);
     const flows = [
         ...fills.map((fill) => ({ time: fill.time, fill, fund: undefined })),
@@ -167,6 +184,11 @@ export async function syncLedger(db: PrismaClient, venue: DeskVenue, book: DeskB
                 },
             });
             const request = JSON.parse(order.requestJson);
+            if(!inv?.quantity && next.quantity && request.strategyVersion && request.maxHoldHours){
+                const key=`position-plan:${i.id}`;
+                const dataJson=JSON.stringify({instrumentId:i.id,strategyVersion:request.strategyVersion,proposalKey:request.proposalKey,openedAt:new Date(time).toISOString(),maxHoldUntil:new Date(time+request.maxHoldHours*3600000).toISOString(),intentId:order.id});
+                await tx.deskRecord.upsert({where:{bookId_key:{bookId,key}},create:{bookId,key,kind:"position_plan",role:"host",dataJson},update:{dataJson,createdAt:new Date(time)}});
+            }
             const stopPrice = next.quantity === 0 ? null : (request.stopPrice ?? inv?.stopPrice ?? null);
             const targetPrice = next.quantity === 0 ? null : (request.takeProfitPrice ?? inv?.targetPrice ?? null);
             await tx.deskInventory.upsert({
@@ -183,6 +205,7 @@ export async function syncLedger(db: PrismaClient, venue: DeskVenue, book: DeskB
                 },
                 update: {
                     quantity: next.quantity,
+                    ...(!inv?.quantity && next.quantity ? {since:new Date(time)} : {}),
                     basis: next.basis,
                     realizedUsd: { increment: next.pnl - fee * rate },
                     stopPrice,
@@ -193,10 +216,45 @@ export async function syncLedger(db: PrismaClient, venue: DeskVenue, book: DeskB
                 await tx.deskIntent.update({ where: { id: order.id }, data: { filledQty: { increment: sz } } });
         });
     }
-    await db.deskIntent.updateMany({
-        where: { bookId, state: "settling", filledQty: { gte: db.deskIntent.fields.quantity } },
-        data: { state: "filled", reservedUsd: 0 },
-    });
+    for(const old of orders){
+        const status=statuses.get(old.id),expected=status?terminalFilledQuantity(old,status,end):null;
+        if(expected===null||!status||account.openOrders.some(o=>String(o.oid)===status.oid||o.cloid===old.cloid))continue;
+        const current=await db.deskIntent.findUniqueOrThrow({where:{id:old.id}}),instrument=instruments.find(i=>i.id===old.instrumentId);
+        if(!instrument||Math.abs(current.filledQty-expected)>Math.max(1e-9,old.quantity*1e-9))continue;
+        const inventory=await db.deskInventory.findUnique({where:keyed(bookId,old.instrumentId)}),live=account.positions.get(positionKey(instrument))??0;
+        if(Math.abs((inventory?.quantity??0)-live)>Math.max(1e-9,Math.abs(live)*1e-9))continue;
+        // A delayed close can be journaled after an earlier account/ledger mismatch.
+        // Only repair that specific suspension with a terminal, fully journaled
+        // reduce-only close, exact flat agreement and no remaining venue orders.
+        const repairFlat = inventory?.suspended && inventory.reason === "Exchange inventory differs from desk ledger" &&
+            inventory.quantity === 0 && live === 0 && expected > 0 && JSON.parse(old.requestJson).reduceOnly === true &&
+            !account.openOrders.some(o => o.coin === instrument.coin) &&
+            !orders.some(o => o.id !== old.id && o.instrumentId === old.instrumentId && active(o));
+        if(inventory?.suspended && !repairFlat)continue;
+        await db.$transaction(async tx=>{
+            if (repairFlat && inventory) {
+                const flows = await tx.deskCashFlow.findMany({ where: { bookId, instrumentId: old.instrumentId,
+                    occurredAt: { gte: inventory.since }, kind: { in: ["fill", "protection"] } } });
+                const closeQty = flows.filter(f => f.intentId === old.id && f.kind === "fill").reduce((n, f) => n + Math.abs(f.quantity), 0);
+                if (Math.abs(closeQty - expected) > 1e-9 || Math.abs(flows.reduce((n, f) => n + f.quantity, 0)) > 1e-9) return;
+                const cleared = await tx.deskInventory.updateMany({ where: { id: inventory.id, quantity: 0,
+                    suspended: true, reason: inventory.reason, updatedAt: inventory.updatedAt },
+                    data: { suspended: false, reason: null } });
+                if (!cleared.count) return;
+                await tx.deskRecord.upsert({ where: { bookId_key: { bookId, key: "flat-reconciliation:" + old.id } },
+                    create: { bookId, key: "flat-reconciliation:" + old.id, kind: "inventory_reconciliation", role: "host",
+                        dataJson: JSON.stringify({ instrumentId: old.instrumentId, intentId: old.id,
+                            priorReason: inventory.reason, quantity: 0, venueQuantity: 0, executedQuantity: closeQty,
+                            proof: "Terminal reduce-only close, exact journaled fills, balanced episode, flat venue and ledger, no open venue orders or other active intents.",
+                            reconciledAt: new Date().toISOString() }) }, update: {} });
+            }
+            const changed=await tx.deskIntent.updateMany({where:{id:old.id,state:"settling",filledQty:current.filledQty},
+                data:{state:status.status==="filled"?"filled":"terminal",reservedUsd:0}});
+            if(changed.count)await tx.deskRecord.upsert({where:{bookId_key:{bookId,key:"settlement:"+old.id}},
+                create:{bookId,key:"settlement:"+old.id,kind:"order_reconciliation",role:"host",dataJson:JSON.stringify({intentId:old.id,oid:status.oid,venueStatus:status.status,venueStatusAt:status.statusTimestamp??null,requestedQuantity:old.quantity,executedQuantity:current.filledQty,unfilledQuantity:old.quantity-current.filledQty,releasedReservationUsd:current.reservedUsd,reconciledAt:new Date().toISOString(),proof:"Terminal venue status; exact journaled executed quantity; no live entry order; account and owned inventory agree. No exchange write."})},update:{}});
+        });
+    }
+    for (const order of orders) await reconcileAbsentSubmission(db, venue, book, instruments, order);
     const inventory = await db.deskInventory.findMany({ where: { bookId } });
     let unrealized = 0,
         realized = 0,

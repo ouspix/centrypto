@@ -27,6 +27,29 @@ export function hyperliquidInfoUrl(isTestnet: boolean): string {
         : "https://api.hyperliquid.xyz/info";
 }
 
+export type AssetLeverage = { type: 'cross' | 'isolated'; value: number };
+
+export async function getActiveAssetLeverage(user: string, coin: string, isTestnet: boolean): Promise<AssetLeverage | null> {
+    try {
+        const response = await fetch(hyperliquidInfoUrl(isTestnet), {
+            method: 'POST',
+            cache: 'no-store',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: 'activeAssetData', user, coin }),
+            signal: AbortSignal.timeout(2000),
+        });
+        if (!response.ok) return null;
+        const data = await response.json() as { user?: string; coin?: string; leverage?: AssetLeverage };
+        const leverage = data?.leverage;
+        if (data?.user?.toLowerCase() !== user.toLowerCase() || data.coin !== coin) return null;
+        return leverage && (leverage.type === 'cross' || leverage.type === 'isolated')
+            && Number.isSafeInteger(leverage.value) && leverage.value > 0 ? leverage : null;
+    } catch (error) {
+        safeWarn("Could not observe Hyperliquid order leverage", error);
+        return null;
+    }
+}
+
 export async function waitForHyperliquidSlot(): Promise<void> {
     await waitForLimiterSlot();
 }
@@ -222,7 +245,7 @@ export async function getOpenOrders(userAddress: string, isTestnet: boolean = fa
     }
 }
 
-export async function getFrontendOpenOrders(userAddress: string, isTestnet: boolean = false) {
+export async function getFrontendOpenOrders(userAddress: string, isTestnet: boolean = false, fresh = false) {
     try {
         return await hyperliquidInfoPost<any[]>(
             "hl:info:frontendOpenOrders",
@@ -231,7 +254,7 @@ export async function getFrontendOpenOrders(userAddress: string, isTestnet: bool
                 type: "frontendOpenOrders",
                 user: userAddress.toLowerCase()
             },
-            { ttlMs: 1_000, staleMs: 5_000, allowStale: true }
+            fresh ? { ttlMs: 0, staleMs: 0, allowStale: false } : { ttlMs: 1_000, staleMs: 5_000, allowStale: true }
         );
     } catch (error) {
         safeError("Error fetching Hyperliquid frontend open orders", error);

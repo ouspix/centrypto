@@ -40,13 +40,6 @@ export type AccountState = {
     derived_portfolio: DerivedPortfolio;
 };
 
-export type MarketSentiment = {
-    score: number;
-    mentionsVsBaseline: number;
-    disagreement: number;
-    change2h: number;
-};
-
 export type MarketEntry = {
     symbol: string;
     price: number;
@@ -97,7 +90,6 @@ export type MarketEntry = {
         current: number;
         delta_5m?: number;
     };
-    sentiment: MarketSentiment;
     regime_tags?: string[];
     high_low?: any;
     bbands?: any;

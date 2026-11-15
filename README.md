@@ -2,7 +2,7 @@
 
 [Autonomous trading desk: installation, books and operator controls](docs/autonomous-desk.md)
 
-Centrypto is a testnet-first crypto trading research app for Hyperliquid. It combines VPS market/news collection, private evidence-backed news intelligence, screening, an AI trader workflow, manual execution controls, and a TypeScript backtester under `src/backtest`.
+Centrypto is a testnet-first crypto trading research app for Hyperliquid. It combines VPS market/news collection, private evidence-backed news intelligence, screening, an autonomous agent desk, manual execution controls, and desk-aligned historical research under `lib/desk/backtest`. Paper mode is active Hyperliquid testnet execution.
 
 See [architecture](docs/architecture.md), [module index](docs/module-index.md), and
 [news intelligence and VPS operations](docs/news-intelligence-operations.md) for
@@ -45,7 +45,7 @@ npm run ci
 Core:
 
 ```bash
-DATABASE_URL="file:./backend.db"
+DATABASE_URL="postgresql://centrypto_app:<password>@127.0.0.1:55433/centrypto_app?connection_limit=6"
 MARKET_DATABASE_URL="postgresql://centrypto_app:<password>@127.0.0.1:55432/centrypto?schema=mainnet&connection_limit=2"
 MARKET_TEST_DATABASE_URL="postgresql://centrypto_app:<password>@127.0.0.1:55432/centrypto?schema=testnet&connection_limit=2"
 NEWS_DATABASE_URL="postgresql://centrypto_app:<password>@127.0.0.1:55432/centrypto?schema=news&connection_limit=2"
@@ -111,7 +111,7 @@ npm run prisma:migrate
 
 Runtime market data uses PostgreSQL under `prisma/runtime-market`; the SQLite
 schema under `prisma/market` is for local backtests. The app reads market/news
-directly through the SSH tunnel. `DATABASE_URL` stays local.
+directly through the SSH tunnel. The application database uses local PostgreSQL on its own physical drive. See [application database operations](docs/local-app-postgres.md) for startup, migration and restore procedures.
 
 ## Processes
 
@@ -132,46 +132,15 @@ The screener requires at least five symbols with two days of 1m candle coverage
 and fresh ticks/candles. `npm run collector` is a worker entry point requiring the
 VPS writer role; the desktop app cannot start a collector.
 
-Legacy public sentiment tools (retained for migration/history):
-
-```bash
-npm run sentiment:score
-npm run sentiment:aggregate
-```
-
-API requests never start collectors or heavy backfills. Private news uses the
-Chrome extension and local Luna pipeline; legacy public sentiment stays separate.
+News Intelligence uses the Chrome collector and local inference pipeline. The authenticated desk `sentiment_snapshot` tool reads its dated, evidence-backed directional assessments. The former public sentiment pipeline, API routes, model service and tables have been removed. API requests never start collectors or heavy backfills.
 
 ## Backtesting
 
-The real backtester is TypeScript:
+Historical research is available at `/backtester` for an authenticated desk book. Agents use `backtest_catalog`, `backtest_strategy`, `backtest_status` and `backtest_cancel`. Jobs run independently through `npm run research:worker`, also started by the local supervisor.
 
-```bash
-npm run backtest:run
-npm run backtest:features
-npm run backtest:candles
-npm run backtest:download:l2
-npm run backtest:optimize
-npm run backtest:walkforward
-```
+Experiments replay exact desk orders or compare explicit trading rules using the desk's fixed mandate and risk checks. Full manifests, data and results are retained as book-scoped artifacts. The old preset trader and optimizer have been removed. See [architecture](docs/architecture.md) for supported rules, execution assumptions, coverage and holdout limitations.
 
-`examples/backtest_runner_demo.py` is only a synthetic SMA demo and is not the Centrypto backtester.
-
-Run/optimizer/walk-forward commands do not take a strategy symbol list. The backtest starts from historical market data, applies the screener, and keeps the best 15 screened symbols by default. When archive hydration is enabled, the hydrator selects the top historical universe automatically from archived asset context data; use `--top-symbols N` only to change that count. S3 archive downloads are concurrency-limited and can be tuned with `--download-concurrency N`.
-
-Add `--hydrate-real-candles true` to automatically hydrate real 1m candles for the selected historical universe before running. Real-candle hydration tries Hyperliquid `candleSnapshot` first, then falls back to `hl-mainnet-node-data/node_fills_by_block/hourly/YYYYMMDD/H.lz4` for mainnet gaps and derives OHLCV from deduplicated trade fills. Pass `--prefer-node-fill-archive true` on optimizer or walk-forward runs to use the node-fill archive before `candleSnapshot`. Optimizer and walk-forward preflight fail fast if synthetic execution candles remain while synthetic candles are disallowed.
-
-Backtest runs write reports under `data/backtests/<runId>/`. Reports label execution candle source as `real_1m`, `synthetic_from_features`, or `mixed`. If synthetic candles are used, `synthetic_execution_candles: true` is written to coverage/config/metrics and results should be treated as approximate SL/TP path simulations.
-
-Archive hydration requires access to Hyperliquid requester-pays S3 archive data and `lz4`/`unlz4` installed locally. Configure AWS credentials/region as needed:
-
-```bash
-AWS_ACCESS_KEY_ID="..."
-AWS_SECRET_ACCESS_KEY="..."
-AWS_REGION="us-east-1"
-# Optional override for the node-fill archive bucket; defaults to ap-northeast-1.
-HYPERLIQUID_NODE_DATA_AWS_REGION="ap-northeast-1"
-```
+Archive preparation remains available through `backtest:features`, `backtest:candles`, `backtest:download:l2` and `backtest:parquet`. Historical data and reports are preserved. Paper trading requires an approved **testnet** API wallet and an explicitly enabled testnet book; mainnet authorization does not carry over.
 
 ## Throttling
 
@@ -200,4 +169,4 @@ CENTRYPT_DEBUG_LLM_TRANSCRIPTS=false
 CENTRYPT_STORE_LLM_TRANSCRIPTS=false
 ```
 
-Do not expose debug/env routes, secrets, DB URLs, private keys, prompts, signatures, or raw order payloads. Public API routes are limited to safe market-data reads plus auth/session endpoints; wallet data requires wallet-session auth; cron/cleanup/backtest/history routes require the internal token.
+Do not expose debug/env routes, secrets, DB URLs, private keys, prompts, signatures, or raw order payloads. Public API routes are limited to safe market-data reads plus auth/session endpoints; wallet data requires wallet-session auth; cron routes require the internal token; research jobs and artifacts require wallet authentication and book ownership.
