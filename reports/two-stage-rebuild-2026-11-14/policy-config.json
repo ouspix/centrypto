@@ -1,0 +1,51 @@
+{
+  "cash": false,
+  "entry_threshold": 0.5,
+  "validation_profit_usd": 84.0725082177766,
+  "trades": 135,
+  "exit_threshold": 0.75,
+  "bar_minutes": 5,
+  "holding_limit_minutes": 1440,
+  "fees": 0,
+  "entry_news": true,
+  "exit_news": false,
+  "sides": [
+    "long",
+    "short"
+  ],
+  "sma_pairs": [
+    [
+      3,
+      12
+    ],
+    [
+      5,
+      20
+    ],
+    [
+      8,
+      30
+    ],
+    [
+      10,
+      30
+    ],
+    [
+      10,
+      50
+    ],
+    [
+      20,
+      50
+    ],
+    [
+      20,
+      80
+    ],
+    [
+      30,
+      80
+    ]
+  ],
+  "research_only": true
+}

@@ -1,0 +1,5 @@
+{
+  "external_linux": "/srv/centrypto-checkpoint/data/research/centrypto/two-stage-policy-2026-11-14",
+  "external_windows": "//wsl.localhost/Centrypto-Recovery/srv/centrypto-checkpoint/data/research/centrypto/two-stage-policy-2026-11-14",
+  "python_linux": "/srv/centrypto-checkpoint/data/research/python"
+}

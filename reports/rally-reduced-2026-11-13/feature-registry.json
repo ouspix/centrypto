@@ -1,0 +1,4440 @@
+[
+  {
+    "name": "breadth_dispersion_1440m",
+    "family": "breadth",
+    "observed": 1716,
+    "missing": 26,
+    "unique": 1259
+  },
+  {
+    "name": "breadth_dispersion_240m",
+    "family": "breadth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "breadth_dispersion_5m",
+    "family": "breadth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "breadth_dispersion_60m",
+    "family": "breadth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "breadth_median_return_1440m",
+    "family": "breadth",
+    "observed": 1716,
+    "missing": 26,
+    "unique": 1257
+  },
+  {
+    "name": "breadth_median_return_240m",
+    "family": "breadth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1277
+  },
+  {
+    "name": "breadth_median_return_5m",
+    "family": "breadth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1227
+  },
+  {
+    "name": "breadth_median_return_60m",
+    "family": "breadth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1275
+  },
+  {
+    "name": "breadth_observed_symbols_1440m",
+    "family": "breadth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 84
+  },
+  {
+    "name": "breadth_observed_symbols_240m",
+    "family": "breadth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 83
+  },
+  {
+    "name": "breadth_observed_symbols_5m",
+    "family": "breadth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 80
+  },
+  {
+    "name": "breadth_observed_symbols_60m",
+    "family": "breadth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 81
+  },
+  {
+    "name": "breadth_positive_fraction_1440m",
+    "family": "breadth",
+    "observed": 1716,
+    "missing": 26,
+    "unique": 866
+  },
+  {
+    "name": "breadth_positive_fraction_240m",
+    "family": "breadth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 817
+  },
+  {
+    "name": "breadth_positive_fraction_5m",
+    "family": "breadth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 791
+  },
+  {
+    "name": "breadth_positive_fraction_60m",
+    "family": "breadth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 805
+  },
+  {
+    "name": "breadth_rally_fraction_1440m",
+    "family": "breadth",
+    "observed": 1716,
+    "missing": 26,
+    "unique": 795
+  },
+  {
+    "name": "breadth_rally_fraction_240m",
+    "family": "breadth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 621
+  },
+  {
+    "name": "breadth_rally_fraction_5m",
+    "family": "breadth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 98
+  },
+  {
+    "name": "breadth_rally_fraction_60m",
+    "family": "breadth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 508
+  },
+  {
+    "name": "btc_close_location_1440m",
+    "family": "btc",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 1244
+  },
+  {
+    "name": "btc_close_location_15m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1161
+  },
+  {
+    "name": "btc_close_location_240m",
+    "family": "btc",
+    "observed": 1724,
+    "missing": 18,
+    "unique": 1245
+  },
+  {
+    "name": "btc_close_location_5m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1020
+  },
+  {
+    "name": "btc_close_location_60m",
+    "family": "btc",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 1216
+  },
+  {
+    "name": "btc_coverage_1440m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 33
+  },
+  {
+    "name": "btc_coverage_15m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1
+  },
+  {
+    "name": "btc_coverage_240m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 15
+  },
+  {
+    "name": "btc_coverage_5m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1
+  },
+  {
+    "name": "btc_coverage_60m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 10
+  },
+  {
+    "name": "btc_drawdown_pct_1440m",
+    "family": "btc",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 1241
+  },
+  {
+    "name": "btc_drawdown_pct_15m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1215
+  },
+  {
+    "name": "btc_drawdown_pct_240m",
+    "family": "btc",
+    "observed": 1724,
+    "missing": 18,
+    "unique": 1244
+  },
+  {
+    "name": "btc_drawdown_pct_5m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1179
+  },
+  {
+    "name": "btc_drawdown_pct_60m",
+    "family": "btc",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 1241
+  },
+  {
+    "name": "btc_impact_bps_per_10k_1440m",
+    "family": "btc",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 1258
+  },
+  {
+    "name": "btc_impact_bps_per_10k_15m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "btc_impact_bps_per_10k_240m",
+    "family": "btc",
+    "observed": 1724,
+    "missing": 18,
+    "unique": 1269
+  },
+  {
+    "name": "btc_impact_bps_per_10k_5m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "btc_impact_bps_per_10k_60m",
+    "family": "btc",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 1276
+  },
+  {
+    "name": "btc_last_body_fraction",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 857
+  },
+  {
+    "name": "btc_last_lower_wick_fraction",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 585
+  },
+  {
+    "name": "btc_last_upper_wick_fraction",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 584
+  },
+  {
+    "name": "btc_log_quote_volume_1440m",
+    "family": "btc",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 1258
+  },
+  {
+    "name": "btc_log_quote_volume_15m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "btc_log_quote_volume_240m",
+    "family": "btc",
+    "observed": 1724,
+    "missing": 18,
+    "unique": 1269
+  },
+  {
+    "name": "btc_log_quote_volume_5m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "btc_log_quote_volume_60m",
+    "family": "btc",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 1276
+  },
+  {
+    "name": "btc_range_pct_1440m",
+    "family": "btc",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 1245
+  },
+  {
+    "name": "btc_range_pct_15m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1283
+  },
+  {
+    "name": "btc_range_pct_240m",
+    "family": "btc",
+    "observed": 1724,
+    "missing": 18,
+    "unique": 1255
+  },
+  {
+    "name": "btc_range_pct_5m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1283
+  },
+  {
+    "name": "btc_range_pct_60m",
+    "family": "btc",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 1268
+  },
+  {
+    "name": "btc_rebound_pct_1440m",
+    "family": "btc",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 1238
+  },
+  {
+    "name": "btc_rebound_pct_15m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1265
+  },
+  {
+    "name": "btc_rebound_pct_240m",
+    "family": "btc",
+    "observed": 1724,
+    "missing": 18,
+    "unique": 1257
+  },
+  {
+    "name": "btc_rebound_pct_5m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1238
+  },
+  {
+    "name": "btc_rebound_pct_60m",
+    "family": "btc",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 1261
+  },
+  {
+    "name": "btc_return_autocorr_14m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "btc_return_autocorr_240m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "btc_return_autocorr_60m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "btc_return_pct_1440m",
+    "family": "btc",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 1258
+  },
+  {
+    "name": "btc_return_pct_15m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1280
+  },
+  {
+    "name": "btc_return_pct_240m",
+    "family": "btc",
+    "observed": 1724,
+    "missing": 18,
+    "unique": 1268
+  },
+  {
+    "name": "btc_return_pct_5m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1278
+  },
+  {
+    "name": "btc_return_pct_60m",
+    "family": "btc",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 1275
+  },
+  {
+    "name": "btc_rsi_14m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1243
+  },
+  {
+    "name": "btc_rsi_240m",
+    "family": "btc",
+    "observed": 1736,
+    "missing": 6,
+    "unique": 1275
+  },
+  {
+    "name": "btc_rsi_60m",
+    "family": "btc",
+    "observed": 1738,
+    "missing": 4,
+    "unique": 1277
+  },
+  {
+    "name": "btc_rv_pct_1440m",
+    "family": "btc",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 1258
+  },
+  {
+    "name": "btc_rv_pct_15m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "btc_rv_pct_240m",
+    "family": "btc",
+    "observed": 1724,
+    "missing": 18,
+    "unique": 1269
+  },
+  {
+    "name": "btc_rv_pct_5m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1283
+  },
+  {
+    "name": "btc_rv_pct_60m",
+    "family": "btc",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 1276
+  },
+  {
+    "name": "btc_trend_efficiency_1440m",
+    "family": "btc",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 1258
+  },
+  {
+    "name": "btc_trend_efficiency_15m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1280
+  },
+  {
+    "name": "btc_trend_efficiency_240m",
+    "family": "btc",
+    "observed": 1724,
+    "missing": 18,
+    "unique": 1268
+  },
+  {
+    "name": "btc_trend_efficiency_5m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1278
+  },
+  {
+    "name": "btc_trend_efficiency_60m",
+    "family": "btc",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 1275
+  },
+  {
+    "name": "btc_up_fraction_1440m",
+    "family": "btc",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 318
+  },
+  {
+    "name": "btc_up_fraction_15m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 13
+  },
+  {
+    "name": "btc_up_fraction_240m",
+    "family": "btc",
+    "observed": 1724,
+    "missing": 18,
+    "unique": 93
+  },
+  {
+    "name": "btc_up_fraction_5m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 6
+  },
+  {
+    "name": "btc_up_fraction_60m",
+    "family": "btc",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 27
+  },
+  {
+    "name": "btc_volume_ratio_1440m",
+    "family": "btc",
+    "observed": 1644,
+    "missing": 98,
+    "unique": 1190
+  },
+  {
+    "name": "btc_volume_ratio_15m",
+    "family": "btc",
+    "observed": 1739,
+    "missing": 3,
+    "unique": 1282
+  },
+  {
+    "name": "btc_volume_ratio_240m",
+    "family": "btc",
+    "observed": 1695,
+    "missing": 47,
+    "unique": 1266
+  },
+  {
+    "name": "btc_volume_ratio_5m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "btc_volume_ratio_60m",
+    "family": "btc",
+    "observed": 1723,
+    "missing": 19,
+    "unique": 1271
+  },
+  {
+    "name": "btc_vwap_distance_pct_1440m",
+    "family": "btc",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 1258
+  },
+  {
+    "name": "btc_vwap_distance_pct_15m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "btc_vwap_distance_pct_240m",
+    "family": "btc",
+    "observed": 1724,
+    "missing": 18,
+    "unique": 1269
+  },
+  {
+    "name": "btc_vwap_distance_pct_5m",
+    "family": "btc",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "btc_vwap_distance_pct_60m",
+    "family": "btc",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 1276
+  },
+  {
+    "name": "calendar_hour_cos",
+    "family": "calendar",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 626
+  },
+  {
+    "name": "calendar_hour_sin",
+    "family": "calendar",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 632
+  },
+  {
+    "name": "calendar_weekday_cos",
+    "family": "calendar",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 7
+  },
+  {
+    "name": "calendar_weekday_sin",
+    "family": "calendar",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 7
+  },
+  {
+    "name": "calendar_weekend",
+    "family": "calendar",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 2
+  },
+  {
+    "name": "crossvenue_perp_spot_close_basis_bps",
+    "family": "crossvenue",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1222
+  },
+  {
+    "name": "crossvenue_spot_minus_perp_return_1440m",
+    "family": "crossvenue",
+    "observed": 1219,
+    "missing": 523,
+    "unique": 1214
+  },
+  {
+    "name": "crossvenue_spot_minus_perp_return_15m",
+    "family": "crossvenue",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1250
+  },
+  {
+    "name": "crossvenue_spot_minus_perp_return_1m",
+    "family": "crossvenue",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1242
+  },
+  {
+    "name": "crossvenue_spot_minus_perp_return_240m",
+    "family": "crossvenue",
+    "observed": 1241,
+    "missing": 501,
+    "unique": 1237
+  },
+  {
+    "name": "crossvenue_spot_minus_perp_return_30m",
+    "family": "crossvenue",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1252
+  },
+  {
+    "name": "crossvenue_spot_minus_perp_return_3m",
+    "family": "crossvenue",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1249
+  },
+  {
+    "name": "crossvenue_spot_minus_perp_return_5m",
+    "family": "crossvenue",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1252
+  },
+  {
+    "name": "crossvenue_spot_minus_perp_return_60m",
+    "family": "crossvenue",
+    "observed": 1252,
+    "missing": 490,
+    "unique": 1247
+  },
+  {
+    "name": "derivative_available",
+    "family": "derivative",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 2
+  },
+  {
+    "name": "derivative_funding_15m_max_bps",
+    "family": "derivative",
+    "observed": 1570,
+    "missing": 172,
+    "unique": 490
+  },
+  {
+    "name": "derivative_funding_15m_mean_bps",
+    "family": "derivative",
+    "observed": 1570,
+    "missing": 172,
+    "unique": 709
+  },
+  {
+    "name": "derivative_funding_15m_min_bps",
+    "family": "derivative",
+    "observed": 1570,
+    "missing": 172,
+    "unique": 563
+  },
+  {
+    "name": "derivative_funding_15m_std_bps",
+    "family": "derivative",
+    "observed": 1570,
+    "missing": 172,
+    "unique": 707
+  },
+  {
+    "name": "derivative_funding_change_1440m_bps",
+    "family": "derivative",
+    "observed": 1407,
+    "missing": 335,
+    "unique": 719
+  },
+  {
+    "name": "derivative_funding_change_15m_bps",
+    "family": "derivative",
+    "observed": 1567,
+    "missing": 175,
+    "unique": 660
+  },
+  {
+    "name": "derivative_funding_change_240m_bps",
+    "family": "derivative",
+    "observed": 1514,
+    "missing": 228,
+    "unique": 747
+  },
+  {
+    "name": "derivative_funding_change_60m_bps",
+    "family": "derivative",
+    "observed": 1548,
+    "missing": 194,
+    "unique": 708
+  },
+  {
+    "name": "derivative_funding_hourly_bps",
+    "family": "derivative",
+    "observed": 1569,
+    "missing": 173,
+    "unique": 556
+  },
+  {
+    "name": "derivative_funding_negative_fraction_15m",
+    "family": "derivative",
+    "observed": 1570,
+    "missing": 172,
+    "unique": 60
+  },
+  {
+    "name": "derivative_log_oi_usd",
+    "family": "derivative",
+    "observed": 1569,
+    "missing": 173,
+    "unique": 1569
+  },
+  {
+    "name": "derivative_log_turnover_24h",
+    "family": "derivative",
+    "observed": 1569,
+    "missing": 173,
+    "unique": 1569
+  },
+  {
+    "name": "derivative_mark_index_basis_bps",
+    "family": "derivative",
+    "observed": 1569,
+    "missing": 173,
+    "unique": 1536
+  },
+  {
+    "name": "derivative_mark_return_1440m",
+    "family": "derivative",
+    "observed": 1407,
+    "missing": 335,
+    "unique": 1406
+  },
+  {
+    "name": "derivative_mark_return_15m",
+    "family": "derivative",
+    "observed": 1567,
+    "missing": 175,
+    "unique": 1567
+  },
+  {
+    "name": "derivative_mark_return_240m",
+    "family": "derivative",
+    "observed": 1514,
+    "missing": 228,
+    "unique": 1513
+  },
+  {
+    "name": "derivative_mark_return_60m",
+    "family": "derivative",
+    "observed": 1548,
+    "missing": 194,
+    "unique": 1545
+  },
+  {
+    "name": "derivative_oi_token_change_1440m",
+    "family": "derivative",
+    "observed": 1407,
+    "missing": 335,
+    "unique": 1407
+  },
+  {
+    "name": "derivative_oi_token_change_15m",
+    "family": "derivative",
+    "observed": 1567,
+    "missing": 175,
+    "unique": 1567
+  },
+  {
+    "name": "derivative_oi_token_change_240m",
+    "family": "derivative",
+    "observed": 1514,
+    "missing": 228,
+    "unique": 1514
+  },
+  {
+    "name": "derivative_oi_token_change_60m",
+    "family": "derivative",
+    "observed": 1548,
+    "missing": 194,
+    "unique": 1548
+  },
+  {
+    "name": "derivative_oi_turnover_ratio",
+    "family": "derivative",
+    "observed": 1569,
+    "missing": 173,
+    "unique": 1569
+  },
+  {
+    "name": "derivative_oi_usd_change_1440m",
+    "family": "derivative",
+    "observed": 1407,
+    "missing": 335,
+    "unique": 1407
+  },
+  {
+    "name": "derivative_oi_usd_change_15m",
+    "family": "derivative",
+    "observed": 1567,
+    "missing": 175,
+    "unique": 1567
+  },
+  {
+    "name": "derivative_oi_usd_change_240m",
+    "family": "derivative",
+    "observed": 1514,
+    "missing": 228,
+    "unique": 1514
+  },
+  {
+    "name": "derivative_oi_usd_change_60m",
+    "family": "derivative",
+    "observed": 1548,
+    "missing": 194,
+    "unique": 1548
+  },
+  {
+    "name": "derivative_recent_snapshot_count",
+    "family": "derivative",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 9
+  },
+  {
+    "name": "derivative_tick_age_seconds",
+    "family": "derivative",
+    "observed": 1569,
+    "missing": 173,
+    "unique": 1078
+  },
+  {
+    "name": "derivative_turnover_change_1440m",
+    "family": "derivative",
+    "observed": 1407,
+    "missing": 335,
+    "unique": 1407
+  },
+  {
+    "name": "derivative_turnover_change_15m",
+    "family": "derivative",
+    "observed": 1567,
+    "missing": 175,
+    "unique": 1567
+  },
+  {
+    "name": "derivative_turnover_change_240m",
+    "family": "derivative",
+    "observed": 1514,
+    "missing": 228,
+    "unique": 1514
+  },
+  {
+    "name": "derivative_turnover_change_60m",
+    "family": "derivative",
+    "observed": 1548,
+    "missing": 194,
+    "unique": 1548
+  },
+  {
+    "name": "eth_close_location_1440m",
+    "family": "eth",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 1223
+  },
+  {
+    "name": "eth_close_location_15m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1163
+  },
+  {
+    "name": "eth_close_location_240m",
+    "family": "eth",
+    "observed": 1730,
+    "missing": 12,
+    "unique": 1248
+  },
+  {
+    "name": "eth_close_location_5m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1028
+  },
+  {
+    "name": "eth_close_location_60m",
+    "family": "eth",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 1238
+  },
+  {
+    "name": "eth_coverage_1440m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 33
+  },
+  {
+    "name": "eth_coverage_15m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1
+  },
+  {
+    "name": "eth_coverage_240m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 14
+  },
+  {
+    "name": "eth_coverage_5m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1
+  },
+  {
+    "name": "eth_coverage_60m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 10
+  },
+  {
+    "name": "eth_drawdown_pct_1440m",
+    "family": "eth",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 1211
+  },
+  {
+    "name": "eth_drawdown_pct_15m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1218
+  },
+  {
+    "name": "eth_drawdown_pct_240m",
+    "family": "eth",
+    "observed": 1730,
+    "missing": 12,
+    "unique": 1241
+  },
+  {
+    "name": "eth_drawdown_pct_5m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1182
+  },
+  {
+    "name": "eth_drawdown_pct_60m",
+    "family": "eth",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 1248
+  },
+  {
+    "name": "eth_impact_bps_per_10k_1440m",
+    "family": "eth",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 1258
+  },
+  {
+    "name": "eth_impact_bps_per_10k_15m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "eth_impact_bps_per_10k_240m",
+    "family": "eth",
+    "observed": 1730,
+    "missing": 12,
+    "unique": 1275
+  },
+  {
+    "name": "eth_impact_bps_per_10k_5m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "eth_impact_bps_per_10k_60m",
+    "family": "eth",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 1276
+  },
+  {
+    "name": "eth_last_body_fraction",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 847
+  },
+  {
+    "name": "eth_last_lower_wick_fraction",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 563
+  },
+  {
+    "name": "eth_last_upper_wick_fraction",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 576
+  },
+  {
+    "name": "eth_log_quote_volume_1440m",
+    "family": "eth",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 1258
+  },
+  {
+    "name": "eth_log_quote_volume_15m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "eth_log_quote_volume_240m",
+    "family": "eth",
+    "observed": 1730,
+    "missing": 12,
+    "unique": 1275
+  },
+  {
+    "name": "eth_log_quote_volume_5m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "eth_log_quote_volume_60m",
+    "family": "eth",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 1276
+  },
+  {
+    "name": "eth_range_pct_1440m",
+    "family": "eth",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 1213
+  },
+  {
+    "name": "eth_range_pct_15m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1277
+  },
+  {
+    "name": "eth_range_pct_240m",
+    "family": "eth",
+    "observed": 1730,
+    "missing": 12,
+    "unique": 1249
+  },
+  {
+    "name": "eth_range_pct_5m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1281
+  },
+  {
+    "name": "eth_range_pct_60m",
+    "family": "eth",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 1268
+  },
+  {
+    "name": "eth_rebound_pct_1440m",
+    "family": "eth",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 1201
+  },
+  {
+    "name": "eth_rebound_pct_15m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1261
+  },
+  {
+    "name": "eth_rebound_pct_240m",
+    "family": "eth",
+    "observed": 1730,
+    "missing": 12,
+    "unique": 1244
+  },
+  {
+    "name": "eth_rebound_pct_5m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1244
+  },
+  {
+    "name": "eth_rebound_pct_60m",
+    "family": "eth",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 1255
+  },
+  {
+    "name": "eth_return_autocorr_14m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "eth_return_autocorr_240m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "eth_return_autocorr_60m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "eth_return_pct_1440m",
+    "family": "eth",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 1258
+  },
+  {
+    "name": "eth_return_pct_15m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1270
+  },
+  {
+    "name": "eth_return_pct_240m",
+    "family": "eth",
+    "observed": 1730,
+    "missing": 12,
+    "unique": 1271
+  },
+  {
+    "name": "eth_return_pct_5m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1253
+  },
+  {
+    "name": "eth_return_pct_60m",
+    "family": "eth",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 1267
+  },
+  {
+    "name": "eth_rsi_14m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1253
+  },
+  {
+    "name": "eth_rsi_240m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1279
+  },
+  {
+    "name": "eth_rsi_60m",
+    "family": "eth",
+    "observed": 1738,
+    "missing": 4,
+    "unique": 1274
+  },
+  {
+    "name": "eth_rv_pct_1440m",
+    "family": "eth",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 1257
+  },
+  {
+    "name": "eth_rv_pct_15m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "eth_rv_pct_240m",
+    "family": "eth",
+    "observed": 1730,
+    "missing": 12,
+    "unique": 1275
+  },
+  {
+    "name": "eth_rv_pct_5m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "eth_rv_pct_60m",
+    "family": "eth",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 1276
+  },
+  {
+    "name": "eth_trend_efficiency_1440m",
+    "family": "eth",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 1258
+  },
+  {
+    "name": "eth_trend_efficiency_15m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1271
+  },
+  {
+    "name": "eth_trend_efficiency_240m",
+    "family": "eth",
+    "observed": 1730,
+    "missing": 12,
+    "unique": 1272
+  },
+  {
+    "name": "eth_trend_efficiency_5m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1256
+  },
+  {
+    "name": "eth_trend_efficiency_60m",
+    "family": "eth",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 1270
+  },
+  {
+    "name": "eth_up_fraction_1440m",
+    "family": "eth",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 310
+  },
+  {
+    "name": "eth_up_fraction_15m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 12
+  },
+  {
+    "name": "eth_up_fraction_240m",
+    "family": "eth",
+    "observed": 1730,
+    "missing": 12,
+    "unique": 96
+  },
+  {
+    "name": "eth_up_fraction_5m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 6
+  },
+  {
+    "name": "eth_up_fraction_60m",
+    "family": "eth",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 28
+  },
+  {
+    "name": "eth_volume_ratio_1440m",
+    "family": "eth",
+    "observed": 1644,
+    "missing": 98,
+    "unique": 1190
+  },
+  {
+    "name": "eth_volume_ratio_15m",
+    "family": "eth",
+    "observed": 1739,
+    "missing": 3,
+    "unique": 1282
+  },
+  {
+    "name": "eth_volume_ratio_240m",
+    "family": "eth",
+    "observed": 1730,
+    "missing": 12,
+    "unique": 1275
+  },
+  {
+    "name": "eth_volume_ratio_5m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "eth_volume_ratio_60m",
+    "family": "eth",
+    "observed": 1723,
+    "missing": 19,
+    "unique": 1271
+  },
+  {
+    "name": "eth_vwap_distance_pct_1440m",
+    "family": "eth",
+    "observed": 1715,
+    "missing": 27,
+    "unique": 1258
+  },
+  {
+    "name": "eth_vwap_distance_pct_15m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "eth_vwap_distance_pct_240m",
+    "family": "eth",
+    "observed": 1730,
+    "missing": 12,
+    "unique": 1275
+  },
+  {
+    "name": "eth_vwap_distance_pct_5m",
+    "family": "eth",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1284
+  },
+  {
+    "name": "eth_vwap_distance_pct_60m",
+    "family": "eth",
+    "observed": 1728,
+    "missing": 14,
+    "unique": 1276
+  },
+  {
+    "name": "interaction_news_spot_flow",
+    "family": "interaction",
+    "observed": 395,
+    "missing": 1347,
+    "unique": 118
+  },
+  {
+    "name": "interaction_oi_funding",
+    "family": "interaction",
+    "observed": 1548,
+    "missing": 194,
+    "unique": 1548
+  },
+  {
+    "name": "interaction_price_oi",
+    "family": "interaction",
+    "observed": 1567,
+    "missing": 175,
+    "unique": 1566
+  },
+  {
+    "name": "interaction_spot_flow_oi",
+    "family": "interaction",
+    "observed": 1141,
+    "missing": 601,
+    "unique": 1141
+  },
+  {
+    "name": "interaction_spread_participation",
+    "family": "interaction",
+    "observed": 56,
+    "missing": 1686,
+    "unique": 56
+  },
+  {
+    "name": "interaction_volume_oi",
+    "family": "interaction",
+    "observed": 1567,
+    "missing": 175,
+    "unique": 1567
+  },
+  {
+    "name": "liquidity_100usd_to_minimum_depth",
+    "family": "liquidity",
+    "observed": 56,
+    "missing": 1686,
+    "unique": 56
+  },
+  {
+    "name": "liquidity_ask_usd",
+    "family": "liquidity",
+    "observed": 56,
+    "missing": 1686,
+    "unique": 56
+  },
+  {
+    "name": "liquidity_available",
+    "family": "liquidity",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 2
+  },
+  {
+    "name": "liquidity_bid_usd",
+    "family": "liquidity",
+    "observed": 56,
+    "missing": 1686,
+    "unique": 56
+  },
+  {
+    "name": "liquidity_imbalance",
+    "family": "liquidity",
+    "observed": 56,
+    "missing": 1686,
+    "unique": 56
+  },
+  {
+    "name": "liquidity_imbalance_15m_max",
+    "family": "liquidity",
+    "observed": 101,
+    "missing": 1641,
+    "unique": 90
+  },
+  {
+    "name": "liquidity_imbalance_15m_mean",
+    "family": "liquidity",
+    "observed": 101,
+    "missing": 1641,
+    "unique": 100
+  },
+  {
+    "name": "liquidity_imbalance_15m_min",
+    "family": "liquidity",
+    "observed": 101,
+    "missing": 1641,
+    "unique": 86
+  },
+  {
+    "name": "liquidity_minimum_side_usd",
+    "family": "liquidity",
+    "observed": 56,
+    "missing": 1686,
+    "unique": 56
+  },
+  {
+    "name": "liquidity_minimum_side_usd_15m_max",
+    "family": "liquidity",
+    "observed": 101,
+    "missing": 1641,
+    "unique": 86
+  },
+  {
+    "name": "liquidity_minimum_side_usd_15m_mean",
+    "family": "liquidity",
+    "observed": 101,
+    "missing": 1641,
+    "unique": 100
+  },
+  {
+    "name": "liquidity_minimum_side_usd_15m_min",
+    "family": "liquidity",
+    "observed": 101,
+    "missing": 1641,
+    "unique": 89
+  },
+  {
+    "name": "liquidity_quote_age_seconds",
+    "family": "liquidity",
+    "observed": 56,
+    "missing": 1686,
+    "unique": 41
+  },
+  {
+    "name": "liquidity_quote_fraction_15m",
+    "family": "liquidity",
+    "observed": 1570,
+    "missing": 172,
+    "unique": 24
+  },
+  {
+    "name": "liquidity_spread_bps",
+    "family": "liquidity",
+    "observed": 56,
+    "missing": 1686,
+    "unique": 56
+  },
+  {
+    "name": "liquidity_spread_bps_15m_max",
+    "family": "liquidity",
+    "observed": 101,
+    "missing": 1641,
+    "unique": 86
+  },
+  {
+    "name": "liquidity_spread_bps_15m_mean",
+    "family": "liquidity",
+    "observed": 101,
+    "missing": 1641,
+    "unique": 100
+  },
+  {
+    "name": "liquidity_spread_bps_15m_min",
+    "family": "liquidity",
+    "observed": 101,
+    "missing": 1641,
+    "unique": 90
+  },
+  {
+    "name": "mappednews_adoption_1h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 3
+  },
+  {
+    "name": "mappednews_adoption_24h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 6
+  },
+  {
+    "name": "mappednews_adoption_6h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 4
+  },
+  {
+    "name": "mappednews_airdrop_1h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 2
+  },
+  {
+    "name": "mappednews_airdrop_24h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 3
+  },
+  {
+    "name": "mappednews_airdrop_6h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 3
+  },
+  {
+    "name": "mappednews_available",
+    "family": "mappednews",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 2
+  },
+  {
+    "name": "mappednews_burst_1h_vs_24h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 44
+  },
+  {
+    "name": "mappednews_buyback_burn_1h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 3
+  },
+  {
+    "name": "mappednews_buyback_burn_24h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 5
+  },
+  {
+    "name": "mappednews_buyback_burn_6h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 4
+  },
+  {
+    "name": "mappednews_direct_mentions_1h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 10
+  },
+  {
+    "name": "mappednews_direct_mentions_24h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 28
+  },
+  {
+    "name": "mappednews_direct_mentions_6h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 18
+  },
+  {
+    "name": "mappednews_etf_1h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 4
+  },
+  {
+    "name": "mappednews_etf_24h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 9
+  },
+  {
+    "name": "mappednews_etf_6h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 6
+  },
+  {
+    "name": "mappednews_exchange_flow_1h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 3
+  },
+  {
+    "name": "mappednews_exchange_flow_24h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 9
+  },
+  {
+    "name": "mappednews_exchange_flow_6h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 5
+  },
+  {
+    "name": "mappednews_latest_age_hours",
+    "family": "mappednews",
+    "observed": 317,
+    "missing": 1425,
+    "unique": 299
+  },
+  {
+    "name": "mappednews_liquidation_1h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 5
+  },
+  {
+    "name": "mappednews_liquidation_24h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 11
+  },
+  {
+    "name": "mappednews_liquidation_6h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 5
+  },
+  {
+    "name": "mappednews_listing_1h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 2
+  },
+  {
+    "name": "mappednews_listing_24h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 9
+  },
+  {
+    "name": "mappednews_listing_6h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 6
+  },
+  {
+    "name": "mappednews_macro_1h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 1
+  },
+  {
+    "name": "mappednews_macro_24h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 2
+  },
+  {
+    "name": "mappednews_macro_6h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 2
+  },
+  {
+    "name": "mappednews_market_exchange_security_24h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 38
+  },
+  {
+    "name": "mappednews_market_macro_24h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 36
+  },
+  {
+    "name": "mappednews_max_capture_lag_hours",
+    "family": "mappednews",
+    "observed": 317,
+    "missing": 1425,
+    "unique": 123
+  },
+  {
+    "name": "mappednews_project_mentions_1h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 5
+  },
+  {
+    "name": "mappednews_project_mentions_24h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 27
+  },
+  {
+    "name": "mappednews_project_mentions_6h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 15
+  },
+  {
+    "name": "mappednews_regulation_1h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 3
+  },
+  {
+    "name": "mappednews_regulation_24h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 7
+  },
+  {
+    "name": "mappednews_regulation_6h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 4
+  },
+  {
+    "name": "mappednews_security_1h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 4
+  },
+  {
+    "name": "mappednews_security_24h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 13
+  },
+  {
+    "name": "mappednews_security_6h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 7
+  },
+  {
+    "name": "mappednews_sources_1h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 7
+  },
+  {
+    "name": "mappednews_sources_24h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 13
+  },
+  {
+    "name": "mappednews_sources_6h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 9
+  },
+  {
+    "name": "mappednews_stories_1h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 11
+  },
+  {
+    "name": "mappednews_stories_24h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 39
+  },
+  {
+    "name": "mappednews_stories_6h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 24
+  },
+  {
+    "name": "mappednews_unlock_1h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 1
+  },
+  {
+    "name": "mappednews_unlock_24h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 3
+  },
+  {
+    "name": "mappednews_unlock_6h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 2
+  },
+  {
+    "name": "mappednews_upgrade_1h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 2
+  },
+  {
+    "name": "mappednews_upgrade_24h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 9
+  },
+  {
+    "name": "mappednews_upgrade_6h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 6
+  },
+  {
+    "name": "mappednews_without_active_signal_stories_24h",
+    "family": "mappednews",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 35
+  },
+  {
+    "name": "news_active_count",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 12
+  },
+  {
+    "name": "news_available",
+    "family": "news",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 2
+  },
+  {
+    "name": "news_bearish_count",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 5
+  },
+  {
+    "name": "news_btc_market_score",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 342
+  },
+  {
+    "name": "news_bullish_count",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 4
+  },
+  {
+    "name": "news_confirmed_announcement_count",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 1
+  },
+  {
+    "name": "news_contradictions_count",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 4
+  },
+  {
+    "name": "news_directional_score",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 121
+  },
+  {
+    "name": "news_eth_market_score",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 328
+  },
+  {
+    "name": "news_evidence_count",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 13
+  },
+  {
+    "name": "news_latest_age_hours",
+    "family": "news",
+    "observed": 178,
+    "missing": 1564,
+    "unique": 171
+  },
+  {
+    "name": "news_max_confidence",
+    "family": "news",
+    "observed": 178,
+    "missing": 1564,
+    "unique": 26
+  },
+  {
+    "name": "news_max_materiality",
+    "family": "news",
+    "observed": 178,
+    "missing": 1564,
+    "unique": 33
+  },
+  {
+    "name": "news_mixed_count",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 7
+  },
+  {
+    "name": "news_nearest_expiry_hours",
+    "family": "news",
+    "observed": 178,
+    "missing": 1564,
+    "unique": 172
+  },
+  {
+    "name": "news_neutral_count",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 4
+  },
+  {
+    "name": "news_opinion_count",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 3
+  },
+  {
+    "name": "news_reported_claim_count",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 11
+  },
+  {
+    "name": "news_rumor_count",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 1
+  },
+  {
+    "name": "news_topic_adoption",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 3
+  },
+  {
+    "name": "news_topic_buyback",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 2
+  },
+  {
+    "name": "news_topic_exchange_flow",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 4
+  },
+  {
+    "name": "news_topic_listing",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 2
+  },
+  {
+    "name": "news_topic_macro",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 3
+  },
+  {
+    "name": "news_topic_regulation",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 3
+  },
+  {
+    "name": "news_topic_security",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 3
+  },
+  {
+    "name": "news_topic_supply",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 3
+  },
+  {
+    "name": "news_topic_upgrade",
+    "family": "news",
+    "observed": 535,
+    "missing": 1207,
+    "unique": 4
+  },
+  {
+    "name": "perp_close_location_1440m",
+    "family": "perp",
+    "observed": 1696,
+    "missing": 46,
+    "unique": 1671
+  },
+  {
+    "name": "perp_close_location_15m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1553
+  },
+  {
+    "name": "perp_close_location_1m",
+    "family": "perp",
+    "observed": 1708,
+    "missing": 34,
+    "unique": 1239
+  },
+  {
+    "name": "perp_close_location_240m",
+    "family": "perp",
+    "observed": 1711,
+    "missing": 31,
+    "unique": 1633
+  },
+  {
+    "name": "perp_close_location_30m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1563
+  },
+  {
+    "name": "perp_close_location_3m",
+    "family": "perp",
+    "observed": 1740,
+    "missing": 2,
+    "unique": 1472
+  },
+  {
+    "name": "perp_close_location_5m",
+    "family": "perp",
+    "observed": 1741,
+    "missing": 1,
+    "unique": 1512
+  },
+  {
+    "name": "perp_close_location_60m",
+    "family": "perp",
+    "observed": 1732,
+    "missing": 10,
+    "unique": 1582
+  },
+  {
+    "name": "perp_coverage_1440m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 144
+  },
+  {
+    "name": "perp_coverage_15m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1
+  },
+  {
+    "name": "perp_coverage_1m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1
+  },
+  {
+    "name": "perp_coverage_240m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 36
+  },
+  {
+    "name": "perp_coverage_30m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1
+  },
+  {
+    "name": "perp_coverage_3m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1
+  },
+  {
+    "name": "perp_coverage_5m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1
+  },
+  {
+    "name": "perp_coverage_60m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 9
+  },
+  {
+    "name": "perp_drawdown_pct_1440m",
+    "family": "perp",
+    "observed": 1696,
+    "missing": 46,
+    "unique": 1671
+  },
+  {
+    "name": "perp_drawdown_pct_15m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1554
+  },
+  {
+    "name": "perp_drawdown_pct_1m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1390
+  },
+  {
+    "name": "perp_drawdown_pct_240m",
+    "family": "perp",
+    "observed": 1711,
+    "missing": 31,
+    "unique": 1634
+  },
+  {
+    "name": "perp_drawdown_pct_30m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1564
+  },
+  {
+    "name": "perp_drawdown_pct_3m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1528
+  },
+  {
+    "name": "perp_drawdown_pct_5m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1533
+  },
+  {
+    "name": "perp_drawdown_pct_60m",
+    "family": "perp",
+    "observed": 1732,
+    "missing": 10,
+    "unique": 1581
+  },
+  {
+    "name": "perp_impact_bps_per_10k_1440m",
+    "family": "perp",
+    "observed": 1696,
+    "missing": 46,
+    "unique": 1696
+  },
+  {
+    "name": "perp_impact_bps_per_10k_15m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_impact_bps_per_10k_1m",
+    "family": "perp",
+    "observed": 1730,
+    "missing": 12,
+    "unique": 1686
+  },
+  {
+    "name": "perp_impact_bps_per_10k_240m",
+    "family": "perp",
+    "observed": 1711,
+    "missing": 31,
+    "unique": 1710
+  },
+  {
+    "name": "perp_impact_bps_per_10k_30m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_impact_bps_per_10k_3m",
+    "family": "perp",
+    "observed": 1741,
+    "missing": 1,
+    "unique": 1731
+  },
+  {
+    "name": "perp_impact_bps_per_10k_5m",
+    "family": "perp",
+    "observed": 1741,
+    "missing": 1,
+    "unique": 1735
+  },
+  {
+    "name": "perp_impact_bps_per_10k_60m",
+    "family": "perp",
+    "observed": 1732,
+    "missing": 10,
+    "unique": 1731
+  },
+  {
+    "name": "perp_last_body_fraction",
+    "family": "perp",
+    "observed": 1708,
+    "missing": 34,
+    "unique": 1510
+  },
+  {
+    "name": "perp_last_lower_wick_fraction",
+    "family": "perp",
+    "observed": 1708,
+    "missing": 34,
+    "unique": 1161
+  },
+  {
+    "name": "perp_last_upper_wick_fraction",
+    "family": "perp",
+    "observed": 1708,
+    "missing": 34,
+    "unique": 1224
+  },
+  {
+    "name": "perp_log_quote_volume_1440m",
+    "family": "perp",
+    "observed": 1696,
+    "missing": 46,
+    "unique": 1696
+  },
+  {
+    "name": "perp_log_quote_volume_15m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_log_quote_volume_1m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1730
+  },
+  {
+    "name": "perp_log_quote_volume_240m",
+    "family": "perp",
+    "observed": 1711,
+    "missing": 31,
+    "unique": 1710
+  },
+  {
+    "name": "perp_log_quote_volume_30m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_log_quote_volume_3m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_log_quote_volume_5m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_log_quote_volume_60m",
+    "family": "perp",
+    "observed": 1732,
+    "missing": 10,
+    "unique": 1731
+  },
+  {
+    "name": "perp_range_pct_1440m",
+    "family": "perp",
+    "observed": 1696,
+    "missing": 46,
+    "unique": 1691
+  },
+  {
+    "name": "perp_range_pct_15m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_range_pct_1m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1708
+  },
+  {
+    "name": "perp_range_pct_240m",
+    "family": "perp",
+    "observed": 1711,
+    "missing": 31,
+    "unique": 1707
+  },
+  {
+    "name": "perp_range_pct_30m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_range_pct_3m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1740
+  },
+  {
+    "name": "perp_range_pct_5m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_range_pct_60m",
+    "family": "perp",
+    "observed": 1732,
+    "missing": 10,
+    "unique": 1730
+  },
+  {
+    "name": "perp_rebound_pct_1440m",
+    "family": "perp",
+    "observed": 1696,
+    "missing": 46,
+    "unique": 1694
+  },
+  {
+    "name": "perp_rebound_pct_15m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1738
+  },
+  {
+    "name": "perp_rebound_pct_1m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1583
+  },
+  {
+    "name": "perp_rebound_pct_240m",
+    "family": "perp",
+    "observed": 1711,
+    "missing": 31,
+    "unique": 1709
+  },
+  {
+    "name": "perp_rebound_pct_30m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1739
+  },
+  {
+    "name": "perp_rebound_pct_3m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1692
+  },
+  {
+    "name": "perp_rebound_pct_5m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1720
+  },
+  {
+    "name": "perp_rebound_pct_60m",
+    "family": "perp",
+    "observed": 1732,
+    "missing": 10,
+    "unique": 1730
+  },
+  {
+    "name": "perp_return_autocorr_14m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_return_autocorr_240m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_return_autocorr_60m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_return_pct_1440m",
+    "family": "perp",
+    "observed": 1696,
+    "missing": 46,
+    "unique": 1696
+  },
+  {
+    "name": "perp_return_pct_15m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1740
+  },
+  {
+    "name": "perp_return_pct_1m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1685
+  },
+  {
+    "name": "perp_return_pct_240m",
+    "family": "perp",
+    "observed": 1711,
+    "missing": 31,
+    "unique": 1710
+  },
+  {
+    "name": "perp_return_pct_30m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1740
+  },
+  {
+    "name": "perp_return_pct_3m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1731
+  },
+  {
+    "name": "perp_return_pct_5m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1734
+  },
+  {
+    "name": "perp_return_pct_60m",
+    "family": "perp",
+    "observed": 1732,
+    "missing": 10,
+    "unique": 1728
+  },
+  {
+    "name": "perp_rsi_14m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1738
+  },
+  {
+    "name": "perp_rsi_240m",
+    "family": "perp",
+    "observed": 1731,
+    "missing": 11,
+    "unique": 1730
+  },
+  {
+    "name": "perp_rsi_60m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1739
+  },
+  {
+    "name": "perp_rv_pct_1440m",
+    "family": "perp",
+    "observed": 1696,
+    "missing": 46,
+    "unique": 1696
+  },
+  {
+    "name": "perp_rv_pct_15m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_rv_pct_1m",
+    "family": "perp",
+    "observed": 0,
+    "missing": 1742,
+    "unique": 0
+  },
+  {
+    "name": "perp_rv_pct_240m",
+    "family": "perp",
+    "observed": 1711,
+    "missing": 31,
+    "unique": 1710
+  },
+  {
+    "name": "perp_rv_pct_30m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_rv_pct_3m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1738
+  },
+  {
+    "name": "perp_rv_pct_5m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_rv_pct_60m",
+    "family": "perp",
+    "observed": 1732,
+    "missing": 10,
+    "unique": 1731
+  },
+  {
+    "name": "perp_trend_efficiency_1440m",
+    "family": "perp",
+    "observed": 1696,
+    "missing": 46,
+    "unique": 1696
+  },
+  {
+    "name": "perp_trend_efficiency_15m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1740
+  },
+  {
+    "name": "perp_trend_efficiency_1m",
+    "family": "perp",
+    "observed": 1686,
+    "missing": 56,
+    "unique": 1
+  },
+  {
+    "name": "perp_trend_efficiency_240m",
+    "family": "perp",
+    "observed": 1711,
+    "missing": 31,
+    "unique": 1710
+  },
+  {
+    "name": "perp_trend_efficiency_30m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_trend_efficiency_3m",
+    "family": "perp",
+    "observed": 1731,
+    "missing": 11,
+    "unique": 1721
+  },
+  {
+    "name": "perp_trend_efficiency_5m",
+    "family": "perp",
+    "observed": 1735,
+    "missing": 7,
+    "unique": 1730
+  },
+  {
+    "name": "perp_trend_efficiency_60m",
+    "family": "perp",
+    "observed": 1732,
+    "missing": 10,
+    "unique": 1729
+  },
+  {
+    "name": "perp_up_fraction_1440m",
+    "family": "perp",
+    "observed": 1696,
+    "missing": 46,
+    "unique": 1063
+  },
+  {
+    "name": "perp_up_fraction_15m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 15
+  },
+  {
+    "name": "perp_up_fraction_1m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 2
+  },
+  {
+    "name": "perp_up_fraction_240m",
+    "family": "perp",
+    "observed": 1711,
+    "missing": 31,
+    "unique": 345
+  },
+  {
+    "name": "perp_up_fraction_30m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 27
+  },
+  {
+    "name": "perp_up_fraction_3m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 4
+  },
+  {
+    "name": "perp_up_fraction_5m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 6
+  },
+  {
+    "name": "perp_up_fraction_60m",
+    "family": "perp",
+    "observed": 1732,
+    "missing": 10,
+    "unique": 86
+  },
+  {
+    "name": "perp_volume_ratio_1440m",
+    "family": "perp",
+    "observed": 1615,
+    "missing": 127,
+    "unique": 1615
+  },
+  {
+    "name": "perp_volume_ratio_15m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_volume_ratio_1m",
+    "family": "perp",
+    "observed": 1731,
+    "missing": 11,
+    "unique": 1721
+  },
+  {
+    "name": "perp_volume_ratio_240m",
+    "family": "perp",
+    "observed": 1690,
+    "missing": 52,
+    "unique": 1689
+  },
+  {
+    "name": "perp_volume_ratio_30m",
+    "family": "perp",
+    "observed": 1739,
+    "missing": 3,
+    "unique": 1738
+  },
+  {
+    "name": "perp_volume_ratio_3m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_volume_ratio_5m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_volume_ratio_60m",
+    "family": "perp",
+    "observed": 1727,
+    "missing": 15,
+    "unique": 1726
+  },
+  {
+    "name": "perp_vwap_distance_pct_1440m",
+    "family": "perp",
+    "observed": 1696,
+    "missing": 46,
+    "unique": 1696
+  },
+  {
+    "name": "perp_vwap_distance_pct_15m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_vwap_distance_pct_1m",
+    "family": "perp",
+    "observed": 1730,
+    "missing": 12,
+    "unique": 1693
+  },
+  {
+    "name": "perp_vwap_distance_pct_240m",
+    "family": "perp",
+    "observed": 1711,
+    "missing": 31,
+    "unique": 1710
+  },
+  {
+    "name": "perp_vwap_distance_pct_30m",
+    "family": "perp",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "perp_vwap_distance_pct_3m",
+    "family": "perp",
+    "observed": 1741,
+    "missing": 1,
+    "unique": 1739
+  },
+  {
+    "name": "perp_vwap_distance_pct_5m",
+    "family": "perp",
+    "observed": 1741,
+    "missing": 1,
+    "unique": 1740
+  },
+  {
+    "name": "perp_vwap_distance_pct_60m",
+    "family": "perp",
+    "observed": 1732,
+    "missing": 10,
+    "unique": 1731
+  },
+  {
+    "name": "relative_btc_beta_240m",
+    "family": "relative",
+    "observed": 1731,
+    "missing": 11,
+    "unique": 1730
+  },
+  {
+    "name": "relative_btc_beta_60m",
+    "family": "relative",
+    "observed": 1738,
+    "missing": 4,
+    "unique": 1737
+  },
+  {
+    "name": "relative_btc_correlation_240m",
+    "family": "relative",
+    "observed": 1731,
+    "missing": 11,
+    "unique": 1730
+  },
+  {
+    "name": "relative_btc_correlation_60m",
+    "family": "relative",
+    "observed": 1738,
+    "missing": 4,
+    "unique": 1737
+  },
+  {
+    "name": "relative_btc_return_1440m",
+    "family": "relative",
+    "observed": 1696,
+    "missing": 46,
+    "unique": 1696
+  },
+  {
+    "name": "relative_btc_return_15m",
+    "family": "relative",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "relative_btc_return_240m",
+    "family": "relative",
+    "observed": 1709,
+    "missing": 33,
+    "unique": 1708
+  },
+  {
+    "name": "relative_btc_return_5m",
+    "family": "relative",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1741
+  },
+  {
+    "name": "relative_btc_return_60m",
+    "family": "relative",
+    "observed": 1723,
+    "missing": 19,
+    "unique": 1722
+  },
+  {
+    "name": "relative_eth_beta_240m",
+    "family": "relative",
+    "observed": 1731,
+    "missing": 11,
+    "unique": 1719
+  },
+  {
+    "name": "relative_eth_beta_60m",
+    "family": "relative",
+    "observed": 1738,
+    "missing": 4,
+    "unique": 1722
+  },
+  {
+    "name": "relative_eth_correlation_240m",
+    "family": "relative",
+    "observed": 1731,
+    "missing": 11,
+    "unique": 1712
+  },
+  {
+    "name": "relative_eth_correlation_60m",
+    "family": "relative",
+    "observed": 1738,
+    "missing": 4,
+    "unique": 1719
+  },
+  {
+    "name": "relative_eth_return_1440m",
+    "family": "relative",
+    "observed": 1696,
+    "missing": 46,
+    "unique": 1676
+  },
+  {
+    "name": "relative_eth_return_15m",
+    "family": "relative",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1721
+  },
+  {
+    "name": "relative_eth_return_240m",
+    "family": "relative",
+    "observed": 1709,
+    "missing": 33,
+    "unique": 1688
+  },
+  {
+    "name": "relative_eth_return_5m",
+    "family": "relative",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 1721
+  },
+  {
+    "name": "relative_eth_return_60m",
+    "family": "relative",
+    "observed": 1723,
+    "missing": 19,
+    "unique": 1702
+  },
+  {
+    "name": "setup_alert_already_known",
+    "family": "setup",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 2
+  },
+  {
+    "name": "setup_alert_relative_volume",
+    "family": "setup",
+    "observed": 670,
+    "missing": 1072,
+    "unique": 670
+  },
+  {
+    "name": "setup_alert_return_pct",
+    "family": "setup",
+    "observed": 670,
+    "missing": 1072,
+    "unique": 670
+  },
+  {
+    "name": "setup_continuation",
+    "family": "setup",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 2
+  },
+  {
+    "name": "setup_minutes_since_alert",
+    "family": "setup",
+    "observed": 670,
+    "missing": 1072,
+    "unique": 28
+  },
+  {
+    "name": "setup_previous_market_alerts_1440m",
+    "family": "setup",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 241
+  },
+  {
+    "name": "setup_previous_market_alerts_360m",
+    "family": "setup",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 119
+  },
+  {
+    "name": "setup_previous_symbol_alerts_1440m",
+    "family": "setup",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 9
+  },
+  {
+    "name": "setup_previous_symbol_alerts_360m",
+    "family": "setup",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 6
+  },
+  {
+    "name": "spot_available",
+    "family": "spot",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 2
+  },
+  {
+    "name": "spot_average_trade_usd_1440m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_average_trade_usd_15m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_average_trade_usd_1m",
+    "family": "spot",
+    "observed": 1253,
+    "missing": 489,
+    "unique": 1252
+  },
+  {
+    "name": "spot_average_trade_usd_240m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_average_trade_usd_30m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_average_trade_usd_3m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1257
+  },
+  {
+    "name": "spot_average_trade_usd_5m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1257
+  },
+  {
+    "name": "spot_average_trade_usd_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_buy_imbalance_1440m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_buy_imbalance_15m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_buy_imbalance_1m",
+    "family": "spot",
+    "observed": 1253,
+    "missing": 489,
+    "unique": 1241
+  },
+  {
+    "name": "spot_buy_imbalance_240m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_buy_imbalance_30m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_buy_imbalance_3m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1255
+  },
+  {
+    "name": "spot_buy_imbalance_5m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1257
+  },
+  {
+    "name": "spot_buy_imbalance_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_close_location_1440m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1223
+  },
+  {
+    "name": "spot_close_location_15m",
+    "family": "spot",
+    "observed": 1256,
+    "missing": 486,
+    "unique": 1071
+  },
+  {
+    "name": "spot_close_location_1m",
+    "family": "spot",
+    "observed": 1239,
+    "missing": 503,
+    "unique": 806
+  },
+  {
+    "name": "spot_close_location_240m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1184
+  },
+  {
+    "name": "spot_close_location_30m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1092
+  },
+  {
+    "name": "spot_close_location_3m",
+    "family": "spot",
+    "observed": 1255,
+    "missing": 487,
+    "unique": 967
+  },
+  {
+    "name": "spot_close_location_5m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1035
+  },
+  {
+    "name": "spot_close_location_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1111
+  },
+  {
+    "name": "spot_coverage_1440m",
+    "family": "spot",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 3
+  },
+  {
+    "name": "spot_coverage_15m",
+    "family": "spot",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 3
+  },
+  {
+    "name": "spot_coverage_1m",
+    "family": "spot",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 2
+  },
+  {
+    "name": "spot_coverage_240m",
+    "family": "spot",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 3
+  },
+  {
+    "name": "spot_coverage_30m",
+    "family": "spot",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 3
+  },
+  {
+    "name": "spot_coverage_3m",
+    "family": "spot",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 2
+  },
+  {
+    "name": "spot_coverage_5m",
+    "family": "spot",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 2
+  },
+  {
+    "name": "spot_coverage_60m",
+    "family": "spot",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 3
+  },
+  {
+    "name": "spot_drawdown_pct_1440m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1226
+  },
+  {
+    "name": "spot_drawdown_pct_15m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1125
+  },
+  {
+    "name": "spot_drawdown_pct_1m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1005
+  },
+  {
+    "name": "spot_drawdown_pct_240m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1193
+  },
+  {
+    "name": "spot_drawdown_pct_30m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1136
+  },
+  {
+    "name": "spot_drawdown_pct_3m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1089
+  },
+  {
+    "name": "spot_drawdown_pct_5m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1101
+  },
+  {
+    "name": "spot_drawdown_pct_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1152
+  },
+  {
+    "name": "spot_flow_acceleration_5m_vs_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_impact_bps_per_10k_1440m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_impact_bps_per_10k_15m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1255
+  },
+  {
+    "name": "spot_impact_bps_per_10k_1m",
+    "family": "spot",
+    "observed": 1253,
+    "missing": 489,
+    "unique": 1166
+  },
+  {
+    "name": "spot_impact_bps_per_10k_240m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_impact_bps_per_10k_30m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_impact_bps_per_10k_3m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1248
+  },
+  {
+    "name": "spot_impact_bps_per_10k_5m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1256
+  },
+  {
+    "name": "spot_impact_bps_per_10k_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_last_body_fraction",
+    "family": "spot",
+    "observed": 1239,
+    "missing": 503,
+    "unique": 919
+  },
+  {
+    "name": "spot_last_lower_wick_fraction",
+    "family": "spot",
+    "observed": 1239,
+    "missing": 503,
+    "unique": 741
+  },
+  {
+    "name": "spot_last_upper_wick_fraction",
+    "family": "spot",
+    "observed": 1239,
+    "missing": 503,
+    "unique": 743
+  },
+  {
+    "name": "spot_log_quote_volume_1440m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_log_quote_volume_15m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_log_quote_volume_1m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1253
+  },
+  {
+    "name": "spot_log_quote_volume_240m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_log_quote_volume_30m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_log_quote_volume_3m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1257
+  },
+  {
+    "name": "spot_log_quote_volume_5m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1257
+  },
+  {
+    "name": "spot_log_quote_volume_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_log_trade_count_1440m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_log_trade_count_15m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1207
+  },
+  {
+    "name": "spot_log_trade_count_1m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 896
+  },
+  {
+    "name": "spot_log_trade_count_240m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1252
+  },
+  {
+    "name": "spot_log_trade_count_30m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1219
+  },
+  {
+    "name": "spot_log_trade_count_3m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1112
+  },
+  {
+    "name": "spot_log_trade_count_5m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1147
+  },
+  {
+    "name": "spot_log_trade_count_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1233
+  },
+  {
+    "name": "spot_quote_volume_ratio_to_perp_1440m",
+    "family": "spot",
+    "observed": 1246,
+    "missing": 496,
+    "unique": 1245
+  },
+  {
+    "name": "spot_quote_volume_ratio_to_perp_15m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_quote_volume_ratio_to_perp_1m",
+    "family": "spot",
+    "observed": 1251,
+    "missing": 491,
+    "unique": 1247
+  },
+  {
+    "name": "spot_quote_volume_ratio_to_perp_240m",
+    "family": "spot",
+    "observed": 1251,
+    "missing": 491,
+    "unique": 1250
+  },
+  {
+    "name": "spot_quote_volume_ratio_to_perp_30m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_quote_volume_ratio_to_perp_3m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1257
+  },
+  {
+    "name": "spot_quote_volume_ratio_to_perp_5m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1257
+  },
+  {
+    "name": "spot_quote_volume_ratio_to_perp_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_range_pct_1440m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1239
+  },
+  {
+    "name": "spot_range_pct_15m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1252
+  },
+  {
+    "name": "spot_range_pct_1m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1237
+  },
+  {
+    "name": "spot_range_pct_240m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1240
+  },
+  {
+    "name": "spot_range_pct_30m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1251
+  },
+  {
+    "name": "spot_range_pct_3m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1252
+  },
+  {
+    "name": "spot_range_pct_5m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1257
+  },
+  {
+    "name": "spot_range_pct_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1251
+  },
+  {
+    "name": "spot_rebound_pct_1440m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1242
+  },
+  {
+    "name": "spot_rebound_pct_15m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1248
+  },
+  {
+    "name": "spot_rebound_pct_1m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1167
+  },
+  {
+    "name": "spot_rebound_pct_240m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1242
+  },
+  {
+    "name": "spot_rebound_pct_30m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1241
+  },
+  {
+    "name": "spot_rebound_pct_3m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1221
+  },
+  {
+    "name": "spot_rebound_pct_5m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1231
+  },
+  {
+    "name": "spot_rebound_pct_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1238
+  },
+  {
+    "name": "spot_return_autocorr_14m",
+    "family": "spot",
+    "observed": 1256,
+    "missing": 486,
+    "unique": 1254
+  },
+  {
+    "name": "spot_return_autocorr_240m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_return_autocorr_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_return_pct_1440m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1248
+  },
+  {
+    "name": "spot_return_pct_15m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1239
+  },
+  {
+    "name": "spot_return_pct_1m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1160
+  },
+  {
+    "name": "spot_return_pct_240m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1245
+  },
+  {
+    "name": "spot_return_pct_30m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1248
+  },
+  {
+    "name": "spot_return_pct_3m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1215
+  },
+  {
+    "name": "spot_return_pct_5m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1235
+  },
+  {
+    "name": "spot_return_pct_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1242
+  },
+  {
+    "name": "spot_rsi_14m",
+    "family": "spot",
+    "observed": 1256,
+    "missing": 486,
+    "unique": 1209
+  },
+  {
+    "name": "spot_rsi_240m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1244
+  },
+  {
+    "name": "spot_rsi_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1226
+  },
+  {
+    "name": "spot_rv_pct_1440m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_rv_pct_15m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_rv_pct_1m",
+    "family": "spot",
+    "observed": 0,
+    "missing": 1742,
+    "unique": 0
+  },
+  {
+    "name": "spot_rv_pct_240m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_rv_pct_30m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_rv_pct_3m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1241
+  },
+  {
+    "name": "spot_rv_pct_5m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1255
+  },
+  {
+    "name": "spot_rv_pct_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_signed_quote_flow_1440m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_signed_quote_flow_15m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_signed_quote_flow_1m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1253
+  },
+  {
+    "name": "spot_signed_quote_flow_240m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_signed_quote_flow_30m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_signed_quote_flow_3m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1257
+  },
+  {
+    "name": "spot_signed_quote_flow_5m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1257
+  },
+  {
+    "name": "spot_signed_quote_flow_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_taker_buy_ratio_1440m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_taker_buy_ratio_15m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_taker_buy_ratio_1m",
+    "family": "spot",
+    "observed": 1253,
+    "missing": 489,
+    "unique": 1241
+  },
+  {
+    "name": "spot_taker_buy_ratio_240m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_taker_buy_ratio_30m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_taker_buy_ratio_3m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1255
+  },
+  {
+    "name": "spot_taker_buy_ratio_5m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1257
+  },
+  {
+    "name": "spot_taker_buy_ratio_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_trend_efficiency_1440m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1252
+  },
+  {
+    "name": "spot_trend_efficiency_15m",
+    "family": "spot",
+    "observed": 1255,
+    "missing": 487,
+    "unique": 1246
+  },
+  {
+    "name": "spot_trend_efficiency_1m",
+    "family": "spot",
+    "observed": 1166,
+    "missing": 576,
+    "unique": 1
+  },
+  {
+    "name": "spot_trend_efficiency_240m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1251
+  },
+  {
+    "name": "spot_trend_efficiency_30m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1251
+  },
+  {
+    "name": "spot_trend_efficiency_3m",
+    "family": "spot",
+    "observed": 1248,
+    "missing": 494,
+    "unique": 1203
+  },
+  {
+    "name": "spot_trend_efficiency_5m",
+    "family": "spot",
+    "observed": 1256,
+    "missing": 486,
+    "unique": 1235
+  },
+  {
+    "name": "spot_trend_efficiency_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1248
+  },
+  {
+    "name": "spot_up_fraction_1440m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 380
+  },
+  {
+    "name": "spot_up_fraction_15m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 15
+  },
+  {
+    "name": "spot_up_fraction_1m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 2
+  },
+  {
+    "name": "spot_up_fraction_240m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 110
+  },
+  {
+    "name": "spot_up_fraction_30m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 26
+  },
+  {
+    "name": "spot_up_fraction_3m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 4
+  },
+  {
+    "name": "spot_up_fraction_5m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 6
+  },
+  {
+    "name": "spot_up_fraction_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 42
+  },
+  {
+    "name": "spot_volume_ratio_1440m",
+    "family": "spot",
+    "observed": 0,
+    "missing": 1742,
+    "unique": 0
+  },
+  {
+    "name": "spot_volume_ratio_15m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_volume_ratio_1m",
+    "family": "spot",
+    "observed": 1252,
+    "missing": 490,
+    "unique": 1247
+  },
+  {
+    "name": "spot_volume_ratio_240m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_volume_ratio_30m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_volume_ratio_3m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1257
+  },
+  {
+    "name": "spot_volume_ratio_5m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_volume_ratio_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_vwap_distance_pct_1440m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_vwap_distance_pct_15m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_vwap_distance_pct_1m",
+    "family": "spot",
+    "observed": 1253,
+    "missing": 489,
+    "unique": 1193
+  },
+  {
+    "name": "spot_vwap_distance_pct_240m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_vwap_distance_pct_30m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "spot_vwap_distance_pct_3m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1254
+  },
+  {
+    "name": "spot_vwap_distance_pct_5m",
+    "family": "spot",
+    "observed": 1258,
+    "missing": 484,
+    "unique": 1257
+  },
+  {
+    "name": "spot_vwap_distance_pct_60m",
+    "family": "spot",
+    "observed": 1257,
+    "missing": 485,
+    "unique": 1256
+  },
+  {
+    "name": "whale_available",
+    "family": "whale",
+    "observed": 1742,
+    "missing": 0,
+    "unique": 2
+  },
+  {
+    "name": "whale_direct_trade_report_count",
+    "family": "whale",
+    "observed": 81,
+    "missing": 1661,
+    "unique": 5
+  },
+  {
+    "name": "whale_exchange_report_count",
+    "family": "whale",
+    "observed": 81,
+    "missing": 1661,
+    "unique": 2
+  },
+  {
+    "name": "whale_latest_age_hours",
+    "family": "whale",
+    "observed": 81,
+    "missing": 1661,
+    "unique": 72
+  },
+  {
+    "name": "whale_mixed_count",
+    "family": "whale",
+    "observed": 81,
+    "missing": 1661,
+    "unique": 2
+  },
+  {
+    "name": "whale_neutral_count",
+    "family": "whale",
+    "observed": 81,
+    "missing": 1661,
+    "unique": 4
+  },
+  {
+    "name": "whale_pressure_count",
+    "family": "whale",
+    "observed": 81,
+    "missing": 1661,
+    "unique": 3
+  },
+  {
+    "name": "whale_source_count",
+    "family": "whale",
+    "observed": 81,
+    "missing": 1661,
+    "unique": 3
+  },
+  {
+    "name": "whale_support_count",
+    "family": "whale",
+    "observed": 81,
+    "missing": 1661,
+    "unique": 3
+  }
+]

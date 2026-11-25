@@ -1,0 +1,18 @@
+{
+  "counts": {
+    "event_revisions": 4158,
+    "revisions_without_asset_schema": 664,
+    "expired_or_invalid_revisions": 101,
+    "excluded_target_missing_causal_mechanism": 646,
+    "excluded_target_non_asset_relation": 1186,
+    "mapped_asset_event_revisions": 1202,
+    "excluded_target_outside_recorded_universe": 48,
+    "excluded_target_spot_only_instrument": 230,
+    "excluded_target_direct_subject_mismatch": 55,
+    "documents": 11787,
+    "unique_event_keys": 2536,
+    "assets_with_news": 82
+  },
+  "policy": "Use immutable event revisions and referenced evidence as-of each decision. Require direct/indirect target with mechanism and non-none channel, matching native underlying symbol and asset/perp instrument kind. Exclude market/venue/collateral/unresolved and spot-only mappings from asset news. Do not infer direction for indirect or ambiguous multi-asset impact. Include mixed and direction-unspecified buckets. Fixed topic taxonomy; preserve scalars and categorical indicators separately.",
+  "no_mutable_current_event_projection": true
+}

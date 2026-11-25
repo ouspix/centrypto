@@ -1,0 +1,1299 @@
+test,lane,case,symbol,reviewUtc,qualifies,delayMinutes,depth,portfolio,exit,netUSD
+Immediate news,archive,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,True,0.0,depth verified,entered,initial stop,-0.32352894212399846
+Immediate news,archive,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,True,0.0,depth verified,entered,initial stop,-3.202070169176845
+Immediate news,archive,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,True,0.0,no fresh archived book,,,
+Immediate news,archive,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,True,0.0,depth verified,entered,initial stop,-3.2610982580192918
+Immediate news,modeled,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,True,0.0,no fresh archived book,entered,initial stop,-0.31221417449999955
+Immediate news,modeled,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,True,0.0,no fresh archived book,entered,initial stop,-0.31461883207199837
+Immediate news,modeled,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,True,0.0,depth verified,symbol already open,initial stop,-0.32352894212399846
+Immediate news,modeled,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,True,0.0,no fresh archived book,entered,trailing stop,0.3382915715077573
+Immediate news,modeled,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,True,0.0,no fresh archived book,symbol already open,trailing stop,0.40687038494550815
+Immediate news,modeled,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,True,0.0,no fresh archived book,entered,initial stop,-0.40046706804689575
+Immediate news,modeled,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,True,0.0,no fresh archived book,entered,initial stop,-0.31222535699999615
+Immediate news,modeled,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,True,0.0,no fresh archived book,entered,initial stop,-0.33287098537292836
+Immediate news,modeled,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,True,0.0,no fresh archived book,entered,trailing stop,1.2457968375067565
+Immediate news,modeled,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,True,0.0,no fresh archived book,entered,initial stop,-0.32236137065974596
+Immediate news,modeled,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,True,0.0,no fresh archived book,,,
+Immediate news,modeled,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,True,0.0,no fresh archived book,entered,initial stop,-0.3182738218349975
+Immediate news,modeled,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,True,0.0,no fresh archived book,entered,initial stop,-0.3313398043219995
+Immediate news,modeled,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,True,0.0,no fresh archived book,position cap,trailing stop,0.36866889990000573
+Immediate news,modeled,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,True,0.0,no fresh archived book,symbol already open,initial stop,-0.32840446241999477
+Immediate news,modeled,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,True,0.0,no fresh archived book,symbol already open,initial stop,-0.3139865486999956
+Immediate news,modeled,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,True,0.0,no fresh archived book,entered,initial stop,-0.3165069947838733
+Immediate news,modeled,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,True,0.0,no fresh archived book,entered,initial stop,-0.3378781352959937
+Immediate news,modeled,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,True,0.0,no fresh archived book,entered,initial stop,-0.3774805038083547
+Immediate news,modeled,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,True,0.0,no fresh archived book,entered,initial stop,-0.3333061319843269
+Immediate news,modeled,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,True,0.0,no fresh archived book,entered,unresolved price gap,
+Immediate news,modeled,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,True,0.0,no fresh archived book,entered,initial stop,-3.286495980774907
+Immediate news,modeled,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,True,0.0,no fresh archived book,entered,initial stop,-3.1490302238569328
+Immediate news,modeled,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,True,0.0,no fresh archived book,entered,trailing stop,2.9857077089550614
+Immediate news,modeled,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,True,0.0,no fresh archived book,,,
+Immediate news,modeled,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,True,0.0,no fresh archived book,entered,initial stop,-3.219621260206661
+Immediate news,modeled,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,True,0.0,no fresh archived book,position cap,initial stop,-3.1851711489913717
+Immediate news,modeled,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,True,0.0,no fresh archived book,entered,trailing stop,2.219597731357558
+Immediate news,modeled,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,True,0.0,no fresh archived book,position cap,initial stop,-3.390141627210551
+Immediate news,modeled,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,True,0.0,no fresh archived book,entered,trailing stop,3.6389518074160576
+Immediate news,modeled,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,True,0.0,no fresh archived book,entered,trailing stop,2.9494333398030848
+Immediate news,modeled,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,True,0.0,no fresh archived book,entered,initial stop,-7.270625687128007
+Immediate news,modeled,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,True,0.0,no fresh archived book,entered,initial stop,-3.244273625207991
+Immediate news,modeled,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,True,0.0,no fresh archived book,entered,trailing stop,1.776145290638075
+Immediate news,modeled,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,True,0.0,no fresh archived book,position cap,trailing stop,5.749680400312514
+Immediate news,modeled,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,True,0.0,no fresh archived book,entered,initial stop,-3.5090918506874664
+Immediate news,modeled,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,True,0.0,no fresh archived book,,,
+Immediate news,modeled,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,True,0.0,no fresh archived book,position cap,initial stop,-3.2236339750583882
+Immediate news,modeled,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,True,0.0,no fresh archived book,entered,unresolved price gap,
+Immediate news,modeled,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,True,0.0,no fresh archived book,,,
+Immediate news,modeled,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,True,0.0,no fresh archived book,position cap,initial stop,-3.7248104854738258
+Immediate news,modeled,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,True,0.0,no fresh archived book,position cap,initial stop,-3.325170314351941
+Immediate news,modeled,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,True,0.0,no fresh archived book,position cap,trailing stop,2.2853624930918834
+Immediate news,modeled,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,True,0.0,no fresh archived book,capital cap,initial stop,-3.185953006074106
+Immediate news,modeled,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,True,0.0,no fresh archived book,entered,initial stop,-3.239079915358576
+Immediate news,modeled,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,True,0.0,no fresh archived book,symbol already open,initial stop,-3.744226874612528
+Immediate news,modeled,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,True,0.0,no fresh archived book,entered,initial stop,-3.1561584176505084
+Immediate news,modeled,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,True,0.0,no fresh archived book,entered,initial stop,-3.2317384318662583
+Immediate news,modeled,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,True,0.0,no fresh archived book,capital cap,trailing stop,2.6253391933313015
+Immediate news,modeled,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,True,0.0,no fresh archived book,symbol already open,initial stop,-3.265884300986928
+Immediate news,modeled,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,True,0.0,no fresh archived book,entered,initial stop,-3.160119672280982
+Immediate news,modeled,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,True,0.0,no fresh archived book,entered,initial stop,-3.8765036785474978
+Immediate news,modeled,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,True,0.0,no fresh archived book,entered,initial stop,-3.2008156837664234
+Immediate news,modeled,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,True,0.0,no fresh archived book,entered,initial stop,-3.1596534677888033
+Immediate news,modeled,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,True,0.0,no fresh archived book,entered,trailing stop,2.5827965708657548
+Immediate news,modeled,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,True,0.0,depth verified,entered,initial stop,-3.202070169176845
+Immediate news,modeled,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,True,0.0,no fresh archived book,entered,trailing stop,11.4154471466533
+Immediate news,modeled,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,True,0.0,no fresh archived book,entered,initial stop,-3.5051004149992164
+Immediate news,modeled,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,True,0.0,depth verified,symbol already open,initial stop,-3.2610982580192918
+1m 10/30 at review,archive,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,False,,,,,
+1m 10/30 at review,archive,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,False,,,,,
+1m 10/30 at review,archive,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,True,0.0,depth verified,entered,initial stop,-0.32352894212399846
+1m 10/30 at review,archive,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,False,,,,,
+1m 10/30 at review,archive,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,archive,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,False,,,,,
+1m 10/30 at review,archive,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,False,,,,,
+1m 10/30 at review,archive,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,False,,,,,
+1m 10/30 at review,archive,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,False,,,,,
+1m 10/30 at review,archive,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,False,,,,,
+1m 10/30 at review,archive,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,archive,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,False,,,,,
+1m 10/30 at review,archive,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,False,,,,,
+1m 10/30 at review,archive,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,False,,,,,
+1m 10/30 at review,archive,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,False,,,,,
+1m 10/30 at review,archive,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,archive,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,False,,,,,
+1m 10/30 at review,archive,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,archive,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,archive,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,archive,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,False,,,,,
+1m 10/30 at review,archive,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,False,,,,,
+1m 10/30 at review,archive,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,archive,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,False,,,,,
+1m 10/30 at review,archive,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,archive,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,archive,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,False,,,,,
+1m 10/30 at review,archive,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,False,,,,,
+1m 10/30 at review,archive,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,archive,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,archive,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,False,,,,,
+1m 10/30 at review,archive,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,archive,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,archive,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,False,,,,,
+1m 10/30 at review,archive,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,False,,,,,
+1m 10/30 at review,archive,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,False,,,,,
+1m 10/30 at review,archive,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,False,,,,,
+1m 10/30 at review,archive,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,False,,,,,
+1m 10/30 at review,archive,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,archive,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,archive,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,archive,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,False,,,,,
+1m 10/30 at review,archive,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,False,,,,,
+1m 10/30 at review,archive,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,archive,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,archive,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,False,,,,,
+1m 10/30 at review,archive,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,False,,,,,
+1m 10/30 at review,archive,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,archive,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,False,,,,,
+1m 10/30 at review,archive,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,False,,,,,
+1m 10/30 at review,archive,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,False,,,,,
+1m 10/30 at review,archive,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,archive,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,False,,,,,
+1m 10/30 at review,archive,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,False,,,,,
+1m 10/30 at review,archive,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,False,,,,,
+1m 10/30 at review,archive,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,False,,,,,
+1m 10/30 at review,archive,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,False,,,,,
+1m 10/30 at review,archive,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,False,,,,,
+1m 10/30 at review,archive,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,True,0.0,depth verified,entered,initial stop,-3.2610982580192918
+1m 10/30 at review,modeled,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,False,,,,,
+1m 10/30 at review,modeled,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,False,,,,,
+1m 10/30 at review,modeled,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,True,0.0,depth verified,entered,initial stop,-0.32352894212399846
+1m 10/30 at review,modeled,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,False,,,,,
+1m 10/30 at review,modeled,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,True,0.0,no fresh archived book,entered,trailing stop,0.40687038494550815
+1m 10/30 at review,modeled,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,False,,,,,
+1m 10/30 at review,modeled,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,False,,,,,
+1m 10/30 at review,modeled,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,False,,,,,
+1m 10/30 at review,modeled,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,False,,,,,
+1m 10/30 at review,modeled,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,False,,,,,
+1m 10/30 at review,modeled,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,modeled,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,False,,,,,
+1m 10/30 at review,modeled,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,False,,,,,
+1m 10/30 at review,modeled,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,False,,,,,
+1m 10/30 at review,modeled,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,False,,,,,
+1m 10/30 at review,modeled,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,True,0.0,no fresh archived book,entered,initial stop,-0.3139865486999956
+1m 10/30 at review,modeled,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,False,,,,,
+1m 10/30 at review,modeled,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,True,0.0,no fresh archived book,entered,initial stop,-0.3378781352959937
+1m 10/30 at review,modeled,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,True,0.0,no fresh archived book,entered,initial stop,-0.3774805038083547
+1m 10/30 at review,modeled,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,True,0.0,no fresh archived book,entered,initial stop,-0.3333061319843269
+1m 10/30 at review,modeled,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,False,,,,,
+1m 10/30 at review,modeled,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,False,,,,,
+1m 10/30 at review,modeled,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,True,0.0,no fresh archived book,entered,initial stop,-3.1490302238569328
+1m 10/30 at review,modeled,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,False,,,,,
+1m 10/30 at review,modeled,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,modeled,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,True,0.0,no fresh archived book,entered,initial stop,-3.219621260206661
+1m 10/30 at review,modeled,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,False,,,,,
+1m 10/30 at review,modeled,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,False,,,,,
+1m 10/30 at review,modeled,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,True,0.0,no fresh archived book,entered,initial stop,-3.390141627210551
+1m 10/30 at review,modeled,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,True,0.0,no fresh archived book,entered,trailing stop,3.6389518074160576
+1m 10/30 at review,modeled,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,False,,,,,
+1m 10/30 at review,modeled,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,True,0.0,no fresh archived book,entered,initial stop,-7.270625687128007
+1m 10/30 at review,modeled,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,True,0.0,no fresh archived book,entered,initial stop,-3.244273625207991
+1m 10/30 at review,modeled,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,False,,,,,
+1m 10/30 at review,modeled,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,False,,,,,
+1m 10/30 at review,modeled,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,False,,,,,
+1m 10/30 at review,modeled,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,False,,,,,
+1m 10/30 at review,modeled,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,False,,,,,
+1m 10/30 at review,modeled,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,True,0.0,no fresh archived book,entered,unresolved price gap,
+1m 10/30 at review,modeled,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,True,0.0,no fresh archived book,,,
+1m 10/30 at review,modeled,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,True,0.0,no fresh archived book,entered,initial stop,-3.7248104854738258
+1m 10/30 at review,modeled,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,False,,,,,
+1m 10/30 at review,modeled,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,False,,,,,
+1m 10/30 at review,modeled,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,True,0.0,no fresh archived book,capital cap,initial stop,-3.185953006074106
+1m 10/30 at review,modeled,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,True,0.0,no fresh archived book,entered,initial stop,-3.239079915358576
+1m 10/30 at review,modeled,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,False,,,,,
+1m 10/30 at review,modeled,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,False,,,,,
+1m 10/30 at review,modeled,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,True,0.0,no fresh archived book,entered,initial stop,-3.2317384318662583
+1m 10/30 at review,modeled,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,False,,,,,
+1m 10/30 at review,modeled,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,False,,,,,
+1m 10/30 at review,modeled,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,False,,,,,
+1m 10/30 at review,modeled,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,True,0.0,no fresh archived book,entered,initial stop,-3.8765036785474978
+1m 10/30 at review,modeled,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,False,,,,,
+1m 10/30 at review,modeled,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,False,,,,,
+1m 10/30 at review,modeled,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,False,,,,,
+1m 10/30 at review,modeled,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,False,,,,,
+1m 10/30 at review,modeled,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,False,,,,,
+1m 10/30 at review,modeled,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,False,,,,,
+1m 10/30 at review,modeled,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,True,0.0,depth verified,symbol already open,initial stop,-3.2610982580192918
+1m 10/30 up to 6h,archive,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,False,,,,,
+1m 10/30 up to 6h,archive,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,False,,,,,
+1m 10/30 up to 6h,archive,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,True,0.0,depth verified,entered,initial stop,-0.32352894212399846
+1m 10/30 up to 6h,archive,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,True,8.946300001939138,no fresh archived book,,,
+1m 10/30 up to 6h,archive,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,archive,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,True,37.25688333511353,no fresh archived book,,,
+1m 10/30 up to 6h,archive,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,True,30.45483333269755,no fresh archived book,,,
+1m 10/30 up to 6h,archive,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,True,15.163883332411448,no fresh archived book,,,
+1m 10/30 up to 6h,archive,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,True,18.644533332188924,no fresh archived book,,,
+1m 10/30 up to 6h,archive,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,True,6.040083332856496,no fresh archived book,,,
+1m 10/30 up to 6h,archive,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,archive,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,True,28.186600001653037,no fresh archived book,,,
+1m 10/30 up to 6h,archive,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,True,29.185099999109905,no fresh archived book,,,
+1m 10/30 up to 6h,archive,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,True,7.220399999618531,no fresh archived book,,,
+1m 10/30 up to 6h,archive,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,True,1.385450001557668,no fresh archived book,,,
+1m 10/30 up to 6h,archive,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,archive,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,True,12.728699998060863,no fresh archived book,,,
+1m 10/30 up to 6h,archive,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,archive,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,archive,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,archive,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,True,5.551066664854686,no fresh archived book,,,
+1m 10/30 up to 6h,archive,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,True,1.0637333313624064,no fresh archived book,,,
+1m 10/30 up to 6h,archive,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,archive,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,True,3.5064833323160807,no fresh archived book,,,
+1m 10/30 up to 6h,archive,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,archive,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,archive,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,True,42.0218000014623,no fresh archived book,,,
+1m 10/30 up to 6h,archive,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,True,9.052249999841054,no fresh archived book,,,
+1m 10/30 up to 6h,archive,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,archive,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,archive,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,True,1.9876166661580403,no fresh archived book,,,
+1m 10/30 up to 6h,archive,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,archive,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,archive,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,True,12.98278333346049,no fresh archived book,,,
+1m 10/30 up to 6h,archive,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,True,7.943683334191641,no fresh archived book,,,
+1m 10/30 up to 6h,archive,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,True,6.56096666653951,no fresh archived book,,,
+1m 10/30 up to 6h,archive,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,True,3.8077999989191693,no fresh archived book,,,
+1m 10/30 up to 6h,archive,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,True,2.815649998188019,no fresh archived book,,,
+1m 10/30 up to 6h,archive,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,archive,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,archive,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,archive,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,True,38.93025000095368,no fresh archived book,,,
+1m 10/30 up to 6h,archive,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,True,3.885466667016347,no fresh archived book,,,
+1m 10/30 up to 6h,archive,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,archive,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,archive,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,False,,,,,
+1m 10/30 up to 6h,archive,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,True,22.46710000038147,no fresh archived book,,,
+1m 10/30 up to 6h,archive,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,archive,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,True,7.352833334604899,no fresh archived book,,,
+1m 10/30 up to 6h,archive,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,True,49.45511666536331,no fresh archived book,,,
+1m 10/30 up to 6h,archive,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,True,40.849033331871034,no fresh archived book,,,
+1m 10/30 up to 6h,archive,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,archive,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,True,30.562816667556763,no fresh archived book,,,
+1m 10/30 up to 6h,archive,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,True,33.39453333218892,no fresh archived book,,,
+1m 10/30 up to 6h,archive,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,True,9.138049999872843,no fresh archived book,,,
+1m 10/30 up to 6h,archive,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,True,3.7494666655858357,entry price moved beyond limit,,,
+1m 10/30 up to 6h,archive,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,True,12.773366665840149,no fresh archived book,,,
+1m 10/30 up to 6h,archive,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,True,12.633583335081736,no fresh archived book,,,
+1m 10/30 up to 6h,archive,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,True,0.0,depth verified,entered,initial stop,-3.2610982580192918
+1m 10/30 up to 6h,modeled,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,False,,,,,
+1m 10/30 up to 6h,modeled,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,False,,,,,
+1m 10/30 up to 6h,modeled,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,True,0.0,depth verified,entered,initial stop,-0.32352894212399846
+1m 10/30 up to 6h,modeled,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,True,8.946300001939138,no fresh archived book,entered,initial stop,-0.33709921762387374
+1m 10/30 up to 6h,modeled,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,True,0.0,no fresh archived book,entered,trailing stop,0.40687038494550815
+1m 10/30 up to 6h,modeled,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,True,37.25688333511353,no fresh archived book,entered,initial stop,-0.3207789512999885
+1m 10/30 up to 6h,modeled,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,True,30.45483333269755,no fresh archived book,entered,initial stop,-0.3381069202363901
+1m 10/30 up to 6h,modeled,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,True,15.163883332411448,no fresh archived book,entered,initial stop,-0.3438751312984139
+1m 10/30 up to 6h,modeled,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,True,18.644533332188924,no fresh archived book,entered,trailing stop,1.165175575342506
+1m 10/30 up to 6h,modeled,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,True,6.040083332856496,no fresh archived book,entered,initial stop,-0.32133021047549315
+1m 10/30 up to 6h,modeled,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,modeled,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,True,28.186600001653037,no fresh archived book,entered,initial stop,-0.32333379395549894
+1m 10/30 up to 6h,modeled,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,True,29.185099999109905,no fresh archived book,entered,initial stop,-0.3248015875462474
+1m 10/30 up to 6h,modeled,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,True,7.220399999618531,no fresh archived book,position cap,trailing stop,0.2545605742500078
+1m 10/30 up to 6h,modeled,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,True,1.385450001557668,no fresh archived book,symbol already open,initial stop,-0.32660275201499567
+1m 10/30 up to 6h,modeled,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,True,0.0,no fresh archived book,symbol already open,initial stop,-0.3139865486999956
+1m 10/30 up to 6h,modeled,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,True,12.728699998060863,no fresh archived book,entered,initial stop,-0.3222466424178719
+1m 10/30 up to 6h,modeled,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,True,0.0,no fresh archived book,entered,initial stop,-0.3378781352959937
+1m 10/30 up to 6h,modeled,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,True,0.0,no fresh archived book,entered,initial stop,-0.3774805038083547
+1m 10/30 up to 6h,modeled,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,True,0.0,no fresh archived book,entered,initial stop,-0.3333061319843269
+1m 10/30 up to 6h,modeled,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,True,5.551066664854686,no fresh archived book,entered,unresolved price gap,
+1m 10/30 up to 6h,modeled,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,True,1.0637333313624064,no fresh archived book,entered,initial stop,-3.181130207149954
+1m 10/30 up to 6h,modeled,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,True,0.0,no fresh archived book,entered,initial stop,-3.1490302238569328
+1m 10/30 up to 6h,modeled,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,True,3.5064833323160807,no fresh archived book,entered,trailing stop,2.583626003572591
+1m 10/30 up to 6h,modeled,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,modeled,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,True,0.0,no fresh archived book,entered,initial stop,-3.219621260206661
+1m 10/30 up to 6h,modeled,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,True,42.0218000014623,no fresh archived book,,,
+1m 10/30 up to 6h,modeled,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,True,9.052249999841054,no fresh archived book,entered,initial stop,-3.3119476930961813
+1m 10/30 up to 6h,modeled,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,True,0.0,no fresh archived book,entered,initial stop,-3.390141627210551
+1m 10/30 up to 6h,modeled,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,True,0.0,no fresh archived book,entered,trailing stop,3.6389518074160576
+1m 10/30 up to 6h,modeled,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,True,1.9876166661580403,no fresh archived book,entered,trailing stop,3.68794842911129
+1m 10/30 up to 6h,modeled,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,True,0.0,no fresh archived book,entered,initial stop,-7.270625687128007
+1m 10/30 up to 6h,modeled,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,True,0.0,no fresh archived book,entered,initial stop,-3.244273625207991
+1m 10/30 up to 6h,modeled,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,True,12.98278333346049,no fresh archived book,entered,trailing stop,4.623040723995592
+1m 10/30 up to 6h,modeled,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,True,7.943683334191641,no fresh archived book,position cap,trailing stop,5.431618213098059
+1m 10/30 up to 6h,modeled,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,True,6.56096666653951,no fresh archived book,entered,initial stop,-3.4047553080171387
+1m 10/30 up to 6h,modeled,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,True,3.8077999989191693,no fresh archived book,position cap,initial stop,-3.1358267857199187
+1m 10/30 up to 6h,modeled,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,True,2.815649998188019,no fresh archived book,position cap,initial stop,-3.2399688875884864
+1m 10/30 up to 6h,modeled,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,True,0.0,no fresh archived book,entered,unresolved price gap,
+1m 10/30 up to 6h,modeled,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,True,0.0,no fresh archived book,,,
+1m 10/30 up to 6h,modeled,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,True,0.0,no fresh archived book,position cap,initial stop,-3.7248104854738258
+1m 10/30 up to 6h,modeled,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,True,38.93025000095368,no fresh archived book,position cap,trailing stop,1.7946983202088749
+1m 10/30 up to 6h,modeled,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,True,3.885466667016347,no fresh archived book,position cap,trailing stop,1.937872525431239
+1m 10/30 up to 6h,modeled,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,True,0.0,no fresh archived book,capital cap,initial stop,-3.185953006074106
+1m 10/30 up to 6h,modeled,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,True,0.0,no fresh archived book,entered,initial stop,-3.239079915358576
+1m 10/30 up to 6h,modeled,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,False,,,,,
+1m 10/30 up to 6h,modeled,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,True,22.46710000038147,no fresh archived book,entered,initial stop,-3.670528426518741
+1m 10/30 up to 6h,modeled,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,True,0.0,no fresh archived book,entered,initial stop,-3.2317384318662583
+1m 10/30 up to 6h,modeled,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,True,7.352833334604899,no fresh archived book,capital cap,initial stop,-3.2444523499863696
+1m 10/30 up to 6h,modeled,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,True,49.45511666536331,no fresh archived book,,,
+1m 10/30 up to 6h,modeled,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,True,40.849033331871034,no fresh archived book,entered,initial stop,-3.654528223805969
+1m 10/30 up to 6h,modeled,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,True,0.0,no fresh archived book,entered,initial stop,-3.8765036785474978
+1m 10/30 up to 6h,modeled,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,True,30.562816667556763,no fresh archived book,entered,initial stop,-3.1361825962068717
+1m 10/30 up to 6h,modeled,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,True,33.39453333218892,no fresh archived book,entered,initial stop,-3.328661784673935
+1m 10/30 up to 6h,modeled,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,True,9.138049999872843,no fresh archived book,capital cap,trailing stop,7.666526016511692
+1m 10/30 up to 6h,modeled,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,True,3.7494666655858357,entry price moved beyond limit,,,
+1m 10/30 up to 6h,modeled,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,True,12.773366665840149,no fresh archived book,entered,trailing stop,6.195829103355689
+1m 10/30 up to 6h,modeled,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,True,12.633583335081736,no fresh archived book,entered,initial stop,-3.4663322545119652
+1m 10/30 up to 6h,modeled,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,True,0.0,depth verified,symbol already open,initial stop,-3.2610982580192918
+5m 5/20 at review,archive,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,False,,,,,
+5m 5/20 at review,archive,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,False,,,,,
+5m 5/20 at review,archive,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,False,,,,,
+5m 5/20 at review,archive,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,False,,,,,
+5m 5/20 at review,archive,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,False,,,,,
+5m 5/20 at review,archive,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,False,,,,,
+5m 5/20 at review,archive,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,False,,,,,
+5m 5/20 at review,archive,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,True,0.0,no fresh archived book,,,
+5m 5/20 at review,archive,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,False,,,,,
+5m 5/20 at review,archive,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,False,,,,,
+5m 5/20 at review,archive,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,False,,,,,
+5m 5/20 at review,archive,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,False,,,,,
+5m 5/20 at review,archive,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,False,,,,,
+5m 5/20 at review,archive,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,False,,,,,
+5m 5/20 at review,archive,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,False,,,,,
+5m 5/20 at review,archive,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,False,,,,,
+5m 5/20 at review,archive,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,False,,,,,
+5m 5/20 at review,archive,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,False,,,,,
+5m 5/20 at review,archive,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,False,,,,,
+5m 5/20 at review,archive,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,False,,,,,
+5m 5/20 at review,archive,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,False,,,,,
+5m 5/20 at review,archive,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,True,0.0,no fresh archived book,,,
+5m 5/20 at review,archive,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,True,0.0,no fresh archived book,,,
+5m 5/20 at review,archive,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,True,0.0,no fresh archived book,,,
+5m 5/20 at review,archive,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,True,0.0,no fresh archived book,,,
+5m 5/20 at review,archive,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,True,0.0,no fresh archived book,,,
+5m 5/20 at review,archive,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,False,,,,,
+5m 5/20 at review,archive,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,False,,,,,
+5m 5/20 at review,archive,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,True,0.0,no fresh archived book,,,
+5m 5/20 at review,archive,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,False,,,,,
+5m 5/20 at review,archive,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,False,,,,,
+5m 5/20 at review,archive,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,False,,,,,
+5m 5/20 at review,archive,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,True,0.0,no fresh archived book,,,
+5m 5/20 at review,archive,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,False,,,,,
+5m 5/20 at review,archive,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,False,,,,,
+5m 5/20 at review,archive,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,False,,,,,
+5m 5/20 at review,archive,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,False,,,,,
+5m 5/20 at review,archive,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,False,,,,,
+5m 5/20 at review,archive,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,True,0.0,no fresh archived book,,,
+5m 5/20 at review,archive,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,False,,,,,
+5m 5/20 at review,archive,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,True,0.0,no fresh archived book,,,
+5m 5/20 at review,archive,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,False,,,,,
+5m 5/20 at review,archive,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,True,0.0,no fresh archived book,,,
+5m 5/20 at review,archive,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,True,0.0,no fresh archived book,,,
+5m 5/20 at review,archive,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,False,,,,,
+5m 5/20 at review,archive,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,False,,,,,
+5m 5/20 at review,archive,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,False,,,,,
+5m 5/20 at review,archive,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,False,,,,,
+5m 5/20 at review,archive,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,False,,,,,
+5m 5/20 at review,archive,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,False,,,,,
+5m 5/20 at review,archive,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,False,,,,,
+5m 5/20 at review,archive,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,True,0.0,no fresh archived book,,,
+5m 5/20 at review,archive,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,False,,,,,
+5m 5/20 at review,archive,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,False,,,,,
+5m 5/20 at review,archive,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,False,,,,,
+5m 5/20 at review,archive,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,True,0.0,depth verified,entered,initial stop,-3.202070169176845
+5m 5/20 at review,archive,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,False,,,,,
+5m 5/20 at review,archive,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,False,,,,,
+5m 5/20 at review,archive,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,False,,,,,
+5m 5/20 at review,modeled,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,False,,,,,
+5m 5/20 at review,modeled,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,False,,,,,
+5m 5/20 at review,modeled,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,False,,,,,
+5m 5/20 at review,modeled,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,False,,,,,
+5m 5/20 at review,modeled,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,False,,,,,
+5m 5/20 at review,modeled,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,False,,,,,
+5m 5/20 at review,modeled,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,False,,,,,
+5m 5/20 at review,modeled,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,True,0.0,no fresh archived book,entered,initial stop,-0.33287098537292836
+5m 5/20 at review,modeled,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,False,,,,,
+5m 5/20 at review,modeled,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,False,,,,,
+5m 5/20 at review,modeled,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,False,,,,,
+5m 5/20 at review,modeled,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,False,,,,,
+5m 5/20 at review,modeled,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,False,,,,,
+5m 5/20 at review,modeled,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,False,,,,,
+5m 5/20 at review,modeled,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,False,,,,,
+5m 5/20 at review,modeled,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,False,,,,,
+5m 5/20 at review,modeled,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,False,,,,,
+5m 5/20 at review,modeled,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,False,,,,,
+5m 5/20 at review,modeled,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,False,,,,,
+5m 5/20 at review,modeled,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,False,,,,,
+5m 5/20 at review,modeled,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,False,,,,,
+5m 5/20 at review,modeled,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,True,0.0,no fresh archived book,entered,initial stop,-3.286495980774907
+5m 5/20 at review,modeled,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,True,0.0,no fresh archived book,entered,initial stop,-3.1490302238569328
+5m 5/20 at review,modeled,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,True,0.0,no fresh archived book,entered,trailing stop,2.9857077089550614
+5m 5/20 at review,modeled,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,True,0.0,no fresh archived book,,,
+5m 5/20 at review,modeled,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,True,0.0,no fresh archived book,entered,initial stop,-3.219621260206661
+5m 5/20 at review,modeled,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,False,,,,,
+5m 5/20 at review,modeled,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,False,,,,,
+5m 5/20 at review,modeled,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,True,0.0,no fresh archived book,entered,initial stop,-3.390141627210551
+5m 5/20 at review,modeled,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,False,,,,,
+5m 5/20 at review,modeled,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,False,,,,,
+5m 5/20 at review,modeled,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,False,,,,,
+5m 5/20 at review,modeled,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,True,0.0,no fresh archived book,entered,initial stop,-3.244273625207991
+5m 5/20 at review,modeled,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,False,,,,,
+5m 5/20 at review,modeled,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,False,,,,,
+5m 5/20 at review,modeled,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,False,,,,,
+5m 5/20 at review,modeled,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,False,,,,,
+5m 5/20 at review,modeled,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,False,,,,,
+5m 5/20 at review,modeled,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,True,0.0,no fresh archived book,entered,unresolved price gap,
+5m 5/20 at review,modeled,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,False,,,,,
+5m 5/20 at review,modeled,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,True,0.0,no fresh archived book,entered,initial stop,-3.7248104854738258
+5m 5/20 at review,modeled,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,False,,,,,
+5m 5/20 at review,modeled,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,True,0.0,no fresh archived book,entered,trailing stop,2.2853624930918834
+5m 5/20 at review,modeled,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,True,0.0,no fresh archived book,entered,initial stop,-3.185953006074106
+5m 5/20 at review,modeled,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,False,,,,,
+5m 5/20 at review,modeled,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,False,,,,,
+5m 5/20 at review,modeled,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,False,,,,,
+5m 5/20 at review,modeled,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,False,,,,,
+5m 5/20 at review,modeled,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,False,,,,,
+5m 5/20 at review,modeled,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,False,,,,,
+5m 5/20 at review,modeled,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,False,,,,,
+5m 5/20 at review,modeled,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,True,0.0,no fresh archived book,entered,initial stop,-3.8765036785474978
+5m 5/20 at review,modeled,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,False,,,,,
+5m 5/20 at review,modeled,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,False,,,,,
+5m 5/20 at review,modeled,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,False,,,,,
+5m 5/20 at review,modeled,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,True,0.0,depth verified,entered,initial stop,-3.202070169176845
+5m 5/20 at review,modeled,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,False,,,,,
+5m 5/20 at review,modeled,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,False,,,,,
+5m 5/20 at review,modeled,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,False,,,,,
+5m 5/20 up to 6h,archive,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,False,,,,,
+5m 5/20 up to 6h,archive,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,True,14.396250001589458,no fresh archived book,,,
+5m 5/20 up to 6h,archive,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,True,13.037083331743876,no fresh archived book,,,
+5m 5/20 up to 6h,archive,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,False,,,,,
+5m 5/20 up to 6h,archive,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,True,20.503399999936423,no fresh archived book,,,
+5m 5/20 up to 6h,archive,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,False,,,,,
+5m 5/20 up to 6h,archive,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,True,63.454833332697554,no fresh archived book,,,
+5m 5/20 up to 6h,archive,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,True,0.0,no fresh archived book,,,
+5m 5/20 up to 6h,archive,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,True,39.64453333218892,no fresh archived book,,,
+5m 5/20 up to 6h,archive,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,True,15.040083332856495,no fresh archived book,,,
+5m 5/20 up to 6h,archive,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,True,3.016716667016347,no fresh archived book,,,
+5m 5/20 up to 6h,archive,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,True,83.18660000165303,no fresh archived book,,,
+5m 5/20 up to 6h,archive,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,True,28.185099999109905,no fresh archived book,,,
+5m 5/20 up to 6h,archive,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,True,28.22039999961853,no fresh archived book,,,
+5m 5/20 up to 6h,archive,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,True,38.385450001557665,no fresh archived book,,,
+5m 5/20 up to 6h,archive,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,True,13.022533333301544,no fresh archived book,,,
+5m 5/20 up to 6h,archive,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,True,117.72869999806086,no fresh archived book,,,
+5m 5/20 up to 6h,archive,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,False,,,,,
+5m 5/20 up to 6h,archive,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,False,,,,,
+5m 5/20 up to 6h,archive,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,True,4.1416833321253455,no fresh archived book,,,
+5m 5/20 up to 6h,archive,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,True,0.5510666648546855,no fresh archived book,,,
+5m 5/20 up to 6h,archive,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,True,0.0,no fresh archived book,,,
+5m 5/20 up to 6h,archive,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,True,0.0,no fresh archived book,,,
+5m 5/20 up to 6h,archive,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,True,0.0,no fresh archived book,,,
+5m 5/20 up to 6h,archive,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,True,0.0,no fresh archived book,,,
+5m 5/20 up to 6h,archive,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,True,0.0,no fresh archived book,,,
+5m 5/20 up to 6h,archive,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,True,64.0218000014623,no fresh archived book,,,
+5m 5/20 up to 6h,archive,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,True,68.05224999984105,no fresh archived book,,,
+5m 5/20 up to 6h,archive,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,True,0.0,no fresh archived book,,,
+5m 5/20 up to 6h,archive,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,True,26.177766664822897,no fresh archived book,,,
+5m 5/20 up to 6h,archive,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,True,38.98761666615804,no fresh archived book,,,
+5m 5/20 up to 6h,archive,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,True,83.47280000050863,no fresh archived book,,,
+5m 5/20 up to 6h,archive,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,True,0.0,no fresh archived book,,,
+5m 5/20 up to 6h,archive,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,True,1.9827833334604898,no fresh archived book,,,
+5m 5/20 up to 6h,archive,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,True,41.94368333419164,no fresh archived book,,,
+5m 5/20 up to 6h,archive,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,True,17.56096666653951,no fresh archived book,,,
+5m 5/20 up to 6h,archive,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,True,3.8077999989191693,no fresh archived book,,,
+5m 5/20 up to 6h,archive,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,True,129.815649998188,no fresh archived book,,,
+5m 5/20 up to 6h,archive,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,True,0.0,no fresh archived book,,,
+5m 5/20 up to 6h,archive,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,True,8.734800000985464,no fresh archived book,,,
+5m 5/20 up to 6h,archive,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,True,0.0,no fresh archived book,,,
+5m 5/20 up to 6h,archive,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,True,86.93025000095368,no fresh archived book,,,
+5m 5/20 up to 6h,archive,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,True,0.0,no fresh archived book,,,
+5m 5/20 up to 6h,archive,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,True,0.0,no fresh archived book,,,
+5m 5/20 up to 6h,archive,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,False,,,,,
+5m 5/20 up to 6h,archive,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,True,16.09533333381017,no fresh archived book,,,
+5m 5/20 up to 6h,archive,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,True,57.46710000038147,no fresh archived book,,,
+5m 5/20 up to 6h,archive,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,True,6.5648000001907345,no fresh archived book,,,
+5m 5/20 up to 6h,archive,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,True,6.352833334604899,no fresh archived book,,,
+5m 5/20 up to 6h,archive,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,True,165.4551166653633,no fresh archived book,,,
+5m 5/20 up to 6h,archive,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,True,168.84903333187103,no fresh archived book,,,
+5m 5/20 up to 6h,archive,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,True,0.0,no fresh archived book,,,
+5m 5/20 up to 6h,archive,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,True,182.56281666755677,no fresh archived book,,,
+5m 5/20 up to 6h,archive,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,True,155.39453333218893,no fresh archived book,,,
+5m 5/20 up to 6h,archive,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,True,45.13804999987284,no fresh archived book,,,
+5m 5/20 up to 6h,archive,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,True,0.0,depth verified,entered,initial stop,-3.202070169176845
+5m 5/20 up to 6h,archive,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,True,31.77336666584015,top of book alone insufficient,,,
+5m 5/20 up to 6h,archive,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,True,19.633583335081735,no fresh archived book,,,
+5m 5/20 up to 6h,archive,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,True,9.020266668001812,no fresh archived book,,,
+5m 5/20 up to 6h,modeled,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,False,,,,,
+5m 5/20 up to 6h,modeled,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,True,14.396250001589458,no fresh archived book,entered,initial stop,-0.31754413860224084
+5m 5/20 up to 6h,modeled,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,True,13.037083331743876,no fresh archived book,symbol already open,initial stop,-0.3198690996299914
+5m 5/20 up to 6h,modeled,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,False,,,,,
+5m 5/20 up to 6h,modeled,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,True,20.503399999936423,no fresh archived book,entered,trailing stop,0.2807506565955045
+5m 5/20 up to 6h,modeled,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,False,,,,,
+5m 5/20 up to 6h,modeled,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,True,63.454833332697554,no fresh archived book,entered,trailing stop,0.7990174406989147
+5m 5/20 up to 6h,modeled,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,True,0.0,no fresh archived book,entered,initial stop,-0.33287098537292836
+5m 5/20 up to 6h,modeled,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,True,39.64453333218892,no fresh archived book,entered,trailing stop,0.22682223603825857
+5m 5/20 up to 6h,modeled,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,True,15.040083332856495,no fresh archived book,entered,initial stop,-0.3214782633894492
+5m 5/20 up to 6h,modeled,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,True,3.016716667016347,no fresh archived book,,,
+5m 5/20 up to 6h,modeled,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,True,83.18660000165303,no fresh archived book,entered,initial stop,-0.31319461604549703
+5m 5/20 up to 6h,modeled,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,True,28.185099999109905,no fresh archived book,entered,initial stop,-0.3147420377849964
+5m 5/20 up to 6h,modeled,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,True,28.22039999961853,no fresh archived book,position cap,initial stop,-0.27039839540887434
+5m 5/20 up to 6h,modeled,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,True,38.385450001557665,no fresh archived book,symbol already open,initial stop,-0.3152564488349975
+5m 5/20 up to 6h,modeled,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,True,13.022533333301544,no fresh archived book,symbol already open,initial stop,-0.3104503878900025
+5m 5/20 up to 6h,modeled,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,True,117.72869999806086,no fresh archived book,entered,trailing stop,0.20814775211475978
+5m 5/20 up to 6h,modeled,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,False,,,,,
+5m 5/20 up to 6h,modeled,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,False,,,,,
+5m 5/20 up to 6h,modeled,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,True,4.1416833321253455,no fresh archived book,entered,trailing stop,0.3034237042141306
+5m 5/20 up to 6h,modeled,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,True,0.5510666648546855,no fresh archived book,entered,unresolved price gap,
+5m 5/20 up to 6h,modeled,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,True,0.0,no fresh archived book,entered,initial stop,-3.286495980774907
+5m 5/20 up to 6h,modeled,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,True,0.0,no fresh archived book,entered,initial stop,-3.1490302238569328
+5m 5/20 up to 6h,modeled,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,True,0.0,no fresh archived book,entered,trailing stop,2.9857077089550614
+5m 5/20 up to 6h,modeled,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,True,0.0,no fresh archived book,,,
+5m 5/20 up to 6h,modeled,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,True,0.0,no fresh archived book,entered,initial stop,-3.219621260206661
+5m 5/20 up to 6h,modeled,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,True,64.0218000014623,no fresh archived book,entered,trailing stop,12.331219030506032
+5m 5/20 up to 6h,modeled,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,True,68.05224999984105,no fresh archived book,position cap,initial stop,-3.2377680567442044
+5m 5/20 up to 6h,modeled,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,True,0.0,no fresh archived book,entered,initial stop,-3.390141627210551
+5m 5/20 up to 6h,modeled,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,True,26.177766664822897,no fresh archived book,entered,initial stop,-3.219324090674477
+5m 5/20 up to 6h,modeled,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,True,38.98761666615804,no fresh archived book,entered,initial stop,-3.20317130816962
+5m 5/20 up to 6h,modeled,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,True,83.47280000050863,no fresh archived book,entered,initial stop,-3.54252128955752
+5m 5/20 up to 6h,modeled,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,True,0.0,no fresh archived book,entered,initial stop,-3.244273625207991
+5m 5/20 up to 6h,modeled,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,True,1.9827833334604898,no fresh archived book,entered,trailing stop,1.9807395166280461
+5m 5/20 up to 6h,modeled,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,True,41.94368333419164,no fresh archived book,position cap,trailing stop,4.799327599890084
+5m 5/20 up to 6h,modeled,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,True,17.56096666653951,no fresh archived book,entered,initial stop,-3.170067255309869
+5m 5/20 up to 6h,modeled,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,True,3.8077999989191693,no fresh archived book,position cap,initial stop,-3.1358267857199187
+5m 5/20 up to 6h,modeled,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,True,129.815649998188,no fresh archived book,entered,initial stop,-3.251591641844347
+5m 5/20 up to 6h,modeled,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,True,0.0,no fresh archived book,entered,unresolved price gap,
+5m 5/20 up to 6h,modeled,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,True,8.734800000985464,no fresh archived book,position cap,trailing stop,6.042611628294526
+5m 5/20 up to 6h,modeled,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,True,0.0,no fresh archived book,position cap,initial stop,-3.7248104854738258
+5m 5/20 up to 6h,modeled,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,True,86.93025000095368,no fresh archived book,position cap,initial stop,-3.1349322930186885
+5m 5/20 up to 6h,modeled,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,True,0.0,no fresh archived book,position cap,trailing stop,2.2853624930918834
+5m 5/20 up to 6h,modeled,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,True,0.0,no fresh archived book,entered,initial stop,-3.185953006074106
+5m 5/20 up to 6h,modeled,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,False,,,,,
+5m 5/20 up to 6h,modeled,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,True,16.09533333381017,no fresh archived book,symbol already open,initial stop,-3.76316559318834
+5m 5/20 up to 6h,modeled,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,True,57.46710000038147,no fresh archived book,entered,trailing stop,6.1018242622484165
+5m 5/20 up to 6h,modeled,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,True,6.5648000001907345,no fresh archived book,capital cap,initial stop,-3.478649139246705
+5m 5/20 up to 6h,modeled,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,True,6.352833334604899,no fresh archived book,entered,initial stop,-3.1986789028219373
+5m 5/20 up to 6h,modeled,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,True,165.4551166653633,no fresh archived book,symbol already open,initial stop,-3.3867244771980523
+5m 5/20 up to 6h,modeled,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,True,168.84903333187103,no fresh archived book,entered,initial stop,-3.7648125304579705
+5m 5/20 up to 6h,modeled,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,True,0.0,no fresh archived book,entered,initial stop,-3.8765036785474978
+5m 5/20 up to 6h,modeled,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,True,182.56281666755677,no fresh archived book,capital cap,trailing stop,11.360883798924016
+5m 5/20 up to 6h,modeled,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,True,155.39453333218893,no fresh archived book,capital cap,trailing stop,4.04667263506844
+5m 5/20 up to 6h,modeled,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,True,45.13804999987284,no fresh archived book,entered,trailing stop,8.010800293855299
+5m 5/20 up to 6h,modeled,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,True,0.0,depth verified,entered,initial stop,-3.202070169176845
+5m 5/20 up to 6h,modeled,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,True,31.77336666584015,top of book alone insufficient,entered,initial stop,-3.401750934324853
+5m 5/20 up to 6h,modeled,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,True,19.633583335081735,no fresh archived book,entered,initial stop,-3.1934727176249376
+5m 5/20 up to 6h,modeled,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,True,9.020266668001812,no fresh archived book,symbol already open,initial stop,-3.2788042706517975
+5m 9/21 at review,archive,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,True,0.0,no fresh archived book,,,
+5m 9/21 at review,archive,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,True,0.0,no fresh archived book,,,
+5m 9/21 at review,archive,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,False,,,,,
+5m 9/21 at review,archive,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,False,,,,,
+5m 9/21 at review,archive,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,False,,,,,
+5m 9/21 at review,archive,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,False,,,,,
+5m 9/21 at review,archive,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,False,,,,,
+5m 9/21 at review,archive,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,True,0.0,no fresh archived book,,,
+5m 9/21 at review,archive,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,False,,,,,
+5m 9/21 at review,archive,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,False,,,,,
+5m 9/21 at review,archive,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,False,,,,,
+5m 9/21 at review,archive,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,False,,,,,
+5m 9/21 at review,archive,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,False,,,,,
+5m 9/21 at review,archive,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,False,,,,,
+5m 9/21 at review,archive,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,False,,,,,
+5m 9/21 at review,archive,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,False,,,,,
+5m 9/21 at review,archive,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,False,,,,,
+5m 9/21 at review,archive,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,False,,,,,
+5m 9/21 at review,archive,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,False,,,,,
+5m 9/21 at review,archive,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,False,,,,,
+5m 9/21 at review,archive,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,False,,,,,
+5m 9/21 at review,archive,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,False,,,,,
+5m 9/21 at review,archive,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,True,0.0,no fresh archived book,,,
+5m 9/21 at review,archive,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,True,0.0,no fresh archived book,,,
+5m 9/21 at review,archive,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,True,0.0,no fresh archived book,,,
+5m 9/21 at review,archive,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,True,0.0,no fresh archived book,,,
+5m 9/21 at review,archive,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,False,,,,,
+5m 9/21 at review,archive,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,False,,,,,
+5m 9/21 at review,archive,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,False,,,,,
+5m 9/21 at review,archive,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,False,,,,,
+5m 9/21 at review,archive,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,False,,,,,
+5m 9/21 at review,archive,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,True,0.0,no fresh archived book,,,
+5m 9/21 at review,archive,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,True,0.0,no fresh archived book,,,
+5m 9/21 at review,archive,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,True,0.0,no fresh archived book,,,
+5m 9/21 at review,archive,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,False,,,,,
+5m 9/21 at review,archive,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,False,,,,,
+5m 9/21 at review,archive,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,False,,,,,
+5m 9/21 at review,archive,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,False,,,,,
+5m 9/21 at review,archive,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,True,0.0,no fresh archived book,,,
+5m 9/21 at review,archive,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,False,,,,,
+5m 9/21 at review,archive,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,True,0.0,no fresh archived book,,,
+5m 9/21 at review,archive,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,False,,,,,
+5m 9/21 at review,archive,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,False,,,,,
+5m 9/21 at review,archive,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,True,0.0,no fresh archived book,,,
+5m 9/21 at review,archive,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,False,,,,,
+5m 9/21 at review,archive,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,False,,,,,
+5m 9/21 at review,archive,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,False,,,,,
+5m 9/21 at review,archive,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,False,,,,,
+5m 9/21 at review,archive,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,False,,,,,
+5m 9/21 at review,archive,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,False,,,,,
+5m 9/21 at review,archive,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,False,,,,,
+5m 9/21 at review,archive,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,False,,,,,
+5m 9/21 at review,archive,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,False,,,,,
+5m 9/21 at review,archive,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,False,,,,,
+5m 9/21 at review,archive,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,False,,,,,
+5m 9/21 at review,archive,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,False,,,,,
+5m 9/21 at review,archive,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,False,,,,,
+5m 9/21 at review,archive,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,False,,,,,
+5m 9/21 at review,archive,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,False,,,,,
+5m 9/21 at review,modeled,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,True,0.0,no fresh archived book,entered,initial stop,-0.31221417449999955
+5m 9/21 at review,modeled,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,True,0.0,no fresh archived book,entered,initial stop,-0.31461883207199837
+5m 9/21 at review,modeled,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,False,,,,,
+5m 9/21 at review,modeled,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,False,,,,,
+5m 9/21 at review,modeled,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,False,,,,,
+5m 9/21 at review,modeled,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,False,,,,,
+5m 9/21 at review,modeled,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,False,,,,,
+5m 9/21 at review,modeled,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,True,0.0,no fresh archived book,entered,initial stop,-0.33287098537292836
+5m 9/21 at review,modeled,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,False,,,,,
+5m 9/21 at review,modeled,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,False,,,,,
+5m 9/21 at review,modeled,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,False,,,,,
+5m 9/21 at review,modeled,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,False,,,,,
+5m 9/21 at review,modeled,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,False,,,,,
+5m 9/21 at review,modeled,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,False,,,,,
+5m 9/21 at review,modeled,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,False,,,,,
+5m 9/21 at review,modeled,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,False,,,,,
+5m 9/21 at review,modeled,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,False,,,,,
+5m 9/21 at review,modeled,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,False,,,,,
+5m 9/21 at review,modeled,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,False,,,,,
+5m 9/21 at review,modeled,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,False,,,,,
+5m 9/21 at review,modeled,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,False,,,,,
+5m 9/21 at review,modeled,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,False,,,,,
+5m 9/21 at review,modeled,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,True,0.0,no fresh archived book,entered,initial stop,-3.1490302238569328
+5m 9/21 at review,modeled,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,True,0.0,no fresh archived book,entered,trailing stop,2.9857077089550614
+5m 9/21 at review,modeled,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,True,0.0,no fresh archived book,,,
+5m 9/21 at review,modeled,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,True,0.0,no fresh archived book,entered,initial stop,-3.219621260206661
+5m 9/21 at review,modeled,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,False,,,,,
+5m 9/21 at review,modeled,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,False,,,,,
+5m 9/21 at review,modeled,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,False,,,,,
+5m 9/21 at review,modeled,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,False,,,,,
+5m 9/21 at review,modeled,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,False,,,,,
+5m 9/21 at review,modeled,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,True,0.0,no fresh archived book,entered,initial stop,-7.270625687128007
+5m 9/21 at review,modeled,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,True,0.0,no fresh archived book,entered,initial stop,-3.244273625207991
+5m 9/21 at review,modeled,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,True,0.0,no fresh archived book,entered,trailing stop,1.776145290638075
+5m 9/21 at review,modeled,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,False,,,,,
+5m 9/21 at review,modeled,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,False,,,,,
+5m 9/21 at review,modeled,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,False,,,,,
+5m 9/21 at review,modeled,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,False,,,,,
+5m 9/21 at review,modeled,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,True,0.0,no fresh archived book,entered,unresolved price gap,
+5m 9/21 at review,modeled,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,False,,,,,
+5m 9/21 at review,modeled,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,True,0.0,no fresh archived book,entered,initial stop,-3.7248104854738258
+5m 9/21 at review,modeled,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,False,,,,,
+5m 9/21 at review,modeled,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,False,,,,,
+5m 9/21 at review,modeled,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,True,0.0,no fresh archived book,entered,initial stop,-3.185953006074106
+5m 9/21 at review,modeled,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,False,,,,,
+5m 9/21 at review,modeled,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,False,,,,,
+5m 9/21 at review,modeled,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,False,,,,,
+5m 9/21 at review,modeled,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,False,,,,,
+5m 9/21 at review,modeled,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,False,,,,,
+5m 9/21 at review,modeled,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,False,,,,,
+5m 9/21 at review,modeled,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,False,,,,,
+5m 9/21 at review,modeled,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,False,,,,,
+5m 9/21 at review,modeled,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,False,,,,,
+5m 9/21 at review,modeled,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,False,,,,,
+5m 9/21 at review,modeled,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,False,,,,,
+5m 9/21 at review,modeled,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,False,,,,,
+5m 9/21 at review,modeled,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,False,,,,,
+5m 9/21 at review,modeled,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,False,,,,,
+5m 9/21 at review,modeled,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,False,,,,,
+5m 9/21 up to 6h,archive,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,True,0.0,no fresh archived book,,,
+5m 9/21 up to 6h,archive,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,True,0.0,no fresh archived book,,,
+5m 9/21 up to 6h,archive,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,False,,,,,
+5m 9/21 up to 6h,archive,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,False,,,,,
+5m 9/21 up to 6h,archive,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,True,30.503399999936423,no fresh archived book,,,
+5m 9/21 up to 6h,archive,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,False,,,,,
+5m 9/21 up to 6h,archive,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,True,68.45483333269755,no fresh archived book,,,
+5m 9/21 up to 6h,archive,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,True,0.0,no fresh archived book,,,
+5m 9/21 up to 6h,archive,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,True,44.64453333218892,no fresh archived book,,,
+5m 9/21 up to 6h,archive,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,True,5.040083332856496,no fresh archived book,,,
+5m 9/21 up to 6h,archive,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,True,8.016716667016347,depth below floor,,,
+5m 9/21 up to 6h,archive,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,True,98.18660000165303,no fresh archived book,,,
+5m 9/21 up to 6h,archive,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,True,28.185099999109905,no fresh archived book,,,
+5m 9/21 up to 6h,archive,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,True,38.22039999961853,no fresh archived book,,,
+5m 9/21 up to 6h,archive,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,True,48.385450001557665,no fresh archived book,,,
+5m 9/21 up to 6h,archive,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,False,,,,,
+5m 9/21 up to 6h,archive,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,True,122.72869999806086,no fresh archived book,,,
+5m 9/21 up to 6h,archive,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,False,,,,,
+5m 9/21 up to 6h,archive,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,False,,,,,
+5m 9/21 up to 6h,archive,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,True,4.1416833321253455,no fresh archived book,,,
+5m 9/21 up to 6h,archive,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,True,0.5510666648546855,no fresh archived book,,,
+5m 9/21 up to 6h,archive,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,True,1.0637333313624064,no fresh archived book,,,
+5m 9/21 up to 6h,archive,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,True,0.0,no fresh archived book,,,
+5m 9/21 up to 6h,archive,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,True,0.0,no fresh archived book,,,
+5m 9/21 up to 6h,archive,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,True,0.0,no fresh archived book,,,
+5m 9/21 up to 6h,archive,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,True,0.0,no fresh archived book,,,
+5m 9/21 up to 6h,archive,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,True,74.0218000014623,no fresh archived book,,,
+5m 9/21 up to 6h,archive,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,True,73.05224999984105,no fresh archived book,,,
+5m 9/21 up to 6h,archive,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,True,6.766766667366028,no fresh archived book,,,
+5m 9/21 up to 6h,archive,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,True,51.1777666648229,no fresh archived book,,,
+5m 9/21 up to 6h,archive,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,True,43.98761666615804,no fresh archived book,,,
+5m 9/21 up to 6h,archive,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,True,0.0,no fresh archived book,,,
+5m 9/21 up to 6h,archive,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,True,0.0,no fresh archived book,,,
+5m 9/21 up to 6h,archive,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,True,0.0,no fresh archived book,,,
+5m 9/21 up to 6h,archive,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,True,56.94368333419164,no fresh archived book,,,
+5m 9/21 up to 6h,archive,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,True,22.56096666653951,no fresh archived book,,,
+5m 9/21 up to 6h,archive,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,True,8.807799998919169,no fresh archived book,,,
+5m 9/21 up to 6h,archive,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,True,139.815649998188,no fresh archived book,,,
+5m 9/21 up to 6h,archive,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,True,0.0,no fresh archived book,,,
+5m 9/21 up to 6h,archive,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,True,23.734800000985462,no fresh archived book,,,
+5m 9/21 up to 6h,archive,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,True,0.0,no fresh archived book,,,
+5m 9/21 up to 6h,archive,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,True,91.93025000095368,no fresh archived book,,,
+5m 9/21 up to 6h,archive,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,True,62.885466667016345,no fresh archived book,,,
+5m 9/21 up to 6h,archive,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,True,0.0,no fresh archived book,,,
+5m 9/21 up to 6h,archive,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,False,,,,,
+5m 9/21 up to 6h,archive,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,False,,,,,
+5m 9/21 up to 6h,archive,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,True,62.46710000038147,no fresh archived book,,,
+5m 9/21 up to 6h,archive,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,True,6.5648000001907345,no fresh archived book,,,
+5m 9/21 up to 6h,archive,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,True,6.352833334604899,no fresh archived book,,,
+5m 9/21 up to 6h,archive,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,True,175.4551166653633,no fresh archived book,,,
+5m 9/21 up to 6h,archive,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,True,173.84903333187103,no fresh archived book,,,
+5m 9/21 up to 6h,archive,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,True,2.194116667906443,no fresh archived book,,,
+5m 9/21 up to 6h,archive,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,True,192.56281666755677,no fresh archived book,,,
+5m 9/21 up to 6h,archive,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,True,155.39453333218893,no fresh archived book,,,
+5m 9/21 up to 6h,archive,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,True,55.13804999987284,no fresh archived book,,,
+5m 9/21 up to 6h,archive,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,True,9.749466665585835,no fresh archived book,,,
+5m 9/21 up to 6h,archive,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,True,41.77336666584015,no fresh archived book,,,
+5m 9/21 up to 6h,archive,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,True,14.633583335081736,depth verified,entered,initial stop,-3.1594293349934905
+5m 9/21 up to 6h,archive,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,True,24.02026666800181,no fresh archived book,,,
+5m 9/21 up to 6h,modeled,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,True,0.0,no fresh archived book,entered,initial stop,-0.31221417449999955
+5m 9/21 up to 6h,modeled,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,True,0.0,no fresh archived book,entered,initial stop,-0.31461883207199837
+5m 9/21 up to 6h,modeled,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,False,,,,,
+5m 9/21 up to 6h,modeled,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,False,,,,,
+5m 9/21 up to 6h,modeled,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,True,30.503399999936423,no fresh archived book,entered,trailing stop,0.24543713265751008
+5m 9/21 up to 6h,modeled,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,False,,,,,
+5m 9/21 up to 6h,modeled,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,True,68.45483333269755,no fresh archived book,,,
+5m 9/21 up to 6h,modeled,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,True,0.0,no fresh archived book,entered,initial stop,-0.33287098537292836
+5m 9/21 up to 6h,modeled,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,True,44.64453333218892,no fresh archived book,entered,initial stop,-0.3357832175279202
+5m 9/21 up to 6h,modeled,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,True,5.040083332856496,no fresh archived book,,,
+5m 9/21 up to 6h,modeled,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,True,8.016716667016347,depth below floor,,,
+5m 9/21 up to 6h,modeled,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,True,98.18660000165303,no fresh archived book,entered,initial stop,-0.315674830612496
+5m 9/21 up to 6h,modeled,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,True,28.185099999109905,no fresh archived book,entered,initial stop,-0.3147420377849964
+5m 9/21 up to 6h,modeled,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,True,38.22039999961853,no fresh archived book,position cap,initial stop,-0.2579422502231942
+5m 9/21 up to 6h,modeled,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,True,48.385450001557665,no fresh archived book,symbol already open,initial stop,-0.3105556277549972
+5m 9/21 up to 6h,modeled,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,False,,,,,
+5m 9/21 up to 6h,modeled,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,True,122.72869999806086,no fresh archived book,entered,trailing stop,0.15391626892425747
+5m 9/21 up to 6h,modeled,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,False,,,,,
+5m 9/21 up to 6h,modeled,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,False,,,,,
+5m 9/21 up to 6h,modeled,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,True,4.1416833321253455,no fresh archived book,entered,trailing stop,0.3034237042141306
+5m 9/21 up to 6h,modeled,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,True,0.5510666648546855,no fresh archived book,entered,unresolved price gap,
+5m 9/21 up to 6h,modeled,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,True,1.0637333313624064,no fresh archived book,entered,initial stop,-3.181130207149954
+5m 9/21 up to 6h,modeled,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,True,0.0,no fresh archived book,entered,initial stop,-3.1490302238569328
+5m 9/21 up to 6h,modeled,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,True,0.0,no fresh archived book,entered,trailing stop,2.9857077089550614
+5m 9/21 up to 6h,modeled,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,True,0.0,no fresh archived book,,,
+5m 9/21 up to 6h,modeled,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,True,0.0,no fresh archived book,entered,initial stop,-3.219621260206661
+5m 9/21 up to 6h,modeled,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,True,74.0218000014623,no fresh archived book,entered,trailing stop,9.542981643778619
+5m 9/21 up to 6h,modeled,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,True,73.05224999984105,no fresh archived book,entered,initial stop,-3.195239165074436
+5m 9/21 up to 6h,modeled,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,True,6.766766667366028,no fresh archived book,position cap,initial stop,-3.1329975144080873
+5m 9/21 up to 6h,modeled,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,True,51.1777666648229,no fresh archived book,entered,trailing stop,1.8542275005142197
+5m 9/21 up to 6h,modeled,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,True,43.98761666615804,no fresh archived book,entered,initial stop,-3.522817785900005
+5m 9/21 up to 6h,modeled,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,True,0.0,no fresh archived book,entered,initial stop,-7.270625687128007
+5m 9/21 up to 6h,modeled,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,True,0.0,no fresh archived book,entered,initial stop,-3.244273625207991
+5m 9/21 up to 6h,modeled,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,True,0.0,no fresh archived book,entered,trailing stop,1.776145290638075
+5m 9/21 up to 6h,modeled,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,True,56.94368333419164,no fresh archived book,position cap,trailing stop,3.7496143035435785
+5m 9/21 up to 6h,modeled,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,True,22.56096666653951,no fresh archived book,entered,initial stop,-3.1845252316904005
+5m 9/21 up to 6h,modeled,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,True,8.807799998919169,no fresh archived book,position cap,initial stop,-3.8710021509598946
+5m 9/21 up to 6h,modeled,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,True,139.815649998188,no fresh archived book,entered,initial stop,-3.216045303231036
+5m 9/21 up to 6h,modeled,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,True,0.0,no fresh archived book,entered,unresolved price gap,
+5m 9/21 up to 6h,modeled,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,True,23.734800000985462,no fresh archived book,position cap,initial stop,-3.7646605583700334
+5m 9/21 up to 6h,modeled,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,True,0.0,no fresh archived book,position cap,initial stop,-3.7248104854738258
+5m 9/21 up to 6h,modeled,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,True,91.93025000095368,no fresh archived book,position cap,initial stop,-3.147955006513424
+5m 9/21 up to 6h,modeled,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,True,62.885466667016345,no fresh archived book,position cap,trailing stop,2.8670423268093126
+5m 9/21 up to 6h,modeled,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,True,0.0,no fresh archived book,entered,initial stop,-3.185953006074106
+5m 9/21 up to 6h,modeled,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,False,,,,,
+5m 9/21 up to 6h,modeled,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,False,,,,,
+5m 9/21 up to 6h,modeled,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,True,62.46710000038147,no fresh archived book,entered,trailing stop,5.610954487922035
+5m 9/21 up to 6h,modeled,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,True,6.5648000001907345,no fresh archived book,capital cap,initial stop,-3.478649139246705
+5m 9/21 up to 6h,modeled,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,True,6.352833334604899,no fresh archived book,entered,initial stop,-3.1986789028219373
+5m 9/21 up to 6h,modeled,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,True,175.4551166653633,no fresh archived book,symbol already open,initial stop,-3.181522129055783
+5m 9/21 up to 6h,modeled,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,True,173.84903333187103,no fresh archived book,entered,initial stop,-3.294284937796739
+5m 9/21 up to 6h,modeled,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,True,2.194116667906443,no fresh archived book,entered,initial stop,-3.1389548364254747
+5m 9/21 up to 6h,modeled,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,True,192.56281666755677,no fresh archived book,capital cap,trailing stop,10.238784795459006
+5m 9/21 up to 6h,modeled,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,True,155.39453333218893,no fresh archived book,capital cap,trailing stop,4.04667263506844
+5m 9/21 up to 6h,modeled,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,True,55.13804999987284,no fresh archived book,entered,trailing stop,7.519167109519097
+5m 9/21 up to 6h,modeled,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,True,9.749466665585835,no fresh archived book,entered,initial stop,-3.542415854401956
+5m 9/21 up to 6h,modeled,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,True,41.77336666584015,no fresh archived book,entered,initial stop,-3.2673315162126917
+5m 9/21 up to 6h,modeled,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,True,14.633583335081736,depth verified,entered,initial stop,-3.1594293349934905
+5m 9/21 up to 6h,modeled,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,True,24.02026666800181,no fresh archived book,symbol already open,initial stop,-3.263959801788305
+5m 20/50 at review,archive,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,False,,,,,
+5m 20/50 at review,archive,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,True,0.0,no fresh archived book,,,
+5m 20/50 at review,archive,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,True,0.0,depth verified,entered,initial stop,-0.32352894212399846
+5m 20/50 at review,archive,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,False,,,,,
+5m 20/50 at review,archive,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,False,,,,,
+5m 20/50 at review,archive,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,True,0.0,no fresh archived book,,,
+5m 20/50 at review,archive,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,False,,,,,
+5m 20/50 at review,archive,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,True,0.0,no fresh archived book,,,
+5m 20/50 at review,archive,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,False,,,,,
+5m 20/50 at review,archive,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,False,,,,,
+5m 20/50 at review,archive,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,False,,,,,
+5m 20/50 at review,archive,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,False,,,,,
+5m 20/50 at review,archive,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,False,,,,,
+5m 20/50 at review,archive,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,False,,,,,
+5m 20/50 at review,archive,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,False,,,,,
+5m 20/50 at review,archive,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,False,,,,,
+5m 20/50 at review,archive,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,False,,,,,
+5m 20/50 at review,archive,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,False,,,,,
+5m 20/50 at review,archive,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,False,,,,,
+5m 20/50 at review,archive,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,False,,,,,
+5m 20/50 at review,archive,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,False,,,,,
+5m 20/50 at review,archive,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,True,0.0,no fresh archived book,,,
+5m 20/50 at review,archive,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,False,,,,,
+5m 20/50 at review,archive,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,True,0.0,no fresh archived book,,,
+5m 20/50 at review,archive,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,True,0.0,no fresh archived book,,,
+5m 20/50 at review,archive,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,True,0.0,no fresh archived book,,,
+5m 20/50 at review,archive,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,True,0.0,no fresh archived book,,,
+5m 20/50 at review,archive,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,False,,,,,
+5m 20/50 at review,archive,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,True,0.0,no fresh archived book,,,
+5m 20/50 at review,archive,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,False,,,,,
+5m 20/50 at review,archive,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,False,,,,,
+5m 20/50 at review,archive,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,False,,,,,
+5m 20/50 at review,archive,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,True,0.0,no fresh archived book,,,
+5m 20/50 at review,archive,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,True,0.0,no fresh archived book,,,
+5m 20/50 at review,archive,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,False,,,,,
+5m 20/50 at review,archive,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,False,,,,,
+5m 20/50 at review,archive,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,False,,,,,
+5m 20/50 at review,archive,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,False,,,,,
+5m 20/50 at review,archive,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,False,,,,,
+5m 20/50 at review,archive,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,False,,,,,
+5m 20/50 at review,archive,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,False,,,,,
+5m 20/50 at review,archive,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,False,,,,,
+5m 20/50 at review,archive,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,True,0.0,no fresh archived book,,,
+5m 20/50 at review,archive,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,False,,,,,
+5m 20/50 at review,archive,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,False,,,,,
+5m 20/50 at review,archive,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,False,,,,,
+5m 20/50 at review,archive,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,False,,,,,
+5m 20/50 at review,archive,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,False,,,,,
+5m 20/50 at review,archive,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,False,,,,,
+5m 20/50 at review,archive,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,False,,,,,
+5m 20/50 at review,archive,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,False,,,,,
+5m 20/50 at review,archive,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,False,,,,,
+5m 20/50 at review,archive,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,False,,,,,
+5m 20/50 at review,archive,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,False,,,,,
+5m 20/50 at review,archive,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,False,,,,,
+5m 20/50 at review,archive,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,False,,,,,
+5m 20/50 at review,archive,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,False,,,,,
+5m 20/50 at review,archive,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,False,,,,,
+5m 20/50 at review,archive,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,False,,,,,
+5m 20/50 at review,modeled,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,False,,,,,
+5m 20/50 at review,modeled,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,True,0.0,no fresh archived book,entered,initial stop,-0.31461883207199837
+5m 20/50 at review,modeled,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,True,0.0,depth verified,symbol already open,initial stop,-0.32352894212399846
+5m 20/50 at review,modeled,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,False,,,,,
+5m 20/50 at review,modeled,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,False,,,,,
+5m 20/50 at review,modeled,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,True,0.0,no fresh archived book,entered,initial stop,-0.40046706804689575
+5m 20/50 at review,modeled,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,False,,,,,
+5m 20/50 at review,modeled,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,True,0.0,no fresh archived book,entered,initial stop,-0.33287098537292836
+5m 20/50 at review,modeled,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,False,,,,,
+5m 20/50 at review,modeled,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,False,,,,,
+5m 20/50 at review,modeled,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,False,,,,,
+5m 20/50 at review,modeled,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,False,,,,,
+5m 20/50 at review,modeled,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,False,,,,,
+5m 20/50 at review,modeled,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,False,,,,,
+5m 20/50 at review,modeled,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,False,,,,,
+5m 20/50 at review,modeled,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,False,,,,,
+5m 20/50 at review,modeled,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,False,,,,,
+5m 20/50 at review,modeled,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,False,,,,,
+5m 20/50 at review,modeled,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,False,,,,,
+5m 20/50 at review,modeled,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,False,,,,,
+5m 20/50 at review,modeled,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,False,,,,,
+5m 20/50 at review,modeled,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,True,0.0,no fresh archived book,entered,initial stop,-3.286495980774907
+5m 20/50 at review,modeled,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,False,,,,,
+5m 20/50 at review,modeled,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,True,0.0,no fresh archived book,entered,trailing stop,2.9857077089550614
+5m 20/50 at review,modeled,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,True,0.0,no fresh archived book,,,
+5m 20/50 at review,modeled,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,True,0.0,no fresh archived book,entered,initial stop,-3.219621260206661
+5m 20/50 at review,modeled,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,True,0.0,no fresh archived book,entered,initial stop,-3.1851711489913717
+5m 20/50 at review,modeled,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,False,,,,,
+5m 20/50 at review,modeled,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,True,0.0,no fresh archived book,entered,initial stop,-3.390141627210551
+5m 20/50 at review,modeled,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,False,,,,,
+5m 20/50 at review,modeled,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,False,,,,,
+5m 20/50 at review,modeled,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,False,,,,,
+5m 20/50 at review,modeled,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,True,0.0,no fresh archived book,entered,initial stop,-3.244273625207991
+5m 20/50 at review,modeled,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,True,0.0,no fresh archived book,entered,trailing stop,1.776145290638075
+5m 20/50 at review,modeled,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,False,,,,,
+5m 20/50 at review,modeled,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,False,,,,,
+5m 20/50 at review,modeled,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,False,,,,,
+5m 20/50 at review,modeled,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,False,,,,,
+5m 20/50 at review,modeled,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,False,,,,,
+5m 20/50 at review,modeled,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,False,,,,,
+5m 20/50 at review,modeled,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,False,,,,,
+5m 20/50 at review,modeled,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,False,,,,,
+5m 20/50 at review,modeled,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,True,0.0,no fresh archived book,entered,trailing stop,2.2853624930918834
+5m 20/50 at review,modeled,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,False,,,,,
+5m 20/50 at review,modeled,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,False,,,,,
+5m 20/50 at review,modeled,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,False,,,,,
+5m 20/50 at review,modeled,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,False,,,,,
+5m 20/50 at review,modeled,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,False,,,,,
+5m 20/50 at review,modeled,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,False,,,,,
+5m 20/50 at review,modeled,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,False,,,,,
+5m 20/50 at review,modeled,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,False,,,,,
+5m 20/50 at review,modeled,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,False,,,,,
+5m 20/50 at review,modeled,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,False,,,,,
+5m 20/50 at review,modeled,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,False,,,,,
+5m 20/50 at review,modeled,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,False,,,,,
+5m 20/50 at review,modeled,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,False,,,,,
+5m 20/50 at review,modeled,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,False,,,,,
+5m 20/50 at review,modeled,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,False,,,,,
+5m 20/50 at review,modeled,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,False,,,,,
+5m 20/50 up to 6h,archive,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,False,,,,,
+5m 20/50 up to 6h,archive,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,True,0.0,no fresh archived book,,,
+5m 20/50 up to 6h,archive,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,True,0.0,depth verified,entered,initial stop,-0.32352894212399846
+5m 20/50 up to 6h,archive,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,False,,,,,
+5m 20/50 up to 6h,archive,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,True,10.503399999936422,no fresh archived book,,,
+5m 20/50 up to 6h,archive,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,True,0.0,no fresh archived book,,,
+5m 20/50 up to 6h,archive,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,True,108.45483333269755,no fresh archived book,,,
+5m 20/50 up to 6h,archive,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,True,0.0,no fresh archived book,,,
+5m 20/50 up to 6h,archive,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,True,64.64453333218893,no fresh archived book,,,
+5m 20/50 up to 6h,archive,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,True,5.040083332856496,no fresh archived book,,,
+5m 20/50 up to 6h,archive,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,True,28.016716667016347,no fresh archived book,,,
+5m 20/50 up to 6h,archive,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,True,143.18660000165303,no fresh archived book,,,
+5m 20/50 up to 6h,archive,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,False,,,,,
+5m 20/50 up to 6h,archive,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,True,43.22039999961853,no fresh archived book,,,
+5m 20/50 up to 6h,archive,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,False,,,,,
+5m 20/50 up to 6h,archive,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,False,,,,,
+5m 20/50 up to 6h,archive,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,True,207.72869999806088,no fresh archived book,,,
+5m 20/50 up to 6h,archive,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,False,,,,,
+5m 20/50 up to 6h,archive,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,False,,,,,
+5m 20/50 up to 6h,archive,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,True,4.1416833321253455,no fresh archived book,,,
+5m 20/50 up to 6h,archive,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,True,45.55106666485469,no fresh archived book,,,
+5m 20/50 up to 6h,archive,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,True,0.0,no fresh archived book,,,
+5m 20/50 up to 6h,archive,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,True,25.456900000572205,no fresh archived book,,,
+5m 20/50 up to 6h,archive,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,True,0.0,no fresh archived book,,,
+5m 20/50 up to 6h,archive,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,True,0.0,no fresh archived book,,,
+5m 20/50 up to 6h,archive,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,True,0.0,no fresh archived book,,,
+5m 20/50 up to 6h,archive,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,True,0.0,no fresh archived book,,,
+5m 20/50 up to 6h,archive,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,True,63.05224999984105,no fresh archived book,,,
+5m 20/50 up to 6h,archive,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,True,0.0,no fresh archived book,,,
+5m 20/50 up to 6h,archive,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,True,116.1777666648229,no fresh archived book,,,
+5m 20/50 up to 6h,archive,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,True,123.98761666615805,no fresh archived book,,,
+5m 20/50 up to 6h,archive,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,True,113.47280000050863,no fresh archived book,,,
+5m 20/50 up to 6h,archive,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,True,0.0,no fresh archived book,,,
+5m 20/50 up to 6h,archive,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,True,0.0,no fresh archived book,,,
+5m 20/50 up to 6h,archive,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,True,81.94368333419165,no fresh archived book,,,
+5m 20/50 up to 6h,archive,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,True,17.56096666653951,no fresh archived book,,,
+5m 20/50 up to 6h,archive,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,True,3.8077999989191693,no fresh archived book,,,
+5m 20/50 up to 6h,archive,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,False,,,,,
+5m 20/50 up to 6h,archive,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,False,,,,,
+5m 20/50 up to 6h,archive,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,True,68.73480000098546,no fresh archived book,,,
+5m 20/50 up to 6h,archive,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,True,70.01971666812896,no fresh archived book,,,
+5m 20/50 up to 6h,archive,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,True,196.93025000095366,no fresh archived book,,,
+5m 20/50 up to 6h,archive,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,True,0.0,no fresh archived book,,,
+5m 20/50 up to 6h,archive,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,False,,,,,
+5m 20/50 up to 6h,archive,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,False,,,,,
+5m 20/50 up to 6h,archive,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,False,,,,,
+5m 20/50 up to 6h,archive,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,False,,,,,
+5m 20/50 up to 6h,archive,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,True,141.56480000019073,no fresh archived book,,,
+5m 20/50 up to 6h,archive,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,True,81.3528333346049,no fresh archived book,,,
+5m 20/50 up to 6h,archive,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,False,,,,,
+5m 20/50 up to 6h,archive,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,True,258.84903333187106,no fresh archived book,,,
+5m 20/50 up to 6h,archive,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,True,102.19411666790644,no fresh archived book,,,
+5m 20/50 up to 6h,archive,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,True,32.56281666755676,no fresh archived book,,,
+5m 20/50 up to 6h,archive,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,True,220.39453333218893,no fresh archived book,,,
+5m 20/50 up to 6h,archive,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,True,155.13804999987283,no fresh archived book,,,
+5m 20/50 up to 6h,archive,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,True,109.74946666558584,depth verified,entered,trailing stop,2.5370386061844807
+5m 20/50 up to 6h,archive,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,True,91.77336666584014,no fresh archived book,,,
+5m 20/50 up to 6h,archive,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,True,14.633583335081736,depth verified,entered,initial stop,-3.1594293349934905
+5m 20/50 up to 6h,archive,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,True,139.02026666800182,no fresh archived book,,,
+5m 20/50 up to 6h,modeled,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,False,,,,,
+5m 20/50 up to 6h,modeled,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,True,0.0,no fresh archived book,entered,initial stop,-0.31461883207199837
+5m 20/50 up to 6h,modeled,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,True,0.0,depth verified,symbol already open,initial stop,-0.32352894212399846
+5m 20/50 up to 6h,modeled,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,False,,,,,
+5m 20/50 up to 6h,modeled,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,True,10.503399999936422,no fresh archived book,entered,trailing stop,0.3198477723840062
+5m 20/50 up to 6h,modeled,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,True,0.0,no fresh archived book,entered,initial stop,-0.40046706804689575
+5m 20/50 up to 6h,modeled,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,True,108.45483333269755,no fresh archived book,entered,initial stop,-0.2534320911749996
+5m 20/50 up to 6h,modeled,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,True,0.0,no fresh archived book,entered,initial stop,-0.33287098537292836
+5m 20/50 up to 6h,modeled,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,True,64.64453333218893,no fresh archived book,entered,initial stop,-0.3228898631958934
+5m 20/50 up to 6h,modeled,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,True,5.040083332856496,no fresh archived book,,,
+5m 20/50 up to 6h,modeled,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,True,28.016716667016347,no fresh archived book,entered,initial stop,-0.3252481674935871
+5m 20/50 up to 6h,modeled,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,True,143.18660000165303,no fresh archived book,entered,initial stop,-0.3213451470299961
+5m 20/50 up to 6h,modeled,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,False,,,,,
+5m 20/50 up to 6h,modeled,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,True,43.22039999961853,no fresh archived book,entered,initial stop,-0.26463531030816656
+5m 20/50 up to 6h,modeled,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,False,,,,,
+5m 20/50 up to 6h,modeled,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,False,,,,,
+5m 20/50 up to 6h,modeled,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,True,207.72869999806088,no fresh archived book,,,
+5m 20/50 up to 6h,modeled,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,False,,,,,
+5m 20/50 up to 6h,modeled,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,False,,,,,
+5m 20/50 up to 6h,modeled,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,True,4.1416833321253455,no fresh archived book,entered,trailing stop,0.3034237042141306
+5m 20/50 up to 6h,modeled,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,True,45.55106666485469,no fresh archived book,entered,unresolved price gap,
+5m 20/50 up to 6h,modeled,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,True,0.0,no fresh archived book,entered,initial stop,-3.286495980774907
+5m 20/50 up to 6h,modeled,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,True,25.456900000572205,no fresh archived book,entered,initial stop,-3.1878415365509043
+5m 20/50 up to 6h,modeled,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,True,0.0,no fresh archived book,entered,trailing stop,2.9857077089550614
+5m 20/50 up to 6h,modeled,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,True,0.0,no fresh archived book,,,
+5m 20/50 up to 6h,modeled,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,True,0.0,no fresh archived book,entered,initial stop,-3.219621260206661
+5m 20/50 up to 6h,modeled,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,True,0.0,no fresh archived book,position cap,initial stop,-3.1851711489913717
+5m 20/50 up to 6h,modeled,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,True,63.05224999984105,no fresh archived book,entered,trailing stop,2.088034973533782
+5m 20/50 up to 6h,modeled,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,True,0.0,no fresh archived book,position cap,initial stop,-3.390141627210551
+5m 20/50 up to 6h,modeled,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,True,116.1777666648229,no fresh archived book,entered,initial stop,-3.2287297536866295
+5m 20/50 up to 6h,modeled,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,True,123.98761666615805,no fresh archived book,entered,initial stop,-3.9071619709500167
+5m 20/50 up to 6h,modeled,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,True,113.47280000050863,no fresh archived book,entered,initial stop,-3.199266782300076
+5m 20/50 up to 6h,modeled,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,True,0.0,no fresh archived book,entered,initial stop,-3.244273625207991
+5m 20/50 up to 6h,modeled,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,True,0.0,no fresh archived book,entered,trailing stop,1.776145290638075
+5m 20/50 up to 6h,modeled,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,True,81.94368333419165,no fresh archived book,position cap,trailing stop,4.941590192339047
+5m 20/50 up to 6h,modeled,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,True,17.56096666653951,no fresh archived book,entered,initial stop,-3.170067255309869
+5m 20/50 up to 6h,modeled,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,True,3.8077999989191693,no fresh archived book,position cap,initial stop,-3.1358267857199187
+5m 20/50 up to 6h,modeled,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,False,,,,,
+5m 20/50 up to 6h,modeled,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,False,,,,,
+5m 20/50 up to 6h,modeled,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,True,68.73480000098546,no fresh archived book,entered,trailing stop,3.557537502148175
+5m 20/50 up to 6h,modeled,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,True,70.01971666812896,no fresh archived book,position cap,trailing stop,4.167466341778811
+5m 20/50 up to 6h,modeled,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,True,196.93025000095366,no fresh archived book,position cap,initial stop,-3.175414975642472
+5m 20/50 up to 6h,modeled,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,True,0.0,no fresh archived book,entered,trailing stop,2.2853624930918834
+5m 20/50 up to 6h,modeled,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,False,,,,,
+5m 20/50 up to 6h,modeled,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,False,,,,,
+5m 20/50 up to 6h,modeled,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,False,,,,,
+5m 20/50 up to 6h,modeled,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,False,,,,,
+5m 20/50 up to 6h,modeled,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,True,141.56480000019073,no fresh archived book,,,
+5m 20/50 up to 6h,modeled,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,True,81.3528333346049,no fresh archived book,entered,initial stop,-3.504584535839953
+5m 20/50 up to 6h,modeled,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,False,,,,,
+5m 20/50 up to 6h,modeled,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,True,258.84903333187106,no fresh archived book,entered,initial stop,-3.1941449580478993
+5m 20/50 up to 6h,modeled,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,True,102.19411666790644,no fresh archived book,entered,initial stop,-3.78890642528129
+5m 20/50 up to 6h,modeled,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,True,32.56281666755676,no fresh archived book,entered,initial stop,-3.204302010153956
+5m 20/50 up to 6h,modeled,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,True,220.39453333218893,no fresh archived book,entered,trailing stop,3.5536756798901306
+5m 20/50 up to 6h,modeled,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,True,155.13804999987283,no fresh archived book,entered,trailing stop,5.236979355515685
+5m 20/50 up to 6h,modeled,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,True,109.74946666558584,depth verified,entered,trailing stop,2.5370386061844807
+5m 20/50 up to 6h,modeled,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,True,91.77336666584014,no fresh archived book,entered,initial stop,-3.194071715295959
+5m 20/50 up to 6h,modeled,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,True,14.633583335081736,depth verified,entered,initial stop,-3.1594293349934905
+5m 20/50 up to 6h,modeled,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,True,139.02026666800182,no fresh archived book,,,
+5m 5/20 reclaim at review,archive,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,False,,,,,
+5m 5/20 reclaim at review,archive,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,False,,,,,
+5m 5/20 reclaim at review,archive,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,False,,,,,
+5m 5/20 reclaim at review,archive,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,False,,,,,
+5m 5/20 reclaim at review,archive,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,False,,,,,
+5m 5/20 reclaim at review,archive,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,False,,,,,
+5m 5/20 reclaim at review,archive,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,False,,,,,
+5m 5/20 reclaim at review,archive,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,False,,,,,
+5m 5/20 reclaim at review,archive,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,False,,,,,
+5m 5/20 reclaim at review,archive,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,False,,,,,
+5m 5/20 reclaim at review,archive,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,False,,,,,
+5m 5/20 reclaim at review,archive,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,False,,,,,
+5m 5/20 reclaim at review,archive,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,False,,,,,
+5m 5/20 reclaim at review,archive,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,False,,,,,
+5m 5/20 reclaim at review,archive,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,False,,,,,
+5m 5/20 reclaim at review,archive,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,False,,,,,
+5m 5/20 reclaim at review,archive,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,False,,,,,
+5m 5/20 reclaim at review,archive,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,False,,,,,
+5m 5/20 reclaim at review,archive,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,False,,,,,
+5m 5/20 reclaim at review,archive,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,False,,,,,
+5m 5/20 reclaim at review,archive,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,False,,,,,
+5m 5/20 reclaim at review,archive,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,False,,,,,
+5m 5/20 reclaim at review,archive,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,False,,,,,
+5m 5/20 reclaim at review,archive,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,False,,,,,
+5m 5/20 reclaim at review,archive,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,False,,,,,
+5m 5/20 reclaim at review,archive,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,False,,,,,
+5m 5/20 reclaim at review,archive,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,False,,,,,
+5m 5/20 reclaim at review,archive,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,False,,,,,
+5m 5/20 reclaim at review,archive,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,False,,,,,
+5m 5/20 reclaim at review,archive,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,False,,,,,
+5m 5/20 reclaim at review,archive,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,False,,,,,
+5m 5/20 reclaim at review,archive,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,False,,,,,
+5m 5/20 reclaim at review,archive,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,False,,,,,
+5m 5/20 reclaim at review,archive,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,False,,,,,
+5m 5/20 reclaim at review,archive,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,False,,,,,
+5m 5/20 reclaim at review,archive,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,False,,,,,
+5m 5/20 reclaim at review,archive,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,False,,,,,
+5m 5/20 reclaim at review,archive,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,False,,,,,
+5m 5/20 reclaim at review,archive,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,False,,,,,
+5m 5/20 reclaim at review,archive,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,False,,,,,
+5m 5/20 reclaim at review,archive,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,False,,,,,
+5m 5/20 reclaim at review,archive,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,False,,,,,
+5m 5/20 reclaim at review,archive,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,False,,,,,
+5m 5/20 reclaim at review,archive,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,False,,,,,
+5m 5/20 reclaim at review,archive,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,False,,,,,
+5m 5/20 reclaim at review,archive,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,False,,,,,
+5m 5/20 reclaim at review,archive,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,False,,,,,
+5m 5/20 reclaim at review,archive,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,False,,,,,
+5m 5/20 reclaim at review,archive,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,False,,,,,
+5m 5/20 reclaim at review,archive,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,False,,,,,
+5m 5/20 reclaim at review,archive,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,False,,,,,
+5m 5/20 reclaim at review,archive,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,False,,,,,
+5m 5/20 reclaim at review,archive,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,False,,,,,
+5m 5/20 reclaim at review,archive,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,False,,,,,
+5m 5/20 reclaim at review,archive,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,False,,,,,
+5m 5/20 reclaim at review,archive,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,False,,,,,
+5m 5/20 reclaim at review,archive,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,False,,,,,
+5m 5/20 reclaim at review,archive,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,False,,,,,
+5m 5/20 reclaim at review,archive,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,False,,,,,
+5m 5/20 reclaim at review,modeled,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,False,,,,,
+5m 5/20 reclaim at review,modeled,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,False,,,,,
+5m 5/20 reclaim at review,modeled,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,False,,,,,
+5m 5/20 reclaim at review,modeled,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,False,,,,,
+5m 5/20 reclaim at review,modeled,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,False,,,,,
+5m 5/20 reclaim at review,modeled,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,False,,,,,
+5m 5/20 reclaim at review,modeled,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,False,,,,,
+5m 5/20 reclaim at review,modeled,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,False,,,,,
+5m 5/20 reclaim at review,modeled,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,False,,,,,
+5m 5/20 reclaim at review,modeled,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,False,,,,,
+5m 5/20 reclaim at review,modeled,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,False,,,,,
+5m 5/20 reclaim at review,modeled,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,False,,,,,
+5m 5/20 reclaim at review,modeled,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,False,,,,,
+5m 5/20 reclaim at review,modeled,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,False,,,,,
+5m 5/20 reclaim at review,modeled,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,False,,,,,
+5m 5/20 reclaim at review,modeled,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,False,,,,,
+5m 5/20 reclaim at review,modeled,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,False,,,,,
+5m 5/20 reclaim at review,modeled,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,False,,,,,
+5m 5/20 reclaim at review,modeled,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,False,,,,,
+5m 5/20 reclaim at review,modeled,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,False,,,,,
+5m 5/20 reclaim at review,modeled,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,False,,,,,
+5m 5/20 reclaim at review,modeled,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,False,,,,,
+5m 5/20 reclaim at review,modeled,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,False,,,,,
+5m 5/20 reclaim at review,modeled,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,False,,,,,
+5m 5/20 reclaim at review,modeled,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,False,,,,,
+5m 5/20 reclaim at review,modeled,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,False,,,,,
+5m 5/20 reclaim at review,modeled,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,False,,,,,
+5m 5/20 reclaim at review,modeled,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,False,,,,,
+5m 5/20 reclaim at review,modeled,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,False,,,,,
+5m 5/20 reclaim at review,modeled,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,False,,,,,
+5m 5/20 reclaim at review,modeled,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,False,,,,,
+5m 5/20 reclaim at review,modeled,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,False,,,,,
+5m 5/20 reclaim at review,modeled,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,False,,,,,
+5m 5/20 reclaim at review,modeled,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,False,,,,,
+5m 5/20 reclaim at review,modeled,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,False,,,,,
+5m 5/20 reclaim at review,modeled,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,False,,,,,
+5m 5/20 reclaim at review,modeled,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,False,,,,,
+5m 5/20 reclaim at review,modeled,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,False,,,,,
+5m 5/20 reclaim at review,modeled,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,False,,,,,
+5m 5/20 reclaim at review,modeled,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,False,,,,,
+5m 5/20 reclaim at review,modeled,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,False,,,,,
+5m 5/20 reclaim at review,modeled,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,False,,,,,
+5m 5/20 reclaim at review,modeled,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,False,,,,,
+5m 5/20 reclaim at review,modeled,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,False,,,,,
+5m 5/20 reclaim at review,modeled,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,False,,,,,
+5m 5/20 reclaim at review,modeled,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,False,,,,,
+5m 5/20 reclaim at review,modeled,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,False,,,,,
+5m 5/20 reclaim at review,modeled,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,False,,,,,
+5m 5/20 reclaim at review,modeled,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,False,,,,,
+5m 5/20 reclaim at review,modeled,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,False,,,,,
+5m 5/20 reclaim at review,modeled,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,False,,,,,
+5m 5/20 reclaim at review,modeled,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,False,,,,,
+5m 5/20 reclaim at review,modeled,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,False,,,,,
+5m 5/20 reclaim at review,modeled,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,False,,,,,
+5m 5/20 reclaim at review,modeled,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,False,,,,,
+5m 5/20 reclaim at review,modeled,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,False,,,,,
+5m 5/20 reclaim at review,modeled,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,False,,,,,
+5m 5/20 reclaim at review,modeled,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,False,,,,,
+5m 5/20 reclaim at review,modeled,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,False,,,,,
+5m 5/20 reclaim up to 6h,archive,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,False,,,,,
+5m 5/20 reclaim up to 6h,archive,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,True,14.396250001589458,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,False,,,,,
+5m 5/20 reclaim up to 6h,archive,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,False,,,,,
+5m 5/20 reclaim up to 6h,archive,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,True,80.50339999993642,depth verified,entered,trailing stop,0.28160139845249854
+5m 5/20 reclaim up to 6h,archive,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,False,,,,,
+5m 5/20 reclaim up to 6h,archive,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,True,63.454833332697554,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,True,14.163883332411448,entry price moved beyond limit,,,
+5m 5/20 reclaim up to 6h,archive,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,True,39.64453333218892,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,True,45.0400833328565,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,True,53.01671666701635,entry price moved beyond limit,,,
+5m 5/20 reclaim up to 6h,archive,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,True,83.18660000165303,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,True,28.185099999109905,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,True,28.22039999961853,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,True,38.385450001557665,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,False,,,,,
+5m 5/20 reclaim up to 6h,archive,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,True,117.72869999806086,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,False,,,,,
+5m 5/20 reclaim up to 6h,archive,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,False,,,,,
+5m 5/20 reclaim up to 6h,archive,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,True,24.141683332125346,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,True,65.55106666485469,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,True,16.063733331362407,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,True,20.456900000572205,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,True,43.50648333231608,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,True,30.396100000540414,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,True,26.747033333778383,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,True,64.0218000014623,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,True,68.05224999984105,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,True,21.766766667366028,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,True,56.1777666648229,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,True,38.98761666615804,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,True,83.47280000050863,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,True,153.31996666590373,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,True,11.98278333346049,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,True,41.94368333419164,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,True,47.56096666653951,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,True,128.80779999891917,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,True,129.815649998188,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,True,319.98504999876025,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,True,23.734800000985462,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,True,80.01971666812896,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,True,86.93025000095368,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,True,57.885466667016345,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,False,,,,,
+5m 5/20 reclaim up to 6h,archive,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,False,,,,,
+5m 5/20 reclaim up to 6h,archive,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,True,16.09533333381017,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,True,57.46710000038147,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,True,21.564800000190736,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,True,6.352833334604899,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,True,165.4551166653633,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,True,168.84903333187103,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,True,72.19411666790644,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,True,182.56281666755677,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,True,155.39453333218893,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,True,45.13804999987284,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,True,44.749466665585835,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,True,31.77336666584015,top of book alone insufficient,,,
+5m 5/20 reclaim up to 6h,archive,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,True,19.633583335081735,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,archive,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,True,24.02026666800181,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,modeled,dc943f93-4e2d-4d52-9397-11d213cd0954,NEAR,2026-11-03T00:38:18.123Z,False,,,,,
+5m 5/20 reclaim up to 6h,modeled,4a316d17-aa65-4317-9d50-d9f4a7c5694b,ETH,2026-11-03T00:45:36.225Z,True,14.396250001589458,no fresh archived book,entered,initial stop,-0.31754413860224084
+5m 5/20 reclaim up to 6h,modeled,a321d4e9-657d-4f51-bf23-8db37ee3a7c1,ETH,2026-11-03T02:31:57.775Z,False,,,,,
+5m 5/20 reclaim up to 6h,modeled,b1eebca7-81e2-43de-9869-08b493ed23a7,BTC,2026-11-03T03:42:03.222Z,False,,,,,
+5m 5/20 reclaim up to 6h,modeled,51e5147b-f82a-41d5-9222-0f93b892c0e2,BTC,2026-11-03T08:59:29.796Z,True,80.50339999993642,depth verified,entered,trailing stop,0.28160139845249854
+5m 5/20 reclaim up to 6h,modeled,5004124c-5e75-483c-a35a-c149c3d8e997,STX,2026-11-03T16:24:44.587Z,False,,,,,
+5m 5/20 reclaim up to 6h,modeled,59f1db81-df25-4d5d-95b9-9fdc5f3f88fa,ZEC,2026-11-03T19:36:32.710Z,True,63.454833332697554,no fresh archived book,entered,trailing stop,0.7990174406989147
+5m 5/20 reclaim up to 6h,modeled,79ccc13e-a4a5-4582-b920-f3f74ca4a2a1,CC,2026-11-03T21:25:50.167Z,True,14.163883332411448,entry price moved beyond limit,,,
+5m 5/20 reclaim up to 6h,modeled,0fc10a09-bda6-470a-bae9-a2427863080f,DOT,2026-11-04T14:05:21.328Z,True,39.64453333218892,no fresh archived book,entered,trailing stop,0.22682223603825857
+5m 5/20 reclaim up to 6h,modeled,791e750f-f07a-418e-a79a-dc222e3fba90,INJ,2026-11-04T18:59:57.595Z,True,45.0400833328565,no fresh archived book,entered,initial stop,-0.32133021047549315
+5m 5/20 reclaim up to 6h,modeled,1f53624f-0f10-47bf-92f8-729b0babaa80,ZETA,2026-11-05T01:41:58.997Z,True,53.01671666701635,entry price moved beyond limit,,,
+5m 5/20 reclaim up to 6h,modeled,1a7bc543-ed68-432d-a7ad-5cebec2b3ddb,BTC,2026-11-05T05:06:48.804Z,True,83.18660000165303,no fresh archived book,entered,initial stop,-0.31319461604549703
+5m 5/20 reclaim up to 6h,modeled,b012e3f3-911d-49d9-bc44-62f323b0aa57,ETH,2026-11-05T05:06:48.894Z,True,28.185099999109905,no fresh archived book,entered,initial stop,-0.3147420377849964
+5m 5/20 reclaim up to 6h,modeled,b11267ea-2a2c-4754-89ff-a5416cfc4896,ZEC,2026-11-05T06:06:46.776Z,True,28.22039999961853,no fresh archived book,position cap,initial stop,-0.27039839540887434
+5m 5/20 reclaim up to 6h,modeled,3063436f-a165-4505-bdd2-58893eb1e01b,BTC,2026-11-05T09:41:36.873Z,True,38.385450001557665,no fresh archived book,symbol already open,initial stop,-0.3152564488349975
+5m 5/20 reclaim up to 6h,modeled,193282c3-331e-44af-9ef0-ba7d09c02026,BTC,2026-11-05T11:41:58.648Z,False,,,,,
+5m 5/20 reclaim up to 6h,modeled,eeaeac44-0c2a-4411-8d59-451a16903a6c,HYPE,2026-11-05T22:07:16.278Z,True,117.72869999806086,no fresh archived book,entered,trailing stop,0.20814775211475978
+5m 5/20 reclaim up to 6h,modeled,15859983-18c4-4c30-9b4b-698ca77b7645,BTC,2026-11-06T14:46:01.442Z,False,,,,,
+5m 5/20 reclaim up to 6h,modeled,d7bc4f6a-49f0-498f-a883-17c89fe17991,ETH,2026-11-06T14:46:01.458Z,False,,,,,
+5m 5/20 reclaim up to 6h,modeled,f6caf7db-73c7-4b6e-b70f-bbdcf8487951,ALGO,2026-11-06T15:25:51.499Z,True,24.141683332125346,no fresh archived book,entered,trailing stop,0.23582205621585778
+5m 5/20 reclaim up to 6h,modeled,f1e6faf0-238b-4e24-bddf-8c63f512b455,PAXG,2026-11-06T15:44:26.936Z,True,65.55106666485469,no fresh archived book,entered,unresolved price gap,
+5m 5/20 reclaim up to 6h,modeled,a9e0717f-c9f1-47c3-81b4-89c26cefc669,UNI,2026-11-07T02:48:56.176Z,True,16.063733331362407,no fresh archived book,entered,initial stop,-3.3039989491875783
+5m 5/20 reclaim up to 6h,modeled,bbe4710d-a873-4bb0-a12f-a33b7d1f28f2,BTC,2026-11-08T15:09:32.586Z,True,20.456900000572205,no fresh archived book,entered,initial stop,-3.1944956679999152
+5m 5/20 reclaim up to 6h,modeled,7278519e-60b6-4775-8797-a61b5fdd5af2,PENDLE,2026-11-09T10:11:29.611Z,True,43.50648333231608,no fresh archived book,entered,trailing stop,5.483423165220087
+5m 5/20 reclaim up to 6h,modeled,ef4d0e67-f528-4d2c-ace8-ca6d3e8f268b,AVAX,2026-11-09T12:39:36.234Z,True,30.396100000540414,no fresh archived book,position cap,initial stop,-3.212651605389956
+5m 5/20 reclaim up to 6h,modeled,0df65e84-8493-47aa-8725-f057d91cd384,BTC,2026-11-09T13:03:15.178Z,True,26.747033333778383,no fresh archived book,entered,initial stop,-3.3854458580623916
+5m 5/20 reclaim up to 6h,modeled,6dc9c2a3-4c4e-4bf7-86f6-9e318cd0cfc2,HYPE,2026-11-09T13:10:58.692Z,True,64.0218000014623,no fresh archived book,position cap,trailing stop,12.331219030506032
+5m 5/20 reclaim up to 6h,modeled,71aa1795-b1c9-47ce-b5a6-3e640fcb6a60,BTC,2026-11-09T13:41:56.865Z,True,68.05224999984105,no fresh archived book,entered,initial stop,-3.2377680567442044
+5m 5/20 reclaim up to 6h,modeled,9edf37ff-8150-49f4-b5a6-e5c9fdaafda5,AAVE,2026-11-09T15:48:13.994Z,True,21.766766667366028,no fresh archived book,position cap,initial stop,-3.159186232334902
+5m 5/20 reclaim up to 6h,modeled,5e1356b5-1925-4399-ab85-ffd682a44035,RUNE,2026-11-09T17:48:49.334Z,True,56.1777666648229,no fresh archived book,entered,trailing stop,3.1138478407765984
+5m 5/20 reclaim up to 6h,modeled,82e5abcc-3fbc-4583-831f-edaec3528456,ZEC,2026-11-10T03:51:00.743Z,True,38.98761666615804,no fresh archived book,entered,initial stop,-3.20317130816962
+5m 5/20 reclaim up to 6h,modeled,5e3f85de-a21b-49bd-a6ed-8885f4957318,APT,2026-11-10T13:21:31.632Z,True,83.47280000050863,no fresh archived book,entered,initial stop,-3.54252128955752
+5m 5/20 reclaim up to 6h,modeled,0342bfba-8d6e-4280-b1c3-41a936b9c822,PENDLE,2026-11-10T15:01:40.802Z,True,153.31996666590373,no fresh archived book,entered,trailing stop,1.9338993084300506
+5m 5/20 reclaim up to 6h,modeled,8bb81568-24bc-4de0-94a7-7c85e8c97354,SOL,2026-11-11T11:03:01.033Z,True,11.98278333346049,no fresh archived book,entered,trailing stop,4.381702965902238
+5m 5/20 reclaim up to 6h,modeled,f1b2c096-502a-43f6-b862-648986a802e5,TAO,2026-11-11T11:13:03.379Z,True,41.94368333419164,no fresh archived book,position cap,trailing stop,4.799327599890084
+5m 5/20 reclaim up to 6h,modeled,328b4d21-b585-473f-819c-f9fc792c98a5,HYPE,2026-11-12T01:57:26.342Z,True,47.56096666653951,no fresh archived book,entered,initial stop,-3.2048845592668753
+5m 5/20 reclaim up to 6h,modeled,0c78b55f-f25b-49ea-8835-acfdb76673bc,GRAM,2026-11-12T03:31:11.532Z,True,128.80779999891917,no fresh archived book,entered,initial stop,-3.284726865395695
+5m 5/20 reclaim up to 6h,modeled,5dfea3cf-8180-4897-99bb-b66f1f941b13,BTC,2026-11-12T04:10:11.061Z,True,129.815649998188,no fresh archived book,position cap,initial stop,-3.251591641844347
+5m 5/20 reclaim up to 6h,modeled,b6c5f714-13d8-47a1-b4a9-b57bc39c3977,ETH,2026-11-12T10:40:00.897Z,True,319.98504999876025,no fresh archived book,position cap,initial stop,-3.222349116961908
+5m 5/20 reclaim up to 6h,modeled,1bf306b1-2e5a-4c77-a087-9b17af8c15b9,HYPE,2026-11-12T14:36:15.912Z,True,23.734800000985462,no fresh archived book,entered,initial stop,-3.7646605583700334
+5m 5/20 reclaim up to 6h,modeled,97ef9e4c-b21a-4317-845c-6907164a2397,POL,2026-11-12T14:39:58.817Z,True,80.01971666812896,no fresh archived book,entered,initial stop,-3.291133912976187
+5m 5/20 reclaim up to 6h,modeled,8e2d6026-35e3-4c02-a828-30515d51ae33,BTC,2026-11-12T14:43:04.185Z,True,86.93025000095368,no fresh archived book,position cap,initial stop,-3.1349322930186885
+5m 5/20 reclaim up to 6h,modeled,ed62314c-6ea9-4fb4-aa3b-ae38ac282407,LINK,2026-11-12T17:02:06.872Z,True,57.885466667016345,no fresh archived book,,,
+5m 5/20 reclaim up to 6h,modeled,ab93d508-5c18-4c57-b197-2472b7cab3e0,WLFI,2026-11-13T01:26:17.610Z,False,,,,,
+5m 5/20 reclaim up to 6h,modeled,37c54a54-3473-4b0c-b446-77466ddb2b3e,BTC,2026-11-13T01:26:17.624Z,False,,,,,
+5m 5/20 reclaim up to 6h,modeled,472916d5-54a1-4631-a1fe-7e6ab5b05d36,ETH,2026-11-13T01:43:54.280Z,True,16.09533333381017,no fresh archived book,entered,initial stop,-3.76316559318834
+5m 5/20 reclaim up to 6h,modeled,dd8c6f00-17b4-493f-8383-273a9f2cd4a0,VIRTUAL,2026-11-13T04:32:31.974Z,True,57.46710000038147,no fresh archived book,entered,trailing stop,6.1018242622484165
+5m 5/20 reclaim up to 6h,modeled,4d2ca8db-0c82-4d71-9c37-8bc0dd2c82d0,GRASS,2026-11-13T16:33:26.112Z,True,21.564800000190736,no fresh archived book,entered,initial stop,-3.484903820551666
+5m 5/20 reclaim up to 6h,modeled,5fd05f61-dc18-4872-a502-85174d3f04c4,ZRO,2026-11-13T16:33:38.830Z,True,6.352833334604899,no fresh archived book,entered,initial stop,-3.1986789028219373
+5m 5/20 reclaim up to 6h,modeled,6a555c48-8904-494f-a6f6-4bdf73a492ea,ETH,2026-11-14T01:59:32.693Z,True,165.4551166653633,no fresh archived book,entered,initial stop,-3.3867244771980523
+5m 5/20 reclaim up to 6h,modeled,db572014-6ebc-4e49-86b7-7c2e4d938592,HYPE,2026-11-14T02:06:09.058Z,True,168.84903333187103,no fresh archived book,entered,initial stop,-3.7648125304579705
+5m 5/20 reclaim up to 6h,modeled,b16f0ee4-31f3-4d1f-81a8-ceffd18c790d,HYPE,2026-11-14T22:22:48.353Z,True,72.19411666790644,no fresh archived book,entered,trailing stop,8.290820502068101
+5m 5/20 reclaim up to 6h,modeled,c9d3c82d-297a-4747-aa09-a75907705407,NEAR,2026-11-16T22:42:26.231Z,True,182.56281666755677,no fresh archived book,entered,trailing stop,11.360883798924016
+5m 5/20 reclaim up to 6h,modeled,67474ee5-4a7e-4a83-8cc5-e2a74919da0c,ADA,2026-11-16T23:19:36.328Z,True,155.39453333218893,no fresh archived book,capital cap,trailing stop,4.04667263506844
+5m 5/20 reclaim up to 6h,modeled,43420543-697e-41d9-937d-ded7b14a6451,SOL,2026-11-16T23:44:51.717Z,True,45.13804999987284,no fresh archived book,entered,trailing stop,8.010800293855299
+5m 5/20 reclaim up to 6h,modeled,a1724015-8ab7-4415-bfc8-530f0ab2fc9c,SOL,2026-11-17T09:50:15.032Z,True,44.749466665585835,no fresh archived book,entered,initial stop,-3.5729787703499363
+5m 5/20 reclaim up to 6h,modeled,6a3b6d34-2734-4024-90db-a96bf3e2f500,ETHFI,2026-11-17T10:58:13.598Z,True,31.77336666584015,top of book alone insufficient,entered,initial stop,-3.401750934324853
+5m 5/20 reclaim up to 6h,modeled,24f2206f-c75a-4bbc-a441-d2f1be21731a,BTC,2026-11-17T13:45:21.985Z,True,19.633583335081735,no fresh archived book,entered,initial stop,-3.1934727176249376
+5m 5/20 reclaim up to 6h,modeled,90393b2c-4c2c-480a-845b-c0665449d8e2,ETH,2026-11-18T03:10:58.784Z,True,24.02026666800181,no fresh archived book,entered,initial stop,-3.263959801788305

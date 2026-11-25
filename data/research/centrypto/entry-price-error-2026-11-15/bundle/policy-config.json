@@ -1,0 +1,109 @@
+{
+  "sides": {
+    "long": {
+      "cash": true,
+      "entry_threshold": null,
+      "exit_threshold": null
+    },
+    "short": {
+      "cash": true,
+      "entry_threshold": null,
+      "exit_threshold": null
+    }
+  },
+  "pairs": [
+    [
+      3,
+      12
+    ],
+    [
+      5,
+      20
+    ],
+    [
+      8,
+      30
+    ],
+    [
+      10,
+      30
+    ],
+    [
+      10,
+      50
+    ],
+    [
+      20,
+      50
+    ],
+    [
+      20,
+      80
+    ],
+    [
+      30,
+      80
+    ]
+  ],
+  "seeds": [
+    20261114,
+    20261115,
+    20261116
+  ],
+  "holding_limit_minutes": 1440,
+  "entry_window_minutes": 60,
+  "fees": 0,
+  "funding_payments": 0,
+  "slippage": 0,
+  "research_only": true,
+  "frozen_fold": {
+    "start": "2026-11-11T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "validation_start": "2026-11-05T00:00:00Z"
+  },
+  "publication_time_required_for_runtime": true,
+  "training_config": {
+    "seeds": [
+      20261114,
+      20261115,
+      20261116
+    ],
+    "network": {
+      "hidden": [
+        32,
+        16
+      ],
+      "updates": 4000,
+      "checkpoints": [
+        0,
+        200,
+        600,
+        1500,
+        4000
+      ],
+      "episode_batch": 64,
+      "learning_rate": 0.001,
+      "l2": 0.001
+    },
+    "rally_gain_fraction": 0.1,
+    "failed_entry_cost": 0.1,
+    "entry_thresholds": [
+      0.8,
+      0.9,
+      0.95
+    ],
+    "fixed_exit_threshold": 0.5,
+    "fees": 0,
+    "slippage": 0,
+    "funding_payments": 0,
+    "notional_usd": 100,
+    "entry_news": false,
+    "target": "One executable entry per SMA setup maximizes its best side-adjusted gross return at an exit 5 minutes to 24 hours later; earliest candidate breaks ties. Search all causally eligible entries in the setup; discard the setup from supervision if any eligible outcome is unknown.",
+    "loss": "Expected normalized absolute price error of the first entry: sum_t survival(t)*hazard(t)*abs(P_t-P_best)/P_best. On qualifying >=10% setups, no-entry cost equals the best missed gross return. On failed setups, any entry costs 0.10 and no entry costs zero. No binary cross-entropy and no +/-10% first-barrier target.",
+    "sampling": "Equal successful/failed episode mass, with inverse symbol/day/stratum episode counts; one complete setup per sequence. Eight existing SMA pairs retained.",
+    "inference": "The network only sees causal features at the current decision. No sequence endpoint, future price, hindsight target, or future membership enters the network. Training-reference percentile of entry hazard is used for the unchanged threshold-selection interface; earliest qualifying causal candidate is executed.",
+    "comparison": "Four original chronological folds, three paired seeds. Keep fitted exit models and 0.5 exit threshold fixed for both methods; old entry and old selected policy remain the baseline. Select new entry thresholds on earlier validation only, retaining the original robust rejection rules and conservative bootstrap tail. Compare continuous chronological trading plus entry quality on successful and failed held-out setups.",
+    "holdout_status": "Chronological folds are unseen by each fitted network but already examined in prior research; not pristine research holdouts.",
+    "deployment": "Offline research only; preserve original artifacts. No production activation."
+  }
+}

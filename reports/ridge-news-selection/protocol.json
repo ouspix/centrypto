@@ -1,0 +1,43 @@
+{
+  "purpose": "Historical challenger research. Preserve the existing prospective freeze.",
+  "training": [
+    "2025-11-13",
+    "2026-11-05 exclusive"
+  ],
+  "calibration": "November 11 decision and setup cohort, full 24h outcome tail, same nonnegative calibration slope.",
+  "evaluation": [
+    "November 13 and November 15 separate flat-start days plus valuation tails",
+    "November 17–20 familiar benchmark"
+  ],
+  "arms": [
+    "constant",
+    "market218",
+    "content218",
+    "market357",
+    "availability357",
+    "content357",
+    "market_decay",
+    "content_decay",
+    "relative_content"
+  ],
+  "hurdle_bps": 15,
+  "slots": 10,
+  "notional_usd": 100,
+  "lambda": "500 / actual priced 218-day count per side; alpha = lambda * sum of fitting weights.",
+  "half_life_days": 90,
+  "relative": "Uniform 357-day content. Center features and target per decision time and side; equal weight per complete multi-asset time group. Use content357 for the absolute gate.",
+  "tie_seeds": [
+    11,
+    23,
+    37,
+    53,
+    71,
+    89,
+    107,
+    131
+  ],
+  "comparison": "Full portfolios plus fixed feasible state from alphabetical constant, both execution scenarios, paired marked days and changed trades.",
+  "news_subset": "Rerun all matched arms on decisions with an active direct asset mention in previous four hours.",
+  "news": "English archived headline/description, explicit asset links, fixed lexical event/status tags, 4-hour windows, 30-minute freshness, and three interactions with price, volume and BTC-relative return. Simulated 15-minute processing delay.",
+  "promotion": "Require positive incremental after-cost net over simple controls on untouched periods with comparable exposure and agreed risk limits under both execution assumptions."
+}

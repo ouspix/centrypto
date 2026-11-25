@@ -1,0 +1,26 @@
+{
+  "models_sha256": "5f998c93522c10cb645019bc90ba47e05191481b1d68905fde9ce969d50836ba",
+  "roles": {
+    "long": {
+      "states": 569655,
+      "positions": 40960,
+      "decision_days": 427,
+      "assets": 132,
+      "first": "2025-03-23T10:50:05+00:00",
+      "last": "2026-08-06T23:50:05+00:00",
+      "exit_labels": 208537,
+      "features": 39
+    },
+    "short": {
+      "states": 237395,
+      "positions": 17089,
+      "decision_days": 427,
+      "assets": 121,
+      "first": "2025-03-23T11:50:05+00:00",
+      "last": "2026-08-06T23:40:05+00:00",
+      "exit_labels": 80503,
+      "features": 39
+    }
+  },
+  "exit_probability": 0.5
+}

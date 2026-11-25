@@ -1,0 +1,267 @@
+{
+  "coverage": {
+    "from_utc": "2026-04-01T00:00:00+00:00",
+    "through_utc": "2026-11-21T12:40:00+00:00",
+    "bars": 20644
+  },
+  "costs_per_fill_bps": {
+    "fee": 4.5,
+    "slippage": 1.0
+  },
+  "historical_hourly_funding": true,
+  "bollinger_band_period": 20,
+  "band_stdevs": 2,
+  "widening_lookback_bars": 3,
+  "rules": {
+    "rsi50_baseline": "Original RSI 70/30 and SMA entry; RSI 50 or lost SMA alignment exit.",
+    "inside_band": "Baseline, with entries restricted to closes inside or on both bands.",
+    "widening_band": "Baseline, with entry only if normalized bandwidth is wider than three bars ago.",
+    "basis_exit": "Baseline entry; exit on a close past SMA20 against the position or lost SMA alignment."
+  },
+  "variants": {
+    "rsi50_baseline": {
+      "net": {
+        "trades": 233,
+        "wins": 57,
+        "win_rate_pct": 24.463519313304722,
+        "profit_factor": 0.6203864649910431,
+        "pnl": -2530.165651983831,
+        "mean_return_bps": -12.19791142392146,
+        "median_hold_minutes": 90.0,
+        "fees": 1782.1542013121982,
+        "funding_paid": 0.9423294509226502,
+        "ending_equity": 7469.834348016155,
+        "return_pct": -25.301656519838456,
+        "max_close_drawdown_pct": 31.187715343593002,
+        "funded_position_hours": 438,
+        "data_gap_exits": 2,
+        "end_of_sample_exits": 0,
+        "by_side": {
+          "long": {
+            "trades": 103,
+            "wins": 22,
+            "win_rate_pct": 21.359223300970875,
+            "profit_factor": 0.46711848255286187,
+            "pnl": -1556.9249773458725,
+            "mean_return_bps": -17.822175271768963,
+            "median_hold_minutes": 100.0,
+            "fees": 809.0958447240929,
+            "funding_paid": 4.963162593937648
+          },
+          "short": {
+            "trades": 130,
+            "wins": 35,
+            "win_rate_pct": 26.923076923076923,
+            "profit_factor": 0.7400115525466895,
+            "pnl": -973.2406746379589,
+            "mean_return_bps": -7.7417639137038226,
+            "median_hold_minutes": 90.0,
+            "fees": 973.0583565881052,
+            "funding_paid": -4.020833143014998
+          }
+        }
+      },
+      "net_by_window": [
+        {
+          "start": "2026-04-01T00:00:00+00:00",
+          "trades": 99,
+          "return_pct": -13.224941116564025
+        },
+        {
+          "start": "2026-05-21T11:55:00+00:00",
+          "trades": 64,
+          "return_pct": -16.091261202506367
+        },
+        {
+          "start": "2026-10-29T09:15:00+00:00",
+          "trades": 70,
+          "return_pct": 2.590904895251911
+        }
+      ],
+      "gross_return_pct": -3.4646849211079966
+    },
+    "inside_band": {
+      "net": {
+        "trades": 135,
+        "wins": 37,
+        "win_rate_pct": 27.40740740740741,
+        "profit_factor": 0.6209181372878451,
+        "pnl": -1570.6365963533838,
+        "mean_return_bps": -12.334036084643348,
+        "median_hold_minutes": 100.0,
+        "fees": 1110.677060534128,
+        "funding_paid": 0.6799243771643918,
+        "ending_equity": 8429.36340364663,
+        "return_pct": -15.706365963533697,
+        "max_close_drawdown_pct": 19.945409791824286,
+        "funded_position_hours": 265,
+        "data_gap_exits": 2,
+        "end_of_sample_exits": 0,
+        "by_side": {
+          "long": {
+            "trades": 60,
+            "wins": 14,
+            "win_rate_pct": 23.333333333333332,
+            "profit_factor": 0.49892716854423,
+            "pnl": -852.3354679514248,
+            "mean_return_bps": -16.094565345024833,
+            "median_hold_minutes": 95.0,
+            "fees": 498.71874142319206,
+            "funding_paid": 3.5986327887907468
+          },
+          "short": {
+            "trades": 75,
+            "wins": 23,
+            "win_rate_pct": 30.666666666666668,
+            "profit_factor": 0.7058847614232099,
+            "pnl": -718.301128401959,
+            "mean_return_bps": -9.32561267633816,
+            "median_hold_minutes": 105.0,
+            "fees": 611.9583191109359,
+            "funding_paid": -2.918708411626355
+          }
+        }
+      },
+      "net_by_window": [
+        {
+          "start": "2026-04-01T00:00:00+00:00",
+          "trades": 54,
+          "return_pct": -6.776688977168255
+        },
+        {
+          "start": "2026-05-21T11:55:00+00:00",
+          "trades": 41,
+          "return_pct": -11.119940531255345
+        },
+        {
+          "start": "2026-10-29T09:15:00+00:00",
+          "trades": 40,
+          "return_pct": 1.7339523519635192
+        }
+      ],
+      "gross_return_pct": -2.198241683830726
+    },
+    "widening_band": {
+      "net": {
+        "trades": 228,
+        "wins": 57,
+        "win_rate_pct": 25.0,
+        "profit_factor": 0.6327924362866427,
+        "pnl": -2413.7186148035184,
+        "mean_return_bps": -11.789092202195954,
+        "median_hold_minutes": 90.0,
+        "fees": 1758.487642293772,
+        "funding_paid": 0.9398321852079993,
+        "ending_equity": 7586.28138519648,
+        "return_pct": -24.137186148035195,
+        "max_close_drawdown_pct": 30.115002576946992,
+        "funded_position_hours": 431,
+        "data_gap_exits": 2,
+        "end_of_sample_exits": 0,
+        "by_side": {
+          "long": {
+            "trades": 100,
+            "wins": 22,
+            "win_rate_pct": 22.0,
+            "profit_factor": 0.47709602997928463,
+            "pnl": -1488.1051755659805,
+            "mean_return_bps": -17.373895451989437,
+            "median_hold_minutes": 97.5,
+            "fees": 792.2647901766596,
+            "funding_paid": 4.808147081022764
+          },
+          "short": {
+            "trades": 128,
+            "wins": 35,
+            "win_rate_pct": 27.34375,
+            "profit_factor": 0.7516681336119546,
+            "pnl": -925.6134392375379,
+            "mean_return_bps": -7.425964663294796,
+            "median_hold_minutes": 90.0,
+            "fees": 966.2228521171126,
+            "funding_paid": -3.868314895814764
+          }
+        }
+      },
+      "net_by_window": [
+        {
+          "start": "2026-04-01T00:00:00+00:00",
+          "trades": 97,
+          "return_pct": -12.366834035507313
+        },
+        {
+          "start": "2026-05-21T11:55:00+00:00",
+          "trades": 64,
+          "return_pct": -16.15177142198213
+        },
+        {
+          "start": "2026-10-29T09:15:00+00:00",
+          "trades": 67,
+          "return_pct": 3.244411564415639
+        }
+      ],
+      "gross_return_pct": -2.498452240695659
+    },
+    "basis_exit": {
+      "net": {
+        "trades": 247,
+        "wins": 61,
+        "win_rate_pct": 24.696356275303643,
+        "profit_factor": 0.6278292537354944,
+        "pnl": -2390.6723956664223,
+        "mean_return_bps": -10.805747168392658,
+        "median_hold_minutes": 70.0,
+        "fees": 1920.4086823386606,
+        "funding_paid": 2.0993133217503095,
+        "ending_equity": 7609.327604333566,
+        "return_pct": -23.906723956664333,
+        "max_close_drawdown_pct": 30.124890739407935,
+        "funded_position_hours": 334,
+        "data_gap_exits": 2,
+        "end_of_sample_exits": 0,
+        "by_side": {
+          "long": {
+            "trades": 108,
+            "wins": 25,
+            "win_rate_pct": 23.14814814814815,
+            "profit_factor": 0.5047569814534077,
+            "pnl": -1332.2282889348944,
+            "mean_return_bps": -14.249010976732356,
+            "median_hold_minutes": 70.0,
+            "fees": 864.0994826093756,
+            "funding_paid": 4.470389693443934
+          },
+          "short": {
+            "trades": 139,
+            "wins": 36,
+            "win_rate_pct": 25.899280575539567,
+            "profit_factor": 0.7165039316231966,
+            "pnl": -1058.4441067315279,
+            "mean_return_bps": -8.130405504358936,
+            "median_hold_minutes": 70.0,
+            "fees": 1056.309199729285,
+            "funding_paid": -2.3710763716936247
+          }
+        }
+      },
+      "net_by_window": [
+        {
+          "start": "2026-04-01T00:00:00+00:00",
+          "trades": 104,
+          "return_pct": -11.068332832016626
+        },
+        {
+          "start": "2026-05-21T11:55:00+00:00",
+          "trades": 68,
+          "return_pct": -16.00819351683195
+        },
+        {
+          "start": "2026-10-29T09:15:00+00:00",
+          "trades": 75,
+          "return_pct": 1.8715528222808642
+        }
+      ],
+      "gross_return_pct": -0.12414823262908437
+    }
+  }
+}

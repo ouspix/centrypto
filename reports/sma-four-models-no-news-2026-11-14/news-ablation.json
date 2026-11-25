@@ -1,0 +1,542 @@
+{
+  "comparison": "Same four-model SMA system, with versus without news inputs. Same seeds, data and training/selection protocol; earlier validation independently reselects checkpoints and thresholds.",
+  "notional_per_trade_usd": 100,
+  "fees": 0,
+  "funding_payments": 0,
+  "slippage": 0,
+  "all_folds": {
+    "with_news": {
+      "trades": 157,
+      "priced": 157,
+      "censored": 0,
+      "gross_pnl_usd": 161.36347352980204,
+      "priced_subtotal_usd": 161.36347352980204,
+      "mean_return_pct": 1.027792825030586,
+      "wins": 84,
+      "losses": 73,
+      "median_holding_minutes": 310.0,
+      "notional_hours": 103108.33333333333,
+      "maximum_simultaneous_positions": 20,
+      "peak_gross_notional_usd": 2000,
+      "realized_exit_order_drawdown_usd": 36.895641110195896,
+      "by_side": {
+        "long": {
+          "trades": 57,
+          "priced": 57,
+          "censored": 0,
+          "gross_pnl_usd": 44.35730276498848,
+          "priced_subtotal_usd": 44.35730276498848,
+          "mean_return_pct": 0.778198294122605,
+          "wins": 32,
+          "losses": 25,
+          "median_holding_minutes": 450.0,
+          "notional_hours": 57425.0
+        },
+        "short": {
+          "trades": 100,
+          "priced": 100,
+          "censored": 0,
+          "gross_pnl_usd": 117.00617076481356,
+          "priced_subtotal_usd": 117.00617076481356,
+          "mean_return_pct": 1.1700617076481357,
+          "wins": 52,
+          "losses": 48,
+          "median_holding_minutes": 232.5,
+          "notional_hours": 45683.333333333336
+        }
+      }
+    },
+    "without_news": {
+      "trades": 236,
+      "priced": 236,
+      "censored": 0,
+      "gross_pnl_usd": 207.72700008913324,
+      "priced_subtotal_usd": 207.72700008913324,
+      "mean_return_pct": 0.8801991529200561,
+      "wins": 126,
+      "losses": 110,
+      "median_holding_minutes": 340.0,
+      "notional_hours": 163016.66666666666,
+      "maximum_simultaneous_positions": 31,
+      "peak_gross_notional_usd": 3100,
+      "realized_exit_order_drawdown_usd": 36.895641110195896,
+      "by_side": {
+        "long": {
+          "trades": 64,
+          "priced": 64,
+          "censored": 0,
+          "gross_pnl_usd": 29.745141242799967,
+          "priced_subtotal_usd": 29.745141242799967,
+          "mean_return_pct": 0.4647678319187495,
+          "wins": 34,
+          "losses": 30,
+          "median_holding_minutes": 402.5,
+          "notional_hours": 62016.666666666664
+        },
+        "short": {
+          "trades": 172,
+          "priced": 172,
+          "censored": 0,
+          "gross_pnl_usd": 177.9818588463333,
+          "priced_subtotal_usd": 177.9818588463333,
+          "mean_return_pct": 1.0347782491065889,
+          "wins": 92,
+          "losses": 80,
+          "median_holding_minutes": 322.5,
+          "notional_hours": 101000.0
+        }
+      }
+    }
+  },
+  "folds": [
+    {
+      "start": "2026-06-01T00:00:00Z",
+      "end": "2026-06-10T00:00:00Z",
+      "sides": {
+        "long": {
+          "original_retained_news": [],
+          "with_news_policy": {
+            "cash": true,
+            "entry_threshold": null,
+            "exit_threshold": null,
+            "validation_pnl_usd": 0.0
+          },
+          "without_news_policy": {
+            "cash": true,
+            "entry_threshold": null,
+            "exit_threshold": null,
+            "validation_pnl_usd": 0.0
+          },
+          "with_news_entry_updates": 4000,
+          "without_news_entry_updates": 4000
+        },
+        "short": {
+          "original_retained_news": [],
+          "with_news_policy": {
+            "cash": false,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.5,
+            "validation_pnl_usd": 16.489380583886522
+          },
+          "without_news_policy": {
+            "cash": false,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.5,
+            "validation_pnl_usd": 16.489380583886522
+          },
+          "with_news_entry_updates": 4000,
+          "without_news_entry_updates": 4000
+        }
+      },
+      "with_news": {
+        "trades": 46,
+        "priced": 46,
+        "censored": 0,
+        "gross_pnl_usd": 29.309857280858147,
+        "priced_subtotal_usd": 29.309857280858147,
+        "mean_return_pct": 0.6371708104534379,
+        "wins": 24,
+        "losses": 22,
+        "median_holding_minutes": 92.5,
+        "notional_hours": 11091.666666666666
+      },
+      "without_news": {
+        "trades": 46,
+        "priced": 46,
+        "censored": 0,
+        "gross_pnl_usd": 29.309857280858147,
+        "priced_subtotal_usd": 29.309857280858147,
+        "mean_return_pct": 0.6371708104534379,
+        "wins": 24,
+        "losses": 22,
+        "median_holding_minutes": 92.5,
+        "notional_hours": 11091.666666666666
+      }
+    },
+    {
+      "start": "2026-11-03T00:00:00Z",
+      "end": "2026-11-07T00:00:00Z",
+      "sides": {
+        "long": {
+          "original_retained_news": [],
+          "with_news_policy": {
+            "cash": false,
+            "entry_threshold": 0.75,
+            "exit_threshold": 0.75,
+            "validation_pnl_usd": 110.59766440408019
+          },
+          "without_news_policy": {
+            "cash": false,
+            "entry_threshold": 0.75,
+            "exit_threshold": 0.75,
+            "validation_pnl_usd": 110.59766440408019
+          },
+          "with_news_entry_updates": 200,
+          "without_news_entry_updates": 200
+        },
+        "short": {
+          "original_retained_news": [],
+          "with_news_policy": {
+            "cash": true,
+            "entry_threshold": null,
+            "exit_threshold": null,
+            "validation_pnl_usd": 0.0
+          },
+          "without_news_policy": {
+            "cash": true,
+            "entry_threshold": null,
+            "exit_threshold": null,
+            "validation_pnl_usd": 0.0
+          },
+          "with_news_entry_updates": 200,
+          "without_news_entry_updates": 200
+        }
+      },
+      "with_news": {
+        "trades": 57,
+        "priced": 57,
+        "censored": 0,
+        "gross_pnl_usd": 44.35730276498848,
+        "priced_subtotal_usd": 44.35730276498848,
+        "mean_return_pct": 0.778198294122605,
+        "wins": 32,
+        "losses": 25,
+        "median_holding_minutes": 450.0,
+        "notional_hours": 57425.0
+      },
+      "without_news": {
+        "trades": 57,
+        "priced": 57,
+        "censored": 0,
+        "gross_pnl_usd": 44.35730276498848,
+        "priced_subtotal_usd": 44.35730276498848,
+        "mean_return_pct": 0.778198294122605,
+        "wins": 32,
+        "losses": 25,
+        "median_holding_minutes": 450.0,
+        "notional_hours": 57425.0
+      }
+    },
+    {
+      "start": "2026-11-07T00:00:00Z",
+      "end": "2026-11-11T00:00:00Z",
+      "sides": {
+        "long": {
+          "original_retained_news": [],
+          "with_news_policy": {
+            "cash": false,
+            "entry_threshold": 0.9,
+            "exit_threshold": 0.75,
+            "validation_pnl_usd": 22.37857860875959
+          },
+          "without_news_policy": {
+            "cash": false,
+            "entry_threshold": 0.9,
+            "exit_threshold": 0.75,
+            "validation_pnl_usd": 22.37857860875959
+          },
+          "with_news_entry_updates": 200,
+          "without_news_entry_updates": 200
+        },
+        "short": {
+          "original_retained_news": [],
+          "with_news_policy": {
+            "cash": true,
+            "entry_threshold": null,
+            "exit_threshold": null,
+            "validation_pnl_usd": 0.0
+          },
+          "without_news_policy": {
+            "cash": true,
+            "entry_threshold": null,
+            "exit_threshold": null,
+            "validation_pnl_usd": 0.0
+          },
+          "with_news_entry_updates": 4000,
+          "without_news_entry_updates": 4000
+        }
+      },
+      "with_news": {
+        "trades": 0,
+        "priced": 0,
+        "censored": 0,
+        "gross_pnl_usd": 0.0,
+        "priced_subtotal_usd": 0.0,
+        "mean_return_pct": null,
+        "wins": 0,
+        "losses": 0,
+        "median_holding_minutes": null,
+        "notional_hours": 0
+      },
+      "without_news": {
+        "trades": 0,
+        "priced": 0,
+        "censored": 0,
+        "gross_pnl_usd": 0.0,
+        "priced_subtotal_usd": 0.0,
+        "mean_return_pct": null,
+        "wins": 0,
+        "losses": 0,
+        "median_holding_minutes": null,
+        "notional_hours": 0
+      }
+    },
+    {
+      "start": "2026-11-11T00:00:00Z",
+      "end": "2026-11-14T08:30:00Z",
+      "sides": {
+        "long": {
+          "original_retained_news": [
+            "news_analysis_available",
+            "news_feed_available"
+          ],
+          "with_news_policy": {
+            "cash": true,
+            "entry_threshold": null,
+            "exit_threshold": null,
+            "validation_pnl_usd": 0.0
+          },
+          "without_news_policy": {
+            "cash": false,
+            "entry_threshold": 0.9,
+            "exit_threshold": 0.75,
+            "validation_pnl_usd": 4.752570027630799
+          },
+          "with_news_entry_updates": 200,
+          "without_news_entry_updates": 200
+        },
+        "short": {
+          "original_retained_news": [
+            "news_analysis_available",
+            "news_feed_available"
+          ],
+          "with_news_policy": {
+            "cash": false,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "validation_pnl_usd": 32.811158950364636
+          },
+          "without_news_policy": {
+            "cash": false,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "validation_pnl_usd": 119.44475167782397
+          },
+          "with_news_entry_updates": 200,
+          "without_news_entry_updates": 200
+        }
+      },
+      "with_news": {
+        "trades": 54,
+        "priced": 54,
+        "censored": 0,
+        "gross_pnl_usd": 87.69631348395541,
+        "priced_subtotal_usd": 87.69631348395541,
+        "mean_return_pct": 1.6240058052584334,
+        "wins": 28,
+        "losses": 26,
+        "median_holding_minutes": 362.5,
+        "notional_hours": 34591.666666666664
+      },
+      "without_news": {
+        "trades": 133,
+        "priced": 133,
+        "censored": 0,
+        "gross_pnl_usd": 134.0598400432866,
+        "priced_subtotal_usd": 134.0598400432866,
+        "mean_return_pct": 1.0079687221299745,
+        "wins": 70,
+        "losses": 63,
+        "median_holding_minutes": 405.0,
+        "notional_hours": 94500.0
+      }
+    }
+  ],
+  "original_news_baseline_files_verified": 46,
+  "identical_candidate_data": true,
+  "identical_splits": true,
+  "model_checks": [
+    {
+      "fold": "2026-06-01",
+      "side": "long",
+      "kind": "entry",
+      "identical_weights": true,
+      "news_features_in_new": 0
+    },
+    {
+      "fold": "2026-06-01",
+      "side": "long",
+      "kind": "exit",
+      "identical_weights": true,
+      "news_features_in_new": 0
+    },
+    {
+      "fold": "2026-06-01",
+      "side": "short",
+      "kind": "entry",
+      "identical_weights": true,
+      "news_features_in_new": 0
+    },
+    {
+      "fold": "2026-06-01",
+      "side": "short",
+      "kind": "exit",
+      "identical_weights": true,
+      "news_features_in_new": 0
+    },
+    {
+      "fold": "2026-11-03",
+      "side": "long",
+      "kind": "entry",
+      "identical_weights": true,
+      "news_features_in_new": 0
+    },
+    {
+      "fold": "2026-11-03",
+      "side": "long",
+      "kind": "exit",
+      "identical_weights": true,
+      "news_features_in_new": 0
+    },
+    {
+      "fold": "2026-11-03",
+      "side": "short",
+      "kind": "entry",
+      "identical_weights": true,
+      "news_features_in_new": 0
+    },
+    {
+      "fold": "2026-11-03",
+      "side": "short",
+      "kind": "exit",
+      "identical_weights": true,
+      "news_features_in_new": 0
+    },
+    {
+      "fold": "2026-11-07",
+      "side": "long",
+      "kind": "entry",
+      "identical_weights": true,
+      "news_features_in_new": 0
+    },
+    {
+      "fold": "2026-11-07",
+      "side": "long",
+      "kind": "exit",
+      "identical_weights": true,
+      "news_features_in_new": 0
+    },
+    {
+      "fold": "2026-11-07",
+      "side": "short",
+      "kind": "entry",
+      "identical_weights": true,
+      "news_features_in_new": 0
+    },
+    {
+      "fold": "2026-11-07",
+      "side": "short",
+      "kind": "exit",
+      "identical_weights": true,
+      "news_features_in_new": 0
+    },
+    {
+      "fold": "2026-11-11",
+      "side": "long",
+      "kind": "entry",
+      "identical_weights": false,
+      "news_features_in_new": 0
+    },
+    {
+      "fold": "2026-11-11",
+      "side": "long",
+      "kind": "exit",
+      "identical_weights": true,
+      "news_features_in_new": 0
+    },
+    {
+      "fold": "2026-11-11",
+      "side": "short",
+      "kind": "entry",
+      "identical_weights": false,
+      "news_features_in_new": 0
+    },
+    {
+      "fold": "2026-11-11",
+      "side": "short",
+      "kind": "exit",
+      "identical_weights": true,
+      "news_features_in_new": 0
+    },
+    {
+      "fold": "2026-11-15",
+      "side": "long",
+      "kind": "entry",
+      "identical_weights": false,
+      "news_features_in_new": 0
+    },
+    {
+      "fold": "2026-11-15",
+      "side": "long",
+      "kind": "exit",
+      "identical_weights": true,
+      "news_features_in_new": 0
+    },
+    {
+      "fold": "2026-11-15",
+      "side": "short",
+      "kind": "entry",
+      "identical_weights": false,
+      "news_features_in_new": 0
+    },
+    {
+      "fold": "2026-11-15",
+      "side": "short",
+      "kind": "exit",
+      "identical_weights": true,
+      "news_features_in_new": 0
+    }
+  ],
+  "delta_gross_pnl_usd": 46.363526559331206,
+  "trade_overlap": {
+    "same_entry_exit_and_pair": 128,
+    "with_news_only": 29,
+    "without_news_only": 108
+  },
+  "limitations": [
+    "Single seed per fit; changing input dimensionality can change initialization as well as the information set.",
+    "No news feature survives training preprocessing in the first three folds. The fourth retains only news_analysis_available and news_feed_available.",
+    "Final models have more recent data and are not the models that generated the historical test trades.",
+    "Test periods are unseen by fitted models but already used for research; this is not a new blind test."
+  ],
+  "rally_participation": {
+    "with_news": {
+      "long": {
+        "events": 151,
+        "detected": 126,
+        "current_participated": 3,
+        "sma_four_participated": 6
+      },
+      "short": {
+        "events": 350,
+        "detected": 308,
+        "current_participated": 4,
+        "sma_four_participated": 16
+      }
+    },
+    "without_news": {
+      "long": {
+        "events": 151,
+        "detected": 126,
+        "current_participated": 3,
+        "sma_four_participated": 6
+      },
+      "short": {
+        "events": 350,
+        "detected": 308,
+        "current_participated": 4,
+        "sma_four_participated": 27
+      }
+    }
+  }
+}

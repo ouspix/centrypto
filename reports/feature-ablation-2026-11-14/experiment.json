@@ -1,0 +1,145 @@
+{
+  "seeds": [
+    20261114,
+    20261115,
+    20261116
+  ],
+  "variants": {
+    "core": [],
+    "full": [
+      "price_shape",
+      "volume_detail",
+      "sma_detail",
+      "market_context",
+      "derivatives",
+      "liquidity",
+      "spot",
+      "clock",
+      "position_history"
+    ],
+    "add_price_shape": [
+      "price_shape"
+    ],
+    "drop_price_shape": [
+      "volume_detail",
+      "sma_detail",
+      "market_context",
+      "derivatives",
+      "liquidity",
+      "spot",
+      "clock",
+      "position_history"
+    ],
+    "add_volume_detail": [
+      "volume_detail"
+    ],
+    "drop_volume_detail": [
+      "price_shape",
+      "sma_detail",
+      "market_context",
+      "derivatives",
+      "liquidity",
+      "spot",
+      "clock",
+      "position_history"
+    ],
+    "add_sma_detail": [
+      "sma_detail"
+    ],
+    "drop_sma_detail": [
+      "price_shape",
+      "volume_detail",
+      "market_context",
+      "derivatives",
+      "liquidity",
+      "spot",
+      "clock",
+      "position_history"
+    ],
+    "add_market_context": [
+      "market_context"
+    ],
+    "drop_market_context": [
+      "price_shape",
+      "volume_detail",
+      "sma_detail",
+      "derivatives",
+      "liquidity",
+      "spot",
+      "clock",
+      "position_history"
+    ],
+    "add_derivatives": [
+      "derivatives"
+    ],
+    "drop_derivatives": [
+      "price_shape",
+      "volume_detail",
+      "sma_detail",
+      "market_context",
+      "liquidity",
+      "spot",
+      "clock",
+      "position_history"
+    ],
+    "add_liquidity": [
+      "liquidity"
+    ],
+    "drop_liquidity": [
+      "price_shape",
+      "volume_detail",
+      "sma_detail",
+      "market_context",
+      "derivatives",
+      "spot",
+      "clock",
+      "position_history"
+    ],
+    "add_spot": [
+      "spot"
+    ],
+    "drop_spot": [
+      "price_shape",
+      "volume_detail",
+      "sma_detail",
+      "market_context",
+      "derivatives",
+      "liquidity",
+      "clock",
+      "position_history"
+    ],
+    "add_clock": [
+      "clock"
+    ],
+    "drop_clock": [
+      "price_shape",
+      "volume_detail",
+      "sma_detail",
+      "market_context",
+      "derivatives",
+      "liquidity",
+      "spot",
+      "position_history"
+    ],
+    "add_position_history": [
+      "position_history"
+    ],
+    "drop_position_history": [
+      "price_shape",
+      "volume_detail",
+      "sma_detail",
+      "market_context",
+      "derivatives",
+      "liquidity",
+      "spot",
+      "clock"
+    ]
+  },
+  "outer_folds": 4,
+  "workers": 8,
+  "mandatory_is_design_choice": "Mandatory means retained as the architectural core, not proven necessary by this experiment; the core is not ablated.",
+  "masking": "Fit column-wise preprocessing on earlier training data once. Inactive feature values and their missingness indicators are zeroed after scaling. Fixed full input width preserves initial weights and minibatch RNG across paired variants.",
+  "selection": "Same earlier validation AP checkpoint and per-side trading threshold selection as baseline. No optional group is selected using test results for deployment.",
+  "classification": "Measure add-to-core and remove-from-full effects separately across three paired seeds and four chronological folds. Strong help/harm requires same direction in both contexts for all three seed totals. Otherwise mixed/inconclusive. Features without training variation are not declared noise.",
+  "limits": "Previously researched outer periods, not pristine research holdouts. Seeds and folds share observations and are not independent significance samples. Group ablations do not establish that every member is individually useful."
+}

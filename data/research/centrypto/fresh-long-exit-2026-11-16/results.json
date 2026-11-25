@@ -1,0 +1,2877 @@
+{
+  "entry_windows": [
+    {
+      "start": "2026-11-14T08:30:00Z",
+      "end": "2026-11-15T02:30:00Z"
+    },
+    {
+      "start": "2026-11-15T02:30:00Z",
+      "end": "2026-11-15T20:30:00Z"
+    }
+  ],
+  "market_end": "2026-11-16T21:05:00Z",
+  "primary_checkpoint": "2026-11-11T00:00:00Z",
+  "earlier_checkpoints": [
+    "2026-11-03T00:00:00Z",
+    "2026-11-07T00:00:00Z"
+  ],
+  "baseline": "drop_spot",
+  "replacement_long_exit": "add_position_history",
+  "seeds": [
+    20261114,
+    20261115,
+    20261116
+  ],
+  "notional_usd": 100,
+  "fees": 0,
+  "funding": 0,
+  "slippage": 0,
+  "instruments": 179,
+  "candidate_rows": 15330,
+  "archive_feature_parity": {
+    "archived_feature_rows": 843090
+  },
+  "market_coverage": {
+    "tail_possible_minute_marks": 650665,
+    "tail_valid_minute_marks": 574021,
+    "eligible_entry_states": 5715,
+    "crossvenue_basis_at_eligible_states": 4914,
+    "derivatives_at_eligible_states": 5715
+  },
+  "spot_pair_status": {
+    "available": 148,
+    "binance_rejected_pair": 28,
+    "excluded_ambiguous_mapping": 2,
+    "no_candles": 1
+  },
+  "source_sha256": {
+    "market/0G.json.gz": "d0de79334bd4dcbb713d76046afceb94b5fd05bcd1b0084d23eeb4ee74cf7744",
+    "market/2Z.json.gz": "73ee81215130ca7254722479e166b6902ed3ad341bc0931937778d061bbaa20f",
+    "market/AAVE.json.gz": "70299f33ff41eba76b635685ee94f008fa767137cfe039e4ab3e21809385b68d",
+    "market/ACE.json.gz": "631e0ae3cffbd66c937bd0cf87a8f2f1a0f7c1dee90196012d95f9f4cdac3d56",
+    "market/ADA.json.gz": "5680d886dc36ca167127ec37fb5069849fe9c0c32354571b07b0d37e7ed500f9",
+    "market/AERO.json.gz": "6cb0bb2c40cc714ab29541fa7a50e7fe6f6ba9add1c55cddae2cdcee925f875e",
+    "market/AIXBT.json.gz": "13c6026f9419cb14bcb15ee64a16caa76cba616fe2ee36c337e8b70909369cb8",
+    "market/ALGO.json.gz": "ede85401ca20346971035c51ff53a3598f93bd26554e725b99d7976b99e5a963",
+    "market/ALT.json.gz": "cbb8571172eaa38d0c028ed6b3d2255c32b8fdf0aa458ff3af7d1e5ff1111cbe",
+    "market/ANIME.json.gz": "5895feb02082a9b9e5e0a40f61e044d88b87369c935aec95a10c24c867b5f378",
+    "market/APE.json.gz": "7fdd929005ceb5a0be95787a148ccc33a4f923100df8fe11617554a7c0ef3793",
+    "market/APEX.json.gz": "14dee56c3dc779ab27c1e76dc21570e52ecd6dfe13728d711567d6a1064e4eff",
+    "market/APT.json.gz": "d1ad614225504e5a681902d271400cf61e6493152061de62dc1d9f5d5d1fc279",
+    "market/AR.json.gz": "6576551c8b975cfc06ecc60c61994b4c05b36a5aa2269e27177ae1cd740ad5e0",
+    "market/ARB.json.gz": "92f40afd53461fd262a71775ae36979cf8beaaf644668c7b784c0b9f377e16bf",
+    "market/ASTER.json.gz": "cda4380e4920a7d4d4cb01a49beef052b3ed565f9bcc7633fe65a71ec127938f",
+    "market/ATOM.json.gz": "7bfd2ea0d65ba552ed5c8de15adc9dfbf1cb1812bb204d4dbf068bef6cd6b436",
+    "market/AVAX.json.gz": "a4203fbdc7ab83135f0e0c3fc8845dd4e2d3064dc42cf9a903480e25643a5b5f",
+    "market/AVNT.json.gz": "27f2bc43a5387fd697f4c069e718a3156f5ee96f6dc1e4d23634529fd129f265",
+    "market/AXS.json.gz": "efd792c1e47a7f11750a4f127c6442457161451b5b775ea460ff9fc401528a09",
+    "market/AZTEC.json.gz": "8e77ffa4c4e9ca8dfb8c918ce750676db605f80e8bb97bc600e13d11d9d9c9ab",
+    "market/BABY.json.gz": "c8a8c310d1f6f258d19c809ed7879cbe9b2344d993c4e06c054e9fb2b26d44b9",
+    "market/BANANA.json.gz": "6271e737838c357edbe64080ca6700e8f9faf09df55937831b3e02f7e6c97da0",
+    "market/BCH.json.gz": "fdd858340ab67f40f1cdb045abdf57f664bd9b2cac10ee6af01f9fa51f044125",
+    "market/BERA.json.gz": "00541d7ae2993afc2785aca0398f84232978d3706160e268fe4eb9b7253e0d4e",
+    "market/BIGTIME.json.gz": "5c036e3e68b63a7ed8f1263f3cce4dc414a6cfa06985a96bd801caed5578479c",
+    "market/BIO.json.gz": "5cdbf5fa87382ad773095116ebc0daf1ce46d8df2277a565192087872bbb2f46",
+    "market/BLUR.json.gz": "9f36dca9c6d582d2c7c33850f39adb2050e89f39efa77348b0d48785d9e029d6",
+    "market/BNB.json.gz": "e9828f395979b6edd5e7bf5933c46b5e13e7175a5420795a17bbb832c8282bd6",
+    "market/BOME.json.gz": "3471b1ac7715ce181ac7e8203ab499d8bacb41dd402001ad74b4117a613effbe",
+    "market/BRETT.json.gz": "73478afca4b766474b124ed273bf5734d60259a5a7db563b0c44d32646c1dd79",
+    "market/BSV.json.gz": "f11581174312c0a73fe857393d66d75445240355ab3aa98366c0424672aa89a7",
+    "market/BTC.json.gz": "22d0d71c106e892ca8ea465fdec4778e44f005e41bf71fea84337508e9031c13",
+    "market/CAKE.json.gz": "b40521baa7eb9bf4a239a5bbe7e708c88b81cedd313509c8f9e6fda46ce1a6c3",
+    "market/CASHCAT.json.gz": "a48d7d33fe70d48c4170e88ce59ba4fe52074f530f77e78896fdaab72020e619",
+    "market/CC.json.gz": "2a7ee96d3b281e7a72f397868598a2fd268583af69a547445f8c6b5ea148e390",
+    "market/CELO.json.gz": "ef91b242480fee0d3f80bd72bd87f14a8d2644ebfa9c6feca6776e85aeac5f62",
+    "market/CFX.json.gz": "1eb1244f696ee188a78e338b00fbd45e2ffc2b5f33b2ea59b3821b20bf760b70",
+    "market/CHIP.json.gz": "45a9156b9976561de084063b9abb7a053ab54fb16c1169252a91ad212c45756b",
+    "market/COMP.json.gz": "9e7d594f8319f038227a0d6e33e7ee027d3f2eb4994feaf0cacc141edfd8ef98",
+    "market/CRV.json.gz": "2297f314b0675e092a4159fe590e3bdfb38b299813eecde662b955ff400f8dba",
+    "market/DASH.json.gz": "a806a27955fa9d9ec1711ac9f191815226ce88d182d5d202e9dc5f526b36f060",
+    "market/DOGE.json.gz": "5d2cc3f29f90cb409ac6f599ba8c76298422fcedb9e69d1310d7ce02f255c8cd",
+    "market/DOT.json.gz": "e6891c5aa58758110babf2431b611a68195391e6b3ba095e9f5f1995ec119ac1",
+    "market/DYDX.json.gz": "c182807702d2b9701c3d47d21196b9cea5a5fb03a4baecd14584d3080145f264",
+    "market/DYM.json.gz": "d19a9aed66c83844a18f13797e339e0f7bcf0357b9e913f870617848380606de",
+    "market/EIGEN.json.gz": "a6a57b88bbace720afc4702dd7edeffb8bda98237cb470deb9c4ab8b62e8f48d",
+    "market/ENA.json.gz": "0f8778ab4bda3e3fa5cd2dd6bc330d98e7a5e4aebd3849805fe3f755ff858044",
+    "market/ENS.json.gz": "55c5aadcba1e3e63e802cfc50d88619fd57d1814b99fb390c8c3f5f4e33b9e5d",
+    "market/ETC.json.gz": "5e511153f26e39e16be8ced15d17773ae3d9054be3cb6f4faaacc7897c1a1b42",
+    "market/ETH.json.gz": "405510d506a8413ba09ac5ea70ac803aa66673f90d0174bea259ad14fdfba28c",
+    "market/ETHFI.json.gz": "0c00d47fd57556ce8d91859be2be8763f53bba6b77d74ea57cc3555f81daa665",
+    "market/FARTCOIN.json.gz": "28b5245f81f8efcab9ce9cea3470e8220f44196ad465cec7515e27fd1431c311",
+    "market/FET.json.gz": "bd74dd9ff8449f6fb892eba84cfc732ac52c7ec1748bfa113c062bbe21be545f",
+    "market/FIL.json.gz": "088839b6ef4d7943779599d39cedeba663fc665abeaaae2f2a728b3a9eb71232",
+    "market/FOGO.json.gz": "505961f299a0bcab4e33c918e2feb8ced8e6022709e08c0e47aee8551adea555",
+    "market/GALA.json.gz": "97158d5ef635b28e0d0554c543f2f6195ba70de35e7eaa979959d6c09c5cfde8",
+    "market/GAS.json.gz": "f02067f44b768375fe35c3c71bdbab3763c7131298bc4ca8f14f353361c9333e",
+    "market/GMT.json.gz": "9c3040bee20905972d219b26f34d7c89ab28da8322cb9da4393d579a5244e351",
+    "market/GMX.json.gz": "c17a0be12758415753e92b0b12ffba62918b2c88fb56733bfc474872c6ff419f",
+    "market/GOAT.json.gz": "46417679cf5e6836e8990dd64456e1231fe0506b3ed7a0cd01bd004d9e8cce12",
+    "market/GRAM.json.gz": "1d7ca94283cb71d2c68704ca5348b49cc9873070da4d7a844c93042c7205ed5c",
+    "market/GRASS.json.gz": "f104d183f74643303eeeb3422e70f0a196738e804e4573da0be21de49c486cc1",
+    "market/GRIFFAIN.json.gz": "a8a1c485c1ec1db50f2fe548e3db1664c95871868f18de5cdc365e26cbdc8d55",
+    "market/HBAR.json.gz": "976522554d50b6464fd1da81a8c6170d6b5c83e11846e9470d99b19d0b98faa0",
+    "market/HEMI.json.gz": "11743a252bfe2e7ad2829c28de9e8cd65392fd4f4b5e99ab0cf3b9e80cb1dfa0",
+    "market/HMSTR.json.gz": "f1a5dbb965601a92f2d758db52b29fbd087420035ca1902075d1551543938284",
+    "market/HYPE.json.gz": "3173ecee04929687b013b751399289a1740558e007747588d944b94d5f11421a",
+    "market/HYPER.json.gz": "333ec031e50c0b996d2bbe2f654b88368802ac321f8f4279de6c4fb87b8af719",
+    "market/ICP.json.gz": "7d824e30018a92ceac856c36f61b931602202e17e19d60459c8cc1171520e993",
+    "market/IMX.json.gz": "8dbfeb60621c4e2fcbdbf8193e81607bfb4591b3f7e026a26af8dd145bbe6c19",
+    "market/INIT.json.gz": "cdbc9dec04c21ebf66869f2a4ee4001423eff4f84a910b6b0ae4745af930f3fc",
+    "market/INJ.json.gz": "12177656ed457ad7a6d3efd6364ac080d361f1f2ee03b112474f371aa166b3f6",
+    "market/IO.json.gz": "b3a86c667a604f605d4f37425286fa44f60858fffb41a8a3586e5207ed40b6da",
+    "market/IOTA.json.gz": "86e6e1208ed4b57395c2d0a8e4c7e4f5ba0e976469fab675eba2f8ddbe558b68",
+    "market/JTO.json.gz": "0bb025a737147b7a5ee24ed049f627771ebc85828b308698b876c45b71b385a7",
+    "market/JUP.json.gz": "116beb1b0a5a0758859deadeb29f3afd8ed8be92f2d2347199250e5401dd58d0",
+    "market/KAITO.json.gz": "b3d909702d272e6c83ccc25b7c5b9314b301c92d0c1d2f8ca7dda4f567b7926b",
+    "market/KAS.json.gz": "35eeb397520b1b3536fbfe5175174fd8ae17fcb6daf66f92027ade551826d38d",
+    "market/kBONK.json.gz": "43432ae163ff2f9764aa7bca33337d93e0b27be5ea62690c725626eb867459c5",
+    "market/kFLOKI.json.gz": "82507dedc8de83a95da85e3da1e5203eef0ac83e388abcea7d5482a8c954bcf0",
+    "market/kLUNC.json.gz": "5e96a7d8d16080c3166f9413781197913032d7a8f0b967cd3ada3dfaec62399f",
+    "market/kNEIRO.json.gz": "0603e2e174403022cad85d88600acc063f6d331f0ab132a7aa59851d0f36a6db",
+    "market/kPEPE.json.gz": "c5b6ff2c15973ea04fead1fb1d618ba8a637d659d482e61d09c89c7da06dbe46",
+    "market/kSHIB.json.gz": "b529bc8516637106195182b8d836f3844515d4626a58d62dc23190fa912806c3",
+    "market/LAYER.json.gz": "14e3eda2b53e0afd18f6f2534243c7418a3cf1310065ef1d3be378664e32223f",
+    "market/LDO.json.gz": "b31d6c4bf89146c6a175484842f1c83df1f471e3c8f172f7fcb873ec740107d0",
+    "market/LINEA.json.gz": "13da104387a1106209824131449c62adaa4331e822377934b714d7e3f4f2ed70",
+    "market/LINK.json.gz": "6a09b80d1dd3e19ce3204aeceb6539cdad9f1b2d00f6722cded23f1b2baa72de",
+    "market/LIT.json.gz": "ae016442b60f6d219cc4ca9f9f3abedcefb81ef2feb6ab208723b82c8279d393",
+    "market/LTC.json.gz": "2750e496e8e2f19d29a733f9ace192a8d29016173eec6ba20d23b5bf3eba59c2",
+    "market/MANTA.json.gz": "a0155a193e0b5fc66f79b7f03762ab9324e4fc1d388571b06e04187ec5edefaf",
+    "market/ME.json.gz": "a56ffe083c679230be2bb54a9e055717cc48ba5468e011e102a2b1f4e378c354",
+    "market/MEGA.json.gz": "d2d34578d6c3798591252e7b852fe9f1f7aaf563c473b0cf51ae37fba7468a17",
+    "market/MELANIA.json.gz": "db67a4f99f7c11a522f8c572ec4ed978adfb6d7c6442f8afc6c838b62aaa28ea",
+    "market/MEME.json.gz": "3c25580a263f298b461cfe1a614a9c4c0ab07d05e6b37da9d1b23a0f81afb96a",
+    "market/MERL.json.gz": "18ade1956b681dfb3cf55e752a000d2b196cefece11c9a5ad02cef8a2ae9cea5",
+    "market/MET.json.gz": "67b30788687e6e3e5e538a7561066871b612e79a3a793c1006e863a9a294ee30",
+    "market/MINA.json.gz": "7a4b0800adc79c2e4511db525182e9e885b8679f08582429f8417950b72a7787",
+    "market/MNT.json.gz": "1050fe171bb44c20b64cb6cd0ec2eed3f3c691e8a181a08b5d8a50afaab912ea",
+    "market/MON.json.gz": "d610cd84e71c9c9ee960853a59e4122908a8bc0cf1c221b9a9a472b363cc1fbf",
+    "market/MOODENG.json.gz": "21c91564ee4441a7eba6c48ddb75ae8edfb83be5a8d3d7677cb276231aad7507",
+    "market/MORPHO.json.gz": "d8b26221350a06cc2e86bc65d9bf4066e2f742e5282e197eafc360dd3ac16607",
+    "market/MOVE.json.gz": "8e5fa85fa220bc5e0a7454a04509fd18afbe1410bd02946e4658d26868204de6",
+    "market/NEAR.json.gz": "da9c4fdf6479a5fbf3cfb49e0c618881a6d3b925ae3f590c65de51f4ea84ab34",
+    "market/NEO.json.gz": "991b05a5fbb69b962db0fd2c9523aa270efe5e8aa15c9d09432b39e492f080ae",
+    "market/NIL.json.gz": "04cca634b2867341792abad4ea4ed98a7378c9743dd59c555bb577f1affeacd6",
+    "market/NOT.json.gz": "217c40049e22032bfbe961662966ebd25a511a71fb4f8eeb5dcddcc202cc7494",
+    "market/NXPC.json.gz": "94efd314875025f6255cedceb1b1d9655f0ec6867f74059e6f218eb93c0c1cf7",
+    "market/ONDO.json.gz": "3fb6a0a5035433e943c643aa21f301dc9af739ab403f377fe9a7ca7e65ba9e2c",
+    "market/OP.json.gz": "48bf094eb4f26afce936d6964eedff39c848934958fe94bfee772ad9505b7286",
+    "market/ORDI.json.gz": "ab1f7a5fe3eb82012164e31dc1f5822c31242b83d615cbf3a5e2072f97c85630",
+    "market/PAXG.json.gz": "6f849647e0457ed4e9e732cc635bf882c5895465e71c39cfe27f44b4e358df25",
+    "market/PENDLE.json.gz": "fde3219e9bd6780bbd393f277b42fc521f4f9cffc5c2ca609bdcda0b4f082869",
+    "market/PENGU.json.gz": "cd8ce870a4a827d1ec2c1abab7c8394a9b88fa355a42a1ebc2450447005f1476",
+    "market/PEOPLE.json.gz": "39623a038b838e103f46ed178f6163dde25ca5f3e85e71a11a7c21fc88b8ff13",
+    "market/PNUT.json.gz": "707c3b5092f837a6527df13d3c406e86e56bf638370ee0d04383e208035c1e87",
+    "market/POL.json.gz": "b7279ccedbbd6ab1a73e58a2e9c3f72a39a5f68f2d5a9e790bb7962efccc67c7",
+    "market/POLYX.json.gz": "7e937ef989b1e62a39afd8ec2233c0a3b24e0de8e199e7f4c5d5e509223cd858",
+    "market/PONS.json.gz": "da96915b55f5f7ff8f29bcd7e8dcc4a35e4eff2a8537b555482ccd6c8b919901",
+    "market/POPCAT.json.gz": "a2d9a1d9a503297286ea40ec736dcb632cce5a7133bd8f7796b4922c2ca0ddbf",
+    "market/PROVE.json.gz": "6457ea3cf400cd8fe394b8524a171b50b2077b2e29da194dba5a48a2d288b4f4",
+    "market/PUMP.json.gz": "50025ffc8c84b17c5d0d76d35bc057e8897591c0332ff9cbe0ffceb4d91a5dbd",
+    "market/PURR.json.gz": "7dfd6804e51c8b54703335e29b16fbffa295b61ceb2b6d85d2ed1bb5c12ae880",
+    "market/PYTH.json.gz": "a79ed9587ca9883bb38653c3baa599957bd569629bb2e2a6e8f8f743630e749c",
+    "market/RENDER.json.gz": "d13b63465ca2bc33242b40875483e6a88933c89a39738066159cb638d5e1bbd0",
+    "market/RESOLV.json.gz": "2086748fd17540e995a83c6a3ecda49b8ebbd688a708c49fb4c515e6da61630f",
+    "market/REZ.json.gz": "236261968d474487739123d7c7a792a3a81e8b55e06fd99bbd8e265693cab055",
+    "market/RSR.json.gz": "8e7f471b536d4fe172b38c444604874187dca6137479af8909e98788cfaaf37a",
+    "market/RUNE.json.gz": "d163e341bc7bd01ebef6c984e584ceb979a7bf445dc31de5ff45599780c58eda",
+    "market/S.json.gz": "873767e173a1803c1d469c332f3e4f2abc245fdefe43c29fd451e2ad3c01e10f",
+    "market/SAGA.json.gz": "189dfc7519979fa2741178ee18c09796af2eab74f4f840a676370c0663e3eed9",
+    "market/SAND.json.gz": "2aecef5e87abb9629db2653383ddc857fdcd4f9f4b670d6abed7c3dc8c9d1e07",
+    "market/SEI.json.gz": "8e91bfeb2a9ffba45774f48b442d12e755aa50efdd1def287dc1c268b049fdc9",
+    "market/SKR.json.gz": "ea30d5cc94527f635cac67387cbacec1e8f731a965bd13b30c102ef32ef876e9",
+    "market/SKY.json.gz": "ff645b4f781519cf999096cf52561e9f6a8cb187952cdb0abcb0ec6eef41b76f",
+    "market/SNX.json.gz": "350f2a6225add92774031e7da83931a97f565b6afe203ed01d587a3386240fb6",
+    "market/SOL.json.gz": "f08457f5f994343d3363c9f11923d8dba2f42ef23e390c7e652d825f0f29fe6d",
+    "market/SOPH.json.gz": "69a125f83353d8d1e8902ffffb7a01c67e3d994673cf87a21c51a03c54243c33",
+    "market/SPX.json.gz": "4d2a261632419ab6a89ef9e45c1a0efe8e354d20c8102a1bf8539ca2aa472037",
+    "market/STABLE.json.gz": "a213a9adec5ff5f1d47df871914bc3fd415d8533ef7f3386956e79d42cfc7352",
+    "market/STBL.json.gz": "b457775dddfca54231e2a1944e8bfcf18b183378f44b569721d0af2373c8e000",
+    "market/STRK.json.gz": "292cf8f0c647b460f27767a139884b57664eef4951056dc50dd260f145f87233",
+    "market/STX.json.gz": "1e7d28e39269b7a5a0fd8426d7d0e47411e7d9c4c70917317a3e06fc97f6f7b3",
+    "market/SUI.json.gz": "29e88dc8cceeee25d9fc2b08e212b5f642f693a1d2f1757bd95fe20a35b0e1ab",
+    "market/SUPER.json.gz": "c1761c516da69da0db580543e2fd8d39f0d4033ff890b3e504057852ce873495",
+    "market/SUSHI.json.gz": "2a316c208c9cf791f80549520cc9c472f7c6b50d46b3ecd59944e9b8702371bf",
+    "market/SYRUP.json.gz": "aa1b60170ed91507628c8056a0fa5b59810f88f994dbaadbdda8055382e8c7e4",
+    "market/TAO.json.gz": "b63119399ff497bdb2e6b957627395eb037974ff3f6d09d691d580801c7e61f1",
+    "market/TIA.json.gz": "e45e86f623c7b8e863a84bb57be68822d152169e8b4b5a74711889d60446a473",
+    "market/TNSR.json.gz": "9229e47b5f2e36de0790c30e7859e6db2456b09df91a395f0d4be66d4abee63c",
+    "market/TRB.json.gz": "904c2105fec8ae72a7ea7226aa82094a3c68fb35be96cb17d8ece984ebe292f6",
+    "market/TRUMP.json.gz": "dd0176400b3323ae25ce67cd31f063aa4cd2e003487091ddc1fd0b7c21de1f29",
+    "market/TRX.json.gz": "3f4488d5b6c82d3f5bab1f820ed8e81a8646d91642b9532f7f9a6b83f5e84520",
+    "market/TURBO.json.gz": "01c47863b6350f947985dae155a629dbe83f0e5f25f7d8b77f92b6472f3e1931",
+    "market/UMA.json.gz": "b7cd7c9d2102682378b6c15d83792fa3d647fb3d1ca34652daa7557285adf197",
+    "market/UNI.json.gz": "61858e12c24f40b8894e2ebc1bf50bcdd6bc78b81c8473bc52eeb89cf5ee3d90",
+    "market/USELESS.json.gz": "239b73044408e62fcb91c72e616c7e36af9d22275795edb2061e4fc92715cd03",
+    "market/USUAL.json.gz": "fca0ad7f30a2933595a988138585d3ae6b0323c096ec56005cd5829c32643cfc",
+    "market/VIRTUAL.json.gz": "92ec9665ed49bd456c9521aec9a7c1a114b2118046dfbd4066b32352f1493de6",
+    "market/VVV.json.gz": "da4c5f24033e53013a3f79e2a65547035f939e98ff7dfe7d0a18d75994c82427",
+    "market/W.json.gz": "13879815a0046d106113b2b92b54a1d046ed77a494d052a979e25e6f22b99d1a",
+    "market/WCT.json.gz": "c2ce7891b185c0435aa22df3bf2949144c193fe20753bf9694f61d04816289d9",
+    "market/WIF.json.gz": "a5322d300114859c5a329124993bb8b960da579a638a5acde3e6a48d8c5f6d91",
+    "market/WLD.json.gz": "4b306f8607be7be2ccbd2ebd887c08c0e51e5f2842817223adc8371e48407b74",
+    "market/WLFI.json.gz": "9f33c84d750a4edf0885d7ffd5f0e92b34883dab391c7222fc83c8fc8ec133d7",
+    "market/XAI.json.gz": "5da380e8ce244f0dca1186c0ed5b59bbc86f42f9fe181b45b33da7226f2af5a5",
+    "market/XLM.json.gz": "1e53d8bed8bb1c99d703553d54edd65a1e2816ebeec55657cc8cd0e1d3a2ed41",
+    "market/XMR.json.gz": "452eb4cb11f39bfda4bf77e05fbf5dead2fef9840718578d49a14e6d61f6eca8",
+    "market/XPL.json.gz": "b23c41951eb28a719286675e9f6adbbc98091b246d2b994a4227780c50fb2fd7",
+    "market/XRP.json.gz": "4b3c20fab7db2f7b3dea18cefd45ff6888d667a48400f4fb97b669c7083539b5",
+    "market/XTEN.json.gz": "f0de138cda0df9efe4caa794fbb93aa10367700786dc813b7577b6cd7fe9d4c5",
+    "market/YGG.json.gz": "ab7d45b1a02fd650f6fcd109fca50299d9dc74b782a92b9a2f81a003bae3c0f5",
+    "market/ZEC.json.gz": "c25e4b2b22827f968a82dd074f9896795444250d2319ab6f4359857aa58d083e",
+    "market/ZEN.json.gz": "56424a0ca61e786741cdddf4d218144042881099af2b48e93149d4c6bce25482",
+    "market/ZETA.json.gz": "d23d021312d55ddbb8bac4872776770b7c1ccad8626d8579bc977289a50bbc34",
+    "market/ZK.json.gz": "314f7f23b050189261aecf79b564f9fb6607922779de924e0451ca6b1d08965e",
+    "market/ZORA.json.gz": "1fd7601fd675c1dcc3a36ea3395bc81f58eb190387a8b2fed674fbb3e4f08268",
+    "market/ZRO.json.gz": "d901199dca4db1356894e7e1b982ae48abb391db42eadd9f631089d99a667db7",
+    "spot/0G.json.gz": "52d0ea991c0058bdf62dfbfadd8aaf786c3cf7a9d5bfaef254cdfb44d31ce25f",
+    "spot/2Z.json.gz": "59520e8309888995fae07223fa0d125c1f0ac80ad615103cdb60df28b3661760",
+    "spot/AAVE.json.gz": "9e62e1137e90239a4e55a99e095de7fde1fc105842e99566576277ba6232b7ad",
+    "spot/ACE.json.gz": "3bb90b5ddfd5d7d66d75d9e641c0e199e1a72b45e2c4f04d2b088742b86eaf80",
+    "spot/ADA.json.gz": "340ead4ee09cfeb5281882dba5843f56f0965181db82bb3a220e408fbbae523d",
+    "spot/AERO.json.gz": "506fbce577cfbefb8b854796fe1bdfd9b577db4d7e13e437a7c0a97712825886",
+    "spot/AIXBT.json.gz": "85e0f0e633edb1302d7d8e70e07f4190c13315889781d31c72f70cdfdf1f7b5b",
+    "spot/ALGO.json.gz": "360fc1635f2f146b76b3f60158a1356b639a0ed35c441543d3096598734ae214",
+    "spot/ALT.json.gz": "5ae156f555a5794a972c4c2240f7f1075d70d2c091bc0109c99c88f1c30bb1fc",
+    "spot/ANIME.json.gz": "58f9abf8ad5df0f39c129eebd6540ffca18205cc965262ec3028747c86426aa4",
+    "spot/APE.json.gz": "59a6c5ca0bb20f3c114039fdba99f81f260d025b545142be150938986af5458c",
+    "spot/APEX.json.gz": "76c9423c640bcf8318c92b6428694c5d5d292042904e02dc3d7d8cf64b9cc0c7",
+    "spot/APT.json.gz": "492a86cb6f51aa69eb7a5fb96e1649e122bc171b541384624e6007a9b599cf4d",
+    "spot/AR.json.gz": "ac94b71e9a87a48bf193b73f1c025f41eee0e83551e3e82cf10a6840444862e3",
+    "spot/ARB.json.gz": "1f591504ecc3ed8cae2a13447aaac56d83a7443505797aad92b4b05b0b932f1f",
+    "spot/ASTER.json.gz": "3ee93f02f97adf1465d74734f902f9a06b5092de415d6e8a66027c5f5ed03c9e",
+    "spot/ATOM.json.gz": "fb02729fb23dc4df0ddf0510646376420a60b2739bcf3fd98400f2d7c3e6bde6",
+    "spot/AVAX.json.gz": "c307cf453f735664d47df1a5646363e89a94ddf2f60500b2f1397b4d764705cd",
+    "spot/AVNT.json.gz": "37329bb3e5bf797d7bf09d5c310c40e5c4b7a4ec21d57f2cd326b44e9666b598",
+    "spot/AXS.json.gz": "28bd5e47b51c2d2ed1a07cff4aef28faf3636b7e7ad30e32bde6041290ad5626",
+    "spot/AZTEC.json.gz": "18102d30e0ad12d0abf39cda1857aab318be2e3d8577a8fa69f09b4221d568e7",
+    "spot/BABY.json.gz": "1d575cb2278b865926dee3bf1928d4d7cc9bb9295af3244e1dd77851d47b172e",
+    "spot/BANANA.json.gz": "b15605b6a98c48bfd194d691391b93c727d4865e88b99ab54fec092a169b4c5b",
+    "spot/BCH.json.gz": "4a8a7685e2d83b85c4c41f830d12b38b6ccb30348d81763252506a5d4c800802",
+    "spot/BERA.json.gz": "ee524d45e168f18f2e9ff6379bfa40c64ddfaf04a74d11d0418acddff53e6178",
+    "spot/BIGTIME.json.gz": "3524cdd05c87cbc83f6544c553b0e3ad8d6136fcb1dffd755751c0a63b63f7f7",
+    "spot/BIO.json.gz": "77b54b8d476681e7c8e7dc5d8f0d36e2bfaa98d0b92e09a770a6ac926b307233",
+    "spot/BLUR.json.gz": "be5c49b567bfe3ee303756d86b05d97364e96b2f0c8355a67bd7401b815fabb6",
+    "spot/BNB.json.gz": "90fb8397e635181f5aa09dd76264003f7e3d0b89ce2811e3ef310005f3a0b204",
+    "spot/BOME.json.gz": "21412c215c402a76d1d954335733cfbbe022c91e659fa9f2ff5651c56bb048a9",
+    "spot/BRETT.json.gz": "fd5bc2ec71bcb6bc8433869239a4a6d4be94339c885f87b3df389560a00fea53",
+    "spot/BSV.json.gz": "92f2c7bd129686a39f749c6b987b89ef7b7ac0e7c24c27e4a1d2e9dfd7be7cf9",
+    "spot/BTC.json.gz": "ce938c583e80a1187f1aff36172a35bc0a82ec9c484deba893dc72a98e970b8a",
+    "spot/CAKE.json.gz": "bc0c0fa32b186de6cfdace279f0d200ea60faed81081a11dfded331307b00633",
+    "spot/CASHCAT.json.gz": "378615bd7eea9ebf3ed8126b51bc241b1032e2df0ecf5faea26ce3fd508e59cf",
+    "spot/CC.json.gz": "9688cbace65bede4335c9f16c7c394a98d097b48b34b734201357c1f0a8aefb6",
+    "spot/CELO.json.gz": "10900e2ee3b4aad64f2bdd993d36f75d3f4bc761f7d20c09b6f820aac3418e6d",
+    "spot/CFX.json.gz": "c2de5f9408e43d2c26fa4ab5b9a6d96b3f4233035671ff5e32c718b24cff002f",
+    "spot/CHIP.json.gz": "7fd28b688d6344be73fd417fabada6ef0d122f5b9ff94839d1b7cbeb3ed4e3c5",
+    "spot/COMP.json.gz": "f3a04fbbc697e18f00a0a0e7d197100ff15d6dafb4ca93b387a441d52abd8c7d",
+    "spot/CRV.json.gz": "1418ef221f372d3dd78f4010d7556b4fb580c49d9817dbbf7cafcf9ea03990b8",
+    "spot/DASH.json.gz": "e5cb6bb3553bb7d76e0bb8c72b1b3ab7de90a22cd9fba74d8bb4dd2bc227ea36",
+    "spot/DOGE.json.gz": "8df6f3f33da218e79e672d7bfe9ddf84c9ef3006766b2fd4b879d5e4b94ffe67",
+    "spot/DOT.json.gz": "884b671c68c43db6ce02f124a56fa3bde3eb77f3248ab43edfb951e44183435a",
+    "spot/DYDX.json.gz": "e5b25eb1ab5caa0c1083b5c09b3e9772b07629f248710c4f260cb6fb74ed6be0",
+    "spot/DYM.json.gz": "c917bb6936379e3ca99b667ac40a8522b9143308317223cd94f42412e6b93507",
+    "spot/EIGEN.json.gz": "5a222715502b3b54ee40f7506c2baf277531373c70fce52ed32e3b3696c6956c",
+    "spot/ENA.json.gz": "e47b85ab4a3ad2bb4ae1234364f150fa3f0682e634ab1c547e0aac8a3290c6e3",
+    "spot/ENS.json.gz": "1c402b02b99364f8bbe4e1f31dbd4e7e0b598a57cb80086d6c3e80712220dc2f",
+    "spot/ETC.json.gz": "31529f092b74f2a48d71a592119a3851b15dc75ec75e10ffbc7cc15ebeddc802",
+    "spot/ETH.json.gz": "3a2c7bebe255fdfe282f4b4cd94158228d810b00a7bd01edb19680689db52988",
+    "spot/ETHFI.json.gz": "aa4716b6726418de372b2847f6dfa2201943ab09abbfbbd3b3b678e9134a0fe3",
+    "spot/FARTCOIN.json.gz": "61df01980d8d68ffe96c3d9a824286971c84e1ebd94fedf8288d775ed5f6e1a6",
+    "spot/FET.json.gz": "18c16819826da7631c164415edecd419f9ee6c7909a3615694812093b83c7f66",
+    "spot/FIL.json.gz": "4930a33331f3bd1385a1adcd8932f92fffc43a03efe9ffc88afb4cafc5f5bcbf",
+    "spot/FOGO.json.gz": "95677b10497a63c555f98e1f8a5da7a259e40719a7586623ce80568f7b6ea459",
+    "spot/GALA.json.gz": "b903c591469e3a1c94e1e8c366b4fe4eaab009e584c8a89b6760d8c529d65d76",
+    "spot/GAS.json.gz": "4fb516e55c21c38935177b98a66e52ac7fd200e9699adea3380bd8cf764f6ed4",
+    "spot/GMT.json.gz": "c86bcd6afdc9cb4b2032c21d101702e180f2ca2e512e1d7ce4ea312c558f9fcb",
+    "spot/GMX.json.gz": "cce099f55eeb820b6ab134ec2b2fa0cd2cc8599d85492762aa85d49cb9504de0",
+    "spot/GOAT.json.gz": "9a712ace4be237139b1b77b1660338547415a0dc85576501663511675e660ead",
+    "spot/GRAM.json.gz": "268dc93012189513b0f936e1d27a230dd12be76054fea99e892d7e9c5683d106",
+    "spot/GRASS.json.gz": "dd32c0cdb8f92a727f0868a9aa39069b73e4b7d07948497d91c626f71f6406e4",
+    "spot/GRIFFAIN.json.gz": "2b096b904d206656f8ca1b4cc262865ea57203039ad008c2d80579ef492300b7",
+    "spot/HBAR.json.gz": "cee9b7f9b6e6128022605226cd12a0761c601541e6736e25d88d4dba5d4f6a90",
+    "spot/HEMI.json.gz": "ec86fd9a67a8d5d42677b1af47a7ffb2e6c4ffb85a3a9e85045445c99c187e0c",
+    "spot/HMSTR.json.gz": "1094a53cc2ceefa89f40dbbc9415a8141d9c14d948b8f4ac44df89a0bdcb4794",
+    "spot/HYPE.json.gz": "25ea2ae3c6d1de4b7b12dec23ce341f93423a1e9af0f87dc8556fc29a5c2dce6",
+    "spot/HYPER.json.gz": "84b2735a215f7ae1abc2bb8ecdb2cecea5e53be1531e4114712d1aa44a789a85",
+    "spot/ICP.json.gz": "2995cdf1949de2133193c0d956c84f871b3df3bc957f523a933469e27887d47b",
+    "spot/IMX.json.gz": "0020048cc298504f958984934b47e00e5652ead04cf0523bab7a789236e9a829",
+    "spot/INIT.json.gz": "797f6117c35918b0ea02237885677b0abbc72919fa6519d7ac18b39b9ee090e0",
+    "spot/INJ.json.gz": "c3f3bd0b6bf621b80df066428e6a4892edcd27b0bb66dbc84b00fc5342b1afa8",
+    "spot/IO.json.gz": "36eea4ad720dd2a7366740f64e9f8851b0eb05caf94d86ddfeab23ce614d0aba",
+    "spot/IOTA.json.gz": "1b5d5e9a681e9b59054abcab97ffee6d5f23afff06c3627ffcfeb5b984e15d8c",
+    "spot/JTO.json.gz": "8b8cf16b0c20c26dac57150dff5c4265b9fbf4ce00afad99a471755546aaaab9",
+    "spot/JUP.json.gz": "59a3365e6914f9328950ab1c0ee495a7ad27e4b0d487590879c7e190a9abc6c7",
+    "spot/KAITO.json.gz": "06266903d5539ddbc9d4bcd5490c3afb67ece46421da5f29938cb9180a43d108",
+    "spot/KAS.json.gz": "80c760098de077dd85ba37576db7ed7889a4f4daa34d54fa03c381f218da2444",
+    "spot/kBONK.json.gz": "eac7afb1148294476fca9fd0591d0c76a3505653d067b2f106377cbc13beaa07",
+    "spot/kFLOKI.json.gz": "667efd06bd7125aeb88c0f8c458594c5eb4d6d1ed933c91d0f9fd9972fd0a196",
+    "spot/kLUNC.json.gz": "62b66c8d987aadb842a31590ba6a386da256a2022699eee6d004ede11b92138b",
+    "spot/kNEIRO.json.gz": "372d0a0aacdd106050a163217311c33235ef732cbc653da0b4744688ad7dc114",
+    "spot/kPEPE.json.gz": "953f426a49005f1bc6e1b3e88c26eb6242300772e4afc7d6940a162190f7b09e",
+    "spot/kSHIB.json.gz": "9a9c388251eaf8b7fd71ea77e1a94852c4247f145ee86293b2e392c7540c19ff",
+    "spot/LAYER.json.gz": "c4c5c2344e34d11d534f9fac19db22c5860f0f1b3dee2a5d4f4f549ad38b6a12",
+    "spot/LDO.json.gz": "351c57debed43170ccb9db3f2e348f896394c1bf88a9ff22a594346ae630a871",
+    "spot/LINEA.json.gz": "3d95a2185b949b7a5c41d7eec268e72d1537005e50bb5e391e2f86f0152e4a09",
+    "spot/LINK.json.gz": "59c4000130bcb44e80b6575dbf9a44f212573b008c75c14d95e7aad4b4519cbf",
+    "spot/LIT.json.gz": "2780697e760578e19b406126f817df208e3a45dc09ad25cf7a788b30f05d0a5f",
+    "spot/LTC.json.gz": "f8ae63743e8bcaa05e87e7aa262b8d1b3a01564eab9406d5b217ea73b192caa8",
+    "spot/MANTA.json.gz": "ab8da3bdee1e1967a786cfab24f721069b2f3991f402251c79e72bd6020bae35",
+    "spot/ME.json.gz": "f10dcc742e07be6fec6e2d0fa791520eca280b1ef19847e11267b591deeffdc0",
+    "spot/MEGA.json.gz": "7d446eb0512cdc066750bb13abedae94f38fe588b364a783bb00f57265c86fb0",
+    "spot/MELANIA.json.gz": "a06d6ad717e6451bd7aaebc312c689f64c2778b8aa7c556c00cb513acaad8943",
+    "spot/MEME.json.gz": "dd54040fe86789e35ebe36edfd8a83eebc1e43f8958c214b6fe72348de636252",
+    "spot/MERL.json.gz": "addcf06dd10daa6daf59fcb095516d19be15e4efad0a15f55a9500834fb6b993",
+    "spot/MET.json.gz": "42b8a7764403ee5c3fb0a306725833d33f0631f4511957012d70bfedf2c924f5",
+    "spot/MINA.json.gz": "e9718661d12198133686ce70ba88fbff3bf030307d36b99441001516d81434ab",
+    "spot/MNT.json.gz": "eac53aa47ee2dcee613f5ebe8f259576e70b311367408884ccfd6ef9e7a477d4",
+    "spot/MON.json.gz": "49a01ead60c78291ad197319ae28b0d4462a7d975e5048e4a9290f3c5ebcc06a",
+    "spot/MOODENG.json.gz": "de0149925763da7b2c3b2f7602cfd1e93546b1c2b51d091b4d5f92a009e35518",
+    "spot/MORPHO.json.gz": "8bae8ff23ac60ab3bad8fe62011c4be192f50a5717dacd7b39cc437b970f51d8",
+    "spot/MOVE.json.gz": "6e4f7977b06252ad8adf2278ad6e2dcff84a68724945f10c3a94f609e2939de1",
+    "spot/NEAR.json.gz": "18781abddaf3cc9cc742a5c275884808254f0d0631f9d5766c1abd645139fa91",
+    "spot/NEO.json.gz": "237cfae908d6e696d1f0399f72942c18706553bc5ce7b981713f48413793047f",
+    "spot/NIL.json.gz": "8a36eec92729fb07a899aafd47e7f11f11bbad10333846a06f89c6c61339c4ec",
+    "spot/NOT.json.gz": "838e4a0b22e9e29342bbcc252b7c6101bf62eccf3cb60e348af88b5883521678",
+    "spot/NXPC.json.gz": "459ab1135ed4601b0dc668f2f8c640c28c22da1ed924b8cc6807c435abf196ee",
+    "spot/ONDO.json.gz": "1ea687cdc26316a94c3443748f8db9d645b4ac3fbce096289d32ddddaf8b0401",
+    "spot/OP.json.gz": "2e16a2a7de173a1622fb396eeff54a3983ee0d02dc49845b658c9ca3394f7e48",
+    "spot/ORDI.json.gz": "cb82503cf413963d84a39ffd28699e6d71716ece827a11e7c67fa0a617dc8616",
+    "spot/PAXG.json.gz": "64124af12157c5aa0a17de1b147eef44e37fa33182d1a2aa4ac05febfbc489e1",
+    "spot/PENDLE.json.gz": "079f900bcb86857986d7e6319aaed981bdfa0ce1c40da626c94eb992be16a96c",
+    "spot/PENGU.json.gz": "fa2ab063eb0e1798f7ca1d595053b367e1a0f12b5b829501cdb05deba882c4ca",
+    "spot/PEOPLE.json.gz": "69a73fa6a369aa8e707e0ba7b24b9efbb19fbe5e2034480b80e0ff2888afe6a6",
+    "spot/PNUT.json.gz": "3016d3270af476b49634368e03571739490a6016fee9bb47b6c0e074b0928b1c",
+    "spot/POL.json.gz": "515ec132131614dfa1ccdfbd464f7acb29591a4a81f4c92027c8a0f7c4460b95",
+    "spot/POLYX.json.gz": "0deda295a5e2fdcb2b1ca6aaf42b98db3b5e4f24ed55e5ca52851065a7fae9c1",
+    "spot/PONS.json.gz": "881295302b96a156e8d028414ad4b89bec1a99e5dba0c34f15439eb787581266",
+    "spot/POPCAT.json.gz": "0f3f5373c8fd62666a6bb98aec7e2a88f1dd2bfe4495e7f2cd26c1d7148e8807",
+    "spot/PROVE.json.gz": "7099886db90ba268de537379e19ebd639adb512e4067169353fe3735064987f2",
+    "spot/PUMP.json.gz": "036250750859d06d394f868c6759e603920f2606b6ecfc94a2e819bf34bc70eb",
+    "spot/PURR.json.gz": "adc8f9f4a5e0f68c801feea3dc7d562693faaabb2c9ca3d88bb6eb40ecdd9e87",
+    "spot/PYTH.json.gz": "abac7398c0ffb7cc3ad6b55a38c5c8a2f49b2c0c9b0e769411e6e4edfc3bec48",
+    "spot/RENDER.json.gz": "ddf01680b92ff10d8e9f76c51acb3e14c8a1da5775540c4c544be70a2f4c9ff9",
+    "spot/RESOLV.json.gz": "45bb491e4e89db36c987034dc1207344916a60cc5a2661d3ed0905d75a180b1b",
+    "spot/REZ.json.gz": "bafa54e53d5377004af51b9f3823fdef26104c8aac8fa951c790a319988b417a",
+    "spot/RSR.json.gz": "80f6c49237ce466381d42c023e009543b77e656764c90cadd561c53e53e105be",
+    "spot/RUNE.json.gz": "05fad42ba96b3724e69890ce16fa2009d0f03c4a49213240b50444962deb3b0f",
+    "spot/S.json.gz": "ea5af40489a0fb4744a5222c0b32f867f1863190ca2d04c39b170010cb88395f",
+    "spot/SAGA.json.gz": "da6e97e84cb6e32795149dea223da601f840a9100f1ed9944119ce61780f345e",
+    "spot/SAND.json.gz": "042dfda642b2083e7be881d65c6c2fd13c2cce9d3106cd2a664c20565a3e763e",
+    "spot/SEI.json.gz": "dd18e919f0893222af4c0a56f8a704b6d78459f38137e187e5482cd608bd4ad3",
+    "spot/SKR.json.gz": "4b1cca911d2fa3e6aa29a2d84d90dc1598b1097da99956d121343dd0ca19bb88",
+    "spot/SKY.json.gz": "5ad753b06ecc37330cb97d7bbff6de2c4e8aafa22e6cd2b1256c8a7328bc8df5",
+    "spot/SNX.json.gz": "40be978587923daab7b1e47bd9f067e7e0b3ada3f1acb442078416ca4e4e1ed0",
+    "spot/SOL.json.gz": "d4faa9dc7610f89fa3eb981ca83f4c2c8d429114feff2d6c5ee0a6f9662a7bb2",
+    "spot/SOPH.json.gz": "5bd60421f91b83a5cb11dc88cb451b21d53e7cb8176829fbe30d4d3afbd340af",
+    "spot/SPX.json.gz": "56cd0a7c18768bf8d783cdaf0b0aeb94427e65eca55842479844cda146f06b31",
+    "spot/STABLE.json.gz": "4fc5ce5d6c6d47e600bb9b79f660c25fd6532602b21e0bee8c01ea4b8b6e0b0c",
+    "spot/STBL.json.gz": "22948ece6cd33d34f48fd4daf6fb992cd04985953fdb5ad931b4be4dbaa2e572",
+    "spot/STRK.json.gz": "24af3af8920a477a191a227d418ca188f2624a94b304681f6b236cdb28d3cc67",
+    "spot/STX.json.gz": "8e3d1b7bbc64ed57569a9f43d75052e02028c14f84d1ee2f75c8ac4213b0c1b1",
+    "spot/SUI.json.gz": "bd016e4ff46be6a21f3f592b6ababaf73f352726ab087b706cc6f737311ea920",
+    "spot/SUPER.json.gz": "f14ea0abb783100f0943191a4e3c0aee77349662fb91f3b4742f171cf14b756b",
+    "spot/SUSHI.json.gz": "ff460191548e9d9ad784aa5b9e725ae1b2b97dbaa5d2fce62a541cc1d452a31a",
+    "spot/SYRUP.json.gz": "7cef0fd31aec301ae78d81b5325cc13b8019a97fbb2836d0d83d8a03b67c65fe",
+    "spot/TAO.json.gz": "d1b5ccd0ff75fe51bb605faa4239272e55d80e96c3d476e039aab592a039114d",
+    "spot/TIA.json.gz": "3e13147aafccd0fea4695ccc3618b5c2377ce4fa59148e43e86a849b6b7acb54",
+    "spot/TNSR.json.gz": "b376b41c8c844c21822e67dde7f7f46f1626fbfc142cd0b9672b668a966167a2",
+    "spot/TRB.json.gz": "bdfa3ccdcf653846c710c573bef4264f5587d712d780fcb21771a1d141039e6a",
+    "spot/TRUMP.json.gz": "7560d22ec7afbd34db21e09e681799890c0227c3ead286f2f7fae8fcad8fd47a",
+    "spot/TRX.json.gz": "d2b2f62d9a8cc2c1771d5430b41aa0ba4ece7caa5e418476bf18b21958f2d4d0",
+    "spot/TURBO.json.gz": "7ebb3369fbc61c95ff45a2ddb71fd9f63baa9ebf6bc39ec340771f1a24cc795b",
+    "spot/UMA.json.gz": "96fc57375bc0e1eee622b5a26db283e7ff265b3a1a7e805d7587776ec2fd6964",
+    "spot/UNI.json.gz": "3072506014af975da0894f9724804436b35bf2abffdd6582d6e27a5cb7ff5e94",
+    "spot/USELESS.json.gz": "113612cc6ddb5158fc2a9d4ece1d7927ed7916aad1fcb5a6952728c47bc2f0d6",
+    "spot/USUAL.json.gz": "f7ce30e4fe88ae6c2b398061a4a00f809366ace7164ac1e15897f4a15963aea0",
+    "spot/VIRTUAL.json.gz": "8432a28d25b7d6868dba5c7364f037fae75953b9228b48f22e4fb2157a5931ee",
+    "spot/VVV.json.gz": "0b8836786bd7cf5d3e08e27611cbe7f7ab9f3480d125b6f6144b1fe658705a19",
+    "spot/W.json.gz": "bab909189dcd9724a19960086890b55cd65a291107acc03fab6ba374b60b9301",
+    "spot/WCT.json.gz": "24f4e13b332d1a261ded98784c4755ab9e2f6547d1a83bf6d9a3f5ccd31f9835",
+    "spot/WIF.json.gz": "2ca9e144e8e5ce2acdcdef75cda8c6c429e22af2ce62a09180923d69b7266663",
+    "spot/WLD.json.gz": "007e8894353f68c73d726745db72496cf409276fbef7b670bcb0aa687f480715",
+    "spot/WLFI.json.gz": "dd95a978a2f04dcb15d6d6a38656d9e4455f1e298c3680498c0b2742f6a6bf6e",
+    "spot/XAI.json.gz": "9bb4ff38da29aa371433ffd194f6b83a68dd7c7d985c86f4659aa27855babce6",
+    "spot/XLM.json.gz": "5a43e396c44cf1b392614c5618beeebf209bb2eb4514b976594d449f9b971044",
+    "spot/XMR.json.gz": "35cde3fc64b96682c5355bedcd661ce3bd8a80d7e738169ec5b94202412b79a9",
+    "spot/XPL.json.gz": "97dbc726664255bfca674624fb13a7d20f27b3198c240c55d4cb5fa9b5a87ee9",
+    "spot/XRP.json.gz": "7e61e3a25d422512de1e6c2095e22ed06ac6cd0ea347540da557a55ab2e7b3b6",
+    "spot/XTEN.json.gz": "a699820033c7d4a1fda14042a99df3e20a50972f685ee182f1ecc3ababba6ec5",
+    "spot/YGG.json.gz": "f8d694e7e3a9d783a77b5011ad54acbd5e4f1516613182d8d7d45de79c6a0ba0",
+    "spot/ZEC.json.gz": "0a83a7d53c672b9e63261073ffd9fc32be3b6199acd9f9a7b18cb42dd1431770",
+    "spot/ZEN.json.gz": "812d517740052c28fd8004079d328483af7f36cf943e0a93be3c61c6be7e6994",
+    "spot/ZETA.json.gz": "57beb7833a8c6ab3089c5fd94632d0ea782baf2153efea5a4cf1efa3d231b75e",
+    "spot/ZK.json.gz": "9c9babbaa2f88f1398d2b10fba34266aa69647a048c42179af72f2e4327955b0",
+    "spot/ZORA.json.gz": "41a89be72a77a9c921b0ad159106ba175c0b94a3cdccbb235a7b6a2f6d4c48f2",
+    "spot/ZRO.json.gz": "9243073e72281746d01873f8f510590c25e1155fdb300a8e8c853ee45e83f92d"
+  },
+  "trade_prices_checked": 2263,
+  "symbols_excluded_from_complete_subset": [],
+  "paired_replays": [
+    {
+      "checkpoint": "2026-11-11T00:00:00Z",
+      "seed": 20261114,
+      "policies": {
+        "long": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 103.1952525084087
+        }
+      },
+      "file": "runs/2026-11-11__20261114.json",
+      "all_windows": {
+        "drop_spot": {
+          "trades": 209,
+          "priced": 209,
+          "censored": 0,
+          "gross_pnl_usd": 96.44506139337479,
+          "priced_subtotal_usd": 96.44506139337479,
+          "mean_return_pct": 0.4614596238917454,
+          "wins": 90,
+          "losses": 119,
+          "median_holding_minutes": 340.0,
+          "notional_hours": 125900.0
+        },
+        "position_history_long_exit_only": {
+          "trades": 209,
+          "priced": 209,
+          "censored": 0,
+          "gross_pnl_usd": 96.44506139337479,
+          "priced_subtotal_usd": 96.44506139337479,
+          "mean_return_pct": 0.4614596238917454,
+          "wins": 90,
+          "losses": 119,
+          "median_holding_minutes": 340.0,
+          "notional_hours": 125900.0
+        },
+        "pnl_delta_usd": 0.0,
+        "by_side": {
+          "long": {
+            "drop_spot": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "position_history_long_exit_only": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "pnl_delta_usd": 0.0
+          },
+          "short": {
+            "drop_spot": {
+              "trades": 209,
+              "priced": 209,
+              "censored": 0,
+              "gross_pnl_usd": 96.44506139337479,
+              "priced_subtotal_usd": 96.44506139337479,
+              "mean_return_pct": 0.4614596238917454,
+              "wins": 90,
+              "losses": 119,
+              "median_holding_minutes": 340.0,
+              "notional_hours": 125900.0
+            },
+            "position_history_long_exit_only": {
+              "trades": 209,
+              "priced": 209,
+              "censored": 0,
+              "gross_pnl_usd": 96.44506139337479,
+              "priced_subtotal_usd": 96.44506139337479,
+              "mean_return_pct": 0.4614596238917454,
+              "wins": 90,
+              "losses": 119,
+              "median_holding_minutes": 340.0,
+              "notional_hours": 125900.0
+            },
+            "pnl_delta_usd": 0.0
+          }
+        }
+      },
+      "by_window": [
+        {
+          "start": "2026-11-14T08:30:00Z",
+          "end": "2026-11-15T02:30:00Z",
+          "drop_spot": {
+            "trades": 115,
+            "priced": 115,
+            "censored": 0,
+            "gross_pnl_usd": 142.74388718414428,
+            "priced_subtotal_usd": 142.74388718414428,
+            "mean_return_pct": 1.2412511929056025,
+            "wins": 60,
+            "losses": 55,
+            "median_holding_minutes": 320.0,
+            "notional_hours": 68208.33333333333
+          },
+          "position_history_long_exit_only": {
+            "trades": 115,
+            "priced": 115,
+            "censored": 0,
+            "gross_pnl_usd": 142.74388718414428,
+            "priced_subtotal_usd": 142.74388718414428,
+            "mean_return_pct": 1.2412511929056025,
+            "wins": 60,
+            "losses": 55,
+            "median_holding_minutes": 320.0,
+            "notional_hours": 68208.33333333333
+          },
+          "pnl_delta_usd": 0.0,
+          "by_side": {
+            "long": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            },
+            "short": {
+              "drop_spot": {
+                "trades": 115,
+                "priced": 115,
+                "censored": 0,
+                "gross_pnl_usd": 142.74388718414428,
+                "priced_subtotal_usd": 142.74388718414428,
+                "mean_return_pct": 1.2412511929056025,
+                "wins": 60,
+                "losses": 55,
+                "median_holding_minutes": 320.0,
+                "notional_hours": 68208.33333333333
+              },
+              "position_history_long_exit_only": {
+                "trades": 115,
+                "priced": 115,
+                "censored": 0,
+                "gross_pnl_usd": 142.74388718414428,
+                "priced_subtotal_usd": 142.74388718414428,
+                "mean_return_pct": 1.2412511929056025,
+                "wins": 60,
+                "losses": 55,
+                "median_holding_minutes": 320.0,
+                "notional_hours": 68208.33333333333
+              },
+              "pnl_delta_usd": 0.0
+            }
+          }
+        },
+        {
+          "start": "2026-11-15T02:30:00Z",
+          "end": "2026-11-15T20:30:00Z",
+          "drop_spot": {
+            "trades": 94,
+            "priced": 94,
+            "censored": 0,
+            "gross_pnl_usd": -46.29882579076949,
+            "priced_subtotal_usd": -46.29882579076949,
+            "mean_return_pct": -0.4925406999018031,
+            "wins": 30,
+            "losses": 64,
+            "median_holding_minutes": 352.5,
+            "notional_hours": 57691.666666666664
+          },
+          "position_history_long_exit_only": {
+            "trades": 94,
+            "priced": 94,
+            "censored": 0,
+            "gross_pnl_usd": -46.29882579076949,
+            "priced_subtotal_usd": -46.29882579076949,
+            "mean_return_pct": -0.4925406999018031,
+            "wins": 30,
+            "losses": 64,
+            "median_holding_minutes": 352.5,
+            "notional_hours": 57691.666666666664
+          },
+          "pnl_delta_usd": 0.0,
+          "by_side": {
+            "long": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            },
+            "short": {
+              "drop_spot": {
+                "trades": 94,
+                "priced": 94,
+                "censored": 0,
+                "gross_pnl_usd": -46.29882579076949,
+                "priced_subtotal_usd": -46.29882579076949,
+                "mean_return_pct": -0.4925406999018031,
+                "wins": 30,
+                "losses": 64,
+                "median_holding_minutes": 352.5,
+                "notional_hours": 57691.666666666664
+              },
+              "position_history_long_exit_only": {
+                "trades": 94,
+                "priced": 94,
+                "censored": 0,
+                "gross_pnl_usd": -46.29882579076949,
+                "priced_subtotal_usd": -46.29882579076949,
+                "mean_return_pct": -0.4925406999018031,
+                "wins": 30,
+                "losses": 64,
+                "median_holding_minutes": 352.5,
+                "notional_hours": 57691.666666666664
+              },
+              "pnl_delta_usd": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "checkpoint": "2026-11-11T00:00:00Z",
+      "seed": 20261115,
+      "policies": {
+        "long": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 134.45978773693656
+        }
+      },
+      "file": "runs/2026-11-11__20261115.json",
+      "all_windows": {
+        "drop_spot": {
+          "trades": 188,
+          "priced": 188,
+          "censored": 0,
+          "gross_pnl_usd": 158.08728244159008,
+          "priced_subtotal_usd": 158.08728244159008,
+          "mean_return_pct": 0.8408898002212238,
+          "wins": 84,
+          "losses": 104,
+          "median_holding_minutes": 385.0,
+          "notional_hours": 124150.0
+        },
+        "position_history_long_exit_only": {
+          "trades": 188,
+          "priced": 188,
+          "censored": 0,
+          "gross_pnl_usd": 158.08728244159008,
+          "priced_subtotal_usd": 158.08728244159008,
+          "mean_return_pct": 0.8408898002212238,
+          "wins": 84,
+          "losses": 104,
+          "median_holding_minutes": 385.0,
+          "notional_hours": 124150.0
+        },
+        "pnl_delta_usd": 0.0,
+        "by_side": {
+          "long": {
+            "drop_spot": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "position_history_long_exit_only": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "pnl_delta_usd": 0.0
+          },
+          "short": {
+            "drop_spot": {
+              "trades": 188,
+              "priced": 188,
+              "censored": 0,
+              "gross_pnl_usd": 158.08728244159008,
+              "priced_subtotal_usd": 158.08728244159008,
+              "mean_return_pct": 0.8408898002212238,
+              "wins": 84,
+              "losses": 104,
+              "median_holding_minutes": 385.0,
+              "notional_hours": 124150.0
+            },
+            "position_history_long_exit_only": {
+              "trades": 188,
+              "priced": 188,
+              "censored": 0,
+              "gross_pnl_usd": 158.08728244159008,
+              "priced_subtotal_usd": 158.08728244159008,
+              "mean_return_pct": 0.8408898002212238,
+              "wins": 84,
+              "losses": 104,
+              "median_holding_minutes": 385.0,
+              "notional_hours": 124150.0
+            },
+            "pnl_delta_usd": 0.0
+          }
+        }
+      },
+      "by_window": [
+        {
+          "start": "2026-11-14T08:30:00Z",
+          "end": "2026-11-15T02:30:00Z",
+          "drop_spot": {
+            "trades": 104,
+            "priced": 104,
+            "censored": 0,
+            "gross_pnl_usd": 178.09854501862884,
+            "priced_subtotal_usd": 178.09854501862884,
+            "mean_return_pct": 1.712486009794508,
+            "wins": 54,
+            "losses": 50,
+            "median_holding_minutes": 332.5,
+            "notional_hours": 60116.666666666664
+          },
+          "position_history_long_exit_only": {
+            "trades": 104,
+            "priced": 104,
+            "censored": 0,
+            "gross_pnl_usd": 178.09854501862884,
+            "priced_subtotal_usd": 178.09854501862884,
+            "mean_return_pct": 1.712486009794508,
+            "wins": 54,
+            "losses": 50,
+            "median_holding_minutes": 332.5,
+            "notional_hours": 60116.666666666664
+          },
+          "pnl_delta_usd": 0.0,
+          "by_side": {
+            "long": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            },
+            "short": {
+              "drop_spot": {
+                "trades": 104,
+                "priced": 104,
+                "censored": 0,
+                "gross_pnl_usd": 178.09854501862884,
+                "priced_subtotal_usd": 178.09854501862884,
+                "mean_return_pct": 1.712486009794508,
+                "wins": 54,
+                "losses": 50,
+                "median_holding_minutes": 332.5,
+                "notional_hours": 60116.666666666664
+              },
+              "position_history_long_exit_only": {
+                "trades": 104,
+                "priced": 104,
+                "censored": 0,
+                "gross_pnl_usd": 178.09854501862884,
+                "priced_subtotal_usd": 178.09854501862884,
+                "mean_return_pct": 1.712486009794508,
+                "wins": 54,
+                "losses": 50,
+                "median_holding_minutes": 332.5,
+                "notional_hours": 60116.666666666664
+              },
+              "pnl_delta_usd": 0.0
+            }
+          }
+        },
+        {
+          "start": "2026-11-15T02:30:00Z",
+          "end": "2026-11-15T20:30:00Z",
+          "drop_spot": {
+            "trades": 84,
+            "priced": 84,
+            "censored": 0,
+            "gross_pnl_usd": -20.011262577038785,
+            "priced_subtotal_usd": -20.011262577038785,
+            "mean_return_pct": -0.23822931639331887,
+            "wins": 30,
+            "losses": 54,
+            "median_holding_minutes": 395.0,
+            "notional_hours": 64033.33333333333
+          },
+          "position_history_long_exit_only": {
+            "trades": 84,
+            "priced": 84,
+            "censored": 0,
+            "gross_pnl_usd": -20.011262577038785,
+            "priced_subtotal_usd": -20.011262577038785,
+            "mean_return_pct": -0.23822931639331887,
+            "wins": 30,
+            "losses": 54,
+            "median_holding_minutes": 395.0,
+            "notional_hours": 64033.33333333333
+          },
+          "pnl_delta_usd": 0.0,
+          "by_side": {
+            "long": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            },
+            "short": {
+              "drop_spot": {
+                "trades": 84,
+                "priced": 84,
+                "censored": 0,
+                "gross_pnl_usd": -20.011262577038785,
+                "priced_subtotal_usd": -20.011262577038785,
+                "mean_return_pct": -0.23822931639331887,
+                "wins": 30,
+                "losses": 54,
+                "median_holding_minutes": 395.0,
+                "notional_hours": 64033.33333333333
+              },
+              "position_history_long_exit_only": {
+                "trades": 84,
+                "priced": 84,
+                "censored": 0,
+                "gross_pnl_usd": -20.011262577038785,
+                "priced_subtotal_usd": -20.011262577038785,
+                "mean_return_pct": -0.23822931639331887,
+                "wins": 30,
+                "losses": 54,
+                "median_holding_minutes": 395.0,
+                "notional_hours": 64033.33333333333
+              },
+              "pnl_delta_usd": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "checkpoint": "2026-11-11T00:00:00Z",
+      "seed": 20261116,
+      "policies": {
+        "long": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 115.28982593724373
+        }
+      },
+      "file": "runs/2026-11-11__20261116.json",
+      "all_windows": {
+        "drop_spot": {
+          "trades": 200,
+          "priced": 200,
+          "censored": 0,
+          "gross_pnl_usd": 139.88570471769935,
+          "priced_subtotal_usd": 139.88570471769935,
+          "mean_return_pct": 0.6994285235884967,
+          "wins": 93,
+          "losses": 107,
+          "median_holding_minutes": 437.5,
+          "notional_hours": 151916.66666666666
+        },
+        "position_history_long_exit_only": {
+          "trades": 200,
+          "priced": 200,
+          "censored": 0,
+          "gross_pnl_usd": 139.88570471769935,
+          "priced_subtotal_usd": 139.88570471769935,
+          "mean_return_pct": 0.6994285235884967,
+          "wins": 93,
+          "losses": 107,
+          "median_holding_minutes": 437.5,
+          "notional_hours": 151916.66666666666
+        },
+        "pnl_delta_usd": 0.0,
+        "by_side": {
+          "long": {
+            "drop_spot": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "position_history_long_exit_only": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "pnl_delta_usd": 0.0
+          },
+          "short": {
+            "drop_spot": {
+              "trades": 200,
+              "priced": 200,
+              "censored": 0,
+              "gross_pnl_usd": 139.88570471769935,
+              "priced_subtotal_usd": 139.88570471769935,
+              "mean_return_pct": 0.6994285235884967,
+              "wins": 93,
+              "losses": 107,
+              "median_holding_minutes": 437.5,
+              "notional_hours": 151916.66666666666
+            },
+            "position_history_long_exit_only": {
+              "trades": 200,
+              "priced": 200,
+              "censored": 0,
+              "gross_pnl_usd": 139.88570471769935,
+              "priced_subtotal_usd": 139.88570471769935,
+              "mean_return_pct": 0.6994285235884967,
+              "wins": 93,
+              "losses": 107,
+              "median_holding_minutes": 437.5,
+              "notional_hours": 151916.66666666666
+            },
+            "pnl_delta_usd": 0.0
+          }
+        }
+      },
+      "by_window": [
+        {
+          "start": "2026-11-14T08:30:00Z",
+          "end": "2026-11-15T02:30:00Z",
+          "drop_spot": {
+            "trades": 111,
+            "priced": 111,
+            "censored": 0,
+            "gross_pnl_usd": 176.7598099801508,
+            "priced_subtotal_usd": 176.7598099801508,
+            "mean_return_pct": 1.592430720541899,
+            "wins": 58,
+            "losses": 53,
+            "median_holding_minutes": 475.0,
+            "notional_hours": 83591.66666666667
+          },
+          "position_history_long_exit_only": {
+            "trades": 111,
+            "priced": 111,
+            "censored": 0,
+            "gross_pnl_usd": 176.7598099801508,
+            "priced_subtotal_usd": 176.7598099801508,
+            "mean_return_pct": 1.592430720541899,
+            "wins": 58,
+            "losses": 53,
+            "median_holding_minutes": 475.0,
+            "notional_hours": 83591.66666666667
+          },
+          "pnl_delta_usd": 0.0,
+          "by_side": {
+            "long": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            },
+            "short": {
+              "drop_spot": {
+                "trades": 111,
+                "priced": 111,
+                "censored": 0,
+                "gross_pnl_usd": 176.7598099801508,
+                "priced_subtotal_usd": 176.7598099801508,
+                "mean_return_pct": 1.592430720541899,
+                "wins": 58,
+                "losses": 53,
+                "median_holding_minutes": 475.0,
+                "notional_hours": 83591.66666666667
+              },
+              "position_history_long_exit_only": {
+                "trades": 111,
+                "priced": 111,
+                "censored": 0,
+                "gross_pnl_usd": 176.7598099801508,
+                "priced_subtotal_usd": 176.7598099801508,
+                "mean_return_pct": 1.592430720541899,
+                "wins": 58,
+                "losses": 53,
+                "median_holding_minutes": 475.0,
+                "notional_hours": 83591.66666666667
+              },
+              "pnl_delta_usd": 0.0
+            }
+          }
+        },
+        {
+          "start": "2026-11-15T02:30:00Z",
+          "end": "2026-11-15T20:30:00Z",
+          "drop_spot": {
+            "trades": 89,
+            "priced": 89,
+            "censored": 0,
+            "gross_pnl_usd": -36.87410526245144,
+            "priced_subtotal_usd": -36.87410526245144,
+            "mean_return_pct": -0.4143157894657465,
+            "wins": 35,
+            "losses": 54,
+            "median_holding_minutes": 400.0,
+            "notional_hours": 68325.0
+          },
+          "position_history_long_exit_only": {
+            "trades": 89,
+            "priced": 89,
+            "censored": 0,
+            "gross_pnl_usd": -36.87410526245144,
+            "priced_subtotal_usd": -36.87410526245144,
+            "mean_return_pct": -0.4143157894657465,
+            "wins": 35,
+            "losses": 54,
+            "median_holding_minutes": 400.0,
+            "notional_hours": 68325.0
+          },
+          "pnl_delta_usd": 0.0,
+          "by_side": {
+            "long": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            },
+            "short": {
+              "drop_spot": {
+                "trades": 89,
+                "priced": 89,
+                "censored": 0,
+                "gross_pnl_usd": -36.87410526245144,
+                "priced_subtotal_usd": -36.87410526245144,
+                "mean_return_pct": -0.4143157894657465,
+                "wins": 35,
+                "losses": 54,
+                "median_holding_minutes": 400.0,
+                "notional_hours": 68325.0
+              },
+              "position_history_long_exit_only": {
+                "trades": 89,
+                "priced": 89,
+                "censored": 0,
+                "gross_pnl_usd": -36.87410526245144,
+                "priced_subtotal_usd": -36.87410526245144,
+                "mean_return_pct": -0.4143157894657465,
+                "wins": 35,
+                "losses": 54,
+                "median_holding_minutes": 400.0,
+                "notional_hours": 68325.0
+              },
+              "pnl_delta_usd": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "checkpoint": "2026-11-03T00:00:00Z",
+      "seed": 20261114,
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.75,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 70.63063071576599
+        },
+        "short": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        }
+      },
+      "file": "runs/2026-11-03__20261114.json",
+      "all_windows": {
+        "drop_spot": {
+          "trades": 44,
+          "priced": 44,
+          "censored": 0,
+          "gross_pnl_usd": 65.99812996818515,
+          "priced_subtotal_usd": 65.99812996818515,
+          "mean_return_pct": 1.4999574992769353,
+          "wins": 29,
+          "losses": 15,
+          "median_holding_minutes": 375.0,
+          "notional_hours": 25408.333333333332
+        },
+        "position_history_long_exit_only": {
+          "trades": 41,
+          "priced": 41,
+          "censored": 0,
+          "gross_pnl_usd": 63.68019371481036,
+          "priced_subtotal_usd": 63.68019371481036,
+          "mean_return_pct": 1.5531754564587892,
+          "wins": 25,
+          "losses": 16,
+          "median_holding_minutes": 705.0,
+          "notional_hours": 44766.666666666664
+        },
+        "pnl_delta_usd": -2.3179362533747963,
+        "by_side": {
+          "long": {
+            "drop_spot": {
+              "trades": 44,
+              "priced": 44,
+              "censored": 0,
+              "gross_pnl_usd": 65.99812996818515,
+              "priced_subtotal_usd": 65.99812996818515,
+              "mean_return_pct": 1.4999574992769353,
+              "wins": 29,
+              "losses": 15,
+              "median_holding_minutes": 375.0,
+              "notional_hours": 25408.333333333332
+            },
+            "position_history_long_exit_only": {
+              "trades": 41,
+              "priced": 41,
+              "censored": 0,
+              "gross_pnl_usd": 63.68019371481036,
+              "priced_subtotal_usd": 63.68019371481036,
+              "mean_return_pct": 1.5531754564587892,
+              "wins": 25,
+              "losses": 16,
+              "median_holding_minutes": 705.0,
+              "notional_hours": 44766.666666666664
+            },
+            "pnl_delta_usd": -2.3179362533747963
+          },
+          "short": {
+            "drop_spot": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "position_history_long_exit_only": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "pnl_delta_usd": 0.0
+          }
+        }
+      },
+      "by_window": [
+        {
+          "start": "2026-11-14T08:30:00Z",
+          "end": "2026-11-15T02:30:00Z",
+          "drop_spot": {
+            "trades": 35,
+            "priced": 35,
+            "censored": 0,
+            "gross_pnl_usd": 59.39144065488877,
+            "priced_subtotal_usd": 59.39144065488877,
+            "mean_return_pct": 1.6968983044253934,
+            "wins": 25,
+            "losses": 10,
+            "median_holding_minutes": 400.0,
+            "notional_hours": 21858.333333333332
+          },
+          "position_history_long_exit_only": {
+            "trades": 34,
+            "priced": 34,
+            "censored": 0,
+            "gross_pnl_usd": 59.73901744107633,
+            "priced_subtotal_usd": 59.73901744107633,
+            "mean_return_pct": 1.7570299247375392,
+            "wins": 22,
+            "losses": 12,
+            "median_holding_minutes": 920.0,
+            "notional_hours": 40558.333333333336
+          },
+          "pnl_delta_usd": 0.3475767861875596,
+          "by_side": {
+            "long": {
+              "drop_spot": {
+                "trades": 35,
+                "priced": 35,
+                "censored": 0,
+                "gross_pnl_usd": 59.39144065488877,
+                "priced_subtotal_usd": 59.39144065488877,
+                "mean_return_pct": 1.6968983044253934,
+                "wins": 25,
+                "losses": 10,
+                "median_holding_minutes": 400.0,
+                "notional_hours": 21858.333333333332
+              },
+              "position_history_long_exit_only": {
+                "trades": 34,
+                "priced": 34,
+                "censored": 0,
+                "gross_pnl_usd": 59.73901744107633,
+                "priced_subtotal_usd": 59.73901744107633,
+                "mean_return_pct": 1.7570299247375392,
+                "wins": 22,
+                "losses": 12,
+                "median_holding_minutes": 920.0,
+                "notional_hours": 40558.333333333336
+              },
+              "pnl_delta_usd": 0.3475767861875596
+            },
+            "short": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            }
+          }
+        },
+        {
+          "start": "2026-11-15T02:30:00Z",
+          "end": "2026-11-15T20:30:00Z",
+          "drop_spot": {
+            "trades": 9,
+            "priced": 9,
+            "censored": 0,
+            "gross_pnl_usd": 6.606689313296386,
+            "priced_subtotal_usd": 6.606689313296386,
+            "mean_return_pct": 0.7340765903662652,
+            "wins": 4,
+            "losses": 5,
+            "median_holding_minutes": 320.0,
+            "notional_hours": 3550.0
+          },
+          "position_history_long_exit_only": {
+            "trades": 7,
+            "priced": 7,
+            "censored": 0,
+            "gross_pnl_usd": 3.941176273734035,
+            "priced_subtotal_usd": 3.941176273734035,
+            "mean_return_pct": 0.563025181962005,
+            "wins": 3,
+            "losses": 4,
+            "median_holding_minutes": 295.0,
+            "notional_hours": 4208.333333333333
+          },
+          "pnl_delta_usd": -2.6655130395623514,
+          "by_side": {
+            "long": {
+              "drop_spot": {
+                "trades": 9,
+                "priced": 9,
+                "censored": 0,
+                "gross_pnl_usd": 6.606689313296386,
+                "priced_subtotal_usd": 6.606689313296386,
+                "mean_return_pct": 0.7340765903662652,
+                "wins": 4,
+                "losses": 5,
+                "median_holding_minutes": 320.0,
+                "notional_hours": 3550.0
+              },
+              "position_history_long_exit_only": {
+                "trades": 7,
+                "priced": 7,
+                "censored": 0,
+                "gross_pnl_usd": 3.941176273734035,
+                "priced_subtotal_usd": 3.941176273734035,
+                "mean_return_pct": 0.563025181962005,
+                "wins": 3,
+                "losses": 4,
+                "median_holding_minutes": 295.0,
+                "notional_hours": 4208.333333333333
+              },
+              "pnl_delta_usd": -2.6655130395623514
+            },
+            "short": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "checkpoint": "2026-11-03T00:00:00Z",
+      "seed": 20261115,
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.75,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 55.696406316862145
+        },
+        "short": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        }
+      },
+      "file": "runs/2026-11-03__20261115.json",
+      "all_windows": {
+        "drop_spot": {
+          "trades": 76,
+          "priced": 76,
+          "censored": 0,
+          "gross_pnl_usd": 20.997533698063062,
+          "priced_subtotal_usd": 20.997533698063062,
+          "mean_return_pct": 0.27628333813240874,
+          "wins": 29,
+          "losses": 47,
+          "median_holding_minutes": 25.0,
+          "notional_hours": 5233.333333333333
+        },
+        "position_history_long_exit_only": {
+          "trades": 74,
+          "priced": 74,
+          "censored": 0,
+          "gross_pnl_usd": 2.893742585452786,
+          "priced_subtotal_usd": 2.893742585452786,
+          "mean_return_pct": 0.03910462953314575,
+          "wins": 22,
+          "losses": 52,
+          "median_holding_minutes": 45.0,
+          "notional_hours": 7183.333333333333
+        },
+        "pnl_delta_usd": -18.103791112610278,
+        "by_side": {
+          "long": {
+            "drop_spot": {
+              "trades": 76,
+              "priced": 76,
+              "censored": 0,
+              "gross_pnl_usd": 20.997533698063062,
+              "priced_subtotal_usd": 20.997533698063062,
+              "mean_return_pct": 0.27628333813240874,
+              "wins": 29,
+              "losses": 47,
+              "median_holding_minutes": 25.0,
+              "notional_hours": 5233.333333333333
+            },
+            "position_history_long_exit_only": {
+              "trades": 74,
+              "priced": 74,
+              "censored": 0,
+              "gross_pnl_usd": 2.893742585452786,
+              "priced_subtotal_usd": 2.893742585452786,
+              "mean_return_pct": 0.03910462953314575,
+              "wins": 22,
+              "losses": 52,
+              "median_holding_minutes": 45.0,
+              "notional_hours": 7183.333333333333
+            },
+            "pnl_delta_usd": -18.103791112610278
+          },
+          "short": {
+            "drop_spot": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "position_history_long_exit_only": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "pnl_delta_usd": 0.0
+          }
+        }
+      },
+      "by_window": [
+        {
+          "start": "2026-11-14T08:30:00Z",
+          "end": "2026-11-15T02:30:00Z",
+          "drop_spot": {
+            "trades": 56,
+            "priced": 56,
+            "censored": 0,
+            "gross_pnl_usd": 7.367810150499816,
+            "priced_subtotal_usd": 7.367810150499816,
+            "mean_return_pct": 0.1315680384017824,
+            "wins": 21,
+            "losses": 35,
+            "median_holding_minutes": 30.0,
+            "notional_hours": 4316.666666666667
+          },
+          "position_history_long_exit_only": {
+            "trades": 55,
+            "priced": 55,
+            "censored": 0,
+            "gross_pnl_usd": -0.02004812465085859,
+            "priced_subtotal_usd": -0.02004812465085859,
+            "mean_return_pct": -0.000364511357288338,
+            "wins": 15,
+            "losses": 40,
+            "median_holding_minutes": 45.0,
+            "notional_hours": 4866.666666666667
+          },
+          "pnl_delta_usd": -7.387858275150674,
+          "by_side": {
+            "long": {
+              "drop_spot": {
+                "trades": 56,
+                "priced": 56,
+                "censored": 0,
+                "gross_pnl_usd": 7.367810150499816,
+                "priced_subtotal_usd": 7.367810150499816,
+                "mean_return_pct": 0.1315680384017824,
+                "wins": 21,
+                "losses": 35,
+                "median_holding_minutes": 30.0,
+                "notional_hours": 4316.666666666667
+              },
+              "position_history_long_exit_only": {
+                "trades": 55,
+                "priced": 55,
+                "censored": 0,
+                "gross_pnl_usd": -0.02004812465085859,
+                "priced_subtotal_usd": -0.02004812465085859,
+                "mean_return_pct": -0.000364511357288338,
+                "wins": 15,
+                "losses": 40,
+                "median_holding_minutes": 45.0,
+                "notional_hours": 4866.666666666667
+              },
+              "pnl_delta_usd": -7.387858275150674
+            },
+            "short": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            }
+          }
+        },
+        {
+          "start": "2026-11-15T02:30:00Z",
+          "end": "2026-11-15T20:30:00Z",
+          "drop_spot": {
+            "trades": 20,
+            "priced": 20,
+            "censored": 0,
+            "gross_pnl_usd": 13.629723547563245,
+            "priced_subtotal_usd": 13.629723547563245,
+            "mean_return_pct": 0.6814861773781622,
+            "wins": 8,
+            "losses": 12,
+            "median_holding_minutes": 20.0,
+            "notional_hours": 916.6666666666666
+          },
+          "position_history_long_exit_only": {
+            "trades": 19,
+            "priced": 19,
+            "censored": 0,
+            "gross_pnl_usd": 2.9137907101036475,
+            "priced_subtotal_usd": 2.9137907101036475,
+            "mean_return_pct": 0.15335740579492882,
+            "wins": 7,
+            "losses": 12,
+            "median_holding_minutes": 45.0,
+            "notional_hours": 2316.666666666667
+          },
+          "pnl_delta_usd": -10.715932837459597,
+          "by_side": {
+            "long": {
+              "drop_spot": {
+                "trades": 20,
+                "priced": 20,
+                "censored": 0,
+                "gross_pnl_usd": 13.629723547563245,
+                "priced_subtotal_usd": 13.629723547563245,
+                "mean_return_pct": 0.6814861773781622,
+                "wins": 8,
+                "losses": 12,
+                "median_holding_minutes": 20.0,
+                "notional_hours": 916.6666666666666
+              },
+              "position_history_long_exit_only": {
+                "trades": 19,
+                "priced": 19,
+                "censored": 0,
+                "gross_pnl_usd": 2.9137907101036475,
+                "priced_subtotal_usd": 2.9137907101036475,
+                "mean_return_pct": 0.15335740579492882,
+                "wins": 7,
+                "losses": 12,
+                "median_holding_minutes": 45.0,
+                "notional_hours": 2316.666666666667
+              },
+              "pnl_delta_usd": -10.715932837459597
+            },
+            "short": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "checkpoint": "2026-11-03T00:00:00Z",
+      "seed": 20261116,
+      "policies": {
+        "long": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        },
+        "short": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        }
+      },
+      "file": "runs/2026-11-03__20261116.json",
+      "all_windows": {
+        "drop_spot": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "position_history_long_exit_only": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "pnl_delta_usd": 0.0,
+        "by_side": {
+          "long": {
+            "drop_spot": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "position_history_long_exit_only": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "pnl_delta_usd": 0.0
+          },
+          "short": {
+            "drop_spot": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "position_history_long_exit_only": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "pnl_delta_usd": 0.0
+          }
+        }
+      },
+      "by_window": [
+        {
+          "start": "2026-11-14T08:30:00Z",
+          "end": "2026-11-15T02:30:00Z",
+          "drop_spot": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          "position_history_long_exit_only": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          "pnl_delta_usd": 0.0,
+          "by_side": {
+            "long": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            },
+            "short": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            }
+          }
+        },
+        {
+          "start": "2026-11-15T02:30:00Z",
+          "end": "2026-11-15T20:30:00Z",
+          "drop_spot": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          "position_history_long_exit_only": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          "pnl_delta_usd": 0.0,
+          "by_side": {
+            "long": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            },
+            "short": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "checkpoint": "2026-11-07T00:00:00Z",
+      "seed": 20261114,
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 26.43466385077156
+        },
+        "short": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        }
+      },
+      "file": "runs/2026-11-07__20261114.json",
+      "all_windows": {
+        "drop_spot": {
+          "trades": 170,
+          "priced": 170,
+          "censored": 0,
+          "gross_pnl_usd": -24.39590200410684,
+          "priced_subtotal_usd": -24.39590200410684,
+          "mean_return_pct": -0.14350530590651084,
+          "wins": 51,
+          "losses": 117,
+          "median_holding_minutes": 40.0,
+          "notional_hours": 17566.666666666668
+        },
+        "position_history_long_exit_only": {
+          "trades": 172,
+          "priced": 172,
+          "censored": 0,
+          "gross_pnl_usd": 1.1199424878180935,
+          "priced_subtotal_usd": 1.1199424878180935,
+          "mean_return_pct": 0.006511293533826124,
+          "wins": 57,
+          "losses": 115,
+          "median_holding_minutes": 45.0,
+          "notional_hours": 16733.333333333332
+        },
+        "pnl_delta_usd": 25.515844491924934,
+        "by_side": {
+          "long": {
+            "drop_spot": {
+              "trades": 170,
+              "priced": 170,
+              "censored": 0,
+              "gross_pnl_usd": -24.39590200410684,
+              "priced_subtotal_usd": -24.39590200410684,
+              "mean_return_pct": -0.14350530590651084,
+              "wins": 51,
+              "losses": 117,
+              "median_holding_minutes": 40.0,
+              "notional_hours": 17566.666666666668
+            },
+            "position_history_long_exit_only": {
+              "trades": 172,
+              "priced": 172,
+              "censored": 0,
+              "gross_pnl_usd": 1.1199424878180935,
+              "priced_subtotal_usd": 1.1199424878180935,
+              "mean_return_pct": 0.006511293533826124,
+              "wins": 57,
+              "losses": 115,
+              "median_holding_minutes": 45.0,
+              "notional_hours": 16733.333333333332
+            },
+            "pnl_delta_usd": 25.515844491924934
+          },
+          "short": {
+            "drop_spot": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "position_history_long_exit_only": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "pnl_delta_usd": 0.0
+          }
+        }
+      },
+      "by_window": [
+        {
+          "start": "2026-11-14T08:30:00Z",
+          "end": "2026-11-15T02:30:00Z",
+          "drop_spot": {
+            "trades": 104,
+            "priced": 104,
+            "censored": 0,
+            "gross_pnl_usd": -16.281399402886272,
+            "priced_subtotal_usd": -16.281399402886272,
+            "mean_return_pct": -0.15655191733544493,
+            "wins": 33,
+            "losses": 71,
+            "median_holding_minutes": 30.0,
+            "notional_hours": 8950.0
+          },
+          "position_history_long_exit_only": {
+            "trades": 102,
+            "priced": 102,
+            "censored": 0,
+            "gross_pnl_usd": 6.806276485304752,
+            "priced_subtotal_usd": 6.806276485304752,
+            "mean_return_pct": 0.0667282008363211,
+            "wins": 33,
+            "losses": 69,
+            "median_holding_minutes": 45.0,
+            "notional_hours": 9491.666666666666
+          },
+          "pnl_delta_usd": 23.087675888191026,
+          "by_side": {
+            "long": {
+              "drop_spot": {
+                "trades": 104,
+                "priced": 104,
+                "censored": 0,
+                "gross_pnl_usd": -16.281399402886272,
+                "priced_subtotal_usd": -16.281399402886272,
+                "mean_return_pct": -0.15655191733544493,
+                "wins": 33,
+                "losses": 71,
+                "median_holding_minutes": 30.0,
+                "notional_hours": 8950.0
+              },
+              "position_history_long_exit_only": {
+                "trades": 102,
+                "priced": 102,
+                "censored": 0,
+                "gross_pnl_usd": 6.806276485304752,
+                "priced_subtotal_usd": 6.806276485304752,
+                "mean_return_pct": 0.0667282008363211,
+                "wins": 33,
+                "losses": 69,
+                "median_holding_minutes": 45.0,
+                "notional_hours": 9491.666666666666
+              },
+              "pnl_delta_usd": 23.087675888191026
+            },
+            "short": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            }
+          }
+        },
+        {
+          "start": "2026-11-15T02:30:00Z",
+          "end": "2026-11-15T20:30:00Z",
+          "drop_spot": {
+            "trades": 66,
+            "priced": 66,
+            "censored": 0,
+            "gross_pnl_usd": -8.114502601220561,
+            "priced_subtotal_usd": -8.114502601220561,
+            "mean_return_pct": -0.12294700910940244,
+            "wins": 18,
+            "losses": 46,
+            "median_holding_minutes": 47.5,
+            "notional_hours": 8616.666666666666
+          },
+          "position_history_long_exit_only": {
+            "trades": 70,
+            "priced": 70,
+            "censored": 0,
+            "gross_pnl_usd": -5.686333997486654,
+            "priced_subtotal_usd": -5.686333997486654,
+            "mean_return_pct": -0.08123334282123791,
+            "wins": 24,
+            "losses": 46,
+            "median_holding_minutes": 40.0,
+            "notional_hours": 7241.666666666667
+          },
+          "pnl_delta_usd": 2.4281686037339076,
+          "by_side": {
+            "long": {
+              "drop_spot": {
+                "trades": 66,
+                "priced": 66,
+                "censored": 0,
+                "gross_pnl_usd": -8.114502601220561,
+                "priced_subtotal_usd": -8.114502601220561,
+                "mean_return_pct": -0.12294700910940244,
+                "wins": 18,
+                "losses": 46,
+                "median_holding_minutes": 47.5,
+                "notional_hours": 8616.666666666666
+              },
+              "position_history_long_exit_only": {
+                "trades": 70,
+                "priced": 70,
+                "censored": 0,
+                "gross_pnl_usd": -5.686333997486654,
+                "priced_subtotal_usd": -5.686333997486654,
+                "mean_return_pct": -0.08123334282123791,
+                "wins": 24,
+                "losses": 46,
+                "median_holding_minutes": 40.0,
+                "notional_hours": 7241.666666666667
+              },
+              "pnl_delta_usd": 2.4281686037339076
+            },
+            "short": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "checkpoint": "2026-11-07T00:00:00Z",
+      "seed": 20261115,
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 15.884298368706641
+        },
+        "short": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        }
+      },
+      "file": "runs/2026-11-07__20261115.json",
+      "all_windows": {
+        "drop_spot": {
+          "trades": 243,
+          "priced": 243,
+          "censored": 0,
+          "gross_pnl_usd": 11.654000233434513,
+          "priced_subtotal_usd": 11.654000233434513,
+          "mean_return_pct": 0.047958848697261365,
+          "wins": 76,
+          "losses": 167,
+          "median_holding_minutes": 30.0,
+          "notional_hours": 21408.333333333332
+        },
+        "position_history_long_exit_only": {
+          "trades": 249,
+          "priced": 249,
+          "censored": 0,
+          "gross_pnl_usd": -3.7373476255368985,
+          "priced_subtotal_usd": -3.7373476255368985,
+          "mean_return_pct": -0.015009428215007625,
+          "wins": 87,
+          "losses": 161,
+          "median_holding_minutes": 35.0,
+          "notional_hours": 19016.666666666668
+        },
+        "pnl_delta_usd": -15.391347858971411,
+        "by_side": {
+          "long": {
+            "drop_spot": {
+              "trades": 243,
+              "priced": 243,
+              "censored": 0,
+              "gross_pnl_usd": 11.654000233434513,
+              "priced_subtotal_usd": 11.654000233434513,
+              "mean_return_pct": 0.047958848697261365,
+              "wins": 76,
+              "losses": 167,
+              "median_holding_minutes": 30.0,
+              "notional_hours": 21408.333333333332
+            },
+            "position_history_long_exit_only": {
+              "trades": 249,
+              "priced": 249,
+              "censored": 0,
+              "gross_pnl_usd": -3.7373476255368985,
+              "priced_subtotal_usd": -3.7373476255368985,
+              "mean_return_pct": -0.015009428215007625,
+              "wins": 87,
+              "losses": 161,
+              "median_holding_minutes": 35.0,
+              "notional_hours": 19016.666666666668
+            },
+            "pnl_delta_usd": -15.391347858971411
+          },
+          "short": {
+            "drop_spot": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "position_history_long_exit_only": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "pnl_delta_usd": 0.0
+          }
+        }
+      },
+      "by_window": [
+        {
+          "start": "2026-11-14T08:30:00Z",
+          "end": "2026-11-15T02:30:00Z",
+          "drop_spot": {
+            "trades": 153,
+            "priced": 153,
+            "censored": 0,
+            "gross_pnl_usd": 9.768730037495718,
+            "priced_subtotal_usd": 9.768730037495718,
+            "mean_return_pct": 0.06384790874180207,
+            "wins": 43,
+            "losses": 110,
+            "median_holding_minutes": 25.0,
+            "notional_hours": 9900.0
+          },
+          "position_history_long_exit_only": {
+            "trades": 147,
+            "priced": 147,
+            "censored": 0,
+            "gross_pnl_usd": 10.825400424141655,
+            "priced_subtotal_usd": 10.825400424141655,
+            "mean_return_pct": 0.07364217975606568,
+            "wins": 49,
+            "losses": 98,
+            "median_holding_minutes": 35.0,
+            "notional_hours": 11341.666666666666
+          },
+          "pnl_delta_usd": 1.056670386645937,
+          "by_side": {
+            "long": {
+              "drop_spot": {
+                "trades": 153,
+                "priced": 153,
+                "censored": 0,
+                "gross_pnl_usd": 9.768730037495718,
+                "priced_subtotal_usd": 9.768730037495718,
+                "mean_return_pct": 0.06384790874180207,
+                "wins": 43,
+                "losses": 110,
+                "median_holding_minutes": 25.0,
+                "notional_hours": 9900.0
+              },
+              "position_history_long_exit_only": {
+                "trades": 147,
+                "priced": 147,
+                "censored": 0,
+                "gross_pnl_usd": 10.825400424141655,
+                "priced_subtotal_usd": 10.825400424141655,
+                "mean_return_pct": 0.07364217975606568,
+                "wins": 49,
+                "losses": 98,
+                "median_holding_minutes": 35.0,
+                "notional_hours": 11341.666666666666
+              },
+              "pnl_delta_usd": 1.056670386645937
+            },
+            "short": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            }
+          }
+        },
+        {
+          "start": "2026-11-15T02:30:00Z",
+          "end": "2026-11-15T20:30:00Z",
+          "drop_spot": {
+            "trades": 90,
+            "priced": 90,
+            "censored": 0,
+            "gross_pnl_usd": 1.8852701959387872,
+            "priced_subtotal_usd": 1.8852701959387872,
+            "mean_return_pct": 0.02094744662154208,
+            "wins": 33,
+            "losses": 57,
+            "median_holding_minutes": 55.0,
+            "notional_hours": 11508.333333333334
+          },
+          "position_history_long_exit_only": {
+            "trades": 102,
+            "priced": 102,
+            "censored": 0,
+            "gross_pnl_usd": -14.562748049678547,
+            "priced_subtotal_usd": -14.562748049678547,
+            "mean_return_pct": -0.14277203970273086,
+            "wins": 38,
+            "losses": 63,
+            "median_holding_minutes": 32.5,
+            "notional_hours": 7675.0
+          },
+          "pnl_delta_usd": -16.448018245617334,
+          "by_side": {
+            "long": {
+              "drop_spot": {
+                "trades": 90,
+                "priced": 90,
+                "censored": 0,
+                "gross_pnl_usd": 1.8852701959387872,
+                "priced_subtotal_usd": 1.8852701959387872,
+                "mean_return_pct": 0.02094744662154208,
+                "wins": 33,
+                "losses": 57,
+                "median_holding_minutes": 55.0,
+                "notional_hours": 11508.333333333334
+              },
+              "position_history_long_exit_only": {
+                "trades": 102,
+                "priced": 102,
+                "censored": 0,
+                "gross_pnl_usd": -14.562748049678547,
+                "priced_subtotal_usd": -14.562748049678547,
+                "mean_return_pct": -0.14277203970273086,
+                "wins": 38,
+                "losses": 63,
+                "median_holding_minutes": 32.5,
+                "notional_hours": 7675.0
+              },
+              "pnl_delta_usd": -16.448018245617334
+            },
+            "short": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "checkpoint": "2026-11-07T00:00:00Z",
+      "seed": 20261116,
+      "policies": {
+        "long": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        },
+        "short": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        }
+      },
+      "file": "runs/2026-11-07__20261116.json",
+      "all_windows": {
+        "drop_spot": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "position_history_long_exit_only": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "pnl_delta_usd": 0.0,
+        "by_side": {
+          "long": {
+            "drop_spot": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "position_history_long_exit_only": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "pnl_delta_usd": 0.0
+          },
+          "short": {
+            "drop_spot": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "position_history_long_exit_only": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "pnl_delta_usd": 0.0
+          }
+        }
+      },
+      "by_window": [
+        {
+          "start": "2026-11-14T08:30:00Z",
+          "end": "2026-11-15T02:30:00Z",
+          "drop_spot": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          "position_history_long_exit_only": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          "pnl_delta_usd": 0.0,
+          "by_side": {
+            "long": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            },
+            "short": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            }
+          }
+        },
+        {
+          "start": "2026-11-15T02:30:00Z",
+          "end": "2026-11-15T20:30:00Z",
+          "drop_spot": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          "position_history_long_exit_only": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          "pnl_delta_usd": 0.0,
+          "by_side": {
+            "long": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            },
+            "short": {
+              "drop_spot": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "position_history_long_exit_only": {
+                "trades": 0,
+                "priced": 0,
+                "censored": 0,
+                "gross_pnl_usd": 0.0,
+                "priced_subtotal_usd": 0.0,
+                "mean_return_pct": null,
+                "wins": 0,
+                "losses": 0,
+                "median_holding_minutes": null,
+                "notional_hours": 0
+              },
+              "pnl_delta_usd": 0.0
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "time_units": "UTC epoch milliseconds; gap ranges are half open",
+  "stages": {
+    "history": {
+      "asset_periods": 592,
+      "asset_file": "history-coverage.json.gz",
+      "sha256": "ba7faf805491ecb4e9bc6cc0a42d79873f6e009461ecfc2a42fb102e3d2cb803",
+      "opportunities": {
+        "long": {
+          "rows": 24548,
+          "episodes": 6013,
+          "symbols": 157,
+          "status": {
+            "priced": 24208,
+            "unknown_exit": 152,
+            "unknown_funding": 173,
+            "unknown_entry": 15
+          },
+          "news_events": 781
+        },
+        "short": {
+          "rows": 14474,
+          "episodes": 2957,
+          "symbols": 150,
+          "status": {
+            "priced": 14149,
+            "unknown_exit": 291,
+            "unknown_funding": 27,
+            "unknown_entry": 7
+          },
+          "news_events": 696
+        }
+      },
+      "asof_requests": 173006,
+      "receipt_timed_ticks": 0,
+      "decision_tick_age_ms_median": null,
+      "news_sha256": "b7308b6b35bdb7dc788c05eb20cffd37322fb19777e3ba1c9d3a9259246e5a78",
+      "source_fingerprints": {
+        "history.joblib": "6e8332a3084705fe0359890ef9ac5da581087f8e7f7bfc2c3668e7aaf63ac968",
+        "history-evidence.joblib": "b1602fa6971f7f1a3f9800517c859d13db131ab4afc669c5f48c834911d1d260"
+      }
+    },
+    "benchmark": {
+      "asset_periods": 179,
+      "asset_file": "benchmark-coverage.json.gz",
+      "sha256": "ff9ca49ac8fd039634d99d4861d5fdcd8d89038750144ad99146eb7ffc7e39de",
+      "opportunities": {
+        "long": {
+          "rows": 3319,
+          "episodes": 887,
+          "symbols": 86,
+          "status": {
+            "priced": 3317,
+            "entry_rejected": 1,
+            "unknown_exit": 1
+          },
+          "news_events": 281
+        },
+        "short": {
+          "rows": 1892,
+          "episodes": 434,
+          "symbols": 72,
+          "status": {
+            "priced": 1892
+          },
+          "news_events": 242
+        }
+      },
+      "asof_requests": 24648,
+      "receipt_timed_ticks": 24546,
+      "decision_tick_age_ms_median": 7972.0,
+      "news_sha256": "b7308b6b35bdb7dc788c05eb20cffd37322fb19777e3ba1c9d3a9259246e5a78",
+      "source_fingerprints": {
+        "benchmark.joblib": "8d5400ffd9debbd0c1df8b11f99c9b440516cf5404156f969a3ae31be49e67ae",
+        "benchmark-evidence.joblib": "5ee0d4075f7c6d105c518c5347197f2ece21224056a88b359b7e6474a00ca9f2"
+      }
+    }
+  },
+  "context_recorder_gaps": [],
+  "candle_features": "Immutable historical reconstruction at bar close plus five seconds. Original training tapes lack receipt/revision history.",
+  "funding": "Hourly settled rates, archived oracle where identified, otherwise settlement-minute open.",
+  "news": "Archived analyses and revisions require recorded availability and underlying evidence.",
+  "prior_model_lock": "01991f4ea5005ba7078fff9a276bbece1cdd15ab75d46c5bc9ee8e54bd0031c5"
+}

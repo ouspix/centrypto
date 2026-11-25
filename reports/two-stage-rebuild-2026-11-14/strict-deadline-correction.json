@@ -1,0 +1,23 @@
+{
+  "status": "strict_deadline_applied",
+  "reason": "Inherited missing-open retry could price terminal exits1..30m after the requested24h limit. This was discovered after the first rebuild fit; the earlier run is archived and a new lock/fit namespace is used.",
+  "prior_test_results_seen": true,
+  "prior_run_archive": "/mnt/c/Users/melli/.codex/research/centrypto/two-stage-rebuild-2026-11-14/before-strict-deadline",
+  "prior_learned_policy_trades_over24h": 0,
+  "prior_fixed_baseline_trades_over24h": 19,
+  "same_rally_window_universe": true,
+  "original_rally_windows": 928,
+  "strict_teacher_rallies": 928,
+  "rallies_by_side": {
+    "long": 355,
+    "short": 573
+  },
+  "positive_entry_points_by_side": {
+    "long": 437,
+    "short": 690
+  },
+  "changes": {},
+  "independent_exhaustive_teacher_checks": 55,
+  "missing_deadline_rule": "No later fill or interpolation. Mark payoff censored and quarantine that symbol for the remainder of the replay archive. Incomplete gross PnL is reported only for priced trades.",
+  "teacher_validation_rule": "Use a fixed validation subset with observed exact deadline marks for all exit checkpoint/threshold comparisons; training still includes every eligible good entry. Test teacher diagnostics disclose censored exits."
+}

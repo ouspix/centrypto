@@ -1,0 +1,45 @@
+{
+  "symbol": "APT",
+  "hour": 1794553200000,
+  "source": "https://api.hyperliquid.xyz/info",
+  "snapshot_revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+  "snapshot_sha256": "8da7fbe1a6f390ac864e159eadc487d36d61e579d45167e94905dc81ca1507bc",
+  "settled_rate": {
+    "coin": "APT",
+    "fundingRate": "-0.0000010907",
+    "premium": "-0.0005087253",
+    "time": 1794553200028
+  },
+  "receipts": [
+    {
+      "time": 1794553200028,
+      "position": "403535.8",
+      "cash": "0.237974",
+      "rate": "-0.0000010907",
+      "account_hash": "848e2663f8201c0be48da8c71e3f9bb90812825c28a51456311fbd53534fd07a"
+    },
+    {
+      "time": 1794553200028,
+      "position": "-297520.62",
+      "cash": "-0.175454",
+      "rate": "-0.0000010907",
+      "account_hash": "da5c9b22ab9c2f0420e84ef6b73f92cebe333218f07d7e7801c326fcd8b6d119"
+    },
+    {
+      "time": 1794553200028,
+      "position": "44625.61",
+      "cash": "0.026316",
+      "rate": "-0.0000010907",
+      "account_hash": "a7c7d7512e369154ef3430eb08a7ea76afb2b00ca5d83d0131364568b6664ba8"
+    }
+  ],
+  "unit_cost_bounds": [
+    -5.897238315784634e-07,
+    -5.897196729509501e-07
+  ],
+  "receipt_implied_price_bounds": [
+    0.5406799972045018,
+    0.5406838100105101
+  ],
+  "cash_rounding_allowance_usd": 1e-06
+}

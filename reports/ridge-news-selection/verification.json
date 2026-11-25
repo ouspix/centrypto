@@ -1,0 +1,10 @@
+{
+  "past_only_join_samples": 240,
+  "features_checked_per_sample": 5,
+  "prior_controls_reproduced_in_both_modes": true,
+  "after_cost_ledgers_checked": 108,
+  "forward_runtime_files_verified": 51,
+  "input_locks_verified": true,
+  "results_sha256": "eec1fef26f8fc017df11648eb8ff9f792f787fd14f2a7ab5270b5b385c727b5a",
+  "journal_sha256": "7c466a2a9e507c0ff131156720d9ff30fa36b4ffdaf1dec1b3005b2f7ad079d9"
+}

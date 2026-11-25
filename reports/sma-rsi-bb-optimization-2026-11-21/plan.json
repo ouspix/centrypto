@@ -1,0 +1,124 @@
+{
+  "checkpoint": "2026-11-11",
+  "validation_start": "2026-11-05T00:00:00Z",
+  "validation_market_end": "2026-11-14T08:30:00Z",
+  "test_start": "2026-11-17T00:00:00Z",
+  "test_entry_end": "2026-11-20T12:00:00Z",
+  "test_market_end": "2026-11-21T13:00:00Z",
+  "fee_bps": 4.5,
+  "slippage_bps": 1,
+  "notional": 100,
+  "thresholds": [
+    0.8,
+    0.9,
+    0.95
+  ],
+  "seeds": [
+    20261114,
+    20261115,
+    20261116
+  ],
+  "configs": [
+    [
+      null,
+      null
+    ],
+    [
+      3,
+      null
+    ],
+    [
+      7.5,
+      null
+    ],
+    [
+      15,
+      null
+    ],
+    [
+      32,
+      null
+    ],
+    [
+      64,
+      null
+    ],
+    [
+      96,
+      null
+    ],
+    [
+      null,
+      5
+    ],
+    [
+      null,
+      12
+    ],
+    [
+      null,
+      20
+    ],
+    [
+      null,
+      40
+    ],
+    [
+      null,
+      80
+    ],
+    [
+      null,
+      120
+    ],
+    [
+      3,
+      5
+    ],
+    [
+      5.25,
+      20
+    ],
+    [
+      7.5,
+      12
+    ],
+    [
+      9.5,
+      40
+    ],
+    [
+      15,
+      20
+    ],
+    [
+      18.5,
+      80
+    ],
+    [
+      24.5,
+      12
+    ],
+    [
+      32,
+      40
+    ],
+    [
+      48.5,
+      80
+    ],
+    [
+      64,
+      20
+    ],
+    [
+      96,
+      120
+    ]
+  ],
+  "sma_selection": "all eight pairs or any one existing pair, separately by side",
+  "eligibility": "At least 20 validation trades, 5 symbols and 3 active days, positive net P&L in all three seed replays, positive on at least two-thirds of observed validation days, positive 0.0055556 quantile of resampled daily net P&L. Reject unpriced and missing-funding outcomes. Rank by lower bound, then smaller closed-trade drawdown. Consider cash.",
+  "training": "Train three full entry networks per feature configuration on the original price-error episodes, fixed 4000 Adam updates. Reference is the frozen no-indicator ensemble. Exit ensembles and 0.5 exit score stay fixed.",
+  "funding": "Historical Hyperliquid hourly rates applied to position quantity times the settlement-minute open, a proxy for settlement mark. Charge funding if entry < settlement <= exit.",
+  "test_status": "Post-selection dates previously unused in this four-model optimization. Event-time replay with historical/recovered prices."
+}

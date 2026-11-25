@@ -1,0 +1,9 @@
+[Unit]
+Description=Watch for sealed Centrypto forward research results
+
+[Path]
+PathChanged=/srv/centrypto-checkpoint/reports/capped-entry-value/forward-inputs.json
+Unit=centrypto-entry-score-audit.service
+
+[Install]
+WantedBy=default.target

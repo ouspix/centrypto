@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "exact_original_run_reproductions": 12,
+  "crossed_replays": 108,
+  "validation_reselected_replays": 36,
+  "fixed_threshold_replays": 36,
+  "single_side_threshold_diagnostics": 216,
+  "preserved_baseline_files": 59
+}

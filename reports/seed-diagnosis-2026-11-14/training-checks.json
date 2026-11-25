@@ -1,0 +1,44 @@
+{
+  "status": "passed",
+  "gradient": {
+    "coordinates": 47,
+    "max_absolute_error": 1.657503301277785e-11,
+    "independent_loss_agrees": true
+  },
+  "retrained_networks": [
+    {
+      "seed": 20261114,
+      "kind": "entry",
+      "side": "long",
+      "fold": "2026-06-01T00:00:00Z",
+      "selected_updates": 4000,
+      "exact_weights_and_curves_match": true
+    },
+    {
+      "seed": 20261114,
+      "kind": "exit",
+      "side": "long",
+      "fold": "2026-06-01T00:00:00Z",
+      "selected_updates": 200,
+      "exact_weights_and_curves_match": true
+    },
+    {
+      "seed": 20261115,
+      "kind": "entry",
+      "side": "long",
+      "fold": "2026-06-01T00:00:00Z",
+      "selected_updates": 4000,
+      "exact_weights_and_curves_match": true
+    },
+    {
+      "seed": 20261115,
+      "kind": "exit",
+      "side": "long",
+      "fold": "2026-06-01T00:00:00Z",
+      "selected_updates": 200,
+      "exact_weights_and_curves_match": true
+    }
+  ],
+  "seed_controls": "Network uses one seeded RNG for initial weights and balanced minibatch draws. Prepared train/validation datasets and scaler are identical across seeds.",
+  "scope": "All parameter derivatives on a small two-layer network; exact full-budget retraining of June long entry/exit for the profitable seed and one losing seed."
+}

@@ -1,0 +1,175 @@
+{
+  "architecture": "Two separate64/32 tanh binary networks; candidate-side-conditioned entry, actual-side-conditioned exit.",
+  "updates_per_network": 4000,
+  "entry_checkpoint": 600,
+  "exit_checkpoint": 600,
+  "entry_dimensions_after_preprocessing": 647,
+  "exit_dimensions_after_preprocessing": 358,
+  "entry_retained_raw_features": 326,
+  "exit_retained_raw_features": 183,
+  "entry_retained_news_features": 148,
+  "exit_retained_news_features": 0,
+  "entry_training_states": 173936,
+  "entry_training_positives": 1034,
+  "entry_training_positive_by_side": {
+    "long": 400,
+    "short": 634
+  },
+  "exit_training_same_entry_points": 1034,
+  "training_relevant_news_positive_targets": 9,
+  "sma_pair_features": {
+    "3/12": {
+      "entry": [
+        "sma_gap_3_12",
+        "sma_pair_3_12_bars_since_down",
+        "sma_pair_3_12_bars_since_up",
+        "sma_pair_3_12_cross_down",
+        "sma_pair_3_12_cross_up",
+        "sma_pair_3_12_gap_change_1h"
+      ],
+      "exit": [
+        "sma_gap_3_12",
+        "sma_pair_3_12_bars_since_down",
+        "sma_pair_3_12_bars_since_up",
+        "sma_pair_3_12_cross_down",
+        "sma_pair_3_12_cross_up",
+        "sma_pair_3_12_gap_change_1h"
+      ]
+    },
+    "5/20": {
+      "entry": [
+        "sma_gap_5_20",
+        "sma_pair_5_20_bars_since_down",
+        "sma_pair_5_20_bars_since_up",
+        "sma_pair_5_20_cross_down",
+        "sma_pair_5_20_cross_up",
+        "sma_pair_5_20_gap_change_1h"
+      ],
+      "exit": [
+        "sma_gap_5_20",
+        "sma_pair_5_20_bars_since_down",
+        "sma_pair_5_20_bars_since_up",
+        "sma_pair_5_20_cross_down",
+        "sma_pair_5_20_cross_up",
+        "sma_pair_5_20_gap_change_1h"
+      ]
+    },
+    "8/30": {
+      "entry": [
+        "sma_gap_8_30",
+        "sma_pair_8_30_bars_since_down",
+        "sma_pair_8_30_bars_since_up",
+        "sma_pair_8_30_cross_down",
+        "sma_pair_8_30_cross_up",
+        "sma_pair_8_30_gap_change_1h"
+      ],
+      "exit": [
+        "sma_gap_8_30",
+        "sma_pair_8_30_bars_since_down",
+        "sma_pair_8_30_bars_since_up",
+        "sma_pair_8_30_cross_down",
+        "sma_pair_8_30_cross_up",
+        "sma_pair_8_30_gap_change_1h"
+      ]
+    },
+    "10/30": {
+      "entry": [
+        "sma_gap_10_30",
+        "sma_pair_10_30_bars_since_down",
+        "sma_pair_10_30_bars_since_up",
+        "sma_pair_10_30_cross_down",
+        "sma_pair_10_30_cross_up",
+        "sma_pair_10_30_gap_change_1h"
+      ],
+      "exit": [
+        "sma_gap_10_30",
+        "sma_pair_10_30_bars_since_down",
+        "sma_pair_10_30_bars_since_up",
+        "sma_pair_10_30_cross_down",
+        "sma_pair_10_30_cross_up",
+        "sma_pair_10_30_gap_change_1h"
+      ]
+    },
+    "10/50": {
+      "entry": [
+        "sma_gap_10_50",
+        "sma_pair_10_50_bars_since_down",
+        "sma_pair_10_50_bars_since_up",
+        "sma_pair_10_50_cross_down",
+        "sma_pair_10_50_cross_up",
+        "sma_pair_10_50_gap_change_1h"
+      ],
+      "exit": [
+        "sma_gap_10_50",
+        "sma_pair_10_50_bars_since_down",
+        "sma_pair_10_50_bars_since_up",
+        "sma_pair_10_50_cross_down",
+        "sma_pair_10_50_cross_up",
+        "sma_pair_10_50_gap_change_1h"
+      ]
+    },
+    "20/50": {
+      "entry": [
+        "sma_gap_20_50",
+        "sma_pair_20_50_bars_since_down",
+        "sma_pair_20_50_bars_since_up",
+        "sma_pair_20_50_cross_down",
+        "sma_pair_20_50_cross_up",
+        "sma_pair_20_50_gap_change_1h"
+      ],
+      "exit": [
+        "sma_gap_20_50",
+        "sma_pair_20_50_bars_since_down",
+        "sma_pair_20_50_bars_since_up",
+        "sma_pair_20_50_cross_down",
+        "sma_pair_20_50_cross_up",
+        "sma_pair_20_50_gap_change_1h"
+      ]
+    },
+    "20/80": {
+      "entry": [
+        "sma_gap_20_80",
+        "sma_pair_20_80_bars_since_down",
+        "sma_pair_20_80_bars_since_up",
+        "sma_pair_20_80_cross_down",
+        "sma_pair_20_80_cross_up",
+        "sma_pair_20_80_gap_change_1h"
+      ],
+      "exit": [
+        "sma_gap_20_80",
+        "sma_pair_20_80_bars_since_down",
+        "sma_pair_20_80_bars_since_up",
+        "sma_pair_20_80_cross_down",
+        "sma_pair_20_80_cross_up",
+        "sma_pair_20_80_gap_change_1h"
+      ]
+    },
+    "30/80": {
+      "entry": [
+        "sma_gap_30_80",
+        "sma_pair_30_80_bars_since_down",
+        "sma_pair_30_80_bars_since_up",
+        "sma_pair_30_80_cross_down",
+        "sma_pair_30_80_cross_up",
+        "sma_pair_30_80_gap_change_1h"
+      ],
+      "exit": [
+        "sma_gap_30_80",
+        "sma_pair_30_80_bars_since_down",
+        "sma_pair_30_80_bars_since_up",
+        "sma_pair_30_80_cross_down",
+        "sma_pair_30_80_cross_up",
+        "sma_pair_30_80_gap_change_1h"
+      ]
+    }
+  },
+  "period_selection": "Eight fixed configurable pairs in5m candles. Independent neural weights, not separate optimization of period values.",
+  "score_meaning": "Balanced label-imitation scores; not calibrated probabilities of winning or expected profit.",
+  "policy_selection": {
+    "cash": false,
+    "entry_threshold": 0.5,
+    "validation_profit_usd": 84.0725082177766,
+    "trades": 135
+  },
+  "research_only": true
+}

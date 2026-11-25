@@ -1,0 +1,23 @@
+{
+  "long_entry": {
+    "consistent_ap_help": [],
+    "consistent_ap_harm": []
+  },
+  "short_entry": {
+    "consistent_ap_help": [],
+    "consistent_ap_harm": []
+  },
+  "long_exit": {
+    "consistent_ap_help": [],
+    "consistent_ap_harm": [
+      "sma_detail",
+      "derivatives"
+    ]
+  },
+  "short_exit": {
+    "consistent_ap_help": [],
+    "consistent_ap_harm": [
+      "market_context"
+    ]
+  }
+}

@@ -1,0 +1,1104 @@
+{
+  "symbols": [
+    {
+      "symbol": "2Z",
+      "pair": "2ZUSDT",
+      "multiplier": 1,
+      "rows": 2880,
+      "status": "observed",
+      "sha256": "34540e144471adb0447541725f7f300407506a2075f7e257e15137477bee10bd",
+      "failures": []
+    },
+    {
+      "symbol": "AAVE",
+      "pair": "AAVEUSDT",
+      "multiplier": 1,
+      "rows": 10900,
+      "status": "observed",
+      "sha256": "0f5ee4b05ac830a762be447d41f4c0bac7bbf89ee6062036272809532ab50cf2",
+      "failures": []
+    },
+    {
+      "symbol": "ADA",
+      "pair": "ADAUSDT",
+      "multiplier": 1,
+      "rows": 9256,
+      "status": "observed",
+      "sha256": "9bc196f62a42c3df99071448d310fe9f8a8369601356f158e190ec6a4b5de628",
+      "failures": []
+    },
+    {
+      "symbol": "AERO",
+      "pair": "AEROUSDT",
+      "multiplier": 1,
+      "rows": 1440,
+      "status": "observed",
+      "sha256": "ebd93fbf1570d9d011a4fdeabca93bfe07cf8c034c82763a93166ba3754316f4",
+      "failures": []
+    },
+    {
+      "symbol": "ALGO",
+      "pair": "ALGOUSDT",
+      "multiplier": 1,
+      "rows": 7585,
+      "status": "observed",
+      "sha256": "24c5f5cfbe771abfe56e4be19ad1321578f69f240e32c6f3dc4d110879f3a4a6",
+      "failures": []
+    },
+    {
+      "symbol": "ALT",
+      "pair": "ALTUSDT",
+      "multiplier": 1,
+      "rows": 3142,
+      "status": "observed",
+      "sha256": "06bd5556c09591ea1825cbe9373aefc35202aee09f45316645a9a41c8d6343e8",
+      "failures": []
+    },
+    {
+      "symbol": "APE",
+      "pair": "APEUSDT",
+      "multiplier": 1,
+      "rows": 5781,
+      "status": "observed",
+      "sha256": "909a562501188646d9f8fd21490cb068bd764d63b4deab3109a6684835eb3846",
+      "failures": []
+    },
+    {
+      "symbol": "APT",
+      "pair": "APTUSDT",
+      "multiplier": 1,
+      "rows": 5321,
+      "status": "observed",
+      "sha256": "24c4e7c9b009ccc2b0ccb4715ae301db86fa41c5e45a0770fdaf6fc33008b29a",
+      "failures": []
+    },
+    {
+      "symbol": "AR",
+      "pair": "ARUSDT",
+      "multiplier": 1,
+      "rows": 1669,
+      "status": "observed",
+      "sha256": "be92a5fb45a8a779429e068826700b912e052b30c54132ad22fa1beae27eadf2",
+      "failures": []
+    },
+    {
+      "symbol": "ARB",
+      "pair": "ARBUSDT",
+      "multiplier": 1,
+      "rows": 11026,
+      "status": "observed",
+      "sha256": "b46a6226ab1df03172baf3aa62d243e370a27e2e17dbc92d3523d7ba91802757",
+      "failures": []
+    },
+    {
+      "symbol": "ASTER",
+      "pair": "ASTERUSDT",
+      "multiplier": 1,
+      "rows": 8187,
+      "status": "observed",
+      "sha256": "f7bebe4873ae19fc22bf69f55579ca3ddf3e7f92fbdfda78d2c0c199d91ac8b9",
+      "failures": []
+    },
+    {
+      "symbol": "AVAX",
+      "pair": "AVAXUSDT",
+      "multiplier": 1,
+      "rows": 12293,
+      "status": "observed",
+      "sha256": "441e9c5fb6271112cffa155e69433624c7cc0c7e93a2d8f20a32aee57b13cdd2",
+      "failures": []
+    },
+    {
+      "symbol": "AVNT",
+      "pair": "AVNTUSDT",
+      "multiplier": 1,
+      "rows": 1440,
+      "status": "observed",
+      "sha256": "709c13085f41661889774bed77bdb8829abc6c5f7deed4d4aa9d5f27fe02596f",
+      "failures": []
+    },
+    {
+      "symbol": "AZTEC",
+      "pair": "AZTECUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "8135d3170b917627211d27cea8eb971084924c7036fc2cb613d964317b71b72f",
+      "failures": [
+        "HTTP 400: {\"code\":-1121,\"msg\":\"Invalid symbol.\"}"
+      ]
+    },
+    {
+      "symbol": "BABY",
+      "pair": "BABYUSDT",
+      "multiplier": 1,
+      "rows": 1440,
+      "status": "observed",
+      "sha256": "b0cf5e1c4f66a71e12f102d053eb898226a02118b67ed7f2be1f330f95750ec8",
+      "failures": []
+    },
+    {
+      "symbol": "BCH",
+      "pair": "BCHUSDT",
+      "multiplier": 1,
+      "rows": 6445,
+      "status": "observed",
+      "sha256": "9479ea96606f9eb138c59160512b5b5f9d6f14815648a532fd37e0848191cddb",
+      "failures": []
+    },
+    {
+      "symbol": "BERA",
+      "pair": "BERAUSDT",
+      "multiplier": 1,
+      "rows": 1440,
+      "status": "observed",
+      "sha256": "3ab65ebba09508695cf3e9ae8a0ba61a0af325327b142f7a3e08b1ff672b89c5",
+      "failures": []
+    },
+    {
+      "symbol": "BIO",
+      "pair": "BIOUSDT",
+      "multiplier": 1,
+      "rows": 6763,
+      "status": "observed",
+      "sha256": "e5887b13ffe3e8a0fd1fc0f8efecf091f37bba68f8e6c398bba9e7fc9add2901",
+      "failures": []
+    },
+    {
+      "symbol": "BNB",
+      "pair": "BNBUSDT",
+      "multiplier": 1,
+      "rows": 4330,
+      "status": "observed",
+      "sha256": "78eb03ac69ddbff13e7848fb8d939e10145c53b82ad2d7f00000a133d72b152d",
+      "failures": []
+    },
+    {
+      "symbol": "CASHCAT",
+      "pair": "CASHCATUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "6e125e4e403685faaa915320ac2e28ff40eaf553a79e51ed191cb2c050f6f8dc",
+      "failures": []
+    },
+    {
+      "symbol": "CC",
+      "pair": "CCUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "4044947604c73193990462854c5a555bbd8230c23c54827d9dd548b8479d984a",
+      "failures": [
+        "HTTP 400: {\"code\":-1121,\"msg\":\"Invalid symbol.\"}"
+      ]
+    },
+    {
+      "symbol": "CFX",
+      "pair": "CFXUSDT",
+      "multiplier": 1,
+      "rows": 2880,
+      "status": "observed",
+      "sha256": "fefd66411110aaab081e39061e55b4fa8f8ac06debddd23cf539f5421b018214",
+      "failures": []
+    },
+    {
+      "symbol": "CHILLGUY",
+      "pair": "CHILLGUYUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "3478be947a31e298559afdc72ff5e69df5113a45edccf1c7278665a5e73ec835",
+      "failures": [
+        "HTTP 400: {\"code\":-1121,\"msg\":\"Invalid symbol.\"}"
+      ]
+    },
+    {
+      "symbol": "CHIP",
+      "pair": "CHIPUSDT",
+      "multiplier": 1,
+      "rows": 8783,
+      "status": "observed",
+      "sha256": "4ac77ba235a614945c392bad4d9cd3c1a0459641d570ebc131c33d0264d36589",
+      "failures": []
+    },
+    {
+      "symbol": "CRV",
+      "pair": "CRVUSDT",
+      "multiplier": 1,
+      "rows": 5760,
+      "status": "observed",
+      "sha256": "ffe39bdec1fd2f620faa500e0e90bf33b235a4d6bbf6c313cb467d87a5693206",
+      "failures": []
+    },
+    {
+      "symbol": "DASH",
+      "pair": "DASHUSDT",
+      "multiplier": 1,
+      "rows": 1440,
+      "status": "observed",
+      "sha256": "c85e0133d6d90c8a4cd1a880378f41021a8a1923f4af361f7cf1904990d3cb84",
+      "failures": []
+    },
+    {
+      "symbol": "DOGE",
+      "pair": "DOGEUSDT",
+      "multiplier": 1,
+      "rows": 9271,
+      "status": "observed",
+      "sha256": "afa23327e0c8d0e9212b8b8337d59b9fa4a9471a2ec401cfeb18e4ce5ce94306",
+      "failures": []
+    },
+    {
+      "symbol": "DYDX",
+      "pair": "DYDXUSDT",
+      "multiplier": 1,
+      "rows": 2880,
+      "status": "observed",
+      "sha256": "245cd5bd1ddde7eeebae382f5adde63c194eeb1a4349db3221fc865e9ecd4f82",
+      "failures": []
+    },
+    {
+      "symbol": "EIGEN",
+      "pair": "EIGENUSDT",
+      "multiplier": 1,
+      "rows": 7366,
+      "status": "observed",
+      "sha256": "c12d926d724d1e8966a1a9a734905077bb2063bb68d2ff96befc51f1c7496424",
+      "failures": []
+    },
+    {
+      "symbol": "ENA",
+      "pair": "ENAUSDT",
+      "multiplier": 1,
+      "rows": 28008,
+      "status": "observed",
+      "sha256": "6369d859372abfc3e61be616448509542f6447adf2906c489abedacfde5aa26c",
+      "failures": []
+    },
+    {
+      "symbol": "ETC",
+      "pair": "ETCUSDT",
+      "multiplier": 1,
+      "rows": 1440,
+      "status": "observed",
+      "sha256": "e0c4c0617b3e98b2b45604e7561f2566bafeae9ce0c60584320e420518e1c5f7",
+      "failures": []
+    },
+    {
+      "symbol": "ETH",
+      "pair": "ETHUSDT",
+      "multiplier": 1,
+      "rows": 12742,
+      "status": "observed",
+      "sha256": "b7f1c47155b90e2be0c2bd3eb56670226bbdb95549b8d44aecbf8b324907c327",
+      "failures": []
+    },
+    {
+      "symbol": "ETHFI",
+      "pair": "ETHFIUSDT",
+      "multiplier": 1,
+      "rows": 5930,
+      "status": "observed",
+      "sha256": "8ec7e73b2c67a541c386fa39d2a2169fa0c37dfa39c4ee3098f53861d5e4dd03",
+      "failures": []
+    },
+    {
+      "symbol": "FARTCOIN",
+      "pair": "FARTCOINUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "4ed5f661b331992f1e28e822641ca8c358cc6f1b46a961c71fb328b1c979467c",
+      "failures": []
+    },
+    {
+      "symbol": "FET",
+      "pair": "FETUSDT",
+      "multiplier": 1,
+      "rows": 9091,
+      "status": "observed",
+      "sha256": "213e84d239054bc20055db0eefa74f8d321bac4acd9cef68e824aa2c862393a8",
+      "failures": []
+    },
+    {
+      "symbol": "FIL",
+      "pair": "FILUSDT",
+      "multiplier": 1,
+      "rows": 6168,
+      "status": "observed",
+      "sha256": "f221229becd95360b4b9228d5b7600240fd2a2d931503fb1369aa66c5b6a317b",
+      "failures": []
+    },
+    {
+      "symbol": "GMT",
+      "pair": "GMTUSDT",
+      "multiplier": 1,
+      "rows": 4323,
+      "status": "observed",
+      "sha256": "0f4784fff118f9b0de3b20919a410fb309f889d3e0bc229dfe88da2005fc8682",
+      "failures": []
+    },
+    {
+      "symbol": "GMX",
+      "pair": "GMXUSDT",
+      "multiplier": 1,
+      "rows": 1440,
+      "status": "observed",
+      "sha256": "ce9ec0441b9a210a410b1eb090a51c67f0d8c9b3322d9d7113c1555fe87f2e2d",
+      "failures": []
+    },
+    {
+      "symbol": "GOAT",
+      "pair": "GOATUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "4c811d50e3b5a403d3794d7830b81d0e98c38b75e4e02528dd8b1cc0e5036834",
+      "failures": [
+        "HTTP 400: {\"code\":-1121,\"msg\":\"Invalid symbol.\"}"
+      ]
+    },
+    {
+      "symbol": "GRAM",
+      "pair": "GRAMUSDT",
+      "multiplier": 1,
+      "rows": 3171,
+      "status": "observed",
+      "sha256": "1607f2d1db01e662b0e50532815e5f895d2be9a7bc46a566b96704a21d008fba",
+      "failures": []
+    },
+    {
+      "symbol": "GRASS",
+      "pair": "GRASSUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "e2de4834b3cca7cd0daa8bc8d2b1d767009bc2485be50b4a85d844f5c8ecbdd2",
+      "failures": []
+    },
+    {
+      "symbol": "HBAR",
+      "pair": "HBARUSDT",
+      "multiplier": 1,
+      "rows": 5760,
+      "status": "observed",
+      "sha256": "9d1f9bdd20666bf63fbb20ec1acbd5dbb246a19310f6e1f421123e286929c790",
+      "failures": []
+    },
+    {
+      "symbol": "HEMI",
+      "pair": "HEMIUSDT",
+      "multiplier": 1,
+      "rows": 5775,
+      "status": "observed",
+      "sha256": "9b6019f31c2cc050b9d429917c03a46149329c1bc3fe5cf585bcbe4fd102c159",
+      "failures": []
+    },
+    {
+      "symbol": "HMSTR",
+      "pair": "HMSTRUSDT",
+      "multiplier": 1,
+      "rows": 1443,
+      "status": "observed",
+      "sha256": "ba571ccadf9b99172f29fcb578d79b94def2eadff60f260228efe59b3830d578",
+      "failures": []
+    },
+    {
+      "symbol": "HYPE",
+      "pair": "HYPEUSDT",
+      "multiplier": 1,
+      "rows": 5986,
+      "status": "observed",
+      "sha256": "063dbed5c0ae34c64dedaeaba155f267c12aec0dfbcf322498be15b70638b2dd",
+      "failures": []
+    },
+    {
+      "symbol": "HYPER",
+      "pair": "HYPERUSDT",
+      "multiplier": 1,
+      "rows": 1440,
+      "status": "observed",
+      "sha256": "ff8d3c9e0d2c5706fa4548c2d6b511f46bca01473983eb574e20cee4a15e4453",
+      "failures": []
+    },
+    {
+      "symbol": "ICP",
+      "pair": "ICPUSDT",
+      "multiplier": 1,
+      "rows": 7213,
+      "status": "observed",
+      "sha256": "61eac4e881b3a3310a2d1c52b688a1f649086c54425eb9f2d341bbeffb79edc6",
+      "failures": []
+    },
+    {
+      "symbol": "INIT",
+      "pair": "INITUSDT",
+      "multiplier": 1,
+      "rows": 9155,
+      "status": "observed",
+      "sha256": "99fcc302a62860459b2be7272843d94234c272f707a57b6d28356e163d40744c",
+      "failures": []
+    },
+    {
+      "symbol": "INJ",
+      "pair": "INJUSDT",
+      "multiplier": 1,
+      "rows": 18260,
+      "status": "observed",
+      "sha256": "63cd9632fddb3983838ee0f5c8e413f892d5a5676ef96664a74f59fe216d8ff5",
+      "failures": []
+    },
+    {
+      "symbol": "IO",
+      "pair": "IOUSDT",
+      "multiplier": 1,
+      "rows": 2448,
+      "status": "observed",
+      "sha256": "fa16852f3ec264df9f3161d9226e0538434ff882a66aa569f7d0049d5b278232",
+      "failures": []
+    },
+    {
+      "symbol": "IP",
+      "pair": "IPUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "4014157237b855ae7dc7acfa57d52664f6707f33526fa23790a85f425c962797",
+      "failures": [
+        "HTTP 400: {\"code\":-1121,\"msg\":\"Invalid symbol.\"}"
+      ]
+    },
+    {
+      "symbol": "JTO",
+      "pair": "JTOUSDT",
+      "multiplier": 1,
+      "rows": 15042,
+      "status": "observed",
+      "sha256": "d3dc1388af540c7902fa7cbb12382160abda8fa731802f3da1aab96e922e3f30",
+      "failures": []
+    },
+    {
+      "symbol": "JUP",
+      "pair": "JUPUSDT",
+      "multiplier": 1,
+      "rows": 5710,
+      "status": "observed",
+      "sha256": "87b62f9c0c908d0ad057fa564f0430493284d6c8e488c739d63e1237861a7da1",
+      "failures": []
+    },
+    {
+      "symbol": "KAS",
+      "pair": "KASUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "2161dd274df9cb2e6f61c987219ad87bdc49bdb2cfa39ec523145067aad5ed5e",
+      "failures": [
+        "HTTP 400: {\"code\":-1121,\"msg\":\"Invalid symbol.\"}"
+      ]
+    },
+    {
+      "symbol": "LDO",
+      "pair": "LDOUSDT",
+      "multiplier": 1,
+      "rows": 1440,
+      "status": "observed",
+      "sha256": "9b8fffbc0afff7268093a1d1ab4240bf78538ef0a94f4bf92b74031ca8982e2d",
+      "failures": []
+    },
+    {
+      "symbol": "LINEA",
+      "pair": "LINEAUSDT",
+      "multiplier": 1,
+      "rows": 2880,
+      "status": "observed",
+      "sha256": "8cf215ee38dbd6a071c828a3347acc3e8bed59bfcdc933568e3f2d163a7fea87",
+      "failures": []
+    },
+    {
+      "symbol": "LINK",
+      "pair": "LINKUSDT",
+      "multiplier": 1,
+      "rows": 7774,
+      "status": "observed",
+      "sha256": "24cd1365da599f619392b8921dc06a164dcf8227f152ec1db854a19de34f2f8c",
+      "failures": []
+    },
+    {
+      "symbol": "LIT",
+      "pair": "LITUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "excluded_ambiguous",
+      "sha256": "50c9b06bd55b1db98ed5c68b1071216d60cc930f34b3e30cc696a2bc65015bfa",
+      "failures": []
+    },
+    {
+      "symbol": "LTC",
+      "pair": "LTCUSDT",
+      "multiplier": 1,
+      "rows": 2880,
+      "status": "observed",
+      "sha256": "9a66a1cd03e24bd834ed8f76bee03baab15ba9a3a87f850d63cef3b623a1fad8",
+      "failures": []
+    },
+    {
+      "symbol": "MANTA",
+      "pair": "MANTAUSDT",
+      "multiplier": 1,
+      "rows": 1440,
+      "status": "observed",
+      "sha256": "4c7c6841defdf20e03130e2d52f689deb6a62ef37de8ccf19e87005fcbb83f0d",
+      "failures": []
+    },
+    {
+      "symbol": "MEGA",
+      "pair": "MEGAUSDT",
+      "multiplier": 1,
+      "rows": 14202,
+      "status": "observed",
+      "sha256": "3f4c00f1e7ae0a4f5a16eb0b2b129f470b76673e1671bf15d662acbe1c7eb9b3",
+      "failures": []
+    },
+    {
+      "symbol": "MELANIA",
+      "pair": "MELANIAUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "b317398de0c5f3a105de60a273e8678da69d6f7146149cee7df44750f7b1abeb",
+      "failures": []
+    },
+    {
+      "symbol": "MERL",
+      "pair": "MERLUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "626f585fe75883a2993677556ab70e3ad3b6bb99ea867c21fed1de6f30e27070",
+      "failures": [
+        "HTTP 400: {\"code\":-1121,\"msg\":\"Invalid symbol.\"}"
+      ]
+    },
+    {
+      "symbol": "MET",
+      "pair": "METUSDT",
+      "multiplier": 1,
+      "rows": 6009,
+      "status": "observed",
+      "sha256": "bd76f5c5b50cdb36728ec53efadf444b8a7257cca9dc7d0d6e2c7855583f984e",
+      "failures": []
+    },
+    {
+      "symbol": "MNT",
+      "pair": "MNTUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "4393befdf7c23d2159ba7c0df1b4c9a1ba40cdd3c0ed84f73bd2ec722daf8e41",
+      "failures": [
+        "HTTP 400: {\"code\":-1121,\"msg\":\"Invalid symbol.\"}"
+      ]
+    },
+    {
+      "symbol": "MON",
+      "pair": "MONUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "66c30c3938bc90cf022f448e3c612c06c6831b95c81141ee5657bcaed719b404",
+      "failures": [
+        "HTTP 400: {\"code\":-1121,\"msg\":\"Invalid symbol.\"}"
+      ]
+    },
+    {
+      "symbol": "MORPHO",
+      "pair": "MORPHOUSDT",
+      "multiplier": 1,
+      "rows": 5760,
+      "status": "observed",
+      "sha256": "ae0b953e760fdb87d84b9be3b88eb93cc50992b04ee49c5a5c0c9da9305d6efb",
+      "failures": []
+    },
+    {
+      "symbol": "MOVE",
+      "pair": "MOVEUSDT",
+      "multiplier": 1,
+      "rows": 2880,
+      "status": "observed",
+      "sha256": "ca32754559f2df5c7ca7f5c812680b84428d93424d3ae65802d007ec4deb3078",
+      "failures": []
+    },
+    {
+      "symbol": "NEAR",
+      "pair": "NEARUSDT",
+      "multiplier": 1,
+      "rows": 37742,
+      "status": "observed",
+      "sha256": "f1cef9c9a5f8abc19b23ea39dacea551944acdb722aca6a708d4c86591fa30d2",
+      "failures": []
+    },
+    {
+      "symbol": "NIL",
+      "pair": "NILUSDT",
+      "multiplier": 1,
+      "rows": 9672,
+      "status": "observed",
+      "sha256": "09433d7db2739c7c77fcda77194a54d4a23c5970ae4405ccfbc3bcbe971e24f0",
+      "failures": []
+    },
+    {
+      "symbol": "ONDO",
+      "pair": "ONDOUSDT",
+      "multiplier": 1,
+      "rows": 21508,
+      "status": "observed",
+      "sha256": "17a18b5c1533504a7f2db2fe612ed2e6ad586b2d57443caae717d52f546cec08",
+      "failures": []
+    },
+    {
+      "symbol": "OP",
+      "pair": "OPUSDT",
+      "multiplier": 1,
+      "rows": 4320,
+      "status": "observed",
+      "sha256": "89283912d2ea0ae69339ccbd46fbe187b46719b27be403549f19091e11a50ffe",
+      "failures": []
+    },
+    {
+      "symbol": "PENDLE",
+      "pair": "PENDLEUSDT",
+      "multiplier": 1,
+      "rows": 13076,
+      "status": "observed",
+      "sha256": "8d1053576432e8fdcb793c7007bc63dfb3c083e46864bb89b3efbcaec9ec44a9",
+      "failures": []
+    },
+    {
+      "symbol": "PENGU",
+      "pair": "PENGUUSDT",
+      "multiplier": 1,
+      "rows": 10235,
+      "status": "observed",
+      "sha256": "2671d7b29a696678417f0cab3de21f412c6401f33fed9681b4227f5562204fc3",
+      "failures": []
+    },
+    {
+      "symbol": "POL",
+      "pair": "POLUSDT",
+      "multiplier": 1,
+      "rows": 2880,
+      "status": "observed",
+      "sha256": "dbff838ba88369be8a4ac56c55dd0720214df9eb1bae5fc382ed5e417d79649d",
+      "failures": []
+    },
+    {
+      "symbol": "PONS",
+      "pair": "PONSUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "4aab2f4df3048c4dfba34b3b59f3d84b0491ddfd45a3419cbf91445465bba457",
+      "failures": []
+    },
+    {
+      "symbol": "PROVE",
+      "pair": "PROVEUSDT",
+      "multiplier": 1,
+      "rows": 1440,
+      "status": "observed",
+      "sha256": "f6f88109b664359120c08cbc46841ffc7876ad1a47211c6a4b1a2df77f753b28",
+      "failures": []
+    },
+    {
+      "symbol": "PUMP",
+      "pair": "PUMPUSDT",
+      "multiplier": 1,
+      "rows": 32830,
+      "status": "observed",
+      "sha256": "0a90b5f3c6122c151160933b4c046ecd266c6d69f9db6d53852745a1c76bea31",
+      "failures": []
+    },
+    {
+      "symbol": "PURR",
+      "pair": "PURRUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "09cfa68e768157100aa0a7c3978eb1721d8a78003da9f528533dc7d73ac9ad8b",
+      "failures": []
+    },
+    {
+      "symbol": "PYTH",
+      "pair": "PYTHUSDT",
+      "multiplier": 1,
+      "rows": 2880,
+      "status": "observed",
+      "sha256": "9cd71bdad7e97410b7f219b3c624a1ab6c6938064f0643c01f7b7e9df4182a16",
+      "failures": []
+    },
+    {
+      "symbol": "RENDER",
+      "pair": "RENDERUSDT",
+      "multiplier": 1,
+      "rows": 4115,
+      "status": "observed",
+      "sha256": "e064e31e076e623e3e440b8224b0d9b348c45ee4f7f1ad7f78dd95ab90b73b6c",
+      "failures": []
+    },
+    {
+      "symbol": "REZ",
+      "pair": "REZUSDT",
+      "multiplier": 1,
+      "rows": 2880,
+      "status": "observed",
+      "sha256": "86b6583d4d1505bdd595cb36ab0ae4eb3b90e8ab7acba19d1a2c3413a4d53c74",
+      "failures": []
+    },
+    {
+      "symbol": "RSR",
+      "pair": "RSRUSDT",
+      "multiplier": 1,
+      "rows": 1443,
+      "status": "observed",
+      "sha256": "22dd2732ad2c744490ad86dd6b86aef7fe60e70fa65a7a795c43d505340c3e5f",
+      "failures": []
+    },
+    {
+      "symbol": "RUNE",
+      "pair": "RUNEUSDT",
+      "multiplier": 1,
+      "rows": 5456,
+      "status": "observed",
+      "sha256": "d02f43838d62dba6b07a7f9a6a61aa488ac9019da99160f875caa2e380be3622",
+      "failures": []
+    },
+    {
+      "symbol": "S",
+      "pair": "SUSDT",
+      "multiplier": 1,
+      "rows": 2888,
+      "status": "observed",
+      "sha256": "f0ff2152f8b8f32d36dbf2276d6c760a100e37729fcf0f5bc86de8490b7d3a5c",
+      "failures": []
+    },
+    {
+      "symbol": "SAGA",
+      "pair": "SAGAUSDT",
+      "multiplier": 1,
+      "rows": 1440,
+      "status": "observed",
+      "sha256": "b9a5541c28cecf848b14077c31687a8105e9566530e5595acb70af0ef64dd9ea",
+      "failures": []
+    },
+    {
+      "symbol": "SEI",
+      "pair": "SEIUSDT",
+      "multiplier": 1,
+      "rows": 2880,
+      "status": "observed",
+      "sha256": "41f6bb2b921390a5d31d690259466e38472404a1bcc41a091c9fd4961519adea",
+      "failures": []
+    },
+    {
+      "symbol": "SKY",
+      "pair": "SKYUSDT",
+      "multiplier": 1,
+      "rows": 1440,
+      "status": "observed",
+      "sha256": "1b3f1dab2af267efb5acd390de18d6aabdacb572517fb79c2f70c5e27603deb9",
+      "failures": []
+    },
+    {
+      "symbol": "SOL",
+      "pair": "SOLUSDT",
+      "multiplier": 1,
+      "rows": 15656,
+      "status": "observed",
+      "sha256": "437c61adb1f1d5039b3f9ae1b10dc971a22e1b12e0186d494c9171331690f3c0",
+      "failures": []
+    },
+    {
+      "symbol": "SPX",
+      "pair": "SPXUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "7035056cd767901ff7a26b77506d5976c21167b864f49898f6d272a17cd31868",
+      "failures": [
+        "HTTP 400: {\"code\":-1121,\"msg\":\"Invalid symbol.\"}"
+      ]
+    },
+    {
+      "symbol": "STABLE",
+      "pair": "STABLEUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "68d15661cfe27b7d474acf6c3577847556bd839146f2f214daa5cc7f10b943cc",
+      "failures": [
+        "HTTP 400: {\"code\":-1121,\"msg\":\"Invalid symbol.\"}"
+      ]
+    },
+    {
+      "symbol": "STBL",
+      "pair": "STBLUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "9970ead1ec2836f7b031b8580f49372ac84be1e776dd59b9572d4e0cff01139c",
+      "failures": [
+        "HTTP 400: {\"code\":-1121,\"msg\":\"Invalid symbol.\"}"
+      ]
+    },
+    {
+      "symbol": "STRK",
+      "pair": "STRKUSDT",
+      "multiplier": 1,
+      "rows": 2882,
+      "status": "observed",
+      "sha256": "d763fefe14efa20238a5a58e08de801452525e256f557493a763977e2c7ae67f",
+      "failures": []
+    },
+    {
+      "symbol": "STX",
+      "pair": "STXUSDT",
+      "multiplier": 1,
+      "rows": 1440,
+      "status": "observed",
+      "sha256": "719f3973989830a65fd144fe5f96bb2d0ed80d3d211cdd5225f849bde45b9d07",
+      "failures": []
+    },
+    {
+      "symbol": "SUI",
+      "pair": "SUIUSDT",
+      "multiplier": 1,
+      "rows": 17174,
+      "status": "observed",
+      "sha256": "73b6017766b5758a7cea884b4bbe67452e89551e039e9214b837a424803587f0",
+      "failures": []
+    },
+    {
+      "symbol": "SYRUP",
+      "pair": "SYRUPUSDT",
+      "multiplier": 1,
+      "rows": 4676,
+      "status": "observed",
+      "sha256": "26ed6fceb93b4f1d097043a367e772bbca958c350f1b8dcdab8d77b78609e6bd",
+      "failures": []
+    },
+    {
+      "symbol": "TAO",
+      "pair": "TAOUSDT",
+      "multiplier": 1,
+      "rows": 16497,
+      "status": "observed",
+      "sha256": "a52fe9f34ef5211e2426c0cc2512f0249d93e2182750cb45128b8e45851f2875",
+      "failures": []
+    },
+    {
+      "symbol": "TIA",
+      "pair": "TIAUSDT",
+      "multiplier": 1,
+      "rows": 8647,
+      "status": "observed",
+      "sha256": "0fb719f8cb8add52cee8da8c31b3de419faa20dc354e1adf929b4df0cd874d1f",
+      "failures": []
+    },
+    {
+      "symbol": "TON",
+      "pair": "TONUSDT",
+      "multiplier": 1,
+      "rows": 18341,
+      "status": "observed",
+      "sha256": "1a4725cc36d1cef4893635ed8c134ec085b1b8b4a084f79a78a8f1dec10498ea",
+      "failures": []
+    },
+    {
+      "symbol": "TRUMP",
+      "pair": "TRUMPUSDT",
+      "multiplier": 1,
+      "rows": 15367,
+      "status": "observed",
+      "sha256": "a5bb9943b64e2deec0af9b2ec5cba42c09a2cea9ea7718acb144d465b9f44d57",
+      "failures": []
+    },
+    {
+      "symbol": "UNI",
+      "pair": "UNIUSDT",
+      "multiplier": 1,
+      "rows": 10367,
+      "status": "observed",
+      "sha256": "23c2e72599c961961a163f0a1d4e34df7fc048574f3e86e24ca79df36bba723b",
+      "failures": []
+    },
+    {
+      "symbol": "USELESS",
+      "pair": "USELESSUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "fe27bf19894ef86eb6c31f1bb5b9500d57157caa5182a550b489ce29bc750e6c",
+      "failures": []
+    },
+    {
+      "symbol": "VIRTUAL",
+      "pair": "VIRTUALUSDT",
+      "multiplier": 1,
+      "rows": 6720,
+      "status": "observed",
+      "sha256": "4c78c74ecc9c5b3c10440312d2934ee8601ccd2bab49126a50ccdea7cebfabfb",
+      "failures": []
+    },
+    {
+      "symbol": "VVV",
+      "pair": "VVVUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "cdca46685fcd48f95443ca319b72c0e1ab505f0ca5f60ccb73f455257c921643",
+      "failures": []
+    },
+    {
+      "symbol": "W",
+      "pair": "WUSDT",
+      "multiplier": 1,
+      "rows": 2880,
+      "status": "observed",
+      "sha256": "8e4b8f5ffaea629f0ee35e41b052537f60ef2728ce3c7d5e27a0b11a678e40b8",
+      "failures": []
+    },
+    {
+      "symbol": "WIF",
+      "pair": "WIFUSDT",
+      "multiplier": 1,
+      "rows": 4324,
+      "status": "observed",
+      "sha256": "afe69b5c856e2f25f6af1d89e60ba545ddda0bb046fea085c99006a472293188",
+      "failures": []
+    },
+    {
+      "symbol": "WLD",
+      "pair": "WLDUSDT",
+      "multiplier": 1,
+      "rows": 32585,
+      "status": "observed",
+      "sha256": "a5319671fb89bc6b16ae4d0ff059d8af9f54646d18f9742906a880426a65c60e",
+      "failures": []
+    },
+    {
+      "symbol": "WLFI",
+      "pair": "WLFIUSDT",
+      "multiplier": 1,
+      "rows": 9610,
+      "status": "observed",
+      "sha256": "8c299cd94d364988f5bdf5e8b8681b907edcdad9551b6acfd5727524578225cb",
+      "failures": []
+    },
+    {
+      "symbol": "XLM",
+      "pair": "XLMUSDT",
+      "multiplier": 1,
+      "rows": 13553,
+      "status": "observed",
+      "sha256": "4449ad49dc401ab43945c9eef0c5ef8a445bf910ab1b19fe9b33cb458c965734",
+      "failures": []
+    },
+    {
+      "symbol": "XMR",
+      "pair": "XMRUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "c6eb4bd1cc33e938b95a4e9a5937a88f5bbc0dd9b5de0f2ec05ce0d028be5ebb",
+      "failures": []
+    },
+    {
+      "symbol": "XPL",
+      "pair": "XPLUSDT",
+      "multiplier": 1,
+      "rows": 26507,
+      "status": "observed",
+      "sha256": "086518bbd5e0e66a59fcafe5dcfb6da13f8ca29f071e5dd7e1feb4d48b07021b",
+      "failures": []
+    },
+    {
+      "symbol": "XRP",
+      "pair": "XRPUSDT",
+      "multiplier": 1,
+      "rows": 12543,
+      "status": "observed",
+      "sha256": "a847141b0ba55c40ef609ef2a511ec9c0c7bc586881e67d0689dff5c8b9580ff",
+      "failures": []
+    },
+    {
+      "symbol": "XTEN",
+      "pair": "XTENUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "943d12c482f47efd2679e951453c64be28fec377bdc181dfed2f5c8c0f561232",
+      "failures": []
+    },
+    {
+      "symbol": "ZEC",
+      "pair": "ZECUSDT",
+      "multiplier": 1,
+      "rows": 41321,
+      "status": "observed",
+      "sha256": "a2735cf53c604103b4d943eb82560db4ab771af57657b1615b1dbf19b489071c",
+      "failures": []
+    },
+    {
+      "symbol": "ZORA",
+      "pair": "ZORAUSDT",
+      "multiplier": 1,
+      "rows": 0,
+      "status": "unavailable",
+      "sha256": "a0c02b31ef071893fef7ff8611c56ce6a0ee962ec6328fbd42cf92a0a3ef29b0",
+      "failures": [
+        "HTTP 400: {\"code\":-1121,\"msg\":\"Invalid symbol.\"}"
+      ]
+    },
+    {
+      "symbol": "ZRO",
+      "pair": "ZROUSDT",
+      "multiplier": 1,
+      "rows": 16889,
+      "status": "observed",
+      "sha256": "98a1d899782c4ab9691f802f77b8703deb3229bbdf43614fe8327cd8f3836db6",
+      "failures": []
+    },
+    {
+      "symbol": "kBONK",
+      "pair": "BONKUSDT",
+      "multiplier": 1000,
+      "rows": 2880,
+      "status": "observed",
+      "sha256": "61764737261a3b95d8b3086365dc187ea7ea51306373a3a4a2cf9464800ad209",
+      "failures": []
+    },
+    {
+      "symbol": "kNEIRO",
+      "pair": "NEIROUSDT",
+      "multiplier": 1000,
+      "rows": 0,
+      "status": "excluded_ambiguous",
+      "sha256": "8500584d1da5fbc60fdedc65d27c7ccb67cc0630a8361db5dcfe02e77b43a380",
+      "failures": []
+    },
+    {
+      "symbol": "kPEPE",
+      "pair": "PEPEUSDT",
+      "multiplier": 1000,
+      "rows": 12766,
+      "status": "observed",
+      "sha256": "8d4d45569a8a6595e49e01254d20b280fc3d9825375bfa3bf675c967500ff080",
+      "failures": []
+    }
+  ],
+  "source": "Binance public historical 1m spot klines; merged pre-entry intervals; scaled k-contract units explicitly recorded",
+  "rows": 788278,
+  "requested_entries": 1742
+}

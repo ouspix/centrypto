@@ -1,0 +1,1277 @@
+{
+  "created": "2026-11-22T09:20:28.241232+00:00",
+  "bundle_sha256": "77fe19bf9b0d568c8f81e906afde325fe8d32b45136ed5e81eb5f8f001fd5f55",
+  "sources": {
+    "data/research/centrypto/capped-entry-value/history.joblib": "6e8332a3084705fe0359890ef9ac5da581087f8e7f7bfc2c3668e7aaf63ac968",
+    "data/research/centrypto/capped-entry-value/history-evidence.joblib": "b1602fa6971f7f1a3f9800517c859d13db131ab4afc669c5f48c834911d1d260",
+    "reports/net-value-entry-2026-11-22/net-value-models.joblib": "eb152614c11e91cfab21d3d5313ef3aa9d578d3b736a9dfed7b8c5df9b1de2b9",
+    "reports/sma-rsi-bb-optimization-2026-11-21/november-06-native-5m-backfill.json": "0e3576e1b383f584d3daf77c40b93023c568d96d79058ac3dfa706fabd4914fa",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-AAVE.json": "153c5c922cca0df3fed2dd0113d29c3aeabc78d392320c9f566e35ad5b91b619",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-ADA.json": "af5b8a21de599dc8024efebd70741384d08a8b6c6c3be6fb9b355d8d10bee910",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-ALT.json": "6b876f9e8f9ef542985cdaf4ff5ee4c596876cc51bfece96d828fc526272738b",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-APE.json": "640fcd71387fc37c57344834d45458493bb6c8eefe1680ce0eef66524898a969",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-ARB.json": "790e185bfc4cf87b8652ecc8ab3ebc7759a3cab03e580c0804c545054ac89520",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-ASTER.json": "6360f01c0ec916e501b21618071a84e91f68729266368ce30f407e373ecfa085",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-ATOM.json": "53d7e950ea9f4f0daaabbbcc080677ae509521b98326c73a382d1168a8f8b3a6",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-AVAX.json": "87edae20d55819c52baf9485a9600f663007d8dc7bb8e42bed5156713034381d",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-AXS.json": "4e86f3328d102f771f5d137497970594b7cb97056c3a21a59afd9e9121e15ed9",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-BCH.json": "381f9154417110c04f86572b9baa299d713b46f867ae3a21963d3fd1fc87a7ee",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-BIO.json": "6aac040066d29aaf68468b3e2447e785ad851d50d08e618feb67d6f851aebabd",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-BNB.json": "2bd748389284843d9156640b012f9792cca320d9a2c85ea1eaca894acb4478ef",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-BTC.json": "383918eff7bfb0071681fed5cbb4163993c4ef02a8e64218b73b400d99f676bf",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-CC.json": "dda2dc792a5f983dc0e9cef98d7c67751e487d9cdc205d514ccb344953db09b2",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-CHIP.json": "bb2d4600a84291beee65061daeda89e863ec8b1ff668d1b6e9ed2539e9365a7a",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-CRV.json": "1f5ec199010ecbbb70a7cd86f13d318b68c5bf20b583e5cfc947a619d22f3fcc",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-DOGE.json": "b9c8b95201b50e6407661dc143c102b5102279f3bf79bc0a0bdc98db1257ef41",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-DOOD.json": "9aa68e7ce88865d8b8630a92f59e0d54ab76c8814c95b23ed9c94d789daf9738",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-DOT.json": "8680779308584dda2d34c842fd26830d8f4c4d66db8afab6ab43f42c373ba94d",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-DYDX.json": "b1efb23e16af644d9681d7425435c47516a75c89e08bd42b580c8dcf79aae4c0",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-ENA.json": "4bfb3d914f9d7d72a9d96f603946bb32cab1177c180199edf349a74b44e901b8",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-ETH.json": "b412b9c2134d0f3d1417d555ba131b72dd67d8097defbd7c8b2642b0e5f3e71a",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-ETHFI.json": "05a583cd5e2a0d7a5e3a89690f6c2b6df1b92a2bb1c1bcc0c47a210cb5a0d329",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-FARTCOIN.json": "c22664b2f815fc7f967ed85b0ddafea077adc0be3ffa6fdb31cbd04437df853c",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-FIL.json": "2781c1d710b2a6367f5cd6ca64840c6f07400ee95c46e2cc15af5e11d1c27593",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-GOAT.json": "a14ced54522659aebfc1aae5a10dd7e9f4b3925971d882f15ddc13ce5a762d52",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-HBAR.json": "d005dda5201212ddf39d27aa2ba71aa9672d029977c464a436b56fd1d7289183",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-HYPE.json": "e7508bd013bcbaed6e56fcf8d3ad62871c107376e6b0a18157cce33c872c0912",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-IP.json": "72993344c38c1bfa27d61c66b33ee570bf3a00a9b80d780fbb441e85f04b4da4",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-JUP.json": "4cb549502dfb2cda588a34c61b3c2efc61175bfa56a0d1f56e16cdff0b46fbf2",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-LDO.json": "6e4ab25c6da2df870cb6319fd4cbbe045dfaa6b8dbc453fb410746e1f8e5ebae",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-LINK.json": "bce4b890a121b0e60dfbcfd38a02d7f9acb19c9de2c70d9a292da750b5d82a87",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-LIT.json": "3df6c159bcec988f33f3b05f0dd42546c33db0135b8af26fa36fcfd691d4a559",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-LTC.json": "d355bbed4d779fea96dbf4e9e6d3e17d93ed77731daea303c9b0460af23146e5",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-MEGA.json": "b69cbc0139d8214ebe9b107a87733b8b95690229b39f7909fbff4c137f42187d",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-MEME.json": "b1efb23e16af644d9681d7425435c47516a75c89e08bd42b580c8dcf79aae4c0",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-MET.json": "1e90adc036d34eaffe5eb4abf54ccf21266d853b989c85ad091550a83fc1f29e",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-MNT.json": "40b2ab39e4f65b68c53921ba08dc826e977e84d3b21f4c34cb2266b18fa0e200",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-MON.json": "b2d79cc0848d4b9b995f77c841b99ed1bdfdb5ffc6dc3e682cbfa5e664142490",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-MORPHO.json": "c22af36c47e8ea9491cdc0711e69e94316862cb2b7ff4e25c7f5e6a5fcb178b4",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-NEAR.json": "93d8d1a8abecf296b5c5a697911984a3608d30fa9f33fd7d0742a59cb376d035",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-ONDO.json": "ea47f341da9b11f5987e0ab747ff8cc3724c5f3252212e400a78fd6b70a0b6a7",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-OP.json": "55879022f2ccf3f25347e747dcf2c8000f18e1a4ea47f8e911e9c45a5e57ae04",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-ORDI.json": "313203083f3ae9458d29d4601713637d5c7ff4e3fccfaef7e00519a09ceee329",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-PAXG.json": "1cbd566b6ef02c3b84b3cc341787e53aaa71c89140295903614f91e3ab3608d9",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-PENDLE.json": "f8d14a6b1a9c28397ff3cd1046b581a9055daa90e40b99f3286bbb798167db02",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-PENGU.json": "02bb16313b8ecf2a09bab7dc5cb8ec47927d0ba8ca471158e7d415a75231ba53",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-POL.json": "23b91252e0766fd7b44bea9d84ba04c0e0979db7401cb40e91c25a2dedfa1852",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-POPCAT.json": "eead48da909ec58879cb990e64d48283c4d7e7bdfa6be8588d8e03ecaa9713e5",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-PUMP.json": "c5e26d76b213db1e1b96a39adc21eaf490c91b1c817f7fb85f623d49822a233f",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-RENDER.json": "96cb33dc2e4f5864966ef9539d7c3eb0dd52cc0a89572360f7fedf6a4849268c",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-RESOLV.json": "f89caf92152954afe5ed8d5c80cb47532245366ffd31e061fc73ed9e3474556a",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-REZ.json": "1a4d32c775b58224273abe8830c29255390c509577338826d1f3c3c75c854465",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-S.json": "d3460382663cf5686922c4a8034708883548b4d2a5ccd7b8610a914d6295e7ff",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-SAND.json": "75226e5c41889bfb756753bc60f550bf2fd4de3e32813864cbde6dee8565b706",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-SEI.json": "d372b2a605bbd0caf0c2fe1aa0f643caddc90d4859bf4912a450caef3c3fdbae",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-SOL.json": "2933d30eab96a0d141b0f1c049c873a3fbf08ba745bcbe0cd4dab62588b704eb",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-SPX.json": "28d01b77c00b73470f9592ea47097747423b190e52aab7866469ac72edd07b63",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-SUI.json": "0369b2ade6d16e68d35d337bcedf77e9175f92982c3f4e074d73d9c4aa1d1d1f",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-TAO.json": "aab192ada6db526cb3e1e76519cc8abceabbd5b27936f7f9f63d0e9cb7767544",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-TIA.json": "7616482c3ea6fe25682bb1b77672bb1982260661850d567078af2f9e59cded1b",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-TON.json": "4605b063d05034dded8443a830a4dc8cbbfd6a2e5731445f38a2fdec8e6de061",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-TRUMP.json": "061795ed583751e9bf98b0431c6723c6b27117aabcd5186be1f207954b4f8cf9",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-TRX.json": "eaf837d071a8c600c85b7b531f4b94ac67c3de51d114ca102e2059e5ce066517",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-UNI.json": "9d3b134f46de30c797b8870be2d5e24bbacc57255da3eb45efeb218a0a4b980b",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-VIRTUAL.json": "244d625c03424da918554e29619bfd4ac07e068a31430310bd60cb19cb356aaf",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-WIF.json": "5e1bec7c0ce3de728221eda439f44460c9cdb989aa5d0669e32babe4ef105208",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-WLD.json": "98fb4ac4141840fb2ac907333107ac9644ba2f311ed7ce2e86446ac831ea9d70",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-WLFI.json": "e46f9ca3df4fd475e43f7a3f40d7a50766f7978e804ca29eac917f625064b4a4",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-XMR.json": "d4b284af5f884c571c87896de091b9035b98c22b1ecb0e2bc226fa11b892902c",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-XPL.json": "17994b192b279fe0744c8ea4b919935d8bf1462973bad750e88204e3d5639222",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-XRP.json": "0307266ba44b5aa09fb414cf296948863348fc3286d59fdba43c59cf77ccf705",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-YZY.json": "b926de037c319eddde98b6c8c44c6cf8919caa33542c63e8c8f879023312a6e7",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-ZEC.json": "251a89090b402d185f2bbe7aba860ddffc1e22f86d6566d9c1ffdde122ab7bd8",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-ZRO.json": "5640ed98d47c3988d9515a2691669eeff3227b54563795e47b42d15072b9a5a5",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-kBONK.json": "99457a36a69aa1fb751c4b05a7fe4d0ebe96830e7586c3294463431c7ad5ab23",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-kLUNC.json": "24f7da98d65b8853494322a5d454399eae3784a33bc9959195069d319539da6a",
+    "data/research/centrypto/capped-entry-value/hourly-funding/apr-kPEPE.json": "6e9cf3678e98e721a1db5d6aa5785c840ca53bea2eac1e56436e6dd095aac96b",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-2Z.json": "9288a26d8701b23afbd8b3370ffd838f80d83b7e611aca24fb24bae36f33f2a9",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-AAVE.json": "e310f4fe13f1fbc836d4b03377d87a55d281ad17677c1a16bde6fbd77a7100a6",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-ADA.json": "6bed3d38d872f7b4f1d14d76ec8cf41a29964cbe864427c4cfd26713b3711b76",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-AERO.json": "b1972992594b4cf351967ecf1d2651f6672edcf72eff4f849ae96b76f9a9d100",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-ALGO.json": "ea3f67d4ebe9f0645bc56c424e95e68d3df630cbd3da101692f93fbd503bdec8",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-ALT.json": "83a72a4d742ccdbb50b270ca6481e9e619e55496e895a9a1875113e459d54167",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-APT.json": "f3b735c79e583eb6f9a25d65917746c570f7c33dc9d83ffc0fe7b2002f6c11c9",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-AR.json": "e923f6d4a5b3d244cd230ce70d1e6ed8036f7641a23630ceb3ad5f170a9c775c",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-ARB.json": "3de3f8ffb69f75f4be0e765e0a5dfb626fce5609c555367c0e9762c8beac3e6d",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-ASTER.json": "2994046e6343208b60cfd3d27782d4d52569d2ac042faf6b127f74592a4d647a",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-ATOM.json": "80b63cedfcce471a59f44d7756a754fe7de27cd474233747095e7fec6a77c97d",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-AVAX.json": "4b3e84606821b18d4c9de89f26651665702823a4b57604d89367d25a595713d6",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-BABY.json": "040f5420d1a2a3410af4fd0ec3127410a5a55499d1ef4f9ce3f7f70e52ac9ad7",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-BCH.json": "56976594a541f13d9a59ff3aa885f220f2ac27157bb056af9b606275170f95ca",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-BERA.json": "4c94af7cebd0dcf3a1c0fb2a0e9ae3bb9922c844b21abf5699307e167f01c0ec",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-BIO.json": "b775d596a6920a13d0e7117a77cc5c126ad37e249fe9a7c94bf7018f67278b63",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-BNB.json": "cead53fd686874373841eb933decd38cf997c3e196d2671abbeb5feac6f6fad1",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-BRETT.json": "c939cfe9e82da1251c3dc0bed9160073e478b304eae6594ee354039a41aad7ed",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-BTC.json": "88bfd91edda7048bea430ba09b12a8933f618a1192c41e8a570f8d54d0ddf322",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-CAKE.json": "9ca045c24eb5e866584edb11b1cf620d21304152ab14fa7a1949afb8641e7b78",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-CC.json": "2066b00e6e073a156b61b496a9ff6b06bc0eaed35fd73e1af467f8100369adb7",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-CFX.json": "a46413ba76e639579bdc57a59f16a9797ec6458d613424a43ab92c81babc2822",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-CHIP.json": "d662f8e0635139b9c88583102bf461b0e0e7f6832119d64ef1d1c1cb60a8b292",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-CRV.json": "a0233688e82cc03669352eb647db46da89bf156499d585c75198f26816999cda",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-DASH.json": "86f5fd2e48d09e89145aa84936a23fc6a1daf2e2631d5d555be1eb27998d327c",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-DOGE.json": "c3ccfa24be9f77dd65010a6076c61e6f452e7c1a662a3436cf0c9bfb25940369",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-DOT.json": "69a90cfec06decb154029d3d82247ee2e8f1fc2ebfd3de21a9775b0c2563b86f",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-DYDX.json": "123e44d0ff00b395a98bcd055666f3c98c7864dbe62948970ec8d3ea7403b9a6",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-DYM.json": "7cf6fc06629e28a54dbd7ab813ff5a2aec1bec2eb23e58762fe3c14d7733ca64",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-EIGEN.json": "4df7d024689341953d08b40655cf1811288c6b5540d1324c3aad9bd85eb5d461",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-ENA.json": "1229bcf422573dbc0f91922ace834f4f8605b75335840742e91f76db610f3fb5",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-ENS.json": "d743a88210d8a97d6fdfb3c1ba428c8de7385c3590955d31a416bd57e7f526b3",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-ETH.json": "6a6724d8c969aae7df9a3b6ac522061108733ee681d38f68ee1731e4f724f411",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-ETHFI.json": "c24b5cdba3a1f148306c5c37213a0a2087b58579f1181d3b47a9dffa0e259fe1",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-FARTCOIN.json": "971ad86e143f1f8c9c6c258513b43c99b9c5b63c039e13b4c9aafb640f85659e",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-FET.json": "ffe91946c47e3adeac3c4c5abd27423fdbd6c702281f1fea47d53ea8f2e92511",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-FIL.json": "3e0c8d25f71ddf9c40c4c40efbd9265097d8a05e65d634eb2bd997dc69d62a78",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-GMT.json": "b0f21e674d36c19a92c4e9831d87dd59107c37875856d760d51dfa6a525f2213",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-GRASS.json": "065c586c3b7b6f642327863efa78bebdd5cdca2814a33de0a5c7ff3897506ac2",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-HBAR.json": "e1c0a7d0eae6847440ccb4833d36b5f6b941be13853c79fc595f4e368eb15f4c",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-HYPE.json": "b5a1c42dce272ded3c1635c1e3438a6a148d72a18c3ee03526c01d55539160e1",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-HYPER.json": "9ec0a02594b27fdb36a47ad25bb9c182b680d7d8cfcc1e615d851f8a23894715",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-ICP.json": "90bf2a8d141d8a1216a2bda5eb24d59124ee401e6d3a1dc34f488cfc5e7cb3bd",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-INJ.json": "2a8911f4dc04980f822a1878af8f7cd8e6307aed587859e597f40033fdb0e756",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-JTO.json": "6e73e8818e47c219c905af8b3f421e87ecef47c06741aa15696e21a672ae761d",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-JUP.json": "bf6e7d8e1446e94dcff85bad0b67abaf9c228476510aa39191d5fe2e6fefc9dd",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-LDO.json": "48966aef85790dcc2eefbde4689356860d545da1ea9ff1927aacb3f7de3a75f5",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-LINK.json": "1000daab0801d44b3440c4b48c88bf103a6a3ac60be17425092088f6094478c4",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-LIT.json": "a3e1bae2cfd916b16715641667c2e9ab2d9649ee38e7b378935be32b3753469f",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-LTC.json": "bec4460a4bc6282732196f9302a306a94511926531e1c50511d9b78692e2ac89",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-MANTA.json": "dde5dfd7c3ae18c8d7dd72948d0e5ced21d5e99bdd404ea41088a094606d44c7",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-MEGA.json": "b433435a62d4766b2f4c84edfa7339bdbcd47697d6198236f4ec35ae5735a9ed",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-MEME.json": "8576776b112d6a7071a223c17e7fcd3f377851ddd1b372961a6878737757f197",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-MERL.json": "7978d5ef2fde756d4046f5bd330f9667a5e0a2fa063b2c987ce597258248b34b",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-MON.json": "f95f49c8538cf93880c6feb88b52872535985361056e795d93e6ad5bbe2d284d",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-MORPHO.json": "f22aa9ad7f92f6bf76cdf2898e8daa6e04944f0bb0a4ccb8a82a210e0cdb504f",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-NEAR.json": "3d9e722c72958aea9c3e93b20091cdb725be7b6011ba0656ad92360de8553d24",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-NEO.json": "6057be261b26e0e9513b8aa4eed6ffab3e7974351b5ac140c0903a5b1f335392",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-NIL.json": "8c3dc49c6280c3e65950e4e871a858d531e3de6bc78cfff40bcf13d5fc855bf4",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-NXPC.json": "c3d1644a9285be22f20d8f44e086cf5caaf51d72dc95254c052a18709c30aea2",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-ONDO.json": "d514a24abbe7545029b4fd830634be449075ba4b5b4ab0d43d0235e767f28349",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-OP.json": "852b4615623e816d09794636eee3c0bca871aa06ae1a277fe42489d958ce759c",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-ORDI.json": "7443e2ae95882b5fcf579f6f397740e2fc151e3c8d12c6aa3e4c4f8de7dbf9bf",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-PAXG.json": "11f4bac22a93e692dd74e7ff604b44faaf1eb0c802df0fd360c537ad22c3900d",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-POPCAT.json": "71cb29d4cd888424482be95a28722fa9fb1d7ecea8192c3d17dfebd398738a37",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-PROVE.json": "bf316e71c18d13c72daddf754c74cd0af54055a3d9d7eaaac480058e64448e98",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-PUMP.json": "fbb6b3f1d0db7b193b40f6daf34b3c2e0ffe1d0e8c551cb44cf92d93b6353d87",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-PURR.json": "5d2a8a153293e1513e0a6dc823645c3d1ccad879dd4936a799e10ae21a87f55b",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-PYTH.json": "3d211feb0fec2fa3ef7c5e94597055cdca7f05595395da5a805a4d844b6774c7",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-RENDER.json": "06870a480de1c0204d24879662acab7b9dd41512dff07ab31e7c125e23ebaf4b",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-S.json": "b7e65ec3ee44ae6c99e47cefd43f798f0b3ed8309714d7621a16aa424419776e",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-SAND.json": "4ff6e57a4cfe625101af10d8e4cea47de0d5651ba439aa6f35b409711e1d8b5d",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-SEI.json": "e96816151a7115711b06d74ee985a613736387a70189fd64b2d7377dfde008f8",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-SKY.json": "f0a0ef006f830b238e283945e4f3d1256d66b6ec272ef2236c910f0300588dc4",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-SOL.json": "f3e8370218c4bccddf4c879a6e338b68107076729e8a387ad1fea67db50851a9",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-SOPH.json": "a825f3d3602268ac630f13d954dbd0d4ed67fb12d0a3a35e29d07056fe6128ad",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-SPX.json": "18336df17eb0cfdc4e79b01d1cd7fb2af0704895b14d2acd494edf32092df60c",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-STABLE.json": "53498b3cfa98c8770e21101b8c383d5b41f68dfe3b4d9be8800ddfac75ea2805",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-STRK.json": "f4a848b523fc0fcc2d25ef5d6dcd36a6320a843bcaff40c828f58352bdc852db",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-STX.json": "7b3dadbe35c59e37a71d87a40eec2aec442a5b4fb6cf1495b038783baf533665",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-SUI.json": "ba5a0e98013166acce9cf216883bda653218ca4a6607579a91aa9363d7f3a629",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-SYRUP.json": "fe79edcfae2dd67081da70601a6dcca08725420eeb43f520bb2ac422cefeb6c8",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-TAO.json": "0295984cb8b3a12e551dcebfe40a8d6a734e43c539f73a283bfeafc0b86c77e4",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-TIA.json": "5f6d897f3f6137770b1cd5aff586e1b5be71277de89a164aa8e22abf4a20c500",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-TON.json": "52c6e7a24788dcb02eab8566cdec616b3c4309c183e2d7514086c3090c756da0",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-TRUMP.json": "665e4edc6eb760f3f8295a07b53a13e8a83fbf7590ebf898902ec413cbbe7ed6",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-TRX.json": "d9351e35239e71fff0a556efc09f32d90fb49dda810fe037531d6e9a7941937b",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-UNI.json": "b524b9bdd7a1901c7c3dd3423d3bddc90aaf96823d3fd91f2d2a7f57c2e75d49",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-USUAL.json": "f02c7046fa9d6d4dc1dd5228bc9acb3848a0202c95ad89b9bc5e631ddbb45bc6",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-VIRTUAL.json": "f4c6100454c598b4341f6cfed55a1c68f8d0d57063c99601bada585af7e14535",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-VVV.json": "a57f42a973746615341db6da80813193ba4d1074afedc92070431e2073e2a77e",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-WIF.json": "1ad0e462ec10289c4411f83f6bb1413ff4824067eff0ddfaf52f322aef71c551",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-WLD.json": "2768e837201ff7097154067ea892aeac314e08f8d73c86beba603fa5b5c759ca",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-WLFI.json": "adff9e12a58dd50e6fab812db379904a544ecde812c21afeac7f0d97e8a90f8e",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-XMR.json": "837e1f01621d924f019c328fd2a03f1719b18c0af1dd54d16e8745204b33c66f",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-XPL.json": "61998c22b689b602a1efa24a75915b8eccacde09c066e4dbf6a91cd7380a288e",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-XRP.json": "1d60ea2067a8fc144f66951f767600656c61abe19b34e06f46dc5329d477084a",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-ZEC.json": "bf51282061e82afb853ba80dc870cb6705d0a49f4f94181e6fce09db74c3314d",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-ZK.json": "fe73e752962a0a03ad7528fc67faf87215fc08a6811030dc283f0319514571b4",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-ZORA.json": "5de2549aa5e88372c6b9d0d8d1efb8d345448dd9e1c360a89670d6cb69cae95a",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-ZRO.json": "1495800e269816a49c9b45aeaed0ec9494b58ef46ea9d9f5009aaa6a978d7555",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-kBONK.json": "ed0ca11de5f1dc1756925426d7f6f9a09e66216a046e5e030ce6aa774a028f1d",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-kLUNC.json": "b30bc2d6f448424143b37e2ba10c2146685b286193bb3a4cf9b433d7984cbd8d",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-kPEPE.json": "ce640046c3878343a1a716cf49f09ebf7b19d7b729a4db7f1981001d79bedfb5",
+    "data/research/centrypto/capped-entry-value/hourly-funding/mayjun-kSHIB.json": "807ee3ff21f9028255885f4ca33b62773fb136a87a93588715b49220b965bc5b",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-ADA.json": "aec5f10eafd946ac6f93a276e3bd14cfad931b86404257016bebfa40a7a5c804",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-AERO.json": "cee5cbc24a805133e66397e502c26ae358ccdf1b4b924b5633988027b961c3bf",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-ARB.json": "f2ad56f1c6e5ab7ba1cbbff441d84b6fb6442e44cf505c234b59ebe7b6b2438a",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-ASTER.json": "bd9771fb6176ea224caf834df3cbf9c3d7c5d7d0ae9c2bc2b897ba97433fb7af",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-ATOM.json": "51875ce52073e42e401bb1d1f4577df58279cdc8975b1849d31c751636467e2d",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-AVAX.json": "7847759cd4cbb37bf2ba6189d3c374dd5ec75e3fcfe961237589287b6abec26a",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-BCH.json": "98ca8ef67b2db95d9ea62d0483435d86a5ed6336101833023acd67ff87b42823",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-BLUR.json": "65bb25c611ccc11ef14dc525f7d1dab8f27747a827c09e5e339a06b71ff7e671",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-BNB.json": "0773789c492cb311f66a083480d8956fbd6bc9243a005ad47ac559bb170f5e3b",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-BTC.json": "d0c0e25a8903be3e30498c01f1f4069b87577c2fac023bbc721ece621c838cae",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-CAKE.json": "b65cb3187c00eb063d28fe567db5b9843f5bbfbe830ff0c5ab7f72e4a27bec84",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-CASHCAT.json": "672302d3b1021a1e6a430c6a56c62a3539c91ebe5edf08be293bab674f3415b2",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-CC.json": "459b8add42b1053d43b0dc5a479a6f6cd5aeea9bf43363d84e403a031d65071a",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-CHIP.json": "818e5e25be74ffed6f88adbdf459d31dd9e786caab5965e9bc904a1493200cda",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-CRV.json": "1768911be49fc05ae1e8f1ceb242fac68d3622940daca7f506fecc5f0beee3e5",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-DOGE.json": "54a9c48e2d14eb1bb06c45a601953b393482969ca12dd378281463abf38fb2cc",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-DOT.json": "bdc8df31b19f0625ddfbcc51eaabf46eadda4d4b77b65dbd0179673901a4a78a",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-DYDX.json": "e5681241de06f369c59549d8578e7f81ce5e3253d4bf14aa907f99794a8ba81a",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-ENA.json": "1629a655b5182979e481729c87269b1723cc9e4025946d31340a5a0f2d3d2c8d",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-ETH.json": "827932511c42bf41495e5f582f2839e4769aeb84e403d764201edee1252d730a",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-ETHFI.json": "08d49c6f4abb478d53adbc18034d7fad9df08b060fee05ab8ba502aeddcf4388",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-FARTCOIN.json": "0cbe4551c6d7ccccabf3677a19eb7707b54c57c1499b0575be6c710ca7105db8",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-FET.json": "291ca16a624124caa7bdd011888676b57d972fe4c9f9612ad5bfa568675ad1f5",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-FIL.json": "0ec9f77217f35cf7d3696e157dd609b1649f42512d07a59fef86342e6ce5e195",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-GRASS.json": "15249b163e04c50c921a6dd763647bc87d752c47f91b64e93aeed719cf9a7830",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-HBAR.json": "2da576b2374eb8bc2d8bde9dd82011e84ff38ded9e136c0a5d927ef1d39b15f1",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-HEMI.json": "0fb7b3961c6137dc61c704a4e44ce6286a9fbab825760fe14fd50c29ad69cc52",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-HYPE.json": "84d530f5d38fa36a98c98c8e72750bfe8cef10b282985f7b9c82107532cb7b74",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-INIT.json": "7052769ce9814caab3e37b7b91fa0751c31bd579e0ec54c7246df34512f412f7",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-INJ.json": "2cbada2bdc17c8371d92caf03e2402839605da13076599e362fab97e9e79288a",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-JUP.json": "6c2323c32343f761998c589db92f3ef5fea8e4b9b56e231b610de4a7417a5e7f",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-LINK.json": "1457733c98196ddd11bf446ead30c03a41110f2a5d3d48ad66d472be761c2581",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-LIT.json": "7d89eff6d04c1b357829fda789536442538415535110e199a661fc4fa5e99d6a",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-LTC.json": "66fcc63b85422b7cd074460b9a55171dd8ffa7324aa087bd985d8771f1fa2645",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-MEGA.json": "d620960ced25784ec6a6524a7866e3d3a6f9e5a5d170da19b7725c053b03950d",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-MORPHO.json": "a79d851368b08b5e6880c7266877b6334276b9ef856cf7c6576a544be2246976",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-NEAR.json": "21618a8b2513145c2ad79bb034422306f48cd37c823b62c007ae973c788dd2c8",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-NIL.json": "e104ea3119133d6cd9bea4111b206ff06ede5fd6078ec6bbf57c3d23c3ed62a4",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-ONDO.json": "46016c03125c7ab03bf2be28f42c2e12f5c88f093e9f220e1fb9fddf562737df",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-OP.json": "b714289fe5b26a09e9cb95e32d926b7323abf568464b58cb29bc3ec41aaa54aa",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-PAXG.json": "a897c1eefbbce8e955d532e8b0c2308d6e9e18894b0ab755734cebe83a6bffc6",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-PENGU.json": "291ca16a624124caa7bdd011888676b57d972fe4c9f9612ad5bfa568675ad1f5",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-POL.json": "18aedf94abec133540d5a67f5d3ba8c2852e85fe95b1b4dd11ed77a9d7973d43",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-PONS.json": "c1486531148b5b3c23a85510be3a579765c7afcb7026a70fe9c8bb25cc9d0ebd",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-POPCAT.json": "3bf084b467b7ea45bdb846ca1d24b5f0b0a87a8da8280f5420d4705a35967e70",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-PUMP.json": "657eae19431b24b4650968f6af34d98174267bba21669ba406f8115819bbe14d",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-PYTH.json": "fa51f424fb2a8f256b62e8c85f856db0f09e1d471724985b6d85ad784f18a6ec",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-REZ.json": "e2c58e394a560e919c72d360b9afdefc2e585317fc02eaeba5a671e1caa1d311",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-RUNE.json": "4ac4aad71e09476c4026a90450049a12b8213efd0aff8180edcc0a4b8f742f1a",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-S.json": "8e031b9a1c068a6472f15c1e5e664d893f6d22b911b175783b87e2d93ead8a8b",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-SKR.json": "7c42c7ce056ac2b16bb17cccb3298825014f4d29d9eb09cce410a062abc76720",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-SOL.json": "d80baff2a6be625894fe0a3b8911fd2c5204110ace154f7387943eb23b67e80e",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-SOPH.json": "59586e87cf0f754f2cb203385ec22d1f1cf736fa0ecde0ef4e776402cd634db4",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-SPX.json": "03517b1f3118531c36fee04272ecba13a27aecaaefd74ff289d82d5977fd99fc",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-STRK.json": "bc3c48e213e3ae270e3a7a3565b6dc5d532681095ff7dd462e83bd4649abdec9",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-SUI.json": "ef9f96e2b6ea26063090895046b57e2e97caf7114bba08fb12104d77c17e8219",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-TAO.json": "291ca16a624124caa7bdd011888676b57d972fe4c9f9612ad5bfa568675ad1f5",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-TIA.json": "08e4cfeb640ee68f9204991456375c526de5f9a6bdd28296794e599118a7ae05",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-TRUMP.json": "8daf2c24ab5013c1fe884b43ad3d3105bc55d88e49e409428b41c63da1445e3f",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-UNI.json": "c336893b9b0061936a61ed5b93fc70c72d8eb637220b846a1366265cf935b50b",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-USELESS.json": "3da5d4877d2147655354c49978a3115f7e74539870d5c3e2f1eb398dac014950",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-VIRTUAL.json": "3bf084b467b7ea45bdb846ca1d24b5f0b0a87a8da8280f5420d4705a35967e70",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-WIF.json": "2b55da9fc49f3a14e70b9d664eee1166c3ce8f4170f83448d52bb9905b5422ae",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-WLD.json": "a2e1f2b59eaec0045fa67d2af1ad56ce6d805167e57db64e4d6c8a486d38166b",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-WLFI.json": "1098952e5723862a32219cc11a0802fea9d41ba620543947955891e501780166",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-XLM.json": "902675fb9f6919025059d781bd6f3bd78b50df957f6b1395bd09c229f8a9bcb9",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-XMR.json": "3fa305749984fbfcb00d7a7723b9b3d4c50d791a1147bac9b1137ac0afbdb137",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-XPL.json": "6edadec8ad0a42e0ee486fe544b9a48a52536cd37122fb49848c263b405b73ef",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-XRP.json": "dcae8639a32c1c3127965630adb42f578944792653f8b2fa2e2724ff524e93fd",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-XTEN.json": "05956bea2318c537684a4f18c33d1204a45407bd7387a6a189935d617381eb5a",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-ZEC.json": "ad0b7003cd9965f9929fdd77a617d3b05e78c762f1a22ecf04fb1911fa706936",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-ZRO.json": "23ccd575068460ccca86a67774e47913948ab33c1b07273e17a7efd33dc7ba8c",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-kBONK.json": "01be06e7608b996ee5ee0ed973c22d164cf86286cf28c35bc1b23b3acc6e35f6",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-kPEPE.json": "2f78fd0914768d8fdb82810ed171b74d22d465494e771afaf2621c1d94cd4463",
+    "data/research/centrypto/capped-entry-value/hourly-funding/recent-kSHIB.json": "3bf084b467b7ea45bdb846ca1d24b5f0b0a87a8da8280f5420d4705a35967e70"
+  },
+  "code": {
+    "archive_inputs.py": "a0f9b71c0c45982d9baa16a21ce3decdc190bbdd96dcf83a03f62e40dd892775",
+    "benchmark.py": "8ae1f9f4bba0b70a944d545e95e6f3f2e83a1f46f04c857f5f52e2b4e1b43116",
+    "decisions.py": "e8676b36098204e5c8b25513d3ebacb344c905869e259daab9e4443c971ac14d",
+    "evidence.py": "e07e60037863164dab618eb0c8c476b007622a68d8260b9f3fe939bf19d02daa",
+    "experiment.py": "e398f2ae48e5781047cb3fd9842ab5d95db0ef5c5138c97c08a5e39b5211325b",
+    "forecast.py": "a31061f3768e8a8ab74aed3b0dc3471675766afc7e090e5e9517c0f0211673f8",
+    "funding_archive.py": "728f9e1a880d26251cbf3553e13be5663108fddc80974c5894878fbe87789088",
+    "portfolio.py": "5985ea1fade881eb2ca2207983f131107746c1d63c8254d7cca7d419cb8690e2",
+    "public_archive.py": "885afc2d1021b37e2d341ea600dc30b9f259980520f51327af9e0986aead744d"
+  },
+  "python": "3.12.3",
+  "numpy": "2.5.4",
+  "sklearn": "1.9.1",
+  "lightgbm": "4.6.0",
+  "seed": 20261122,
+  "tree_parameters": {
+    "objective": "regression_l2",
+    "max_depth": 3,
+    "num_leaves": 7,
+    "min_child_samples": 200,
+    "reg_lambda": 25.0,
+    "reg_alpha": 0.5,
+    "learning_rate": 0.035,
+    "n_estimators": 250,
+    "colsample_bytree": 0.75,
+    "random_state": 20261122,
+    "n_jobs": 2,
+    "verbosity": -1,
+    "deterministic": true,
+    "force_col_wise": true
+  },
+  "fit_until": "2026-11-05T00:00:00+00:00",
+  "early_stop_until": "2026-11-11T00:00:00+00:00",
+  "calibration_until": "2026-11-12T00:00:00+00:00",
+  "selection_until": "2026-11-14T08:30:00+00:00",
+  "exit_cutoffs": {
+    "long": {
+      "training_outcome_upper_bound": "2026-11-03T23:51:00+00:00",
+      "validation_outcome_upper_bound": "2026-11-09T23:56:00+00:00",
+      "weights": {
+        "20261114": "56d3e2040a180d63197778a6a8ebe55da71d86c5d1056e6b2a7a9b1bdfe01da5",
+        "20261115": "5411a816aa3142d09ca1d0c26cdd3b1bc526f54c57a394316496385c580f0094",
+        "20261116": "19bd3dc11bb6ae33905ad69c452dc8e3923cf529ec5e7b73ae623340444667fe"
+      }
+    },
+    "short": {
+      "training_outcome_upper_bound": "2026-11-03T23:56:00+00:00",
+      "validation_outcome_upper_bound": "2026-11-09T23:11:00+00:00",
+      "weights": {
+        "20261114": "ea07f8fb9d6441dd26b98b7445f0f72df059aeb1c3374755501eb1552156199f",
+        "20261115": "b094e4e8a9d91c5eaedd2b6dd10a1186e87bd494b182a580efaa16ee166eaa73",
+        "20261116": "e7beddb4948137cbc9e61790d5088b3ea1056c0bc6154a51ef985d7937af157d"
+      }
+    }
+  },
+  "shadow": {
+    "test_start": "2026-11-23T00:00:00+00:00",
+    "test_entry_end": "2026-11-30T00:00:00+00:00",
+    "test_market_end": "2026-12-01T01:00:00+00:00"
+  },
+  "fit_audit": {
+    "long": {
+      "ridge": {
+        "train": 19111,
+        "early_stop": 3059,
+        "calibration": 774,
+        "columns": 221,
+        "slope": 0.15935062846058276,
+        "intercept_bps": -31.3268985593213,
+        "best_iteration": null,
+        "last_training_label": "2026-11-04T23:41:00+00:00",
+        "last_calibration_label": "2026-11-11T22:51:00+00:00"
+      },
+      "mlp": {
+        "train": 19111,
+        "early_stop": 3059,
+        "calibration": 774,
+        "columns": 221,
+        "slope": 0.0,
+        "intercept_bps": -33.08268988291043,
+        "best_iteration": null,
+        "last_training_label": "2026-11-04T23:41:00+00:00",
+        "last_calibration_label": "2026-11-11T22:51:00+00:00"
+      },
+      "lightgbm": {
+        "train": 19111,
+        "early_stop": 3059,
+        "calibration": 774,
+        "columns": 221,
+        "slope": 4.015822445243033,
+        "intercept_bps": -113.1547673844833,
+        "best_iteration": 6,
+        "last_training_label": "2026-11-04T23:41:00+00:00",
+        "last_calibration_label": "2026-11-11T22:51:00+00:00"
+      },
+      "market": {
+        "train": 19111,
+        "early_stop": 3059,
+        "calibration": 774,
+        "columns": 179,
+        "slope": 3.7734727986647507,
+        "intercept_bps": -109.11977403251326,
+        "best_iteration": 6,
+        "last_training_label": "2026-11-04T23:41:00+00:00",
+        "last_calibration_label": "2026-11-11T22:51:00+00:00"
+      },
+      "news_availability": {
+        "train": 19111,
+        "early_stop": 3059,
+        "calibration": 774,
+        "columns": 182,
+        "slope": 4.010243349457569,
+        "intercept_bps": -117.95134297071145,
+        "best_iteration": 3,
+        "last_training_label": "2026-11-04T23:41:00+00:00",
+        "last_calibration_label": "2026-11-11T22:51:00+00:00"
+      },
+      "market_news": {
+        "train": 19111,
+        "early_stop": 3059,
+        "calibration": 774,
+        "columns": 207,
+        "slope": 3.1357927072922,
+        "intercept_bps": -95.42760295504934,
+        "best_iteration": 7,
+        "last_training_label": "2026-11-04T23:41:00+00:00",
+        "last_calibration_label": "2026-11-11T22:51:00+00:00"
+      },
+      "market_news_overlap": {
+        "train": 3218,
+        "early_stop": 3059,
+        "calibration": 774,
+        "columns": 179,
+        "slope": 0.0,
+        "intercept_bps": -33.08268988291043,
+        "best_iteration": 1,
+        "last_training_label": "2026-11-04T23:41:00+00:00",
+        "last_calibration_label": "2026-11-11T22:51:00+00:00"
+      },
+      "news_overlap": {
+        "train": 3218,
+        "early_stop": 3059,
+        "calibration": 774,
+        "columns": 207,
+        "slope": 0.0,
+        "intercept_bps": -33.08268988291043,
+        "best_iteration": 7,
+        "last_training_label": "2026-11-04T23:41:00+00:00",
+        "last_calibration_label": "2026-11-11T22:51:00+00:00"
+      },
+      "without_funding": {
+        "train": 19111,
+        "early_stop": 3059,
+        "calibration": 774,
+        "columns": 217,
+        "slope": 4.020239564022035,
+        "intercept_bps": -113.73831712018452,
+        "best_iteration": 5,
+        "last_training_label": "2026-11-04T23:41:00+00:00",
+        "last_calibration_label": "2026-11-11T22:51:00+00:00"
+      },
+      "without_oi": {
+        "train": 19111,
+        "early_stop": 3059,
+        "calibration": 774,
+        "columns": 216,
+        "slope": 2.666259046837744,
+        "intercept_bps": -80.01724963367393,
+        "best_iteration": 12,
+        "last_training_label": "2026-11-04T23:41:00+00:00",
+        "last_calibration_label": "2026-11-11T22:51:00+00:00"
+      },
+      "without_breadth": {
+        "train": 19111,
+        "early_stop": 3059,
+        "calibration": 774,
+        "columns": 216,
+        "slope": 3.235861441673494,
+        "intercept_bps": -92.06834993263858,
+        "best_iteration": 9,
+        "last_training_label": "2026-11-04T23:41:00+00:00",
+        "last_calibration_label": "2026-11-11T22:51:00+00:00"
+      },
+      "without_liquidity": {
+        "train": 19111,
+        "early_stop": 3059,
+        "calibration": 774,
+        "columns": 221,
+        "slope": 4.015822445243033,
+        "intercept_bps": -113.1547673844833,
+        "best_iteration": 6,
+        "last_training_label": "2026-11-04T23:41:00+00:00",
+        "last_calibration_label": "2026-11-11T22:51:00+00:00"
+      },
+      "without_news": {
+        "train": 19111,
+        "early_stop": 3059,
+        "calibration": 774,
+        "columns": 193,
+        "slope": 3.709462759200201,
+        "intercept_bps": -105.48965121732765,
+        "best_iteration": 7,
+        "last_training_label": "2026-11-04T23:41:00+00:00",
+        "last_calibration_label": "2026-11-11T22:51:00+00:00"
+      },
+      "frozen_mlp_calibrated": {
+        "train": 19111,
+        "early_stop": 3059,
+        "calibration": 774,
+        "columns": 0,
+        "slope": 0.0,
+        "intercept_bps": -33.08268988291043,
+        "best_iteration": null,
+        "last_training_label": "2026-11-04T23:41:00+00:00",
+        "last_calibration_label": "2026-11-11T22:51:00+00:00"
+      }
+    },
+    "short": {
+      "ridge": {
+        "train": 11196,
+        "early_stop": 1812,
+        "calibration": 493,
+        "columns": 224,
+        "slope": 0.6131719721657289,
+        "intercept_bps": 27.26857653748159,
+        "best_iteration": null,
+        "last_training_label": "2026-11-04T23:11:00+00:00",
+        "last_calibration_label": "2026-11-11T23:41:00+00:00"
+      },
+      "mlp": {
+        "train": 11196,
+        "early_stop": 1812,
+        "calibration": 493,
+        "columns": 224,
+        "slope": 0.0,
+        "intercept_bps": 44.72273630405195,
+        "best_iteration": null,
+        "last_training_label": "2026-11-04T23:11:00+00:00",
+        "last_calibration_label": "2026-11-11T23:41:00+00:00"
+      },
+      "lightgbm": {
+        "train": 11196,
+        "early_stop": 1812,
+        "calibration": 493,
+        "columns": 224,
+        "slope": 0.0,
+        "intercept_bps": 44.72273630405195,
+        "best_iteration": 65,
+        "last_training_label": "2026-11-04T23:11:00+00:00",
+        "last_calibration_label": "2026-11-11T23:41:00+00:00"
+      },
+      "market": {
+        "train": 11196,
+        "early_stop": 1812,
+        "calibration": 493,
+        "columns": 182,
+        "slope": 0.0,
+        "intercept_bps": 44.72273630405195,
+        "best_iteration": 39,
+        "last_training_label": "2026-11-04T23:11:00+00:00",
+        "last_calibration_label": "2026-11-11T23:41:00+00:00"
+      },
+      "news_availability": {
+        "train": 11196,
+        "early_stop": 1812,
+        "calibration": 493,
+        "columns": 185,
+        "slope": 0.0,
+        "intercept_bps": 44.72273630405195,
+        "best_iteration": 63,
+        "last_training_label": "2026-11-04T23:11:00+00:00",
+        "last_calibration_label": "2026-11-11T23:41:00+00:00"
+      },
+      "market_news": {
+        "train": 11196,
+        "early_stop": 1812,
+        "calibration": 493,
+        "columns": 210,
+        "slope": 0.0,
+        "intercept_bps": 44.72273630405195,
+        "best_iteration": 64,
+        "last_training_label": "2026-11-04T23:11:00+00:00",
+        "last_calibration_label": "2026-11-11T23:41:00+00:00"
+      },
+      "market_news_overlap": {
+        "train": 1725,
+        "early_stop": 1812,
+        "calibration": 493,
+        "columns": 182,
+        "slope": 5.024367334964927,
+        "intercept_bps": -112.07087403890046,
+        "best_iteration": 1,
+        "last_training_label": "2026-11-04T23:11:00+00:00",
+        "last_calibration_label": "2026-11-11T23:41:00+00:00"
+      },
+      "news_overlap": {
+        "train": 1725,
+        "early_stop": 1812,
+        "calibration": 493,
+        "columns": 210,
+        "slope": 5.024367334964927,
+        "intercept_bps": -112.07087403890046,
+        "best_iteration": 1,
+        "last_training_label": "2026-11-04T23:11:00+00:00",
+        "last_calibration_label": "2026-11-11T23:41:00+00:00"
+      },
+      "without_funding": {
+        "train": 11196,
+        "early_stop": 1812,
+        "calibration": 493,
+        "columns": 220,
+        "slope": 0.0,
+        "intercept_bps": 44.72273630405195,
+        "best_iteration": 52,
+        "last_training_label": "2026-11-04T23:11:00+00:00",
+        "last_calibration_label": "2026-11-11T23:41:00+00:00"
+      },
+      "without_oi": {
+        "train": 11196,
+        "early_stop": 1812,
+        "calibration": 493,
+        "columns": 219,
+        "slope": 0.0,
+        "intercept_bps": 44.72273630405195,
+        "best_iteration": 44,
+        "last_training_label": "2026-11-04T23:11:00+00:00",
+        "last_calibration_label": "2026-11-11T23:41:00+00:00"
+      },
+      "without_breadth": {
+        "train": 11196,
+        "early_stop": 1812,
+        "calibration": 493,
+        "columns": 219,
+        "slope": 0.0,
+        "intercept_bps": 44.72273630405195,
+        "best_iteration": 59,
+        "last_training_label": "2026-11-04T23:11:00+00:00",
+        "last_calibration_label": "2026-11-11T23:41:00+00:00"
+      },
+      "without_liquidity": {
+        "train": 11196,
+        "early_stop": 1812,
+        "calibration": 493,
+        "columns": 224,
+        "slope": 0.0,
+        "intercept_bps": 44.72273630405195,
+        "best_iteration": 65,
+        "last_training_label": "2026-11-04T23:11:00+00:00",
+        "last_calibration_label": "2026-11-11T23:41:00+00:00"
+      },
+      "without_news": {
+        "train": 11196,
+        "early_stop": 1812,
+        "calibration": 493,
+        "columns": 196,
+        "slope": 0.0,
+        "intercept_bps": 44.72273630405195,
+        "best_iteration": 38,
+        "last_training_label": "2026-11-04T23:11:00+00:00",
+        "last_calibration_label": "2026-11-11T23:41:00+00:00"
+      },
+      "frozen_mlp_calibrated": {
+        "train": 11196,
+        "early_stop": 1812,
+        "calibration": 493,
+        "columns": 0,
+        "slope": 0.2631751076071488,
+        "intercept_bps": 24.97705060148515,
+        "best_iteration": null,
+        "last_training_label": "2026-11-04T23:11:00+00:00",
+        "last_calibration_label": "2026-11-11T23:41:00+00:00"
+      }
+    }
+  },
+  "selection": {
+    "frozen_mlp_calibrated": {
+      "buffer_bps": 0.0,
+      "development_net": 14.113554835648168,
+      "trials": [
+        {
+          "buffer_bps": 0.0,
+          "net": 14.113554835648168,
+          "drawdown": null,
+          "trades": 42,
+          "allocations": {
+            "below_hurdle": 355,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 106,
+            "episode_entered": 39,
+            "capacity_rejections": 3
+          }
+        },
+        {
+          "buffer_bps": 5.0,
+          "net": 8.444611029433043,
+          "drawdown": null,
+          "trades": 41,
+          "allocations": {
+            "below_hurdle": 360,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 104,
+            "episode_entered": 37,
+            "capacity_rejections": 3
+          }
+        },
+        {
+          "buffer_bps": 15.0,
+          "net": 9.750327396095928,
+          "drawdown": null,
+          "trades": 40,
+          "allocations": {
+            "below_hurdle": 379,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 96,
+            "episode_entered": 29,
+            "capacity_rejections": 1
+          }
+        }
+      ]
+    },
+    "lightgbm": {
+      "buffer_bps": null,
+      "development_net": 0.0,
+      "trials": [
+        {
+          "buffer_bps": 0.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 309,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 9
+          }
+        },
+        {
+          "buffer_bps": 5.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 311,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        },
+        {
+          "buffer_bps": 15.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 311,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        }
+      ]
+    },
+    "market": {
+      "buffer_bps": null,
+      "development_net": 0.0,
+      "trials": [
+        {
+          "buffer_bps": 0.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 309,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 9
+          }
+        },
+        {
+          "buffer_bps": 5.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 309,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 9
+          }
+        },
+        {
+          "buffer_bps": 15.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 309,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 9
+          }
+        }
+      ]
+    },
+    "market_news": {
+      "buffer_bps": 15.0,
+      "development_net": 18.15668404295475,
+      "trials": [
+        {
+          "buffer_bps": 0.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 311,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        },
+        {
+          "buffer_bps": 5.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 311,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        },
+        {
+          "buffer_bps": 15.0,
+          "net": 18.15668404295475,
+          "drawdown": null,
+          "trades": 44,
+          "allocations": {
+            "below_hurdle": 318,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 133,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        }
+      ]
+    },
+    "market_news_overlap": {
+      "buffer_bps": 0.0,
+      "development_net": 7.31171669305545,
+      "trials": [
+        {
+          "buffer_bps": 0.0,
+          "net": 7.31171669305545,
+          "drawdown": null,
+          "trades": 43,
+          "allocations": {
+            "below_hurdle": 320,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 132,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        },
+        {
+          "buffer_bps": 5.0,
+          "net": 7.31171669305545,
+          "drawdown": null,
+          "trades": 43,
+          "allocations": {
+            "below_hurdle": 320,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 132,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        },
+        {
+          "buffer_bps": 15.0,
+          "net": 7.31171669305545,
+          "drawdown": null,
+          "trades": 43,
+          "allocations": {
+            "below_hurdle": 320,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 132,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        }
+      ]
+    },
+    "mlp": {
+      "buffer_bps": 0.0,
+      "development_net": 7.31171669305545,
+      "trials": [
+        {
+          "buffer_bps": 0.0,
+          "net": 7.31171669305545,
+          "drawdown": null,
+          "trades": 43,
+          "allocations": {
+            "below_hurdle": 320,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 132,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        },
+        {
+          "buffer_bps": 5.0,
+          "net": 7.31171669305545,
+          "drawdown": null,
+          "trades": 43,
+          "allocations": {
+            "below_hurdle": 320,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 132,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        },
+        {
+          "buffer_bps": 15.0,
+          "net": 7.31171669305545,
+          "drawdown": null,
+          "trades": 43,
+          "allocations": {
+            "below_hurdle": 320,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 132,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        }
+      ]
+    },
+    "news_availability": {
+      "buffer_bps": 15.0,
+      "development_net": 18.15668404295475,
+      "trials": [
+        {
+          "buffer_bps": 0.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 311,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        },
+        {
+          "buffer_bps": 5.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 311,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        },
+        {
+          "buffer_bps": 15.0,
+          "net": 18.15668404295475,
+          "drawdown": null,
+          "trades": 44,
+          "allocations": {
+            "below_hurdle": 318,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 133,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        }
+      ]
+    },
+    "news_overlap": {
+      "buffer_bps": 0.0,
+      "development_net": 7.31171669305545,
+      "trials": [
+        {
+          "buffer_bps": 0.0,
+          "net": 7.31171669305545,
+          "drawdown": null,
+          "trades": 43,
+          "allocations": {
+            "below_hurdle": 320,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 132,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        },
+        {
+          "buffer_bps": 5.0,
+          "net": 7.31171669305545,
+          "drawdown": null,
+          "trades": 43,
+          "allocations": {
+            "below_hurdle": 320,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 132,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        },
+        {
+          "buffer_bps": 15.0,
+          "net": 7.31171669305545,
+          "drawdown": null,
+          "trades": 43,
+          "allocations": {
+            "below_hurdle": 320,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 132,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        }
+      ]
+    },
+    "ridge": {
+      "buffer_bps": 15.0,
+      "development_net": 8.230955737343887,
+      "trials": [
+        {
+          "buffer_bps": 0.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 45,
+          "allocations": {
+            "below_hurdle": 320,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 131,
+            "episode_entered": 43,
+            "capacity_rejections": 6
+          }
+        },
+        {
+          "buffer_bps": 5.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 44,
+          "allocations": {
+            "below_hurdle": 322,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 130,
+            "episode_entered": 43,
+            "capacity_rejections": 6
+          }
+        },
+        {
+          "buffer_bps": 15.0,
+          "net": 8.230955737343887,
+          "drawdown": null,
+          "trades": 42,
+          "allocations": {
+            "below_hurdle": 326,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 130,
+            "episode_entered": 43,
+            "capacity_rejections": 4
+          }
+        }
+      ]
+    },
+    "without_breadth": {
+      "buffer_bps": null,
+      "development_net": 0.0,
+      "trials": [
+        {
+          "buffer_bps": 0.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 311,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        },
+        {
+          "buffer_bps": 5.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 311,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        },
+        {
+          "buffer_bps": 15.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 311,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        }
+      ]
+    },
+    "without_funding": {
+      "buffer_bps": 0.0,
+      "development_net": 18.15668404295475,
+      "trials": [
+        {
+          "buffer_bps": 0.0,
+          "net": 18.15668404295475,
+          "drawdown": null,
+          "trades": 44,
+          "allocations": {
+            "below_hurdle": 318,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 133,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        },
+        {
+          "buffer_bps": 5.0,
+          "net": 7.31171669305545,
+          "drawdown": null,
+          "trades": 43,
+          "allocations": {
+            "below_hurdle": 319,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 133,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        },
+        {
+          "buffer_bps": 15.0,
+          "net": 7.31171669305545,
+          "drawdown": null,
+          "trades": 43,
+          "allocations": {
+            "below_hurdle": 319,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 133,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        }
+      ]
+    },
+    "without_liquidity": {
+      "buffer_bps": null,
+      "development_net": 0.0,
+      "trials": [
+        {
+          "buffer_bps": 0.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 309,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 9
+          }
+        },
+        {
+          "buffer_bps": 5.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 311,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        },
+        {
+          "buffer_bps": 15.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 311,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        }
+      ]
+    },
+    "without_news": {
+      "buffer_bps": null,
+      "development_net": 0.0,
+      "trials": [
+        {
+          "buffer_bps": 0.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 309,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 9
+          }
+        },
+        {
+          "buffer_bps": 5.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 309,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 9
+          }
+        },
+        {
+          "buffer_bps": 15.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 309,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 9
+          }
+        }
+      ]
+    },
+    "without_oi": {
+      "buffer_bps": null,
+      "development_net": 0.0,
+      "trials": [
+        {
+          "buffer_bps": 0.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 311,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        },
+        {
+          "buffer_bps": 5.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 311,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        },
+        {
+          "buffer_bps": 15.0,
+          "net": null,
+          "drawdown": null,
+          "trades": 48,
+          "allocations": {
+            "below_hurdle": 311,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 136,
+            "episode_entered": 43,
+            "capacity_rejections": 7
+          }
+        }
+      ]
+    }
+  },
+  "primary": "ridge",
+  "tabpfn_3_5": "No local 3.5 model or private deployment configured"
+}

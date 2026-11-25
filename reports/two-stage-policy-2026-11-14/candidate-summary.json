@@ -1,0 +1,18 @@
+{
+  "teacher_rallies": 355,
+  "unique_teacher_entries": 354,
+  "all_qualifying_5m_observations": 29979,
+  "mature_eligible_states": 103281,
+  "mature_good_entry_states": 430,
+  "teacher_symbols": 122,
+  "scanned_symbols": 235,
+  "series": 592,
+  "global_states": 3221970,
+  "exclusions": {
+    "no_liquid_executable_teacher_entry": 97,
+    "unfinished_rally_teacher_horizon": 16,
+    "unresolved_teacher_search_terminal": 14,
+    "no_positive_executable_teacher_gain": 1
+  },
+  "target_rule": "24h close-to-close return >=10%; one anchor per token per24h; hindsight entry search includes prior24h; exit <=24h after entry."
+}

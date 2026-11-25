@@ -1,0 +1,378 @@
+{
+  "comparisons": {
+    "two_stage": {
+      "all": {
+        "trades": 120,
+        "scored_trades": 120,
+        "censored_trades": 0,
+        "data_complete": true,
+        "gross_profit_usd": -0.96956594130544,
+        "priced_trades_gross_profit_usd": -0.96956594130544,
+        "mean_return_pct": -0.008079716177545333,
+        "win_rate_pct": 48.333333333333336,
+        "median_holding_minutes": 925.0,
+        "deadline_trades": 1
+      },
+      "long": {
+        "trades": 54,
+        "scored_trades": 54,
+        "censored_trades": 0,
+        "data_complete": true,
+        "gross_profit_usd": -92.88454663390404,
+        "priced_trades_gross_profit_usd": -92.88454663390404,
+        "mean_return_pct": -1.720084196924149,
+        "win_rate_pct": 22.22222222222222,
+        "median_holding_minutes": 987.5,
+        "deadline_trades": 1
+      },
+      "short": {
+        "trades": 66,
+        "scored_trades": 66,
+        "censored_trades": 0,
+        "data_complete": true,
+        "gross_profit_usd": 91.91498069259859,
+        "priced_trades_gross_profit_usd": 91.91498069259859,
+        "mean_return_pct": 1.3926512226151302,
+        "win_rate_pct": 69.6969696969697,
+        "median_holding_minutes": 910.0,
+        "deadline_trades": 0
+      }
+    },
+    "entry_fixed24h": {
+      "all": {
+        "trades": 106,
+        "scored_trades": 87,
+        "censored_trades": 19,
+        "data_complete": false,
+        "gross_profit_usd": null,
+        "priced_trades_gross_profit_usd": 13.733070661088714,
+        "mean_return_pct": 0.15785138690906567,
+        "win_rate_pct": 50.57471264367817,
+        "median_holding_minutes": 1440.0,
+        "deadline_trades": 87
+      },
+      "long": {
+        "trades": 47,
+        "scored_trades": 43,
+        "censored_trades": 4,
+        "data_complete": false,
+        "gross_profit_usd": null,
+        "priced_trades_gross_profit_usd": -73.08314870349838,
+        "mean_return_pct": -1.6996081093836832,
+        "win_rate_pct": 27.906976744186046,
+        "median_holding_minutes": 1440.0,
+        "deadline_trades": 43
+      },
+      "short": {
+        "trades": 59,
+        "scored_trades": 44,
+        "censored_trades": 15,
+        "data_complete": false,
+        "gross_profit_usd": null,
+        "priced_trades_gross_profit_usd": 86.81621936458711,
+        "mean_return_pct": 1.973095894649707,
+        "win_rate_pct": 72.72727272727273,
+        "median_holding_minutes": 1440.0,
+        "deadline_trades": 44
+      }
+    },
+    "cash": {
+      "all": {
+        "trades": 0,
+        "scored_trades": 0,
+        "censored_trades": 0,
+        "data_complete": true,
+        "gross_profit_usd": 0.0,
+        "priced_trades_gross_profit_usd": 0.0,
+        "mean_return_pct": null,
+        "win_rate_pct": null,
+        "median_holding_minutes": null,
+        "deadline_trades": 0
+      }
+    }
+  },
+  "folds": [
+    {
+      "start": "2026-06-01T00:00:00Z",
+      "end": "2026-06-10T00:00:00Z",
+      "selection": {
+        "cash": true,
+        "entry_threshold": null,
+        "validation_profit_usd": 0.0,
+        "trades": 0
+      },
+      "exit_threshold": 0.75,
+      "entry_checkpoint": 4000,
+      "exit_checkpoint": 200,
+      "test": {
+        "trades": 0,
+        "scored_trades": 0,
+        "censored_trades": 0,
+        "data_complete": true,
+        "gross_profit_usd": 0.0,
+        "priced_trades_gross_profit_usd": 0.0,
+        "mean_return_pct": null,
+        "win_rate_pct": null,
+        "median_holding_minutes": null,
+        "deadline_trades": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "scored_trades": 0,
+          "censored_trades": 0,
+          "data_complete": true,
+          "gross_profit_usd": 0.0,
+          "priced_trades_gross_profit_usd": 0.0,
+          "mean_return_pct": null,
+          "win_rate_pct": null,
+          "median_holding_minutes": null,
+          "deadline_trades": 0
+        },
+        "short": {
+          "trades": 0,
+          "scored_trades": 0,
+          "censored_trades": 0,
+          "data_complete": true,
+          "gross_profit_usd": 0.0,
+          "priced_trades_gross_profit_usd": 0.0,
+          "mean_return_pct": null,
+          "win_rate_pct": null,
+          "median_holding_minutes": null,
+          "deadline_trades": 0
+        }
+      },
+      "training_news_positive_targets": 0,
+      "training_relevant_news_positive_targets": 0,
+      "entry_news_features_retained": 0
+    },
+    {
+      "start": "2026-11-03T00:00:00Z",
+      "end": "2026-11-07T00:00:00Z",
+      "selection": {
+        "cash": true,
+        "entry_threshold": null,
+        "validation_profit_usd": 0.0,
+        "trades": 0
+      },
+      "exit_threshold": 0.75,
+      "entry_checkpoint": 200,
+      "exit_checkpoint": 200,
+      "test": {
+        "trades": 0,
+        "scored_trades": 0,
+        "censored_trades": 0,
+        "data_complete": true,
+        "gross_profit_usd": 0.0,
+        "priced_trades_gross_profit_usd": 0.0,
+        "mean_return_pct": null,
+        "win_rate_pct": null,
+        "median_holding_minutes": null,
+        "deadline_trades": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "scored_trades": 0,
+          "censored_trades": 0,
+          "data_complete": true,
+          "gross_profit_usd": 0.0,
+          "priced_trades_gross_profit_usd": 0.0,
+          "mean_return_pct": null,
+          "win_rate_pct": null,
+          "median_holding_minutes": null,
+          "deadline_trades": 0
+        },
+        "short": {
+          "trades": 0,
+          "scored_trades": 0,
+          "censored_trades": 0,
+          "data_complete": true,
+          "gross_profit_usd": 0.0,
+          "priced_trades_gross_profit_usd": 0.0,
+          "mean_return_pct": null,
+          "win_rate_pct": null,
+          "median_holding_minutes": null,
+          "deadline_trades": 0
+        }
+      },
+      "training_news_positive_targets": 0,
+      "training_relevant_news_positive_targets": 0,
+      "entry_news_features_retained": 0
+    },
+    {
+      "start": "2026-11-07T00:00:00Z",
+      "end": "2026-11-11T00:00:00Z",
+      "selection": {
+        "cash": false,
+        "entry_threshold": 0.9,
+        "validation_profit_usd": 24.563120360032364,
+        "trades": 50
+      },
+      "exit_threshold": 0.75,
+      "entry_checkpoint": 200,
+      "exit_checkpoint": 1500,
+      "test": {
+        "trades": 60,
+        "scored_trades": 60,
+        "censored_trades": 0,
+        "data_complete": true,
+        "gross_profit_usd": -8.31765031283951,
+        "priced_trades_gross_profit_usd": -8.31765031283951,
+        "mean_return_pct": -0.13862750521399184,
+        "win_rate_pct": 53.333333333333336,
+        "median_holding_minutes": 782.5,
+        "deadline_trades": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 25,
+          "scored_trades": 25,
+          "censored_trades": 0,
+          "data_complete": true,
+          "gross_profit_usd": -24.901030942019677,
+          "priced_trades_gross_profit_usd": -24.901030942019677,
+          "mean_return_pct": -0.9960412376807871,
+          "win_rate_pct": 28.000000000000004,
+          "median_holding_minutes": 815.0,
+          "deadline_trades": 0
+        },
+        "short": {
+          "trades": 35,
+          "scored_trades": 35,
+          "censored_trades": 0,
+          "data_complete": true,
+          "gross_profit_usd": 16.583380629180176,
+          "priced_trades_gross_profit_usd": 16.583380629180176,
+          "mean_return_pct": 0.4738108751194336,
+          "win_rate_pct": 71.42857142857143,
+          "median_holding_minutes": 760.0,
+          "deadline_trades": 0
+        }
+      },
+      "training_news_positive_targets": 0,
+      "training_relevant_news_positive_targets": 0,
+      "entry_news_features_retained": 0
+    },
+    {
+      "start": "2026-11-11T00:00:00Z",
+      "end": "2026-11-14T08:30:00Z",
+      "selection": {
+        "cash": false,
+        "entry_threshold": 0.5,
+        "validation_profit_usd": 42.147390573131645,
+        "trades": 88
+      },
+      "exit_threshold": 0.75,
+      "entry_checkpoint": 600,
+      "exit_checkpoint": 200,
+      "test": {
+        "trades": 60,
+        "scored_trades": 60,
+        "censored_trades": 0,
+        "data_complete": true,
+        "gross_profit_usd": 7.348084371534059,
+        "priced_trades_gross_profit_usd": 7.348084371534059,
+        "mean_return_pct": 0.12246807285890098,
+        "win_rate_pct": 43.333333333333336,
+        "median_holding_minutes": 1047.5,
+        "deadline_trades": 1
+      },
+      "by_side": {
+        "long": {
+          "trades": 29,
+          "scored_trades": 29,
+          "censored_trades": 0,
+          "data_complete": true,
+          "gross_profit_usd": -67.98351569188436,
+          "priced_trades_gross_profit_usd": -67.98351569188436,
+          "mean_return_pct": -2.344259161789116,
+          "win_rate_pct": 17.24137931034483,
+          "median_holding_minutes": 1025.0,
+          "deadline_trades": 1
+        },
+        "short": {
+          "trades": 31,
+          "scored_trades": 31,
+          "censored_trades": 0,
+          "data_complete": true,
+          "gross_profit_usd": 75.3316000634184,
+          "priced_trades_gross_profit_usd": 75.3316000634184,
+          "mean_return_pct": 2.430051614948981,
+          "win_rate_pct": 67.74193548387096,
+          "median_holding_minutes": 1060.0,
+          "deadline_trades": 0
+        }
+      },
+      "training_news_positive_targets": 14,
+      "training_relevant_news_positive_targets": 0,
+      "entry_news_features_retained": 2
+    }
+  ],
+  "exit_with_teacher_entries_diagnostic": {
+    "all": {
+      "entry_points": 598,
+      "scored_entry_points": 598,
+      "censored_entry_points": 0,
+      "mean_oracle_return_pct": 15.481934775863467,
+      "mean_learned_return_pct": 6.278715833439321,
+      "aggregate_capture_pct": 40.55511100090616
+    },
+    "long": {
+      "entry_points": 185,
+      "scored_entry_points": 185,
+      "censored_entry_points": 0,
+      "mean_oracle_return_pct": 17.200519771171415,
+      "mean_learned_return_pct": 7.9260453277606695,
+      "aggregate_capture_pct": 46.08026637104861
+    },
+    "short": {
+      "entry_points": 413,
+      "scored_entry_points": 413,
+      "censored_entry_points": 0,
+      "mean_oracle_return_pct": 14.712108567311482,
+      "mean_learned_return_pct": 5.540807948573827,
+      "aggregate_capture_pct": 37.66154880670762
+    }
+  },
+  "prior_long_only_reference": {
+    "trades": 176,
+    "scored_trades": 176,
+    "censored_trades": 0,
+    "gross_profit_usd": 34.15133673782439,
+    "mean_return_pct": 0.19404168601036584,
+    "win_rate_pct": 48.29545454545455,
+    "median_holding_minutes": 950.0,
+    "deadline_trades": 12
+  },
+  "comparison_limit": "New side universe, news mapping and SMA inputs differ together. This is not a controlled ablation; the same dates were researched previously.",
+  "diagnostic_limit": "Teacher entries are supplied in hindsight, including overlapping positions. Capture is exit-only on priced entries, not executable portfolio performance. Censored exits are explicitly excluded from both return and oracle denominator.",
+  "notional_usd_per_trade": 100,
+  "fees_funding_slippage": 0,
+  "short_limit": "Linear gross returns from native perp prices, with no historical borrowing, margin, liquidation or instrument-availability verification.",
+  "news_limit": "Count explicit relevant events, not generic feed availability. Sparse positive-target coverage limits evidence that news helps predict good entries.",
+  "source_cutoff": "2026-11-14T08:30:00Z",
+  "deadline_correction": {
+    "status": "strict_deadline_applied",
+    "reason": "Inherited missing-open retry could price terminal exits1..30m after the requested24h limit. This was discovered after the first rebuild fit; the earlier run is archived and a new lock/fit namespace is used.",
+    "prior_test_results_seen": true,
+    "prior_run_archive": "/mnt/c/Users/melli/.codex/research/centrypto/two-stage-rebuild-2026-11-14/before-strict-deadline",
+    "prior_learned_policy_trades_over24h": 0,
+    "prior_fixed_baseline_trades_over24h": 19,
+    "same_rally_window_universe": true,
+    "original_rally_windows": 928,
+    "strict_teacher_rallies": 928,
+    "rallies_by_side": {
+      "long": 355,
+      "short": 573
+    },
+    "positive_entry_points_by_side": {
+      "long": 437,
+      "short": 690
+    },
+    "changes": {},
+    "independent_exhaustive_teacher_checks": 55,
+    "missing_deadline_rule": "No later fill or interpolation. Mark payoff censored and quarantine that symbol for the remainder of the replay archive. Incomplete gross PnL is reported only for priced trades.",
+    "teacher_validation_rule": "Use a fixed validation subset with observed exact deadline marks for all exit checkpoint/threshold comparisons; training still includes every eligible good entry. Test teacher diagnostics disclose censored exits."
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "base_market_dimensions": 137,
+  "added_sma_dimensions": 40,
+  "news_dimensions": 161,
+  "candidate_side_dimensions": 1,
+  "sma_pairs": [
+    [
+      3,
+      12
+    ],
+    [
+      5,
+      20
+    ],
+    [
+      8,
+      30
+    ],
+    [
+      10,
+      30
+    ],
+    [
+      10,
+      50
+    ],
+    [
+      20,
+      50
+    ],
+    [
+      20,
+      80
+    ],
+    [
+      30,
+      80
+    ]
+  ],
+  "coverage": {
+    "eligible_states": 118438,
+    "states_with_analyzed_news": 40868,
+    "states_with_relevant_events_24h": 13829,
+    "long_positive_with_relevant_events": 7,
+    "short_positive_with_relevant_events": 13
+  },
+  "source_cutoff": "2026-11-14T08:30:00Z"
+}

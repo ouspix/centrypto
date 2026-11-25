@@ -1,0 +1,5588 @@
+{
+  "population": {
+    "benchmark": {
+      "long": {
+        "november": 3319,
+        "three_month": 2525,
+        "matched": 2521
+      },
+      "short": {
+        "november": 1892,
+        "three_month": 1462,
+        "matched": 1416
+      }
+    },
+    "history": {
+      "long": {
+        "november": 799,
+        "three_month": 834,
+        "matched": 799
+      },
+      "short": {
+        "november": 549,
+        "three_month": 558,
+        "matched": 537
+      }
+    }
+  },
+  "same_candidates": {
+    "benchmark": {
+      "long": {
+        "priced_candidates": 2521,
+        "changed_exit": 2521,
+        "later": 2358,
+        "earlier": 163,
+        "old_mean_bps": -18.742989475675095,
+        "new_mean_bps": -110.93355449659101,
+        "old_median_hold": 35.0,
+        "new_median_hold": 375.0,
+        "old_max_hold": 0,
+        "new_max_hold": 0
+      },
+      "short": {
+        "priced_candidates": 1416,
+        "changed_exit": 1416,
+        "later": 1007,
+        "earlier": 409,
+        "old_mean_bps": 72.57012926941799,
+        "new_mean_bps": 86.2693202319871,
+        "old_median_hold": 222.5,
+        "new_median_hold": 505.0,
+        "old_max_hold": 18,
+        "new_max_hold": 0
+      }
+    },
+    "history": {
+      "long": {
+        "priced_candidates": 799,
+        "changed_exit": 799,
+        "later": 730,
+        "earlier": 69,
+        "old_mean_bps": -26.70953021426392,
+        "new_mean_bps": -121.30350919073622,
+        "old_median_hold": 40.0,
+        "new_median_hold": 400.0,
+        "old_max_hold": 0,
+        "new_max_hold": 0
+      },
+      "short": {
+        "priced_candidates": 537,
+        "changed_exit": 537,
+        "later": 492,
+        "earlier": 45,
+        "old_mean_bps": 49.810641569253846,
+        "new_mean_bps": 39.32173403818177,
+        "old_median_hold": 85.0,
+        "new_median_hold": 500.0,
+        "old_max_hold": 0,
+        "new_max_hold": 0
+      }
+    }
+  },
+  "swaps": {
+    "november_gate": {
+      "november_exit": {
+        "passed": {
+          "long": 0,
+          "short": 1416
+        },
+        "outcomes": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "short": {
+            "trades": 107,
+            "priced": 107,
+            "net": 71.38881352394687,
+            "trading_pnl": 80.61964169309068,
+            "fees": 9.59372116123811,
+            "funding_cost": -0.3628929920942917,
+            "hit_rate": 0.5887850467289719,
+            "mean_net_per_trade": 0.6671851731209988,
+            "hold_minutes_p25_median_p75_p90": [
+              32.5,
+              155.0,
+              425.0,
+              859.0000000000002
+            ],
+            "reached_24h": 1,
+            "total_hold_hours": 511.75
+          },
+          "all": {
+            "trades": 107,
+            "priced": 107,
+            "net": 71.38881352394687,
+            "trading_pnl": 80.61964169309068,
+            "fees": 9.59372116123811,
+            "funding_cost": -0.3628929920942917,
+            "hit_rate": 0.5887850467289719,
+            "mean_net_per_trade": 0.6671851731209988,
+            "hold_minutes_p25_median_p75_p90": [
+              32.5,
+              155.0,
+              425.0,
+              859.0000000000002
+            ],
+            "reached_24h": 1,
+            "total_hold_hours": 511.75
+          }
+        },
+        "allocation": {
+          "same_symbol_alternatives": 0,
+          "symbol_busy": 1096,
+          "episode_entered": 148,
+          "capacity_rejections": 65
+        }
+      },
+      "three_month_exit": {
+        "passed": {
+          "long": 0,
+          "short": 1416
+        },
+        "outcomes": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "short": {
+            "trades": 75,
+            "priced": 75,
+            "net": 43.949475268420926,
+            "trading_pnl": 50.29193284237711,
+            "fees": 6.72736863022093,
+            "funding_cost": -0.3849110562647481,
+            "hit_rate": 0.49333333333333335,
+            "mean_net_per_trade": 0.5859930035789457,
+            "hold_minutes_p25_median_p75_p90": [
+              325.0,
+              440.0,
+              610.0,
+              796.0000000000001
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 619.0833333333334
+          },
+          "all": {
+            "trades": 75,
+            "priced": 75,
+            "net": 43.949475268420926,
+            "trading_pnl": 50.29193284237711,
+            "fees": 6.72736863022093,
+            "funding_cost": -0.3849110562647481,
+            "hit_rate": 0.49333333333333335,
+            "mean_net_per_trade": 0.5859930035789457,
+            "hold_minutes_p25_median_p75_p90": [
+              325.0,
+              440.0,
+              610.0,
+              796.0000000000001
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 619.0833333333334
+          }
+        },
+        "allocation": {
+          "same_symbol_alternatives": 0,
+          "symbol_busy": 1284,
+          "capacity_rejections": 57
+        }
+      }
+    },
+    "three_month_gate": {
+      "november_exit": {
+        "passed": {
+          "long": 2521,
+          "short": 1
+        },
+        "outcomes": {
+          "long": {
+            "trades": 314,
+            "priced": 314,
+            "net": -76.83453652105541,
+            "trading_pnl": -48.38843141212123,
+            "fees": 28.238225205864545,
+            "funding_cost": 0.20787990306963217,
+            "hit_rate": 0.3885350318471338,
+            "mean_net_per_trade": -0.24469597618170513,
+            "hold_minutes_p25_median_p75_p90": [
+              5.0,
+              25.0,
+              90.0,
+              238.49999999999994
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 416.5833333333333
+          },
+          "short": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "all": {
+            "trades": 314,
+            "priced": 314,
+            "net": -76.83453652105541,
+            "trading_pnl": -48.38843141212123,
+            "fees": 28.238225205864545,
+            "funding_cost": 0.20787990306963217,
+            "hit_rate": 0.3885350318471338,
+            "mean_net_per_trade": -0.24469597618170513,
+            "hold_minutes_p25_median_p75_p90": [
+              5.0,
+              25.0,
+              90.0,
+              238.49999999999994
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 416.5833333333333
+          }
+        },
+        "allocation": {
+          "same_symbol_alternatives": 0,
+          "symbol_busy": 1471,
+          "episode_entered": 737
+        }
+      },
+      "three_month_exit": {
+        "passed": {
+          "long": 2521,
+          "short": 1
+        },
+        "outcomes": {
+          "long": {
+            "trades": 104,
+            "priced": 104,
+            "net": -104.75795848032759,
+            "trading_pnl": -94.99995464487814,
+            "fees": 9.317250020409805,
+            "funding_cost": 0.440753815039637,
+            "hit_rate": 0.22115384615384615,
+            "mean_net_per_trade": -1.0072880623108422,
+            "hold_minutes_p25_median_p75_p90": [
+              238.75,
+              345.0,
+              503.75,
+              636.0000000000001
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 669.9166666666666
+          },
+          "short": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "all": {
+            "trades": 104,
+            "priced": 104,
+            "net": -104.75795848032759,
+            "trading_pnl": -94.99995464487814,
+            "fees": 9.317250020409805,
+            "funding_cost": 0.440753815039637,
+            "hit_rate": 0.22115384615384615,
+            "mean_net_per_trade": -1.0072880623108422,
+            "hold_minutes_p25_median_p75_p90": [
+              238.75,
+              345.0,
+              503.75,
+              636.0000000000001
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 669.9166666666666
+          }
+        },
+        "allocation": {
+          "same_symbol_alternatives": 0,
+          "symbol_busy": 2385,
+          "capacity_rejections": 33
+        }
+      }
+    }
+  },
+  "method": "Join on side, symbol, decision time and setup start. Reprice both exit schedules from the three-month archive with the same fee, funding and 1 bp candle fills. Use alphabetical priority with each absolute gate.",
+  "ledgers": {
+    "november": {
+      "observed": {
+        "constant": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "short": {
+            "trades": 118,
+            "priced": 118,
+            "net": 104.23038246884518,
+            "trading_pnl": 115.02060353210875,
+            "fees": 10.56824072841055,
+            "funding_cost": 0.2219803348530184,
+            "hit_rate": 0.6101694915254238,
+            "mean_net_per_trade": 0.8833083260071626,
+            "hold_minutes_p25_median_p75_p90": [
+              46.25,
+              187.5,
+              487.5,
+              1089.5
+            ],
+            "reached_24h": 5,
+            "total_hold_hours": 717.8333333333334
+          },
+          "all": {
+            "trades": 118,
+            "priced": 118,
+            "net": 104.23038246884518,
+            "trading_pnl": 115.02060353210875,
+            "fees": 10.56824072841055,
+            "funding_cost": 0.2219803348530184,
+            "hit_rate": 0.6101694915254238,
+            "mean_net_per_trade": 0.8833083260071626,
+            "hold_minutes_p25_median_p75_p90": [
+              46.25,
+              187.5,
+              487.5,
+              1089.5
+            ],
+            "reached_24h": 5,
+            "total_hold_hours": 717.8333333333334
+          }
+        },
+        "market218": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "short": {
+            "trades": 121,
+            "priced": 121,
+            "net": 96.7984810979268,
+            "trading_pnl": 108.18200391932066,
+            "fees": 10.841318098236306,
+            "funding_cost": 0.5422047231575635,
+            "hit_rate": 0.5950413223140496,
+            "mean_net_per_trade": 0.7999874470903041,
+            "hold_minutes_p25_median_p75_p90": [
+              45.0,
+              185.0,
+              510.0,
+              1085.0
+            ],
+            "reached_24h": 8,
+            "total_hold_hours": 728.5833333333334
+          },
+          "all": {
+            "trades": 121,
+            "priced": 121,
+            "net": 96.7984810979268,
+            "trading_pnl": 108.18200391932066,
+            "fees": 10.841318098236306,
+            "funding_cost": 0.5422047231575635,
+            "hit_rate": 0.5950413223140496,
+            "mean_net_per_trade": 0.7999874470903041,
+            "hold_minutes_p25_median_p75_p90": [
+              45.0,
+              185.0,
+              510.0,
+              1085.0
+            ],
+            "reached_24h": 8,
+            "total_hold_hours": 728.5833333333334
+          }
+        },
+        "content218": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "short": {
+            "trades": 119,
+            "priced": 119,
+            "net": 91.74179787380452,
+            "trading_pnl": 103.5763943625644,
+            "fees": 10.663390622536845,
+            "funding_cost": 1.1712058662230385,
+            "hit_rate": 0.6134453781512605,
+            "mean_net_per_trade": 0.7709394779311304,
+            "hold_minutes_p25_median_p75_p90": [
+              52.5,
+              200.0,
+              555.0,
+              1061.0
+            ],
+            "reached_24h": 6,
+            "total_hold_hours": 736.9166666666666
+          },
+          "all": {
+            "trades": 119,
+            "priced": 119,
+            "net": 91.74179787380452,
+            "trading_pnl": 103.5763943625644,
+            "fees": 10.663390622536845,
+            "funding_cost": 1.1712058662230385,
+            "hit_rate": 0.6134453781512605,
+            "mean_net_per_trade": 0.7709394779311304,
+            "hold_minutes_p25_median_p75_p90": [
+              52.5,
+              200.0,
+              555.0,
+              1061.0
+            ],
+            "reached_24h": 6,
+            "total_hold_hours": 736.9166666666666
+          }
+        },
+        "market357": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "short": {
+            "trades": 114,
+            "priced": 114,
+            "net": 82.48160541947213,
+            "trading_pnl": 93.32194978688537,
+            "fees": 10.218005122595901,
+            "funding_cost": 0.6223392448173258,
+            "hit_rate": 0.5701754385964912,
+            "mean_net_per_trade": 0.7235228545567731,
+            "hold_minutes_p25_median_p75_p90": [
+              46.25,
+              182.5,
+              547.5,
+              1044.5
+            ],
+            "reached_24h": 6,
+            "total_hold_hours": 695.6666666666666
+          },
+          "all": {
+            "trades": 114,
+            "priced": 114,
+            "net": 82.48160541947213,
+            "trading_pnl": 93.32194978688537,
+            "fees": 10.218005122595901,
+            "funding_cost": 0.6223392448173258,
+            "hit_rate": 0.5701754385964912,
+            "mean_net_per_trade": 0.7235228545567731,
+            "hold_minutes_p25_median_p75_p90": [
+              46.25,
+              182.5,
+              547.5,
+              1044.5
+            ],
+            "reached_24h": 6,
+            "total_hold_hours": 695.6666666666666
+          }
+        },
+        "availability357": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "short": {
+            "trades": 114,
+            "priced": 114,
+            "net": 88.9651227607182,
+            "trading_pnl": 99.85075369949469,
+            "fees": 10.215067160835227,
+            "funding_cost": 0.6705637779412567,
+            "hit_rate": 0.5877192982456141,
+            "mean_net_per_trade": 0.7803958136905106,
+            "hold_minutes_p25_median_p75_p90": [
+              50.0,
+              195.0,
+              565.0,
+              1076.0
+            ],
+            "reached_24h": 7,
+            "total_hold_hours": 715.6666666666666
+          },
+          "all": {
+            "trades": 114,
+            "priced": 114,
+            "net": 88.9651227607182,
+            "trading_pnl": 99.85075369949469,
+            "fees": 10.215067160835227,
+            "funding_cost": 0.6705637779412567,
+            "hit_rate": 0.5877192982456141,
+            "mean_net_per_trade": 0.7803958136905106,
+            "hold_minutes_p25_median_p75_p90": [
+              50.0,
+              195.0,
+              565.0,
+              1076.0
+            ],
+            "reached_24h": 7,
+            "total_hold_hours": 715.6666666666666
+          }
+        },
+        "content357": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "short": {
+            "trades": 116,
+            "priced": 116,
+            "net": 91.11572844167732,
+            "trading_pnl": 102.6758105694836,
+            "fees": 10.393795885243732,
+            "funding_cost": 1.16628624256255,
+            "hit_rate": 0.6120689655172413,
+            "mean_net_per_trade": 0.7854804176006666,
+            "hold_minutes_p25_median_p75_p90": [
+              45.0,
+              200.0,
+              520.0,
+              1070.0
+            ],
+            "reached_24h": 8,
+            "total_hold_hours": 721.25
+          },
+          "all": {
+            "trades": 116,
+            "priced": 116,
+            "net": 91.11572844167732,
+            "trading_pnl": 102.6758105694836,
+            "fees": 10.393795885243732,
+            "funding_cost": 1.16628624256255,
+            "hit_rate": 0.6120689655172413,
+            "mean_net_per_trade": 0.7854804176006666,
+            "hold_minutes_p25_median_p75_p90": [
+              45.0,
+              200.0,
+              520.0,
+              1070.0
+            ],
+            "reached_24h": 8,
+            "total_hold_hours": 721.25
+          }
+        },
+        "market_decay": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "short": {
+            "trades": 114,
+            "priced": 114,
+            "net": 85.87192971859494,
+            "trading_pnl": 96.73903006937722,
+            "fees": 10.216467436468779,
+            "funding_cost": 0.6506329143135026,
+            "hit_rate": 0.5701754385964912,
+            "mean_net_per_trade": 0.7532625413911836,
+            "hold_minutes_p25_median_p75_p90": [
+              46.25,
+              182.5,
+              547.5,
+              1044.5
+            ],
+            "reached_24h": 6,
+            "total_hold_hours": 695.25
+          },
+          "all": {
+            "trades": 114,
+            "priced": 114,
+            "net": 85.87192971859494,
+            "trading_pnl": 96.73903006937722,
+            "fees": 10.216467436468779,
+            "funding_cost": 0.6506329143135026,
+            "hit_rate": 0.5701754385964912,
+            "mean_net_per_trade": 0.7532625413911836,
+            "hold_minutes_p25_median_p75_p90": [
+              46.25,
+              182.5,
+              547.5,
+              1044.5
+            ],
+            "reached_24h": 6,
+            "total_hold_hours": 695.25
+          }
+        },
+        "content_decay": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "short": {
+            "trades": 117,
+            "priced": 117,
+            "net": 100.93210734974205,
+            "trading_pnl": 112.12636510461502,
+            "fees": 10.479543135702922,
+            "funding_cost": 0.71471461917005,
+            "hit_rate": 0.6239316239316239,
+            "mean_net_per_trade": 0.8626675841858296,
+            "hold_minutes_p25_median_p75_p90": [
+              45.0,
+              200.0,
+              560.0,
+              1034.0000000000002
+            ],
+            "reached_24h": 7,
+            "total_hold_hours": 721.25
+          },
+          "all": {
+            "trades": 117,
+            "priced": 117,
+            "net": 100.93210734974205,
+            "trading_pnl": 112.12636510461502,
+            "fees": 10.479543135702922,
+            "funding_cost": 0.71471461917005,
+            "hit_rate": 0.6239316239316239,
+            "mean_net_per_trade": 0.8626675841858296,
+            "hold_minutes_p25_median_p75_p90": [
+              45.0,
+              200.0,
+              560.0,
+              1034.0000000000002
+            ],
+            "reached_24h": 7,
+            "total_hold_hours": 721.25
+          }
+        },
+        "relative_content": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "short": {
+            "trades": 113,
+            "priced": 113,
+            "net": 97.01978705773253,
+            "trading_pnl": 107.49311791372335,
+            "fees": 10.121628096938824,
+            "funding_cost": 0.35170275905200155,
+            "hit_rate": 0.6194690265486725,
+            "mean_net_per_trade": 0.8585821863516153,
+            "hold_minutes_p25_median_p75_p90": [
+              50.0,
+              200.0,
+              570.0,
+              1166.9999999999998
+            ],
+            "reached_24h": 7,
+            "total_hold_hours": 735.4166666666666
+          },
+          "all": {
+            "trades": 113,
+            "priced": 113,
+            "net": 97.01978705773253,
+            "trading_pnl": 107.49311791372335,
+            "fees": 10.121628096938824,
+            "funding_cost": 0.35170275905200155,
+            "hit_rate": 0.6194690265486725,
+            "mean_net_per_trade": 0.8585821863516153,
+            "hold_minutes_p25_median_p75_p90": [
+              50.0,
+              200.0,
+              570.0,
+              1166.9999999999998
+            ],
+            "reached_24h": 7,
+            "total_hold_hours": 735.4166666666666
+          }
+        }
+      },
+      "stress": {
+        "constant": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "short": {
+            "trades": 118,
+            "priced": 118,
+            "net": 98.28864921485206,
+            "trading_pnl": 109.08219512137038,
+            "fees": 10.570913012195383,
+            "funding_cost": 0.22263289432292538,
+            "hit_rate": 0.5932203389830508,
+            "mean_net_per_trade": 0.8329546543631531,
+            "hold_minutes_p25_median_p75_p90": [
+              46.25,
+              187.5,
+              487.5,
+              1089.5
+            ],
+            "reached_24h": 5,
+            "total_hold_hours": 717.8333333333334
+          },
+          "all": {
+            "trades": 118,
+            "priced": 118,
+            "net": 98.28864921485206,
+            "trading_pnl": 109.08219512137038,
+            "fees": 10.570913012195383,
+            "funding_cost": 0.22263289432292538,
+            "hit_rate": 0.5932203389830508,
+            "mean_net_per_trade": 0.8329546543631531,
+            "hold_minutes_p25_median_p75_p90": [
+              46.25,
+              187.5,
+              487.5,
+              1089.5
+            ],
+            "reached_24h": 5,
+            "total_hold_hours": 717.8333333333334
+          }
+        },
+        "market218": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "short": {
+            "trades": 121,
+            "priced": 121,
+            "net": 90.39348337794964,
+            "trading_pnl": 101.78108048982406,
+            "fees": 10.84419851377958,
+            "funding_cost": 0.5433985980948475,
+            "hit_rate": 0.5537190082644629,
+            "mean_net_per_trade": 0.7470535816359474,
+            "hold_minutes_p25_median_p75_p90": [
+              45.0,
+              185.0,
+              510.0,
+              1085.0
+            ],
+            "reached_24h": 8,
+            "total_hold_hours": 728.5833333333334
+          },
+          "all": {
+            "trades": 121,
+            "priced": 121,
+            "net": 90.39348337794964,
+            "trading_pnl": 101.78108048982406,
+            "fees": 10.84419851377958,
+            "funding_cost": 0.5433985980948475,
+            "hit_rate": 0.5537190082644629,
+            "mean_net_per_trade": 0.7470535816359474,
+            "hold_minutes_p25_median_p75_p90": [
+              45.0,
+              185.0,
+              510.0,
+              1085.0
+            ],
+            "reached_24h": 8,
+            "total_hold_hours": 728.5833333333334
+          }
+        },
+        "content218": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "short": {
+            "trades": 119,
+            "priced": 119,
+            "net": 83.46626461397588,
+            "trading_pnl": 95.30696778021277,
+            "fees": 10.667111864498903,
+            "funding_cost": 1.1735913017379849,
+            "hit_rate": 0.5798319327731093,
+            "mean_net_per_trade": 0.7013971816300494,
+            "hold_minutes_p25_median_p75_p90": [
+              52.5,
+              200.0,
+              555.0,
+              1061.0
+            ],
+            "reached_24h": 6,
+            "total_hold_hours": 736.9166666666666
+          },
+          "all": {
+            "trades": 119,
+            "priced": 119,
+            "net": 83.46626461397588,
+            "trading_pnl": 95.30696778021277,
+            "fees": 10.667111864498903,
+            "funding_cost": 1.1735913017379849,
+            "hit_rate": 0.5798319327731093,
+            "mean_net_per_trade": 0.7013971816300494,
+            "hold_minutes_p25_median_p75_p90": [
+              52.5,
+              200.0,
+              555.0,
+              1061.0
+            ],
+            "reached_24h": 6,
+            "total_hold_hours": 736.9166666666666
+          }
+        },
+        "market357": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "short": {
+            "trades": 114,
+            "priced": 114,
+            "net": 75.60175610996015,
+            "trading_pnl": 86.44629224396763,
+            "fees": 10.221099168490214,
+            "funding_cost": 0.6234369655172752,
+            "hit_rate": 0.5175438596491229,
+            "mean_net_per_trade": 0.6631732992101768,
+            "hold_minutes_p25_median_p75_p90": [
+              46.25,
+              182.5,
+              547.5,
+              1044.5
+            ],
+            "reached_24h": 6,
+            "total_hold_hours": 695.6666666666666
+          },
+          "all": {
+            "trades": 114,
+            "priced": 114,
+            "net": 75.60175610996015,
+            "trading_pnl": 86.44629224396763,
+            "fees": 10.221099168490214,
+            "funding_cost": 0.6234369655172752,
+            "hit_rate": 0.5175438596491229,
+            "mean_net_per_trade": 0.6631732992101768,
+            "hold_minutes_p25_median_p75_p90": [
+              46.25,
+              182.5,
+              547.5,
+              1044.5
+            ],
+            "reached_24h": 6,
+            "total_hold_hours": 695.6666666666666
+          }
+        },
+        "availability357": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "short": {
+            "trades": 114,
+            "priced": 114,
+            "net": 82.19221992967107,
+            "trading_pnl": 93.0818284827809,
+            "fees": 10.218113177182747,
+            "funding_cost": 0.6714953759270869,
+            "hit_rate": 0.543859649122807,
+            "mean_net_per_trade": 0.7209843853479918,
+            "hold_minutes_p25_median_p75_p90": [
+              50.0,
+              195.0,
+              565.0,
+              1076.0
+            ],
+            "reached_24h": 7,
+            "total_hold_hours": 715.6666666666666
+          },
+          "all": {
+            "trades": 114,
+            "priced": 114,
+            "net": 82.19221992967107,
+            "trading_pnl": 93.0818284827809,
+            "fees": 10.218113177182747,
+            "funding_cost": 0.6714953759270869,
+            "hit_rate": 0.543859649122807,
+            "mean_net_per_trade": 0.7209843853479918,
+            "hold_minutes_p25_median_p75_p90": [
+              50.0,
+              195.0,
+              565.0,
+              1076.0
+            ],
+            "reached_24h": 7,
+            "total_hold_hours": 715.6666666666666
+          }
+        },
+        "content357": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "short": {
+            "trades": 116,
+            "priced": 116,
+            "net": 84.36701012818973,
+            "trading_pnl": 95.93255760734753,
+            "fees": 10.396830349076692,
+            "funding_cost": 1.168717130081101,
+            "hit_rate": 0.5689655172413793,
+            "mean_net_per_trade": 0.7273018114499115,
+            "hold_minutes_p25_median_p75_p90": [
+              45.0,
+              200.0,
+              520.0,
+              1070.0
+            ],
+            "reached_24h": 8,
+            "total_hold_hours": 721.25
+          },
+          "all": {
+            "trades": 116,
+            "priced": 116,
+            "net": 84.36701012818973,
+            "trading_pnl": 95.93255760734753,
+            "fees": 10.396830349076692,
+            "funding_cost": 1.168717130081101,
+            "hit_rate": 0.5689655172413793,
+            "mean_net_per_trade": 0.7273018114499115,
+            "hold_minutes_p25_median_p75_p90": [
+              45.0,
+              200.0,
+              520.0,
+              1070.0
+            ],
+            "reached_24h": 8,
+            "total_hold_hours": 721.25
+          }
+        },
+        "market_decay": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "short": {
+            "trades": 114,
+            "priced": 114,
+            "net": 79.03440223257047,
+            "trading_pnl": 89.90562901377334,
+            "fees": 10.219542466943802,
+            "funding_cost": 0.6516843142590619,
+            "hit_rate": 0.5175438596491229,
+            "mean_net_per_trade": 0.6932842301102673,
+            "hold_minutes_p25_median_p75_p90": [
+              46.25,
+              182.5,
+              547.5,
+              1044.5
+            ],
+            "reached_24h": 6,
+            "total_hold_hours": 695.25
+          },
+          "all": {
+            "trades": 114,
+            "priced": 114,
+            "net": 79.03440223257047,
+            "trading_pnl": 89.90562901377334,
+            "fees": 10.219542466943802,
+            "funding_cost": 0.6516843142590619,
+            "hit_rate": 0.5175438596491229,
+            "mean_net_per_trade": 0.6932842301102673,
+            "hold_minutes_p25_median_p75_p90": [
+              46.25,
+              182.5,
+              547.5,
+              1044.5
+            ],
+            "reached_24h": 6,
+            "total_hold_hours": 695.25
+          }
+        },
+        "content_decay": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "short": {
+            "trades": 117,
+            "priced": 117,
+            "net": 93.35509288661164,
+            "trading_pnl": 104.55424412976663,
+            "fees": 10.482950590141604,
+            "funding_cost": 0.7162006530133892,
+            "hit_rate": 0.5811965811965812,
+            "mean_net_per_trade": 0.7979067768086465,
+            "hold_minutes_p25_median_p75_p90": [
+              45.0,
+              200.0,
+              560.0,
+              1034.0000000000002
+            ],
+            "reached_24h": 7,
+            "total_hold_hours": 721.25
+          },
+          "all": {
+            "trades": 117,
+            "priced": 117,
+            "net": 93.35509288661164,
+            "trading_pnl": 104.55424412976663,
+            "fees": 10.482950590141604,
+            "funding_cost": 0.7162006530133892,
+            "hit_rate": 0.5811965811965812,
+            "mean_net_per_trade": 0.7979067768086465,
+            "hold_minutes_p25_median_p75_p90": [
+              45.0,
+              200.0,
+              560.0,
+              1034.0000000000002
+            ],
+            "reached_24h": 7,
+            "total_hold_hours": 721.25
+          }
+        },
+        "relative_content": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "short": {
+            "trades": 113,
+            "priced": 113,
+            "net": 89.41459667557787,
+            "trading_pnl": 99.8921839692667,
+            "fees": 10.125048517213829,
+            "funding_cost": 0.35253877647500537,
+            "hit_rate": 0.5929203539823009,
+            "mean_net_per_trade": 0.7912796165980343,
+            "hold_minutes_p25_median_p75_p90": [
+              50.0,
+              200.0,
+              570.0,
+              1166.9999999999998
+            ],
+            "reached_24h": 7,
+            "total_hold_hours": 735.4166666666666
+          },
+          "all": {
+            "trades": 113,
+            "priced": 113,
+            "net": 89.41459667557787,
+            "trading_pnl": 99.8921839692667,
+            "fees": 10.125048517213829,
+            "funding_cost": 0.35253877647500537,
+            "hit_rate": 0.5929203539823009,
+            "mean_net_per_trade": 0.7912796165980343,
+            "hold_minutes_p25_median_p75_p90": [
+              50.0,
+              200.0,
+              570.0,
+              1166.9999999999998
+            ],
+            "reached_24h": 7,
+            "total_hold_hours": 735.4166666666666
+          }
+        }
+      }
+    },
+    "three_month": {
+      "base": {
+        "constant": {
+          "long": {
+            "trades": 2521,
+            "priced": 2521,
+            "net": -856.1785449879693,
+            "trading_pnl": -613.4249379102265,
+            "fees": 226.61395877794038,
+            "funding_cost": 16.139648299802406,
+            "hit_rate": 0.35065450218167393,
+            "mean_net_per_trade": -0.3396186215739664,
+            "hold_minutes_p25_median_p75_p90": [
+              255.0,
+              400.0,
+              550.0,
+              665.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17223.533333333333
+          },
+          "short": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "all": {
+            "trades": 2521,
+            "priced": 2521,
+            "net": -856.1785449879693,
+            "trading_pnl": -613.4249379102265,
+            "fees": 226.61395877794038,
+            "funding_cost": 16.139648299802406,
+            "hit_rate": 0.35065450218167393,
+            "mean_net_per_trade": -0.3396186215739664,
+            "hold_minutes_p25_median_p75_p90": [
+              255.0,
+              400.0,
+              550.0,
+              665.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17223.533333333333
+          }
+        },
+        "market": {
+          "long": {
+            "trades": 2475,
+            "priced": 2475,
+            "net": -806.3752424937553,
+            "trading_pnl": -568.1979379771042,
+            "fees": 222.4943109279103,
+            "funding_cost": 15.68299358874088,
+            "hit_rate": 0.3503030303030303,
+            "mean_net_per_trade": -0.3258081787853557,
+            "hold_minutes_p25_median_p75_p90": [
+              260.0,
+              400.0,
+              550.0,
+              670.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 16964.25
+          },
+          "short": {
+            "trades": 48,
+            "priced": 48,
+            "net": -8.616143326882963,
+            "trading_pnl": -4.5036419897302595,
+            "fees": 4.3220266388953785,
+            "funding_cost": -0.20952530174267553,
+            "hit_rate": 0.4166666666666667,
+            "mean_net_per_trade": -0.1795029859767284,
+            "hold_minutes_p25_median_p75_p90": [
+              247.5,
+              377.5,
+              537.5,
+              700.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 333.5833333333333
+          },
+          "all": {
+            "trades": 2523,
+            "priced": 2523,
+            "net": -814.9913858206382,
+            "trading_pnl": -572.7015799668344,
+            "fees": 226.8163375668057,
+            "funding_cost": 15.473468286998205,
+            "hit_rate": 0.3515655965120888,
+            "mean_net_per_trade": -0.3230247268413152,
+            "hold_minutes_p25_median_p75_p90": [
+              260.0,
+              400.0,
+              550.0,
+              670.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17297.833333333332
+          }
+        },
+        "availability": {
+          "long": {
+            "trades": 2473,
+            "priced": 2473,
+            "net": -797.6492859643498,
+            "trading_pnl": -559.6387769177682,
+            "fees": 222.318162550387,
+            "funding_cost": 15.692346496194675,
+            "hit_rate": 0.34977759805903763,
+            "mean_net_per_trade": -0.32254318073770716,
+            "hold_minutes_p25_median_p75_p90": [
+              260.0,
+              400.0,
+              550.0,
+              670.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 16950.25
+          },
+          "short": {
+            "trades": 49,
+            "priced": 49,
+            "net": -14.145517885125338,
+            "trading_pnl": -9.941465578231256,
+            "fees": 4.414473659510204,
+            "funding_cost": -0.21042135261612305,
+            "hit_rate": 0.40816326530612246,
+            "mean_net_per_trade": -0.2886840384719457,
+            "hold_minutes_p25_median_p75_p90": [
+              240.0,
+              375.0,
+              535.0,
+              700.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 336.25
+          },
+          "all": {
+            "trades": 2522,
+            "priced": 2522,
+            "net": -811.7948038494751,
+            "trading_pnl": -569.5802424959994,
+            "fees": 226.7326362098972,
+            "funding_cost": 15.481925143578552,
+            "hit_rate": 0.3509119746233148,
+            "mean_net_per_trade": -0.3218853306302439,
+            "hold_minutes_p25_median_p75_p90": [
+              260.0,
+              400.0,
+              550.0,
+              670.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17286.5
+          }
+        },
+        "news": {
+          "long": {
+            "trades": 2481,
+            "priced": 2481,
+            "net": -813.8675749703858,
+            "trading_pnl": -575.0796416620644,
+            "fees": 223.03121416125205,
+            "funding_cost": 15.75671914706939,
+            "hit_rate": 0.3498589278516727,
+            "mean_net_per_trade": -0.3280401350142627,
+            "hold_minutes_p25_median_p75_p90": [
+              260.0,
+              400.0,
+              550.0,
+              670.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17006.333333333332
+          },
+          "short": {
+            "trades": 43,
+            "priced": 43,
+            "net": -6.543958261590032,
+            "trading_pnl": -2.8681000760514834,
+            "fees": 3.871290645034223,
+            "funding_cost": -0.19543245949567462,
+            "hit_rate": 0.4418604651162791,
+            "mean_net_per_trade": -0.152185075850931,
+            "hold_minutes_p25_median_p75_p90": [
+              235.0,
+              340.0,
+              510.0,
+              692.0000000000002
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 282.0
+          },
+          "all": {
+            "trades": 2524,
+            "priced": 2524,
+            "net": -820.4115332319759,
+            "trading_pnl": -577.947741738116,
+            "fees": 226.9025048062863,
+            "funding_cost": 15.561286687573714,
+            "hit_rate": 0.35142630744849446,
+            "mean_net_per_trade": -0.325044189077645,
+            "hold_minutes_p25_median_p75_p90": [
+              255.0,
+              400.0,
+              550.0,
+              670.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17288.333333333332
+          }
+        },
+        "market_90d": {
+          "long": {
+            "trades": 2521,
+            "priced": 2521,
+            "net": -856.1785449879693,
+            "trading_pnl": -613.4249379102265,
+            "fees": 226.61395877794038,
+            "funding_cost": 16.139648299802406,
+            "hit_rate": 0.35065450218167393,
+            "mean_net_per_trade": -0.3396186215739664,
+            "hold_minutes_p25_median_p75_p90": [
+              255.0,
+              400.0,
+              550.0,
+              665.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17223.533333333333
+          },
+          "short": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "all": {
+            "trades": 2521,
+            "priced": 2521,
+            "net": -856.1785449879693,
+            "trading_pnl": -613.4249379102265,
+            "fees": 226.61395877794038,
+            "funding_cost": 16.139648299802406,
+            "hit_rate": 0.35065450218167393,
+            "mean_net_per_trade": -0.3396186215739664,
+            "hold_minutes_p25_median_p75_p90": [
+              255.0,
+              400.0,
+              550.0,
+              665.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17223.533333333333
+          }
+        },
+        "news_90d": {
+          "long": {
+            "trades": 2504,
+            "priced": 2504,
+            "net": -785.9717211054373,
+            "trading_pnl": -543.6897861470716,
+            "fees": 225.1153395962338,
+            "funding_cost": 17.166595362131858,
+            "hit_rate": 0.3534345047923323,
+            "mean_net_per_trade": -0.31388647009003084,
+            "hold_minutes_p25_median_p75_p90": [
+              260.0,
+              405.0,
+              550.0,
+              670.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17238.75
+          },
+          "short": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "all": {
+            "trades": 2504,
+            "priced": 2504,
+            "net": -785.9717211054373,
+            "trading_pnl": -543.6897861470716,
+            "fees": 225.1153395962338,
+            "funding_cost": 17.166595362131858,
+            "hit_rate": 0.3534345047923323,
+            "mean_net_per_trade": -0.31388647009003084,
+            "hold_minutes_p25_median_p75_p90": [
+              260.0,
+              405.0,
+              550.0,
+              670.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17238.75
+          }
+        },
+        "relative_news": {
+          "long": {
+            "trades": 2466,
+            "priced": 2466,
+            "net": -752.1604089309662,
+            "trading_pnl": -514.2602259018261,
+            "fees": 221.70858289834416,
+            "funding_cost": 16.19160013079597,
+            "hit_rate": 0.35077047850770476,
+            "mean_net_per_trade": -0.3050123312777641,
+            "hold_minutes_p25_median_p75_p90": [
+              265.0,
+              405.0,
+              550.0,
+              675.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17014.5
+          },
+          "short": {
+            "trades": 45,
+            "priced": 45,
+            "net": -3.6133181059148693,
+            "trading_pnl": 0.1951572671585667,
+            "fees": 4.0499121792297785,
+            "funding_cost": -0.2414368061563431,
+            "hit_rate": 0.4444444444444444,
+            "mean_net_per_trade": -0.08029595790921931,
+            "hold_minutes_p25_median_p75_p90": [
+              235.0,
+              380.0,
+              525.0,
+              700.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 301.8333333333333
+          },
+          "all": {
+            "trades": 2511,
+            "priced": 2511,
+            "net": -755.773727036881,
+            "trading_pnl": -514.0650686346675,
+            "fees": 225.75849507757394,
+            "funding_cost": 15.950163324639625,
+            "hit_rate": 0.35244922341696533,
+            "mean_net_per_trade": -0.30098515612779014,
+            "hold_minutes_p25_median_p75_p90": [
+              260.0,
+              405.0,
+              550.0,
+              675.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17316.333333333332
+          }
+        },
+        "news_90d_tied": {
+          "long": {
+            "trades": 2521,
+            "priced": 2521,
+            "net": -855.3439732336259,
+            "trading_pnl": -612.5485980953875,
+            "fees": 226.61435313085707,
+            "funding_cost": 16.181022007381287,
+            "hit_rate": 0.35065450218167393,
+            "mean_net_per_trade": -0.33928757367458384,
+            "hold_minutes_p25_median_p75_p90": [
+              255.0,
+              400.0,
+              550.0,
+              665.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17222.116666666665
+          },
+          "short": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "all": {
+            "trades": 2521,
+            "priced": 2521,
+            "net": -855.3439732336259,
+            "trading_pnl": -612.5485980953875,
+            "fees": 226.61435313085707,
+            "funding_cost": 16.181022007381287,
+            "hit_rate": 0.35065450218167393,
+            "mean_net_per_trade": -0.33928757367458384,
+            "hold_minutes_p25_median_p75_p90": [
+              255.0,
+              400.0,
+              550.0,
+              665.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17222.116666666665
+          }
+        }
+      },
+      "stress": {
+        "constant": {
+          "long": {
+            "trades": 2520,
+            "priced": 2520,
+            "net": -920.3201747373603,
+            "trading_pnl": -677.6173834498189,
+            "fees": 226.49507217744758,
+            "funding_cost": 16.207719110093716,
+            "hit_rate": 0.34484126984126984,
+            "mean_net_per_trade": -0.36520641854657154,
+            "hold_minutes_p25_median_p75_p90": [
+              255.0,
+              400.0,
+              546.25,
+              665.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17221.016666666666
+          },
+          "short": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "all": {
+            "trades": 2520,
+            "priced": 2520,
+            "net": -920.3201747373603,
+            "trading_pnl": -677.6173834498189,
+            "fees": 226.49507217744758,
+            "funding_cost": 16.207719110093716,
+            "hit_rate": 0.34484126984126984,
+            "mean_net_per_trade": -0.36520641854657154,
+            "hold_minutes_p25_median_p75_p90": [
+              255.0,
+              400.0,
+              546.25,
+              665.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17221.016666666666
+          }
+        },
+        "market": {
+          "long": {
+            "trades": 2474,
+            "priced": 2474,
+            "net": -867.0942475728527,
+            "trading_pnl": -628.9435990698685,
+            "fees": 222.37697538041854,
+            "funding_cost": 15.773673122565722,
+            "hit_rate": 0.3427647534357316,
+            "mean_net_per_trade": -0.3504827193099647,
+            "hold_minutes_p25_median_p75_p90": [
+              260.0,
+              400.0,
+              550.0,
+              670.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 16961.483333333334
+          },
+          "short": {
+            "trades": 48,
+            "priced": 48,
+            "net": -7.6173042093925005,
+            "trading_pnl": -3.5052713020087785,
+            "fees": 4.321577372085904,
+            "funding_cost": -0.2095444647021797,
+            "hit_rate": 0.4166666666666667,
+            "mean_net_per_trade": -0.1586938376956771,
+            "hold_minutes_p25_median_p75_p90": [
+              247.5,
+              377.5,
+              537.5,
+              700.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 333.5833333333333
+          },
+          "all": {
+            "trades": 2522,
+            "priced": 2522,
+            "net": -874.7115517822452,
+            "trading_pnl": -632.4488703718773,
+            "fees": 226.69855275250447,
+            "funding_cost": 15.564128657863543,
+            "hit_rate": 0.34417129262490087,
+            "mean_net_per_trade": -0.34683249475901873,
+            "hold_minutes_p25_median_p75_p90": [
+              260.0,
+              400.0,
+              550.0,
+              670.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17295.066666666666
+          }
+        },
+        "availability": {
+          "long": {
+            "trades": 2472,
+            "priced": 2472,
+            "net": -860.338445865162,
+            "trading_pnl": -622.3556580739132,
+            "fees": 222.19993995386673,
+            "funding_cost": 15.782847837382175,
+            "hit_rate": 0.34263754045307443,
+            "mean_net_per_trade": -0.34803335188720147,
+            "hold_minutes_p25_median_p75_p90": [
+              260.0,
+              400.0,
+              550.0,
+              670.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 16947.483333333334
+          },
+          "short": {
+            "trades": 49,
+            "priced": 49,
+            "net": -13.761869980045818,
+            "trading_pnl": -9.55796016238357,
+            "fees": 4.414301082073073,
+            "funding_cost": -0.21039126441082198,
+            "hit_rate": 0.40816326530612246,
+            "mean_net_per_trade": -0.2808544893886902,
+            "hold_minutes_p25_median_p75_p90": [
+              240.0,
+              375.0,
+              535.0,
+              700.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 336.25
+          },
+          "all": {
+            "trades": 2521,
+            "priced": 2521,
+            "net": -874.1003158452079,
+            "trading_pnl": -631.9136182362968,
+            "fees": 226.6142410359398,
+            "funding_cost": 15.572456572971353,
+            "hit_rate": 0.3439111463704879,
+            "mean_net_per_trade": -0.3467276143773137,
+            "hold_minutes_p25_median_p75_p90": [
+              260.0,
+              400.0,
+              550.0,
+              670.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17283.733333333334
+          }
+        },
+        "news": {
+          "long": {
+            "trades": 2480,
+            "priced": 2480,
+            "net": -876.7357059175198,
+            "trading_pnl": -637.9758377769325,
+            "fees": 222.91291087300038,
+            "funding_cost": 15.846957267586864,
+            "hit_rate": 0.34233870967741936,
+            "mean_net_per_trade": -0.35352246206351606,
+            "hold_minutes_p25_median_p75_p90": [
+              260.0,
+              400.0,
+              550.0,
+              670.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17003.566666666666
+          },
+          "short": {
+            "trades": 43,
+            "priced": 43,
+            "net": -6.405545804876222,
+            "trading_pnl": -2.7297779916679756,
+            "fees": 3.8712284000962502,
+            "funding_cost": -0.19546058688800189,
+            "hit_rate": 0.4418604651162791,
+            "mean_net_per_trade": -0.14896618150874935,
+            "hold_minutes_p25_median_p75_p90": [
+              235.0,
+              340.0,
+              510.0,
+              692.0000000000002
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 282.0
+          },
+          "all": {
+            "trades": 2523,
+            "priced": 2523,
+            "net": -883.141251722396,
+            "trading_pnl": -640.7056157686005,
+            "fees": 226.78413927309663,
+            "funding_cost": 15.651496680698862,
+            "hit_rate": 0.34403487911216807,
+            "mean_net_per_trade": -0.35003616794387477,
+            "hold_minutes_p25_median_p75_p90": [
+              255.0,
+              400.0,
+              550.0,
+              670.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17285.566666666666
+          }
+        },
+        "market_90d": {
+          "long": {
+            "trades": 2520,
+            "priced": 2520,
+            "net": -920.3201747373603,
+            "trading_pnl": -677.6173834498189,
+            "fees": 226.49507217744758,
+            "funding_cost": 16.207719110093716,
+            "hit_rate": 0.34484126984126984,
+            "mean_net_per_trade": -0.36520641854657154,
+            "hold_minutes_p25_median_p75_p90": [
+              255.0,
+              400.0,
+              546.25,
+              665.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17221.016666666666
+          },
+          "short": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "all": {
+            "trades": 2520,
+            "priced": 2520,
+            "net": -920.3201747373603,
+            "trading_pnl": -677.6173834498189,
+            "fees": 226.49507217744758,
+            "funding_cost": 16.207719110093716,
+            "hit_rate": 0.34484126984126984,
+            "mean_net_per_trade": -0.36520641854657154,
+            "hold_minutes_p25_median_p75_p90": [
+              255.0,
+              400.0,
+              546.25,
+              665.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17221.016666666666
+          }
+        },
+        "news_90d": {
+          "long": {
+            "trades": 2503,
+            "priced": 2503,
+            "net": -842.3944543855755,
+            "trading_pnl": -600.1589368916767,
+            "fees": 224.99992847839874,
+            "funding_cost": 17.235589015500103,
+            "hit_rate": 0.3463843387934479,
+            "mean_net_per_trade": -0.3365539170537657,
+            "hold_minutes_p25_median_p75_p90": [
+              260.0,
+              405.0,
+              550.0,
+              670.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17238.333333333332
+          },
+          "short": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "all": {
+            "trades": 2503,
+            "priced": 2503,
+            "net": -842.3944543855755,
+            "trading_pnl": -600.1589368916767,
+            "fees": 224.99992847839874,
+            "funding_cost": 17.235589015500103,
+            "hit_rate": 0.3463843387934479,
+            "mean_net_per_trade": -0.3365539170537657,
+            "hold_minutes_p25_median_p75_p90": [
+              260.0,
+              405.0,
+              550.0,
+              670.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17238.333333333332
+          }
+        },
+        "relative_news": {
+          "long": {
+            "trades": 2465,
+            "priced": 2465,
+            "net": -806.0749119006331,
+            "trading_pnl": -568.2091806519318,
+            "fees": 221.5943058687066,
+            "funding_cost": 16.271425379994728,
+            "hit_rate": 0.3440162271805274,
+            "mean_net_per_trade": -0.3270080778501554,
+            "hold_minutes_p25_median_p75_p90": [
+              265.0,
+              405.0,
+              550.0,
+              675.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17013.5
+          },
+          "short": {
+            "trades": 45,
+            "priced": 45,
+            "net": -3.9654354256799196,
+            "trading_pnl": -0.15700877703863647,
+            "fees": 4.050070653949668,
+            "funding_cost": -0.24164400530838098,
+            "hit_rate": 0.4444444444444444,
+            "mean_net_per_trade": -0.08812078723733155,
+            "hold_minutes_p25_median_p75_p90": [
+              235.0,
+              380.0,
+              525.0,
+              700.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 301.8333333333333
+          },
+          "all": {
+            "trades": 2510,
+            "priced": 2510,
+            "net": -810.040347326313,
+            "trading_pnl": -568.3661894289704,
+            "fees": 225.6443765226563,
+            "funding_cost": 16.029781374686348,
+            "hit_rate": 0.3458167330677291,
+            "mean_net_per_trade": -0.3227252379786108,
+            "hold_minutes_p25_median_p75_p90": [
+              260.0,
+              405.0,
+              550.0,
+              675.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17315.333333333332
+          }
+        },
+        "news_90d_tied": {
+          "long": {
+            "trades": 2520,
+            "priced": 2520,
+            "net": -918.1987905575807,
+            "trading_pnl": -675.4548751944452,
+            "fees": 226.4960453061625,
+            "funding_cost": 16.247870056973007,
+            "hit_rate": 0.34484126984126984,
+            "mean_net_per_trade": -0.36436459942761135,
+            "hold_minutes_p25_median_p75_p90": [
+              255.0,
+              400.0,
+              546.25,
+              665.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17219.6
+          },
+          "short": {
+            "trades": 0,
+            "priced": 0,
+            "net": 0.0,
+            "trading_pnl": 0.0,
+            "fees": 0.0,
+            "funding_cost": 0.0,
+            "hit_rate": null,
+            "mean_net_per_trade": null,
+            "hold_minutes_p25_median_p75_p90": null,
+            "reached_24h": 0,
+            "total_hold_hours": 0.0
+          },
+          "all": {
+            "trades": 2520,
+            "priced": 2520,
+            "net": -918.1987905575807,
+            "trading_pnl": -675.4548751944452,
+            "fees": 226.4960453061625,
+            "funding_cost": 16.247870056973007,
+            "hit_rate": 0.34484126984126984,
+            "mean_net_per_trade": -0.36436459942761135,
+            "hold_minutes_p25_median_p75_p90": [
+              255.0,
+              400.0,
+              546.25,
+              665.0
+            ],
+            "reached_24h": 0,
+            "total_hold_hours": 17219.6
+          }
+        }
+      }
+    },
+    "three_month_by_entry_month": {
+      "base": {
+        "constant": {
+          "2026-08": {
+            "long": {
+              "trades": 295,
+              "priced": 295,
+              "net": -179.7695022259299,
+              "trading_pnl": -155.9519454962331,
+              "fees": 26.479821624526696,
+              "funding_cost": -2.662264894829879,
+              "hit_rate": 0.39661016949152544,
+              "mean_net_per_trade": -0.6093881431387455,
+              "hold_minutes_p25_median_p75_p90": [
+                227.5,
+                365.0,
+                540.0,
+                651.0000000000002
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1883.8333333333333
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 295,
+              "priced": 295,
+              "net": -179.7695022259299,
+              "trading_pnl": -155.9519454962331,
+              "fees": 26.479821624526696,
+              "funding_cost": -2.662264894829879,
+              "hit_rate": 0.39661016949152544,
+              "mean_net_per_trade": -0.6093881431387455,
+              "hold_minutes_p25_median_p75_p90": [
+                227.5,
+                365.0,
+                540.0,
+                651.0000000000002
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1883.8333333333333
+            }
+          },
+          "2026-09": {
+            "long": {
+              "trades": 845,
+              "priced": 845,
+              "net": 58.06233353593858,
+              "trading_pnl": 146.808451796237,
+              "fees": 76.11606380330831,
+              "funding_cost": 12.63005445699011,
+              "hit_rate": 0.3893491124260355,
+              "mean_net_per_trade": 0.06871282075259003,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                385.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5717.95
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 845,
+              "priced": 845,
+              "net": 58.06233353593858,
+              "trading_pnl": 146.808451796237,
+              "fees": 76.11606380330831,
+              "funding_cost": 12.63005445699011,
+              "hit_rate": 0.3893491124260355,
+              "mean_net_per_trade": 0.06871282075259003,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                385.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5717.95
+            }
+          },
+          "2026-10": {
+            "long": {
+              "trades": 858,
+              "priced": 858,
+              "net": -376.74673051651587,
+              "trading_pnl": -292.5080028327991,
+              "fees": 77.08837139872524,
+              "funding_cost": 7.1503562849915525,
+              "hit_rate": 0.33916083916083917,
+              "mean_net_per_trade": -0.4390987535157528,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                570.0,
+                685.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6090.0
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 858,
+              "priced": 858,
+              "net": -376.74673051651587,
+              "trading_pnl": -292.5080028327991,
+              "fees": 77.08837139872524,
+              "funding_cost": 7.1503562849915525,
+              "hit_rate": 0.33916083916083917,
+              "mean_net_per_trade": -0.4390987535157528,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                570.0,
+                685.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6090.0
+            }
+          },
+          "2026-11": {
+            "long": {
+              "trades": 523,
+              "priced": 523,
+              "net": -357.72464578146213,
+              "trading_pnl": -311.7734413774313,
+              "fees": 46.92970195138015,
+              "funding_cost": -0.9784975473493763,
+              "hit_rate": 0.28107074569789675,
+              "mean_net_per_trade": -0.6839859383966771,
+              "hold_minutes_p25_median_p75_p90": [
+                252.5,
+                400.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3531.75
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 523,
+              "priced": 523,
+              "net": -357.72464578146213,
+              "trading_pnl": -311.7734413774313,
+              "fees": 46.92970195138015,
+              "funding_cost": -0.9784975473493763,
+              "hit_rate": 0.28107074569789675,
+              "mean_net_per_trade": -0.6839859383966771,
+              "hold_minutes_p25_median_p75_p90": [
+                252.5,
+                400.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3531.75
+            }
+          }
+        },
+        "market": {
+          "2026-08": {
+            "long": {
+              "trades": 294,
+              "priced": 294,
+              "net": -167.486768748657,
+              "trading_pnl": -143.76426196518963,
+              "fees": 26.395306082115663,
+              "funding_cost": -2.6727992986483082,
+              "hit_rate": 0.3945578231292517,
+              "mean_net_per_trade": -0.5696828869001939,
+              "hold_minutes_p25_median_p75_p90": [
+                226.25,
+                365.0,
+                538.75,
+                651.9999999999999
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1877.4166666666667
+            },
+            "short": {
+              "trades": 1,
+              "priced": 1,
+              "net": 0.14079390777935086,
+              "trading_pnl": 0.22256874030167612,
+              "fees": 0.08989984406686423,
+              "funding_cost": -0.008125011544538987,
+              "hit_rate": 1.0,
+              "mean_net_per_trade": 0.14079390777935086,
+              "hold_minutes_p25_median_p75_p90": [
+                485.0,
+                485.0,
+                485.0,
+                485.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 8.083333333333334
+            },
+            "all": {
+              "trades": 295,
+              "priced": 295,
+              "net": -167.34597484087763,
+              "trading_pnl": -143.54169322488795,
+              "fees": 26.485205926182527,
+              "funding_cost": -2.680924310192847,
+              "hit_rate": 0.39661016949152544,
+              "mean_net_per_trade": -0.5672744909860259,
+              "hold_minutes_p25_median_p75_p90": [
+                227.5,
+                365.0,
+                537.5,
+                651.0000000000002
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1885.5
+            }
+          },
+          "2026-09": {
+            "long": {
+              "trades": 832,
+              "priced": 832,
+              "net": 60.113101699253725,
+              "trading_pnl": 147.69906959718625,
+              "fees": 74.94646458131874,
+              "funding_cost": 12.639503316613794,
+              "hit_rate": 0.38822115384615385,
+              "mean_net_per_trade": 0.07225132415775688,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                390.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5641.666666666667
+            },
+            "short": {
+              "trades": 14,
+              "priced": 14,
+              "net": -5.417651551089642,
+              "trading_pnl": -4.213184670731671,
+              "fees": 1.2618959331018291,
+              "funding_cost": -0.05742905274386031,
+              "hit_rate": 0.35714285714285715,
+              "mean_net_per_trade": -0.38697511079211727,
+              "hold_minutes_p25_median_p75_p90": [
+                273.75,
+                415.0,
+                527.5,
+                642.0000000000001
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 97.83333333333333
+            },
+            "all": {
+              "trades": 846,
+              "priced": 846,
+              "net": 54.695450148164085,
+              "trading_pnl": 143.4858849264546,
+              "fees": 76.20836051442056,
+              "funding_cost": 12.582074263869934,
+              "hit_rate": 0.3877068557919622,
+              "mean_net_per_trade": 0.0646518323264351,
+              "hold_minutes_p25_median_p75_p90": [
+                256.25,
+                390.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5739.5
+            }
+          },
+          "2026-10": {
+            "long": {
+              "trades": 836,
+              "priced": 836,
+              "net": -337.74160377571366,
+              "trading_pnl": -255.60957532015038,
+              "fees": 75.12497569110593,
+              "funding_cost": 7.007052764457316,
+              "hit_rate": 0.3397129186602871,
+              "mean_net_per_trade": -0.40399713370300677,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                575.0,
+                685.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5971.25
+            },
+            "short": {
+              "trades": 20,
+              "priced": 20,
+              "net": 4.802980063752308,
+              "trading_pnl": 6.46728597892299,
+              "fees": 1.7970897213094845,
+              "funding_cost": -0.13278380613880175,
+              "hit_rate": 0.4,
+              "mean_net_per_trade": 0.2401490031876154,
+              "hold_minutes_p25_median_p75_p90": [
+                235.0,
+                337.5,
+                650.0,
+                711.0000000000001
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 143.83333333333334
+            },
+            "all": {
+              "trades": 856,
+              "priced": 856,
+              "net": -332.9386237119613,
+              "trading_pnl": -249.14228934122738,
+              "fees": 76.92206541241542,
+              "funding_cost": 6.874268958318514,
+              "hit_rate": 0.3411214953271028,
+              "mean_net_per_trade": -0.38894699031771185,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                575.0,
+                690.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6115.083333333333
+            }
+          },
+          "2026-11": {
+            "long": {
+              "trades": 513,
+              "priced": 513,
+              "net": -361.25997166863846,
+              "trading_pnl": -316.5231702889504,
+              "fees": 46.02756457336997,
+              "funding_cost": -1.2907631936819213,
+              "hit_rate": 0.2807017543859649,
+              "mean_net_per_trade": -0.7042104710889638,
+              "hold_minutes_p25_median_p75_p90": [
+                260.0,
+                400.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3473.9166666666665
+            },
+            "short": {
+              "trades": 13,
+              "priced": 13,
+              "net": -8.142265747324979,
+              "trading_pnl": -6.980312038223254,
+              "fees": 1.1731411404172005,
+              "funding_cost": -0.011187431315474481,
+              "hit_rate": 0.46153846153846156,
+              "mean_net_per_trade": -0.6263281344096138,
+              "hold_minutes_p25_median_p75_p90": [
+                295.0,
+                340.0,
+                485.0,
+                621.0000000000001
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 83.83333333333333
+            },
+            "all": {
+              "trades": 526,
+              "priced": 526,
+              "net": -369.4022374159634,
+              "trading_pnl": -323.50348232717363,
+              "fees": 47.20070571378717,
+              "funding_cost": -1.3019506249973958,
+              "hit_rate": 0.28517110266159695,
+              "mean_net_per_trade": -0.7022856224638088,
+              "hold_minutes_p25_median_p75_p90": [
+                260.0,
+                395.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3557.75
+            }
+          }
+        },
+        "availability": {
+          "2026-08": {
+            "long": {
+              "trades": 294,
+              "priced": 294,
+              "net": -167.486768748657,
+              "trading_pnl": -143.76426196518963,
+              "fees": 26.395306082115663,
+              "funding_cost": -2.6727992986483082,
+              "hit_rate": 0.3945578231292517,
+              "mean_net_per_trade": -0.5696828869001939,
+              "hold_minutes_p25_median_p75_p90": [
+                226.25,
+                365.0,
+                538.75,
+                651.9999999999999
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1877.4166666666667
+            },
+            "short": {
+              "trades": 1,
+              "priced": 1,
+              "net": 0.14079390777935086,
+              "trading_pnl": 0.22256874030167612,
+              "fees": 0.08989984406686423,
+              "funding_cost": -0.008125011544538987,
+              "hit_rate": 1.0,
+              "mean_net_per_trade": 0.14079390777935086,
+              "hold_minutes_p25_median_p75_p90": [
+                485.0,
+                485.0,
+                485.0,
+                485.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 8.083333333333334
+            },
+            "all": {
+              "trades": 295,
+              "priced": 295,
+              "net": -167.34597484087763,
+              "trading_pnl": -143.54169322488795,
+              "fees": 26.485205926182527,
+              "funding_cost": -2.680924310192847,
+              "hit_rate": 0.39661016949152544,
+              "mean_net_per_trade": -0.5672744909860259,
+              "hold_minutes_p25_median_p75_p90": [
+                227.5,
+                365.0,
+                537.5,
+                651.0000000000002
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1885.5
+            }
+          },
+          "2026-09": {
+            "long": {
+              "trades": 832,
+              "priced": 832,
+              "net": 60.113101699253725,
+              "trading_pnl": 147.69906959718625,
+              "fees": 74.94646458131874,
+              "funding_cost": 12.639503316613794,
+              "hit_rate": 0.38822115384615385,
+              "mean_net_per_trade": 0.07225132415775688,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                390.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5641.666666666667
+            },
+            "short": {
+              "trades": 14,
+              "priced": 14,
+              "net": -5.417651551089642,
+              "trading_pnl": -4.213184670731671,
+              "fees": 1.2618959331018291,
+              "funding_cost": -0.05742905274386031,
+              "hit_rate": 0.35714285714285715,
+              "mean_net_per_trade": -0.38697511079211727,
+              "hold_minutes_p25_median_p75_p90": [
+                273.75,
+                415.0,
+                527.5,
+                642.0000000000001
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 97.83333333333333
+            },
+            "all": {
+              "trades": 846,
+              "priced": 846,
+              "net": 54.695450148164085,
+              "trading_pnl": 143.4858849264546,
+              "fees": 76.20836051442056,
+              "funding_cost": 12.582074263869934,
+              "hit_rate": 0.3877068557919622,
+              "mean_net_per_trade": 0.0646518323264351,
+              "hold_minutes_p25_median_p75_p90": [
+                256.25,
+                390.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5739.5
+            }
+          },
+          "2026-10": {
+            "long": {
+              "trades": 834,
+              "priced": 834,
+              "net": -329.0156472463081,
+              "trading_pnl": -247.05041426081436,
+              "fees": 74.94882731358263,
+              "funding_cost": 7.0164056719111105,
+              "hit_rate": 0.3381294964028777,
+              "mean_net_per_trade": -0.39450317415624475,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                575.0,
+                685.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5957.25
+            },
+            "short": {
+              "trades": 21,
+              "priced": 21,
+              "net": -1.8533763350603114,
+              "trading_pnl": -0.09863406802119287,
+              "fees": 1.8900443853306095,
+              "funding_cost": -0.13530211829149075,
+              "hit_rate": 0.38095238095238093,
+              "mean_net_per_trade": -0.08825601595525293,
+              "hold_minutes_p25_median_p75_p90": [
+                235.0,
+                335.0,
+                635.0,
+                700.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 146.25
+            },
+            "all": {
+              "trades": 855,
+              "priced": 855,
+              "net": -330.8690235813684,
+              "trading_pnl": -247.14904832883556,
+              "fees": 76.83887169891324,
+              "funding_cost": 6.88110355361962,
+              "hit_rate": 0.3391812865497076,
+              "mean_net_per_trade": -0.3869813141302555,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                575.0,
+                690.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6103.5
+            }
+          },
+          "2026-11": {
+            "long": {
+              "trades": 513,
+              "priced": 513,
+              "net": -361.25997166863846,
+              "trading_pnl": -316.5231702889504,
+              "fees": 46.02756457336997,
+              "funding_cost": -1.2907631936819213,
+              "hit_rate": 0.2807017543859649,
+              "mean_net_per_trade": -0.7042104710889638,
+              "hold_minutes_p25_median_p75_p90": [
+                260.0,
+                400.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3473.9166666666665
+            },
+            "short": {
+              "trades": 13,
+              "priced": 13,
+              "net": -7.0152839067547355,
+              "trading_pnl": -5.852215579780068,
+              "fees": 1.1726334970109011,
+              "funding_cost": -0.009565170036233006,
+              "hit_rate": 0.46153846153846156,
+              "mean_net_per_trade": -0.5396372235965181,
+              "hold_minutes_p25_median_p75_p90": [
+                295.0,
+                355.0,
+                485.0,
+                621.0000000000001
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 84.08333333333333
+            },
+            "all": {
+              "trades": 526,
+              "priced": 526,
+              "net": -368.27525557539315,
+              "trading_pnl": -322.37538586873046,
+              "fees": 47.20019807038087,
+              "funding_cost": -1.3003283637181542,
+              "hit_rate": 0.28517110266159695,
+              "mean_net_per_trade": -0.7001430714361087,
+              "hold_minutes_p25_median_p75_p90": [
+                260.0,
+                395.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3558.0
+            }
+          }
+        },
+        "news": {
+          "2026-08": {
+            "long": {
+              "trades": 294,
+              "priced": 294,
+              "net": -167.486768748657,
+              "trading_pnl": -143.76426196518963,
+              "fees": 26.395306082115663,
+              "funding_cost": -2.6727992986483082,
+              "hit_rate": 0.3945578231292517,
+              "mean_net_per_trade": -0.5696828869001939,
+              "hold_minutes_p25_median_p75_p90": [
+                226.25,
+                365.0,
+                538.75,
+                651.9999999999999
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1877.4166666666667
+            },
+            "short": {
+              "trades": 1,
+              "priced": 1,
+              "net": 0.14079390777935086,
+              "trading_pnl": 0.22256874030167612,
+              "fees": 0.08989984406686423,
+              "funding_cost": -0.008125011544538987,
+              "hit_rate": 1.0,
+              "mean_net_per_trade": 0.14079390777935086,
+              "hold_minutes_p25_median_p75_p90": [
+                485.0,
+                485.0,
+                485.0,
+                485.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 8.083333333333334
+            },
+            "all": {
+              "trades": 295,
+              "priced": 295,
+              "net": -167.34597484087763,
+              "trading_pnl": -143.54169322488795,
+              "fees": 26.485205926182527,
+              "funding_cost": -2.680924310192847,
+              "hit_rate": 0.39661016949152544,
+              "mean_net_per_trade": -0.5672744909860259,
+              "hold_minutes_p25_median_p75_p90": [
+                227.5,
+                365.0,
+                537.5,
+                651.0000000000002
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1885.5
+            }
+          },
+          "2026-09": {
+            "long": {
+              "trades": 834,
+              "priced": 834,
+              "net": 65.6291040830789,
+              "trading_pnl": 153.43984083258556,
+              "fees": 75.12904792837466,
+              "funding_cost": 12.681688821131996,
+              "hit_rate": 0.38848920863309355,
+              "mean_net_per_trade": 0.07869197132263657,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                390.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5656.916666666667
+            },
+            "short": {
+              "trades": 11,
+              "priced": 11,
+              "net": -4.4954092657394815,
+              "trading_pnl": -3.550205932857874,
+              "fees": 0.991597592669786,
+              "funding_cost": -0.04639425978818034,
+              "hit_rate": 0.2727272727272727,
+              "mean_net_per_trade": -0.40867356961268014,
+              "hold_minutes_p25_median_p75_p90": [
+                247.5,
+                435.0,
+                520.0,
+                660.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 77.08333333333333
+            },
+            "all": {
+              "trades": 845,
+              "priced": 845,
+              "net": 61.13369481733941,
+              "trading_pnl": 149.88963489972767,
+              "fees": 76.12064552104445,
+              "funding_cost": 12.635294561343816,
+              "hit_rate": 0.38698224852071006,
+              "mean_net_per_trade": 0.0723475678311709,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                390.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5734.0
+            }
+          },
+          "2026-10": {
+            "long": {
+              "trades": 839,
+              "priced": 839,
+              "net": -345.9505193625272,
+              "trading_pnl": -263.50536005621325,
+              "fees": 75.3914225879747,
+              "funding_cost": 7.053736718339276,
+              "hit_rate": 0.3396901072705602,
+              "mean_net_per_trade": -0.41233673344758903,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                575.0,
+                685.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5996.25
+            },
+            "short": {
+              "trades": 18,
+              "priced": 18,
+              "net": 6.720362352943314,
+              "trading_pnl": 8.210150575996346,
+              "fees": 1.6163054322408015,
+              "funding_cost": -0.12651720918776965,
+              "hit_rate": 0.5,
+              "mean_net_per_trade": 0.3733534640524063,
+              "hold_minutes_p25_median_p75_p90": [
+                235.0,
+                245.0,
+                501.25,
+                733.0000000000001
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 115.58333333333333
+            },
+            "all": {
+              "trades": 857,
+              "priced": 857,
+              "net": -339.2301570095839,
+              "trading_pnl": -255.2952094802169,
+              "fees": 77.00772802021551,
+              "funding_cost": 6.927219509151506,
+              "hit_rate": 0.34305717619603265,
+              "mean_net_per_trade": -0.3958344889260022,
+              "hold_minutes_p25_median_p75_p90": [
+                270.0,
+                420.0,
+                575.0,
+                685.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6111.833333333333
+            }
+          },
+          "2026-11": {
+            "long": {
+              "trades": 514,
+              "priced": 514,
+              "net": -366.0593909422806,
+              "trading_pnl": -321.2498604732471,
+              "fees": 46.11543756278704,
+              "funding_cost": -1.3059070937535748,
+              "hit_rate": 0.2782101167315175,
+              "mean_net_per_trade": -0.7121778033896509,
+              "hold_minutes_p25_median_p75_p90": [
+                256.25,
+                400.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3475.75
+            },
+            "short": {
+              "trades": 13,
+              "priced": 13,
+              "net": -8.909705256573217,
+              "trading_pnl": -7.750613459491631,
+              "fees": 1.1734877760567712,
+              "funding_cost": -0.014395978975185632,
+              "hit_rate": 0.46153846153846156,
+              "mean_net_per_trade": -0.6853619428133244,
+              "hold_minutes_p25_median_p75_p90": [
+                280.0,
+                340.0,
+                485.0,
+                621.0000000000001
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 81.25
+            },
+            "all": {
+              "trades": 527,
+              "priced": 527,
+              "net": -374.9690961988538,
+              "trading_pnl": -329.0004739327387,
+              "fees": 47.28892533884381,
+              "funding_cost": -1.3203030727287606,
+              "hit_rate": 0.2827324478178368,
+              "mean_net_per_trade": -0.7115163115727776,
+              "hold_minutes_p25_median_p75_p90": [
+                257.5,
+                395.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3557.0
+            }
+          }
+        },
+        "market_90d": {
+          "2026-08": {
+            "long": {
+              "trades": 295,
+              "priced": 295,
+              "net": -179.7695022259299,
+              "trading_pnl": -155.9519454962331,
+              "fees": 26.479821624526696,
+              "funding_cost": -2.662264894829879,
+              "hit_rate": 0.39661016949152544,
+              "mean_net_per_trade": -0.6093881431387455,
+              "hold_minutes_p25_median_p75_p90": [
+                227.5,
+                365.0,
+                540.0,
+                651.0000000000002
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1883.8333333333333
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 295,
+              "priced": 295,
+              "net": -179.7695022259299,
+              "trading_pnl": -155.9519454962331,
+              "fees": 26.479821624526696,
+              "funding_cost": -2.662264894829879,
+              "hit_rate": 0.39661016949152544,
+              "mean_net_per_trade": -0.6093881431387455,
+              "hold_minutes_p25_median_p75_p90": [
+                227.5,
+                365.0,
+                540.0,
+                651.0000000000002
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1883.8333333333333
+            }
+          },
+          "2026-09": {
+            "long": {
+              "trades": 845,
+              "priced": 845,
+              "net": 58.06233353593858,
+              "trading_pnl": 146.808451796237,
+              "fees": 76.11606380330831,
+              "funding_cost": 12.63005445699011,
+              "hit_rate": 0.3893491124260355,
+              "mean_net_per_trade": 0.06871282075259003,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                385.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5717.95
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 845,
+              "priced": 845,
+              "net": 58.06233353593858,
+              "trading_pnl": 146.808451796237,
+              "fees": 76.11606380330831,
+              "funding_cost": 12.63005445699011,
+              "hit_rate": 0.3893491124260355,
+              "mean_net_per_trade": 0.06871282075259003,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                385.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5717.95
+            }
+          },
+          "2026-10": {
+            "long": {
+              "trades": 858,
+              "priced": 858,
+              "net": -376.74673051651587,
+              "trading_pnl": -292.5080028327991,
+              "fees": 77.08837139872524,
+              "funding_cost": 7.1503562849915525,
+              "hit_rate": 0.33916083916083917,
+              "mean_net_per_trade": -0.4390987535157528,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                570.0,
+                685.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6090.0
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 858,
+              "priced": 858,
+              "net": -376.74673051651587,
+              "trading_pnl": -292.5080028327991,
+              "fees": 77.08837139872524,
+              "funding_cost": 7.1503562849915525,
+              "hit_rate": 0.33916083916083917,
+              "mean_net_per_trade": -0.4390987535157528,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                570.0,
+                685.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6090.0
+            }
+          },
+          "2026-11": {
+            "long": {
+              "trades": 523,
+              "priced": 523,
+              "net": -357.72464578146213,
+              "trading_pnl": -311.7734413774313,
+              "fees": 46.92970195138015,
+              "funding_cost": -0.9784975473493763,
+              "hit_rate": 0.28107074569789675,
+              "mean_net_per_trade": -0.6839859383966771,
+              "hold_minutes_p25_median_p75_p90": [
+                252.5,
+                400.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3531.75
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 523,
+              "priced": 523,
+              "net": -357.72464578146213,
+              "trading_pnl": -311.7734413774313,
+              "fees": 46.92970195138015,
+              "funding_cost": -0.9784975473493763,
+              "hit_rate": 0.28107074569789675,
+              "mean_net_per_trade": -0.6839859383966771,
+              "hold_minutes_p25_median_p75_p90": [
+                252.5,
+                400.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3531.75
+            }
+          }
+        },
+        "news_90d": {
+          "2026-08": {
+            "long": {
+              "trades": 293,
+              "priced": 293,
+              "net": -166.30364490003143,
+              "trading_pnl": -142.5885343112542,
+              "fees": 26.305835159559933,
+              "funding_cost": -2.5907245707826854,
+              "hit_rate": 0.40955631399317405,
+              "mean_net_per_trade": -0.5675892317407216,
+              "hold_minutes_p25_median_p75_p90": [
+                235.0,
+                390.0,
+                540.0,
+                659.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1906.3333333333333
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 293,
+              "priced": 293,
+              "net": -166.30364490003143,
+              "trading_pnl": -142.5885343112542,
+              "fees": 26.305835159559933,
+              "funding_cost": -2.5907245707826854,
+              "hit_rate": 0.40955631399317405,
+              "mean_net_per_trade": -0.5675892317407216,
+              "hold_minutes_p25_median_p75_p90": [
+                235.0,
+                390.0,
+                540.0,
+                659.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1906.3333333333333
+            }
+          },
+          "2026-09": {
+            "long": {
+              "trades": 838,
+              "priced": 838,
+              "net": 82.78759779416903,
+              "trading_pnl": 171.15194152057538,
+              "fees": 75.49701837368426,
+              "funding_cost": 12.867325352722073,
+              "hit_rate": 0.3926014319809069,
+              "mean_net_per_trade": 0.09879188280927093,
+              "hold_minutes_p25_median_p75_p90": [
+                265.0,
+                390.0,
+                545.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5736.75
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 838,
+              "priced": 838,
+              "net": 82.78759779416903,
+              "trading_pnl": 171.15194152057538,
+              "fees": 75.49701837368426,
+              "funding_cost": 12.867325352722073,
+              "hit_rate": 0.3926014319809069,
+              "mean_net_per_trade": 0.09879188280927093,
+              "hold_minutes_p25_median_p75_p90": [
+                265.0,
+                390.0,
+                545.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5736.75
+            }
+          },
+          "2026-10": {
+            "long": {
+              "trades": 853,
+              "priced": 853,
+              "net": -357.93412660173175,
+              "trading_pnl": -273.5239177808968,
+              "fees": 76.6469142369986,
+              "funding_cost": 7.763294583836329,
+              "hit_rate": 0.3388042203985932,
+              "mean_net_per_trade": -0.4196179678801076,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                570.0,
+                690.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6070.333333333333
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 853,
+              "priced": 853,
+              "net": -357.93412660173175,
+              "trading_pnl": -273.5239177808968,
+              "fees": 76.6469142369986,
+              "funding_cost": 7.763294583836329,
+              "hit_rate": 0.3388042203985932,
+              "mean_net_per_trade": -0.4196179678801076,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                570.0,
+                690.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6070.333333333333
+            }
+          },
+          "2026-11": {
+            "long": {
+              "trades": 520,
+              "priced": 520,
+              "net": -344.52154739784316,
+              "trading_pnl": -298.729275575496,
+              "fees": 46.66557182599102,
+              "funding_cost": -0.873300003643856,
+              "hit_rate": 0.2826923076923077,
+              "mean_net_per_trade": -0.6625414373035445,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                405.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3525.3333333333335
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 520,
+              "priced": 520,
+              "net": -344.52154739784316,
+              "trading_pnl": -298.729275575496,
+              "fees": 46.66557182599102,
+              "funding_cost": -0.873300003643856,
+              "hit_rate": 0.2826923076923077,
+              "mean_net_per_trade": -0.6625414373035445,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                405.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3525.3333333333335
+            }
+          }
+        },
+        "relative_news": {
+          "2026-08": {
+            "long": {
+              "trades": 290,
+              "priced": 290,
+              "net": -124.06190084339056,
+              "trading_pnl": -100.75168038116406,
+              "fees": 26.054661743828476,
+              "funding_cost": -2.744441281601967,
+              "hit_rate": 0.4103448275862069,
+              "mean_net_per_trade": -0.4277996580806571,
+              "hold_minutes_p25_median_p75_p90": [
+                235.0,
+                387.5,
+                543.75,
+                660.5000000000001
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1891.75
+            },
+            "short": {
+              "trades": 1,
+              "priced": 1,
+              "net": 0.14079390777935086,
+              "trading_pnl": 0.22256874030167612,
+              "fees": 0.08989984406686423,
+              "funding_cost": -0.008125011544538987,
+              "hit_rate": 1.0,
+              "mean_net_per_trade": 0.14079390777935086,
+              "hold_minutes_p25_median_p75_p90": [
+                485.0,
+                485.0,
+                485.0,
+                485.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 8.083333333333334
+            },
+            "all": {
+              "trades": 291,
+              "priced": 291,
+              "net": -123.9211069356112,
+              "trading_pnl": -100.52911164086238,
+              "fees": 26.14456158789534,
+              "funding_cost": -2.752566293146506,
+              "hit_rate": 0.41237113402061853,
+              "mean_net_per_trade": -0.4258457283010694,
+              "hold_minutes_p25_median_p75_p90": [
+                235.0,
+                390.0,
+                542.5,
+                660.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1899.8333333333333
+            }
+          },
+          "2026-09": {
+            "long": {
+              "trades": 829,
+              "priced": 829,
+              "net": 23.251916817491473,
+              "trading_pnl": 110.20257190968091,
+              "fees": 74.65959115735936,
+              "funding_cost": 12.291063934830087,
+              "hit_rate": 0.38600723763570566,
+              "mean_net_per_trade": 0.028048150563922163,
+              "hold_minutes_p25_median_p75_p90": [
+                265.0,
+                385.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5651.916666666667
+            },
+            "short": {
+              "trades": 13,
+              "priced": 13,
+              "net": -1.7009446677903999,
+              "trading_pnl": -0.607634553276284,
+              "fees": 1.1702734355489743,
+              "funding_cost": -0.07696332103485974,
+              "hit_rate": 0.38461538461538464,
+              "mean_net_per_trade": -0.13084189752233846,
+              "hold_minutes_p25_median_p75_p90": [
+                210.0,
+                450.0,
+                605.0,
+                692.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 95.75
+            },
+            "all": {
+              "trades": 842,
+              "priced": 842,
+              "net": 21.550972149701074,
+              "trading_pnl": 109.59493735640463,
+              "fees": 75.82986459290832,
+              "funding_cost": 12.214100613795228,
+              "hit_rate": 0.3859857482185273,
+              "mean_net_per_trade": 0.02559497880012004,
+              "hold_minutes_p25_median_p75_p90": [
+                265.0,
+                390.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5747.666666666667
+            }
+          },
+          "2026-10": {
+            "long": {
+              "trades": 833,
+              "priced": 833,
+              "net": -291.61006437385316,
+              "trading_pnl": -209.07224941050276,
+              "fees": 74.87591748776528,
+              "funding_cost": 7.661897475585135,
+              "hit_rate": 0.34093637454981995,
+              "mean_net_per_trade": -0.3500721060910602,
+              "hold_minutes_p25_median_p75_p90": [
+                280.0,
+                425.0,
+                575.0,
+                695.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5993.083333333333
+            },
+            "short": {
+              "trades": 19,
+              "priced": 19,
+              "net": 8.60773987125685,
+              "trading_pnl": 10.163862322850242,
+              "fees": 1.7054262619547174,
+              "funding_cost": -0.14930381036132462,
+              "hit_rate": 0.47368421052631576,
+              "mean_net_per_trade": 0.4530389405924658,
+              "hold_minutes_p25_median_p75_p90": [
+                235.0,
+                275.0,
+                515.0,
+                721.9999999999999
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 124.83333333333333
+            },
+            "all": {
+              "trades": 852,
+              "priced": 852,
+              "net": -283.0023245025963,
+              "trading_pnl": -198.90838708765253,
+              "fees": 76.58134374971999,
+              "funding_cost": 7.51259366522381,
+              "hit_rate": 0.3438967136150235,
+              "mean_net_per_trade": -0.3321623527025778,
+              "hold_minutes_p25_median_p75_p90": [
+                278.75,
+                425.0,
+                575.0,
+                695.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6117.916666666667
+            }
+          },
+          "2026-11": {
+            "long": {
+              "trades": 514,
+              "priced": 514,
+              "net": -359.7403605312139,
+              "trading_pnl": -314.6388680198401,
+              "fees": 46.11841250939107,
+              "funding_cost": -1.0169199980172858,
+              "hit_rate": 0.27626459143968873,
+              "mean_net_per_trade": -0.6998839699050855,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                400.0,
+                535.0,
+                643.5
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3477.75
+            },
+            "short": {
+              "trades": 12,
+              "priced": 12,
+              "net": -10.66090721716067,
+              "trading_pnl": -9.583639242717068,
+              "fees": 1.0843126376592227,
+              "funding_cost": -0.007044663215619763,
+              "hit_rate": 0.4166666666666667,
+              "mean_net_per_trade": -0.8884089347633891,
+              "hold_minutes_p25_median_p75_p90": [
+                261.25,
+                327.5,
+                425.0,
+                630.5
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 73.16666666666667
+            },
+            "all": {
+              "trades": 526,
+              "priced": 526,
+              "net": -370.4012677483746,
+              "trading_pnl": -324.2225072625572,
+              "fees": 47.202725147050295,
+              "funding_cost": -1.0239646612329056,
+              "hit_rate": 0.279467680608365,
+              "mean_net_per_trade": -0.704184919673716,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                395.0,
+                535.0,
+                642.5
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3550.9166666666665
+            }
+          }
+        },
+        "news_90d_tied": {
+          "2026-08": {
+            "long": {
+              "trades": 295,
+              "priced": 295,
+              "net": -179.7695022259299,
+              "trading_pnl": -155.9519454962331,
+              "fees": 26.479821624526696,
+              "funding_cost": -2.662264894829879,
+              "hit_rate": 0.39661016949152544,
+              "mean_net_per_trade": -0.6093881431387455,
+              "hold_minutes_p25_median_p75_p90": [
+                227.5,
+                365.0,
+                540.0,
+                651.0000000000002
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1883.8333333333333
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 295,
+              "priced": 295,
+              "net": -179.7695022259299,
+              "trading_pnl": -155.9519454962331,
+              "fees": 26.479821624526696,
+              "funding_cost": -2.662264894829879,
+              "hit_rate": 0.39661016949152544,
+              "mean_net_per_trade": -0.6093881431387455,
+              "hold_minutes_p25_median_p75_p90": [
+                227.5,
+                365.0,
+                540.0,
+                651.0000000000002
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1883.8333333333333
+            }
+          },
+          "2026-09": {
+            "long": {
+              "trades": 845,
+              "priced": 845,
+              "net": 57.62157400787268,
+              "trading_pnl": 146.31902921092058,
+              "fees": 76.1158435631449,
+              "funding_cost": 12.581611639902983,
+              "hit_rate": 0.3893491124260355,
+              "mean_net_per_trade": 0.06819121184363632,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                385.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5717.283333333334
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 845,
+              "priced": 845,
+              "net": 57.62157400787268,
+              "trading_pnl": 146.31902921092058,
+              "fees": 76.1158435631449,
+              "funding_cost": 12.581611639902983,
+              "hit_rate": 0.3893491124260355,
+              "mean_net_per_trade": 0.06819121184363632,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                385.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5717.283333333334
+            }
+          },
+          "2026-10": {
+            "long": {
+              "trades": 858,
+              "priced": 858,
+              "net": -376.4866122725636,
+              "trading_pnl": -292.2501984817818,
+              "fees": 77.0884874106832,
+              "funding_cost": 7.147926380098623,
+              "hit_rate": 0.33916083916083917,
+              "mean_net_per_trade": -0.4387955853992583,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                570.0,
+                685.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6089.083333333333
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 858,
+              "priced": 858,
+              "net": -376.4866122725636,
+              "trading_pnl": -292.2501984817818,
+              "fees": 77.0884874106832,
+              "funding_cost": 7.147926380098623,
+              "hit_rate": 0.33916083916083917,
+              "mean_net_per_trade": -0.4387955853992583,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                570.0,
+                685.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6089.083333333333
+            }
+          },
+          "2026-11": {
+            "long": {
+              "trades": 523,
+              "priced": 523,
+              "net": -356.7094327430051,
+              "trading_pnl": -310.66548332829325,
+              "fees": 46.93020053250227,
+              "funding_cost": -0.8862511177904402,
+              "hit_rate": 0.28107074569789675,
+              "mean_net_per_trade": -0.6820448044799332,
+              "hold_minutes_p25_median_p75_p90": [
+                252.5,
+                400.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3531.9166666666665
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 523,
+              "priced": 523,
+              "net": -356.7094327430051,
+              "trading_pnl": -310.66548332829325,
+              "fees": 46.93020053250227,
+              "funding_cost": -0.8862511177904402,
+              "hit_rate": 0.28107074569789675,
+              "mean_net_per_trade": -0.6820448044799332,
+              "hold_minutes_p25_median_p75_p90": [
+                252.5,
+                400.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3531.9166666666665
+            }
+          }
+        }
+      },
+      "stress": {
+        "constant": {
+          "2026-08": {
+            "long": {
+              "trades": 295,
+              "priced": 295,
+              "net": -171.92171989526315,
+              "trading_pnl": -147.9896034892884,
+              "fees": 26.48340467842982,
+              "funding_cost": -2.5512882724550674,
+              "hit_rate": 0.4067796610169492,
+              "mean_net_per_trade": -0.5827854911703836,
+              "hold_minutes_p25_median_p75_p90": [
+                227.5,
+                365.0,
+                540.0,
+                651.0000000000002
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1883.85
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 295,
+              "priced": 295,
+              "net": -171.92171989526315,
+              "trading_pnl": -147.9896034892884,
+              "fees": 26.48340467842982,
+              "funding_cost": -2.5512882724550674,
+              "hit_rate": 0.4067796610169492,
+              "mean_net_per_trade": -0.5827854911703836,
+              "hold_minutes_p25_median_p75_p90": [
+                227.5,
+                365.0,
+                540.0,
+                651.0000000000002
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1883.85
+            }
+          },
+          "2026-09": {
+            "long": {
+              "trades": 844,
+              "priced": 844,
+              "net": 29.110389627636476,
+              "trading_pnl": 117.75032490335803,
+              "fees": 76.01298764620651,
+              "funding_cost": 12.626947629515064,
+              "hit_rate": 0.3744075829383886,
+              "mean_net_per_trade": 0.03449098297113327,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                385.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5715.416666666667
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 844,
+              "priced": 844,
+              "net": 29.110389627636476,
+              "trading_pnl": 117.75032490335803,
+              "fees": 76.01298764620651,
+              "funding_cost": 12.626947629515064,
+              "hit_rate": 0.3744075829383886,
+              "mean_net_per_trade": 0.03449098297113327,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                385.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5715.416666666667
+            }
+          },
+          "2026-10": {
+            "long": {
+              "trades": 858,
+              "priced": 858,
+              "net": -406.85231775668655,
+              "trading_pnl": -322.6257115486547,
+              "fees": 77.0748184298031,
+              "funding_cost": 7.151787778228773,
+              "hit_rate": 0.3321678321678322,
+              "mean_net_per_trade": -0.4741868505322687,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                570.0,
+                685.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6090.0
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 858,
+              "priced": 858,
+              "net": -406.85231775668655,
+              "trading_pnl": -322.6257115486547,
+              "fees": 77.0748184298031,
+              "funding_cost": 7.151787778228773,
+              "hit_rate": 0.3321678321678322,
+              "mean_net_per_trade": -0.4741868505322687,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                570.0,
+                685.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6090.0
+            }
+          },
+          "2026-11": {
+            "long": {
+              "trades": 523,
+              "priced": 523,
+              "net": -370.656526713047,
+              "trading_pnl": -324.7523933152339,
+              "fees": 46.92386142300814,
+              "funding_cost": -1.0197280251950533,
+              "hit_rate": 0.2829827915869981,
+              "mean_net_per_trade": -0.708712288170262,
+              "hold_minutes_p25_median_p75_p90": [
+                252.5,
+                400.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3531.75
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 523,
+              "priced": 523,
+              "net": -370.656526713047,
+              "trading_pnl": -324.7523933152339,
+              "fees": 46.92386142300814,
+              "funding_cost": -1.0197280251950533,
+              "hit_rate": 0.2829827915869981,
+              "mean_net_per_trade": -0.708712288170262,
+              "hold_minutes_p25_median_p75_p90": [
+                252.5,
+                400.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3531.75
+            }
+          }
+        },
+        "market": {
+          "2026-08": {
+            "long": {
+              "trades": 294,
+              "priced": 294,
+              "net": -160.19578745740907,
+              "trading_pnl": -136.35900812150624,
+              "fees": 26.39863844634532,
+              "funding_cost": -2.5618591104424886,
+              "hit_rate": 0.40476190476190477,
+              "mean_net_per_trade": -0.5448836308075138,
+              "hold_minutes_p25_median_p75_p90": [
+                226.25,
+                365.0,
+                538.75,
+                651.9999999999999
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1877.4333333333334
+            },
+            "short": {
+              "trades": 1,
+              "priced": 1,
+              "net": 0.262376533409672,
+              "trading_pnl": 0.34410161497560654,
+              "fees": 0.08984515427326098,
+              "funding_cost": -0.008120072707326469,
+              "hit_rate": 1.0,
+              "mean_net_per_trade": 0.262376533409672,
+              "hold_minutes_p25_median_p75_p90": [
+                485.0,
+                485.0,
+                485.0,
+                485.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 8.083333333333334
+            },
+            "all": {
+              "trades": 295,
+              "priced": 295,
+              "net": -159.9334109239994,
+              "trading_pnl": -136.01490650653065,
+              "fees": 26.488483600618583,
+              "funding_cost": -2.569979183149815,
+              "hit_rate": 0.4067796610169492,
+              "mean_net_per_trade": -0.5421471556745742,
+              "hold_minutes_p25_median_p75_p90": [
+                227.5,
+                365.0,
+                537.5,
+                651.0000000000002
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1885.5166666666667
+            }
+          },
+          "2026-09": {
+            "long": {
+              "trades": 831,
+              "priced": 831,
+              "net": 34.95016174918107,
+              "trading_pnl": 122.45341730747633,
+              "fees": 74.84510403778836,
+              "funding_cost": 12.65815152050691,
+              "hit_rate": 0.3730445246690734,
+              "mean_net_per_trade": 0.04205795637687253,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                390.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5638.883333333333
+            },
+            "short": {
+              "trades": 14,
+              "priced": 14,
+              "net": -5.702797666727995,
+              "trading_pnl": -4.498159747228137,
+              "fees": 1.2620241718862526,
+              "funding_cost": -0.05738625238639228,
+              "hit_rate": 0.35714285714285715,
+              "mean_net_per_trade": -0.4073426904805711,
+              "hold_minutes_p25_median_p75_p90": [
+                273.75,
+                415.0,
+                527.5,
+                642.0000000000001
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 97.83333333333333
+            },
+            "all": {
+              "trades": 845,
+              "priced": 845,
+              "net": 29.24736408245308,
+              "trading_pnl": 117.9552575602482,
+              "fees": 76.10712820967461,
+              "funding_cost": 12.600765268120519,
+              "hit_rate": 0.3727810650887574,
+              "mean_net_per_trade": 0.034612265186335006,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                390.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5736.716666666666
+            }
+          },
+          "2026-10": {
+            "long": {
+              "trades": 836,
+              "priced": 836,
+              "net": -365.70471269655906,
+              "trading_pnl": -283.58366481149477,
+              "fees": 75.11238735083482,
+              "funding_cost": 7.008660534229428,
+              "hit_rate": 0.33014354066985646,
+              "mean_net_per_trade": -0.4374458285844008,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                575.0,
+                685.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5971.25
+            },
+            "short": {
+              "trades": 20,
+              "priced": 20,
+              "net": 4.306838106214346,
+              "trading_pnl": 5.97128357698882,
+              "fees": 1.797312922390355,
+              "funding_cost": -0.1328674516158803,
+              "hit_rate": 0.4,
+              "mean_net_per_trade": 0.21534190531071729,
+              "hold_minutes_p25_median_p75_p90": [
+                235.0,
+                337.5,
+                650.0,
+                711.0000000000001
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 143.83333333333334
+            },
+            "all": {
+              "trades": 856,
+              "priced": 856,
+              "net": -361.3978745903447,
+              "trading_pnl": -277.61238123450596,
+              "fees": 76.90970027322518,
+              "funding_cost": 6.875793082613547,
+              "hit_rate": 0.3317757009345794,
+              "mean_net_per_trade": -0.4221937787270382,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                575.0,
+                690.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6115.083333333333
+            }
+          },
+          "2026-11": {
+            "long": {
+              "trades": 513,
+              "priced": 513,
+              "net": -376.1439091680657,
+              "trading_pnl": -331.4543434443438,
+              "fees": 46.020845545450044,
+              "funding_cost": -1.3312798217281265,
+              "hit_rate": 0.2787524366471735,
+              "mean_net_per_trade": -0.7332239944796602,
+              "hold_minutes_p25_median_p75_p90": [
+                260.0,
+                400.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3473.9166666666665
+            },
+            "short": {
+              "trades": 13,
+              "priced": 13,
+              "net": -6.483721182288523,
+              "trading_pnl": -5.322496746745068,
+              "fees": 1.1723951235360353,
+              "funding_cost": -0.011170687992580666,
+              "hit_rate": 0.46153846153846156,
+              "mean_net_per_trade": -0.4987477832529633,
+              "hold_minutes_p25_median_p75_p90": [
+                295.0,
+                340.0,
+                485.0,
+                621.0000000000001
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 83.83333333333333
+            },
+            "all": {
+              "trades": 526,
+              "priced": 526,
+              "net": -382.62763035035425,
+              "trading_pnl": -336.77684019108887,
+              "fees": 47.19324066898608,
+              "funding_cost": -1.3424505097207071,
+              "hit_rate": 0.2832699619771863,
+              "mean_net_per_trade": -0.7274289550386963,
+              "hold_minutes_p25_median_p75_p90": [
+                260.0,
+                395.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3557.75
+            }
+          }
+        },
+        "availability": {
+          "2026-08": {
+            "long": {
+              "trades": 294,
+              "priced": 294,
+              "net": -160.19578745740907,
+              "trading_pnl": -136.35900812150624,
+              "fees": 26.39863844634532,
+              "funding_cost": -2.5618591104424886,
+              "hit_rate": 0.40476190476190477,
+              "mean_net_per_trade": -0.5448836308075138,
+              "hold_minutes_p25_median_p75_p90": [
+                226.25,
+                365.0,
+                538.75,
+                651.9999999999999
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1877.4333333333334
+            },
+            "short": {
+              "trades": 1,
+              "priced": 1,
+              "net": 0.262376533409672,
+              "trading_pnl": 0.34410161497560654,
+              "fees": 0.08984515427326098,
+              "funding_cost": -0.008120072707326469,
+              "hit_rate": 1.0,
+              "mean_net_per_trade": 0.262376533409672,
+              "hold_minutes_p25_median_p75_p90": [
+                485.0,
+                485.0,
+                485.0,
+                485.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 8.083333333333334
+            },
+            "all": {
+              "trades": 295,
+              "priced": 295,
+              "net": -159.9334109239994,
+              "trading_pnl": -136.01490650653065,
+              "fees": 26.488483600618583,
+              "funding_cost": -2.569979183149815,
+              "hit_rate": 0.4067796610169492,
+              "mean_net_per_trade": -0.5421471556745742,
+              "hold_minutes_p25_median_p75_p90": [
+                227.5,
+                365.0,
+                537.5,
+                651.0000000000002
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1885.5166666666667
+            }
+          },
+          "2026-09": {
+            "long": {
+              "trades": 831,
+              "priced": 831,
+              "net": 34.95016174918107,
+              "trading_pnl": 122.45341730747633,
+              "fees": 74.84510403778836,
+              "funding_cost": 12.65815152050691,
+              "hit_rate": 0.3730445246690734,
+              "mean_net_per_trade": 0.04205795637687253,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                390.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5638.883333333333
+            },
+            "short": {
+              "trades": 14,
+              "priced": 14,
+              "net": -5.702797666727995,
+              "trading_pnl": -4.498159747228137,
+              "fees": 1.2620241718862526,
+              "funding_cost": -0.05738625238639228,
+              "hit_rate": 0.35714285714285715,
+              "mean_net_per_trade": -0.4073426904805711,
+              "hold_minutes_p25_median_p75_p90": [
+                273.75,
+                415.0,
+                527.5,
+                642.0000000000001
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 97.83333333333333
+            },
+            "all": {
+              "trades": 845,
+              "priced": 845,
+              "net": 29.24736408245308,
+              "trading_pnl": 117.9552575602482,
+              "fees": 76.10712820967461,
+              "funding_cost": 12.600765268120519,
+              "hit_rate": 0.3727810650887574,
+              "mean_net_per_trade": 0.034612265186335006,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                390.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5736.716666666666
+            }
+          },
+          "2026-10": {
+            "long": {
+              "trades": 834,
+              "priced": 834,
+              "net": -358.94891098886836,
+              "trading_pnl": -276.99572381553946,
+              "fees": 74.93535192428301,
+              "funding_cost": 7.01783524904588,
+              "hit_rate": 0.32973621103117506,
+              "mean_net_per_trade": -0.43039437768449446,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                575.0,
+                685.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5957.25
+            },
+            "short": {
+              "trades": 21,
+              "priced": 21,
+              "net": -2.3416049447851837,
+              "trading_pnl": -0.5867242330388507,
+              "fees": 1.8902640259048673,
+              "funding_cost": -0.1353833141585341,
+              "hit_rate": 0.38095238095238093,
+              "mean_net_per_trade": -0.11150499737072303,
+              "hold_minutes_p25_median_p75_p90": [
+                235.0,
+                335.0,
+                635.0,
+                700.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 146.25
+            },
+            "all": {
+              "trades": 855,
+              "priced": 855,
+              "net": -361.2905159336535,
+              "trading_pnl": -277.5824480485783,
+              "fees": 76.82561595018787,
+              "funding_cost": 6.882451934887345,
+              "hit_rate": 0.3309941520467836,
+              "mean_net_per_trade": -0.42256200693994567,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                575.0,
+                690.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6103.5
+            }
+          },
+          "2026-11": {
+            "long": {
+              "trades": 513,
+              "priced": 513,
+              "net": -376.1439091680657,
+              "trading_pnl": -331.4543434443438,
+              "fees": 46.020845545450044,
+              "funding_cost": -1.3312798217281265,
+              "hit_rate": 0.2787524366471735,
+              "mean_net_per_trade": -0.7332239944796602,
+              "hold_minutes_p25_median_p75_p90": [
+                260.0,
+                400.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3473.9166666666665
+            },
+            "short": {
+              "trades": 13,
+              "priced": 13,
+              "net": -5.979843901942311,
+              "trading_pnl": -4.817177797092188,
+              "fees": 1.1721677300086915,
+              "funding_cost": -0.009501625158569105,
+              "hit_rate": 0.46153846153846156,
+              "mean_net_per_trade": -0.4599879924571008,
+              "hold_minutes_p25_median_p75_p90": [
+                295.0,
+                355.0,
+                485.0,
+                621.0000000000001
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 84.08333333333333
+            },
+            "all": {
+              "trades": 526,
+              "priced": 526,
+              "net": -382.12375307000804,
+              "trading_pnl": -336.271521241436,
+              "fees": 47.19301327545874,
+              "funding_cost": -1.3407814468866956,
+              "hit_rate": 0.2832699619771863,
+              "mean_net_per_trade": -0.7264710134410799,
+              "hold_minutes_p25_median_p75_p90": [
+                260.0,
+                395.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3558.0
+            }
+          }
+        },
+        "news": {
+          "2026-08": {
+            "long": {
+              "trades": 294,
+              "priced": 294,
+              "net": -160.19578745740907,
+              "trading_pnl": -136.35900812150624,
+              "fees": 26.39863844634532,
+              "funding_cost": -2.5618591104424886,
+              "hit_rate": 0.40476190476190477,
+              "mean_net_per_trade": -0.5448836308075138,
+              "hold_minutes_p25_median_p75_p90": [
+                226.25,
+                365.0,
+                538.75,
+                651.9999999999999
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1877.4333333333334
+            },
+            "short": {
+              "trades": 1,
+              "priced": 1,
+              "net": 0.262376533409672,
+              "trading_pnl": 0.34410161497560654,
+              "fees": 0.08984515427326098,
+              "funding_cost": -0.008120072707326469,
+              "hit_rate": 1.0,
+              "mean_net_per_trade": 0.262376533409672,
+              "hold_minutes_p25_median_p75_p90": [
+                485.0,
+                485.0,
+                485.0,
+                485.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 8.083333333333334
+            },
+            "all": {
+              "trades": 295,
+              "priced": 295,
+              "net": -159.9334109239994,
+              "trading_pnl": -136.01490650653065,
+              "fees": 26.488483600618583,
+              "funding_cost": -2.569979183149815,
+              "hit_rate": 0.4067796610169492,
+              "mean_net_per_trade": -0.5421471556745742,
+              "hold_minutes_p25_median_p75_p90": [
+                227.5,
+                365.0,
+                537.5,
+                651.0000000000002
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1885.5166666666667
+            }
+          },
+          "2026-09": {
+            "long": {
+              "trades": 833,
+              "priced": 833,
+              "net": 40.00195551862218,
+              "trading_pnl": 127.72967722831386,
+              "fees": 75.02747835475274,
+              "funding_cost": 12.70024335493895,
+              "hit_rate": 0.37334933973589435,
+              "mean_net_per_trade": 0.048021555244444396,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                390.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5654.133333333333
+            },
+            "short": {
+              "trades": 11,
+              "priced": 11,
+              "net": -4.622561904211797,
+              "trading_pnl": -3.6772633232952936,
+              "fees": 0.9916547684954828,
+              "funding_cost": -0.04635618757897702,
+              "hit_rate": 0.2727272727272727,
+              "mean_net_per_trade": -0.42023290038289063,
+              "hold_minutes_p25_median_p75_p90": [
+                247.5,
+                435.0,
+                520.0,
+                660.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 77.08333333333333
+            },
+            "all": {
+              "trades": 844,
+              "priced": 844,
+              "net": 35.37939361441038,
+              "trading_pnl": 124.05241390501857,
+              "fees": 76.01913312324822,
+              "funding_cost": 12.653887167359974,
+              "hit_rate": 0.37203791469194314,
+              "mean_net_per_trade": 0.041918712813282445,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                390.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5731.216666666666
+            }
+          },
+          "2026-10": {
+            "long": {
+              "trades": 839,
+              "priced": 839,
+              "net": -374.31843378101047,
+              "trading_pnl": -291.8845379326938,
+              "fees": 75.37865195793029,
+              "funding_cost": 7.055243890386444,
+              "hit_rate": 0.3301549463647199,
+              "mean_net_per_trade": -0.44614831201550714,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                575.0,
+                685.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5996.25
+            },
+            "short": {
+              "trades": 18,
+              "priced": 18,
+              "net": 6.380406947325742,
+              "trading_pnl": 7.870317308765952,
+              "fees": 1.6164583572110554,
+              "funding_cost": -0.12654799577084397,
+              "hit_rate": 0.5,
+              "mean_net_per_trade": 0.3544670526292079,
+              "hold_minutes_p25_median_p75_p90": [
+                235.0,
+                245.0,
+                501.25,
+                733.0000000000001
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 115.58333333333333
+            },
+            "all": {
+              "trades": 857,
+              "priced": 857,
+              "net": -367.9380268336847,
+              "trading_pnl": -284.0142206239278,
+              "fees": 76.99511031514135,
+              "funding_cost": 6.9286958946156,
+              "hit_rate": 0.3337222870478413,
+              "mean_net_per_trade": -0.42933258673708835,
+              "hold_minutes_p25_median_p75_p90": [
+                270.0,
+                420.0,
+                575.0,
+                685.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6111.833333333333
+            }
+          },
+          "2026-11": {
+            "long": {
+              "trades": 514,
+              "priced": 514,
+              "net": -382.2234401977224,
+              "trading_pnl": -337.4619689510464,
+              "fees": 46.10814211397203,
+              "funding_cost": -1.3466708672960412,
+              "hit_rate": 0.27626459143968873,
+              "mean_net_per_trade": -0.7436253700344794,
+              "hold_minutes_p25_median_p75_p90": [
+                256.25,
+                400.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3475.75
+            },
+            "short": {
+              "trades": 13,
+              "priced": 13,
+              "net": -8.425767381399838,
+              "trading_pnl": -7.266933592114241,
+              "fees": 1.1732701201164513,
+              "funding_cost": -0.014436330830854431,
+              "hit_rate": 0.46153846153846156,
+              "mean_net_per_trade": -0.6481359524153721,
+              "hold_minutes_p25_median_p75_p90": [
+                280.0,
+                340.0,
+                485.0,
+                621.0000000000001
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 81.25
+            },
+            "all": {
+              "trades": 527,
+              "priced": 527,
+              "net": -390.6492075791223,
+              "trading_pnl": -344.72890254316064,
+              "fees": 47.28141223408848,
+              "funding_cost": -1.3611071981268956,
+              "hit_rate": 0.2808349146110057,
+              "mean_net_per_trade": -0.7412698436036476,
+              "hold_minutes_p25_median_p75_p90": [
+                257.5,
+                395.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3557.0
+            }
+          }
+        },
+        "market_90d": {
+          "2026-08": {
+            "long": {
+              "trades": 295,
+              "priced": 295,
+              "net": -171.92171989526315,
+              "trading_pnl": -147.9896034892884,
+              "fees": 26.48340467842982,
+              "funding_cost": -2.5512882724550674,
+              "hit_rate": 0.4067796610169492,
+              "mean_net_per_trade": -0.5827854911703836,
+              "hold_minutes_p25_median_p75_p90": [
+                227.5,
+                365.0,
+                540.0,
+                651.0000000000002
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1883.85
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 295,
+              "priced": 295,
+              "net": -171.92171989526315,
+              "trading_pnl": -147.9896034892884,
+              "fees": 26.48340467842982,
+              "funding_cost": -2.5512882724550674,
+              "hit_rate": 0.4067796610169492,
+              "mean_net_per_trade": -0.5827854911703836,
+              "hold_minutes_p25_median_p75_p90": [
+                227.5,
+                365.0,
+                540.0,
+                651.0000000000002
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1883.85
+            }
+          },
+          "2026-09": {
+            "long": {
+              "trades": 844,
+              "priced": 844,
+              "net": 29.110389627636476,
+              "trading_pnl": 117.75032490335803,
+              "fees": 76.01298764620651,
+              "funding_cost": 12.626947629515064,
+              "hit_rate": 0.3744075829383886,
+              "mean_net_per_trade": 0.03449098297113327,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                385.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5715.416666666667
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 844,
+              "priced": 844,
+              "net": 29.110389627636476,
+              "trading_pnl": 117.75032490335803,
+              "fees": 76.01298764620651,
+              "funding_cost": 12.626947629515064,
+              "hit_rate": 0.3744075829383886,
+              "mean_net_per_trade": 0.03449098297113327,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                385.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5715.416666666667
+            }
+          },
+          "2026-10": {
+            "long": {
+              "trades": 858,
+              "priced": 858,
+              "net": -406.85231775668655,
+              "trading_pnl": -322.6257115486547,
+              "fees": 77.0748184298031,
+              "funding_cost": 7.151787778228773,
+              "hit_rate": 0.3321678321678322,
+              "mean_net_per_trade": -0.4741868505322687,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                570.0,
+                685.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6090.0
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 858,
+              "priced": 858,
+              "net": -406.85231775668655,
+              "trading_pnl": -322.6257115486547,
+              "fees": 77.0748184298031,
+              "funding_cost": 7.151787778228773,
+              "hit_rate": 0.3321678321678322,
+              "mean_net_per_trade": -0.4741868505322687,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                570.0,
+                685.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6090.0
+            }
+          },
+          "2026-11": {
+            "long": {
+              "trades": 523,
+              "priced": 523,
+              "net": -370.656526713047,
+              "trading_pnl": -324.7523933152339,
+              "fees": 46.92386142300814,
+              "funding_cost": -1.0197280251950533,
+              "hit_rate": 0.2829827915869981,
+              "mean_net_per_trade": -0.708712288170262,
+              "hold_minutes_p25_median_p75_p90": [
+                252.5,
+                400.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3531.75
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 523,
+              "priced": 523,
+              "net": -370.656526713047,
+              "trading_pnl": -324.7523933152339,
+              "fees": 46.92386142300814,
+              "funding_cost": -1.0197280251950533,
+              "hit_rate": 0.2829827915869981,
+              "mean_net_per_trade": -0.708712288170262,
+              "hold_minutes_p25_median_p75_p90": [
+                252.5,
+                400.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3531.75
+            }
+          }
+        },
+        "news_90d": {
+          "2026-08": {
+            "long": {
+              "trades": 293,
+              "priced": 293,
+              "net": -160.9598513550463,
+              "trading_pnl": -137.13576301606707,
+              "fees": 26.30828890664277,
+              "funding_cost": -2.484200567663505,
+              "hit_rate": 0.4129692832764505,
+              "mean_net_per_trade": -0.5493510285155164,
+              "hold_minutes_p25_median_p75_p90": [
+                235.0,
+                390.0,
+                540.0,
+                659.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1906.35
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 293,
+              "priced": 293,
+              "net": -160.9598513550463,
+              "trading_pnl": -137.13576301606707,
+              "fees": 26.30828890664277,
+              "funding_cost": -2.484200567663505,
+              "hit_rate": 0.4129692832764505,
+              "mean_net_per_trade": -0.5493510285155164,
+              "hold_minutes_p25_median_p75_p90": [
+                235.0,
+                390.0,
+                540.0,
+                659.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1906.35
+            }
+          },
+          "2026-09": {
+            "long": {
+              "trades": 837,
+              "priced": 837,
+              "net": 62.22499522334419,
+              "trading_pnl": 150.49465516931429,
+              "fees": 75.39772259482619,
+              "funding_cost": 12.87193735114392,
+              "hit_rate": 0.3823178016726404,
+              "mean_net_per_trade": 0.07434288557149843,
+              "hold_minutes_p25_median_p75_p90": [
+                265.0,
+                390.0,
+                545.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5736.3
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 837,
+              "priced": 837,
+              "net": 62.22499522334419,
+              "trading_pnl": 150.49465516931429,
+              "fees": 75.39772259482619,
+              "funding_cost": 12.87193735114392,
+              "hit_rate": 0.3823178016726404,
+              "mean_net_per_trade": 0.07434288557149843,
+              "hold_minutes_p25_median_p75_p90": [
+                265.0,
+                390.0,
+                545.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5736.3
+            }
+          },
+          "2026-10": {
+            "long": {
+              "trades": 853,
+              "priced": 853,
+              "net": -386.2030325296063,
+              "trading_pnl": -301.80540586856347,
+              "fees": 76.63418756735915,
+              "funding_cost": 7.763439093683688,
+              "hit_rate": 0.32825322391559203,
+              "mean_net_per_trade": -0.45275853754936257,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                570.0,
+                690.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6070.35
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 853,
+              "priced": 853,
+              "net": -386.2030325296063,
+              "trading_pnl": -301.80540586856347,
+              "fees": 76.63418756735915,
+              "funding_cost": 7.763439093683688,
+              "hit_rate": 0.32825322391559203,
+              "mean_net_per_trade": -0.45275853754936257,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                570.0,
+                690.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6070.35
+            }
+          },
+          "2026-11": {
+            "long": {
+              "trades": 520,
+              "priced": 520,
+              "net": -357.45656572426714,
+              "trading_pnl": -311.71242317636046,
+              "fees": 46.65972940957064,
+              "funding_cost": -0.9155868616639992,
+              "hit_rate": 0.28076923076923077,
+              "mean_net_per_trade": -0.6874164725466676,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                405.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3525.3333333333335
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 520,
+              "priced": 520,
+              "net": -357.45656572426714,
+              "trading_pnl": -311.71242317636046,
+              "fees": 46.65972940957064,
+              "funding_cost": -0.9155868616639992,
+              "hit_rate": 0.28076923076923077,
+              "mean_net_per_trade": -0.6874164725466676,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                405.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3525.3333333333335
+            }
+          }
+        },
+        "relative_news": {
+          "2026-08": {
+            "long": {
+              "trades": 290,
+              "priced": 290,
+              "net": -118.65864382717851,
+              "trading_pnl": -95.22676979930546,
+              "fees": 26.057147953590313,
+              "funding_cost": -2.6252739257172637,
+              "hit_rate": 0.41379310344827586,
+              "mean_net_per_trade": -0.4091677373350983,
+              "hold_minutes_p25_median_p75_p90": [
+                235.0,
+                387.5,
+                543.75,
+                660.5000000000001
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1891.7666666666667
+            },
+            "short": {
+              "trades": 1,
+              "priced": 1,
+              "net": 0.262376533409672,
+              "trading_pnl": 0.34410161497560654,
+              "fees": 0.08984515427326098,
+              "funding_cost": -0.008120072707326469,
+              "hit_rate": 1.0,
+              "mean_net_per_trade": 0.262376533409672,
+              "hold_minutes_p25_median_p75_p90": [
+                485.0,
+                485.0,
+                485.0,
+                485.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 8.083333333333334
+            },
+            "all": {
+              "trades": 291,
+              "priced": 291,
+              "net": -118.39626729376883,
+              "trading_pnl": -94.88266818432986,
+              "fees": 26.146993107863572,
+              "funding_cost": -2.6333939984245904,
+              "hit_rate": 0.41580756013745707,
+              "mean_net_per_trade": -0.4068600250644977,
+              "hold_minutes_p25_median_p75_p90": [
+                235.0,
+                390.0,
+                542.5,
+                660.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1899.85
+            }
+          },
+          "2026-09": {
+            "long": {
+              "trades": 828,
+              "priced": 828,
+              "net": 10.152678180310557,
+              "trading_pnl": 97.00939443146255,
+              "fees": 74.56365422749415,
+              "funding_cost": 12.293062023657841,
+              "hit_rate": 0.3780193236714976,
+              "mean_net_per_trade": 0.012261688623563475,
+              "hold_minutes_p25_median_p75_p90": [
+                265.0,
+                385.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5650.883333333333
+            },
+            "short": {
+              "trades": 13,
+              "priced": 13,
+              "net": -1.560838155002423,
+              "trading_pnl": -0.4675869438631765,
+              "fees": 1.1702104141247385,
+              "funding_cost": -0.07695920298548918,
+              "hit_rate": 0.38461538461538464,
+              "mean_net_per_trade": -0.12006447346172486,
+              "hold_minutes_p25_median_p75_p90": [
+                210.0,
+                450.0,
+                605.0,
+                692.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 95.75
+            },
+            "all": {
+              "trades": 841,
+              "priced": 841,
+              "net": 8.591840025308134,
+              "trading_pnl": 96.54180748759937,
+              "fees": 75.7338646416189,
+              "funding_cost": 12.21610282067235,
+              "hit_rate": 0.37812128418549346,
+              "mean_net_per_trade": 0.01021621881725105,
+              "hold_minutes_p25_median_p75_p90": [
+                265.0,
+                390.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5746.633333333333
+            }
+          },
+          "2026-10": {
+            "long": {
+              "trades": 833,
+              "priced": 833,
+              "net": -320.4670793706971,
+              "trading_pnl": -237.94230512923474,
+              "fees": 74.86292596269185,
+              "funding_cost": 7.66184827877054,
+              "hit_rate": 0.3289315726290516,
+              "mean_net_per_trade": -0.38471438099723543,
+              "hold_minutes_p25_median_p75_p90": [
+                280.0,
+                425.0,
+                575.0,
+                695.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5993.1
+            },
+            "short": {
+              "trades": 19,
+              "priced": 19,
+              "net": 7.358806794968188,
+              "trading_pnl": 8.915308280884783,
+              "fees": 1.705988111273602,
+              "funding_cost": -0.14948662535700433,
+              "hit_rate": 0.47368421052631576,
+              "mean_net_per_trade": 0.38730562078779934,
+              "hold_minutes_p25_median_p75_p90": [
+                235.0,
+                275.0,
+                515.0,
+                721.9999999999999
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 124.83333333333333
+            },
+            "all": {
+              "trades": 852,
+              "priced": 852,
+              "net": -313.1082725757289,
+              "trading_pnl": -229.02699684834994,
+              "fees": 76.56891407396544,
+              "funding_cost": 7.512361653413536,
+              "hit_rate": 0.33215962441314556,
+              "mean_net_per_trade": -0.36749797250672406,
+              "hold_minutes_p25_median_p75_p90": [
+                278.75,
+                425.0,
+                575.0,
+                695.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6117.933333333333
+            }
+          },
+          "2026-11": {
+            "long": {
+              "trades": 514,
+              "priced": 514,
+              "net": -377.10186688306806,
+              "trading_pnl": -332.0495001548541,
+              "fees": 46.110577724930316,
+              "funding_cost": -1.0582109967163875,
+              "hit_rate": 0.27431906614785995,
+              "mean_net_per_trade": -0.7336612196168639,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                400.0,
+                535.0,
+                643.5
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3477.75
+            },
+            "short": {
+              "trades": 12,
+              "priced": 12,
+              "net": -10.025780599055356,
+              "trading_pnl": -8.94883172903585,
+              "fees": 1.0840269742780662,
+              "funding_cost": -0.00707810425856103,
+              "hit_rate": 0.4166666666666667,
+              "mean_net_per_trade": -0.8354817165879463,
+              "hold_minutes_p25_median_p75_p90": [
+                261.25,
+                327.5,
+                425.0,
+                630.5
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 73.16666666666667
+            },
+            "all": {
+              "trades": 526,
+              "priced": 526,
+              "net": -387.1276474821234,
+              "trading_pnl": -340.99833188388993,
+              "fees": 47.194604699208384,
+              "funding_cost": -1.0652891009749486,
+              "hit_rate": 0.27756653992395436,
+              "mean_net_per_trade": -0.7359841206884475,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                395.0,
+                535.0,
+                642.5
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3550.9166666666665
+            }
+          }
+        },
+        "news_90d_tied": {
+          "2026-08": {
+            "long": {
+              "trades": 295,
+              "priced": 295,
+              "net": -171.92171989526315,
+              "trading_pnl": -147.9896034892884,
+              "fees": 26.48340467842982,
+              "funding_cost": -2.5512882724550674,
+              "hit_rate": 0.4067796610169492,
+              "mean_net_per_trade": -0.5827854911703836,
+              "hold_minutes_p25_median_p75_p90": [
+                227.5,
+                365.0,
+                540.0,
+                651.0000000000002
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1883.85
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 295,
+              "priced": 295,
+              "net": -171.92171989526315,
+              "trading_pnl": -147.9896034892884,
+              "fees": 26.48340467842982,
+              "funding_cost": -2.5512882724550674,
+              "hit_rate": 0.4067796610169492,
+              "mean_net_per_trade": -0.5827854911703836,
+              "hold_minutes_p25_median_p75_p90": [
+                227.5,
+                365.0,
+                540.0,
+                651.0000000000002
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 1883.85
+            }
+          },
+          "2026-09": {
+            "long": {
+              "trades": 844,
+              "priced": 844,
+              "net": 28.09560457412462,
+              "trading_pnl": 116.6863355882256,
+              "fees": 76.0125088510147,
+              "funding_cost": 12.578222163086295,
+              "hit_rate": 0.3744075829383886,
+              "mean_net_per_trade": 0.033288631011995994,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                385.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5714.75
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 844,
+              "priced": 844,
+              "net": 28.09560457412462,
+              "trading_pnl": 116.6863355882256,
+              "fees": 76.0125088510147,
+              "funding_cost": 12.578222163086295,
+              "hit_rate": 0.3744075829383886,
+              "mean_net_per_trade": 0.033288631011995994,
+              "hold_minutes_p25_median_p75_p90": [
+                255.0,
+                385.0,
+                540.0,
+                670.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 5714.75
+            }
+          },
+          "2026-10": {
+            "long": {
+              "trades": 858,
+              "priced": 858,
+              "net": -405.797921451856,
+              "trading_pnl": -321.57324717802487,
+              "fees": 77.07529203876989,
+              "funding_cost": 7.149382235061236,
+              "hit_rate": 0.3321678321678322,
+              "mean_net_per_trade": -0.47295795041008853,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                570.0,
+                685.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6089.083333333333
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 858,
+              "priced": 858,
+              "net": -405.797921451856,
+              "trading_pnl": -321.57324717802487,
+              "fees": 77.07529203876989,
+              "funding_cost": 7.149382235061236,
+              "hit_rate": 0.3321678321678322,
+              "mean_net_per_trade": -0.47295795041008853,
+              "hold_minutes_p25_median_p75_p90": [
+                275.0,
+                420.0,
+                570.0,
+                685.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 6089.083333333333
+            }
+          },
+          "2026-11": {
+            "long": {
+              "trades": 523,
+              "priced": 523,
+              "net": -368.57475378458616,
+              "trading_pnl": -322.5783601153575,
+              "fees": 46.92483973794809,
+              "funding_cost": -0.9284460687194562,
+              "hit_rate": 0.2829827915869981,
+              "mean_net_per_trade": -0.704731842800356,
+              "hold_minutes_p25_median_p75_p90": [
+                252.5,
+                400.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3531.9166666666665
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "net": 0.0,
+              "trading_pnl": 0.0,
+              "fees": 0.0,
+              "funding_cost": 0.0,
+              "hit_rate": null,
+              "mean_net_per_trade": null,
+              "hold_minutes_p25_median_p75_p90": null,
+              "reached_24h": 0,
+              "total_hold_hours": 0.0
+            },
+            "all": {
+              "trades": 523,
+              "priced": 523,
+              "net": -368.57475378458616,
+              "trading_pnl": -322.5783601153575,
+              "fees": 46.92483973794809,
+              "funding_cost": -0.9284460687194562,
+              "hit_rate": 0.2829827915869981,
+              "mean_net_per_trade": -0.704731842800356,
+              "hold_minutes_p25_median_p75_p90": [
+                252.5,
+                400.0,
+                535.0,
+                645.0
+              ],
+              "reached_24h": 0,
+              "total_hold_hours": 3531.9166666666665
+            }
+          }
+        }
+      }
+    }
+  }
+}

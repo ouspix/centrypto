@@ -1,0 +1,4945 @@
+{
+  "unpriced_trade_records": 76,
+  "unique_entry_paths": 39,
+  "cases": [
+    {
+      "period": "mayjun",
+      "symbol": "VVV",
+      "entry_index": 2280570,
+      "side": "short",
+      "entry_time": "2026-06-08T15:36:00Z",
+      "required_exit_time": "2026-06-09T15:36:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 526.0,
+      "minutes_after": null,
+      "missing_record_count": 8,
+      "occurrences": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "VVV",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 159874,
+            "setup_id": 42398,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T15:35:05Z",
+            "entry_index": 2280570,
+            "entry_time": "2026-06-08T15:36:00Z",
+            "exit_time": "2026-06-09T15:36:00Z",
+            "entry_score": 0.706230103969574,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_clock",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "VVV",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 159874,
+            "setup_id": 42398,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T15:35:05Z",
+            "entry_index": 2280570,
+            "entry_time": "2026-06-08T15:36:00Z",
+            "exit_time": "2026-06-09T15:36:00Z",
+            "entry_score": 0.7745720744132996,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_clock",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "VVV",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 159874,
+            "setup_id": 42398,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T15:35:05Z",
+            "entry_index": 2280570,
+            "entry_time": "2026-06-08T15:36:00Z",
+            "exit_time": "2026-06-09T15:36:00Z",
+            "entry_score": 0.7058327198028564,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.5,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_liquidity",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "VVV",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 159874,
+            "setup_id": 42398,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T15:35:05Z",
+            "entry_index": 2280570,
+            "entry_time": "2026-06-08T15:36:00Z",
+            "exit_time": "2026-06-09T15:36:00Z",
+            "entry_score": 0.6520726084709167,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_price_shape",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "VVV",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 159874,
+            "setup_id": 42398,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T15:35:05Z",
+            "entry_index": 2280570,
+            "entry_time": "2026-06-08T15:36:00Z",
+            "exit_time": "2026-06-09T15:36:00Z",
+            "entry_score": 0.5505393147468567,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_spot",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "VVV",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 159874,
+            "setup_id": 42398,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T15:35:05Z",
+            "entry_index": 2280570,
+            "entry_time": "2026-06-08T15:36:00Z",
+            "exit_time": "2026-06-09T15:36:00Z",
+            "entry_score": 0.9135965704917908,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_spot",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "VVV",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 159874,
+            "setup_id": 42398,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T15:35:05Z",
+            "entry_index": 2280570,
+            "entry_time": "2026-06-08T15:36:00Z",
+            "exit_time": "2026-06-09T15:36:00Z",
+            "entry_score": 0.8823242783546448,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "core",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "core",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "VVV",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 159874,
+            "setup_id": 42398,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T15:35:05Z",
+            "entry_index": 2280570,
+            "entry_time": "2026-06-08T15:36:00Z",
+            "exit_time": "2026-06-09T15:36:00Z",
+            "entry_score": 0.6520726084709167,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T15:36:00Z"
+        },
+        {
+          "variant": "add_clock",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T15:36:00Z"
+        },
+        {
+          "variant": "add_clock",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T15:36:00Z"
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T15:36:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261115,
+          "holding_minutes": 195.0,
+          "scored": true,
+          "exit_time": "2026-06-08T18:51:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261116,
+          "holding_minutes": 205.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:01:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261114,
+          "holding_minutes": 20.0,
+          "scored": true,
+          "exit_time": "2026-06-08T15:56:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T15:36:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261114,
+          "holding_minutes": 200.0,
+          "scored": true,
+          "exit_time": "2026-06-08T18:56:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T15:36:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T15:36:00Z"
+        },
+        {
+          "variant": "add_volume_detail",
+          "seed": 20261114,
+          "holding_minutes": 755.0,
+          "scored": true,
+          "exit_time": "2026-06-09T04:11:00Z"
+        },
+        {
+          "variant": "add_volume_detail",
+          "seed": 20261115,
+          "holding_minutes": 365.0,
+          "scored": true,
+          "exit_time": "2026-06-08T21:41:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T15:36:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "XRP",
+      "entry_index": 2338179,
+      "side": "short",
+      "entry_time": "2026-06-08T16:21:00Z",
+      "required_exit_time": "2026-06-09T16:21:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 571.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "XRP",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 183587,
+            "setup_id": 48651,
+            "pair_fast": 5,
+            "pair_slow": 20,
+            "detection_time": "2026-06-08T16:00:05Z",
+            "entry_index": 2338179,
+            "entry_time": "2026-06-08T16:21:00Z",
+            "exit_time": "2026-06-09T16:21:00Z",
+            "entry_score": 0.5015252828598022,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T16:21:00Z"
+        },
+        {
+          "variant": "add_clock",
+          "seed": 20261116,
+          "holding_minutes": 290.0,
+          "scored": true,
+          "exit_time": "2026-06-08T21:11:00Z"
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261114,
+          "holding_minutes": 735.0,
+          "scored": true,
+          "exit_time": "2026-06-09T04:36:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261114,
+          "holding_minutes": 800.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:41:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261114,
+          "holding_minutes": 735.0,
+          "scored": true,
+          "exit_time": "2026-06-09T04:36:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "LAYER",
+      "entry_index": 1842832,
+      "side": "short",
+      "entry_time": "2026-06-08T17:26:00Z",
+      "required_exit_time": "2026-06-09T17:26:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:55:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 636.0,
+      "minutes_after": null,
+      "missing_record_count": 4,
+      "occurrences": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "LAYER",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 94241,
+            "setup_id": 24194,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T17:25:05Z",
+            "entry_index": 1842832,
+            "entry_time": "2026-06-08T17:26:00Z",
+            "exit_time": "2026-06-09T17:26:00Z",
+            "entry_score": 0.86496502161026,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_clock",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "LAYER",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 94241,
+            "setup_id": 24194,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T17:25:05Z",
+            "entry_index": 1842832,
+            "entry_time": "2026-06-08T17:26:00Z",
+            "exit_time": "2026-06-09T17:26:00Z",
+            "entry_score": 0.890498697757721,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_liquidity",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "LAYER",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 94241,
+            "setup_id": 24194,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T17:25:05Z",
+            "entry_index": 1842832,
+            "entry_time": "2026-06-08T17:26:00Z",
+            "exit_time": "2026-06-09T17:26:00Z",
+            "entry_score": 0.8651537895202637,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "core",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "core",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "LAYER",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 94241,
+            "setup_id": 24194,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T17:25:05Z",
+            "entry_index": 1842832,
+            "entry_time": "2026-06-08T17:26:00Z",
+            "exit_time": "2026-06-09T17:26:00Z",
+            "entry_score": 0.8651537895202637,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T17:26:00Z"
+        },
+        {
+          "variant": "add_clock",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T17:26:00Z"
+        },
+        {
+          "variant": "add_clock",
+          "seed": 20261116,
+          "holding_minutes": 195.0,
+          "scored": true,
+          "exit_time": "2026-06-08T20:41:00Z"
+        },
+        {
+          "variant": "add_derivatives",
+          "seed": 20261114,
+          "holding_minutes": 10.0,
+          "scored": true,
+          "exit_time": "2026-06-08T17:36:00Z"
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261114,
+          "holding_minutes": 505.0,
+          "scored": true,
+          "exit_time": "2026-06-09T01:51:00Z"
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T17:26:00Z"
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261116,
+          "holding_minutes": 505.0,
+          "scored": true,
+          "exit_time": "2026-06-09T01:51:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261114,
+          "holding_minutes": 505.0,
+          "scored": true,
+          "exit_time": "2026-06-09T01:51:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261115,
+          "holding_minutes": 290.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:16:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261116,
+          "holding_minutes": 125.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:31:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261114,
+          "holding_minutes": 125.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:31:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261115,
+          "holding_minutes": 125.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:31:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261116,
+          "holding_minutes": 10.0,
+          "scored": true,
+          "exit_time": "2026-06-08T17:36:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261114,
+          "holding_minutes": 330.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:56:00Z"
+        },
+        {
+          "variant": "add_volume_detail",
+          "seed": 20261114,
+          "holding_minutes": 10.0,
+          "scored": true,
+          "exit_time": "2026-06-08T17:36:00Z"
+        },
+        {
+          "variant": "add_volume_detail",
+          "seed": 20261115,
+          "holding_minutes": 10.0,
+          "scored": true,
+          "exit_time": "2026-06-08T17:36:00Z"
+        },
+        {
+          "variant": "add_volume_detail",
+          "seed": 20261116,
+          "holding_minutes": 10.0,
+          "scored": true,
+          "exit_time": "2026-06-08T17:36:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261114,
+          "holding_minutes": 505.0,
+          "scored": true,
+          "exit_time": "2026-06-09T01:51:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T17:26:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261116,
+          "holding_minutes": 505.0,
+          "scored": true,
+          "exit_time": "2026-06-09T01:51:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "PUMP",
+      "entry_index": 2050211,
+      "side": "short",
+      "entry_time": "2026-06-08T19:01:00Z",
+      "required_exit_time": "2026-06-09T19:01:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:52:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 731.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "PUMP",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 125513,
+            "setup_id": 32891,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T18:40:05Z",
+            "entry_index": 2050211,
+            "entry_time": "2026-06-08T19:01:00Z",
+            "exit_time": "2026-06-09T19:01:00Z",
+            "entry_score": 0.8494952917098999,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T19:01:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261114,
+          "holding_minutes": 20.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:21:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261115,
+          "holding_minutes": 500.0,
+          "scored": true,
+          "exit_time": "2026-06-09T03:21:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261116,
+          "holding_minutes": 240.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:01:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261114,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:06:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261116,
+          "holding_minutes": 10.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:11:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "ENA",
+      "entry_index": 1618215,
+      "side": "short",
+      "entry_time": "2026-06-08T19:21:00Z",
+      "required_exit_time": "2026-06-09T19:21:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:52:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 751.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "ENA",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 51605,
+            "setup_id": 15318,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T19:15:05Z",
+            "entry_index": 1618215,
+            "entry_time": "2026-06-08T19:21:00Z",
+            "exit_time": "2026-06-09T19:21:00Z",
+            "entry_score": 0.8212702870368958,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T19:21:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261114,
+          "holding_minutes": 230.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:11:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261116,
+          "holding_minutes": 535.0,
+          "scored": true,
+          "exit_time": "2026-06-09T04:16:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261114,
+          "holding_minutes": 310.0,
+          "scored": true,
+          "exit_time": "2026-06-09T00:31:00Z"
+        },
+        {
+          "variant": "add_volume_detail",
+          "seed": 20261114,
+          "holding_minutes": 530.0,
+          "scored": true,
+          "exit_time": "2026-06-09T04:11:00Z"
+        },
+        {
+          "variant": "add_volume_detail",
+          "seed": 20261115,
+          "holding_minutes": 325.0,
+          "scored": true,
+          "exit_time": "2026-06-09T00:46:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "WLD",
+      "entry_index": 2303655,
+      "side": "short",
+      "entry_time": "2026-06-08T19:21:00Z",
+      "required_exit_time": "2026-06-09T19:21:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 751.0,
+      "minutes_after": null,
+      "missing_record_count": 12,
+      "occurrences": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "WLD",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 166013,
+            "setup_id": 43918,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T19:20:05Z",
+            "entry_index": 2303655,
+            "entry_time": "2026-06-08T19:21:00Z",
+            "exit_time": "2026-06-09T19:21:00Z",
+            "entry_score": 0.8293244242668152,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_clock",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "WLD",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 166013,
+            "setup_id": 43918,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T19:20:05Z",
+            "entry_index": 2303655,
+            "entry_time": "2026-06-08T19:21:00Z",
+            "exit_time": "2026-06-09T19:21:00Z",
+            "entry_score": 0.9354037046432495,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_clock",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "WLD",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 166013,
+            "setup_id": 43918,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T19:20:05Z",
+            "entry_index": 2303655,
+            "entry_time": "2026-06-08T19:21:00Z",
+            "exit_time": "2026-06-09T19:21:00Z",
+            "entry_score": 0.7595314383506775,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.5,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261114,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_liquidity",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "WLD",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 166013,
+            "setup_id": 43918,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T19:20:05Z",
+            "entry_index": 2303655,
+            "entry_time": "2026-06-08T19:21:00Z",
+            "exit_time": "2026-06-09T19:21:00Z",
+            "entry_score": 0.8519442081451416,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_liquidity",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "WLD",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 166013,
+            "setup_id": 43918,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T19:20:05Z",
+            "entry_index": 2303655,
+            "entry_time": "2026-06-08T19:21:00Z",
+            "exit_time": "2026-06-09T19:21:00Z",
+            "entry_score": 0.930012047290802,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_liquidity",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "WLD",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 166013,
+            "setup_id": 43918,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T19:20:05Z",
+            "entry_index": 2303655,
+            "entry_time": "2026-06-08T19:21:00Z",
+            "exit_time": "2026-06-09T19:21:00Z",
+            "entry_score": 0.8947085738182068,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261114,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_position_history",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "WLD",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 166013,
+            "setup_id": 43918,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T19:20:05Z",
+            "entry_index": 2303655,
+            "entry_time": "2026-06-08T19:21:00Z",
+            "exit_time": "2026-06-09T19:21:00Z",
+            "entry_score": 0.8519442081451416,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_price_shape",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "WLD",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 166013,
+            "setup_id": 43918,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T19:20:05Z",
+            "entry_index": 2303655,
+            "entry_time": "2026-06-08T19:21:00Z",
+            "exit_time": "2026-06-09T19:21:00Z",
+            "entry_score": 0.9203512072563171,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_spot",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "WLD",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 166013,
+            "setup_id": 43918,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T19:20:05Z",
+            "entry_index": 2303655,
+            "entry_time": "2026-06-08T19:21:00Z",
+            "exit_time": "2026-06-09T19:21:00Z",
+            "entry_score": 0.9318245649337769,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "core",
+          "seed": 20261114,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "core",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "WLD",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 166013,
+            "setup_id": 43918,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T19:20:05Z",
+            "entry_index": 2303655,
+            "entry_time": "2026-06-08T19:21:00Z",
+            "exit_time": "2026-06-09T19:21:00Z",
+            "entry_score": 0.8519442081451416,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "core",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "core",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "WLD",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 166013,
+            "setup_id": 43918,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T19:20:05Z",
+            "entry_index": 2303655,
+            "entry_time": "2026-06-08T19:21:00Z",
+            "exit_time": "2026-06-09T19:21:00Z",
+            "entry_score": 0.930012047290802,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "core",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "core",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "WLD",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 166013,
+            "setup_id": 43918,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T19:20:05Z",
+            "entry_index": 2303655,
+            "entry_time": "2026-06-08T19:21:00Z",
+            "exit_time": "2026-06-09T19:21:00Z",
+            "entry_score": 0.8947085738182068,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T19:21:00Z"
+        },
+        {
+          "variant": "add_clock",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T19:21:00Z"
+        },
+        {
+          "variant": "add_clock",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T19:21:00Z"
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261114,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T19:21:00Z"
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T19:21:00Z"
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T19:21:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261114,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T19:21:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261115,
+          "holding_minutes": 10.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:31:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261116,
+          "holding_minutes": 550.0,
+          "scored": true,
+          "exit_time": "2026-06-09T04:31:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261114,
+          "holding_minutes": 115.0,
+          "scored": true,
+          "exit_time": "2026-06-08T21:16:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T19:21:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261116,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:26:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261114,
+          "holding_minutes": 115.0,
+          "scored": true,
+          "exit_time": "2026-06-08T21:16:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261114,
+          "holding_minutes": 175.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:16:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T19:21:00Z"
+        },
+        {
+          "variant": "add_volume_detail",
+          "seed": 20261114,
+          "holding_minutes": 600.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:21:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261114,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T19:21:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T19:21:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T19:21:00Z"
+        },
+        {
+          "variant": "drop_sma_detail",
+          "seed": 20261116,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:26:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "XMR",
+      "entry_index": 2326707,
+      "side": "short",
+      "entry_time": "2026-06-08T20:21:00Z",
+      "required_exit_time": "2026-06-09T20:21:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:52:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 811.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "XMR",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 178059,
+            "setup_id": 46945,
+            "pair_fast": 20,
+            "pair_slow": 80,
+            "detection_time": "2026-06-08T19:50:05Z",
+            "entry_index": 2326707,
+            "entry_time": "2026-06-08T20:21:00Z",
+            "exit_time": "2026-06-09T20:21:00Z",
+            "entry_score": 0.5666841864585876,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T20:21:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261114,
+          "holding_minutes": 195.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:36:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261114,
+          "holding_minutes": 145.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:46:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "ADA",
+      "entry_index": 1353277,
+      "side": "short",
+      "entry_time": "2026-06-08T21:11:00Z",
+      "required_exit_time": "2026-06-09T21:11:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:52:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 861.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "ADA",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 21824,
+            "setup_id": 7095,
+            "pair_fast": 10,
+            "pair_slow": 30,
+            "detection_time": "2026-06-08T20:25:05Z",
+            "entry_index": 1353277,
+            "entry_time": "2026-06-08T21:11:00Z",
+            "exit_time": "2026-06-09T21:11:00Z",
+            "entry_score": 0.6040194034576416,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T21:11:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "DOGE",
+      "entry_index": 1583677,
+      "side": "short",
+      "entry_time": "2026-06-08T21:11:00Z",
+      "required_exit_time": "2026-06-09T21:11:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 861.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "DOGE",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 50357,
+            "setup_id": 14568,
+            "pair_fast": 20,
+            "pair_slow": 50,
+            "detection_time": "2026-06-08T20:55:05Z",
+            "entry_index": 1583677,
+            "entry_time": "2026-06-08T21:11:00Z",
+            "exit_time": "2026-06-09T21:11:00Z",
+            "entry_score": 0.521268367767334,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T21:11:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261115,
+          "holding_minutes": 470.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:01:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261116,
+          "holding_minutes": 470.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:01:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261115,
+          "holding_minutes": 470.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:01:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "ZEC",
+      "entry_index": 2349761,
+      "side": "short",
+      "entry_time": "2026-06-08T21:31:00Z",
+      "required_exit_time": "2026-06-09T21:31:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 881.0,
+      "minutes_after": null,
+      "missing_record_count": 2,
+      "occurrences": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "ZEC",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 190971,
+            "setup_id": 49903,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T21:30:05Z",
+            "entry_index": 2349761,
+            "entry_time": "2026-06-08T21:31:00Z",
+            "exit_time": "2026-06-09T21:31:00Z",
+            "entry_score": 0.5269790291786194,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_price_shape",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "ZEC",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 190971,
+            "setup_id": 49903,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T21:30:05Z",
+            "entry_index": 2349761,
+            "entry_time": "2026-06-08T21:31:00Z",
+            "exit_time": "2026-06-09T21:31:00Z",
+            "entry_score": 0.697924792766571,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T21:31:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261115,
+          "holding_minutes": 15.0,
+          "scored": true,
+          "exit_time": "2026-06-08T21:46:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261116,
+          "holding_minutes": 425.0,
+          "scored": true,
+          "exit_time": "2026-06-09T04:36:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261114,
+          "holding_minutes": 60.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:31:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T21:31:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261116,
+          "holding_minutes": 485.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:36:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261114,
+          "holding_minutes": 330.0,
+          "scored": true,
+          "exit_time": "2026-06-09T03:01:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261115,
+          "holding_minutes": 430.0,
+          "scored": true,
+          "exit_time": "2026-06-09T04:41:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261116,
+          "holding_minutes": 15.0,
+          "scored": true,
+          "exit_time": "2026-06-08T21:46:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261114,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T21:36:00Z"
+        },
+        {
+          "variant": "drop_clock",
+          "seed": 20261115,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T21:36:00Z"
+        },
+        {
+          "variant": "drop_sma_detail",
+          "seed": 20261114,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T21:36:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "HYPE",
+      "entry_index": 1733375,
+      "side": "short",
+      "entry_time": "2026-06-08T16:01:00Z",
+      "required_exit_time": "2026-06-09T16:01:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 551.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_clock",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "HYPE",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 77182,
+            "setup_id": 20539,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T16:00:05Z",
+            "entry_index": 1733375,
+            "entry_time": "2026-06-08T16:01:00Z",
+            "exit_time": "2026-06-09T16:01:00Z",
+            "entry_score": 0.5046151280403137,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_clock",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T16:01:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261115,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T16:06:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261116,
+          "holding_minutes": 480.0,
+          "scored": true,
+          "exit_time": "2026-06-09T00:01:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261114,
+          "holding_minutes": 320.0,
+          "scored": true,
+          "exit_time": "2026-06-08T21:21:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261114,
+          "holding_minutes": 320.0,
+          "scored": true,
+          "exit_time": "2026-06-08T21:21:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "AAVE",
+      "entry_index": 1341697,
+      "side": "short",
+      "entry_time": "2026-06-08T16:11:00Z",
+      "required_exit_time": "2026-06-09T16:11:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 561.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_clock",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "AAVE",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 20389,
+            "setup_id": 6483,
+            "pair_fast": 10,
+            "pair_slow": 30,
+            "detection_time": "2026-06-08T16:10:05Z",
+            "entry_index": 1341697,
+            "entry_time": "2026-06-08T16:11:00Z",
+            "exit_time": "2026-06-09T16:11:00Z",
+            "entry_score": 0.6229566931724548,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_clock",
+          "seed": 20261114,
+          "holding_minutes": 245.0,
+          "scored": true,
+          "exit_time": "2026-06-08T20:16:00Z"
+        },
+        {
+          "variant": "add_clock",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T16:11:00Z"
+        },
+        {
+          "variant": "add_clock",
+          "seed": 20261116,
+          "holding_minutes": 165.0,
+          "scored": true,
+          "exit_time": "2026-06-08T18:56:00Z"
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261114,
+          "holding_minutes": 670.0,
+          "scored": true,
+          "exit_time": "2026-06-09T03:21:00Z"
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261115,
+          "holding_minutes": 670.0,
+          "scored": true,
+          "exit_time": "2026-06-09T03:21:00Z"
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261116,
+          "holding_minutes": 670.0,
+          "scored": true,
+          "exit_time": "2026-06-09T03:21:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261114,
+          "holding_minutes": 385.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:36:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261115,
+          "holding_minutes": 165.0,
+          "scored": true,
+          "exit_time": "2026-06-08T18:56:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261116,
+          "holding_minutes": 165.0,
+          "scored": true,
+          "exit_time": "2026-06-08T18:56:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261114,
+          "holding_minutes": 175.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:06:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261115,
+          "holding_minutes": 670.0,
+          "scored": true,
+          "exit_time": "2026-06-09T03:21:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261116,
+          "holding_minutes": 670.0,
+          "scored": true,
+          "exit_time": "2026-06-09T03:21:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261114,
+          "holding_minutes": 670.0,
+          "scored": true,
+          "exit_time": "2026-06-09T03:21:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261115,
+          "holding_minutes": 670.0,
+          "scored": true,
+          "exit_time": "2026-06-09T03:21:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261116,
+          "holding_minutes": 670.0,
+          "scored": true,
+          "exit_time": "2026-06-09T03:21:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "ENA",
+      "entry_index": 1618199,
+      "side": "short",
+      "entry_time": "2026-06-08T18:01:00Z",
+      "required_exit_time": "2026-06-09T18:01:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:52:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 671.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_clock",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "ENA",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 52576,
+            "setup_id": 15650,
+            "pair_fast": 10,
+            "pair_slow": 30,
+            "detection_time": "2026-06-08T17:10:05Z",
+            "entry_index": 1618199,
+            "entry_time": "2026-06-08T18:01:00Z",
+            "exit_time": "2026-06-09T18:01:00Z",
+            "entry_score": 0.7716038227081299,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_clock",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T18:01:00Z"
+        },
+        {
+          "variant": "add_clock",
+          "seed": 20261116,
+          "holding_minutes": 660.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:01:00Z"
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261115,
+          "holding_minutes": 660.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:01:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261115,
+          "holding_minutes": 310.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:11:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261116,
+          "holding_minutes": 455.0,
+          "scored": true,
+          "exit_time": "2026-06-09T01:36:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261114,
+          "holding_minutes": 620.0,
+          "scored": true,
+          "exit_time": "2026-06-09T04:21:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261115,
+          "holding_minutes": 660.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:01:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261116,
+          "holding_minutes": 650.0,
+          "scored": true,
+          "exit_time": "2026-06-09T04:51:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261114,
+          "holding_minutes": 10.0,
+          "scored": true,
+          "exit_time": "2026-06-08T18:11:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261115,
+          "holding_minutes": 610.0,
+          "scored": true,
+          "exit_time": "2026-06-09T04:11:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261114,
+          "holding_minutes": 10.0,
+          "scored": true,
+          "exit_time": "2026-06-08T18:11:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261116,
+          "holding_minutes": 660.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:01:00Z"
+        },
+        {
+          "variant": "add_volume_detail",
+          "seed": 20261114,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T18:06:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261115,
+          "holding_minutes": 660.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:01:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "XPL",
+      "entry_index": 2332455,
+      "side": "short",
+      "entry_time": "2026-06-08T19:21:00Z",
+      "required_exit_time": "2026-06-09T19:21:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:52:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 751.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_clock",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "XPL",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 179449,
+            "setup_id": 47505,
+            "pair_fast": 5,
+            "pair_slow": 20,
+            "detection_time": "2026-06-08T19:20:05Z",
+            "entry_index": 2332455,
+            "entry_time": "2026-06-08T19:21:00Z",
+            "exit_time": "2026-06-09T19:21:00Z",
+            "entry_score": 0.5457070469856262,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_clock",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T19:21:00Z"
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261115,
+          "holding_minutes": 650.0,
+          "scored": true,
+          "exit_time": "2026-06-09T06:11:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261115,
+          "holding_minutes": 65.0,
+          "scored": true,
+          "exit_time": "2026-06-08T20:26:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261115,
+          "holding_minutes": 580.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:01:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261116,
+          "holding_minutes": 650.0,
+          "scored": true,
+          "exit_time": "2026-06-09T06:11:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261115,
+          "holding_minutes": 650.0,
+          "scored": true,
+          "exit_time": "2026-06-09T06:11:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "XMR",
+      "entry_index": 2326699,
+      "side": "short",
+      "entry_time": "2026-06-08T19:41:00Z",
+      "required_exit_time": "2026-06-09T19:41:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:52:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 771.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_clock",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "XMR",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 177710,
+            "setup_id": 46811,
+            "pair_fast": 10,
+            "pair_slow": 50,
+            "detection_time": "2026-06-08T19:00:05Z",
+            "entry_index": 2326699,
+            "entry_time": "2026-06-08T19:41:00Z",
+            "exit_time": "2026-06-09T19:41:00Z",
+            "entry_score": 0.5351059436798096,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_clock",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T19:41:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261115,
+          "holding_minutes": 185.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:46:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261116,
+          "holding_minutes": 185.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:46:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261114,
+          "holding_minutes": 30.0,
+          "scored": true,
+          "exit_time": "2026-06-08T20:11:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261116,
+          "holding_minutes": 235.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:36:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261114,
+          "holding_minutes": 235.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:36:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261114,
+          "holding_minutes": 30.0,
+          "scored": true,
+          "exit_time": "2026-06-08T20:11:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "DOGE",
+      "entry_index": 1583676,
+      "side": "short",
+      "entry_time": "2026-06-08T21:06:00Z",
+      "required_exit_time": "2026-06-09T21:06:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 856.0,
+      "minutes_after": null,
+      "missing_record_count": 2,
+      "occurrences": [
+        {
+          "variant": "add_clock",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "DOGE",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 50356,
+            "setup_id": 14568,
+            "pair_fast": 20,
+            "pair_slow": 50,
+            "detection_time": "2026-06-08T20:55:05Z",
+            "entry_index": 1583676,
+            "entry_time": "2026-06-08T21:06:00Z",
+            "exit_time": "2026-06-09T21:06:00Z",
+            "entry_score": 0.5436880588531494,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_clock",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "DOGE",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 50516,
+            "setup_id": 14643,
+            "pair_fast": 30,
+            "pair_slow": 80,
+            "detection_time": "2026-06-08T20:55:05Z",
+            "entry_index": 1583676,
+            "entry_time": "2026-06-08T21:06:00Z",
+            "exit_time": "2026-06-09T21:06:00Z",
+            "entry_score": 0.5173256993293762,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.5,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_clock",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T21:06:00Z"
+        },
+        {
+          "variant": "add_clock",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T21:06:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "ZEC",
+      "entry_index": 2349767,
+      "side": "short",
+      "entry_time": "2026-06-08T22:01:00Z",
+      "required_exit_time": "2026-06-09T22:01:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 911.0,
+      "minutes_after": null,
+      "missing_record_count": 3,
+      "occurrences": [
+        {
+          "variant": "add_clock",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "ZEC",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 190974,
+            "setup_id": 49904,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T22:00:05Z",
+            "entry_index": 2349767,
+            "entry_time": "2026-06-08T22:01:00Z",
+            "exit_time": "2026-06-09T22:01:00Z",
+            "entry_score": 0.5595303177833557,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.5,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_liquidity",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "ZEC",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 190974,
+            "setup_id": 49904,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T22:00:05Z",
+            "entry_index": 2349767,
+            "entry_time": "2026-06-08T22:01:00Z",
+            "exit_time": "2026-06-09T22:01:00Z",
+            "entry_score": 0.8445603847503662,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "core",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "core",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "ZEC",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 190974,
+            "setup_id": 49904,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T22:00:05Z",
+            "entry_index": 2349767,
+            "entry_time": "2026-06-08T22:01:00Z",
+            "exit_time": "2026-06-09T22:01:00Z",
+            "entry_score": 0.8445603847503662,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_clock",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T22:01:00Z"
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T22:01:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261115,
+          "holding_minutes": 405.0,
+          "scored": true,
+          "exit_time": "2026-06-09T04:46:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261116,
+          "holding_minutes": 360.0,
+          "scored": true,
+          "exit_time": "2026-06-09T04:01:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261114,
+          "holding_minutes": 450.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:31:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T22:01:00Z"
+        },
+        {
+          "variant": "drop_market_context",
+          "seed": 20261114,
+          "holding_minutes": 410.0,
+          "scored": true,
+          "exit_time": "2026-06-09T04:51:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "XMR",
+      "entry_index": 2326744,
+      "side": "short",
+      "entry_time": "2026-06-08T23:26:00Z",
+      "required_exit_time": "2026-06-09T23:26:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:52:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 996.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_clock",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_clock",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "XMR",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 176214,
+            "setup_id": 46249,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T23:25:05Z",
+            "entry_index": 2326744,
+            "entry_time": "2026-06-08T23:26:00Z",
+            "exit_time": "2026-06-09T23:26:00Z",
+            "entry_score": 0.5792824029922485,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.5,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_clock",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T23:26:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261114,
+          "holding_minutes": 185.0,
+          "scored": true,
+          "exit_time": "2026-06-09T02:31:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261115,
+          "holding_minutes": 40.0,
+          "scored": true,
+          "exit_time": "2026-06-09T00:06:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261116,
+          "holding_minutes": 40.0,
+          "scored": true,
+          "exit_time": "2026-06-09T00:06:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261114,
+          "holding_minutes": 10.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:36:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "LIT",
+      "entry_index": 1865933,
+      "side": "long",
+      "entry_time": "2026-06-08T22:31:00Z",
+      "required_exit_time": "2026-06-09T22:31:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 941.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_derivatives",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_derivatives",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "LIT",
+            "side": "long",
+            "side_sign": 1,
+            "period": "mayjun",
+            "candidate_id": 103024,
+            "setup_id": 26477,
+            "pair_fast": 20,
+            "pair_slow": 50,
+            "detection_time": "2026-06-08T21:55:05Z",
+            "entry_index": 1865933,
+            "entry_time": "2026-06-08T22:31:00Z",
+            "exit_time": "2026-06-09T22:31:00Z",
+            "entry_score": 0.8782069087028503,
+            "entry_threshold": 0.75,
+            "exit_threshold": 0.25,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_derivatives",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T22:31:00Z"
+        },
+        {
+          "variant": "drop_derivatives",
+          "seed": 20261114,
+          "holding_minutes": 250.0,
+          "scored": true,
+          "exit_time": "2026-06-09T02:41:00Z"
+        },
+        {
+          "variant": "drop_derivatives",
+          "seed": 20261116,
+          "holding_minutes": 20.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:51:00Z"
+        },
+        {
+          "variant": "drop_liquidity",
+          "seed": 20261115,
+          "holding_minutes": 30.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:01:00Z"
+        },
+        {
+          "variant": "drop_position_history",
+          "seed": 20261115,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:36:00Z"
+        },
+        {
+          "variant": "drop_position_history",
+          "seed": 20261116,
+          "holding_minutes": 20.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:51:00Z"
+        },
+        {
+          "variant": "drop_price_shape",
+          "seed": 20261116,
+          "holding_minutes": 20.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:51:00Z"
+        },
+        {
+          "variant": "drop_sma_detail",
+          "seed": 20261114,
+          "holding_minutes": 50.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:21:00Z"
+        },
+        {
+          "variant": "drop_volume_detail",
+          "seed": 20261114,
+          "holding_minutes": 25.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:56:00Z"
+        },
+        {
+          "variant": "full",
+          "seed": 20261115,
+          "holding_minutes": 30.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:01:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "HYPE",
+      "entry_index": 1733410,
+      "side": "short",
+      "entry_time": "2026-06-08T18:56:00Z",
+      "required_exit_time": "2026-06-09T18:56:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 726.0,
+      "minutes_after": null,
+      "missing_record_count": 2,
+      "occurrences": [
+        {
+          "variant": "add_liquidity",
+          "seed": 20261114,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_liquidity",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "HYPE",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 90120,
+            "setup_id": 21732,
+            "pair_fast": 30,
+            "pair_slow": 80,
+            "detection_time": "2026-06-08T18:55:05Z",
+            "entry_index": 1733410,
+            "entry_time": "2026-06-08T18:56:00Z",
+            "exit_time": "2026-06-09T18:56:00Z",
+            "entry_score": 0.5074156522750854,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "core",
+          "seed": 20261114,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "core",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "HYPE",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 90120,
+            "setup_id": 21732,
+            "pair_fast": 30,
+            "pair_slow": 80,
+            "detection_time": "2026-06-08T18:55:05Z",
+            "entry_index": 1733410,
+            "entry_time": "2026-06-08T18:56:00Z",
+            "exit_time": "2026-06-09T18:56:00Z",
+            "entry_score": 0.5074156522750854,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_liquidity",
+          "seed": 20261114,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T18:56:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261114,
+          "holding_minutes": 685.0,
+          "scored": true,
+          "exit_time": "2026-06-09T06:21:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261115,
+          "holding_minutes": 125.0,
+          "scored": true,
+          "exit_time": "2026-06-08T21:01:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261114,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T18:56:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "BNB",
+      "entry_index": 1503014,
+      "side": "short",
+      "entry_time": "2026-06-08T19:16:00Z",
+      "required_exit_time": "2026-06-09T19:16:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 746.0,
+      "minutes_after": null,
+      "missing_record_count": 2,
+      "occurrences": [
+        {
+          "variant": "add_liquidity",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_liquidity",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "BNB",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 28977,
+            "setup_id": 10746,
+            "pair_fast": 5,
+            "pair_slow": 20,
+            "detection_time": "2026-06-08T19:15:05Z",
+            "entry_index": 1503014,
+            "entry_time": "2026-06-08T19:16:00Z",
+            "exit_time": "2026-06-09T19:16:00Z",
+            "entry_score": 0.5829069018363953,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "core",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "core",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "BNB",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 28977,
+            "setup_id": 10746,
+            "pair_fast": 5,
+            "pair_slow": 20,
+            "detection_time": "2026-06-08T19:15:05Z",
+            "entry_index": 1503014,
+            "entry_time": "2026-06-08T19:16:00Z",
+            "exit_time": "2026-06-09T19:16:00Z",
+            "entry_score": 0.5829069018363953,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_liquidity",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T19:16:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261115,
+          "holding_minutes": 380.0,
+          "scored": true,
+          "exit_time": "2026-06-09T01:36:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261116,
+          "holding_minutes": 380.0,
+          "scored": true,
+          "exit_time": "2026-06-09T01:36:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261114,
+          "holding_minutes": 35.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:51:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261115,
+          "holding_minutes": 460.0,
+          "scored": true,
+          "exit_time": "2026-06-09T02:56:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T19:16:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "XRP",
+      "entry_index": 2338223,
+      "side": "short",
+      "entry_time": "2026-06-08T20:01:00Z",
+      "required_exit_time": "2026-06-09T20:01:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 791.0,
+      "minutes_after": null,
+      "missing_record_count": 2,
+      "occurrences": [
+        {
+          "variant": "add_liquidity",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_liquidity",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "XRP",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 182365,
+            "setup_id": 48376,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T19:55:05Z",
+            "entry_index": 2338223,
+            "entry_time": "2026-06-08T20:01:00Z",
+            "exit_time": "2026-06-09T20:01:00Z",
+            "entry_score": 0.5610490441322327,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "core",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "core",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "XRP",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 182365,
+            "setup_id": 48376,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T19:55:05Z",
+            "entry_index": 2338223,
+            "entry_time": "2026-06-08T20:01:00Z",
+            "exit_time": "2026-06-09T20:01:00Z",
+            "entry_score": 0.5610490441322327,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_liquidity",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T20:01:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261115,
+          "holding_minutes": 440.0,
+          "scored": true,
+          "exit_time": "2026-06-09T03:21:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261116,
+          "holding_minutes": 435.0,
+          "scored": true,
+          "exit_time": "2026-06-09T03:16:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T20:01:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "DOGE",
+      "entry_index": 1583666,
+      "side": "short",
+      "entry_time": "2026-06-08T20:16:00Z",
+      "required_exit_time": "2026-06-09T20:16:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 806.0,
+      "minutes_after": null,
+      "missing_record_count": 2,
+      "occurrences": [
+        {
+          "variant": "add_liquidity",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_liquidity",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "DOGE",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 50187,
+            "setup_id": 14500,
+            "pair_fast": 10,
+            "pair_slow": 50,
+            "detection_time": "2026-06-08T20:15:05Z",
+            "entry_index": 1583666,
+            "entry_time": "2026-06-08T20:16:00Z",
+            "exit_time": "2026-06-09T20:16:00Z",
+            "entry_score": 0.5475479960441589,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "core",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "core",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "DOGE",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 50187,
+            "setup_id": 14500,
+            "pair_fast": 10,
+            "pair_slow": 50,
+            "detection_time": "2026-06-08T20:15:05Z",
+            "entry_index": 1583666,
+            "entry_time": "2026-06-08T20:16:00Z",
+            "exit_time": "2026-06-09T20:16:00Z",
+            "entry_score": 0.5475479960441589,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_liquidity",
+          "seed": 20261114,
+          "holding_minutes": 525.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:01:00Z"
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T20:16:00Z"
+        },
+        {
+          "variant": "add_liquidity",
+          "seed": 20261116,
+          "holding_minutes": 525.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:01:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261114,
+          "holding_minutes": 525.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:01:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261115,
+          "holding_minutes": 205.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:41:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261116,
+          "holding_minutes": 205.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:41:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261115,
+          "holding_minutes": 205.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:41:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261116,
+          "holding_minutes": 525.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:01:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261114,
+          "holding_minutes": 525.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:01:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T20:16:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261116,
+          "holding_minutes": 525.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:01:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "AVAX",
+      "entry_index": 1433925,
+      "side": "short",
+      "entry_time": "2026-06-08T21:51:00Z",
+      "required_exit_time": "2026-06-09T21:51:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:52:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 901.0,
+      "minutes_after": null,
+      "missing_record_count": 2,
+      "occurrences": [
+        {
+          "variant": "add_liquidity",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_liquidity",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "AVAX",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 26610,
+            "setup_id": 9512,
+            "pair_fast": 30,
+            "pair_slow": 80,
+            "detection_time": "2026-06-08T20:50:05Z",
+            "entry_index": 1433925,
+            "entry_time": "2026-06-08T21:51:00Z",
+            "exit_time": "2026-06-09T21:51:00Z",
+            "entry_score": 0.5215163230895996,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "core",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "core",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "AVAX",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 26610,
+            "setup_id": 9512,
+            "pair_fast": 30,
+            "pair_slow": 80,
+            "detection_time": "2026-06-08T20:50:05Z",
+            "entry_index": 1433925,
+            "entry_time": "2026-06-08T21:51:00Z",
+            "exit_time": "2026-06-09T21:51:00Z",
+            "entry_score": 0.5215163230895996,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_liquidity",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T21:51:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261115,
+          "holding_minutes": 50.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:41:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261116,
+          "holding_minutes": 460.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:31:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261114,
+          "holding_minutes": 50.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:41:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T21:51:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "SOL",
+      "entry_index": 2136646,
+      "side": "short",
+      "entry_time": "2026-06-08T21:56:00Z",
+      "required_exit_time": "2026-06-09T21:56:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 906.0,
+      "minutes_after": null,
+      "missing_record_count": 2,
+      "occurrences": [
+        {
+          "variant": "add_liquidity",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_liquidity",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "SOL",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 132100,
+            "setup_id": 35104,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T21:55:05Z",
+            "entry_index": 2136646,
+            "entry_time": "2026-06-08T21:56:00Z",
+            "exit_time": "2026-06-09T21:56:00Z",
+            "entry_score": 0.5188847780227661,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "core",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "core",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "SOL",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 132100,
+            "setup_id": 35104,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T21:55:05Z",
+            "entry_index": 2136646,
+            "entry_time": "2026-06-08T21:56:00Z",
+            "exit_time": "2026-06-09T21:56:00Z",
+            "entry_score": 0.5188847780227661,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_liquidity",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T21:56:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261115,
+          "holding_minutes": 320.0,
+          "scored": true,
+          "exit_time": "2026-06-09T03:16:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261114,
+          "holding_minutes": 400.0,
+          "scored": true,
+          "exit_time": "2026-06-09T04:36:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T21:56:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "XRP",
+      "entry_index": 2338247,
+      "side": "short",
+      "entry_time": "2026-06-08T22:01:00Z",
+      "required_exit_time": "2026-06-09T22:01:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 911.0,
+      "minutes_after": null,
+      "missing_record_count": 4,
+      "occurrences": [
+        {
+          "variant": "add_liquidity",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_liquidity",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "XRP",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 182370,
+            "setup_id": 48377,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T22:00:05Z",
+            "entry_index": 2338247,
+            "entry_time": "2026-06-08T22:01:00Z",
+            "exit_time": "2026-06-09T22:01:00Z",
+            "entry_score": 0.5710445642471313,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_price_shape",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "XRP",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 182370,
+            "setup_id": 48377,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T22:00:05Z",
+            "entry_index": 2338247,
+            "entry_time": "2026-06-08T22:01:00Z",
+            "exit_time": "2026-06-09T22:01:00Z",
+            "entry_score": 0.5755485892295837,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_spot",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "XRP",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 182370,
+            "setup_id": 48377,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T22:00:05Z",
+            "entry_index": 2338247,
+            "entry_time": "2026-06-08T22:01:00Z",
+            "exit_time": "2026-06-09T22:01:00Z",
+            "entry_score": 0.6349798440933228,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "core",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "core",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "XRP",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 182370,
+            "setup_id": 48377,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T22:00:05Z",
+            "entry_index": 2338247,
+            "entry_time": "2026-06-08T22:01:00Z",
+            "exit_time": "2026-06-09T22:01:00Z",
+            "entry_score": 0.5710445642471313,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_liquidity",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T22:01:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T22:01:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261116,
+          "holding_minutes": 470.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:51:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261114,
+          "holding_minutes": 395.0,
+          "scored": true,
+          "exit_time": "2026-06-09T04:36:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T22:01:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T22:01:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "AVAX",
+      "entry_index": 1433933,
+      "side": "short",
+      "entry_time": "2026-06-08T22:31:00Z",
+      "required_exit_time": "2026-06-09T22:31:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:52:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 941.0,
+      "minutes_after": null,
+      "missing_record_count": 2,
+      "occurrences": [
+        {
+          "variant": "add_liquidity",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_liquidity",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "AVAX",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 26491,
+            "setup_id": 9430,
+            "pair_fast": 10,
+            "pair_slow": 50,
+            "detection_time": "2026-06-08T22:30:05Z",
+            "entry_index": 1433933,
+            "entry_time": "2026-06-08T22:31:00Z",
+            "exit_time": "2026-06-09T22:31:00Z",
+            "entry_score": 0.5702400803565979,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "core",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "core",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "AVAX",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 26491,
+            "setup_id": 9430,
+            "pair_fast": 10,
+            "pair_slow": 50,
+            "detection_time": "2026-06-08T22:30:05Z",
+            "entry_index": 1433933,
+            "entry_time": "2026-06-08T22:31:00Z",
+            "exit_time": "2026-06-09T22:31:00Z",
+            "entry_score": 0.5702400803565979,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_liquidity",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T22:31:00Z"
+        },
+        {
+          "variant": "core",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T22:31:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "ADA",
+      "entry_index": 1353268,
+      "side": "short",
+      "entry_time": "2026-06-08T20:26:00Z",
+      "required_exit_time": "2026-06-09T20:26:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:52:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 816.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_position_history",
+          "seed": 20261114,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_position_history",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "ADA",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 21822,
+            "setup_id": 7095,
+            "pair_fast": 10,
+            "pair_slow": 30,
+            "detection_time": "2026-06-08T20:25:05Z",
+            "entry_index": 1353268,
+            "entry_time": "2026-06-08T20:26:00Z",
+            "exit_time": "2026-06-09T20:26:00Z",
+            "entry_score": 0.6960781216621399,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_position_history",
+          "seed": 20261114,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T20:26:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "AVAX",
+      "entry_index": 1433895,
+      "side": "short",
+      "entry_time": "2026-06-08T19:21:00Z",
+      "required_exit_time": "2026-06-09T19:21:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:52:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 751.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_price_shape",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_price_shape",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "AVAX",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 26490,
+            "setup_id": 9429,
+            "pair_fast": 10,
+            "pair_slow": 50,
+            "detection_time": "2026-06-08T19:20:05Z",
+            "entry_index": 1433895,
+            "entry_time": "2026-06-08T19:21:00Z",
+            "exit_time": "2026-06-09T19:21:00Z",
+            "entry_score": 0.6232140064239502,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_position_history",
+          "seed": 20261114,
+          "holding_minutes": 650.0,
+          "scored": true,
+          "exit_time": "2026-06-09T06:11:00Z"
+        },
+        {
+          "variant": "add_position_history",
+          "seed": 20261116,
+          "holding_minutes": 200.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:41:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261114,
+          "holding_minutes": 200.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:41:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T19:21:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261115,
+          "holding_minutes": 600.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:21:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261116,
+          "holding_minutes": 610.0,
+          "scored": true,
+          "exit_time": "2026-06-09T05:31:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "ADA",
+      "entry_index": 1353245,
+      "side": "short",
+      "entry_time": "2026-06-08T18:31:00Z",
+      "required_exit_time": "2026-06-09T18:31:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:52:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 701.0,
+      "minutes_after": null,
+      "missing_record_count": 2,
+      "occurrences": [
+        {
+          "variant": "add_spot",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_spot",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "ADA",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 22120,
+            "setup_id": 7199,
+            "pair_fast": 20,
+            "pair_slow": 50,
+            "detection_time": "2026-06-08T18:10:05Z",
+            "entry_index": 1353245,
+            "entry_time": "2026-06-08T18:31:00Z",
+            "exit_time": "2026-06-09T18:31:00Z",
+            "entry_score": 0.9304842948913574,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_spot",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "ADA",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 22120,
+            "setup_id": 7199,
+            "pair_fast": 20,
+            "pair_slow": 50,
+            "detection_time": "2026-06-08T18:10:05Z",
+            "entry_index": 1353245,
+            "entry_time": "2026-06-08T18:31:00Z",
+            "exit_time": "2026-06-09T18:31:00Z",
+            "entry_score": 0.9195794463157654,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_position_history",
+          "seed": 20261116,
+          "holding_minutes": 180.0,
+          "scored": true,
+          "exit_time": "2026-06-08T21:31:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261114,
+          "holding_minutes": 175.0,
+          "scored": true,
+          "exit_time": "2026-06-08T21:26:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261116,
+          "holding_minutes": 620.0,
+          "scored": true,
+          "exit_time": "2026-06-09T04:51:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261114,
+          "holding_minutes": 285.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:16:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261114,
+          "holding_minutes": 180.0,
+          "scored": true,
+          "exit_time": "2026-06-08T21:31:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T18:31:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T18:31:00Z"
+        },
+        {
+          "variant": "add_volume_detail",
+          "seed": 20261115,
+          "holding_minutes": 280.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:11:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "LAYER",
+      "entry_index": 1842885,
+      "side": "short",
+      "entry_time": "2026-06-08T21:51:00Z",
+      "required_exit_time": "2026-06-09T21:51:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:55:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 901.0,
+      "minutes_after": null,
+      "missing_record_count": 2,
+      "occurrences": [
+        {
+          "variant": "add_spot",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_spot",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "LAYER",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 94264,
+            "setup_id": 24211,
+            "pair_fast": 10,
+            "pair_slow": 50,
+            "detection_time": "2026-06-08T21:25:05Z",
+            "entry_index": 1842885,
+            "entry_time": "2026-06-08T21:51:00Z",
+            "exit_time": "2026-06-09T21:51:00Z",
+            "entry_score": 0.8812703490257263,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        },
+        {
+          "variant": "drop_market_context",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "drop_market_context",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "LAYER",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 94261,
+            "setup_id": 24209,
+            "pair_fast": 10,
+            "pair_slow": 30,
+            "detection_time": "2026-06-08T21:20:05Z",
+            "entry_index": 1842885,
+            "entry_time": "2026-06-08T21:51:00Z",
+            "exit_time": "2026-06-09T21:51:00Z",
+            "entry_score": 0.9926994442939758,
+            "entry_threshold": 0.75,
+            "exit_threshold": 0.5,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_position_history",
+          "seed": 20261116,
+          "holding_minutes": 65.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:56:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261114,
+          "holding_minutes": 65.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:56:00Z"
+        },
+        {
+          "variant": "add_sma_detail",
+          "seed": 20261115,
+          "holding_minutes": 240.0,
+          "scored": true,
+          "exit_time": "2026-06-09T01:51:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T21:51:00Z"
+        },
+        {
+          "variant": "add_volume_detail",
+          "seed": 20261114,
+          "holding_minutes": 65.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:56:00Z"
+        },
+        {
+          "variant": "add_volume_detail",
+          "seed": 20261115,
+          "holding_minutes": 65.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:56:00Z"
+        },
+        {
+          "variant": "add_volume_detail",
+          "seed": 20261116,
+          "holding_minutes": 65.0,
+          "scored": true,
+          "exit_time": "2026-06-08T22:56:00Z"
+        },
+        {
+          "variant": "drop_market_context",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T21:51:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "HYPE",
+      "entry_index": 1733448,
+      "side": "short",
+      "entry_time": "2026-06-08T22:06:00Z",
+      "required_exit_time": "2026-06-09T22:06:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 916.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_spot",
+          "seed": 20261115,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_spot",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "HYPE",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 77211,
+            "setup_id": 20543,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T22:05:05Z",
+            "entry_index": 1733448,
+            "entry_time": "2026-06-08T22:06:00Z",
+            "exit_time": "2026-06-09T22:06:00Z",
+            "entry_score": 0.5404408574104309,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_spot",
+          "seed": 20261115,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T22:06:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "HYPE",
+      "entry_index": 1733359,
+      "side": "short",
+      "entry_time": "2026-06-08T14:41:00Z",
+      "required_exit_time": "2026-06-09T14:41:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 471.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_spot",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_spot",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "HYPE",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 77177,
+            "setup_id": 20537,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T14:40:05Z",
+            "entry_index": 1733359,
+            "entry_time": "2026-06-08T14:41:00Z",
+            "exit_time": "2026-06-09T14:41:00Z",
+            "entry_score": 0.6890920400619507,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_spot",
+          "seed": 20261114,
+          "holding_minutes": 35.0,
+          "scored": true,
+          "exit_time": "2026-06-08T15:16:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T14:41:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "LAYER",
+      "entry_index": 1842820,
+      "side": "short",
+      "entry_time": "2026-06-08T16:26:00Z",
+      "required_exit_time": "2026-06-09T16:26:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:55:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 576.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_spot",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_spot",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "LAYER",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 94240,
+            "setup_id": 24193,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T15:25:05Z",
+            "entry_index": 1842820,
+            "entry_time": "2026-06-08T16:26:00Z",
+            "exit_time": "2026-06-09T16:26:00Z",
+            "entry_score": 0.7344256043434143,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_price_shape",
+          "seed": 20261114,
+          "holding_minutes": 70.0,
+          "scored": true,
+          "exit_time": "2026-06-08T17:36:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261115,
+          "holding_minutes": 565.0,
+          "scored": true,
+          "exit_time": "2026-06-09T01:51:00Z"
+        },
+        {
+          "variant": "add_price_shape",
+          "seed": 20261116,
+          "holding_minutes": 565.0,
+          "scored": true,
+          "exit_time": "2026-06-09T01:51:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261114,
+          "holding_minutes": 15.0,
+          "scored": true,
+          "exit_time": "2026-06-08T16:41:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T16:26:00Z"
+        },
+        {
+          "variant": "add_volume_detail",
+          "seed": 20261115,
+          "holding_minutes": 25.0,
+          "scored": true,
+          "exit_time": "2026-06-08T16:51:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "WLD",
+      "entry_index": 2303664,
+      "side": "short",
+      "entry_time": "2026-06-08T20:06:00Z",
+      "required_exit_time": "2026-06-09T20:06:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 796.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_spot",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_spot",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "WLD",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 168850,
+            "setup_id": 44389,
+            "pair_fast": 8,
+            "pair_slow": 30,
+            "detection_time": "2026-06-08T20:05:05Z",
+            "entry_index": 2303664,
+            "entry_time": "2026-06-08T20:06:00Z",
+            "exit_time": "2026-06-09T20:06:00Z",
+            "entry_score": 0.908722996711731,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_position_history",
+          "seed": 20261115,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T20:11:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T20:06:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "ZEC",
+      "entry_index": 2349770,
+      "side": "short",
+      "entry_time": "2026-06-08T22:16:00Z",
+      "required_exit_time": "2026-06-09T22:16:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 926.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_spot",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_spot",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "ZEC",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 193920,
+            "setup_id": 50219,
+            "pair_fast": 5,
+            "pair_slow": 20,
+            "detection_time": "2026-06-08T22:15:05Z",
+            "entry_index": 2349770,
+            "entry_time": "2026-06-08T22:16:00Z",
+            "exit_time": "2026-06-09T22:16:00Z",
+            "entry_score": 0.681323230266571,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_spot",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T22:16:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "SUI",
+      "entry_index": 2176972,
+      "side": "short",
+      "entry_time": "2026-06-08T22:26:00Z",
+      "required_exit_time": "2026-06-09T22:26:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 936.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "add_spot",
+          "seed": 20261116,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "add_spot",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "SUI",
+            "side": "short",
+            "side_sign": -1,
+            "period": "mayjun",
+            "candidate_id": 145691,
+            "setup_id": 37541,
+            "pair_fast": 8,
+            "pair_slow": 30,
+            "detection_time": "2026-06-08T22:25:05Z",
+            "entry_index": 2176972,
+            "entry_time": "2026-06-08T22:26:00Z",
+            "exit_time": "2026-06-09T22:26:00Z",
+            "entry_score": 0.8945609927177429,
+            "entry_threshold": 0.5,
+            "exit_threshold": 0.75,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_position_history",
+          "seed": 20261115,
+          "holding_minutes": 205.0,
+          "scored": true,
+          "exit_time": "2026-06-09T01:51:00Z"
+        },
+        {
+          "variant": "add_spot",
+          "seed": 20261116,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T22:26:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "LIT",
+      "entry_index": 1865894,
+      "side": "long",
+      "entry_time": "2026-06-08T19:16:00Z",
+      "required_exit_time": "2026-06-09T19:16:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 746.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "drop_market_context",
+          "seed": 20261114,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "drop_market_context",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "LIT",
+            "side": "long",
+            "side_sign": 1,
+            "period": "mayjun",
+            "candidate_id": 96765,
+            "setup_id": 25307,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T19:15:05Z",
+            "entry_index": 1865894,
+            "entry_time": "2026-06-08T19:16:00Z",
+            "exit_time": "2026-06-09T19:16:00Z",
+            "entry_score": 0.8654447793960571,
+            "entry_threshold": 0.75,
+            "exit_threshold": 0.25,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_market_context",
+          "seed": 20261114,
+          "holding_minutes": 130.0,
+          "scored": true,
+          "exit_time": "2026-06-08T21:26:00Z"
+        },
+        {
+          "variant": "add_market_context",
+          "seed": 20261115,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:21:00Z"
+        },
+        {
+          "variant": "drop_derivatives",
+          "seed": 20261116,
+          "holding_minutes": 25.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:41:00Z"
+        },
+        {
+          "variant": "drop_liquidity",
+          "seed": 20261115,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:21:00Z"
+        },
+        {
+          "variant": "drop_liquidity",
+          "seed": 20261116,
+          "holding_minutes": 45.0,
+          "scored": true,
+          "exit_time": "2026-06-08T20:01:00Z"
+        },
+        {
+          "variant": "drop_market_context",
+          "seed": 20261114,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T19:16:00Z"
+        },
+        {
+          "variant": "drop_position_history",
+          "seed": 20261115,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:21:00Z"
+        },
+        {
+          "variant": "drop_position_history",
+          "seed": 20261116,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:21:00Z"
+        },
+        {
+          "variant": "drop_price_shape",
+          "seed": 20261116,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:21:00Z"
+        },
+        {
+          "variant": "drop_sma_detail",
+          "seed": 20261114,
+          "holding_minutes": 35.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:51:00Z"
+        },
+        {
+          "variant": "drop_volume_detail",
+          "seed": 20261114,
+          "holding_minutes": 35.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:51:00Z"
+        },
+        {
+          "variant": "drop_volume_detail",
+          "seed": 20261116,
+          "holding_minutes": 45.0,
+          "scored": true,
+          "exit_time": "2026-06-08T20:01:00Z"
+        },
+        {
+          "variant": "full",
+          "seed": 20261115,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T19:21:00Z"
+        },
+        {
+          "variant": "full",
+          "seed": 20261116,
+          "holding_minutes": 45.0,
+          "scored": true,
+          "exit_time": "2026-06-08T20:01:00Z"
+        }
+      ]
+    },
+    {
+      "period": "mayjun",
+      "symbol": "WLD",
+      "entry_index": 2303703,
+      "side": "long",
+      "entry_time": "2026-06-08T23:21:00Z",
+      "required_exit_time": "2026-06-09T23:21:00Z",
+      "holding_minutes": 1440.0,
+      "cause_in_frozen_source": "outside_actual_source_coverage",
+      "source_exact_row": null,
+      "first_source_time": "2026-05-21T11:51:00Z",
+      "last_source_time": "2026-06-09T06:50:00Z",
+      "previous_source_time": "2026-06-09T06:50:00Z",
+      "next_source_time": null,
+      "minutes_before": 991.0,
+      "minutes_after": null,
+      "missing_record_count": 1,
+      "occurrences": [
+        {
+          "variant": "drop_market_context",
+          "seed": 20261114,
+          "fold": "2026-06-01T00:00:00Z",
+          "trade": {
+            "policy": "drop_market_context",
+            "fold": "2026-06-01T00:00:00Z",
+            "symbol": "WLD",
+            "side": "long",
+            "side_sign": 1,
+            "period": "mayjun",
+            "candidate_id": 164996,
+            "setup_id": 43692,
+            "pair_fast": 3,
+            "pair_slow": 12,
+            "detection_time": "2026-06-08T23:15:05Z",
+            "entry_index": 2303703,
+            "entry_time": "2026-06-08T23:21:00Z",
+            "exit_time": "2026-06-09T23:21:00Z",
+            "entry_score": 0.9998871088027954,
+            "entry_threshold": 0.75,
+            "exit_threshold": 0.25,
+            "exit_step": 288,
+            "holding_minutes": 1440.0,
+            "scored": false,
+            "return_pct": null,
+            "notional_usd": 100
+          }
+        }
+      ],
+      "same_entry_other_policy_exits": [
+        {
+          "variant": "add_market_context",
+          "seed": 20261115,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:26:00Z"
+        },
+        {
+          "variant": "drop_derivatives",
+          "seed": 20261114,
+          "holding_minutes": 125.0,
+          "scored": true,
+          "exit_time": "2026-06-09T01:26:00Z"
+        },
+        {
+          "variant": "drop_derivatives",
+          "seed": 20261116,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:26:00Z"
+        },
+        {
+          "variant": "drop_liquidity",
+          "seed": 20261115,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:26:00Z"
+        },
+        {
+          "variant": "drop_liquidity",
+          "seed": 20261116,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:26:00Z"
+        },
+        {
+          "variant": "drop_market_context",
+          "seed": 20261114,
+          "holding_minutes": 1440.0,
+          "scored": false,
+          "exit_time": "2026-06-09T23:21:00Z"
+        },
+        {
+          "variant": "drop_position_history",
+          "seed": 20261115,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:26:00Z"
+        },
+        {
+          "variant": "drop_position_history",
+          "seed": 20261116,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:26:00Z"
+        },
+        {
+          "variant": "drop_price_shape",
+          "seed": 20261116,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:26:00Z"
+        },
+        {
+          "variant": "drop_volume_detail",
+          "seed": 20261114,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:26:00Z"
+        },
+        {
+          "variant": "drop_volume_detail",
+          "seed": 20261116,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:26:00Z"
+        },
+        {
+          "variant": "full",
+          "seed": 20261115,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:26:00Z"
+        },
+        {
+          "variant": "full",
+          "seed": 20261116,
+          "holding_minutes": 5.0,
+          "scored": true,
+          "exit_time": "2026-06-08T23:26:00Z"
+        }
+      ]
+    }
+  ],
+  "limits": "Frozen source gaps do not by themselves prove delisting or exchange downtime; source DB spot checks are recorded separately."
+}

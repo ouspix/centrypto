@@ -1,0 +1,48 @@
+{
+  "files": {
+    "seed-diagnostics.json": "f560ca205a5c3d362c77367be5ce430721fbdf26a47ecddd5eba73cad3374c7b",
+    "config.json": "bdc567a3d7e045fd504623e7cae2ad347dd2a133638dbb1ec0477107cc3ce5d9",
+    "REPORT.txt": "6892922443944b6629766ba3c0ab966afa41d7e3b3f43a5124d05563ef9b5515",
+    "replay_price.py": "4521a0ef55cdd08cea68221ced448f760df3b1e16747be0e6ed879bc15fca865",
+    "verify_report.cjs": "43245af8296555d0411bbb7e1ac2d3dd209de177eb7a12527a9a44cb995e1b5e",
+    "learning-components.json": "346c5fe58f3fc36f3613e21fae74c0cb9ce60c9c8bfc3d7a8ba72104fba3cf76",
+    "replay-lock.json": "4f8cb6ed4aada570b8f61265d9705292067cf713295c660d89e4a0b87ed80697",
+    "training-lock.json": "9ef333c4ed3045d58fd72bb251a310ff533e446390ad6e47fb050bcf98bb341f",
+    "deliver_price.py": "c2ea452c0bfcae8b1ebd2204c0f5eb09fb85aea6c0e4d6c7052ff003bc83a81d",
+    "results.json": "dbc980092924c713b286f9c6a287546703f6db54b4455708e15f3646012ff22d",
+    "paired-diagnostics.json": "eac439f9312c27a403a6c3b4f4a9834e90ce7011665e7e368663623e0ee4cf2b",
+    "price_network.py": "381b756412279fbb3c87294c5597a22c5919da17f31eddb8da09b0c176b0ba5f",
+    "training-complete.json": "3160cfc167f14abbe307b8be11f0d8c0995be01364baf67a56caa4fe8a30b5d8",
+    "label-profile.json": "1cded18a96ec8f2cb815a81902ae7c74775ab5c22116a2838b6c642995588655",
+    "diagnose_price.py": "52de844b17f3a8a7e201324956ed7aa0d72b1a9b8d9cbaea64a8e164a9f47252",
+    "train_price.py": "21689d4d01181a6cb962863e0748897eadb369e80c8d3adfa980032f977a6581",
+    "REPORT.html": "56560f5ea8f1b352f22aa24fa3d4b9d3c76ccf9333674e0c15d5b1f4a00f56b9",
+    "replay-progress.json": "b0981cfa732c27961b5610753a4722846813c23b75c45d820364437aa8b64be1",
+    "price_policy.py": "616399bcb233293794892e0feb66e99bf143fe27ad6f7382da30705aacc41fa6",
+    "test_price.py": "60d19d6c6f801301e8f52666f15ef612d976261a11d06221a68a699ccbd18f6e",
+    "prepared.json": "8aa34be0b8f0429502f87eb351747f8fcf4d49150b60bfe888f4d99a15f0c4cf",
+    "progress.json": "697481fef732acfd79fd85017598fe7d27eb1a5da4c845c3856bb4cd2118f908",
+    "diagnostic-summary.json": "8f12e723206b1784f9786e4549cff752f8791233860852d18f309f313334f7cb",
+    "render-verification.json": "4f00483997de5903811862fbd81e191a6b448e2b093c6ad287e7d50a278cf6b0",
+    "validation.json": "139a52c8bfb018b589a700768b73dec72731c08ca4ec25b3c066cdd29f432a4a",
+    "validate_price.py": "8dd468f6bde1ec96112f4843e1a89bc8aff0fd00b9d2b94eccd2710613d095b5",
+    "price_common.py": "e60c71fe17b749a2a7af7416ff6af4d078af1ad914593e1f5252eed8450010d7",
+    "entry-diagnostics.json": "8e46f92b1113838aac11338021d90dfa1e15014a71111bd45f3439dc01c2da6c",
+    "summary.json": "e3af2052979b89daf3a1905ee5ca68221729066ee8310297b7438cdb31f94831"
+  },
+  "external_bundle": "/mnt/c/Users/melli/.codex/research/centrypto/entry-price-error-2026-11-15/bundle",
+  "external_bundle_checksums": {
+    "long_entry_model.joblib": "234a6cd5d3303e089be175eaf4372d5c42b5cc96b98e361ac754b5f4a7d3ace8",
+    "long_exit_model.joblib": "1db9a54821a17b1c9a1f208d5a8c984a78e6d5dbf15567c5205ab1a3a9a9761b",
+    "short_entry_model.joblib": "2fd3866d027e8cdaaa7fcb925d10e2797b9414d5bf4a8a1a8d960b8f12a8bc21",
+    "short_exit_model.joblib": "77d7f2fd9980ac18ab6befdd13a06c7bb3c2c99b7f4980d23f63b9473da94cfd",
+    "policy-config.json": "5104d8fadd138c32932e2c972f3713346d66458d37eddf5e4a8b16654fd340e0"
+  },
+  "external_csvs": {
+    "best-entry-targets.csv": "1613e1f92239905c0efd1eecd1f73c9c52acef09089e3dbf7f8457dc77327e0a",
+    "comparison.csv": "6085f5a795d77217f109a49b50a5a0d35e83b0f981b640bbf047bde8bba6dde7",
+    "entry-accuracy.csv": "e1cbf968e61af861bddeca74dbe61e7c19082df63684097da3e7d555360eeea6",
+    "entry-decisions.csv": "4edf0c6ea6414a9e01e0af95825003d5b0551a0852b87180ca939fe6280890e0",
+    "trades.csv": "9545ff647dc2a3b06cb8736558e250adc7b131984e8c691d6a83ddf5ee5ea259"
+  }
+}

@@ -1,0 +1,28 @@
+[
+  {
+    "side": "long",
+    "both_entered_qualifying": 85,
+    "current_price_error_pct": 1.0264642200022835,
+    "new_price_error_pct": 0.9405551609081374,
+    "symbol_day_groups": 296,
+    "paired_mean_cost_difference_new_minus_current": 0.011330939095537791,
+    "symbol_day_bootstrap_95pct_interval": [
+      0.006873780405026107,
+      0.016047505686290993
+    ],
+    "interpretation": "Descriptive clustered uncertainty on reused test periods; not a pristine-holdout significance test."
+  },
+  {
+    "side": "short",
+    "both_entered_qualifying": 28,
+    "current_price_error_pct": 0.7534427701305932,
+    "new_price_error_pct": 1.2108664640205133,
+    "symbol_day_groups": 347,
+    "paired_mean_cost_difference_new_minus_current": -0.0006452705200274766,
+    "symbol_day_bootstrap_95pct_interval": [
+      -0.002201917364748068,
+      0.0005387360107385671
+    ],
+    "interpretation": "Descriptive clustered uncertainty on reused test periods; not a pristine-holdout significance test."
+  }
+]

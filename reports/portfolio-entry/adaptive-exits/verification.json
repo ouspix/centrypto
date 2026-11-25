@@ -1,0 +1,14 @@
+{
+  "ledger_positions": 7384,
+  "marked_open": 12,
+  "changed_candidate_brackets": {
+    "-1": 11704,
+    "1": 11597
+  },
+  "forward_hashes": 51,
+  "results": {
+    "results.json": "398bbb606234e8362badfaaccc9f0af6c166025b10bb4803fc8ed2edac520597",
+    "entry-results.json": "a4a68f0dde753a829cdfc79bbd248b40fef31bd7e7b16833779d7d820ac90f1d",
+    "news-results.json": "b3d313a04cfb49a4ba0d6295ef4e82960833831bbaefd5ce04ba6cada22cd758"
+  }
+}

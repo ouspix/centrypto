@@ -1,0 +1,1509 @@
+{
+  "folds": [
+    {
+      "start": "2026-11-03T00:00:00Z",
+      "end": "2026-11-07T00:00:00Z",
+      "results": [
+        {
+          "variant": "current",
+          "mode": "selected_policy",
+          "stats": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0,
+            "direction_conflicts_waited": 0
+          },
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            }
+          }
+        },
+        {
+          "variant": "current",
+          "mode": "frozen_current_policy",
+          "stats": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0,
+            "direction_conflicts_waited": 0
+          },
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            }
+          }
+        },
+        {
+          "variant": "current",
+          "mode": "fixed_percentile_90",
+          "stats": {
+            "trades": 41,
+            "priced": 41,
+            "censored": 0,
+            "gross_pnl_usd": -36.37623662347777,
+            "priced_subtotal_usd": -36.37623662347777,
+            "mean_return_pct": -0.8872252834994578,
+            "wins": 21,
+            "losses": 20,
+            "median_holding_minutes": 250.0,
+            "notional_hours": 20558.333333333332,
+            "direction_conflicts_waited": 0
+          },
+          "by_side": {
+            "long": {
+              "trades": 21,
+              "priced": 21,
+              "censored": 0,
+              "gross_pnl_usd": -23.95030871190279,
+              "priced_subtotal_usd": -23.95030871190279,
+              "mean_return_pct": -1.1404908910429898,
+              "wins": 10,
+              "losses": 11,
+              "median_holding_minutes": 425.0,
+              "notional_hours": 14900.0
+            },
+            "short": {
+              "trades": 20,
+              "priced": 20,
+              "censored": 0,
+              "gross_pnl_usd": -12.425927911574988,
+              "priced_subtotal_usd": -12.425927911574988,
+              "mean_return_pct": -0.6212963955787494,
+              "wins": 11,
+              "losses": 9,
+              "median_holding_minutes": 20.0,
+              "notional_hours": 5658.333333333333
+            }
+          }
+        },
+        {
+          "variant": "price_error",
+          "mode": "selected_policy",
+          "stats": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0,
+            "direction_conflicts_waited": 0
+          },
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            }
+          }
+        },
+        {
+          "variant": "price_error",
+          "mode": "frozen_current_policy",
+          "stats": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0,
+            "direction_conflicts_waited": 0
+          },
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            }
+          }
+        },
+        {
+          "variant": "price_error",
+          "mode": "fixed_percentile_90",
+          "stats": {
+            "trades": 61,
+            "priced": 61,
+            "censored": 0,
+            "gross_pnl_usd": 16.357555995674623,
+            "priced_subtotal_usd": 16.357555995674623,
+            "mean_return_pct": 0.2681566556667971,
+            "wins": 32,
+            "losses": 29,
+            "median_holding_minutes": 50.0,
+            "notional_hours": 16116.666666666666,
+            "direction_conflicts_waited": 0
+          },
+          "by_side": {
+            "long": {
+              "trades": 13,
+              "priced": 13,
+              "censored": 0,
+              "gross_pnl_usd": 9.534323195803818,
+              "priced_subtotal_usd": 9.534323195803818,
+              "mean_return_pct": 0.7334094766002937,
+              "wins": 6,
+              "losses": 7,
+              "median_holding_minutes": 20.0,
+              "notional_hours": 5550.0
+            },
+            "short": {
+              "trades": 48,
+              "priced": 48,
+              "censored": 0,
+              "gross_pnl_usd": 6.823232799870803,
+              "priced_subtotal_usd": 6.823232799870803,
+              "mean_return_pct": 0.14215068333064174,
+              "wins": 26,
+              "losses": 22,
+              "median_holding_minutes": 52.5,
+              "notional_hours": 10566.666666666668
+            }
+          }
+        }
+      ],
+      "entry_accuracy_pct90": [
+        {
+          "fold": "2026-11-03T00:00:00Z",
+          "variant": "current",
+          "side": "long",
+          "mode": "fixed_training_percentile_90",
+          "setups": 1220,
+          "qualifying_setups": 142,
+          "failed_setups": 1078,
+          "entered_qualifying": 2,
+          "entered_failed": 26,
+          "price_error_pct": 0.2714560777753209,
+          "mean_cost": 0.015851580152918328,
+          "symbol_day_mean_cost": 0.011521283886812738
+        },
+        {
+          "fold": "2026-11-03T00:00:00Z",
+          "variant": "current",
+          "side": "short",
+          "mode": "fixed_training_percentile_90",
+          "setups": 1230,
+          "qualifying_setups": 51,
+          "failed_setups": 1179,
+          "entered_qualifying": 8,
+          "entered_failed": 42,
+          "price_error_pct": 0.2632476160675785,
+          "mean_cost": 0.007607950183406061,
+          "symbol_day_mean_cost": 0.01852734112251974
+        },
+        {
+          "fold": "2026-11-03T00:00:00Z",
+          "variant": "price_error",
+          "side": "long",
+          "mode": "fixed_training_percentile_90",
+          "setups": 1220,
+          "qualifying_setups": 142,
+          "failed_setups": 1078,
+          "entered_qualifying": 0,
+          "entered_failed": 12,
+          "price_error_pct": null,
+          "mean_cost": 0.014882697885319816,
+          "symbol_day_mean_cost": 0.008677202111769783
+        },
+        {
+          "fold": "2026-11-03T00:00:00Z",
+          "variant": "price_error",
+          "side": "short",
+          "mode": "fixed_training_percentile_90",
+          "setups": 1230,
+          "qualifying_setups": 51,
+          "failed_setups": 1179,
+          "entered_qualifying": 15,
+          "entered_failed": 116,
+          "price_error_pct": 0.4503689093730066,
+          "mean_cost": 0.0130229360283923,
+          "symbol_day_mean_cost": 0.019248417238027636
+        }
+      ]
+    },
+    {
+      "start": "2026-11-07T00:00:00Z",
+      "end": "2026-11-11T00:00:00Z",
+      "results": [
+        {
+          "variant": "current",
+          "mode": "selected_policy",
+          "stats": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0,
+            "direction_conflicts_waited": 0
+          },
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            }
+          }
+        },
+        {
+          "variant": "current",
+          "mode": "frozen_current_policy",
+          "stats": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0,
+            "direction_conflicts_waited": 0
+          },
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            }
+          }
+        },
+        {
+          "variant": "current",
+          "mode": "fixed_percentile_90",
+          "stats": {
+            "trades": 40,
+            "priced": 40,
+            "censored": 0,
+            "gross_pnl_usd": 20.150659779376557,
+            "priced_subtotal_usd": 20.150659779376557,
+            "mean_return_pct": 0.5037664944844139,
+            "wins": 25,
+            "losses": 14,
+            "median_holding_minutes": 157.5,
+            "notional_hours": 18016.666666666668,
+            "direction_conflicts_waited": 0
+          },
+          "by_side": {
+            "long": {
+              "trades": 34,
+              "priced": 34,
+              "censored": 0,
+              "gross_pnl_usd": 8.792196134380237,
+              "priced_subtotal_usd": 8.792196134380237,
+              "mean_return_pct": 0.25859400395235993,
+              "wins": 20,
+              "losses": 13,
+              "median_holding_minutes": 170.0,
+              "notional_hours": 16600.0
+            },
+            "short": {
+              "trades": 6,
+              "priced": 6,
+              "censored": 0,
+              "gross_pnl_usd": 11.358463644996318,
+              "priced_subtotal_usd": 11.358463644996318,
+              "mean_return_pct": 1.893077274166053,
+              "wins": 5,
+              "losses": 1,
+              "median_holding_minutes": 47.5,
+              "notional_hours": 1416.6666666666667
+            }
+          }
+        },
+        {
+          "variant": "price_error",
+          "mode": "selected_policy",
+          "stats": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0,
+            "direction_conflicts_waited": 0
+          },
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            }
+          }
+        },
+        {
+          "variant": "price_error",
+          "mode": "frozen_current_policy",
+          "stats": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0,
+            "direction_conflicts_waited": 0
+          },
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            }
+          }
+        },
+        {
+          "variant": "price_error",
+          "mode": "fixed_percentile_90",
+          "stats": {
+            "trades": 9,
+            "priced": 9,
+            "censored": 0,
+            "gross_pnl_usd": -1.3491413625815296,
+            "priced_subtotal_usd": -1.3491413625815296,
+            "mean_return_pct": -0.14990459584239219,
+            "wins": 3,
+            "losses": 6,
+            "median_holding_minutes": 120.0,
+            "notional_hours": 2583.3333333333335,
+            "direction_conflicts_waited": 0
+          },
+          "by_side": {
+            "long": {
+              "trades": 2,
+              "priced": 2,
+              "censored": 0,
+              "gross_pnl_usd": -1.9751746629742661,
+              "priced_subtotal_usd": -1.9751746629742661,
+              "mean_return_pct": -0.9875873314871331,
+              "wins": 0,
+              "losses": 2,
+              "median_holding_minutes": 450.0,
+              "notional_hours": 1500.0
+            },
+            "short": {
+              "trades": 7,
+              "priced": 7,
+              "censored": 0,
+              "gross_pnl_usd": 0.6260333003927365,
+              "priced_subtotal_usd": 0.6260333003927365,
+              "mean_return_pct": 0.0894333286275338,
+              "wins": 3,
+              "losses": 4,
+              "median_holding_minutes": 95.0,
+              "notional_hours": 1083.3333333333333
+            }
+          }
+        }
+      ],
+      "entry_accuracy_pct90": [
+        {
+          "fold": "2026-11-07T00:00:00Z",
+          "variant": "current",
+          "side": "long",
+          "mode": "fixed_training_percentile_90",
+          "setups": 536,
+          "qualifying_setups": 2,
+          "failed_setups": 534,
+          "entered_qualifying": 0,
+          "entered_failed": 138,
+          "price_error_pct": null,
+          "mean_cost": 0.02613008103369484,
+          "symbol_day_mean_cost": 0.032132660883706116
+        },
+        {
+          "fold": "2026-11-07T00:00:00Z",
+          "variant": "current",
+          "side": "short",
+          "mode": "fixed_training_percentile_90",
+          "setups": 542,
+          "qualifying_setups": 27,
+          "failed_setups": 515,
+          "entered_qualifying": 2,
+          "entered_failed": 20,
+          "price_error_pct": 0.6858218776753731,
+          "mean_cost": 0.01039459209291051,
+          "symbol_day_mean_cost": 0.010287645756325887
+        },
+        {
+          "fold": "2026-11-07T00:00:00Z",
+          "variant": "price_error",
+          "side": "long",
+          "mode": "fixed_training_percentile_90",
+          "setups": 536,
+          "qualifying_setups": 2,
+          "failed_setups": 534,
+          "entered_qualifying": 0,
+          "entered_failed": 3,
+          "price_error_pct": null,
+          "mean_cost": 0.0009435138695157396,
+          "symbol_day_mean_cost": 0.0023707139644288154
+        },
+        {
+          "fold": "2026-11-07T00:00:00Z",
+          "variant": "price_error",
+          "side": "short",
+          "mode": "fixed_training_percentile_90",
+          "setups": 542,
+          "qualifying_setups": 27,
+          "failed_setups": 515,
+          "entered_qualifying": 7,
+          "entered_failed": 9,
+          "price_error_pct": 0.3915042383027638,
+          "mean_cost": 0.0069872687891588585,
+          "symbol_day_mean_cost": 0.005710754916074832
+        }
+      ]
+    },
+    {
+      "start": "2026-11-11T00:00:00Z",
+      "end": "2026-11-14T08:30:00Z",
+      "results": [
+        {
+          "variant": "current",
+          "mode": "selected_policy",
+          "stats": {
+            "trades": 33,
+            "priced": 33,
+            "censored": 0,
+            "gross_pnl_usd": 23.114690678166493,
+            "priced_subtotal_usd": 23.114690678166493,
+            "mean_return_pct": 0.7004451720656513,
+            "wins": 19,
+            "losses": 14,
+            "median_holding_minutes": 80.0,
+            "notional_hours": 9175.0,
+            "direction_conflicts_waited": 1
+          },
+          "by_side": {
+            "long": {
+              "trades": 15,
+              "priced": 15,
+              "censored": 0,
+              "gross_pnl_usd": -21.710407921286663,
+              "priced_subtotal_usd": -21.710407921286663,
+              "mean_return_pct": -1.4473605280857775,
+              "wins": 7,
+              "losses": 8,
+              "median_holding_minutes": 40.0,
+              "notional_hours": 3533.3333333333335
+            },
+            "short": {
+              "trades": 18,
+              "priced": 18,
+              "censored": 0,
+              "gross_pnl_usd": 44.82509859945315,
+              "priced_subtotal_usd": 44.82509859945315,
+              "mean_return_pct": 2.490283255525175,
+              "wins": 12,
+              "losses": 6,
+              "median_holding_minutes": 122.5,
+              "notional_hours": 5641.666666666666
+            }
+          }
+        },
+        {
+          "variant": "current",
+          "mode": "frozen_current_policy",
+          "stats": {
+            "trades": 33,
+            "priced": 33,
+            "censored": 0,
+            "gross_pnl_usd": 23.114690678166493,
+            "priced_subtotal_usd": 23.114690678166493,
+            "mean_return_pct": 0.7004451720656513,
+            "wins": 19,
+            "losses": 14,
+            "median_holding_minutes": 80.0,
+            "notional_hours": 9175.0,
+            "direction_conflicts_waited": 1
+          },
+          "by_side": {
+            "long": {
+              "trades": 15,
+              "priced": 15,
+              "censored": 0,
+              "gross_pnl_usd": -21.710407921286663,
+              "priced_subtotal_usd": -21.710407921286663,
+              "mean_return_pct": -1.4473605280857775,
+              "wins": 7,
+              "losses": 8,
+              "median_holding_minutes": 40.0,
+              "notional_hours": 3533.3333333333335
+            },
+            "short": {
+              "trades": 18,
+              "priced": 18,
+              "censored": 0,
+              "gross_pnl_usd": 44.82509859945315,
+              "priced_subtotal_usd": 44.82509859945315,
+              "mean_return_pct": 2.490283255525175,
+              "wins": 12,
+              "losses": 6,
+              "median_holding_minutes": 122.5,
+              "notional_hours": 5641.666666666666
+            }
+          }
+        },
+        {
+          "variant": "current",
+          "mode": "fixed_percentile_90",
+          "stats": {
+            "trades": 51,
+            "priced": 51,
+            "censored": 0,
+            "gross_pnl_usd": 15.170604405780312,
+            "priced_subtotal_usd": 15.170604405780312,
+            "mean_return_pct": 0.2974628314858885,
+            "wins": 28,
+            "losses": 23,
+            "median_holding_minutes": 80.0,
+            "notional_hours": 12766.666666666666,
+            "direction_conflicts_waited": 2
+          },
+          "by_side": {
+            "long": {
+              "trades": 32,
+              "priced": 32,
+              "censored": 0,
+              "gross_pnl_usd": -19.11197016251058,
+              "priced_subtotal_usd": -19.11197016251058,
+              "mean_return_pct": -0.5972490675784556,
+              "wins": 16,
+              "losses": 16,
+              "median_holding_minutes": 65.0,
+              "notional_hours": 7316.666666666667
+            },
+            "short": {
+              "trades": 19,
+              "priced": 19,
+              "censored": 0,
+              "gross_pnl_usd": 34.28257456829089,
+              "priced_subtotal_usd": 34.28257456829089,
+              "mean_return_pct": 1.804346029910047,
+              "wins": 12,
+              "losses": 7,
+              "median_holding_minutes": 105.0,
+              "notional_hours": 5450.0
+            }
+          }
+        },
+        {
+          "variant": "price_error",
+          "mode": "selected_policy",
+          "stats": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0,
+            "direction_conflicts_waited": 0
+          },
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            },
+            "short": {
+              "trades": 0,
+              "priced": 0,
+              "censored": 0,
+              "gross_pnl_usd": 0.0,
+              "priced_subtotal_usd": 0.0,
+              "mean_return_pct": null,
+              "wins": 0,
+              "losses": 0,
+              "median_holding_minutes": null,
+              "notional_hours": 0
+            }
+          }
+        },
+        {
+          "variant": "price_error",
+          "mode": "frozen_current_policy",
+          "stats": {
+            "trades": 36,
+            "priced": 36,
+            "censored": 0,
+            "gross_pnl_usd": 12.146221384988737,
+            "priced_subtotal_usd": 12.146221384988737,
+            "mean_return_pct": 0.3373950384719093,
+            "wins": 17,
+            "losses": 19,
+            "median_holding_minutes": 77.5,
+            "notional_hours": 9191.666666666666,
+            "direction_conflicts_waited": 12
+          },
+          "by_side": {
+            "long": {
+              "trades": 10,
+              "priced": 10,
+              "censored": 0,
+              "gross_pnl_usd": -4.043491837542513,
+              "priced_subtotal_usd": -4.043491837542513,
+              "mean_return_pct": -0.40434918375425133,
+              "wins": 4,
+              "losses": 6,
+              "median_holding_minutes": 70.0,
+              "notional_hours": 1125.0
+            },
+            "short": {
+              "trades": 26,
+              "priced": 26,
+              "censored": 0,
+              "gross_pnl_usd": 16.189713222531253,
+              "priced_subtotal_usd": 16.189713222531253,
+              "mean_return_pct": 0.6226812777896635,
+              "wins": 13,
+              "losses": 13,
+              "median_holding_minutes": 90.0,
+              "notional_hours": 8066.666666666666
+            }
+          }
+        },
+        {
+          "variant": "price_error",
+          "mode": "fixed_percentile_90",
+          "stats": {
+            "trades": 40,
+            "priced": 40,
+            "censored": 0,
+            "gross_pnl_usd": 9.024385067262608,
+            "priced_subtotal_usd": 9.024385067262608,
+            "mean_return_pct": 0.2256096266815652,
+            "wins": 19,
+            "losses": 21,
+            "median_holding_minutes": 70.0,
+            "notional_hours": 9208.333333333334,
+            "direction_conflicts_waited": 13
+          },
+          "by_side": {
+            "long": {
+              "trades": 15,
+              "priced": 15,
+              "censored": 0,
+              "gross_pnl_usd": -9.291569079850074,
+              "priced_subtotal_usd": -9.291569079850074,
+              "mean_return_pct": -0.6194379386566716,
+              "wins": 6,
+              "losses": 9,
+              "median_holding_minutes": 65.0,
+              "notional_hours": 1433.3333333333333
+            },
+            "short": {
+              "trades": 25,
+              "priced": 25,
+              "censored": 0,
+              "gross_pnl_usd": 18.315954147112677,
+              "priced_subtotal_usd": 18.315954147112677,
+              "mean_return_pct": 0.7326381658845071,
+              "wins": 13,
+              "losses": 12,
+              "median_holding_minutes": 80.0,
+              "notional_hours": 7775.0
+            }
+          }
+        }
+      ],
+      "entry_accuracy_pct90": [
+        {
+          "fold": "2026-11-11T00:00:00Z",
+          "variant": "current",
+          "side": "long",
+          "mode": "fixed_training_percentile_90",
+          "setups": 528,
+          "qualifying_setups": 11,
+          "failed_setups": 517,
+          "entered_qualifying": 5,
+          "entered_failed": 64,
+          "price_error_pct": 5.310330388689184,
+          "mean_cost": 0.01571287240224357,
+          "symbol_day_mean_cost": 0.0181134375094646
+        },
+        {
+          "fold": "2026-11-11T00:00:00Z",
+          "variant": "current",
+          "side": "short",
+          "mode": "fixed_training_percentile_90",
+          "setups": 556,
+          "qualifying_setups": 72,
+          "failed_setups": 484,
+          "entered_qualifying": 35,
+          "entered_failed": 38,
+          "price_error_pct": 0.6734191290862757,
+          "mean_cost": 0.023389110894915115,
+          "symbol_day_mean_cost": 0.018302490345511832
+        },
+        {
+          "fold": "2026-11-11T00:00:00Z",
+          "variant": "price_error",
+          "side": "long",
+          "mode": "fixed_training_percentile_90",
+          "setups": 528,
+          "qualifying_setups": 11,
+          "failed_setups": 517,
+          "entered_qualifying": 11,
+          "entered_failed": 17,
+          "price_error_pct": 1.5458657011655903,
+          "mean_cost": 0.0035417523241064674,
+          "symbol_day_mean_cost": 0.0035013466744320356
+        },
+        {
+          "fold": "2026-11-11T00:00:00Z",
+          "variant": "price_error",
+          "side": "short",
+          "mode": "fixed_training_percentile_90",
+          "setups": 556,
+          "qualifying_setups": 72,
+          "failed_setups": 484,
+          "entered_qualifying": 36,
+          "entered_failed": 36,
+          "price_error_pct": 1.300849707412172,
+          "mean_cost": 0.016484332833867063,
+          "symbol_day_mean_cost": 0.010658198287661637
+        }
+      ]
+    }
+  ],
+  "overall": [
+    {
+      "variant": "current",
+      "mode": "selected_policy",
+      "stats": {
+        "trades": 33,
+        "priced": 33,
+        "censored": 0,
+        "gross_pnl_usd": 23.114690678166493,
+        "priced_subtotal_usd": 23.114690678166493,
+        "mean_return_pct": 0.7004451720656513,
+        "wins": 19,
+        "losses": 14,
+        "median_holding_minutes": 80.0,
+        "notional_hours": 9175.0
+      },
+      "by_side": {
+        "long": {
+          "trades": 15,
+          "priced": 15,
+          "censored": 0,
+          "gross_pnl_usd": -21.710407921286663,
+          "priced_subtotal_usd": -21.710407921286663,
+          "mean_return_pct": -1.4473605280857775,
+          "wins": 7,
+          "losses": 8,
+          "median_holding_minutes": 40.0,
+          "notional_hours": 3533.3333333333335
+        },
+        "short": {
+          "trades": 18,
+          "priced": 18,
+          "censored": 0,
+          "gross_pnl_usd": 44.82509859945315,
+          "priced_subtotal_usd": 44.82509859945315,
+          "mean_return_pct": 2.490283255525175,
+          "wins": 12,
+          "losses": 6,
+          "median_holding_minutes": 122.5,
+          "notional_hours": 5641.666666666666
+        }
+      }
+    },
+    {
+      "variant": "current",
+      "mode": "frozen_current_policy",
+      "stats": {
+        "trades": 33,
+        "priced": 33,
+        "censored": 0,
+        "gross_pnl_usd": 23.114690678166493,
+        "priced_subtotal_usd": 23.114690678166493,
+        "mean_return_pct": 0.7004451720656513,
+        "wins": 19,
+        "losses": 14,
+        "median_holding_minutes": 80.0,
+        "notional_hours": 9175.0
+      },
+      "by_side": {
+        "long": {
+          "trades": 15,
+          "priced": 15,
+          "censored": 0,
+          "gross_pnl_usd": -21.710407921286663,
+          "priced_subtotal_usd": -21.710407921286663,
+          "mean_return_pct": -1.4473605280857775,
+          "wins": 7,
+          "losses": 8,
+          "median_holding_minutes": 40.0,
+          "notional_hours": 3533.3333333333335
+        },
+        "short": {
+          "trades": 18,
+          "priced": 18,
+          "censored": 0,
+          "gross_pnl_usd": 44.82509859945315,
+          "priced_subtotal_usd": 44.82509859945315,
+          "mean_return_pct": 2.490283255525175,
+          "wins": 12,
+          "losses": 6,
+          "median_holding_minutes": 122.5,
+          "notional_hours": 5641.666666666666
+        }
+      }
+    },
+    {
+      "variant": "current",
+      "mode": "fixed_percentile_90",
+      "stats": {
+        "trades": 132,
+        "priced": 132,
+        "censored": 0,
+        "gross_pnl_usd": -1.0549724383209114,
+        "priced_subtotal_usd": -1.0549724383209114,
+        "mean_return_pct": -0.007992215441825086,
+        "wins": 74,
+        "losses": 57,
+        "median_holding_minutes": 117.5,
+        "notional_hours": 51341.666666666664
+      },
+      "by_side": {
+        "long": {
+          "trades": 87,
+          "priced": 87,
+          "censored": 0,
+          "gross_pnl_usd": -34.27008274003313,
+          "priced_subtotal_usd": -34.27008274003313,
+          "mean_return_pct": -0.3939089970118751,
+          "wins": 46,
+          "losses": 40,
+          "median_holding_minutes": 145.0,
+          "notional_hours": 38816.666666666664
+        },
+        "short": {
+          "trades": 45,
+          "priced": 45,
+          "censored": 0,
+          "gross_pnl_usd": 33.21511030171222,
+          "priced_subtotal_usd": 33.21511030171222,
+          "mean_return_pct": 0.7381135622602716,
+          "wins": 28,
+          "losses": 17,
+          "median_holding_minutes": 50.0,
+          "notional_hours": 12525.0
+        }
+      }
+    },
+    {
+      "variant": "price_error",
+      "mode": "selected_policy",
+      "stats": {
+        "trades": 0,
+        "priced": 0,
+        "censored": 0,
+        "gross_pnl_usd": 0.0,
+        "priced_subtotal_usd": 0.0,
+        "mean_return_pct": null,
+        "wins": 0,
+        "losses": 0,
+        "median_holding_minutes": null,
+        "notional_hours": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "short": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        }
+      }
+    },
+    {
+      "variant": "price_error",
+      "mode": "frozen_current_policy",
+      "stats": {
+        "trades": 36,
+        "priced": 36,
+        "censored": 0,
+        "gross_pnl_usd": 12.146221384988737,
+        "priced_subtotal_usd": 12.146221384988737,
+        "mean_return_pct": 0.3373950384719093,
+        "wins": 17,
+        "losses": 19,
+        "median_holding_minutes": 77.5,
+        "notional_hours": 9191.666666666666
+      },
+      "by_side": {
+        "long": {
+          "trades": 10,
+          "priced": 10,
+          "censored": 0,
+          "gross_pnl_usd": -4.043491837542513,
+          "priced_subtotal_usd": -4.043491837542513,
+          "mean_return_pct": -0.40434918375425133,
+          "wins": 4,
+          "losses": 6,
+          "median_holding_minutes": 70.0,
+          "notional_hours": 1125.0
+        },
+        "short": {
+          "trades": 26,
+          "priced": 26,
+          "censored": 0,
+          "gross_pnl_usd": 16.189713222531253,
+          "priced_subtotal_usd": 16.189713222531253,
+          "mean_return_pct": 0.6226812777896635,
+          "wins": 13,
+          "losses": 13,
+          "median_holding_minutes": 90.0,
+          "notional_hours": 8066.666666666666
+        }
+      }
+    },
+    {
+      "variant": "price_error",
+      "mode": "fixed_percentile_90",
+      "stats": {
+        "trades": 110,
+        "priced": 110,
+        "censored": 0,
+        "gross_pnl_usd": 24.032799700355703,
+        "priced_subtotal_usd": 24.032799700355703,
+        "mean_return_pct": 0.21847999727596093,
+        "wins": 54,
+        "losses": 56,
+        "median_holding_minutes": 70.0,
+        "notional_hours": 27908.333333333332
+      },
+      "by_side": {
+        "long": {
+          "trades": 30,
+          "priced": 30,
+          "censored": 0,
+          "gross_pnl_usd": -1.7324205470205207,
+          "priced_subtotal_usd": -1.7324205470205207,
+          "mean_return_pct": -0.05774735156735069,
+          "wins": 12,
+          "losses": 18,
+          "median_holding_minutes": 67.5,
+          "notional_hours": 8483.333333333334
+        },
+        "short": {
+          "trades": 80,
+          "priced": 80,
+          "censored": 0,
+          "gross_pnl_usd": 25.76522024737622,
+          "priced_subtotal_usd": 25.76522024737622,
+          "mean_return_pct": 0.32206525309220274,
+          "wins": 42,
+          "losses": 38,
+          "median_holding_minutes": 70.0,
+          "notional_hours": 19425.0
+        }
+      }
+    }
+  ],
+  "verified": "Fresh predictions from frozen weights and exit models reproduce archived trade rows exactly.",
+  "costs": {
+    "fee_bps": 0,
+    "funding": 0,
+    "slippage_bps": 0,
+    "fixed_trade_notional_usd": 100
+  },
+  "forward": {
+    "start": "2026-11-14T08:30:00Z",
+    "end": "2026-11-15T22:25:00Z",
+    "outcome_data_end": "2026-11-16T23:00:00Z",
+    "checkpoint": "2026-11-11",
+    "symbols_in_source": 179,
+    "eligible_candidate_rows": 3679,
+    "coverage": {
+      "tail_possible_minute_marks": 671250,
+      "tail_valid_minute_marks": 590329,
+      "eligible_entry_states": 5914,
+      "crossvenue_basis_at_eligible_states": 5101,
+      "derivatives_at_eligible_states": 5914
+    },
+    "feature_parity": {
+      "archived_feature_rows": 843090
+    },
+    "results": [
+      {
+        "variant": "current",
+        "mode": "selected_policy",
+        "stats": {
+          "trades": 6,
+          "priced": 6,
+          "censored": 0,
+          "gross_pnl_usd": 1.1882083548153566,
+          "priced_subtotal_usd": 1.1882083548153566,
+          "mean_return_pct": 0.19803472580255943,
+          "wins": 4,
+          "losses": 2,
+          "median_holding_minutes": 87.5,
+          "notional_hours": 2525.0,
+          "direction_conflicts_waited": 0
+        },
+        "by_side": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          "short": {
+            "trades": 6,
+            "priced": 6,
+            "censored": 0,
+            "gross_pnl_usd": 1.1882083548153566,
+            "priced_subtotal_usd": 1.1882083548153566,
+            "mean_return_pct": 0.19803472580255943,
+            "wins": 4,
+            "losses": 2,
+            "median_holding_minutes": 87.5,
+            "notional_hours": 2525.0
+          }
+        }
+      },
+      {
+        "variant": "current",
+        "mode": "frozen_current_policy",
+        "stats": {
+          "trades": 6,
+          "priced": 6,
+          "censored": 0,
+          "gross_pnl_usd": 1.1882083548153566,
+          "priced_subtotal_usd": 1.1882083548153566,
+          "mean_return_pct": 0.19803472580255943,
+          "wins": 4,
+          "losses": 2,
+          "median_holding_minutes": 87.5,
+          "notional_hours": 2525.0,
+          "direction_conflicts_waited": 0
+        },
+        "by_side": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          "short": {
+            "trades": 6,
+            "priced": 6,
+            "censored": 0,
+            "gross_pnl_usd": 1.1882083548153566,
+            "priced_subtotal_usd": 1.1882083548153566,
+            "mean_return_pct": 0.19803472580255943,
+            "wins": 4,
+            "losses": 2,
+            "median_holding_minutes": 87.5,
+            "notional_hours": 2525.0
+          }
+        }
+      },
+      {
+        "variant": "current",
+        "mode": "fixed_percentile_90",
+        "stats": {
+          "trades": 6,
+          "priced": 6,
+          "censored": 0,
+          "gross_pnl_usd": 1.1882083548153566,
+          "priced_subtotal_usd": 1.1882083548153566,
+          "mean_return_pct": 0.19803472580255943,
+          "wins": 4,
+          "losses": 2,
+          "median_holding_minutes": 87.5,
+          "notional_hours": 2525.0,
+          "direction_conflicts_waited": 0
+        },
+        "by_side": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          "short": {
+            "trades": 6,
+            "priced": 6,
+            "censored": 0,
+            "gross_pnl_usd": 1.1882083548153566,
+            "priced_subtotal_usd": 1.1882083548153566,
+            "mean_return_pct": 0.19803472580255943,
+            "wins": 4,
+            "losses": 2,
+            "median_holding_minutes": 87.5,
+            "notional_hours": 2525.0
+          }
+        }
+      },
+      {
+        "variant": "price_error",
+        "mode": "selected_policy",
+        "stats": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0,
+          "direction_conflicts_waited": 0
+        },
+        "by_side": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          "short": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          }
+        }
+      },
+      {
+        "variant": "price_error",
+        "mode": "frozen_current_policy",
+        "stats": {
+          "trades": 36,
+          "priced": 36,
+          "censored": 0,
+          "gross_pnl_usd": -15.321051341312973,
+          "priced_subtotal_usd": -15.321051341312973,
+          "mean_return_pct": -0.4255847594809159,
+          "wins": 13,
+          "losses": 23,
+          "median_holding_minutes": 65.0,
+          "notional_hours": 9100.0,
+          "direction_conflicts_waited": 0
+        },
+        "by_side": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          "short": {
+            "trades": 36,
+            "priced": 36,
+            "censored": 0,
+            "gross_pnl_usd": -15.321051341312973,
+            "priced_subtotal_usd": -15.321051341312973,
+            "mean_return_pct": -0.4255847594809159,
+            "wins": 13,
+            "losses": 23,
+            "median_holding_minutes": 65.0,
+            "notional_hours": 9100.0
+          }
+        }
+      },
+      {
+        "variant": "price_error",
+        "mode": "fixed_percentile_90",
+        "stats": {
+          "trades": 36,
+          "priced": 36,
+          "censored": 0,
+          "gross_pnl_usd": -15.321051341312973,
+          "priced_subtotal_usd": -15.321051341312973,
+          "mean_return_pct": -0.4255847594809159,
+          "wins": 13,
+          "losses": 23,
+          "median_holding_minutes": 65.0,
+          "notional_hours": 9100.0,
+          "direction_conflicts_waited": 0
+        },
+        "by_side": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          "short": {
+            "trades": 36,
+            "priced": 36,
+            "censored": 0,
+            "gross_pnl_usd": -15.321051341312973,
+            "priced_subtotal_usd": -15.321051341312973,
+            "mean_return_pct": -0.4255847594809159,
+            "wins": 13,
+            "losses": 23,
+            "median_holding_minutes": 65.0,
+            "notional_hours": 9100.0
+          }
+        }
+      }
+    ]
+  }
+}

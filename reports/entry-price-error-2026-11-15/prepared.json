@@ -1,0 +1,130 @@
+[
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "side": "long",
+    "part": "train",
+    "episodes": 1996,
+    "qualifying": 306,
+    "candidates": 11004
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "side": "long",
+    "part": "validation",
+    "episodes": 1680,
+    "qualifying": 146,
+    "candidates": 5075
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "side": "short",
+    "part": "train",
+    "episodes": 2050,
+    "qualifying": 201,
+    "candidates": 11305
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "side": "short",
+    "part": "validation",
+    "episodes": 1662,
+    "qualifying": 111,
+    "candidates": 4640
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "side": "long",
+    "part": "train",
+    "episodes": 7205,
+    "qualifying": 776,
+    "candidates": 30568
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "side": "long",
+    "part": "validation",
+    "episodes": 793,
+    "qualifying": 45,
+    "candidates": 4699
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "side": "short",
+    "part": "train",
+    "episodes": 7423,
+    "qualifying": 819,
+    "candidates": 30633
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "side": "short",
+    "part": "validation",
+    "episodes": 775,
+    "qualifying": 0,
+    "candidates": 4524
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "side": "long",
+    "part": "train",
+    "episodes": 8658,
+    "qualifying": 868,
+    "candidates": 38046
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "side": "long",
+    "part": "validation",
+    "episodes": 1384,
+    "qualifying": 162,
+    "candidates": 10374
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "side": "short",
+    "part": "train",
+    "episodes": 9027,
+    "qualifying": 1144,
+    "candidates": 38325
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "side": "short",
+    "part": "validation",
+    "episodes": 1413,
+    "qualifying": 84,
+    "candidates": 10327
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "side": "long",
+    "part": "train",
+    "episodes": 9683,
+    "qualifying": 923,
+    "candidates": 44649
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "side": "long",
+    "part": "validation",
+    "episodes": 477,
+    "qualifying": 8,
+    "candidates": 3034
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "side": "short",
+    "part": "train",
+    "episodes": 10112,
+    "qualifying": 1209,
+    "candidates": 45360
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "side": "short",
+    "part": "validation",
+    "episodes": 548,
+    "qualifying": 28,
+    "candidates": 3728
+  }
+]

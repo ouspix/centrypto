@@ -1,0 +1,8 @@
+{
+  "purpose": "Compare a shared deep neural entry model with the locked ridge on the same candidates and funded allocator.",
+  "network": "One shared multilayer perceptron, hidden widths 64, 32, 16, ReLU activation, three regression outputs. Adam with 0.001 learning rate, 20 fixed epochs, batch size 1024, one deterministic seed 92. Date/setup weighted loss on standardized targets. Weighted input scaling and clipping at eight standard deviations.",
+  "inputs": "Exact news ridge feature columns, including signed direction, direction interactions, market inputs and GDELT. Use the original SMA setups, observed feature and execution tape, exit paths and labels.",
+  "training": "Expanding February through August 2026 monthly fits and final fit on the same October 1, 2025 to August 20, 2026 decision rows as the ridge. Matured labels only. Use the same prior-month direction-wise calibration including the collapsed-slope rule. No architecture or hyperparameter selection against the historical test.",
+  "portfolio": "Use the previously trained occupied-book risk coefficients, each recorded earlier-period version for development and the final coefficients for the historical replay. Choose cash, $50 or $100 on the same four development blocks and worst execution scenario objective. Fixed $100 matched comparisons isolate the forecast and the portfolio risk charge.",
+  "evaluation": "Same August 22 to November 21 at 21:20 UTC historical entry window and November 22 at 21:25 UTC valuation, $1,000 starting equity, strict 15 bps hurdle, fees, stress and path-dependent execution. Compare day and episode weighted prediction errors, gate admissions, net P&L and full marked maximum drawdown. Prior work has inspected this historical period."
+}

@@ -1,0 +1,22 @@
+{
+  "status": "reconstructed_and_verified",
+  "original_preserved": true,
+  "source": "/mnt/c/Users/melli/.codex/research/centrypto/feature-ablation-2026-11-14/runs/add_derivatives__20261115__2026-06-01.json",
+  "original_sha256": "189f4edf6967da5408e8a936999627235637c8570308e2888674779b3d7be476",
+  "leading_zero_bytes": 65536,
+  "reconstructed": "/mnt/c/Users/melli/.codex/research/centrypto/data-label-audit-2026-11-15/recovered-runs/add_derivatives__20261115__2026-06-01.json",
+  "checks": "Reused saved model weights, frozen data and original validation selection; combined four-fold trade counts, wins/losses, censoring and PnL match the retained original aggregate.",
+  "fold_test": {
+    "trades": 1259,
+    "priced": 1259,
+    "censored": 0,
+    "gross_pnl_usd": -98.07923134683014,
+    "priced_subtotal_usd": -98.07923134683014,
+    "mean_return_pct": -0.07790248716984126,
+    "wins": 509,
+    "losses": 747,
+    "median_holding_minutes": 55.0,
+    "notional_hours": 233116.66666666666,
+    "direction_conflicts_waited": 3
+  }
+}

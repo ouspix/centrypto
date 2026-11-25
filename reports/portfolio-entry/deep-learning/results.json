@@ -1,0 +1,334 @@
+{
+  "fit": "56a9ab135818875d5a591cf89cd244459cb1d00fd245e7fbb7a1d527d9ed960f",
+  "window": [
+    "2026-08-22T00:00:00+00:00",
+    "2026-11-21T21:20:00+00:00"
+  ],
+  "valuation": "2026-11-22T21:25:00+00:00",
+  "eligible": 89732,
+  "by_side": {
+    "neural": {
+      "long": {
+        "eligible": 15927,
+        "passed": 0,
+        "max_bps": null,
+        "mean_realized_passed_bps": null
+      },
+      "short": {
+        "eligible": 73805,
+        "passed": 0,
+        "max_bps": null,
+        "mean_realized_passed_bps": null
+      }
+    },
+    "ridge": {
+      "long": {
+        "eligible": 15927,
+        "passed": 0,
+        "max_bps": null,
+        "mean_realized_passed_bps": null
+      },
+      "short": {
+        "eligible": 73805,
+        "passed": 0,
+        "max_bps": -18.149013775191516,
+        "mean_realized_passed_bps": null
+      }
+    }
+  },
+  "raw_quality": {
+    "neural": {
+      "rows": 89724,
+      "weighted_mae": {
+        "net_bps": 241.0316425989253,
+        "adverse_bps": 107.86691078609975,
+        "holding_hours": 2.614381106610172
+      },
+      "weighted_rmse": {
+        "net_bps": 345.2961301096856,
+        "adverse_bps": 150.70884945309905,
+        "holding_hours": 3.2779524318415403
+      }
+    },
+    "ridge": {
+      "rows": 89724,
+      "weighted_mae": {
+        "net_bps": 227.1042021619843,
+        "adverse_bps": 107.55119606219633,
+        "holding_hours": 2.588484438497148
+      },
+      "weighted_rmse": {
+        "net_bps": 325.56379495475363,
+        "adverse_bps": 147.96247357631705,
+        "holding_hours": 3.21615493841967
+      }
+    }
+  },
+  "modes": {
+    "base": {
+      "neural_managed": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "neural_100_managed": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "neural_100_entry_only": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "ridge_100_managed": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "ridge_100_entry_only": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "cash": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      }
+    },
+    "stress": {
+      "neural_managed": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "neural_100_managed": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "neural_100_entry_only": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "ridge_100_managed": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "ridge_100_entry_only": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "cash": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      }
+    }
+  },
+  "priced_ledgers_reconciled": 0,
+  "flips_without_aug19": 0,
+  "prior_selected_ridge": {
+    "base": {
+      "gate_passed": 0,
+      "trades": 0,
+      "allocation": {},
+      "long": 0,
+      "short": 0,
+      "complete": true,
+      "net": 0.0,
+      "max_drawdown": 0.0,
+      "ending_equity": 1000.0,
+      "long_net": 0,
+      "short_net": 0,
+      "fees": 0,
+      "funding": 0,
+      "mean_gross": 0.0,
+      "peak_gross": 0.0,
+      "max_gross_to_equity": 0.0
+    },
+    "stress": {
+      "gate_passed": 0,
+      "trades": 0,
+      "allocation": {},
+      "long": 0,
+      "short": 0,
+      "complete": true,
+      "net": 0.0,
+      "max_drawdown": 0.0,
+      "ending_equity": 1000.0,
+      "long_net": 0,
+      "short_net": 0,
+      "fees": 0,
+      "funding": 0,
+      "mean_gross": 0.0,
+      "peak_gross": 0.0,
+      "max_gross_to_equity": 0.0
+    }
+  },
+  "files": {
+    "trade-ledgers.jsonl.gz": "b87a2eb3a54bb49e1ac020ed3c9e7b1b67aeb15a15ef0005d80c892548a57afc",
+    "daily-equity.csv": "de8e29a0537aed7e69fc2ca74412da0ee769e5dcd325c706f1ce08e231fbbbd8",
+    "predictions.csv.gz": "57611a7c0a3a716546bedc1ae5123df6c6057493c453d7c7677ce1aa25e589a9"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "source": "Saved directional mainnet book",
+  "version": 17,
+  "mandate": {
+    "capitalUsd": 1245,
+    "maxOrderUsd": 250,
+    "maxInstrumentUsd": 250,
+    "maxGrossLeverage": 1,
+    "maxDailyLossUsd": 24.9,
+    "maxRiskPerTradeUsd": 6.225,
+    "maxSlippageBps": 30,
+    "minDepthUsd": 2500,
+    "maxOpenRiskUsd": 50,
+    "maxConcurrentPositions": 10,
+    "costAllowanceBps": 50
+  },
+  "candleExecution": {
+    "closedBarParticipation": 0.01,
+    "minimumNotionalUsd": 10,
+    "minimumDepth": "Live order book only. Use the desk's candle-research turnover cap in OHLCV replay."
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "networks": 24,
+  "logical_entry_models": 2,
+  "folds": 4,
+  "seeds": [
+    20261114,
+    20261115,
+    20261116
+  ]
+}

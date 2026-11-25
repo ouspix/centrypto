@@ -1,0 +1,146 @@
+[
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "side": "long",
+    "population": "train",
+    "rows": 11097,
+    "positive_rows": 1768,
+    "positive_distinct_symbol_times": 634,
+    "positive_symbols": 11
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "side": "long",
+    "population": "validation",
+    "rows": 5144,
+    "positive_rows": 373,
+    "positive_distinct_symbol_times": 145,
+    "positive_symbols": 16
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "side": "short",
+    "population": "train",
+    "rows": 11386,
+    "positive_rows": 685,
+    "positive_distinct_symbol_times": 267,
+    "positive_symbols": 21
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "side": "short",
+    "population": "validation",
+    "rows": 4734,
+    "positive_rows": 211,
+    "positive_distinct_symbol_times": 79,
+    "positive_symbols": 18
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "side": "long",
+    "population": "train",
+    "rows": 30769,
+    "positive_rows": 3071,
+    "positive_distinct_symbol_times": 1156,
+    "positive_symbols": 39
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "side": "long",
+    "population": "validation",
+    "rows": 4728,
+    "positive_rows": 96,
+    "positive_distinct_symbol_times": 41,
+    "positive_symbols": 4
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "side": "short",
+    "population": "train",
+    "rows": 30886,
+    "positive_rows": 2307,
+    "positive_distinct_symbol_times": 865,
+    "positive_symbols": 58
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "side": "short",
+    "population": "validation",
+    "rows": 4560,
+    "positive_rows": 0,
+    "positive_distinct_symbol_times": 0,
+    "positive_symbols": 0
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "side": "long",
+    "population": "train",
+    "rows": 38321,
+    "positive_rows": 3321,
+    "positive_distinct_symbol_times": 1260,
+    "positive_symbols": 45
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "side": "long",
+    "population": "validation",
+    "rows": 10376,
+    "positive_rows": 812,
+    "positive_distinct_symbol_times": 277,
+    "positive_symbols": 5
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "side": "short",
+    "population": "train",
+    "rows": 38695,
+    "positive_rows": 3325,
+    "positive_distinct_symbol_times": 1268,
+    "positive_symbols": 81
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "side": "short",
+    "population": "validation",
+    "rows": 10328,
+    "positive_rows": 376,
+    "positive_distinct_symbol_times": 161,
+    "positive_symbols": 4
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "side": "long",
+    "population": "train",
+    "rows": 44926,
+    "positive_rows": 3464,
+    "positive_distinct_symbol_times": 1319,
+    "positive_symbols": 47
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "side": "long",
+    "population": "validation",
+    "rows": 3121,
+    "positive_rows": 8,
+    "positive_distinct_symbol_times": 2,
+    "positive_symbols": 1
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "side": "short",
+    "population": "train",
+    "rows": 45730,
+    "positive_rows": 3621,
+    "positive_distinct_symbol_times": 1391,
+    "positive_symbols": 81
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "side": "short",
+    "population": "validation",
+    "rows": 3796,
+    "positive_rows": 32,
+    "positive_distinct_symbol_times": 12,
+    "positive_symbols": 9
+  }
+]

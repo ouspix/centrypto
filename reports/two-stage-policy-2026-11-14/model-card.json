@@ -1,0 +1,39 @@
+{
+  "separate_models": 2,
+  "entry": {
+    "raw_market_features": 137,
+    "raw_news_features": 56,
+    "retained_news_features": 56,
+    "training_states": 87470,
+    "positive_entry_targets": 400,
+    "news_available_training_states": 21886,
+    "news_available_positive_targets": 71,
+    "selected_updates": 200,
+    "completed_updates": 4000,
+    "parameters": 26689
+  },
+  "exit": {
+    "raw_market_features": 137,
+    "trade_state_features": 8,
+    "news_features": 0,
+    "training_entries": 400,
+    "training_rows": 9758,
+    "selected_updates": 1500,
+    "completed_updates": 4000,
+    "parameters": 19905
+  },
+  "policy": {
+    "cash": true,
+    "entry_threshold": null,
+    "validation_profit_usd": 0.0,
+    "trades": 0,
+    "exit_threshold": 0.25,
+    "bar_minutes": 5,
+    "holding_limit_minutes": 1440,
+    "fees": 0,
+    "entry_news": true,
+    "exit_news": false,
+    "research_only": true
+  },
+  "new_model_not_prospectively_tested": true
+}

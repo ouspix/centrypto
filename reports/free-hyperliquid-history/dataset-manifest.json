@@ -1,0 +1,2915 @@
+{
+  "native_minutes": [
+    {
+      "date": "2025-03-22",
+      "filename": "2025-03-22.parquet",
+      "sha256": "c15352f6fa20a84ec6ba28068ba199ab922e88f1d84f26c27ef31e851435390e"
+    },
+    {
+      "date": "2025-03-23",
+      "filename": "2025-03-23.parquet",
+      "sha256": "d269806d2b3878cd538b9c37436571dcc2e6e20796ffe6b35431738682e7c8b5"
+    },
+    {
+      "date": "2025-03-24",
+      "filename": "2025-03-24.parquet",
+      "sha256": "4c02e9afb456c84b9a895fa1591f94b314aa2a576147150110a5cafda61b1c28"
+    },
+    {
+      "date": "2025-03-25",
+      "filename": "2025-03-25.parquet",
+      "sha256": "e92554a585834a4e04b58282b44377c6ca391cdcff228d72ce909d951403da87"
+    },
+    {
+      "date": "2025-03-26",
+      "filename": "2025-03-26.parquet",
+      "sha256": "398c38c80bfa21d43ab83ddea1eaf40c745ab76ea64ca16171e6a9cd9d4df625"
+    },
+    {
+      "date": "2025-03-27",
+      "filename": "2025-03-27.parquet",
+      "sha256": "138b54612da67687c4624e24eaaca5ca565abeb0390e529e7b1387eefdd3d05c"
+    },
+    {
+      "date": "2025-03-28",
+      "filename": "2025-03-28.parquet",
+      "sha256": "8a8b790c4debcb06ef4bc9f38797bb05f279ad29992db07d3df45da85e1b0806"
+    },
+    {
+      "date": "2025-03-29",
+      "filename": "2025-03-29.parquet",
+      "sha256": "194662ff1b072a24ec98a11af2de084d59d83f12d2fcc2043587eb6481e636c1"
+    },
+    {
+      "date": "2025-03-30",
+      "filename": "2025-03-30.parquet",
+      "sha256": "491cae57ceb4d6f19c44f982a233c8fe3a9eecfe58414f8b07888ac3eaf5d789"
+    },
+    {
+      "date": "2025-03-31",
+      "filename": "2025-03-31.parquet",
+      "sha256": "f65f326a5e4f66ff55dd85ab7d62422dd8fa746b119737ea28ca73c22a4e79e2"
+    },
+    {
+      "date": "2025-04-01",
+      "filename": "2025-04-01.parquet",
+      "sha256": "cfc3563f39a027ead9b18d6842cbc4315d9e7c15a3dc3342768832a0809ecee1"
+    },
+    {
+      "date": "2025-04-02",
+      "filename": "2025-04-02.parquet",
+      "sha256": "c7172544b52d977cbbdf2d9a254e6643e8f5a503c035179e7b27b5af5164f445"
+    },
+    {
+      "date": "2025-04-03",
+      "filename": "2025-04-03.parquet",
+      "sha256": "e318994eee464cb5efa6a6f329d5cc853fff1cdb4c33d744485d6f48c76aae71"
+    },
+    {
+      "date": "2025-04-04",
+      "filename": "2025-04-04.parquet",
+      "sha256": "e569175c4c6ab46d5621ee9e61d59acccb6a25b3b43e577dbcc3764420bdcc83"
+    },
+    {
+      "date": "2025-04-05",
+      "filename": "2025-04-05.parquet",
+      "sha256": "43bb638fea4352c49d4f921192f21958e5c169ba645cbf2350b8785d9a41878f"
+    },
+    {
+      "date": "2025-04-06",
+      "filename": "2025-04-06.parquet",
+      "sha256": "a62ea8a5b8d4da5db169886133fd5ac0e5cb83de8940a8f68cdb9db3fadd5dc4"
+    },
+    {
+      "date": "2025-04-07",
+      "filename": "2025-04-07.parquet",
+      "sha256": "47e20f606f949f8665c8b9c0312d31c5f894e86a923a9d4c59853cd1f0fe077e"
+    },
+    {
+      "date": "2025-04-08",
+      "filename": "2025-04-08.parquet",
+      "sha256": "329b9d5ac33529ff7a133d53c88323c5cf51ca9e7a1079742547962ab8d8e9d3"
+    },
+    {
+      "date": "2025-04-09",
+      "filename": "2025-04-09.parquet",
+      "sha256": "ab17cef7a7a2e78d39e9a1a992bf111c8fe5c622c8f18e9dfb2b0a8ebb767409"
+    },
+    {
+      "date": "2025-04-10",
+      "filename": "2025-04-10.parquet",
+      "sha256": "dfe76a73441f202d5f9ddb1dcd18b67d9eb8276c0b7099525d802ac46ebc01fe"
+    },
+    {
+      "date": "2025-04-11",
+      "filename": "2025-04-11.parquet",
+      "sha256": "22e4f2eacd61d1a90f3f8e8a1789713b9236b25c01d745304177f64acd53be94"
+    },
+    {
+      "date": "2025-04-12",
+      "filename": "2025-04-12.parquet",
+      "sha256": "6af792db441ba2d1ea25453015dae20209b5b5423b7602349ac791d59ce2df6a"
+    },
+    {
+      "date": "2025-04-13",
+      "filename": "2025-04-13.parquet",
+      "sha256": "6e1d62ac6af31805a04cab3162dfacbe47329a1fef573259ab6757e858b7886f"
+    },
+    {
+      "date": "2025-04-14",
+      "filename": "2025-04-14.parquet",
+      "sha256": "89366684ceb6b2fccba5b48490cdbdab74b774a4d743432202c0838fcefd1c7d"
+    },
+    {
+      "date": "2025-04-15",
+      "filename": "2025-04-15.parquet",
+      "sha256": "7d561fe7d72aaf2a2b4a24069c1c8aaea43ea51fba766656215251efc5b2ec17"
+    },
+    {
+      "date": "2025-04-16",
+      "filename": "2025-04-16.parquet",
+      "sha256": "90a4be413741e29298ae5b76b14cede64d9b3565b78e8fae8105e92fa4c3ab17"
+    },
+    {
+      "date": "2025-04-17",
+      "filename": "2025-04-17.parquet",
+      "sha256": "da73067976a2adcf13878fb1cb3500d5d7a9e003f2817a399e044102e4ee6021"
+    },
+    {
+      "date": "2025-04-18",
+      "filename": "2025-04-18.parquet",
+      "sha256": "5454bb081a9273d5652820b17759ff6d22ee7fa64f63e848d706ab2be2bf2b83"
+    },
+    {
+      "date": "2025-04-19",
+      "filename": "2025-04-19.parquet",
+      "sha256": "5dd7e325a7dd7ff40d367cb268a83e63e5de260ff8bd14c8d5a488a304ab3764"
+    },
+    {
+      "date": "2025-04-20",
+      "filename": "2025-04-20.parquet",
+      "sha256": "7ae0ca5a3235a1c237c2182f3d96900381579482186962d9e027a58c6a448faf"
+    },
+    {
+      "date": "2025-04-21",
+      "filename": "2025-04-21.parquet",
+      "sha256": "81d33ab3aa8adecc696412a9e5c6da25c5c71a955a40720ffc012929c6c89607"
+    },
+    {
+      "date": "2025-04-22",
+      "filename": "2025-04-22.parquet",
+      "sha256": "60e594a86ac61599cd439d2a21aedc13cc8571e89d11cd6b30c06a89b7ff2c1c"
+    },
+    {
+      "date": "2025-04-23",
+      "filename": "2025-04-23.parquet",
+      "sha256": "099c3db0d6eaf74b9377d632914cdd4f5c836fce00fafe4ba8a4096c067ae58a"
+    },
+    {
+      "date": "2025-04-24",
+      "filename": "2025-04-24.parquet",
+      "sha256": "b66fff258d4b12bf67b29de0c77497309f7680eafc2ff827c98360884d1db6df"
+    },
+    {
+      "date": "2025-04-25",
+      "filename": "2025-04-25.parquet",
+      "sha256": "470b98d4d407dcbee2dc4d4ff09f7ed7716e563a01da6cf59cb50532d97e6e6a"
+    },
+    {
+      "date": "2025-04-26",
+      "filename": "2025-04-26.parquet",
+      "sha256": "f8b5f89b372133c7b858bb5b8a7bb985d8874e29e185306dc1624785056d6dcd"
+    },
+    {
+      "date": "2025-04-27",
+      "filename": "2025-04-27.parquet",
+      "sha256": "4ef34ee37c3463c809a0297b8e00912c3b9fbc7722eab5ba9906646f6338df59"
+    },
+    {
+      "date": "2025-04-28",
+      "filename": "2025-04-28.parquet",
+      "sha256": "9c2d153884dae4f620860d3a5595bb76ff67201e5459b65a27046bf600aef2a7"
+    },
+    {
+      "date": "2025-04-29",
+      "filename": "2025-04-29.parquet",
+      "sha256": "1a9b2a5774dffd4a9d6d114686737206facd36033515adf995329cb64b47c20e"
+    },
+    {
+      "date": "2025-04-30",
+      "filename": "2025-04-30.parquet",
+      "sha256": "63e463123c136170af4b8d7ed7e084c84487529b55d4b11116b1cae80033e5d8"
+    },
+    {
+      "date": "2025-05-01",
+      "filename": "2025-05-01.parquet",
+      "sha256": "f813b4755397e43f13a77dadac82eb1ead0b088c9819a9efb9a9b98b4008c106"
+    },
+    {
+      "date": "2025-05-02",
+      "filename": "2025-05-02.parquet",
+      "sha256": "1df22ec2d267ff31031b7194562cea3ba764727673af4d603c94098e4aafefe6"
+    },
+    {
+      "date": "2025-05-03",
+      "filename": "2025-05-03.parquet",
+      "sha256": "eafb4acefe60f07694497a3dd35a5378852e29ecfe7f3780fc31fe327f37ab71"
+    },
+    {
+      "date": "2025-05-04",
+      "filename": "2025-05-04.parquet",
+      "sha256": "2f27e938d3ef2289d7e7f81c068ffa58ea3d6f79181f6dfc3e03031cc9037e0b"
+    },
+    {
+      "date": "2025-05-05",
+      "filename": "2025-05-05.parquet",
+      "sha256": "3246ac6e8d1968f4f3968c12aa1d3af2b306c18c93f1605811ddd918ce8d5b7c"
+    },
+    {
+      "date": "2025-05-06",
+      "filename": "2025-05-06.parquet",
+      "sha256": "4d43dc9c5396c5753829efa9f3fd9e68f6d40716c26e089fc708b7bd2133c783"
+    },
+    {
+      "date": "2025-05-07",
+      "filename": "2025-05-07.parquet",
+      "sha256": "b515b1d91b123aa88d41f47aded11fd1d5d175ffc9157fe1e28818bbb44d425d"
+    },
+    {
+      "date": "2025-05-08",
+      "filename": "2025-05-08.parquet",
+      "sha256": "cc1f108cd804e2b3807df0bc66adf95bab0cd77cf6c006890f342ef7ac016dfd"
+    },
+    {
+      "date": "2025-05-09",
+      "filename": "2025-05-09.parquet",
+      "sha256": "97ed31d3de27af827d8d435073b1b99e6deadbbd418f99dffc896731c75d5be4"
+    },
+    {
+      "date": "2025-05-10",
+      "filename": "2025-05-10.parquet",
+      "sha256": "b4e6f3bad6a25da2d470a76d2889875e4b0ec441b9b98921c53c40b52acf9b54"
+    },
+    {
+      "date": "2025-05-11",
+      "filename": "2025-05-11.parquet",
+      "sha256": "27855edc826eaee9bf779ccc91b560ce9d0ef870e04158fd888f3e2fc6933277"
+    },
+    {
+      "date": "2025-05-12",
+      "filename": "2025-05-12.parquet",
+      "sha256": "995a42502c5b6e832554c14b06d4ad77cc06bc5ebfa9d1afeafd7916d486bbfc"
+    },
+    {
+      "date": "2025-05-13",
+      "filename": "2025-05-13.parquet",
+      "sha256": "f36f18dfd91a4fa17f5d930f6ab28f701c4c5240fdef57b2481d537d66f099a2"
+    },
+    {
+      "date": "2025-05-14",
+      "filename": "2025-05-14.parquet",
+      "sha256": "39181ea497599ac2a71027fa82e635434455a0e9ef7499ebee42af63e49e89ee"
+    },
+    {
+      "date": "2025-05-15",
+      "filename": "2025-05-15.parquet",
+      "sha256": "38e7c430cc6957f46cf50b52a8b0340faa77086044b873326d8824a96b2c7e3b"
+    },
+    {
+      "date": "2025-05-16",
+      "filename": "2025-05-16.parquet",
+      "sha256": "e56b9e658e46c4d53bb227fbe9b9ab6180947cb14729d0f579f23cfbf07a8c7d"
+    },
+    {
+      "date": "2025-05-17",
+      "filename": "2025-05-17.parquet",
+      "sha256": "a4ba1c1a1ae5d9e31e9902b6ad3b3afad1f71e8c90855a91c6cf0cdfd1ddbef6"
+    },
+    {
+      "date": "2025-05-18",
+      "filename": "2025-05-18.parquet",
+      "sha256": "429013e080fa8379ae83397ab5d0f753f688c7265d0389d681c2e1fa4bc79f12"
+    },
+    {
+      "date": "2025-05-19",
+      "filename": "2025-05-19.parquet",
+      "sha256": "0422e8f86d93bf1e58576710768f8a96d83cf2c9a87168d2ecfb4bafb61ad60d"
+    },
+    {
+      "date": "2025-05-20",
+      "filename": "2025-05-20.parquet",
+      "sha256": "7b50bce1b3c0288b0c9cf87a1e5c7743d850fe7d704cc63a63c979289d6d4550"
+    },
+    {
+      "date": "2025-05-21",
+      "filename": "2025-05-21.parquet",
+      "sha256": "1bb9d9f93f50ef703ba5c865bf85a68f1b43b80ae430c7db1b1ba24e2e772043"
+    },
+    {
+      "date": "2025-05-22",
+      "filename": "2025-05-22.parquet",
+      "sha256": "73ddfb0d6d228d4dab240de0646cf31a6a4073b65e72fbf4a095d2970942a25d"
+    },
+    {
+      "date": "2025-05-23",
+      "filename": "2025-05-23.parquet",
+      "sha256": "c703154645d1a03493db249075c7ccd3ce22d35e8d9c16a05fc4040edb3e1f10"
+    },
+    {
+      "date": "2025-07-27",
+      "filename": "2025-07-27.parquet",
+      "sha256": "ec480597add1cd4d2e1c6a13f6c57880e5be413c87ab0cf8b8353cb02558b523"
+    },
+    {
+      "date": "2025-07-28",
+      "filename": "2025-07-28.parquet",
+      "sha256": "2496eb77954928e568dad85062ecda97ba00118e472618f9e10cec3c0a783ce2"
+    },
+    {
+      "date": "2025-07-29",
+      "filename": "2025-07-29.parquet",
+      "sha256": "0ac68b93e8d09f8116d5e64d500e9f03e402f0ee5b2e7a5032693c51e6d60817"
+    },
+    {
+      "date": "2025-07-30",
+      "filename": "2025-07-30.parquet",
+      "sha256": "e4c7de1b3a721d8cd777fadd467515c98f1b832add4bd096d602fddfce296668"
+    },
+    {
+      "date": "2025-07-31",
+      "filename": "2025-07-31.parquet",
+      "sha256": "72f6e86150612b19aa75431a1d26dd0bd4c68c4feabd1bc65c0ce95b10f101b4"
+    },
+    {
+      "date": "2025-08-01",
+      "filename": "2025-08-01.parquet",
+      "sha256": "99c135ddbbc1601e2b51d425dab58d70978ed38fd0bae20e7a728647f12c61a8"
+    },
+    {
+      "date": "2025-08-02",
+      "filename": "2025-08-02.parquet",
+      "sha256": "202fe740493f88eb344678fc4ba90dd78ce3d6502acbe1566115694113256b57"
+    },
+    {
+      "date": "2025-08-03",
+      "filename": "2025-08-03.parquet",
+      "sha256": "1a08253b4c893edcf01957175ca0233f3fa3ca9d6f28b2de81192596ac2f04cc"
+    },
+    {
+      "date": "2025-08-04",
+      "filename": "2025-08-04.parquet",
+      "sha256": "ea80e29862b410ef759c2939afd40cd78c94c2999e4e33c2355e22c279986e49"
+    },
+    {
+      "date": "2025-08-05",
+      "filename": "2025-08-05.parquet",
+      "sha256": "97c004de7c997aa002f0b0a2a556dca88a7c694b235ca702631a51cfe970c3dd"
+    },
+    {
+      "date": "2025-08-06",
+      "filename": "2025-08-06.parquet",
+      "sha256": "1c5a25aebb7e54045d52fe2f6c59a44a955dc61c27bcafda0bb93863c549bb15"
+    },
+    {
+      "date": "2025-08-07",
+      "filename": "2025-08-07.parquet",
+      "sha256": "8f03bc1615f92b0ed7134f8cd04f2e577dedd1736f0dda6a6e2182b0b4af4308"
+    },
+    {
+      "date": "2025-08-08",
+      "filename": "2025-08-08.parquet",
+      "sha256": "dbe65ae423e52adb19ad8c59b1c850984e8ef6824a18ef1fea52bf502507ea30"
+    },
+    {
+      "date": "2025-08-09",
+      "filename": "2025-08-09.parquet",
+      "sha256": "1b943ca47e1cf84bd2b88a566a757328beb770333b06e56eb385e250e372eb12"
+    },
+    {
+      "date": "2025-08-10",
+      "filename": "2025-08-10.parquet",
+      "sha256": "e3b5d23e70be1f2a2044ce941a25cefcc0757d6e4ecf8385952f6c33dcb70e39"
+    },
+    {
+      "date": "2025-08-11",
+      "filename": "2025-08-11.parquet",
+      "sha256": "2762938951e75cc142f9dcfe5fe0989afdc233ddc3b89a89e837ea0f727e2dbc"
+    },
+    {
+      "date": "2025-08-12",
+      "filename": "2025-08-12.parquet",
+      "sha256": "2fef5f94b8f33ff757b866cc5bb7761274c8e59dd1ef5f2731ecf34d728f32a6"
+    },
+    {
+      "date": "2025-08-13",
+      "filename": "2025-08-13.parquet",
+      "sha256": "0690f85e308874d6c8bc06c1b1229d72c89ffc0ff2dbe39303e3f978933a0230"
+    },
+    {
+      "date": "2025-08-14",
+      "filename": "2025-08-14.parquet",
+      "sha256": "78d42d37eca275d37b52881f9429ce008ab76d9ef5a03a4a40b6456ab65ceedd"
+    },
+    {
+      "date": "2025-08-15",
+      "filename": "2025-08-15.parquet",
+      "sha256": "671164b35d3a82c177ab45e29edab269a6350288eff63a4a926cd64c48c684ef"
+    },
+    {
+      "date": "2025-08-16",
+      "filename": "2025-08-16.parquet",
+      "sha256": "542fdf3e9a69277e867ca46a62f1c62cbb041a681ea59ec6ef7b7def42a49bda"
+    },
+    {
+      "date": "2025-08-17",
+      "filename": "2025-08-17.parquet",
+      "sha256": "6670cc9269d1a9ae7396dfb0bde25078aae8cec45e7f9d14539090ecf26753d8"
+    },
+    {
+      "date": "2025-08-18",
+      "filename": "2025-08-18.parquet",
+      "sha256": "2198ee0e93ead523dbfe108cc64782dc40fc47fc4bea03c8f4318847d3773cc4"
+    },
+    {
+      "date": "2025-08-19",
+      "filename": "2025-08-19.parquet",
+      "sha256": "56a5bdb9f99ec1a8385988eac938761b28904d247f7700ca4ecc5c9bd9e88a46"
+    },
+    {
+      "date": "2025-08-20",
+      "filename": "2025-08-20.parquet",
+      "sha256": "ff3f710f73cc30b1e3fb2968c235e381f7914268c967e3345d81dd43d11c8d3d"
+    },
+    {
+      "date": "2025-08-21",
+      "filename": "2025-08-21.parquet",
+      "sha256": "9811c05d317ee02f7313bea727861175fb60492850589e45b33792d84d442675"
+    },
+    {
+      "date": "2025-08-22",
+      "filename": "2025-08-22.parquet",
+      "sha256": "c7c47e90f9795d96bc90730da3389a60bacbe3677011e00021a5abb27dc430bd"
+    },
+    {
+      "date": "2025-08-23",
+      "filename": "2025-08-23.parquet",
+      "sha256": "8a7283f8b65476ef607f9232e819ef0bac9d9da3648047466efff4bb67c810dc"
+    },
+    {
+      "date": "2025-08-24",
+      "filename": "2025-08-24.parquet",
+      "sha256": "98978e41823f3e5ca8dba1ef383311c2b72c144096130e48bc12f910d30b17f7"
+    },
+    {
+      "date": "2025-08-25",
+      "filename": "2025-08-25.parquet",
+      "sha256": "8d30622d1a16937cc3ec39db23f72f2dfede41a6f5f8390cc1cfcee67ee47d15"
+    },
+    {
+      "date": "2025-08-26",
+      "filename": "2025-08-26.parquet",
+      "sha256": "15eac7fd84ee38251d02f69b60290ca49b67040ff730959144a8fb9280d2df61"
+    },
+    {
+      "date": "2025-08-27",
+      "filename": "2025-08-27.parquet",
+      "sha256": "732a592f76e0e62ba0eb1f78c53cb518adc1377d9172982469f1a209456a1c7a"
+    },
+    {
+      "date": "2025-08-28",
+      "filename": "2025-08-28.parquet",
+      "sha256": "940b13e25d71187e30b588622779cf3ac00041892141098125524741da48a129"
+    },
+    {
+      "date": "2025-08-29",
+      "filename": "2025-08-29.parquet",
+      "sha256": "54be2902305b43dda7c15c75ab60fbaa20bf07357c23f541cb8f135eabaedc06"
+    },
+    {
+      "date": "2025-08-30",
+      "filename": "2025-08-30.parquet",
+      "sha256": "3baedefda8ef02a19cbb4de6ea792efe622d2fb403bea868cadd95a611b4938c"
+    },
+    {
+      "date": "2025-08-31",
+      "filename": "2025-08-31.parquet",
+      "sha256": "ae7b03c2f9c035339ff3b9e8711bdb8bc54b20459e13fe2ff8148dcba126abbb"
+    },
+    {
+      "date": "2025-09-01",
+      "filename": "2025-09-01.parquet",
+      "sha256": "da417e98ad4c09290fddc571adf2afb948a05f158cced690add75dd0c0234c95"
+    },
+    {
+      "date": "2025-09-02",
+      "filename": "2025-09-02.parquet",
+      "sha256": "2277d046041446586cfba9f393b97de26053917d238beaec287414f857f86a9d"
+    },
+    {
+      "date": "2025-09-03",
+      "filename": "2025-09-03.parquet",
+      "sha256": "5726e6666c5486b9a553bf0b2974d507cccc9b2c1c3fedd139f82a5fb1590478"
+    },
+    {
+      "date": "2025-09-04",
+      "filename": "2025-09-04.parquet",
+      "sha256": "78d2e3d9b24998eadef122c259d28004cc9f3488bcfe5c75f6242530471e12eb"
+    },
+    {
+      "date": "2025-09-05",
+      "filename": "2025-09-05.parquet",
+      "sha256": "a1276738ab191f9e7629245d147b17659c7b7a868dc2527a476b8b024f575a44"
+    },
+    {
+      "date": "2025-09-06",
+      "filename": "2025-09-06.parquet",
+      "sha256": "e2c1312f7320b38b54a3e791415becea15052d792b1e825e72c100be2e98df79"
+    },
+    {
+      "date": "2025-09-07",
+      "filename": "2025-09-07.parquet",
+      "sha256": "a4068ab97279afaf78ab833ddbd2d858368096626f8d3075740d80800fc5a9ec"
+    },
+    {
+      "date": "2025-09-08",
+      "filename": "2025-09-08.parquet",
+      "sha256": "21eb25ffd44cf15ba8b53ec889c2b96cba44b847acb5f678d19fc0ac21e30b23"
+    },
+    {
+      "date": "2025-09-09",
+      "filename": "2025-09-09.parquet",
+      "sha256": "0d6148e24ee8bbc39c736dc3af14e9764faae76d351b64b986381ebcaf14befc"
+    },
+    {
+      "date": "2025-09-10",
+      "filename": "2025-09-10.parquet",
+      "sha256": "be024e70fab081bbc440fe7b87da0124207f44878f8f14bfa6736051630d7209"
+    },
+    {
+      "date": "2025-09-11",
+      "filename": "2025-09-11.parquet",
+      "sha256": "4c5c9888eab6378e3942cb2efee0ee153e91eeed38a1e97d7cebdd852f80a87a"
+    },
+    {
+      "date": "2025-09-12",
+      "filename": "2025-09-12.parquet",
+      "sha256": "609e17443c05d087e39c006b1bb52609c3e0dca1b9bd8d3b6e2031d94bed661e"
+    },
+    {
+      "date": "2025-09-13",
+      "filename": "2025-09-13.parquet",
+      "sha256": "f635a1c1d065dd7476067af093024eaf9da07858af38a3049efc632a825584a6"
+    },
+    {
+      "date": "2025-09-14",
+      "filename": "2025-09-14.parquet",
+      "sha256": "6d699ac8c5ffda375f0e4b561afd340c8d48df927fbdfb6ce2bf77d9886cf953"
+    },
+    {
+      "date": "2025-09-15",
+      "filename": "2025-09-15.parquet",
+      "sha256": "ff6196b4f49708d10002a21e6192c4b7e114f7676294ce78f38e857db509307d"
+    },
+    {
+      "date": "2025-09-16",
+      "filename": "2025-09-16.parquet",
+      "sha256": "34bdf5b7b7833dc34ca8522fb7414a30fda9c34bd0193818bd76cfac898684d6"
+    },
+    {
+      "date": "2025-09-17",
+      "filename": "2025-09-17.parquet",
+      "sha256": "381fcf31b3971741baa533aacabf80e1af9fdc696d02d2efa10dc4e18dd477df"
+    },
+    {
+      "date": "2025-09-18",
+      "filename": "2025-09-18.parquet",
+      "sha256": "a70945d4dd684ff834b473229cf31780c19e53334d843a19ad143a0ca5b370f9"
+    },
+    {
+      "date": "2025-09-19",
+      "filename": "2025-09-19.parquet",
+      "sha256": "148ccc2b809c59cbf35d0f2d4df1894a575299fc4abd3a82e425e36e51c883c9"
+    },
+    {
+      "date": "2025-09-20",
+      "filename": "2025-09-20.parquet",
+      "sha256": "9b1e8cff70a589cdcf0e9486a7f3db7c88bc3b9a2c3305df9c17e8cdf97804d1"
+    },
+    {
+      "date": "2025-09-21",
+      "filename": "2025-09-21.parquet",
+      "sha256": "ac79e25b3eee2d42e74775c954d8fe9125705d392beafdc06fdd9c057fe3d73d"
+    },
+    {
+      "date": "2025-09-22",
+      "filename": "2025-09-22.parquet",
+      "sha256": "04554f8d697b6c72b88ec3d87a4e32cb6f7808755bd3977b063c8a11ca13aae9"
+    },
+    {
+      "date": "2025-09-23",
+      "filename": "2025-09-23.parquet",
+      "sha256": "4941dfcbcbd122224005120f3e85c4784285e610a2edcd8cf95f004b210ff756"
+    },
+    {
+      "date": "2025-09-24",
+      "filename": "2025-09-24.parquet",
+      "sha256": "7cfda8c1d0c28aa81c689da9669f4b3a67c1a1b72978f2e804226ef16ae01498"
+    },
+    {
+      "date": "2025-09-25",
+      "filename": "2025-09-25.parquet",
+      "sha256": "165a1c9fed70c6aac4c681b777e5206168ac9a29ae8af70ada5d03218ac5bff3"
+    },
+    {
+      "date": "2025-09-26",
+      "filename": "2025-09-26.parquet",
+      "sha256": "8d818e331ebd16555f91ff578d58f5b733d8e1d56ceff3934f4ba2709856aab2"
+    },
+    {
+      "date": "2025-09-27",
+      "filename": "2025-09-27.parquet",
+      "sha256": "a14851a6ac958293384092a1e7d26fd0dcfdeb7595673b5a45c9b3cf40b5504e"
+    },
+    {
+      "date": "2025-09-28",
+      "filename": "2025-09-28.parquet",
+      "sha256": "2f0b00cbfe1979dc4657925cd9961db292874ea0e3a5c3a181e55b6c1301bd6b"
+    },
+    {
+      "date": "2025-09-29",
+      "filename": "2025-09-29.parquet",
+      "sha256": "d61702e4d1519fd35995e57e3b3385271b9edcc2ef435698ec42cdb5cc6ad4b2"
+    },
+    {
+      "date": "2025-09-30",
+      "filename": "2025-09-30.parquet",
+      "sha256": "3c2c1944888ba7fc6d6aa3fc55631420f73470d751a61634f3432c8718420686"
+    },
+    {
+      "date": "2025-10-01",
+      "filename": "2025-10-01.parquet",
+      "sha256": "0e60e4cb37919f7d86205214d2a79a727447170fedf221d96f63c513c6b6f0dd"
+    },
+    {
+      "date": "2025-10-02",
+      "filename": "2025-10-02.parquet",
+      "sha256": "592bfbad84194ab3aa2420dedd3247334e3a7f3344318d6372b65ddd074a0e14"
+    },
+    {
+      "date": "2025-10-03",
+      "filename": "2025-10-03.parquet",
+      "sha256": "b847adfe25aae466e4c73136be5fbc58d225e60c4a37d1a4975c7be63ca2dbc1"
+    },
+    {
+      "date": "2025-10-04",
+      "filename": "2025-10-04.parquet",
+      "sha256": "2a92e57d9b00c73bee2b67c9663dfdfa3c6352efb98c3d258f222146eb950005"
+    },
+    {
+      "date": "2025-10-05",
+      "filename": "2025-10-05.parquet",
+      "sha256": "2c9bdbe24147c455661ce0772914748496ab3324f0fd71ecbef6661bafe68453"
+    },
+    {
+      "date": "2025-10-06",
+      "filename": "2025-10-06.parquet",
+      "sha256": "63faef33aad81bf24bbebcac8fdc789740450f3f3eb8dfbe3043fbb034808835"
+    },
+    {
+      "date": "2025-10-07",
+      "filename": "2025-10-07.parquet",
+      "sha256": "004cc19ad31a979beb74871d499e4a1d21a89e74c77c5173ff3fb2f505d9c6b5"
+    },
+    {
+      "date": "2025-10-08",
+      "filename": "2025-10-08.parquet",
+      "sha256": "b752aab1e9ca109b09d9c04b234adc3ae43a834d7dea24b2a3bdd5eb8491532e"
+    },
+    {
+      "date": "2025-10-09",
+      "filename": "2025-10-09.parquet",
+      "sha256": "d2f4144376d48187c24cde780d1742970fbd7b6cc5f50928f8a0f0c8ac5b27ed"
+    },
+    {
+      "date": "2025-10-10",
+      "filename": "2025-10-10.parquet",
+      "sha256": "cc16f7ed4d8d74290af7708ea086ab96ce8b85325582aec046e98f0e67f1cef7"
+    },
+    {
+      "date": "2025-10-11",
+      "filename": "2025-10-11.parquet",
+      "sha256": "bb173b114a92d3b45c20de64debd00495ade32f39f488dc757f5c3c2b3d1823c"
+    },
+    {
+      "date": "2025-10-12",
+      "filename": "2025-10-12.parquet",
+      "sha256": "26a1b75bd095bd4d3645ec1e9a496fec8fd6843b6b4b0861b9bc01a0e00886be"
+    },
+    {
+      "date": "2025-10-14",
+      "filename": "2025-10-14.parquet",
+      "sha256": "83433f05e0bf2bde30ee2a56ba84611b2d550caefde3cb1cefa6356c680bf12a"
+    },
+    {
+      "date": "2025-10-15",
+      "filename": "2025-10-15.parquet",
+      "sha256": "ba64f4be86e4702e199070ea63d81369987bb64c4efe114b9e57467c02842bcf"
+    },
+    {
+      "date": "2025-10-16",
+      "filename": "2025-10-16.parquet",
+      "sha256": "ba82e74e8b3f956c8dfa560e9a736ceb95370a7d3945cf1b3c779541b066801b"
+    },
+    {
+      "date": "2025-10-17",
+      "filename": "2025-10-17.parquet",
+      "sha256": "8f8e77bb6a50f9e00ca78715a0eb478e27fa9783a3bcf4ebd1dce27c7e1240ef"
+    },
+    {
+      "date": "2025-10-18",
+      "filename": "2025-10-18.parquet",
+      "sha256": "4bb66e93f6d21414c6254cbc23ecf9e8cd0400624104b8ed8b398bdc642a84bc"
+    },
+    {
+      "date": "2025-10-19",
+      "filename": "2025-10-19.parquet",
+      "sha256": "7f945ab542c177942f7321e014792a861d01870440639571f481a92c716e72e9"
+    },
+    {
+      "date": "2025-10-21",
+      "filename": "2025-10-21.parquet",
+      "sha256": "47e6ad017643c95f205d77cda88e99bfde675a11b4f0aae7f3975078367166da"
+    },
+    {
+      "date": "2025-10-22",
+      "filename": "2025-10-22.parquet",
+      "sha256": "12a9f2327f5110e13d9a4703e709b0e70abc93c4b86d4a2ad8714e814789ca1e"
+    },
+    {
+      "date": "2025-10-23",
+      "filename": "2025-10-23.parquet",
+      "sha256": "f181f477782baed19ebfe60b550961f4160802141834e344da61e5fe7e3bb8c5"
+    },
+    {
+      "date": "2025-10-24",
+      "filename": "2025-10-24.parquet",
+      "sha256": "44ee54562911181a5c0672b4890144a39a0d2e8e43f78da5137284753d559d19"
+    },
+    {
+      "date": "2025-10-25",
+      "filename": "2025-10-25.parquet",
+      "sha256": "d71bfe75ef18390d3b3233af7d6cf543d9ebb5d4e0bade1309b5ac1aeba0afa7"
+    },
+    {
+      "date": "2025-10-26",
+      "filename": "2025-10-26.parquet",
+      "sha256": "bf4abd26b144987a439bb77e387d39c9524655fa905feecd8c6c76c9c3b695d4"
+    },
+    {
+      "date": "2025-10-27",
+      "filename": "2025-10-27.parquet",
+      "sha256": "1348e42d57716995fc1e819ee1105a0debf845dbf53dd2ce9d653d4735bb7998"
+    },
+    {
+      "date": "2025-10-28",
+      "filename": "2025-10-28.parquet",
+      "sha256": "2482d5cfa83c9cab2117f520cfc5d44c34fff94c59a380c87802b7ab417c9c42"
+    },
+    {
+      "date": "2025-10-29",
+      "filename": "2025-10-29.parquet",
+      "sha256": "46ec23d649b39c4e527ea7b3aa77f4d42dd732c5a3fb44d85994039f906b71d3"
+    },
+    {
+      "date": "2025-10-30",
+      "filename": "2025-10-30.parquet",
+      "sha256": "5d7d56f82a392fbac51f55273a09809614a11d27cffc9f45c1e393a81353f74f"
+    },
+    {
+      "date": "2025-10-31",
+      "filename": "2025-10-31.parquet",
+      "sha256": "b305fdd1c36c935e3885a14e92e013510865dfc04639ff145a8a17f2c4f5a789"
+    },
+    {
+      "date": "2025-11-01",
+      "filename": "2025-11-01.parquet",
+      "sha256": "545d97f526d7e2a9b0851589b2703bd7eb873806904aee4eb6c61118c5aed186"
+    },
+    {
+      "date": "2025-11-02",
+      "filename": "2025-11-02.parquet",
+      "sha256": "a474007b74a3dd9033254c490ba4b90eccbb20ebf4ac323b31a68f3d9d8db103"
+    },
+    {
+      "date": "2025-11-03",
+      "filename": "2025-11-03.parquet",
+      "sha256": "7dee08bc105c92b8d3d9ab0526dc668693f745a94572fb23f5b30b05fdbb8d7b"
+    },
+    {
+      "date": "2025-11-04",
+      "filename": "2025-11-04.parquet",
+      "sha256": "6bb16115ffec60797193f04240ea460a54ed1a93e37213f65b42eb3b5d6d5858"
+    },
+    {
+      "date": "2025-11-05",
+      "filename": "2025-11-05.parquet",
+      "sha256": "6ff61ea4d60aceca09dbd5302268f49db68a69a0320db75245c91592119ba330"
+    },
+    {
+      "date": "2025-11-06",
+      "filename": "2025-11-06.parquet",
+      "sha256": "436bd23af77f5a581aa588b495ea4d98fe59ba72c3011fe4e8d876f831fbc4ac"
+    },
+    {
+      "date": "2025-11-07",
+      "filename": "2025-11-07.parquet",
+      "sha256": "39c61fecc9038a805a5b0393e678aa94926bda54a71a6a66f65511379f0acf11"
+    },
+    {
+      "date": "2025-11-08",
+      "filename": "2025-11-08.parquet",
+      "sha256": "bc493e0c6b19f7a28154b4e53f74762784b12b9f63f0abc8b8501d84b53b2814"
+    },
+    {
+      "date": "2025-11-09",
+      "filename": "2025-11-09.parquet",
+      "sha256": "389de7d75f6f298eb4b8af0a5744e6818db3f1adffd0e333d4f51708d738fa20"
+    },
+    {
+      "date": "2025-11-10",
+      "filename": "2025-11-10.parquet",
+      "sha256": "3263c9036eacfe68ffa0f1ccf38a54af523c8d5dfe881c0ce4a02b4255498f48"
+    },
+    {
+      "date": "2025-11-12",
+      "filename": "2025-11-12.parquet",
+      "sha256": "45fdc556b61cd5a4f7126c49f2dc430b9f035a39d8e55364efeb4bd0f15ff7ef"
+    },
+    {
+      "date": "2025-11-13",
+      "filename": "2025-11-13.parquet",
+      "sha256": "f2deeb20975733dd69fb848553910bd5849e63a61fe305b039837868a081ad3c"
+    },
+    {
+      "date": "2025-11-14",
+      "filename": "2025-11-14.parquet",
+      "sha256": "de8f1a9cf5faf2615b5cdfd954fbb7c16a5278ad8949362defa2cdeffe6a066c"
+    },
+    {
+      "date": "2025-11-15",
+      "filename": "2025-11-15.parquet",
+      "sha256": "af83599833874808f845d9b6ba846ed75a90755deb47d002590be9ead3840ccc"
+    },
+    {
+      "date": "2025-11-16",
+      "filename": "2025-11-16.parquet",
+      "sha256": "6302f4b3071c58f92f12b588ad3a6b931fb7f1a95fc6ec07cdd82e58d8f87ea2"
+    },
+    {
+      "date": "2025-11-17",
+      "filename": "2025-11-17.parquet",
+      "sha256": "943da8065e7c14640f4747364a5984ce194f6921db74fcd21c4f4e3dbf85a469"
+    },
+    {
+      "date": "2025-11-18",
+      "filename": "2025-11-18.parquet",
+      "sha256": "5669f042ede9706d906cc282067eb0cf24c044b557fa6e2dbf847484c2c96384"
+    },
+    {
+      "date": "2025-11-19",
+      "filename": "2025-11-19.parquet",
+      "sha256": "e013a04be59d09cf86125d6c5a4d18dd48f3aa8d4f36599de77d1662afb10cee"
+    },
+    {
+      "date": "2025-11-20",
+      "filename": "2025-11-20.parquet",
+      "sha256": "229617b6ec2807698f879327abd1716e9ee253cf19b374cec1293ab6edad2334"
+    },
+    {
+      "date": "2025-11-21",
+      "filename": "2025-11-21.parquet",
+      "sha256": "78557d705a0171f06cb486c820b134a60e44c0c2cbd4b610d32bc96cb72da93d"
+    },
+    {
+      "date": "2025-11-22",
+      "filename": "2025-11-22.parquet",
+      "sha256": "98eb8921f2d63a11be8ccf429f244736c84f114d24a609e38c8911480ab1a674"
+    },
+    {
+      "date": "2025-11-23",
+      "filename": "2025-11-23.parquet",
+      "sha256": "c0f46fc311b54a924b8494c5d7e5e1c4c0a8cf60e5635cb8161b046614ed0c94"
+    },
+    {
+      "date": "2025-11-24",
+      "filename": "2025-11-24.parquet",
+      "sha256": "b0e43355717e62f819003d8376f1a5c83684757be0fa4dfbc200863b5a818328"
+    },
+    {
+      "date": "2025-11-25",
+      "filename": "2025-11-25.parquet",
+      "sha256": "e91107ffb9084941ac150ab73d3919ac597cdc99135d39fd0459c64bd5eebf92"
+    },
+    {
+      "date": "2025-11-26",
+      "filename": "2025-11-26.parquet",
+      "sha256": "fa61cdbf567cdd6a84cc34e00e3ead5815d470a05328a7f5662d70ffe3a3d5d0"
+    },
+    {
+      "date": "2025-11-27",
+      "filename": "2025-11-27.parquet",
+      "sha256": "4fb62c6f6ef99e42a7c1a9b42aadef85c24aae17ffbfca04c6005cd6fb07124d"
+    },
+    {
+      "date": "2025-11-28",
+      "filename": "2025-11-28.parquet",
+      "sha256": "e52849cd82e434d0bd4c18ed8e094dcecdf6eef6006743f1d5cba169b4f5e29a"
+    },
+    {
+      "date": "2025-11-29",
+      "filename": "2025-11-29.parquet",
+      "sha256": "9a4465b631cb4167bb3d8fa4ff681596034b9d7420a344168a828fac9a592c0d"
+    },
+    {
+      "date": "2025-11-30",
+      "filename": "2025-11-30.parquet",
+      "sha256": "f40e9d33832a3cd4c9f9c4228f0855e6a578dc7264f58f3e5cbff4acc259ccdc"
+    },
+    {
+      "date": "2025-12-01",
+      "filename": "2025-12-01.parquet",
+      "sha256": "946a1aaa5fa7dfd63a71c9c6e4591df41fe3d9f6aa4e5e8000d1f46bea511f90"
+    },
+    {
+      "date": "2025-12-02",
+      "filename": "2025-12-02.parquet",
+      "sha256": "ae5af1fcaa05707b012ea1fbcf38e5e2ea80d2658f659351fc6fe9408ba051fc"
+    },
+    {
+      "date": "2025-12-03",
+      "filename": "2025-12-03.parquet",
+      "sha256": "7a6973788625282e194ce00544da73ffba45951b8fb8760a21b4ad2107223551"
+    },
+    {
+      "date": "2025-12-04",
+      "filename": "2025-12-04.parquet",
+      "sha256": "5d5a2168011dc6ba8a234ac1e24b82788221574a75a6bbe5bcfbdbbc4398f39f"
+    },
+    {
+      "date": "2025-12-05",
+      "filename": "2025-12-05.parquet",
+      "sha256": "c68e6d0b2b989e6474c54f0def12f8e4b5874045321f0c4f7e514ad0174658a7"
+    },
+    {
+      "date": "2025-12-06",
+      "filename": "2025-12-06.parquet",
+      "sha256": "0d285052bbf2929caa173fac807de6dfdb3b625a85250c3022426017665b3a17"
+    },
+    {
+      "date": "2025-12-07",
+      "filename": "2025-12-07.parquet",
+      "sha256": "1220f7a9154bb8d6a8e7ecc1fcbd2be3bdaf0ed998d1b8ec6450afd94ed7ae07"
+    },
+    {
+      "date": "2025-12-08",
+      "filename": "2025-12-08.parquet",
+      "sha256": "93e470781c385417e80961c3d8b47b0868bbe063d820b6f7868ad00ee310d688"
+    },
+    {
+      "date": "2025-12-09",
+      "filename": "2025-12-09.parquet",
+      "sha256": "b7ba7bf6dcca319903b9a0086279cbc9a6722681464ad64de796c4f12477dc1b"
+    },
+    {
+      "date": "2025-12-10",
+      "filename": "2025-12-10.parquet",
+      "sha256": "4bbe1fdb737a8e6644a074e611166688535137c6ccd5c60770ce960660a4b31e"
+    },
+    {
+      "date": "2025-12-11",
+      "filename": "2025-12-11.parquet",
+      "sha256": "e5e2bd40bccc92ece666f9b1116189f039b171703ea61e2a49646ca113bcd7b5"
+    },
+    {
+      "date": "2025-12-12",
+      "filename": "2025-12-12.parquet",
+      "sha256": "f50e701917d1c14ecf61afe537711055e3073801dde65cfa1da76658ef2f68c9"
+    },
+    {
+      "date": "2025-12-13",
+      "filename": "2025-12-13.parquet",
+      "sha256": "571db59dde6addbb3415f6e1ac45a438704c410211b035813f002a72e76ce2a5"
+    },
+    {
+      "date": "2025-12-14",
+      "filename": "2025-12-14.parquet",
+      "sha256": "7eb39f549d41783dc6501359ada7ce5ce235618578b391281aa5df6870546cb2"
+    },
+    {
+      "date": "2025-12-15",
+      "filename": "2025-12-15.parquet",
+      "sha256": "6bc5959effd1a74f62e753a3c57159d41570a859115b87c8c20d9ac8f55597a7"
+    },
+    {
+      "date": "2025-12-16",
+      "filename": "2025-12-16.parquet",
+      "sha256": "3c4bda7988b04c4d9820aeab13490bed544ea0af71f6746befa9540dce367fa3"
+    },
+    {
+      "date": "2025-12-17",
+      "filename": "2025-12-17.parquet",
+      "sha256": "2a8d21b4881ca877682e8018efbbfa7294f3f6306fafe4788c951743144e64b8"
+    },
+    {
+      "date": "2025-12-18",
+      "filename": "2025-12-18.parquet",
+      "sha256": "f3a0a4d646de77aab56392fedcdb3dbdff432db3b9c526eb6ea1d5351f9f3d56"
+    },
+    {
+      "date": "2025-12-19",
+      "filename": "2025-12-19.parquet",
+      "sha256": "676c65315b5bf116e15748f76b2eff2bd7b8cd930689365f1e6c853f7c4005f6"
+    },
+    {
+      "date": "2025-12-20",
+      "filename": "2025-12-20.parquet",
+      "sha256": "9b81fd85bc68fa9906820fa38671b14fe50f02aa7c385e52ca596d0d35ddc654"
+    },
+    {
+      "date": "2025-12-21",
+      "filename": "2025-12-21.parquet",
+      "sha256": "0adc248a4300ac0152d6cb93c0a5f8672ba063ca0ae82113f41bd584d173f58d"
+    },
+    {
+      "date": "2025-12-22",
+      "filename": "2025-12-22.parquet",
+      "sha256": "f45ebdde2c3b35527472561659cec0aaa677dd1d97fefb05ae48870bddad41d0"
+    },
+    {
+      "date": "2025-12-23",
+      "filename": "2025-12-23.parquet",
+      "sha256": "dd291c6ae0b9037a365b101fdc45c8e977d633e0f9a489a31d6da382efa6d27e"
+    },
+    {
+      "date": "2025-12-24",
+      "filename": "2025-12-24.parquet",
+      "sha256": "345fc93d13433e8a3bb5d9bb8a92dc2bb83b12741568062a14e2158158f2e3e3"
+    },
+    {
+      "date": "2025-12-25",
+      "filename": "2025-12-25.parquet",
+      "sha256": "ae712ffc818c5d1e120d92efab52cb0e05666fbf76de153eda84e93f0a3e65d5"
+    },
+    {
+      "date": "2025-12-26",
+      "filename": "2025-12-26.parquet",
+      "sha256": "b7ffc4fa53412ec6acfb962db59cc5934b187bdbeffa8d2d845f4a93ffc24032"
+    },
+    {
+      "date": "2025-12-27",
+      "filename": "2025-12-27.parquet",
+      "sha256": "df2a766ba7bc16557cc2f2ac606d13a6d12b0dcaec37451da7df6763347fd8a2"
+    },
+    {
+      "date": "2025-12-28",
+      "filename": "2025-12-28.parquet",
+      "sha256": "0762279b80bc90e48e84312771c83debac6c1f021ddb916cca106e0c115d0258"
+    },
+    {
+      "date": "2025-12-29",
+      "filename": "2025-12-29.parquet",
+      "sha256": "38316b015007787f63a97e53258570eb78ae8e8f098230357ad5dfce69809afd"
+    },
+    {
+      "date": "2025-12-30",
+      "filename": "2025-12-30.parquet",
+      "sha256": "2e49e5272b0302edf74db05451d8fc564030e4323abed6bb1718084fef0448af"
+    },
+    {
+      "date": "2025-12-31",
+      "filename": "2025-12-31.parquet",
+      "sha256": "ee812dbb61b714e21688ffa064975d2c2473794616076e49061e3fec4a84bde1"
+    },
+    {
+      "date": "2026-01-01",
+      "filename": "2026-01-01.parquet",
+      "sha256": "24c4cf3c104d833c5ab4fe2e45f536ca88217185f5d4e23d6335dca1d95be70b"
+    },
+    {
+      "date": "2026-01-02",
+      "filename": "2026-01-02.parquet",
+      "sha256": "c0ae623169bfe7ac683f0dd8f1c7ebe53006b2b42d43b28a7e06b3b592367312"
+    },
+    {
+      "date": "2026-01-03",
+      "filename": "2026-01-03.parquet",
+      "sha256": "934c9b2a877a90a7427f57b0692f6d943415c2a3cfd8af1a64f8946cc8377d61"
+    },
+    {
+      "date": "2026-01-04",
+      "filename": "2026-01-04.parquet",
+      "sha256": "aafe427b406940bb13f210f1efc83614b59941e261b22bc31a8e7183df0245e8"
+    },
+    {
+      "date": "2026-01-05",
+      "filename": "2026-01-05.parquet",
+      "sha256": "fa84bd44da9e3eae4181032ccaafcf41d91e1ba238cc83ebe950619b82e7dda2"
+    },
+    {
+      "date": "2026-01-06",
+      "filename": "2026-01-06.parquet",
+      "sha256": "ac2dbd30bb08cc6b165f7b7ba9a8711eb0ca5f272848511978e2265c10d439af"
+    },
+    {
+      "date": "2026-01-07",
+      "filename": "2026-01-07.parquet",
+      "sha256": "cc823afe8ccc034aa03b3cdf190bee50d889bc133617f26cb348e431f87f5748"
+    },
+    {
+      "date": "2026-01-08",
+      "filename": "2026-01-08.parquet",
+      "sha256": "8528ce2f713ca09a2bfa1c117c22fac006404a9b572bad15266b494be250da34"
+    },
+    {
+      "date": "2026-01-09",
+      "filename": "2026-01-09.parquet",
+      "sha256": "e024aee63bac31a32aa20536fe0d50dbfeff911a7ce1212853efa73936b032eb"
+    },
+    {
+      "date": "2026-01-10",
+      "filename": "2026-01-10.parquet",
+      "sha256": "610e3640fd2887ad271a0893ad2d6c7011c44f019c47056abd2e6897fb750019"
+    },
+    {
+      "date": "2026-01-11",
+      "filename": "2026-01-11.parquet",
+      "sha256": "a5f2eb518fa7aa00071c2b57f737d72ad9a2c2ebc4bb6fb24db6fd69b654f641"
+    },
+    {
+      "date": "2026-01-12",
+      "filename": "2026-01-12.parquet",
+      "sha256": "eb75b418c02b949ff99a53a83aa38d637e30dbccf90861730a876c06e2fb201e"
+    },
+    {
+      "date": "2026-01-13",
+      "filename": "2026-01-13.parquet",
+      "sha256": "75fdfea4bf221e34c7eb6edc7de77a56f48c4b2f554d3cb29a0107ffbc6a5876"
+    },
+    {
+      "date": "2026-01-14",
+      "filename": "2026-01-14.parquet",
+      "sha256": "d315ca5cef28c01a301741d4b2bbc66a31485b97f94c1b6b53fb135263c815c3"
+    },
+    {
+      "date": "2026-01-15",
+      "filename": "2026-01-15.parquet",
+      "sha256": "676251c01592d0d2f82c3afc76230d683076011cb34b39ec8361e0293649abfa"
+    },
+    {
+      "date": "2026-01-16",
+      "filename": "2026-01-16.parquet",
+      "sha256": "93cb75d934d9ff80f89dc8e2fd258065186fd24a382673084406cff99d243f3b"
+    },
+    {
+      "date": "2026-01-17",
+      "filename": "2026-01-17.parquet",
+      "sha256": "c02a2e13a15444cd2c9c56d7af0bdcac837b607c1a819df14efa2d411cfdc0d7"
+    },
+    {
+      "date": "2026-01-18",
+      "filename": "2026-01-18.parquet",
+      "sha256": "b2a35126ff455be52082bf8b28da153d7c5917693ce3525642b4291a3acc3ba9"
+    },
+    {
+      "date": "2026-01-19",
+      "filename": "2026-01-19.parquet",
+      "sha256": "9a5ee513a64d3f66c210b30d87753ea0e337007bacafb946fabd0a801768db85"
+    },
+    {
+      "date": "2026-01-20",
+      "filename": "2026-01-20.parquet",
+      "sha256": "4e54e599b4f1f077d3673253a6676b354f9ce0efd06cbf8db7f383e0d9c8f75a"
+    },
+    {
+      "date": "2026-01-21",
+      "filename": "2026-01-21.parquet",
+      "sha256": "deb33d4614f1d4cfe806255e485e909f094e6d955e05608c498e4b25ca05f4c3"
+    },
+    {
+      "date": "2026-01-22",
+      "filename": "2026-01-22.parquet",
+      "sha256": "e8fcb79cd247a9fc714ad54c1c178dbba3bf925f5443aa5ad8ffb7c4d27487d4"
+    },
+    {
+      "date": "2026-01-23",
+      "filename": "2026-01-23.parquet",
+      "sha256": "627340b53e3704b1afe651f8d28ab1e278007e86f65d1b5591155de8bee80aaa"
+    },
+    {
+      "date": "2026-01-24",
+      "filename": "2026-01-24.parquet",
+      "sha256": "1af13a1695dd946b55efc34b358419c0caa8fb8730634c4359bc534543abb64e"
+    },
+    {
+      "date": "2026-01-25",
+      "filename": "2026-01-25.parquet",
+      "sha256": "b08a2680cfa66bd936222ced377415943e424f08ac9b2d6c6217d6de5c911a9c"
+    },
+    {
+      "date": "2026-01-26",
+      "filename": "2026-01-26.parquet",
+      "sha256": "360869566624128b3713815d519903299866e739a494324a1d246a1e224b0516"
+    },
+    {
+      "date": "2026-01-27",
+      "filename": "2026-01-27.parquet",
+      "sha256": "3f67ef5f201932e75b2e410d671b291afa8f529311113d1211cee6f156b6ca80"
+    },
+    {
+      "date": "2026-01-28",
+      "filename": "2026-01-28.parquet",
+      "sha256": "9c91ce2b40814b9caf4c09a521a2cd039e3062d25b2d9ada401a78be3f8a3d84"
+    },
+    {
+      "date": "2026-01-29",
+      "filename": "2026-01-29.parquet",
+      "sha256": "751cb1ec5a5f9ac9863b530b4d179ed8ef7011516edd37b4fc586668d7483d48"
+    },
+    {
+      "date": "2026-01-30",
+      "filename": "2026-01-30.parquet",
+      "sha256": "105dda09f2a8e58082c90c8a6c1c349b625ca30ef8225dca514e1e5658469527"
+    },
+    {
+      "date": "2026-01-31",
+      "filename": "2026-01-31.parquet",
+      "sha256": "91adfe7d268503422150823de5722ae1de90c037ebd6d0a2b3a6cd4bce9ee9d7"
+    },
+    {
+      "date": "2026-02-01",
+      "filename": "2026-02-01.parquet",
+      "sha256": "5ae298511e16c8ea5940367d39d498df4c2c258b8a0da2d6bddc0d2cfaed8958"
+    },
+    {
+      "date": "2026-02-02",
+      "filename": "2026-02-02.parquet",
+      "sha256": "4732df099c0ba5708d539d55a8abe2383ef9e31ee051f9ed0960c7d1debd0c8e"
+    },
+    {
+      "date": "2026-02-03",
+      "filename": "2026-02-03.parquet",
+      "sha256": "5566206e2eb11d99f710f5fe6cb9f1ee67946c849c2abe54e6af1abffe186968"
+    },
+    {
+      "date": "2026-02-04",
+      "filename": "2026-02-04.parquet",
+      "sha256": "64a5a8f710c9bd9b3c9c7769d373602b12aea74873de989ca4e9585d88cf7d17"
+    },
+    {
+      "date": "2026-02-05",
+      "filename": "2026-02-05.parquet",
+      "sha256": "c1c19f35124ebb1e80d6826909b598f72e062b2d011136c6e6389a6d6833c84f"
+    },
+    {
+      "date": "2026-02-06",
+      "filename": "2026-02-06.parquet",
+      "sha256": "51e9fba11e0765d99bdcfd03331586acf631b056f912ca6c5249e0eb0d700f04"
+    },
+    {
+      "date": "2026-02-07",
+      "filename": "2026-02-07.parquet",
+      "sha256": "d11bf41e567175a850a4ac29285df26e98654ab5c6581e5686c209bc9cf990c5"
+    },
+    {
+      "date": "2026-02-08",
+      "filename": "2026-02-08.parquet",
+      "sha256": "9dbc72eed1fab3935b71f4fc26ec495b0f673ef0c6d4069522fb0921809b36d1"
+    },
+    {
+      "date": "2026-02-09",
+      "filename": "2026-02-09.parquet",
+      "sha256": "9fe58ed4cc8154c88beaccef0ad6f3a1d0571e524f773101ccf01a6146f76e1b"
+    },
+    {
+      "date": "2026-02-10",
+      "filename": "2026-02-10.parquet",
+      "sha256": "c2885d9593e9973f26832c7a5d03ba36f5cba0b66c21b50717ac4da4d6212c08"
+    },
+    {
+      "date": "2026-02-11",
+      "filename": "2026-02-11.parquet",
+      "sha256": "88fbd07590ed08728d744b6de1fda2b7de6e6eab39ce4afaf53274c187d769e4"
+    },
+    {
+      "date": "2026-02-12",
+      "filename": "2026-02-12.parquet",
+      "sha256": "a6f1ef7b56162fad6cae4f3ef0036a9ffc545fa6de8f750206e3c517686e3f9a"
+    },
+    {
+      "date": "2026-02-13",
+      "filename": "2026-02-13.parquet",
+      "sha256": "2af120cb6542a23c4e06dd23c529c05d1e67bc72accbbcdfd517da47cf19656e"
+    },
+    {
+      "date": "2026-02-14",
+      "filename": "2026-02-14.parquet",
+      "sha256": "6be6e06f0896a3ac51ed53c132c7fc8c056ce87a590a2320369d8a26a965c4cd"
+    },
+    {
+      "date": "2026-02-15",
+      "filename": "2026-02-15.parquet",
+      "sha256": "325d0f93a369004192a77b3d1d977c1c7500aa09c6f7e0e391c6e2b19472994d"
+    },
+    {
+      "date": "2026-02-16",
+      "filename": "2026-02-16.parquet",
+      "sha256": "6a1a67a4c976daa485660096f1218dbb3ea1b6e7e31cde4cbdbd9aecb6582049"
+    },
+    {
+      "date": "2026-02-17",
+      "filename": "2026-02-17.parquet",
+      "sha256": "31ee8134bec117ea4d66fd7251c98234e355cbb93dc912c9a7d682ba56ea6f89"
+    },
+    {
+      "date": "2026-02-18",
+      "filename": "2026-02-18.parquet",
+      "sha256": "a079a0545310660b9d116b382626cb16a828c9aa94940bb966fa78f565128122"
+    },
+    {
+      "date": "2026-02-19",
+      "filename": "2026-02-19.parquet",
+      "sha256": "87c7bc7987dba8de2c899d78521ac5572b8a5a2e230d7328ccf19a2c73f2e168"
+    },
+    {
+      "date": "2026-02-20",
+      "filename": "2026-02-20.parquet",
+      "sha256": "537b0cad6d3059b90eaac2816bb031978f2e7bfc2762396969e42dab76f0b237"
+    },
+    {
+      "date": "2026-02-21",
+      "filename": "2026-02-21.parquet",
+      "sha256": "c79d6b06b6c4aeb2068e7efc03e837c8e8d9707c914ca69ef3edc133a10e885f"
+    },
+    {
+      "date": "2026-02-22",
+      "filename": "2026-02-22.parquet",
+      "sha256": "d312271ca6fc0be3a41c85864753cbb93696b2ffff237f90fc9e03c100fe4e4e"
+    },
+    {
+      "date": "2026-02-23",
+      "filename": "2026-02-23.parquet",
+      "sha256": "692ab3e3fe4e87afa22ba17dd28c26ffd85c2475cfe6f18ae55b52df6eccde1c"
+    },
+    {
+      "date": "2026-02-24",
+      "filename": "2026-02-24.parquet",
+      "sha256": "8be0e370de1187d6a6f98160b20a18a64c698b878eb4a75ab29b36556000b402"
+    },
+    {
+      "date": "2026-02-25",
+      "filename": "2026-02-25.parquet",
+      "sha256": "7aff19b670c516d08f510bbd5ef462994767fac1ff94afe568f0b4655a4cb5b9"
+    },
+    {
+      "date": "2026-02-26",
+      "filename": "2026-02-26.parquet",
+      "sha256": "cdb3c938dfcd28b6eb032e75a1ca4c3878c55f84db3ba9ff4c28faa7ff0dab88"
+    },
+    {
+      "date": "2026-02-27",
+      "filename": "2026-02-27.parquet",
+      "sha256": "d1707bda82a3d3928211a62fd0467d407e8ffbab391d6297230e395991db2195"
+    },
+    {
+      "date": "2026-02-28",
+      "filename": "2026-02-28.parquet",
+      "sha256": "e9c3f764221566c02163d50d9778e57b413d58e36efeb0b8c02a8642499386cb"
+    },
+    {
+      "date": "2026-03-01",
+      "filename": "2026-03-01.parquet",
+      "sha256": "e8af76f51cabcf535bfe6fe6f91ed96ed3fa829069ba62b78a8e092624b3601f"
+    },
+    {
+      "date": "2026-03-02",
+      "filename": "2026-03-02.parquet",
+      "sha256": "0070919be0a5854ebdde2be069dbe5792ab1242469d9dca5ffbbf58455101213"
+    },
+    {
+      "date": "2026-03-03",
+      "filename": "2026-03-03.parquet",
+      "sha256": "6379217883f20382912121ca8c0f22b53042ec9bd2f1b1964c6749006280633b"
+    },
+    {
+      "date": "2026-03-04",
+      "filename": "2026-03-04.parquet",
+      "sha256": "aa4a6de18e64d89e9e88d5092d21638bbe47a97aaff11b6d92069258bd7e3f89"
+    },
+    {
+      "date": "2026-03-05",
+      "filename": "2026-03-05.parquet",
+      "sha256": "2598b7531d1bd6d3815ba0641901ea3fadf7ef2357952a038fb031fed51422f9"
+    },
+    {
+      "date": "2026-03-06",
+      "filename": "2026-03-06.parquet",
+      "sha256": "9f4e36a07640d5f3b2182d18d1723a5ee1645dc36d113f9504118b89641e18b8"
+    },
+    {
+      "date": "2026-03-07",
+      "filename": "2026-03-07.parquet",
+      "sha256": "322d235e0738bcf91cbbc22789a9d44922d68bd467cdf3e09db195f9fd60ca3f"
+    },
+    {
+      "date": "2026-03-08",
+      "filename": "2026-03-08.parquet",
+      "sha256": "519aacf7b6480ffeb0d95fea0fdb900aec966d0f9dd1d701d8063aab65672132"
+    },
+    {
+      "date": "2026-03-09",
+      "filename": "2026-03-09.parquet",
+      "sha256": "76ed7bb9d49aa1d0e7bd0864178f6d544ccb2e7fdfb2150dc5c9d78b8bc9b184"
+    },
+    {
+      "date": "2026-03-10",
+      "filename": "2026-03-10.parquet",
+      "sha256": "584f4f59a0ee150ab45f4d847b271ab4391a204a668fca18493212b242c6eed9"
+    },
+    {
+      "date": "2026-03-11",
+      "filename": "2026-03-11.parquet",
+      "sha256": "30d103c9a268f8b820524258f032a015fba98f79d5a3b820e9fcc53a6c3a3008"
+    },
+    {
+      "date": "2026-03-12",
+      "filename": "2026-03-12.parquet",
+      "sha256": "866f1ee2f28ce8e2ee8b1a9841e8f8bfe63f25d2e993987e2bcf49d436cd9ae6"
+    },
+    {
+      "date": "2026-03-13",
+      "filename": "2026-03-13.parquet",
+      "sha256": "011d67fd85ab24ee12eda60f67feeeda80c120f264141f32e47fd8d9fd187dba"
+    },
+    {
+      "date": "2026-03-14",
+      "filename": "2026-03-14.parquet",
+      "sha256": "f7102da2a3232934da8f3a177197b1b6e1ff1ccc62f8e5655f8491c45ba06251"
+    },
+    {
+      "date": "2026-03-15",
+      "filename": "2026-03-15.parquet",
+      "sha256": "14b7a82ecac2b8626d64347c568bd05b198faaf2b2c2feeeca513278da66e1f5"
+    },
+    {
+      "date": "2026-03-16",
+      "filename": "2026-03-16.parquet",
+      "sha256": "775e7205c9bea072830f70f3af39893599b5f321af33877e20d3497d618e3922"
+    },
+    {
+      "date": "2026-03-17",
+      "filename": "2026-03-17.parquet",
+      "sha256": "6d5059bd708955cd9339a2cdcd3cc06f099bc5816608612fafe6e0913a2e7567"
+    },
+    {
+      "date": "2026-03-18",
+      "filename": "2026-03-18.parquet",
+      "sha256": "f93ac7516bf6ee614b195a7443e9b74da9a78323c98d96df1c05b07ea83a05f9"
+    },
+    {
+      "date": "2026-03-19",
+      "filename": "2026-03-19.parquet",
+      "sha256": "f7c5b003f1dc56acce52606fdb72d4934b71122ee372e4778c0dd60b633ded66"
+    },
+    {
+      "date": "2026-03-20",
+      "filename": "2026-03-20.parquet",
+      "sha256": "7f968e6d2bbe6e1309bfe5c951d27a63f3b908183b0bb0db62f45c7d68c5c032"
+    },
+    {
+      "date": "2026-03-21",
+      "filename": "2026-03-21.parquet",
+      "sha256": "fc86e055a64bc39391a15ae50c27a77df294e2f0652921c7a19270e754305fa4"
+    },
+    {
+      "date": "2026-03-22",
+      "filename": "2026-03-22.parquet",
+      "sha256": "29efd4e5eabbaec9e34dfd395ffcbba8a9c2709fed920247764cd2aa2e8e478e"
+    },
+    {
+      "date": "2026-03-23",
+      "filename": "2026-03-23.parquet",
+      "sha256": "13000de69a41ce671bc160c4b61d5227b988081f6b671a735ef1f1194aee16e9"
+    },
+    {
+      "date": "2026-03-24",
+      "filename": "2026-03-24.parquet",
+      "sha256": "3ebecdde8e19b157c20c4224c6becf1722a6011f29c150b17b0579f170f5aaa6"
+    },
+    {
+      "date": "2026-03-25",
+      "filename": "2026-03-25.parquet",
+      "sha256": "9a6c4fb91e61baa9cd2c5eecd22203ca4aec3e0d96ac41a9bad699aebfc79af9"
+    },
+    {
+      "date": "2026-03-26",
+      "filename": "2026-03-26.parquet",
+      "sha256": "2ea3cc2d24dccd6c0f49d9c7a617b7be2932a7fb6bcba542fc624be56117bbb9"
+    },
+    {
+      "date": "2026-03-27",
+      "filename": "2026-03-27.parquet",
+      "sha256": "a5a9d0c4b9a378ea50369a4476a7c35874fa1983c04d491c795a40b6e069396f"
+    },
+    {
+      "date": "2026-03-28",
+      "filename": "2026-03-28.parquet",
+      "sha256": "66267ea60c62d44c8ad07379c38b53a2092f578aedbc491c8ac6307eb723c9bc"
+    },
+    {
+      "date": "2026-03-29",
+      "filename": "2026-03-29.parquet",
+      "sha256": "f6023ed615113ef9d49e042cfed0eb98406a7f832141bfdd74c751d5d8d094b3"
+    },
+    {
+      "date": "2026-03-30",
+      "filename": "2026-03-30.parquet",
+      "sha256": "4c121136c7c32c8dfb05cec82dea9868b6da166a67188e0f24f59a12209ba1fa"
+    },
+    {
+      "date": "2026-03-31",
+      "filename": "2026-03-31.parquet",
+      "sha256": "b1a61eb3d9739a0bf012d94b17c2a94264e579fbad06ea93b8a0da650b26dec2"
+    },
+    {
+      "date": "2026-04-01",
+      "filename": "2026-04-01.parquet",
+      "sha256": "93dad5833fd9f7eb738fffc9edf06c10cddc79949c2ec64ec498993f199ee5d1"
+    },
+    {
+      "date": "2026-04-02",
+      "filename": "2026-04-02.parquet",
+      "sha256": "a88f0a8e86fded61fc7ac3eb80017309f1faf3c24cc6b3e43b498fce04f550ba"
+    },
+    {
+      "date": "2026-04-03",
+      "filename": "2026-04-03.parquet",
+      "sha256": "a3c33b7d4d666e0b6ce09561db00b572ac85909f22bf6dd13436f015bcdf2de4"
+    },
+    {
+      "date": "2026-04-04",
+      "filename": "2026-04-04.parquet",
+      "sha256": "26ecee1262a1e8af10833fb95677605a34fd2945118622a5370a805b60de3e71"
+    },
+    {
+      "date": "2026-04-05",
+      "filename": "2026-04-05.parquet",
+      "sha256": "7c0a1b6a8696cb622acbf43f3af717bdf678e48d77a3979e228a0e849553a7a6"
+    },
+    {
+      "date": "2026-04-06",
+      "filename": "2026-04-06.parquet",
+      "sha256": "0d4a8783ac733b594f629aec3b48975b3f8716a3e9c3b200ad8f366c5686d233"
+    },
+    {
+      "date": "2026-04-07",
+      "filename": "2026-04-07.parquet",
+      "sha256": "71240a63eb46d6d57436508c3c8b8a12250cd58f84cd512dec53ce393084033b"
+    },
+    {
+      "date": "2026-04-08",
+      "filename": "2026-04-08.parquet",
+      "sha256": "9e110bb4cb060aa8809c1073ac781ea2801118aa9a262e0f98803275de01773f"
+    },
+    {
+      "date": "2026-04-09",
+      "filename": "2026-04-09.parquet",
+      "sha256": "70aa1de9c10c741d4b78390343187de52dd9bc7834019af31d792912b32e14ce"
+    },
+    {
+      "date": "2026-04-10",
+      "filename": "2026-04-10.parquet",
+      "sha256": "bf021bb807e4d4ffffe6e4a1ef3cd987ec0716fd92e27f802134154e7479aac7"
+    },
+    {
+      "date": "2026-04-11",
+      "filename": "2026-04-11.parquet",
+      "sha256": "3295ef334c4bde525870b09b64d0cc7bc3963ae0481fc53a36efc14608c36c65"
+    },
+    {
+      "date": "2026-04-12",
+      "filename": "2026-04-12.parquet",
+      "sha256": "22df517d71f7a44c8ba50f5be0b3d5acf33a562a37713966f4ab69b0b8e7104b"
+    },
+    {
+      "date": "2026-04-13",
+      "filename": "2026-04-13.parquet",
+      "sha256": "ded3cde0f38b440fc2e1859425c9ff75a00a9cb0393ec7b64d66b1a3eb1f1e69"
+    },
+    {
+      "date": "2026-04-14",
+      "filename": "2026-04-14.parquet",
+      "sha256": "774102c902e0e1c7760bd423356e4b9f39335c741c3171294ff18d0366d13e12"
+    },
+    {
+      "date": "2026-04-15",
+      "filename": "2026-04-15.parquet",
+      "sha256": "232398762106bbe7316e00421b091a4ecb14bc58766a33b8945dc06f18293f4c"
+    },
+    {
+      "date": "2026-04-16",
+      "filename": "2026-04-16.parquet",
+      "sha256": "adbfa80fcbee553a090f7a448ba89ff05ae7aebe5fae2993056b04ae60324373"
+    },
+    {
+      "date": "2026-04-17",
+      "filename": "2026-04-17.parquet",
+      "sha256": "0e2b8d904f4fb21bf375ef4bbe2bc0f4273c857519269db7174e369831e138f3"
+    },
+    {
+      "date": "2026-04-18",
+      "filename": "2026-04-18.parquet",
+      "sha256": "9887691fdbbc1e6dbb84f7101889b770b7808162bedd7ae6aad3b2affe8e3b7b"
+    },
+    {
+      "date": "2026-04-19",
+      "filename": "2026-04-19.parquet",
+      "sha256": "e4fb6ad53db39a247d5382a69b89a9b862003b10c5d4831d60f62984b84704ef"
+    },
+    {
+      "date": "2026-04-20",
+      "filename": "2026-04-20.parquet",
+      "sha256": "732cca6676b8a2a3b18436e3deb9badf033ab6ab16d38e0a3144f44daf52d325"
+    },
+    {
+      "date": "2026-04-21",
+      "filename": "2026-04-21.parquet",
+      "sha256": "f9d4874f7ee01aa0e4c5dbe6bcd57d90b47ebe6e930308d033e50eebff1130a5"
+    },
+    {
+      "date": "2026-04-22",
+      "filename": "2026-04-22.parquet",
+      "sha256": "8b05441499c575faecddaaed63e72a8e75461fe31039faffd5271a98d1b81dc3"
+    },
+    {
+      "date": "2026-04-23",
+      "filename": "2026-04-23.parquet",
+      "sha256": "cf092ec7bfeabffc9e8a994ed12736229df81111287655db9a7e1c348fff0f59"
+    },
+    {
+      "date": "2026-04-24",
+      "filename": "2026-04-24.parquet",
+      "sha256": "793d2c501b9c9f97a1e8c53a923082f458c8dcfdf6429d6265e80a463399e309"
+    },
+    {
+      "date": "2026-04-25",
+      "filename": "2026-04-25.parquet",
+      "sha256": "47df33059768e4a38cf8ca4bcb88ae1576b8bb5ae4c381c7bf614569882c3800"
+    },
+    {
+      "date": "2026-04-26",
+      "filename": "2026-04-26.parquet",
+      "sha256": "3f549b7abb4b26a4cc059887a38502242cc07d066a42608b83c636b655d2634d"
+    },
+    {
+      "date": "2026-04-27",
+      "filename": "2026-04-27.parquet",
+      "sha256": "bd02746252106995e1234e70aaddeef4e7783f9197603619d5d53e054cc88e3b"
+    },
+    {
+      "date": "2026-04-28",
+      "filename": "2026-04-28.parquet",
+      "sha256": "5ff309ec17914c6a41b5d3aafdbd987e19a3bd0a06a4a81ad6731b957278853e"
+    },
+    {
+      "date": "2026-04-29",
+      "filename": "2026-04-29.parquet",
+      "sha256": "7cfd76bfc9d3e01f5b6063f57cf6944220653951f74ec8e7b601a74b0201582d"
+    },
+    {
+      "date": "2026-04-30",
+      "filename": "2026-04-30.parquet",
+      "sha256": "2f418982357fe9275b029b29768734da29e163e3be3d2ff26eafc69dfe1318be"
+    },
+    {
+      "date": "2026-05-01",
+      "filename": "2026-05-01.parquet",
+      "sha256": "dfe4d8005570f53840a41b8202267fb55c383cf2d627e3398633c9d9309ba53c"
+    },
+    {
+      "date": "2026-05-02",
+      "filename": "2026-05-02.parquet",
+      "sha256": "305da342059ac56016b30367cdf93f0a83eff5ec5a4942cdce9506149b9f5841"
+    },
+    {
+      "date": "2026-05-03",
+      "filename": "2026-05-03.parquet",
+      "sha256": "6019ac396e7226ca3857ad90965cd7119cf3b0407e3768b8077a2665b875a3aa"
+    },
+    {
+      "date": "2026-05-04",
+      "filename": "2026-05-04.parquet",
+      "sha256": "8a369a64a7a79bd8a1fad667f71a664498fc77db91be2a28fa7e64608406dbd9"
+    },
+    {
+      "date": "2026-05-05",
+      "filename": "2026-05-05.parquet",
+      "sha256": "0b70ebf30a7ab928578c0197fe41f2a4f1f64665dc4788e32ee77ed800cb53c3"
+    },
+    {
+      "date": "2026-05-06",
+      "filename": "2026-05-06.parquet",
+      "sha256": "40abada03970cc43a989d3ab71a7cf03f85cc437db9471316c4ca17859b28ca6"
+    },
+    {
+      "date": "2026-05-07",
+      "filename": "2026-05-07.parquet",
+      "sha256": "48ca7dda26f0a37b66a17e67ac174e132ead626aa353fa42bb38a344bb1e3dd4"
+    },
+    {
+      "date": "2026-05-08",
+      "filename": "2026-05-08.parquet",
+      "sha256": "01f5852e863ef6daeb2b50c506121db3909a5d0eeb0581f477061bda24e0136c"
+    },
+    {
+      "date": "2026-05-09",
+      "filename": "2026-05-09.parquet",
+      "sha256": "6abebbe32df594b47bbb51c7dd022908caa78368c1311efc0cd2fb1df01ca8a4"
+    },
+    {
+      "date": "2026-05-10",
+      "filename": "2026-05-10.parquet",
+      "sha256": "a380c01f4043ffe7b3d808a216fc980b779436ff18c856442d3ae58845918799"
+    },
+    {
+      "date": "2026-05-11",
+      "filename": "2026-05-11.parquet",
+      "sha256": "7c74b46a341e5b0029a635d5a0f47f81e51a094d8757f288e0c4f4e38e68f7a5"
+    },
+    {
+      "date": "2026-05-12",
+      "filename": "2026-05-12.parquet",
+      "sha256": "3f417f9759c527721abf239156874fe66857a00fc8caf9e96b75146d305ece5d"
+    },
+    {
+      "date": "2026-05-13",
+      "filename": "2026-05-13.parquet",
+      "sha256": "f28e32b6b0ee6ebb15508ff584242d7780333a5191760248eaa70f594d343abd"
+    },
+    {
+      "date": "2026-05-14",
+      "filename": "2026-05-14.parquet",
+      "sha256": "2568624a446f2f3ddad0783745f950c86fb6046147c4761e109c19e97418dff7"
+    },
+    {
+      "date": "2026-05-15",
+      "filename": "2026-05-15.parquet",
+      "sha256": "315e963078483f2e13a502de60ff9827b7b1791a2c364bb85e734d5a2355865a"
+    },
+    {
+      "date": "2026-05-16",
+      "filename": "2026-05-16.parquet",
+      "sha256": "a5719ef184fdf421b64a7c563b0ea6fc1089db5dc3c9c3700d96659a3a63751b"
+    },
+    {
+      "date": "2026-05-17",
+      "filename": "2026-05-17.parquet",
+      "sha256": "1b3b3a8a892d965e0397c90646a47328c8799405132ff2489e6687e35c2d5103"
+    },
+    {
+      "date": "2026-05-18",
+      "filename": "2026-05-18.parquet",
+      "sha256": "cb6cdc8dda9c4b116aecb55aec5eec0b3688bbc2cc8241a09157807d6faa3faf"
+    },
+    {
+      "date": "2026-05-19",
+      "filename": "2026-05-19.parquet",
+      "sha256": "a7b2e55f69c36cc1a02ea83292c1615ec590292a85d826dc20e0d7882cb0f378"
+    },
+    {
+      "date": "2026-05-20",
+      "filename": "2026-05-20.parquet",
+      "sha256": "fa7b631732cfb673e07d222db30fa616610e9d8aff26bbddba9515cfc896580f"
+    },
+    {
+      "date": "2026-05-21",
+      "filename": "2026-05-21.parquet",
+      "sha256": "1d174e961b39e08e2405c943dcf5d29a80cd77c43cea2247b478561373ad1318"
+    },
+    {
+      "date": "2026-05-22",
+      "filename": "2026-05-22.parquet",
+      "sha256": "0111f70333a56a06668ac2340334967884ce50ec37868bd1e77d666c2caf3736"
+    },
+    {
+      "date": "2026-05-23",
+      "filename": "2026-05-23.parquet",
+      "sha256": "272bdebbe77aab7fcded8e1f794eb588ee0dab14a85ce7123c4d4aff711ce685"
+    },
+    {
+      "date": "2026-05-24",
+      "filename": "2026-05-24.parquet",
+      "sha256": "2923d2777bce79f49ca34c0cd565c9ad53debc906cd53ae6691ed1b787ab2604"
+    },
+    {
+      "date": "2026-05-25",
+      "filename": "2026-05-25.parquet",
+      "sha256": "24c6057a97b6f3e357cdf4615c6960180372017da4f7b74e38c48385e9747274"
+    },
+    {
+      "date": "2026-05-26",
+      "filename": "2026-05-26.parquet",
+      "sha256": "7e8bf6b6c0b042f635489c5bb3a25442079e55008587c9e90c82715d331a12ba"
+    },
+    {
+      "date": "2026-05-27",
+      "filename": "2026-05-27.parquet",
+      "sha256": "1bc07da514749962592a18149aa4995f1ceccbde6af3417cab8efd847767300d"
+    },
+    {
+      "date": "2026-05-28",
+      "filename": "2026-05-28.parquet",
+      "sha256": "104ba16c8a9cb0e1ab9302c6f31dc65d1c9049d32bc6c2dfdf407d84e93bc70d"
+    },
+    {
+      "date": "2026-05-29",
+      "filename": "2026-05-29.parquet",
+      "sha256": "fbc92e0cfbc9a13a34514a8ec1e1b00f24fbca67e6ad45ef76f5c74b02eb1160"
+    },
+    {
+      "date": "2026-05-30",
+      "filename": "2026-05-30.parquet",
+      "sha256": "e3a4921116a454b6c3e50bd33b4779632ab633b43b83ea6fda7fa38f18413f1f"
+    },
+    {
+      "date": "2026-05-31",
+      "filename": "2026-05-31.parquet",
+      "sha256": "ba3e58cf9f495ff830c97bb1f796f66e44d68fea6d6e7a347efb7a66560f0c39"
+    },
+    {
+      "date": "2026-06-01",
+      "filename": "2026-06-01.parquet",
+      "sha256": "7243e3c3b03d30a4a36063e1c1f1f8abef6ba9d4689ef077c399e83b8afa52f0"
+    },
+    {
+      "date": "2026-06-02",
+      "filename": "2026-06-02.parquet",
+      "sha256": "e1f908f718b237ba24a557a11ce8f50dfb5de02200ac10334396d821be02f338"
+    },
+    {
+      "date": "2026-06-03",
+      "filename": "2026-06-03.parquet",
+      "sha256": "68083248bf5c333b9ad2dbf04e334b8e496a20e3ff05b67686e91f4bd69b5a06"
+    },
+    {
+      "date": "2026-06-04",
+      "filename": "2026-06-04.parquet",
+      "sha256": "2dc3e8123374ef32f57ee6df33b05573efba626633d62eaef3000dfe1d6c59bb"
+    },
+    {
+      "date": "2026-06-05",
+      "filename": "2026-06-05.parquet",
+      "sha256": "52b545ecf938f409550c073c2bde51bed90416f845f72224da7e5e3a88ece86b"
+    },
+    {
+      "date": "2026-06-06",
+      "filename": "2026-06-06.parquet",
+      "sha256": "b7ae02b970e7a7db495dc0e045929f6e19ed83c0649f696d5c7d2ea0e3bbe9e5"
+    },
+    {
+      "date": "2026-06-07",
+      "filename": "2026-06-07.parquet",
+      "sha256": "5ac92c2e35fa61a388d9a376076d8920c7d517b6045acd2956d9c5f9c76d354f"
+    },
+    {
+      "date": "2026-06-08",
+      "filename": "2026-06-08.parquet",
+      "sha256": "a4c7d22a08e2b68a59d992530d27446692e7fef4a528abed4f7031d8e046204d"
+    },
+    {
+      "date": "2026-06-09",
+      "filename": "2026-06-09.parquet",
+      "sha256": "d2d9a942db0f8256cae6ffc5dbbd801f2eb6ff99250c984dd736f0b6d33f7b80"
+    },
+    {
+      "date": "2026-06-10",
+      "filename": "2026-06-10.parquet",
+      "sha256": "2fc3d0b2c79c0da6b961902c247762b927dcf82b4bb2771fde928b0e2d8052df"
+    },
+    {
+      "date": "2026-06-11",
+      "filename": "2026-06-11.parquet",
+      "sha256": "36ae531d0c330b137efb8bb3c0c93e61d855a77713ce41b3a5ffca79d67f2501"
+    },
+    {
+      "date": "2026-06-12",
+      "filename": "2026-06-12.parquet",
+      "sha256": "e0b924cb5fa466364858e67b1a1076f46bc8fc8643445beb695702570d6a3dd3"
+    },
+    {
+      "date": "2026-06-13",
+      "filename": "2026-06-13.parquet",
+      "sha256": "255819e662177bb6a4857a4774c0ac4486d0cc73e0b005fc43b9eae695c1d1b5"
+    },
+    {
+      "date": "2026-06-14",
+      "filename": "2026-06-14.parquet",
+      "sha256": "4b45c72c1d4056be0b9cf88f2f614f77fa0bc302635e6ee4ae70a52e9fd13274"
+    },
+    {
+      "date": "2026-06-15",
+      "filename": "2026-06-15.parquet",
+      "sha256": "0dcc6a43f8766806674a8416e85d832c3af6f9313ac934126f669c030ac577d7"
+    },
+    {
+      "date": "2026-06-16",
+      "filename": "2026-06-16.parquet",
+      "sha256": "afb4390c4b9b259a9ff6865f19b5939e1c1ededf16d0a00ce3df5c222a4bbbf1"
+    },
+    {
+      "date": "2026-06-17",
+      "filename": "2026-06-17.parquet",
+      "sha256": "da2d310b26bbfe4a28c8d83a5a1c9d8e65c6ed86ff0d44ae83f3e0eb168337de"
+    },
+    {
+      "date": "2026-06-18",
+      "filename": "2026-06-18.parquet",
+      "sha256": "5b7a41db42923a7dc4ba0a80aa923681c15fb95e9469bceab321fa6332aa583f"
+    },
+    {
+      "date": "2026-06-19",
+      "filename": "2026-06-19.parquet",
+      "sha256": "e4682c10b86da57aafcda2a4c1806a68a28b91c335248e715d71e637562b75f6"
+    },
+    {
+      "date": "2026-06-20",
+      "filename": "2026-06-20.parquet",
+      "sha256": "ede1b1e2027620d49f92aadcc2418988d434ecb5dc50ec766c1f66944b358e11"
+    },
+    {
+      "date": "2026-06-21",
+      "filename": "2026-06-21.parquet",
+      "sha256": "10d31b263a9217fe726cc5303264b3eb0d6e06ea3f8d1c9cbe5e532a243f4f96"
+    },
+    {
+      "date": "2026-06-22",
+      "filename": "2026-06-22.parquet",
+      "sha256": "d5b235e3b525b142140e4cf16a543cd299365684950d08c9eb25eb2b39bbd1b8"
+    },
+    {
+      "date": "2026-06-23",
+      "filename": "2026-06-23.parquet",
+      "sha256": "cfb0fe9d7476d331fa4419c11ed223cde1b887a2d94f8cff05c50005eac7160c"
+    },
+    {
+      "date": "2026-06-24",
+      "filename": "2026-06-24.parquet",
+      "sha256": "2720e5ff3bf218cbdc2f1e5dc1300c8268f683a5966318bd5e8922772dc3eef2"
+    },
+    {
+      "date": "2026-06-25",
+      "filename": "2026-06-25.parquet",
+      "sha256": "cc4174f7917898a6cf74208e0bee6b7b54dce9aa8e614d4ae696582152cd9229"
+    },
+    {
+      "date": "2026-06-26",
+      "filename": "2026-06-26.parquet",
+      "sha256": "8092d0f7821d178421d80fbbec933c9c6f5945c96365064ba3b559eb39aa88aa"
+    },
+    {
+      "date": "2026-06-27",
+      "filename": "2026-06-27.parquet",
+      "sha256": "3ef194529f1f03b3b659fdc742d08646011f61577e1c5edef71a0e754611f321"
+    },
+    {
+      "date": "2026-06-28",
+      "filename": "2026-06-28.parquet",
+      "sha256": "14a085111120c61ab032c3b87ab5fe8c63d78f79e5b5f81337f9d7f9b6e8bc98"
+    },
+    {
+      "date": "2026-06-29",
+      "filename": "2026-06-29.parquet",
+      "sha256": "c25435adb5ad53e82996d6b98d8d5e24c5cf7f980db350c443aae9bdb6abd99c"
+    },
+    {
+      "date": "2026-06-30",
+      "filename": "2026-06-30.parquet",
+      "sha256": "b9f6957b59f02bcf72216e67d35b4295eb243b899249d0987dda2e0310cba585"
+    },
+    {
+      "date": "2026-07-01",
+      "filename": "2026-07-01.parquet",
+      "sha256": "99276ced3f36dcd8ce34fdf5263602e3c9c55d547ff969eb3b1a060a1eb73f60"
+    },
+    {
+      "date": "2026-07-02",
+      "filename": "2026-07-02.parquet",
+      "sha256": "a691ea2c06875258e14c309131aaee1c7fc5aa03c3fcd6db9fa230bb5243341a"
+    },
+    {
+      "date": "2026-07-03",
+      "filename": "2026-07-03.parquet",
+      "sha256": "535732acfd23370b184f7c1eea3b7316a105d8a800b83381281728de72e5048b"
+    },
+    {
+      "date": "2026-07-04",
+      "filename": "2026-07-04.parquet",
+      "sha256": "149f9ac12b888711262c3206f6d08225b3e21eb2a147097691f1d4538ce3f02b"
+    },
+    {
+      "date": "2026-07-05",
+      "filename": "2026-07-05.parquet",
+      "sha256": "cf42469c1ee532ec9449925630c6921ba4b48b786c9aac2a39a13bea89b4a5f6"
+    },
+    {
+      "date": "2026-07-06",
+      "filename": "2026-07-06.parquet",
+      "sha256": "f794a34ef3a17cb2c12c04210b659f433c7aa26c779af3d4a4523cb5afbf85c2"
+    },
+    {
+      "date": "2026-07-07",
+      "filename": "2026-07-07.parquet",
+      "sha256": "18e60eca1c47e951fbba60e4612c62e379b13d9cab19c99b765ed85c73c40826"
+    },
+    {
+      "date": "2026-07-08",
+      "filename": "2026-07-08.parquet",
+      "sha256": "4a421f256076109b7d5d79c4c373fa0e30fda2975d85663511d2b698b323ef6f"
+    },
+    {
+      "date": "2026-07-09",
+      "filename": "2026-07-09.parquet",
+      "sha256": "56d1d4e44e18f142cf243aab741d3735a5d5471f930b53746dad0f26b2c16aa0"
+    },
+    {
+      "date": "2026-07-10",
+      "filename": "2026-07-10.parquet",
+      "sha256": "b734ec0e8773468c842979e95ca8ea06aebe77a29abec4041ee0c2f8525e0f25"
+    },
+    {
+      "date": "2026-07-11",
+      "filename": "2026-07-11.parquet",
+      "sha256": "3947321758a621f1e0856deb8c0d827145b5a2bc00cb6d0fe97f5283b66fa5bd"
+    },
+    {
+      "date": "2026-07-12",
+      "filename": "2026-07-12.parquet",
+      "sha256": "d5d057adf072becc41bc48eccd1e9e1762e8824588872177fb0e3990921f8285"
+    },
+    {
+      "date": "2026-07-13",
+      "filename": "2026-07-13.parquet",
+      "sha256": "e34d9dd574b492fa837cc4d61de9b51387a00cecb82759c83741966b02fde7f8"
+    },
+    {
+      "date": "2026-07-14",
+      "filename": "2026-07-14.parquet",
+      "sha256": "87ca33f38098625919dc780ce4d2decbea5c06b57c4ece40cc6e5527e668cc81"
+    },
+    {
+      "date": "2026-07-15",
+      "filename": "2026-07-15.parquet",
+      "sha256": "2d80a53b9421bc0ed981286bb86c64fcf47c676bbb11b6fd2abc916267e7527c"
+    },
+    {
+      "date": "2026-07-16",
+      "filename": "2026-07-16.parquet",
+      "sha256": "0e3df76dd2e4135ed5f93de6c545a4aa83b71b15ff5ff59f221c2e275e3eb1f1"
+    },
+    {
+      "date": "2026-07-17",
+      "filename": "2026-07-17.parquet",
+      "sha256": "db82deb690cead96c00ecd51d82b10f62f8cad837d76e3a4631da4346416c23a"
+    },
+    {
+      "date": "2026-07-18",
+      "filename": "2026-07-18.parquet",
+      "sha256": "0a72b40f6dd9f0b278d7c13135d9e0fa60da1df9b9a14e4b160d6b73292e8f0a"
+    },
+    {
+      "date": "2026-07-19",
+      "filename": "2026-07-19.parquet",
+      "sha256": "1c06b8bb6523d7cfe26bb9cd5580e846b9d7d19c7b859a0b5441fd86179a8095"
+    },
+    {
+      "date": "2026-07-20",
+      "filename": "2026-07-20.parquet",
+      "sha256": "2325a8b5f119ef22c878e115e39900c2ebbfc150d2a99552d4ca344f45cb9114"
+    },
+    {
+      "date": "2026-07-21",
+      "filename": "2026-07-21.parquet",
+      "sha256": "804de01c79f2eb0c5b939c487d99557d8389bb5428ebe09a068f9ecbfa9bcbe1"
+    },
+    {
+      "date": "2026-07-22",
+      "filename": "2026-07-22.parquet",
+      "sha256": "129b3284ac8ffa7a4303c968986738d7ec42558692a7df16d1b6803553e03b24"
+    },
+    {
+      "date": "2026-07-23",
+      "filename": "2026-07-23.parquet",
+      "sha256": "d0aeaeca66e3b59f31c745f150a10acbb8c778730176fece06efe7ef5d0f150e"
+    },
+    {
+      "date": "2026-07-24",
+      "filename": "2026-07-24.parquet",
+      "sha256": "2f6ef5c76d323e74a7b322428a89c9eb71d3b59c9e49043acaf2d4b46de1de9d"
+    },
+    {
+      "date": "2026-07-25",
+      "filename": "2026-07-25.parquet",
+      "sha256": "9549ffc0ee0c445f6bf014a662851d29c09b9fb797024b932cbe03167d14aefe"
+    },
+    {
+      "date": "2026-07-26",
+      "filename": "2026-07-26.parquet",
+      "sha256": "b9da2c0f9b9769d341c97f6bc262bc57e88c85f87044a8909821c693ee29ab55"
+    },
+    {
+      "date": "2026-07-27",
+      "filename": "2026-07-27.parquet",
+      "sha256": "ab1e50219692b5c2007521415df827c6e15ccd69fe73f3191c26e74ff8754099"
+    },
+    {
+      "date": "2026-07-28",
+      "filename": "2026-07-28.parquet",
+      "sha256": "2036c6f40f71b5ae087a25c50618ebcda39ff4eb92d6bd8f08427899b8fae5a5"
+    },
+    {
+      "date": "2026-07-29",
+      "filename": "2026-07-29.parquet",
+      "sha256": "bcf512b0862a5394f71c816e0cc76f6c4ee18a4867b400b46d2017c02beb840f"
+    },
+    {
+      "date": "2026-07-30",
+      "filename": "2026-07-30.parquet",
+      "sha256": "fcf3819e12e8269cbe55f8b0fb82c7788068653f0f31b94b848dc7842e6523ff"
+    },
+    {
+      "date": "2026-07-31",
+      "filename": "2026-07-31.parquet",
+      "sha256": "d19cd522488e03c75bd2393c87d64fd4ce15db6a6b467585662dbdfbff26e218"
+    },
+    {
+      "date": "2026-08-01",
+      "filename": "2026-08-01.parquet",
+      "sha256": "e3009f30a4307a7ef08037f20afcf7ef6e99f14dc2f21daec9aa463dee64d15c"
+    },
+    {
+      "date": "2026-08-02",
+      "filename": "2026-08-02.parquet",
+      "sha256": "c5fb2776bf64dea119f98409b8ca88fb5f579447e9f5377df9be7e6b97e409ae"
+    },
+    {
+      "date": "2026-08-03",
+      "filename": "2026-08-03.parquet",
+      "sha256": "ef03b6bd096a59151e2a0a46befa5fcbc99017dfb7c1d77ccdaea9ad8ce6680d"
+    },
+    {
+      "date": "2026-08-04",
+      "filename": "2026-08-04.parquet",
+      "sha256": "7fbb4bc6cbb90c7616e188385e165b9950f971b7870f93dc45a215da1422c1b4"
+    },
+    {
+      "date": "2026-08-05",
+      "filename": "2026-08-05.parquet",
+      "sha256": "b4c0cedc50b38d9b44f6fe42cfa6afca75733a69e4376cc0d2fcb7bc666bf720"
+    },
+    {
+      "date": "2026-08-06",
+      "filename": "2026-08-06.parquet",
+      "sha256": "b20c97249aaa4ee2f3c5c7481e55bf3c5699abc5e4971ebb4f76694f96589c99"
+    },
+    {
+      "date": "2026-08-07",
+      "filename": "2026-08-07.parquet",
+      "sha256": "b27d708ddbd0501a66a76b2ad5cdc453049bf826eb645849cba412bcf781a353"
+    },
+    {
+      "date": "2026-08-08",
+      "filename": "2026-08-08.parquet",
+      "sha256": "7b91c023541609f4385bec86585ae7c5cf319d982422c84dfa2ca22f88643767"
+    },
+    {
+      "date": "2026-08-09",
+      "filename": "2026-08-09.parquet",
+      "sha256": "37661f8c3c069b050fc73e490912ea77405152a7771bbba48352b1ca0ce737e6"
+    },
+    {
+      "date": "2026-08-10",
+      "filename": "2026-08-10.parquet",
+      "sha256": "e5e10db5c3e16b31e3dc5da08f36243f2d0f1cf97961c97a18e69205dd14d2a3"
+    },
+    {
+      "date": "2026-08-11",
+      "filename": "2026-08-11.parquet",
+      "sha256": "542463ac9b805a65a5fc208b4d064dfaca15aa2f981e90e60b9accda54306284"
+    },
+    {
+      "date": "2026-08-12",
+      "filename": "2026-08-12.parquet",
+      "sha256": "027145ef2be86c342cb9d080a9533f2f811fe9342861eafece220bcec515c977"
+    },
+    {
+      "date": "2026-08-13",
+      "filename": "2026-08-13.parquet",
+      "sha256": "731f65ca75882d8c30f575727b62fef435290b01323011b81f391a6e3fdd4c84"
+    },
+    {
+      "date": "2026-08-14",
+      "filename": "2026-08-14.parquet",
+      "sha256": "1994bc866b3f2df08fc2f33bc7bff33ad8551b817d6c5bdd79d45041fbceb05e"
+    },
+    {
+      "date": "2026-08-15",
+      "filename": "2026-08-15.parquet",
+      "sha256": "0fe22fb22fe891847662021a986855dda5191724c7c02a465814830697876433"
+    },
+    {
+      "date": "2026-08-16",
+      "filename": "2026-08-16.parquet",
+      "sha256": "30e6e24fb4568c736859e0fc6cb09a0dc01d8863c1268df1e1169c7b400165f5"
+    },
+    {
+      "date": "2026-08-17",
+      "filename": "2026-08-17.parquet",
+      "sha256": "cc3593b1d88384e9d5df6311f0bdb68922b4d2013e1ffeb42bc8b7bb4f2c49c4"
+    },
+    {
+      "date": "2026-08-18",
+      "filename": "2026-08-18.parquet",
+      "sha256": "5c267f0c6cbca8664c073768817aaafc2c1e109d374a5e337721d1d688acc5ac"
+    },
+    {
+      "date": "2026-08-19",
+      "filename": "2026-08-19.parquet",
+      "sha256": "92df483350693b301ea2b323c607d6022465c2507e8d9ec2db86543a9ee81434"
+    },
+    {
+      "date": "2026-08-20",
+      "filename": "2026-08-20.parquet",
+      "sha256": "d706aed64c3b02609a2e41cf37ad5f824617a6be458bd491a26c281faf6cb85b"
+    },
+    {
+      "date": "2026-08-21",
+      "filename": "2026-08-21.parquet",
+      "sha256": "2dcd945e2ebd2e7d861dd20b1bd495d438db2b2693f822ae560f5fd3549f666c"
+    },
+    {
+      "date": "2026-08-22",
+      "filename": "2026-08-22.parquet",
+      "sha256": "be3bdd56c310510f554fdb6a1636e46491ec9e474d8094e649cce3d6dfbe1b0b"
+    },
+    {
+      "date": "2026-08-23",
+      "filename": "2026-08-23.parquet",
+      "sha256": "57f5f5f95aa74ac2e9afb38a72319a1926d0b64511cd56f417d225897d847e18"
+    },
+    {
+      "date": "2026-08-24",
+      "filename": "2026-08-24.parquet",
+      "sha256": "b44a8b4842ff9ebd41db75c1ae62e49d706e6fe1b925cfb93460817005c3aa72"
+    },
+    {
+      "date": "2026-08-25",
+      "filename": "2026-08-25.parquet",
+      "sha256": "79ff8e0dee466cec302676eab12657dde5a6cc5fdbd817ddbd7926d62c4eb2e3"
+    },
+    {
+      "date": "2026-08-26",
+      "filename": "2026-08-26.parquet",
+      "sha256": "2726f0373243129b9db21e8f0fb6bee5e50eaa77daa8c55e31324bc1dd7ed60d"
+    },
+    {
+      "date": "2026-08-27",
+      "filename": "2026-08-27.parquet",
+      "sha256": "951cda520689325027e60a2cba20ed35b156e514879667c0ca44fa57752237b6"
+    },
+    {
+      "date": "2026-08-28",
+      "filename": "2026-08-28.parquet",
+      "sha256": "8b2a297c4a46e7bc24b153aeae9a3afe76b2aaf691824a4b5f1642cce5d59206"
+    },
+    {
+      "date": "2026-08-29",
+      "filename": "2026-08-29.parquet",
+      "sha256": "ca7e7b84dfbef873879cb7716a5c49737bc9898d38ef1fa2dd6b4f75166f0209"
+    },
+    {
+      "date": "2026-08-30",
+      "filename": "2026-08-30.parquet",
+      "sha256": "a83851352447092b41702a0bb05b87a2e44a2246ade9a4930b0757250a7e8945"
+    },
+    {
+      "date": "2026-08-31",
+      "filename": "2026-08-31.parquet",
+      "sha256": "40a5ddea4cbeb106092ba3d0146b4b6445000eefccb0011b7d73ffd14f4d048c"
+    },
+    {
+      "date": "2026-09-01",
+      "filename": "2026-09-01.parquet",
+      "sha256": "f77264b0cf17b2d0f6941befe0a0120ccb4eb40616f6ef7275b240548912acd4"
+    },
+    {
+      "date": "2026-09-02",
+      "filename": "2026-09-02.parquet",
+      "sha256": "86d3d3696778893d665fdabecc2399c09fbf6a0f7fd40809a069cc78edf913ce"
+    },
+    {
+      "date": "2026-09-03",
+      "filename": "2026-09-03.parquet",
+      "sha256": "abe12ddbe2400e3995fd1f7ea18a1cc1e41cf9ca4bdc22b5e83f6048e11712d1"
+    },
+    {
+      "date": "2026-09-04",
+      "filename": "2026-09-04.parquet",
+      "sha256": "c72bfa2389c0ccccecca3ad7bf5cf055ad7709419def759cd86bec9d5d8fa2b1"
+    },
+    {
+      "date": "2026-09-05",
+      "filename": "2026-09-05.parquet",
+      "sha256": "e0fb6d14ee50195cddf56e5d53cdbd12848bc0dd9d038d4d8f2208cd483fe232"
+    },
+    {
+      "date": "2026-09-06",
+      "filename": "2026-09-06.parquet",
+      "sha256": "8f000f271d2ea52157e410b388b4c562ff6422c74077968960e4260ad994e512"
+    },
+    {
+      "date": "2026-09-07",
+      "filename": "2026-09-07.parquet",
+      "sha256": "dc87f57b2f1ba9641dc0f9456f979bd1596c1e59e0f236f7a78aef0db3f19764"
+    },
+    {
+      "date": "2026-09-08",
+      "filename": "2026-09-08.parquet",
+      "sha256": "34bc937ddcf286725d0ae66039b3ebc125fe99945e97be61acf3f996b46614e7"
+    },
+    {
+      "date": "2026-09-09",
+      "filename": "2026-09-09.parquet",
+      "sha256": "55c725ab8cfa0dfec08188313ee0ca8be845add3e216fb1057dfaf464f5a65d3"
+    },
+    {
+      "date": "2026-09-10",
+      "filename": "2026-09-10.parquet",
+      "sha256": "c6d454473a9c574cfaad0b31b405b402e3a9c0811c657f909dbd610f244b1b1a"
+    },
+    {
+      "date": "2026-09-11",
+      "filename": "2026-09-11.parquet",
+      "sha256": "4347f1b8d4c3a029e5b8fb3a3bbacf61d21f258a743b451a12eca5e8f52e0057"
+    },
+    {
+      "date": "2026-09-12",
+      "filename": "2026-09-12.parquet",
+      "sha256": "007545d6c28c94bb6bb913694eb427da0c5de06e2c49030a3ee84449038dcad3"
+    },
+    {
+      "date": "2026-09-13",
+      "filename": "2026-09-13.parquet",
+      "sha256": "bacc429cc6cd175070697b008270ee4cf7231d7d0316c1d549af39e00d46f5df"
+    },
+    {
+      "date": "2026-09-14",
+      "filename": "2026-09-14.parquet",
+      "sha256": "098d3ebce77823b23161740038cc5070efbb1f847f96588fcbf682e7f9689bab"
+    },
+    {
+      "date": "2026-09-15",
+      "filename": "2026-09-15.parquet",
+      "sha256": "f5e0ad06ae27b2addb8ff653af2d01acf2485a93897e98c991e5ba9af91d704f"
+    },
+    {
+      "date": "2026-09-16",
+      "filename": "2026-09-16.parquet",
+      "sha256": "f9fdb41f1667b9e2251a3ea571faad0148580638ba2cc947fc5581c2dd417b61"
+    },
+    {
+      "date": "2026-09-17",
+      "filename": "2026-09-17.parquet",
+      "sha256": "b771f8c2deff875c91ec9c01759eb43b7bf5e8be336747791e1ae94751696b3f"
+    },
+    {
+      "date": "2026-09-18",
+      "filename": "2026-09-18.parquet",
+      "sha256": "bd292c4a6faa3e5cf0c23dc88acda2072153f6e59bac7332213985ee45f717ee"
+    },
+    {
+      "date": "2026-09-19",
+      "filename": "2026-09-19.parquet",
+      "sha256": "7f44765578f923e4df380013cf8f1be221a64f613aea2683056347ec7c763ac6"
+    },
+    {
+      "date": "2026-09-20",
+      "filename": "2026-09-20.parquet",
+      "sha256": "4a3b701be934cd9ce06a053b1c431fe263a5023c516b6fdd42a6452fecde63c2"
+    },
+    {
+      "date": "2026-09-21",
+      "filename": "2026-09-21.parquet",
+      "sha256": "2faa8fd5e38c6b6d4f445418ef93f69dcf7a73aae17a6840ad7be7dcf9df4d65"
+    },
+    {
+      "date": "2026-09-22",
+      "filename": "2026-09-22.parquet",
+      "sha256": "fcfa830652230b7d5bcd9529d39f92d912b9ba15602a4c80db4d7856d059eee6"
+    },
+    {
+      "date": "2026-09-23",
+      "filename": "2026-09-23.parquet",
+      "sha256": "e60749c4c25c0107b9ec17c01dfba55f2123b13e9603c6c98827fea1a705d6d3"
+    },
+    {
+      "date": "2026-09-24",
+      "filename": "2026-09-24.parquet",
+      "sha256": "9a37a2745d221f7d261251a04760ff79b47e75cd6c4b8453985f9782dc5346b4"
+    },
+    {
+      "date": "2026-09-25",
+      "filename": "2026-09-25.parquet",
+      "sha256": "15e834703e60fd2faedc106f69360d12b8b9b453d7cbb8287cc1b2d8ceab626d"
+    },
+    {
+      "date": "2026-09-26",
+      "filename": "2026-09-26.parquet",
+      "sha256": "ede562e0ff03907aeb549dd5619430ab1a2b68447fe7c2ceb84e7fb504de5b4a"
+    },
+    {
+      "date": "2026-09-27",
+      "filename": "2026-09-27.parquet",
+      "sha256": "5f15f70950f5cbeec90e52576cc1de0574c1d17923aae993c041ec48702c604a"
+    },
+    {
+      "date": "2026-09-28",
+      "filename": "2026-09-28.parquet",
+      "sha256": "1b74bb4f2fa167180a4aca2a6ea432bdf6f2413ddf2f9b4f8e7033674a2c4ebc"
+    },
+    {
+      "date": "2026-09-29",
+      "filename": "2026-09-29.parquet",
+      "sha256": "31231cac1f5603e289aa15d9f367c17be81064b9ee666d08723e16795daeb4eb"
+    },
+    {
+      "date": "2026-09-30",
+      "filename": "2026-09-30.parquet",
+      "sha256": "2b9f6f6fa7629dd5b53ac4b921eef1bd31101077fba374eda79d33d97e2f53b1"
+    },
+    {
+      "date": "2026-10-01",
+      "filename": "2026-10-01.parquet",
+      "sha256": "f70b753c8187902d0f807efec6eb8fe19a52fe7644e3d4dc152f74628ea6f431"
+    },
+    {
+      "date": "2026-10-02",
+      "filename": "2026-10-02.parquet",
+      "sha256": "19d8b69285b44041370d085c5ef06cc4ba0bfbd008e91b1e57acbc85bc164448"
+    },
+    {
+      "date": "2026-10-03",
+      "filename": "2026-10-03.parquet",
+      "sha256": "6b4957a114df955b92aadda35574d76aabaefe9845be514abf9de84e21e43dd7"
+    },
+    {
+      "date": "2026-10-04",
+      "filename": "2026-10-04.parquet",
+      "sha256": "e6b260560cf24947a0a44f5e66a11712cce08eaa4c6c8a8e24505b2648a72cde"
+    },
+    {
+      "date": "2026-10-05",
+      "filename": "2026-10-05.parquet",
+      "sha256": "e0dfffd716e6e0d8cb26f506c7ffd430c024d0efabae8ce70b6a9e8671a32a23"
+    },
+    {
+      "date": "2026-10-06",
+      "filename": "2026-10-06.parquet",
+      "sha256": "2622f29d3bdaa9ed8abf89ca0c81ea9906550c1b6a44aea69cd948631dba70c1"
+    },
+    {
+      "date": "2026-10-07",
+      "filename": "2026-10-07.parquet",
+      "sha256": "d1d07a7f3cda33050d00b9b489eb8bbd1f921b4b6e7c8599b1b09f76d684337d"
+    },
+    {
+      "date": "2026-10-08",
+      "filename": "2026-10-08.parquet",
+      "sha256": "945e92b82cf8f5101886564c9913797e158641146e7499e3c666162de68e4b22"
+    },
+    {
+      "date": "2026-10-09",
+      "filename": "2026-10-09.parquet",
+      "sha256": "04ce25ac68ba49f428c2e7e7fb13311e344596966c725b88587bcf09a077f5b5"
+    },
+    {
+      "date": "2026-10-10",
+      "filename": "2026-10-10.parquet",
+      "sha256": "7b0ad0963f7c12d179e2670f0fbed365ff85beebb085529ff6b64e7787d5028b"
+    },
+    {
+      "date": "2026-10-11",
+      "filename": "2026-10-11.parquet",
+      "sha256": "a877c7b41cdb546af8b1027169ef67e698f83bf46b71bbb9f308134cc186adb1"
+    },
+    {
+      "date": "2026-10-12",
+      "filename": "2026-10-12.parquet",
+      "sha256": "882d16470c751fe2d69f377227227c71b6e56657035f4aea0eaa7b39fd037436"
+    },
+    {
+      "date": "2026-10-13",
+      "filename": "2026-10-13.parquet",
+      "sha256": "6c203f09ae754f832a20e2c1f50171b71682f54ce5bbfa9233edc9040271067c"
+    },
+    {
+      "date": "2026-10-14",
+      "filename": "2026-10-14.parquet",
+      "sha256": "87ed3356d6b421d29228acd90d6174c8e02f284fb9087c3a015cfbe86ee0de9a"
+    },
+    {
+      "date": "2026-10-15",
+      "filename": "2026-10-15.parquet",
+      "sha256": "bf30f6c2cf285d9f614373cb20a46ff0a4a0db1b91548a2d6d15faa623c3af71"
+    },
+    {
+      "date": "2026-10-16",
+      "filename": "2026-10-16.parquet",
+      "sha256": "e677cb703d06ba4e2d33a7f9a79385589d6543ca16ee11c72459673310c5171d"
+    },
+    {
+      "date": "2026-10-17",
+      "filename": "2026-10-17.parquet",
+      "sha256": "51c6f2f0cc6d8a0dc7d0d7cf9a96adf1ddbfafaf88e52b7b6ccc3599c62c8df2"
+    },
+    {
+      "date": "2026-10-18",
+      "filename": "2026-10-18.parquet",
+      "sha256": "0eb04164a7dd9bcf4cec510c61d1ddbe51c39485886c9cca7c29e5b63418795b"
+    },
+    {
+      "date": "2026-10-19",
+      "filename": "2026-10-19.parquet",
+      "sha256": "0ec625d93663f19b326a18c752f48df6b7ecdc84451d0b0674a7275beb05b2ff"
+    },
+    {
+      "date": "2026-10-20",
+      "filename": "2026-10-20.parquet",
+      "sha256": "ba8b7af6ea3ccde57332f88e019341463d292d794801f4cef2279a34fcf0f661"
+    },
+    {
+      "date": "2026-10-21",
+      "filename": "2026-10-21.parquet",
+      "sha256": "3dcfd10a02b6ed2d4437e1b06d8fe0a2a9f93dbe15d76fc02f82f3834e693d1d"
+    },
+    {
+      "date": "2026-10-22",
+      "filename": "2026-10-22.parquet",
+      "sha256": "022c547fb15286decbe68372932bf133b034da969de94f9353c3425158f1bace"
+    },
+    {
+      "date": "2026-10-23",
+      "filename": "2026-10-23.parquet",
+      "sha256": "54283b09f7a4d92f6e37bc6c1ecf5f7834dea6f6051fbf9ba951f7eb73bb1f2f"
+    },
+    {
+      "date": "2026-10-24",
+      "filename": "2026-10-24.parquet",
+      "sha256": "5f440898d276b1ffc6d2e812d811ef4111265f3f584ffbce317ea534e8c59458"
+    },
+    {
+      "date": "2026-10-25",
+      "filename": "2026-10-25.parquet",
+      "sha256": "a298bfabaa1185c3869cb5339c41e987316f420f916569b855bcfc78a9dc97ed"
+    },
+    {
+      "date": "2026-10-26",
+      "filename": "2026-10-26.parquet",
+      "sha256": "8feb73100ce740d63e80f2c782cc6aa79d161417f80034ca2e22e3dbe2a5f6b4"
+    },
+    {
+      "date": "2026-10-27",
+      "filename": "2026-10-27.parquet",
+      "sha256": "5b87dfde84b2f0802327583e9591cd0cd344795542c9a5753b6521181719b6ea"
+    },
+    {
+      "date": "2026-10-28",
+      "filename": "2026-10-28.parquet",
+      "sha256": "e009493a162460558a6ed03b7287185dfd10da9ec6f7ac68cb0b63e07deeb56b"
+    },
+    {
+      "date": "2026-10-29",
+      "filename": "2026-10-29.parquet",
+      "sha256": "3b52a0481226eab4914d0b9520f003b27a6efd9080252c6d083d83f73e6a2369"
+    },
+    {
+      "date": "2026-10-30",
+      "filename": "2026-10-30.parquet",
+      "sha256": "4627c6085092eeb389e2f494684b938bf375bc42cfc7ec5cbdd83a4d028c9adc"
+    },
+    {
+      "date": "2026-10-31",
+      "filename": "2026-10-31.parquet",
+      "sha256": "e8fb375727d6d2d6924ae101e636ce1f5fec1a39ea5d7586285a46e6764f32e8"
+    },
+    {
+      "date": "2026-11-01",
+      "filename": "2026-11-01.parquet",
+      "sha256": "f98d3398192d0886898f5cc2a9d9280602821d5f3119210517d8b88145f22c28"
+    },
+    {
+      "date": "2026-11-02",
+      "filename": "2026-11-02.parquet",
+      "sha256": "398870f106c59863e50b2f515e3d21a9e85ecfb0723e05d2eee7e79fbd5d2165"
+    },
+    {
+      "date": "2026-11-03",
+      "filename": "2026-11-03.parquet",
+      "sha256": "8cbde7711419298292715775ba76027bc452df62e65aeeccebae95fe9ea488da"
+    },
+    {
+      "date": "2026-11-04",
+      "filename": "2026-11-04.parquet",
+      "sha256": "b4b4002f93e28f68af00e0928d4ce80cbe944e3d721076b1b508cf20a9ff282c"
+    },
+    {
+      "date": "2026-11-05",
+      "filename": "2026-11-05.parquet",
+      "sha256": "e4fa79efa16cfbd7e36b91453b83bb53ee075157eedb7aa27300420e64fb6932"
+    },
+    {
+      "date": "2026-11-06",
+      "filename": "2026-11-06.parquet",
+      "sha256": "768ebffb3d145450aa7bcddee5be30f4f026390a6c78bdcfbe0e33776c11899b"
+    },
+    {
+      "date": "2026-11-07",
+      "filename": "2026-11-07.parquet",
+      "sha256": "39268836408944453172632c2e7c5049328d255bdd0aaf78b02e5f91d2f9f73b"
+    },
+    {
+      "date": "2026-11-08",
+      "filename": "2026-11-08.parquet",
+      "sha256": "0b6ff7b972675dd47063b6672ed615e115ef2446b4c75386d3ac56599319cfe6"
+    },
+    {
+      "date": "2026-11-09",
+      "filename": "2026-11-09.parquet",
+      "sha256": "95eb64b1853a0885251fb551e6952f7d723ef0c67c91fd076ac18c7404edd557"
+    },
+    {
+      "date": "2026-11-10",
+      "filename": "2026-11-10.parquet",
+      "sha256": "4d683f072505ea976eaacb9c88a69a01d5ac75a931a4431ff16f9d4a4eead3bb"
+    },
+    {
+      "date": "2026-11-11",
+      "filename": "2026-11-11.parquet",
+      "sha256": "20349cb235b60e8f32cfd1c47ca36b946682a8781e95a20c1bcec96b9ae21e3a"
+    },
+    {
+      "date": "2026-11-12",
+      "filename": "2026-11-12.parquet",
+      "sha256": "94d4544ac0915356d86376dd3abf837568543f60dc37dd049d442e2c36411932"
+    },
+    {
+      "date": "2026-11-13",
+      "filename": "2026-11-13.parquet",
+      "sha256": "5b3eaa8a7e5fa31bb1cb29788860c3cac8e6b52c26c88c27139facc7aadc467e"
+    },
+    {
+      "date": "2026-11-14",
+      "filename": "2026-11-14.parquet",
+      "sha256": "492aac201043a6821b1992ac2aa9b95afefa5736a8db8b81c1d134841c146f52"
+    },
+    {
+      "date": "2026-11-15",
+      "filename": "2026-11-15.parquet",
+      "sha256": "16df52a44be18bbf6ba60b955ca26ae183f26ed8b0ffd5cfea7f66eba897907d"
+    },
+    {
+      "date": "2026-11-16",
+      "filename": "2026-11-16.parquet",
+      "sha256": "bc862ee5b2b2c2dec685658cced367c07c4ed8f310084f4f0d6d89d67b85037a"
+    },
+    {
+      "date": "2026-11-17",
+      "filename": "2026-11-17.parquet",
+      "sha256": "9fe11dc0bb63b0c246882e4cd623e6571af0ec1d412093b68cc4c395793ebae9"
+    }
+  ],
+  "funding": {
+    "filename": "native_settled_funding.parquet",
+    "sha256": "4a96283c415c575b5570b5d2d416d307a05b23c963effad4428a0d77fbb12cc2",
+    "november_capture_sha256": {
+      "net-value-entry-2026-11-22/funding/recent-BNB.json": "1a213d773d16a9b4cbf8e60c97504f4fc2299ed4ce8ea5c5a6afb1aa47b26db7",
+      "net-value-entry-2026-11-22/funding/recent-BTC.json": "8db366d4f0b77501888d2ee519e8dcd1928c15ab3414104a04e0664f478ed203",
+      "net-value-entry-2026-11-22/funding/recent-ENA.json": "c6441bb908006ff24ee27a144bae951c37ab3f5922cfab33e4b363908b6d2022",
+      "net-value-entry-2026-11-22/funding/recent-ETH.json": "32edae57c1e969be619b285aa7aa572b48455da1b310c911efa3a2b2c5333967",
+      "net-value-entry-2026-11-22/funding/recent-HYPE.json": "0df4287bc888016f8a1fbe0ede79636f598e96082348a6da948eff8f09349ad6",
+      "net-value-entry-2026-11-22/funding/recent-LIT.json": "5abbc2c3237e21bccd9ced16f19145d9ceaa1e137f0b984e682d0f80f0ffd1ee",
+      "net-value-entry-2026-11-22/funding/recent-NEAR.json": "243018b882c9711d4456e8175c5594c2ca4a4938c762588d1fb262ce30ae5153",
+      "net-value-entry-2026-11-22/funding/recent-PUMP.json": "d6ee135451388dbeb34c7187cc5ca353ff433ac6c00572b4c87ca1637dfc154f",
+      "net-value-entry-2026-11-22/funding/recent-SOL.json": "fa339b667a3915c318a4bfdd1685953e20b9572ed01980140ab453f56e21302f",
+      "net-value-entry-2026-11-22/funding/recent-VVV.json": "544e52fd5bed988f56dad350b951d5f312710742866abaec150eaff2086648cb",
+      "net-value-entry-2026-11-22/funding/recent-XMR.json": "1ffbef0051d84c2ab51c7ef27e5b4dbdf48c548bb9f68ab699d1002c91578d0b",
+      "net-value-entry-2026-11-22/funding/recent-XPL.json": "fffc7abec33d7c6e4152968722844d9c025952e8892c432c17c66ce2b60824f4",
+      "net-value-entry-2026-11-22/funding/recent-ZEC.json": "3802be9bf92ba8dde5f95f27d3231664575d7a083311f1363e3b09378c0256fb",
+      "net-value-entry-2026-11-22/funding/recent-ZRO.json": "cb4800799663b4c4a524c09957f54dd6845b7c550ba2296adc53f2a20c6b7c46",
+      "capped-entry-value/hourly-funding/recent-BNB.json": "0773789c492cb311f66a083480d8956fbd6bc9243a005ad47ac559bb170f5e3b",
+      "capped-entry-value/hourly-funding/recent-BTC.json": "d0c0e25a8903be3e30498c01f1f4069b87577c2fac023bbc721ece621c838cae",
+      "capped-entry-value/hourly-funding/recent-ENA.json": "1629a655b5182979e481729c87269b1723cc9e4025946d31340a5a0f2d3d2c8d",
+      "capped-entry-value/hourly-funding/recent-ETH.json": "827932511c42bf41495e5f582f2839e4769aeb84e403d764201edee1252d730a",
+      "capped-entry-value/hourly-funding/recent-ETHFI.json": "08d49c6f4abb478d53adbc18034d7fad9df08b060fee05ab8ba502aeddcf4388",
+      "capped-entry-value/hourly-funding/recent-HYPE.json": "84d530f5d38fa36a98c98c8e72750bfe8cef10b282985f7b9c82107532cb7b74",
+      "capped-entry-value/hourly-funding/recent-LIT.json": "7d89eff6d04c1b357829fda789536442538415535110e199a661fc4fa5e99d6a",
+      "capped-entry-value/hourly-funding/recent-NEAR.json": "21618a8b2513145c2ad79bb034422306f48cd37c823b62c007ae973c788dd2c8",
+      "capped-entry-value/hourly-funding/recent-PUMP.json": "657eae19431b24b4650968f6af34d98174267bba21669ba406f8115819bbe14d",
+      "capped-entry-value/hourly-funding/recent-SOL.json": "d80baff2a6be625894fe0a3b8911fd2c5204110ace154f7387943eb23b67e80e",
+      "capped-entry-value/hourly-funding/recent-UNI.json": "c336893b9b0061936a61ed5b93fc70c72d8eb637220b846a1366265cf935b50b",
+      "capped-entry-value/hourly-funding/recent-XMR.json": "3fa305749984fbfcb00d7a7723b9b3d4c50d791a1147bac9b1137ac0afbdb137",
+      "capped-entry-value/hourly-funding/recent-XPL.json": "6edadec8ad0a42e0ee486fe544b9a48a52536cd37122fb49848c263b405b73ef",
+      "capped-entry-value/hourly-funding/recent-XRP.json": "dcae8639a32c1c3127965630adb42f578944792653f8b2fa2e2724ff524e93fd",
+      "capped-entry-value/hourly-funding/recent-ZEC.json": "ad0b7003cd9965f9929fdd77a617d3b05e78c762f1a22ecf04fb1911fa706936",
+      "capped-entry-value/hourly-funding/recent-ZRO.json": "23ccd575068460ccca86a67774e47913948ab33c1b07273e17a7efd33dc7ba8c",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/0G.json.gz": "3ec91b75361ba05f60999ec91419d198cfe911deb40484ae58f5d3d05e8c3ba9",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/2Z.json.gz": "7a93079c7658f3da79b6ff7864351c4cc6b46d13a03c6d28811a566cc39e7de9",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/AAVE.json.gz": "7bdb5aa53ce5681886b44899b900e02fb906078922d5e909c7414b7630ccff7f",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ACE.json.gz": "5ef9a92f756346df8299fc352d5afebe04b7486cfb3e54425a6a26cee40ef2ad",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ADA.json.gz": "438d45274d41e35db86fd65390b22a9968c81294fab878b27a39564c4fc6133c",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/AERO.json.gz": "914304f0d11348657f24554dab0c2d88c1002af154f03a566c144bb893284f3a",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/AIXBT.json.gz": "cc63d8453ebdfe1a4681be46daa0dc6cf93442c7c55858f159c15aaae990ab00",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ALGO.json.gz": "7eb2596eb4939e14e239ab1e98f92cf28016b29c7f4ec3c04e79704056148d8b",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ALT.json.gz": "6f218fb3243c0ac39e746199ac709d084412a4f3866027a44abc107bc17532d6",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ANIME.json.gz": "9db5b6e33bfea16eec840badac5a61ca8887722e8e416dd0144effe48bcd06fc",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/APE.json.gz": "d45032d47f75325f1ee333fe4bd7d6ddd717325022f03d615d07ae56c172be98",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/APEX.json.gz": "9ca620a29a2cf61cbed48b55adb05217f046497d44fa1ea51d429a57176df16e",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/APT.json.gz": "b157bc1bcdb12a8b885ac36203037429ad94e2639559ec4cc053379d51c92901",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/AR.json.gz": "f782c6bb46c7b92c53260fcf338a542bd725387640d3d8b303ad8af65a61f59d",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ARB.json.gz": "14cf7d5d4dc0df680b30deb1af7faaafcdff7d6e1a6025ebff5aff011adb0ae0",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ASTER.json.gz": "dd9cac031fbe37c0031af2872ced0dca0c066185b572ee902d3f809831428600",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ATOM.json.gz": "eb17ada331ad78191953a0954f9b270408155799aeb711be86a7071427fe82b5",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/AVAX.json.gz": "b3c425a7e3c611af3de5c34b29a0440d953732ef6ba9cc684406f77b65b8962a",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/AVNT.json.gz": "ddd8ad59758bca3f61f5222eb87dd12960850d162f0362a3737df9d91ba1a5a5",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/AXS.json.gz": "4abfe564940385db2733fb4265b948dfd64868bf9c0fbf479bf5fd4f30132b9e",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/AZTEC.json.gz": "01e5ba91a75a1eb6149d4b5b2042078641c5e4e8f8c5d91e25b22042a8147b01",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/BABY.json.gz": "98dc3f964ca7a31429a7f74701b3f93f4069594b07ddecd51b43c63604f002ca",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/BANANA.json.gz": "981ddf55d848c7017eaf1fcf2b40c0906834b4abe2ff3e2fc598daa109c920ab",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/BCH.json.gz": "c46d30aafda7e1898af97b8c8e480fad147a26694894e8d4c4b83a2140538471",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/BERA.json.gz": "b39549aee3920673bdda97ee200ca055a9f98419ee6e829cb4c083780a97d170",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/BIGTIME.json.gz": "ed45719a7f7c032c163a2bf67a8970e861b177b2e79c7274be9750dbaf7f3bb8",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/BIO.json.gz": "445d28f3d2f280dc8eee35ff4c9dfbd019d9891f3047dcff3e3cffa52652bbf0",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/BLUR.json.gz": "16f08d7faaa3aa001ba532006186c7fab75762689a825625542a9774bf6fcddf",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/BNB.json.gz": "ac552e2d667733b95e80137096cc8517bb053f1491faf7e11241bf542ba7acd8",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/BOME.json.gz": "72bcf181aff904adde5fc029cd62de21e39d94eabbb9a3efe5bc9eca52d30b92",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/BRETT.json.gz": "e11e2c8487e2856fa0a44f538ecde7827a2542d0d627b13fbc170ad8b489319a",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/BSV.json.gz": "c9fa3d8ef2e8bb7dfc4c8650cb02b076447838912a3d6b40cb0a06a370e996bf",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/BTC.json.gz": "b74b219412f91a931529352ef1c78a78f9233c9310594d6cda0236c7f6de0610",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/CAKE.json.gz": "0852221501ad08517cd42c3a10591b4c16429c1604b87334af2e29c9cdc05910",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/CASHCAT.json.gz": "7fbdb423f56c312f756550cc9fd90a137ec8410046b3a37dead507897bd895c8",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/CC.json.gz": "40f66066e3d5b5150ac4f0e5963ea27f28b1ac00f0d54c4ce1c79f71cb36b96a",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/CELO.json.gz": "32ad847e338fd6aa46650150142b934fa295bb0cb2bfd6db62869b3e7795e315",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/CFX.json.gz": "c562c22ca29ec4516e3476c58b88aef163caf6ffe101293fca0ab5db6a7e0ad8",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/CHIP.json.gz": "273c53745fc813c2690d786c98dfb9af4a34ac97954dbad942caa6d4bdfa279f",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/COMP.json.gz": "e67f5b8793946e1407aff00266007eaabf747ca6d80b54d1391354bdbd2d6839",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/CRV.json.gz": "12e9f0fc1eb20a07323b190156a4ed19bbd6a887a9cdbfcd88d7124f65ba810b",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/DASH.json.gz": "7bda2f570d4b7f5224d3ad203e289490e39b0d348b0c8626bc2cc9e7c8ded0fc",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/DOGE.json.gz": "28793a3d5a9e8b23b6bed13d6aa3a38d7dd664390533dc6f3e2028d8beb80dcc",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/DOT.json.gz": "4e5aa1fcc0d1d7871031b0679c5a027d70b95a2524538f5482cf090f49ed0aae",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/DYDX.json.gz": "5a5df47c0d854fc68e1f9e5db88250d1334531d350c4a26353c3daa33d10307b",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/DYM.json.gz": "663df4e97a80f38901a39277c3da730b62e8247be7ba32709aa0aaa94cd5bd3f",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/EIGEN.json.gz": "b8bd6a82dfc224abd14c3a2c77940f20310f68126f1132541b1bb8e54f88d087",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ENA.json.gz": "2b574d1a590592102d08b68c46120d7193f02ccd00fac47c0bfd7440d8d5ae42",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ENS.json.gz": "5424d405234f2d7e5f8667ac648745878d830cf77d3bfd9000be8e6498018119",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ETC.json.gz": "0ee0e646b6125a0b7c8e3e2c287520e19c3c05992a223acf3c6ef62778d553c3",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ETH.json.gz": "cfb734d4b99fad1f60a63f0eed1c10582077a5a869a823f693bdec1cdd0f5f2b",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ETHFI.json.gz": "70dee0e669ca44e76384b2c8677f6ede22996ef5480bd2d34d4437a5753bc7b9",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/FARTCOIN.json.gz": "54d28faec14f64f05234e0097fc920692dd9bb903a435858c5ba4087c7299ea3",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/FET.json.gz": "4816bf867135973f06cdd19e851a0def8098ccfdb09f3946bb0d6781a6f0bb2d",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/FIL.json.gz": "e00ffaa4f325b5103e7cf09ec385f464a758911f7e63376dd1a1beb7eb49ebf2",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/FOGO.json.gz": "53e4723974534820afe9c757aac73d1659b427116c73062e937470b60c4f3dbf",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/GALA.json.gz": "aeaabd50ab80f808a4624a811fbf24b50cc95ab80718adfaa67b9df05604ee1f",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/GAS.json.gz": "237aaf2b3e60838eeaa37e3dfdb75a8a11d462c85834c0dc264be90fc3cc21ad",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/GMT.json.gz": "2ac73d648502b35c8515ea0f04f8ecf68fa3e33dcfa32ccc6b133e9d19c0ad79",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/GMX.json.gz": "c8b9df7345020da174e8c59f65f23b5d183f581390ffa99b60f60498ba566408",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/GOAT.json.gz": "30e59bfee6ef807050ab2fc19580b7bd36ba91a7e65e5f8df0ed4cbddbf5360c",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/GRAM.json.gz": "55ddd0a405247bad50bf8a892a135bcc5a3a0eb2568e54c44a95cbe7850c0c79",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/GRASS.json.gz": "48bc0927a3552419c9389fafa6812e14ceef1a29a1627aa75a8c90dc07d387e6",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/GRIFFAIN.json.gz": "59008c6b632e613c63104f93c55980eb1bda1011f3804bd4fb148f1aad4a49d4",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/HBAR.json.gz": "971341cfa3b8ba595c23f9bd939a5326e48db61e3f7bec7b2cf985b8c3716bf4",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/HEMI.json.gz": "18848ce40996dc4cee9d75b44258cfce4c7c4400d34b7974bb1663ee5edc13ab",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/HMSTR.json.gz": "5d53eb7842c05f66a848f5c7cbfdcdd6ecc4f08ad17fc23168c430ae524f8902",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/HYPE.json.gz": "0b4e67d79260ec53f7593d91a192e3925698f31974691a12b7f2a83d0c6f4927",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/HYPER.json.gz": "609ae5b32d3ee65b1711f5122def7821fcc7aab4590988a573c921b940fea9b3",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ICP.json.gz": "56d8724a71718b0fd05fc9f735560270500abc276d6f76bb5e167b35cc95ac62",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/IMX.json.gz": "c1ce37cf9efb2b3e8610e52342d0b464b4f0172e39a9b3892f516aa633b552c9",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/INIT.json.gz": "9ece9ff8e0ca7fb6fcd9eb0fa58059ab3c7debee34c71cdff970206d4068eec1",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/INJ.json.gz": "f1aa974a4f5c9605edbeb2d384357cde3ab6543909f328e240551c069e2fa6fe",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/IO.json.gz": "859a88939a30f80b98747a6debfaef6ee1f3c371d9eb71d0ec26dcbd80e7b5e2",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/IOTA.json.gz": "92b3044b69cc835b5eec96a3166d28ce0725c73fe44a2c739c1d61d88a60551b",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/JTO.json.gz": "8cc5d58030717056f8c2d866b66f7cbee1b1a19b6c4423acd1d2a74d674d373f",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/JUP.json.gz": "6604a05873606cb44de309e503efd1d397f321f8fd70e2eba049582755e0df93",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/KAITO.json.gz": "3e8d6792ef9ae954541cc7ce8e328b65224dc43e984f1ebed2597e177be9e9ac",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/KAS.json.gz": "fdc8c4240ccb506da04ccdc401df6c67df28651587b643389dbc94c8fcf9b1d8",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/LAYER.json.gz": "2d6cbffc3a58e8a68caba25eb9a4e89e85fffe55b836c93b2db68484d05cc421",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/LDO.json.gz": "6ab0f6c01f54b31e52d907e7e69877e62d131a1d60038bebb4cc2b385f325bbe",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/LINEA.json.gz": "0a937457dd7986e490d8105c98a45b8800660ea65e55a9dcf3fa63b02d04cf54",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/LINK.json.gz": "3ec282e8a828052e0bcc35bd8aaa510dd65b95f62695dcb6bf40c4cc5f5c8e71",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/LIT.json.gz": "f11762cdcf8cf1b79f6fb23cfe080041b220b42f0f4317bca5af96763e159dee",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/LTC.json.gz": "70e2072a7a74aa94100d66149996ebf6b62d8771d11dcfebf90ea5a39e7da6a8",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/MANTA.json.gz": "30524d8d7556b6c0dc397a8abb88060f09193a37a5a7bc43f373985fbdefde5e",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ME.json.gz": "4619469012e4a70820200eca97a2c924cefee2cb0ddfe31f007976a4d6bbeb0d",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/MEGA.json.gz": "d8b9abce8c3b8c0b264644ba48a1090996d2a005b8dfff17b348c22b4563b57f",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/MELANIA.json.gz": "70a649363f4c450a87df96e8a55b21e0bc0efc2746e30ffde9818b12026efbdd",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/MEME.json.gz": "4223017fd2b448c9e66c2f78b165b6591b511f6b6c99d5e0a8d507a96133bc17",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/MERL.json.gz": "837bbd93718b189f96d1b91fb3c08c9eaecc6e51421a7d9d2c7f34bea4fa5284",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/MET.json.gz": "943f05c2ff18fd3f27059d576fad25ab670723a68663b72e8585eacc7a4ee090",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/MINA.json.gz": "839799c2505ae8f4427946edbcff049c8c77b7617578eb0ba3c46543f2f199b5",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/MNT.json.gz": "07b065ec73a8e3284e7b110ab25ac9c12a47c717e2ae84b4994f2a93d15b3003",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/MON.json.gz": "e9b63096391f70de922adf2ebb5c46986204290d1adfb07285664adb21f5e586",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/MOODENG.json.gz": "b95fe8c2f1d577c63441e71be5d60cfb7bf3ca0d01bbcbd92f0be6d9d2d8f66e",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/MORPHO.json.gz": "c9663af8ed75b6d47e7d00f0826a755c57c207cef2e1ec2d2ff99e4ba003441c",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/MOVE.json.gz": "b72f271b8728fa8ff1caa214633b510fe848513da60201362ccaea4db9b18591",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/NEAR.json.gz": "d61c0512bf4c04f30d26295b3a10ec50cbbd83920e5c30b0dde38f14e031901a",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/NEO.json.gz": "ca2f2f83c18dbe98bb82a77f1559dcb2d5732df8837329c7047cf09297f25057",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/NIL.json.gz": "7528e333232e5648c830e2ed6519532d3227e8efc96c6704bf43376f8038c83c",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/NOT.json.gz": "db7423d1882f3c855893942cfbaf361d2f53694f9e5e2327c018e26bb0bbdb35",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/NXPC.json.gz": "734658379d840368d8602bf8c5bc15c161358f873bb1f0b8746752e9433d34c6",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ONDO.json.gz": "8b75a8c9a7a6cc623ad0403e1f02de83cdda962a2a14b8893ca79d0b7512a738",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/OP.json.gz": "3c2fe7a438fbbd179deab712d3ab11242055cab767a813c1926f168fdf8fa251",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ORDI.json.gz": "2918d429c0e43fbe6b1d8a175726944714a13f68893aacd5b1e9bcfbf50116fb",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/PAXG.json.gz": "62adaf6a784224ee549d805ff274735fab1ad7825f86ea0868337634828ecea8",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/PENDLE.json.gz": "b15b4851965470b4f106a1b8faecc8f98e84e4d6b612b785399bb0a13dd0b09e",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/PENGU.json.gz": "8676cf21a999479a8d3e421b0f7aedf5d4be95980e0d0bf2e014942f09cdf3dc",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/PEOPLE.json.gz": "082dc392b34e2af9ab9421906e2cf84178875b394175b969fcf11e209d403051",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/PNUT.json.gz": "24b5145749c596537dfdb9f719e630b1903fac2c725f47920c43153828b3625f",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/POL.json.gz": "02b4866c3de6e442173f0be8be9d3991b73ca7a9c34f85d506abd1cef5d0e245",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/POLYX.json.gz": "608b17c35046cfb2333df51d0b6b138886e098a07b31742692168ba4068d74b4",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/PONS.json.gz": "98563714745f78b0edb00c9dcd59933b2584390d86833f1c220d206962463d1f",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/POPCAT.json.gz": "3448911349239e698956c6c402e9306493251683ae7ff9bb5a8f68eea5897663",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/PROVE.json.gz": "2d4a224d29fbed36621d99d69942ddf3f8fa19ada568af520de7bad84562c319",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/PUMP.json.gz": "32fc86cafd26f6eff3dc60f9e00a1463e50a7b3109f2bc11ebbd00d12058aced",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/PURR.json.gz": "41dd0b62586506828d7d5495bf0f16bb1122bbc0ab68ebb651191f3034b117d2",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/PYTH.json.gz": "37d73ec6234fdd8d8e016803978bdf2f39c4959f0feb6ccf619de12709b25cc7",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/RENDER.json.gz": "3a948d1f589fea90195e90142502f748d13509237097397c20a3939138b3ea05",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/RESOLV.json.gz": "e63b8b1b404eef3cfc5c41af84cf9130b905521cae48d5e6654902e3b30c5924",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/REZ.json.gz": "810dbcfbbcdcee22f30f74488d8c55fd73632733bdc079ddd21de5272e75ef94",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/RSR.json.gz": "80990c7bb1373881be95c6b4f5566e0b568ae1cde6fabf4caa25f7da7a48672e",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/RUNE.json.gz": "2205dd4fd7c63f71b8900581380ca0caaa23051219a5b6e9053efb930c812905",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/S.json.gz": "b838fbaf551324f1c7adb360abc418841be333ad8777d03bfbf7b783dec89331",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/SAGA.json.gz": "5c782df30cb3590f4620e5ac0af0f7eb65a2b3b0e52e74778e5396025cc09acd",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/SAND.json.gz": "2ab1c0225eb05abe9d0205dc93d0e50eaf6d321db57fa247b37afbba4cdd9fd0",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/SEI.json.gz": "bcf85c48714f7b84fae3df758e61345bd09d731f4c882908670ce96aebf88541",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/SKR.json.gz": "7aa2686be1216cfb7f9c4980e427f669ff0d9ca4935972c9c939c79e956d7df8",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/SKY.json.gz": "c508bb1c27a2c851c8f11f6048545f76a3b14525f6b618337b5d5dbc2a442a34",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/SNX.json.gz": "ca238eead593c3004d4c58548b84195870e39ed19ad7e5df320ff145a18ea0e0",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/SOL.json.gz": "c51cbfccfbb5cd1658bdeb34da33ac3f854f92be878db85eba4031b8889eb369",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/SOPH.json.gz": "5757e63a857ae0e8303d8d67631818d47a8d15b0ced4b6bcdfde8d606d69127a",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/SPX.json.gz": "787106967c4ba9cb3424bd61feb0919d3813b87a20a51e42d2f5340253bf4132",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/STABLE.json.gz": "733f3458aa2e82c5cf01cf4e51fcd6f6513eb8d1449820806a823da04ad989b7",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/STBL.json.gz": "1700038a8102866a478b01ed30b619b12f799d1d9caddedb71f0758e4210bcce",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/STRK.json.gz": "bec66952dfc99d0a6ddf28f8ce243dc366837afc623872dba0c9962ad07f4e33",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/STX.json.gz": "1d1c2b61b20be05756a0f790e83487dfcab910f8480374e2fd3c9408a5b2ef83",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/SUI.json.gz": "827d8e6685a7cc9c2848028eb56b56a3fedbb6ada509f5767291d107e8e4ea6d",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/SUPER.json.gz": "a11d1d245298524f15c6eafa7f0c641a0e402da930764bd4bf6cb083352ac336",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/SUSHI.json.gz": "4a967849660c85984f32519bd34ac93b861d84854a7d41d99356ba6e2e141c65",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/SYRUP.json.gz": "cd7b73be135154f3196b503c0c0bc9d6f3962bdd4c1917c6674aeb6a6a697015",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/TAO.json.gz": "b842a3050c0e31f108b7b4aaef96e861c908029083a2a1d57ffdd11b5bbc77e4",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/TIA.json.gz": "3368db861246d6c0f13131dc9c475cfb5d31fd31bb93da354ca9b177df31716c",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/TNSR.json.gz": "435c07b8a82614963bc988f891fb27112ea20d1abb4cdce285a51cf384124734",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/TRB.json.gz": "5f4a3f3695243db12affc414ebae9cf3ca1b6d477a6be8d2042998da88ebb68c",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/TRUMP.json.gz": "e0c4a26aa99df4992158a02dd8aa13aed7e0eb850f488338eb8853cf3f81ced2",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/TRX.json.gz": "dc2d180fafe33a0ac9cbcb66c9f82a87e0857649c06592e6b9083acb7d471d91",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/TURBO.json.gz": "38e47da06130636763db5fb9a44508196f487feabf8c0bfd67e18d404b1c182f",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/UMA.json.gz": "002af8d6afafd43fff441a3cb1e91070727ae04927b74a1e0868f042a3bca24a",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/UNI.json.gz": "27685cf4a574b8c98e7a783a10b9727d242a2e2490fcf92d55a654226fc1eb65",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/USELESS.json.gz": "bdd3c4ae2fb54d06178cfde304a4bce40afa54aa3a452f97369d9982a87d4235",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/USUAL.json.gz": "4178393bb5c025e27b115d74fb0bad316e5223dfaccb3508b5167004f98898bd",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/VIRTUAL.json.gz": "37ffe456af56e48b34cb8c56ac457d1fa313d0c12f123f12eb2f7c628f0e4122",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/VVV.json.gz": "2c19b8d3bfacbdab132b44206e2dd477f228fb4e79a9833d76e03165425d57b8",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/W.json.gz": "b3b15bc452adefe06b3f7da8c2356e48f1ca89f418072dce5ea4159e0ff6b105",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/WCT.json.gz": "effa1df5ff0b700adc7effa0d3b28fe812751a308e00e8e78723a790c83e5a62",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/WIF.json.gz": "c813c120a95337324169efd3c7dead807a02aaccae2cfdcc310970e06983f30a",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/WLD.json.gz": "0e304f030116b6ced2d6bf327bba139acce05ae638164179aa651519646a27d9",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/WLFI.json.gz": "e373446c831b6e4ff970a5dde1188d6ddad871f5a8f9c3521012e5aede2e71c9",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/XAI.json.gz": "694ee52d5ae5bc830fec78e94ef38cc1f37f3812936622537c6ceb1261026420",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/XLM.json.gz": "5c6ee94eab648650a5e9fb775b61489ca5a534436486fbb8fd9c38e1e5fddd19",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/XMR.json.gz": "e42713d00ce45addc3c03a64d589a0a3e12f243c2105a7e206a5de12e64aa16c",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/XPL.json.gz": "f94b34f3fc71db955adadeab4f6dd5d795c8008ec81a63f429a0504b2dfc8344",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/XRP.json.gz": "d83bfb83a9308f10d520262653f02ac092b21418e3531c825dfbb30190ea3362",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/XTEN.json.gz": "8c3dc121291d3cea103f5824abda642cf126087fbccdff12019379e8cc09c182",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/YGG.json.gz": "7234645815475cf896152de69a9dcf54f773e13d1c0df694a521fbc6edc82ae9",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ZEC.json.gz": "057b2938017c28fe9bc3e2478d270880f3d78ab3caa008868c32a0529369780f",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ZEN.json.gz": "a33ac31cc30381bb68a11ce83ecd57ee1790101b90ba5fd637e9b257634b7db1",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ZETA.json.gz": "8007f19b9d9ebe7f5790da944585433523dd95180c78d1dc402e3cce9ae5ca96",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ZK.json.gz": "1d27d7a12e1177bb9bd291198fbc3f4e0662b766dcab5e1fb06c8c8ec3951b08",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ZORA.json.gz": "5818fee2842d2a0cf822ac396f0c00b274fe5a4ac1a4c8c3d9ac2b08f3013084",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/ZRO.json.gz": "5a3d41bc978d388238d54898eff680372db943a948521d1c4410eec3333baa56",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/kBONK.json.gz": "781a32953701bb648e390ca8bea5a4bf6cbcff485ff267be72df07e65da73c9a",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/kFLOKI.json.gz": "be293b84019c3f5a16e223a2feaa7d335ff175564d41198875ddd8e3fddc09a1",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/kLUNC.json.gz": "90cb577873b8b5372ee12708dc2341af4cfcc6d23d7cb38b869a94bc5d44626c",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/kNEIRO.json.gz": "c0fcb7e8a05a4dff549c25d2b837184acffd02f70e1869b338cbbf2c80f1c950",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/kPEPE.json.gz": "67e0be2e1b2686b4e2f957cbae6ab75c610ef654395cd92fac5a4cb83f4d156a",
+      "sma-rsi-bb-optimization-2026-11-21/snapshots/kSHIB.json.gz": "7fc1b9ed438e27921ec574c57540d0981fc86a2591e09ea3fa5677efbc995aaf"
+    }
+  },
+  "hourly_candles": "hourly_ohlcv"
+}

@@ -1,0 +1,18 @@
+{
+  "soph": [
+    {
+      "symbol": "SOPH",
+      "side": "short",
+      "candidate": 21170,
+      "stressed_entry": "2026-11-19T18:27:00+00:00",
+      "planned_exit": "2026-11-19T19:42:00+00:00",
+      "status": "unknown_exit",
+      "net": null,
+      "known_receipt": -0.0006713653265119002,
+      "receipt_time": "2026-11-19T19:00:00+00:00",
+      "original_base_receipt": -0.0006732287514465733
+    }
+  ],
+  "original_ledgers_verified": 14,
+  "allocation_cash_and_score_bins_verified": true
+}

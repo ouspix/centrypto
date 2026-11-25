@@ -1,0 +1,32 @@
+{
+  "details": {
+    "ridge/availability": {
+      "rows": 10341,
+      "first": "2026-11-01T09:35:05+00:00",
+      "last": "2026-11-13T21:45:05+00:00",
+      "outcome_end": "2026-11-13T23:17:00+00:00"
+    },
+    "ridge/news_intelligence": {
+      "rows": 10341,
+      "first": "2026-11-01T09:35:05+00:00",
+      "last": "2026-11-13T21:45:05+00:00",
+      "outcome_end": "2026-11-13T23:17:00+00:00"
+    },
+    "neural/availability": {
+      "rows": 10341,
+      "first": "2026-11-01T09:35:05+00:00",
+      "last": "2026-11-13T21:45:05+00:00",
+      "outcome_end": "2026-11-13T23:17:00+00:00"
+    },
+    "neural/news_intelligence": {
+      "rows": 10341,
+      "first": "2026-11-01T09:35:05+00:00",
+      "last": "2026-11-13T21:45:05+00:00",
+      "outcome_end": "2026-11-13T23:17:00+00:00"
+    }
+  },
+  "models": "1a1025f33b3ac4c4cd934e90c58049308f0438910e30b217c44bb8d223eafca0",
+  "source": "4af9bfb4b073cdd50e4bb032a7387ca83ec7d2780a800d824d680f20833d3b43",
+  "exit_fit": "130a30f7c3c00f4b9d04e179884d46cbf11912d726af2261809a94d94edd8961",
+  "inputs": "8c5870155c1f5a89a2f213fbfc79f279d8b11d591ad69547548ccbb63da6860f"
+}

@@ -1,0 +1,5 @@
+{
+  "action": "WAIT",
+  "reason": "validation selected cash",
+  "research_only": true
+}

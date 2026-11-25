@@ -1,0 +1,62 @@
+{
+  "status": "passed",
+  "news_checks": {
+    "asset_isolation": true,
+    "mixed_preserved": true,
+    "numeric_scores_preserved": true,
+    "indirect_direction_not_assumed": true,
+    "market_venue_spot_only_and_mismatched_subject_excluded": true,
+    "future_revision_cannot_change_past": true,
+    "raw_and_normalized_event_keys_deduplicated": true,
+    "no_duplicate_active_revision": true
+  },
+  "eight_sma_pairs_present_and_causal": true,
+  "gradient_coordinates": 18,
+  "maximum_gradient_error": 5.31291589140892e-05,
+  "side_adjusted_trade_states_checked": 40,
+  "exit_has_no_news_or_entry_score": true,
+  "strict_deadline_missing_price_is_censored_and_symbol_quarantined": true,
+  "chronological_splits": [
+    {
+      "start": "2026-06-01T00:00:00Z",
+      "usable": true,
+      "training_positive_by_side": {
+        "long": 51,
+        "short": 72
+      },
+      "training_relevant_news_positive_targets": 0
+    },
+    {
+      "start": "2026-11-03T00:00:00Z",
+      "usable": true,
+      "training_positive_by_side": {
+        "long": 214,
+        "short": 307
+      },
+      "training_relevant_news_positive_targets": 0
+    },
+    {
+      "start": "2026-11-07T00:00:00Z",
+      "usable": true,
+      "training_positive_by_side": {
+        "long": 278,
+        "short": 499
+      },
+      "training_relevant_news_positive_targets": 0
+    },
+    {
+      "start": "2026-11-11T00:00:00Z",
+      "usable": true,
+      "training_positive_by_side": {
+        "long": 336,
+        "short": 560
+      },
+      "training_relevant_news_positive_targets": 0
+    }
+  ],
+  "final_training_relevant_news_positive_targets": 9,
+  "final_training_positive_by_side": {
+    "long": 400,
+    "short": 634
+  }
+}

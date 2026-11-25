@@ -1,0 +1,9474 @@
+[
+  {
+    "id": 0,
+    "key": "apr-0G",
+    "symbol": "0G",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 0,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4233,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 1,
+    "key": "apr-2Z",
+    "symbol": "2Z",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 5760,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4333,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 2,
+    "key": "apr-AAVE",
+    "symbol": "AAVE",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 11520,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 103,
+    "quality": {
+      "rows": 4492,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 3,
+    "key": "apr-ACE",
+    "symbol": "ACE",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 17280,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4217,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 4,
+    "key": "apr-ADA",
+    "symbol": "ADA",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 23040,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 26,
+    "quality": {
+      "rows": 4488,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 5,
+    "key": "apr-AERO",
+    "symbol": "AERO",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 28800,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 9,
+    "quality": {
+      "rows": 4489,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 6,
+    "key": "apr-AI",
+    "symbol": "AI",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 34560,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 7,
+    "key": "apr-AI16Z",
+    "symbol": "AI16Z",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 40320,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 8,
+    "key": "apr-AIXBT",
+    "symbol": "AIXBT",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 46080,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 4419,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 9,
+    "key": "apr-ALGO",
+    "symbol": "ALGO",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 51840,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 4444,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 10,
+    "key": "apr-ALT",
+    "symbol": "ALT",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 57600,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 4435,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 11,
+    "key": "apr-ANIME",
+    "symbol": "ANIME",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 63360,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4419,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 12,
+    "key": "apr-APE",
+    "symbol": "APE",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 69120,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 81,
+    "quality": {
+      "rows": 4481,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 13,
+    "key": "apr-APEX",
+    "symbol": "APEX",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 74880,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4271,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 14,
+    "key": "apr-APT",
+    "symbol": "APT",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 80640,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 20,
+    "quality": {
+      "rows": 4470,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 15,
+    "key": "apr-AR",
+    "symbol": "AR",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 86400,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4423,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 16,
+    "key": "apr-ARB",
+    "symbol": "ARB",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 92160,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 19,
+    "quality": {
+      "rows": 4464,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 17,
+    "key": "apr-ARK",
+    "symbol": "ARK",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 97920,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4430,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 18,
+    "key": "apr-ASTER",
+    "symbol": "ASTER",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 103680,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 30,
+    "quality": {
+      "rows": 4437,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 19,
+    "key": "apr-ATOM",
+    "symbol": "ATOM",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 109440,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 8,
+    "quality": {
+      "rows": 4440,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 20,
+    "key": "apr-AVAX",
+    "symbol": "AVAX",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 115200,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 14,
+    "quality": {
+      "rows": 4473,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 21,
+    "key": "apr-AVNT",
+    "symbol": "AVNT",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 120960,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 4436,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 22,
+    "key": "apr-AXS",
+    "symbol": "AXS",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 126720,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 21,
+    "quality": {
+      "rows": 4464,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 23,
+    "key": "apr-AZTEC",
+    "symbol": "AZTEC",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 132480,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4142,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 24,
+    "key": "apr-BABY",
+    "symbol": "BABY",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 138240,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4430,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 25,
+    "key": "apr-BADGER",
+    "symbol": "BADGER",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 144000,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 26,
+    "key": "apr-BANANA",
+    "symbol": "BANANA",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 149760,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4306,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 27,
+    "key": "apr-BCH",
+    "symbol": "BCH",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 155520,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 7,
+    "quality": {
+      "rows": 4422,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 28,
+    "key": "apr-BERA",
+    "symbol": "BERA",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 161280,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 5,
+    "quality": {
+      "rows": 4482,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 29,
+    "key": "apr-BIGTIME",
+    "symbol": "BIGTIME",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 167040,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4428,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 30,
+    "key": "apr-BIO",
+    "symbol": "BIO",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 172800,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 105,
+    "quality": {
+      "rows": 4501,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 31,
+    "key": "apr-BLAST",
+    "symbol": "BLAST",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 178560,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4094,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 32,
+    "key": "apr-BLUR",
+    "symbol": "BLUR",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 184320,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 4450,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 33,
+    "key": "apr-BLZ",
+    "symbol": "BLZ",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 190080,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 34,
+    "key": "apr-BNB",
+    "symbol": "BNB",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 195840,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 43,
+    "quality": {
+      "rows": 4481,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 35,
+    "key": "apr-BNT",
+    "symbol": "BNT",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 201600,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 36,
+    "key": "apr-BOME",
+    "symbol": "BOME",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 207360,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4158,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 37,
+    "key": "apr-BRETT",
+    "symbol": "BRETT",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 213120,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4392,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 38,
+    "key": "apr-BSV",
+    "symbol": "BSV",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 218880,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4413,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 39,
+    "key": "apr-BTC",
+    "symbol": "BTC",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 224640,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 850,
+    "quality": {
+      "rows": 4553,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 40,
+    "key": "apr-CAKE",
+    "symbol": "CAKE",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 230400,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 4420,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 41,
+    "key": "apr-CANTO",
+    "symbol": "CANTO",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 236160,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 42,
+    "key": "apr-CATI",
+    "symbol": "CATI",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 241920,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 43,
+    "key": "apr-CC",
+    "symbol": "CC",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 247680,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 5,
+    "quality": {
+      "rows": 4394,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 44,
+    "key": "apr-CELO",
+    "symbol": "CELO",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 253440,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4218,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 45,
+    "key": "apr-CFX",
+    "symbol": "CFX",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 259200,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 4251,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 46,
+    "key": "apr-CHILLGUY",
+    "symbol": "CHILLGUY",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 264960,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4349,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 47,
+    "key": "apr-CHIP",
+    "symbol": "CHIP",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 270720,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 146,
+    "quality": {
+      "rows": 4195,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 48,
+    "key": "apr-COMP",
+    "symbol": "COMP",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 276480,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 6,
+    "quality": {
+      "rows": 4472,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 49,
+    "key": "apr-CRV",
+    "symbol": "CRV",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 282240,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 30,
+    "quality": {
+      "rows": 4462,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 50,
+    "key": "apr-CYBER",
+    "symbol": "CYBER",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 288000,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 51,
+    "key": "apr-DASH",
+    "symbol": "DASH",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 293760,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 4354,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 52,
+    "key": "apr-DOGE",
+    "symbol": "DOGE",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 299520,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 383,
+    "quality": {
+      "rows": 4552,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 53,
+    "key": "apr-DOOD",
+    "symbol": "DOOD",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 305280,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 4249,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 54,
+    "key": "apr-DOT",
+    "symbol": "DOT",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 311040,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 7,
+    "quality": {
+      "rows": 4446,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 55,
+    "key": "apr-DYDX",
+    "symbol": "DYDX",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 316800,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 4388,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 56,
+    "key": "apr-DYM",
+    "symbol": "DYM",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 322560,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4260,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 57,
+    "key": "apr-EIGEN",
+    "symbol": "EIGEN",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 328320,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4431,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 58,
+    "key": "apr-ENA",
+    "symbol": "ENA",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 334080,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 26,
+    "quality": {
+      "rows": 4469,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 59,
+    "key": "apr-ENS",
+    "symbol": "ENS",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 339840,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4273,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 60,
+    "key": "apr-ETC",
+    "symbol": "ETC",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 345600,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4348,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 61,
+    "key": "apr-ETH",
+    "symbol": "ETH",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 351360,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 783,
+    "quality": {
+      "rows": 4507,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 62,
+    "key": "apr-ETHFI",
+    "symbol": "ETHFI",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 357120,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 5,
+    "quality": {
+      "rows": 4396,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 63,
+    "key": "apr-FARTCOIN",
+    "symbol": "FARTCOIN",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 362880,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 192,
+    "quality": {
+      "rows": 4494,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 64,
+    "key": "apr-FET",
+    "symbol": "FET",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 368640,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 8,
+    "quality": {
+      "rows": 4477,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 65,
+    "key": "apr-FIL",
+    "symbol": "FIL",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 374400,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 4430,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 66,
+    "key": "apr-FOGO",
+    "symbol": "FOGO",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 380160,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 4393,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 67,
+    "key": "apr-FRIEND",
+    "symbol": "FRIEND",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 385920,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 68,
+    "key": "apr-FTM",
+    "symbol": "FTM",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 391680,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 69,
+    "key": "apr-FTT",
+    "symbol": "FTT",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 397440,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4064,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 70,
+    "key": "apr-FXS",
+    "symbol": "FXS",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 403200,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 71,
+    "key": "apr-GALA",
+    "symbol": "GALA",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 408960,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4413,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 72,
+    "key": "apr-GAS",
+    "symbol": "GAS",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 414720,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4420,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 73,
+    "key": "apr-GMT",
+    "symbol": "GMT",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 420480,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4368,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 74,
+    "key": "apr-GMX",
+    "symbol": "GMX",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 426240,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4281,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 75,
+    "key": "apr-GOAT",
+    "symbol": "GOAT",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 432000,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 4235,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 76,
+    "key": "apr-GRASS",
+    "symbol": "GRASS",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 437760,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 6,
+    "quality": {
+      "rows": 4314,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 77,
+    "key": "apr-GRIFFAIN",
+    "symbol": "GRIFFAIN",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 443520,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 4479,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 78,
+    "key": "apr-HBAR",
+    "symbol": "HBAR",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 449280,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 7,
+    "quality": {
+      "rows": 4425,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 79,
+    "key": "apr-HEMI",
+    "symbol": "HEMI",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 455040,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4423,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 80,
+    "key": "apr-HMSTR",
+    "symbol": "HMSTR",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 460800,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4067,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 81,
+    "key": "apr-HPOS",
+    "symbol": "HPOS",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 466560,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 82,
+    "key": "apr-HYPE",
+    "symbol": "HYPE",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 472320,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 773,
+    "quality": {
+      "rows": 4506,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 83,
+    "key": "apr-HYPER",
+    "symbol": "HYPER",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 478080,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4282,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 84,
+    "key": "apr-ICP",
+    "symbol": "ICP",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 483840,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 4427,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 85,
+    "key": "apr-ILV",
+    "symbol": "ILV",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 489600,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 86,
+    "key": "apr-IMX",
+    "symbol": "IMX",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 495360,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4377,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 87,
+    "key": "apr-INIT",
+    "symbol": "INIT",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 501120,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 4296,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 88,
+    "key": "apr-INJ",
+    "symbol": "INJ",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 506880,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 4479,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 89,
+    "key": "apr-IO",
+    "symbol": "IO",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 512640,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4371,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 90,
+    "key": "apr-IOTA",
+    "symbol": "IOTA",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 518400,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4204,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 91,
+    "key": "apr-IP",
+    "symbol": "IP",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 524160,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 4374,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 92,
+    "key": "apr-JELLY",
+    "symbol": "JELLY",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 529920,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 93,
+    "key": "apr-JTO",
+    "symbol": "JTO",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 535680,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 4373,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 94,
+    "key": "apr-JUP",
+    "symbol": "JUP",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 541440,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 19,
+    "quality": {
+      "rows": 4484,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 95,
+    "key": "apr-KAITO",
+    "symbol": "KAITO",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 547200,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 4339,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 96,
+    "key": "apr-KAS",
+    "symbol": "KAS",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 552960,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4375,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 97,
+    "key": "apr-kBONK",
+    "symbol": "kBONK",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 558720,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 18,
+    "quality": {
+      "rows": 4439,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 98,
+    "key": "apr-kDOGS",
+    "symbol": "kDOGS",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 564480,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 99,
+    "key": "apr-kFLOKI",
+    "symbol": "kFLOKI",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 570240,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4317,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 100,
+    "key": "apr-kLUNC",
+    "symbol": "kLUNC",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 576000,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 4475,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 101,
+    "key": "apr-kNEIRO",
+    "symbol": "kNEIRO",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 581760,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 4299,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 102,
+    "key": "apr-kPEPE",
+    "symbol": "kPEPE",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 587520,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 142,
+    "quality": {
+      "rows": 4493,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 103,
+    "key": "apr-kSHIB",
+    "symbol": "kSHIB",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 593280,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 12,
+    "quality": {
+      "rows": 4444,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 104,
+    "key": "apr-LAUNCHCOIN",
+    "symbol": "LAUNCHCOIN",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 599040,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 105,
+    "key": "apr-LAYER",
+    "symbol": "LAYER",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 604800,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 4192,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 106,
+    "key": "apr-LDO",
+    "symbol": "LDO",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 610560,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 16,
+    "quality": {
+      "rows": 4473,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 107,
+    "key": "apr-LINEA",
+    "symbol": "LINEA",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 616320,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4425,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 108,
+    "key": "apr-LINK",
+    "symbol": "LINK",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 622080,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 26,
+    "quality": {
+      "rows": 4471,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 109,
+    "key": "apr-LISTA",
+    "symbol": "LISTA",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 627840,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 110,
+    "key": "apr-LIT",
+    "symbol": "LIT",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 633600,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 90,
+    "quality": {
+      "rows": 4466,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 111,
+    "key": "apr-LOOM",
+    "symbol": "LOOM",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 639360,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 112,
+    "key": "apr-LTC",
+    "symbol": "LTC",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 645120,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 19,
+    "quality": {
+      "rows": 4431,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 113,
+    "key": "apr-MANTA",
+    "symbol": "MANTA",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 650880,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4256,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 114,
+    "key": "apr-MATIC",
+    "symbol": "MATIC",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 656640,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 115,
+    "key": "apr-MAV",
+    "symbol": "MAV",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 662400,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4237,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 116,
+    "key": "apr-MAVIA",
+    "symbol": "MAVIA",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 668160,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4132,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 117,
+    "key": "apr-ME",
+    "symbol": "ME",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 673920,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4423,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 118,
+    "key": "apr-MEGA",
+    "symbol": "MEGA",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 679680,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 156,
+    "quality": {
+      "rows": 4505,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 119,
+    "key": "apr-MELANIA",
+    "symbol": "MELANIA",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 685440,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4432,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 120,
+    "key": "apr-MEME",
+    "symbol": "MEME",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 691200,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 4056,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 121,
+    "key": "apr-MERL",
+    "symbol": "MERL",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 696960,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4394,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 122,
+    "key": "apr-MET",
+    "symbol": "MET",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 702720,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 7,
+    "quality": {
+      "rows": 4417,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 123,
+    "key": "apr-MEW",
+    "symbol": "MEW",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 708480,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 3997,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 124,
+    "key": "apr-MINA",
+    "symbol": "MINA",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 714240,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4326,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 125,
+    "key": "apr-MKR",
+    "symbol": "MKR",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 720000,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 126,
+    "key": "apr-MNT",
+    "symbol": "MNT",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 725760,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 4425,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 127,
+    "key": "apr-MON",
+    "symbol": "MON",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 731520,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 126,
+    "quality": {
+      "rows": 4490,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 128,
+    "key": "apr-MOODENG",
+    "symbol": "MOODENG",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 737280,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 4396,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 129,
+    "key": "apr-MORPHO",
+    "symbol": "MORPHO",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 743040,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 15,
+    "quality": {
+      "rows": 4459,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 130,
+    "key": "apr-MOVE",
+    "symbol": "MOVE",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 748800,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4381,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 131,
+    "key": "apr-MYRO",
+    "symbol": "MYRO",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 754560,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 132,
+    "key": "apr-NEAR",
+    "symbol": "NEAR",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 760320,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 29,
+    "quality": {
+      "rows": 4485,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 133,
+    "key": "apr-NEIROETH",
+    "symbol": "NEIROETH",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 766080,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 134,
+    "key": "apr-NEO",
+    "symbol": "NEO",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 771840,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4349,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 135,
+    "key": "apr-NFTI",
+    "symbol": "NFTI",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 777600,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 136,
+    "key": "apr-NIL",
+    "symbol": "NIL",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 783360,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4244,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 137,
+    "key": "apr-NOT",
+    "symbol": "NOT",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 789120,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4088,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 138,
+    "key": "apr-NTRN",
+    "symbol": "NTRN",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 794880,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 139,
+    "key": "apr-NXPC",
+    "symbol": "NXPC",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 800640,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4406,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 140,
+    "key": "apr-OGN",
+    "symbol": "OGN",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 806400,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 141,
+    "key": "apr-OM",
+    "symbol": "OM",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 812160,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 142,
+    "key": "apr-OMNI",
+    "symbol": "OMNI",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 817920,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 143,
+    "key": "apr-ONDO",
+    "symbol": "ONDO",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 823680,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 17,
+    "quality": {
+      "rows": 4437,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 144,
+    "key": "apr-OP",
+    "symbol": "OP",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 829440,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 4471,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 145,
+    "key": "apr-ORBS",
+    "symbol": "ORBS",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 835200,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 146,
+    "key": "apr-ORDI",
+    "symbol": "ORDI",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 840960,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 4366,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 147,
+    "key": "apr-OX",
+    "symbol": "OX",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 846720,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 148,
+    "key": "apr-PANDORA",
+    "symbol": "PANDORA",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 852480,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 149,
+    "key": "apr-PAXG",
+    "symbol": "PAXG",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 858240,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 78,
+    "quality": {
+      "rows": 4551,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 150,
+    "key": "apr-PENDLE",
+    "symbol": "PENDLE",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 864000,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 9,
+    "quality": {
+      "rows": 4397,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 151,
+    "key": "apr-PENGU",
+    "symbol": "PENGU",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 869760,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 212,
+    "quality": {
+      "rows": 4530,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 152,
+    "key": "apr-PEOPLE",
+    "symbol": "PEOPLE",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 875520,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4373,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 153,
+    "key": "apr-PIXEL",
+    "symbol": "PIXEL",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 881280,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 154,
+    "key": "apr-PNUT",
+    "symbol": "PNUT",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 887040,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 4375,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 155,
+    "key": "apr-POL",
+    "symbol": "POL",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 892800,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 7,
+    "quality": {
+      "rows": 4414,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 156,
+    "key": "apr-POLYX",
+    "symbol": "POLYX",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 898560,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4282,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 157,
+    "key": "apr-POPCAT",
+    "symbol": "POPCAT",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 904320,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 6,
+    "quality": {
+      "rows": 4359,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 158,
+    "key": "apr-PROMPT",
+    "symbol": "PROMPT",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 910080,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4255,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 159,
+    "key": "apr-PROVE",
+    "symbol": "PROVE",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 915840,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4369,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 160,
+    "key": "apr-PUMP",
+    "symbol": "PUMP",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 921600,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 157,
+    "quality": {
+      "rows": 4534,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 161,
+    "key": "apr-PURR",
+    "symbol": "PURR",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 927360,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4167,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 162,
+    "key": "apr-PYTH",
+    "symbol": "PYTH",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 933120,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 4417,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 163,
+    "key": "apr-RDNT",
+    "symbol": "RDNT",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 938880,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 164,
+    "key": "apr-RENDER",
+    "symbol": "RENDER",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 944640,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 4431,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 165,
+    "key": "apr-REQ",
+    "symbol": "REQ",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 950400,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 166,
+    "key": "apr-RESOLV",
+    "symbol": "RESOLV",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 956160,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 4410,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 167,
+    "key": "apr-REZ",
+    "symbol": "REZ",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 961920,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 4438,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 168,
+    "key": "apr-RLB",
+    "symbol": "RLB",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 967680,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 169,
+    "key": "apr-RNDR",
+    "symbol": "RNDR",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 973440,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 170,
+    "key": "apr-RSR",
+    "symbol": "RSR",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 979200,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4095,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 171,
+    "key": "apr-RUNE",
+    "symbol": "RUNE",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 984960,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 4354,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 172,
+    "key": "apr-S",
+    "symbol": "S",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 990720,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 4365,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 173,
+    "key": "apr-SAGA",
+    "symbol": "SAGA",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 996480,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 4382,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 174,
+    "key": "apr-SAND",
+    "symbol": "SAND",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1002240,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 4308,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 175,
+    "key": "apr-SCR",
+    "symbol": "SCR",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1008000,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4185,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 176,
+    "key": "apr-SEI",
+    "symbol": "SEI",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1013760,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 5,
+    "quality": {
+      "rows": 4428,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 177,
+    "key": "apr-SHIA",
+    "symbol": "SHIA",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1019520,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 178,
+    "key": "apr-SKR",
+    "symbol": "SKR",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1025280,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4227,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 179,
+    "key": "apr-SKY",
+    "symbol": "SKY",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1031040,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 8,
+    "quality": {
+      "rows": 4332,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 180,
+    "key": "apr-SNX",
+    "symbol": "SNX",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1036800,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4403,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 181,
+    "key": "apr-SOL",
+    "symbol": "SOL",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1042560,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 607,
+    "quality": {
+      "rows": 4506,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 182,
+    "key": "apr-SOPH",
+    "symbol": "SOPH",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1048320,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4240,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 183,
+    "key": "apr-SPX",
+    "symbol": "SPX",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1054080,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 8,
+    "quality": {
+      "rows": 4418,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 184,
+    "key": "apr-STABLE",
+    "symbol": "STABLE",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1059840,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 7,
+    "quality": {
+      "rows": 4428,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 185,
+    "key": "apr-STBL",
+    "symbol": "STBL",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1065600,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 4420,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 186,
+    "key": "apr-STG",
+    "symbol": "STG",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1071360,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 187,
+    "key": "apr-STRAX",
+    "symbol": "STRAX",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1077120,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 188,
+    "key": "apr-STRK",
+    "symbol": "STRK",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1082880,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 4376,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 189,
+    "key": "apr-STX",
+    "symbol": "STX",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1088640,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4424,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 190,
+    "key": "apr-SUI",
+    "symbol": "SUI",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1094400,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 36,
+    "quality": {
+      "rows": 4473,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 191,
+    "key": "apr-SUPER",
+    "symbol": "SUPER",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1100160,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4387,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 192,
+    "key": "apr-SUSHI",
+    "symbol": "SUSHI",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1105920,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4357,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 193,
+    "key": "apr-SYRUP",
+    "symbol": "SYRUP",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1111680,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 5,
+    "quality": {
+      "rows": 4254,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 194,
+    "key": "apr-TAO",
+    "symbol": "TAO",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1117440,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 90,
+    "quality": {
+      "rows": 4486,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 195,
+    "key": "apr-TIA",
+    "symbol": "TIA",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1123200,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 10,
+    "quality": {
+      "rows": 4471,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 196,
+    "key": "apr-TNSR",
+    "symbol": "TNSR",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1128960,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4065,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 197,
+    "key": "apr-TON",
+    "symbol": "TON",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1134720,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 7,
+    "quality": {
+      "rows": 4416,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 198,
+    "key": "apr-TRB",
+    "symbol": "TRB",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1140480,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4327,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 199,
+    "key": "apr-TRUMP",
+    "symbol": "TRUMP",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1146240,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 27,
+    "quality": {
+      "rows": 4464,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 200,
+    "key": "apr-TRX",
+    "symbol": "TRX",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1152000,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 16,
+    "quality": {
+      "rows": 4449,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 201,
+    "key": "apr-TST",
+    "symbol": "TST",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1157760,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 4326,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 202,
+    "key": "apr-TURBO",
+    "symbol": "TURBO",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1163520,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 4431,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 203,
+    "key": "apr-UMA",
+    "symbol": "UMA",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1169280,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4143,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 204,
+    "key": "apr-UNI",
+    "symbol": "UNI",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1175040,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 13,
+    "quality": {
+      "rows": 4440,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 205,
+    "key": "apr-UNIBOT",
+    "symbol": "UNIBOT",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1180800,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 206,
+    "key": "apr-USTC",
+    "symbol": "USTC",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1186560,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4315,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 207,
+    "key": "apr-USUAL",
+    "symbol": "USUAL",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1192320,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4344,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 208,
+    "key": "apr-VINE",
+    "symbol": "VINE",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1198080,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 4139,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 209,
+    "key": "apr-VIRTUAL",
+    "symbol": "VIRTUAL",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1203840,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 14,
+    "quality": {
+      "rows": 4465,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 210,
+    "key": "apr-VVV",
+    "symbol": "VVV",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1209600,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 25,
+    "quality": {
+      "rows": 4485,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 211,
+    "key": "apr-W",
+    "symbol": "W",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1215360,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4433,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 212,
+    "key": "apr-WCT",
+    "symbol": "WCT",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1221120,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4234,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 213,
+    "key": "apr-WIF",
+    "symbol": "WIF",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1226880,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 26,
+    "quality": {
+      "rows": 4492,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 214,
+    "key": "apr-WLD",
+    "symbol": "WLD",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1232640,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 16,
+    "quality": {
+      "rows": 4461,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 215,
+    "key": "apr-WLFI",
+    "symbol": "WLFI",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1238400,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 63,
+    "quality": {
+      "rows": 4504,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 216,
+    "key": "apr-XAI",
+    "symbol": "XAI",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1244160,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4170,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 217,
+    "key": "apr-XLM",
+    "symbol": "XLM",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1249920,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 5,
+    "quality": {
+      "rows": 4398,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 218,
+    "key": "apr-XMR",
+    "symbol": "XMR",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1255680,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 41,
+    "quality": {
+      "rows": 4453,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 219,
+    "key": "apr-XPL",
+    "symbol": "XPL",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1261440,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 53,
+    "quality": {
+      "rows": 4479,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 220,
+    "key": "apr-XRP",
+    "symbol": "XRP",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1267200,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 180,
+    "quality": {
+      "rows": 4491,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 221,
+    "key": "apr-YGG",
+    "symbol": "YGG",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1272960,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4318,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 222,
+    "key": "apr-YZY",
+    "symbol": "YZY",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1278720,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 4176,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 223,
+    "key": "apr-ZEC",
+    "symbol": "ZEC",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1284480,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 323,
+    "quality": {
+      "rows": 4506,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 224,
+    "key": "apr-ZEN",
+    "symbol": "ZEN",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1290240,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4310,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 225,
+    "key": "apr-ZEREBRO",
+    "symbol": "ZEREBRO",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1296000,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4399,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 226,
+    "key": "apr-ZETA",
+    "symbol": "ZETA",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1301760,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4350,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 227,
+    "key": "apr-ZK",
+    "symbol": "ZK",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1307520,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 4462,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 228,
+    "key": "apr-ZORA",
+    "symbol": "ZORA",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1313280,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 4423,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 229,
+    "key": "apr-ZRO",
+    "symbol": "ZRO",
+    "period": "apr",
+    "start": "2026-04-11T00:00:00Z",
+    "end": "2026-05-01T00:00:00Z",
+    "offset": 1319040,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 28,
+    "quality": {
+      "rows": 4450,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 230,
+    "key": "mayjun-0G",
+    "symbol": "0G",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1324800,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 24684,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 231,
+    "key": "mayjun-2Z",
+    "symbol": "2Z",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1330560,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 12,
+    "quality": {
+      "rows": 25927,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 232,
+    "key": "mayjun-AAVE",
+    "symbol": "AAVE",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1336320,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 502,
+    "quality": {
+      "rows": 26664,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 233,
+    "key": "mayjun-ACE",
+    "symbol": "ACE",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1342080,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 23212,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 234,
+    "key": "mayjun-ADA",
+    "symbol": "ADA",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1347840,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 629,
+    "quality": {
+      "rows": 26697,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 235,
+    "key": "mayjun-AERO",
+    "symbol": "AERO",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1353600,
+    "bars": 5760,
+    "candidates": 2,
+    "eligible_states": 59,
+    "quality": {
+      "rows": 26097,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 236,
+    "key": "mayjun-AIXBT",
+    "symbol": "AIXBT",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1359360,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 6,
+    "quality": {
+      "rows": 25931,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 237,
+    "key": "mayjun-ALGO",
+    "symbol": "ALGO",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1365120,
+    "bars": 5760,
+    "candidates": 2,
+    "eligible_states": 127,
+    "quality": {
+      "rows": 26330,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 238,
+    "key": "mayjun-ALT",
+    "symbol": "ALT",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1370880,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 29,
+    "quality": {
+      "rows": 25493,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 239,
+    "key": "mayjun-ANIME",
+    "symbol": "ANIME",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1376640,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 25905,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 240,
+    "key": "mayjun-APE",
+    "symbol": "APE",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1382400,
+    "bars": 5760,
+    "candidates": 2,
+    "eligible_states": 29,
+    "quality": {
+      "rows": 26264,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 241,
+    "key": "mayjun-APEX",
+    "symbol": "APEX",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1388160,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 23924,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 242,
+    "key": "mayjun-APT",
+    "symbol": "APT",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1393920,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 94,
+    "quality": {
+      "rows": 26348,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 243,
+    "key": "mayjun-AR",
+    "symbol": "AR",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1399680,
+    "bars": 5760,
+    "candidates": 3,
+    "eligible_states": 48,
+    "quality": {
+      "rows": 25784,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 244,
+    "key": "mayjun-ARB",
+    "symbol": "ARB",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1405440,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 141,
+    "quality": {
+      "rows": 26471,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 245,
+    "key": "mayjun-ARK",
+    "symbol": "ARK",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1411200,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 24820,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 246,
+    "key": "mayjun-ASTER",
+    "symbol": "ASTER",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1416960,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 792,
+    "quality": {
+      "rows": 26551,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 247,
+    "key": "mayjun-ATOM",
+    "symbol": "ATOM",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1422720,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 26,
+    "quality": {
+      "rows": 26105,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 248,
+    "key": "mayjun-AVAX",
+    "symbol": "AVAX",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1428480,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 285,
+    "quality": {
+      "rows": 26702,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 249,
+    "key": "mayjun-AVNT",
+    "symbol": "AVNT",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1434240,
+    "bars": 5760,
+    "candidates": 2,
+    "eligible_states": 30,
+    "quality": {
+      "rows": 26174,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 250,
+    "key": "mayjun-AXS",
+    "symbol": "AXS",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1440000,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 10,
+    "quality": {
+      "rows": 26010,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 251,
+    "key": "mayjun-AZTEC",
+    "symbol": "AZTEC",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1445760,
+    "bars": 5760,
+    "candidates": 4,
+    "eligible_states": 66,
+    "quality": {
+      "rows": 25629,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 252,
+    "key": "mayjun-BABY",
+    "symbol": "BABY",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1451520,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 50,
+    "quality": {
+      "rows": 25469,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 253,
+    "key": "mayjun-BANANA",
+    "symbol": "BANANA",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1457280,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 23951,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 254,
+    "key": "mayjun-BCH",
+    "symbol": "BCH",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1463040,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 240,
+    "quality": {
+      "rows": 26553,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 255,
+    "key": "mayjun-BERA",
+    "symbol": "BERA",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1468800,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 23,
+    "quality": {
+      "rows": 26162,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 256,
+    "key": "mayjun-BIGTIME",
+    "symbol": "BIGTIME",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1474560,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 26077,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 257,
+    "key": "mayjun-BIO",
+    "symbol": "BIO",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1480320,
+    "bars": 5760,
+    "candidates": 3,
+    "eligible_states": 52,
+    "quality": {
+      "rows": 25799,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 258,
+    "key": "mayjun-BLAST",
+    "symbol": "BLAST",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1486080,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 3135,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 259,
+    "key": "mayjun-BLUR",
+    "symbol": "BLUR",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1491840,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 26055,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 260,
+    "key": "mayjun-BNB",
+    "symbol": "BNB",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1497600,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 976,
+    "quality": {
+      "rows": 26760,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 261,
+    "key": "mayjun-BOME",
+    "symbol": "BOME",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1503360,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 22132,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 262,
+    "key": "mayjun-BRETT",
+    "symbol": "BRETT",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1509120,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 25347,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 263,
+    "key": "mayjun-BSV",
+    "symbol": "BSV",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1514880,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 25343,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 264,
+    "key": "mayjun-BTC",
+    "symbol": "BTC",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1520640,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 5231,
+    "quality": {
+      "rows": 26969,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 265,
+    "key": "mayjun-CAKE",
+    "symbol": "CAKE",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1526400,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 13,
+    "quality": {
+      "rows": 26045,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 266,
+    "key": "mayjun-CC",
+    "symbol": "CC",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1532160,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 40,
+    "quality": {
+      "rows": 25711,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 267,
+    "key": "mayjun-CELO",
+    "symbol": "CELO",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1537920,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 24702,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 268,
+    "key": "mayjun-CFX",
+    "symbol": "CFX",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1543680,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 7,
+    "quality": {
+      "rows": 25033,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 269,
+    "key": "mayjun-CHILLGUY",
+    "symbol": "CHILLGUY",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1549440,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 3856,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 270,
+    "key": "mayjun-CHIP",
+    "symbol": "CHIP",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1555200,
+    "bars": 5760,
+    "candidates": 2,
+    "eligible_states": 77,
+    "quality": {
+      "rows": 26323,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 271,
+    "key": "mayjun-COMP",
+    "symbol": "COMP",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1560960,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 26113,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 272,
+    "key": "mayjun-CRV",
+    "symbol": "CRV",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1566720,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 227,
+    "quality": {
+      "rows": 26523,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 273,
+    "key": "mayjun-DASH",
+    "symbol": "DASH",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1572480,
+    "bars": 5760,
+    "candidates": 2,
+    "eligible_states": 73,
+    "quality": {
+      "rows": 26113,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 274,
+    "key": "mayjun-DOGE",
+    "symbol": "DOGE",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1578240,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 840,
+    "quality": {
+      "rows": 26770,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 275,
+    "key": "mayjun-DOOD",
+    "symbol": "DOOD",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1584000,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 24873,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 276,
+    "key": "mayjun-DOT",
+    "symbol": "DOT",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1589760,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 71,
+    "quality": {
+      "rows": 26367,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 277,
+    "key": "mayjun-DYDX",
+    "symbol": "DYDX",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1595520,
+    "bars": 5760,
+    "candidates": 4,
+    "eligible_states": 21,
+    "quality": {
+      "rows": 26451,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 278,
+    "key": "mayjun-DYM",
+    "symbol": "DYM",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1601280,
+    "bars": 5760,
+    "candidates": 2,
+    "eligible_states": 10,
+    "quality": {
+      "rows": 25831,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 279,
+    "key": "mayjun-EIGEN",
+    "symbol": "EIGEN",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1607040,
+    "bars": 5760,
+    "candidates": 4,
+    "eligible_states": 115,
+    "quality": {
+      "rows": 26228,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 280,
+    "key": "mayjun-ENA",
+    "symbol": "ENA",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1612800,
+    "bars": 5760,
+    "candidates": 3,
+    "eligible_states": 662,
+    "quality": {
+      "rows": 26656,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 281,
+    "key": "mayjun-ENS",
+    "symbol": "ENS",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1618560,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 5,
+    "quality": {
+      "rows": 24969,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 282,
+    "key": "mayjun-ETC",
+    "symbol": "ETC",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1624320,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 8,
+    "quality": {
+      "rows": 24870,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 283,
+    "key": "mayjun-ETH",
+    "symbol": "ETH",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1630080,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 4866,
+    "quality": {
+      "rows": 26969,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 284,
+    "key": "mayjun-ETHFI",
+    "symbol": "ETHFI",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1635840,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 43,
+    "quality": {
+      "rows": 25951,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 285,
+    "key": "mayjun-FARTCOIN",
+    "symbol": "FARTCOIN",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1641600,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 704,
+    "quality": {
+      "rows": 26817,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 286,
+    "key": "mayjun-FET",
+    "symbol": "FET",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1647360,
+    "bars": 5760,
+    "candidates": 7,
+    "eligible_states": 402,
+    "quality": {
+      "rows": 26620,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 287,
+    "key": "mayjun-FIL",
+    "symbol": "FIL",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1653120,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 111,
+    "quality": {
+      "rows": 26300,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 288,
+    "key": "mayjun-FOGO",
+    "symbol": "FOGO",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1658880,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 24396,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 289,
+    "key": "mayjun-FTT",
+    "symbol": "FTT",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1664640,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 3116,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 290,
+    "key": "mayjun-GALA",
+    "symbol": "GALA",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1670400,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 25453,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 291,
+    "key": "mayjun-GAS",
+    "symbol": "GAS",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1676160,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 25428,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 292,
+    "key": "mayjun-GMT",
+    "symbol": "GMT",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1681920,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 47,
+    "quality": {
+      "rows": 26057,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 293,
+    "key": "mayjun-GMX",
+    "symbol": "GMX",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1687680,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 25188,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 294,
+    "key": "mayjun-GOAT",
+    "symbol": "GOAT",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1693440,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 17,
+    "quality": {
+      "rows": 24149,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 295,
+    "key": "mayjun-GRASS",
+    "symbol": "GRASS",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1699200,
+    "bars": 5760,
+    "candidates": 6,
+    "eligible_states": 247,
+    "quality": {
+      "rows": 26523,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 296,
+    "key": "mayjun-GRIFFAIN",
+    "symbol": "GRIFFAIN",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1704960,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 26086,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 297,
+    "key": "mayjun-HBAR",
+    "symbol": "HBAR",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1710720,
+    "bars": 5760,
+    "candidates": 2,
+    "eligible_states": 105,
+    "quality": {
+      "rows": 25837,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 298,
+    "key": "mayjun-HEMI",
+    "symbol": "HEMI",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1716480,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 9,
+    "quality": {
+      "rows": 25387,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 299,
+    "key": "mayjun-HMSTR",
+    "symbol": "HMSTR",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1722240,
+    "bars": 5760,
+    "candidates": 3,
+    "eligible_states": 34,
+    "quality": {
+      "rows": 22519,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 300,
+    "key": "mayjun-HYPE",
+    "symbol": "HYPE",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1728000,
+    "bars": 5760,
+    "candidates": 4,
+    "eligible_states": 5248,
+    "quality": {
+      "rows": 26968,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 301,
+    "key": "mayjun-HYPER",
+    "symbol": "HYPER",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1733760,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 8,
+    "quality": {
+      "rows": 24854,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 302,
+    "key": "mayjun-ICP",
+    "symbol": "ICP",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1739520,
+    "bars": 5760,
+    "candidates": 4,
+    "eligible_states": 271,
+    "quality": {
+      "rows": 26140,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 303,
+    "key": "mayjun-IMX",
+    "symbol": "IMX",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1745280,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 5,
+    "quality": {
+      "rows": 26076,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 304,
+    "key": "mayjun-INIT",
+    "symbol": "INIT",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1751040,
+    "bars": 5760,
+    "candidates": 2,
+    "eligible_states": 11,
+    "quality": {
+      "rows": 25192,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 305,
+    "key": "mayjun-INJ",
+    "symbol": "INJ",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1756800,
+    "bars": 5760,
+    "candidates": 6,
+    "eligible_states": 496,
+    "quality": {
+      "rows": 26517,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 306,
+    "key": "mayjun-IO",
+    "symbol": "IO",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1762560,
+    "bars": 5760,
+    "candidates": 5,
+    "eligible_states": 38,
+    "quality": {
+      "rows": 26191,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 307,
+    "key": "mayjun-IOTA",
+    "symbol": "IOTA",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1768320,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 24390,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 308,
+    "key": "mayjun-IP",
+    "symbol": "IP",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1774080,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 25,
+    "quality": {
+      "rows": 25864,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 309,
+    "key": "mayjun-JTO",
+    "symbol": "JTO",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1779840,
+    "bars": 5760,
+    "candidates": 8,
+    "eligible_states": 302,
+    "quality": {
+      "rows": 26328,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 310,
+    "key": "mayjun-JUP",
+    "symbol": "JUP",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1785600,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 142,
+    "quality": {
+      "rows": 26468,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 311,
+    "key": "mayjun-KAITO",
+    "symbol": "KAITO",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1791360,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 12,
+    "quality": {
+      "rows": 25098,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 312,
+    "key": "mayjun-KAS",
+    "symbol": "KAS",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1797120,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 9,
+    "quality": {
+      "rows": 24788,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 313,
+    "key": "mayjun-kBONK",
+    "symbol": "kBONK",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1802880,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 56,
+    "quality": {
+      "rows": 26458,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 314,
+    "key": "mayjun-kFLOKI",
+    "symbol": "kFLOKI",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1808640,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 25543,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 315,
+    "key": "mayjun-kLUNC",
+    "symbol": "kLUNC",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1814400,
+    "bars": 5760,
+    "candidates": 2,
+    "eligible_states": 7,
+    "quality": {
+      "rows": 25983,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 316,
+    "key": "mayjun-kNEIRO",
+    "symbol": "kNEIRO",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1820160,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 24468,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 317,
+    "key": "mayjun-kPEPE",
+    "symbol": "kPEPE",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1825920,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 289,
+    "quality": {
+      "rows": 26496,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 318,
+    "key": "mayjun-kSHIB",
+    "symbol": "kSHIB",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1831680,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 41,
+    "quality": {
+      "rows": 26297,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 319,
+    "key": "mayjun-LAYER",
+    "symbol": "LAYER",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1837440,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 17,
+    "quality": {
+      "rows": 25597,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 320,
+    "key": "mayjun-LDO",
+    "symbol": "LDO",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1843200,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 62,
+    "quality": {
+      "rows": 26380,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 321,
+    "key": "mayjun-LINEA",
+    "symbol": "LINEA",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1848960,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 15,
+    "quality": {
+      "rows": 25683,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 322,
+    "key": "mayjun-LINK",
+    "symbol": "LINK",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1854720,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 445,
+    "quality": {
+      "rows": 26773,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 323,
+    "key": "mayjun-LIT",
+    "symbol": "LIT",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1860480,
+    "bars": 5760,
+    "candidates": 7,
+    "eligible_states": 2608,
+    "quality": {
+      "rows": 26961,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 324,
+    "key": "mayjun-LTC",
+    "symbol": "LTC",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1866240,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 179,
+    "quality": {
+      "rows": 26320,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 325,
+    "key": "mayjun-MANTA",
+    "symbol": "MANTA",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1872000,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 8,
+    "quality": {
+      "rows": 24940,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 326,
+    "key": "mayjun-ME",
+    "symbol": "ME",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1877760,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 7,
+    "quality": {
+      "rows": 25874,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 327,
+    "key": "mayjun-MEGA",
+    "symbol": "MEGA",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1883520,
+    "bars": 5760,
+    "candidates": 2,
+    "eligible_states": 118,
+    "quality": {
+      "rows": 26081,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 328,
+    "key": "mayjun-MELANIA",
+    "symbol": "MELANIA",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1889280,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 7,
+    "quality": {
+      "rows": 26137,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 329,
+    "key": "mayjun-MEME",
+    "symbol": "MEME",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1895040,
+    "bars": 5760,
+    "candidates": 3,
+    "eligible_states": 25,
+    "quality": {
+      "rows": 22591,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 330,
+    "key": "mayjun-MERL",
+    "symbol": "MERL",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1900800,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 24804,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 331,
+    "key": "mayjun-MET",
+    "symbol": "MET",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1906560,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 13,
+    "quality": {
+      "rows": 25549,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 332,
+    "key": "mayjun-MINA",
+    "symbol": "MINA",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1912320,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 23946,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 333,
+    "key": "mayjun-MNT",
+    "symbol": "MNT",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1918080,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 44,
+    "quality": {
+      "rows": 25639,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 334,
+    "key": "mayjun-MON",
+    "symbol": "MON",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1923840,
+    "bars": 5760,
+    "candidates": 2,
+    "eligible_states": 253,
+    "quality": {
+      "rows": 26742,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 335,
+    "key": "mayjun-MOODENG",
+    "symbol": "MOODENG",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1929600,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 5,
+    "quality": {
+      "rows": 25486,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 336,
+    "key": "mayjun-MORPHO",
+    "symbol": "MORPHO",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1935360,
+    "bars": 5760,
+    "candidates": 2,
+    "eligible_states": 113,
+    "quality": {
+      "rows": 26763,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 337,
+    "key": "mayjun-MOVE",
+    "symbol": "MOVE",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1941120,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 28,
+    "quality": {
+      "rows": 26052,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 338,
+    "key": "mayjun-NEAR",
+    "symbol": "NEAR",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1946880,
+    "bars": 5760,
+    "candidates": 7,
+    "eligible_states": 4132,
+    "quality": {
+      "rows": 26966,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 339,
+    "key": "mayjun-NEO",
+    "symbol": "NEO",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1952640,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 25797,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 340,
+    "key": "mayjun-NIL",
+    "symbol": "NIL",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1958400,
+    "bars": 5760,
+    "candidates": 4,
+    "eligible_states": 175,
+    "quality": {
+      "rows": 26567,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 341,
+    "key": "mayjun-NOT",
+    "symbol": "NOT",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1964160,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 22579,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 342,
+    "key": "mayjun-NXPC",
+    "symbol": "NXPC",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1969920,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 18,
+    "quality": {
+      "rows": 25811,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 343,
+    "key": "mayjun-ONDO",
+    "symbol": "ONDO",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1975680,
+    "bars": 5760,
+    "candidates": 5,
+    "eligible_states": 1035,
+    "quality": {
+      "rows": 26832,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 344,
+    "key": "mayjun-OP",
+    "symbol": "OP",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1981440,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 50,
+    "quality": {
+      "rows": 26342,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 345,
+    "key": "mayjun-ORDI",
+    "symbol": "ORDI",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1987200,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 21,
+    "quality": {
+      "rows": 25119,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 346,
+    "key": "mayjun-PAXG",
+    "symbol": "PAXG",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1992960,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 294,
+    "quality": {
+      "rows": 26537,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 347,
+    "key": "mayjun-PENDLE",
+    "symbol": "PENDLE",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 1998720,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 221,
+    "quality": {
+      "rows": 26611,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 348,
+    "key": "mayjun-PENGU",
+    "symbol": "PENGU",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2004480,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 194,
+    "quality": {
+      "rows": 26598,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 349,
+    "key": "mayjun-PEOPLE",
+    "symbol": "PEOPLE",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2010240,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 25045,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 350,
+    "key": "mayjun-PNUT",
+    "symbol": "PNUT",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2016000,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 24848,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 351,
+    "key": "mayjun-POL",
+    "symbol": "POL",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2021760,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 30,
+    "quality": {
+      "rows": 25618,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 352,
+    "key": "mayjun-POLYX",
+    "symbol": "POLYX",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2027520,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 24597,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 353,
+    "key": "mayjun-POPCAT",
+    "symbol": "POPCAT",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2033280,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 6,
+    "quality": {
+      "rows": 25692,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 354,
+    "key": "mayjun-PROVE",
+    "symbol": "PROVE",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2039040,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 13,
+    "quality": {
+      "rows": 26072,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 355,
+    "key": "mayjun-PUMP",
+    "symbol": "PUMP",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2044800,
+    "bars": 5760,
+    "candidates": 2,
+    "eligible_states": 678,
+    "quality": {
+      "rows": 26748,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 356,
+    "key": "mayjun-PURR",
+    "symbol": "PURR",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2050560,
+    "bars": 5760,
+    "candidates": 11,
+    "eligible_states": 229,
+    "quality": {
+      "rows": 25570,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 357,
+    "key": "mayjun-PYTH",
+    "symbol": "PYTH",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2056320,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 12,
+    "quality": {
+      "rows": 25778,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 358,
+    "key": "mayjun-RENDER",
+    "symbol": "RENDER",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2062080,
+    "bars": 5760,
+    "candidates": 5,
+    "eligible_states": 290,
+    "quality": {
+      "rows": 26254,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 359,
+    "key": "mayjun-RESOLV",
+    "symbol": "RESOLV",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2067840,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 6,
+    "quality": {
+      "rows": 23734,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 360,
+    "key": "mayjun-REZ",
+    "symbol": "REZ",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2073600,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 7,
+    "quality": {
+      "rows": 25347,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 361,
+    "key": "mayjun-RSR",
+    "symbol": "RSR",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2079360,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 21457,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 362,
+    "key": "mayjun-RUNE",
+    "symbol": "RUNE",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2085120,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 13,
+    "quality": {
+      "rows": 24958,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 363,
+    "key": "mayjun-S",
+    "symbol": "S",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2090880,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 10,
+    "quality": {
+      "rows": 25033,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 364,
+    "key": "mayjun-SAGA",
+    "symbol": "SAGA",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2096640,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 9,
+    "quality": {
+      "rows": 25695,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 365,
+    "key": "mayjun-SAND",
+    "symbol": "SAND",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2102400,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 5,
+    "quality": {
+      "rows": 24343,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 366,
+    "key": "mayjun-SEI",
+    "symbol": "SEI",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2108160,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 123,
+    "quality": {
+      "rows": 26284,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 367,
+    "key": "mayjun-SKR",
+    "symbol": "SKR",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2113920,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 5,
+    "quality": {
+      "rows": 23446,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 368,
+    "key": "mayjun-SKY",
+    "symbol": "SKY",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2119680,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 25,
+    "quality": {
+      "rows": 24863,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 369,
+    "key": "mayjun-SNX",
+    "symbol": "SNX",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2125440,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 5,
+    "quality": {
+      "rows": 25471,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 370,
+    "key": "mayjun-SOL",
+    "symbol": "SOL",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2131200,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 4394,
+    "quality": {
+      "rows": 26969,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 371,
+    "key": "mayjun-SOPH",
+    "symbol": "SOPH",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2136960,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 23918,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 372,
+    "key": "mayjun-SPX",
+    "symbol": "SPX",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2142720,
+    "bars": 5760,
+    "candidates": 3,
+    "eligible_states": 101,
+    "quality": {
+      "rows": 26108,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 373,
+    "key": "mayjun-STABLE",
+    "symbol": "STABLE",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2148480,
+    "bars": 5760,
+    "candidates": 4,
+    "eligible_states": 31,
+    "quality": {
+      "rows": 25920,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 374,
+    "key": "mayjun-STBL",
+    "symbol": "STBL",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2154240,
+    "bars": 5760,
+    "candidates": 2,
+    "eligible_states": 22,
+    "quality": {
+      "rows": 25760,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 375,
+    "key": "mayjun-STRK",
+    "symbol": "STRK",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2160000,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 57,
+    "quality": {
+      "rows": 26418,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 376,
+    "key": "mayjun-STX",
+    "symbol": "STX",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2165760,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 7,
+    "quality": {
+      "rows": 26001,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 377,
+    "key": "mayjun-SUI",
+    "symbol": "SUI",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2171520,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 1395,
+    "quality": {
+      "rows": 26896,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 378,
+    "key": "mayjun-SUPER",
+    "symbol": "SUPER",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2177280,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 16,
+    "quality": {
+      "rows": 26312,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 379,
+    "key": "mayjun-SUSHI",
+    "symbol": "SUSHI",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2183040,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 18,
+    "quality": {
+      "rows": 24991,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 380,
+    "key": "mayjun-SYRUP",
+    "symbol": "SYRUP",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2188800,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 36,
+    "quality": {
+      "rows": 25144,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 381,
+    "key": "mayjun-TAO",
+    "symbol": "TAO",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2194560,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 1024,
+    "quality": {
+      "rows": 26748,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 382,
+    "key": "mayjun-TIA",
+    "symbol": "TIA",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2200320,
+    "bars": 5760,
+    "candidates": 2,
+    "eligible_states": 83,
+    "quality": {
+      "rows": 26263,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 383,
+    "key": "mayjun-TNSR",
+    "symbol": "TNSR",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2206080,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 21005,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 384,
+    "key": "mayjun-TON",
+    "symbol": "TON",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2211840,
+    "bars": 5760,
+    "candidates": 3,
+    "eligible_states": 1983,
+    "quality": {
+      "rows": 26906,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 385,
+    "key": "mayjun-TRB",
+    "symbol": "TRB",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2217600,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 23862,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 386,
+    "key": "mayjun-TRUMP",
+    "symbol": "TRUMP",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2223360,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 186,
+    "quality": {
+      "rows": 26527,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 387,
+    "key": "mayjun-TRX",
+    "symbol": "TRX",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2229120,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 191,
+    "quality": {
+      "rows": 26401,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 388,
+    "key": "mayjun-TST",
+    "symbol": "TST",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2234880,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 3222,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 389,
+    "key": "mayjun-TURBO",
+    "symbol": "TURBO",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2240640,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 24725,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 390,
+    "key": "mayjun-UMA",
+    "symbol": "UMA",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2246400,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 22834,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 391,
+    "key": "mayjun-UNI",
+    "symbol": "UNI",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2252160,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 132,
+    "quality": {
+      "rows": 26433,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 392,
+    "key": "mayjun-USUAL",
+    "symbol": "USUAL",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2257920,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 23019,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 393,
+    "key": "mayjun-VINE",
+    "symbol": "VINE",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2263680,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 82,
+    "quality": {
+      "rows": 22852,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 394,
+    "key": "mayjun-VIRTUAL",
+    "symbol": "VIRTUAL",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2269440,
+    "bars": 5760,
+    "candidates": 3,
+    "eligible_states": 261,
+    "quality": {
+      "rows": 26390,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 395,
+    "key": "mayjun-VVV",
+    "symbol": "VVV",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2275200,
+    "bars": 5760,
+    "candidates": 6,
+    "eligible_states": 1805,
+    "quality": {
+      "rows": 26921,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 396,
+    "key": "mayjun-W",
+    "symbol": "W",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2280960,
+    "bars": 5760,
+    "candidates": 2,
+    "eligible_states": 21,
+    "quality": {
+      "rows": 25474,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 397,
+    "key": "mayjun-WCT",
+    "symbol": "WCT",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2286720,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 23050,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 398,
+    "key": "mayjun-WIF",
+    "symbol": "WIF",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2292480,
+    "bars": 5760,
+    "candidates": 2,
+    "eligible_states": 62,
+    "quality": {
+      "rows": 26510,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 399,
+    "key": "mayjun-WLD",
+    "symbol": "WLD",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2298240,
+    "bars": 5760,
+    "candidates": 11,
+    "eligible_states": 2833,
+    "quality": {
+      "rows": 26917,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 400,
+    "key": "mayjun-WLFI",
+    "symbol": "WLFI",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2304000,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 128,
+    "quality": {
+      "rows": 26557,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 401,
+    "key": "mayjun-XAI",
+    "symbol": "XAI",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2309760,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 21817,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 402,
+    "key": "mayjun-XLM",
+    "symbol": "XLM",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2315520,
+    "bars": 5760,
+    "candidates": 4,
+    "eligible_states": 1001,
+    "quality": {
+      "rows": 26400,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 403,
+    "key": "mayjun-XMR",
+    "symbol": "XMR",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2321280,
+    "bars": 5760,
+    "candidates": 2,
+    "eligible_states": 947,
+    "quality": {
+      "rows": 26818,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 404,
+    "key": "mayjun-XPL",
+    "symbol": "XPL",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2327040,
+    "bars": 5760,
+    "candidates": 4,
+    "eligible_states": 932,
+    "quality": {
+      "rows": 26770,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 405,
+    "key": "mayjun-XRP",
+    "symbol": "XRP",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2332800,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 2168,
+    "quality": {
+      "rows": 26921,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 406,
+    "key": "mayjun-YGG",
+    "symbol": "YGG",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2338560,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 25444,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 407,
+    "key": "mayjun-ZEC",
+    "symbol": "ZEC",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2344320,
+    "bars": 5760,
+    "candidates": 5,
+    "eligible_states": 5054,
+    "quality": {
+      "rows": 26969,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 408,
+    "key": "mayjun-ZEN",
+    "symbol": "ZEN",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2350080,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 7,
+    "quality": {
+      "rows": 23967,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 409,
+    "key": "mayjun-ZETA",
+    "symbol": "ZETA",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2355840,
+    "bars": 5760,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 23368,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 410,
+    "key": "mayjun-ZK",
+    "symbol": "ZK",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2361600,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 30,
+    "quality": {
+      "rows": 26131,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 411,
+    "key": "mayjun-ZORA",
+    "symbol": "ZORA",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2367360,
+    "bars": 5760,
+    "candidates": 3,
+    "eligible_states": 28,
+    "quality": {
+      "rows": 25936,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 412,
+    "key": "mayjun-ZRO",
+    "symbol": "ZRO",
+    "period": "mayjun",
+    "start": "2026-05-21T00:00:00Z",
+    "end": "2026-06-10T00:00:00Z",
+    "offset": 2373120,
+    "bars": 5760,
+    "candidates": 1,
+    "eligible_states": 204,
+    "quality": {
+      "rows": 26452,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 413,
+    "key": "recent-0G",
+    "symbol": "0G",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2378880,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 20625,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 414,
+    "key": "recent-2Z",
+    "symbol": "2Z",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2383590,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 7,
+    "quality": {
+      "rows": 21388,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 415,
+    "key": "recent-AAVE",
+    "symbol": "AAVE",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2388300,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 619,
+    "quality": {
+      "rows": 22534,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 416,
+    "key": "recent-ACE",
+    "symbol": "ACE",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2393010,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 20685,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 417,
+    "key": "recent-ADA",
+    "symbol": "ADA",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2397720,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 267,
+    "quality": {
+      "rows": 21956,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 418,
+    "key": "recent-AERO",
+    "symbol": "AERO",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2402430,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 222,
+    "quality": {
+      "rows": 22389,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 419,
+    "key": "recent-AIXBT",
+    "symbol": "AIXBT",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2407140,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 20099,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 420,
+    "key": "recent-ALGO",
+    "symbol": "ALGO",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2411850,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 22,
+    "quality": {
+      "rows": 21072,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 421,
+    "key": "recent-ALT",
+    "symbol": "ALT",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2416560,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 20666,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 422,
+    "key": "recent-ANIME",
+    "symbol": "ANIME",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2421270,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 20686,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 423,
+    "key": "recent-APE",
+    "symbol": "APE",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2425980,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 9,
+    "quality": {
+      "rows": 20817,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 424,
+    "key": "recent-APEX",
+    "symbol": "APEX",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2430690,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 9,
+    "quality": {
+      "rows": 16276,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 425,
+    "key": "recent-APT",
+    "symbol": "APT",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2435400,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 63,
+    "quality": {
+      "rows": 21569,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 426,
+    "key": "recent-AR",
+    "symbol": "AR",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2440110,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 7,
+    "quality": {
+      "rows": 20995,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 427,
+    "key": "recent-ARB",
+    "symbol": "ARB",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2444820,
+    "bars": 4710,
+    "candidates": 2,
+    "eligible_states": 448,
+    "quality": {
+      "rows": 22248,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 428,
+    "key": "recent-ASTER",
+    "symbol": "ASTER",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2449530,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 109,
+    "quality": {
+      "rows": 21548,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 429,
+    "key": "recent-ATOM",
+    "symbol": "ATOM",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2454240,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 24,
+    "quality": {
+      "rows": 21614,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 430,
+    "key": "recent-AVAX",
+    "symbol": "AVAX",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2458950,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 501,
+    "quality": {
+      "rows": 22263,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 431,
+    "key": "recent-AVNT",
+    "symbol": "AVNT",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2463660,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 5,
+    "quality": {
+      "rows": 20579,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 432,
+    "key": "recent-AXS",
+    "symbol": "AXS",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2468370,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 20037,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 433,
+    "key": "recent-AZTEC",
+    "symbol": "AZTEC",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2473080,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 24,
+    "quality": {
+      "rows": 18558,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 434,
+    "key": "recent-BABY",
+    "symbol": "BABY",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2477790,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 20666,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 435,
+    "key": "recent-BANANA",
+    "symbol": "BANANA",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2482500,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 19558,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 436,
+    "key": "recent-BCH",
+    "symbol": "BCH",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2487210,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 101,
+    "quality": {
+      "rows": 21661,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 437,
+    "key": "recent-BERA",
+    "symbol": "BERA",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2491920,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 33,
+    "quality": {
+      "rows": 21404,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 438,
+    "key": "recent-BIGTIME",
+    "symbol": "BIGTIME",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2496630,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 19703,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 439,
+    "key": "recent-BIO",
+    "symbol": "BIO",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2501340,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 20312,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 440,
+    "key": "recent-BLUR",
+    "symbol": "BLUR",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2506050,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 13,
+    "quality": {
+      "rows": 19314,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 441,
+    "key": "recent-BNB",
+    "symbol": "BNB",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2510760,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 710,
+    "quality": {
+      "rows": 22408,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 442,
+    "key": "recent-BOME",
+    "symbol": "BOME",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2515470,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 12608,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 443,
+    "key": "recent-BRETT",
+    "symbol": "BRETT",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2520180,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 20284,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 444,
+    "key": "recent-BSV",
+    "symbol": "BSV",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2524890,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 18391,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 445,
+    "key": "recent-BTC",
+    "symbol": "BTC",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2529600,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 4373,
+    "quality": {
+      "rows": 22910,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 446,
+    "key": "recent-CAKE",
+    "symbol": "CAKE",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2534310,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 11,
+    "quality": {
+      "rows": 20807,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 447,
+    "key": "recent-CASHCAT",
+    "symbol": "CASHCAT",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2539020,
+    "bars": 4710,
+    "candidates": 4,
+    "eligible_states": 347,
+    "quality": {
+      "rows": 22558,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 448,
+    "key": "recent-CC",
+    "symbol": "CC",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2543730,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 46,
+    "quality": {
+      "rows": 21443,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 449,
+    "key": "recent-CELO",
+    "symbol": "CELO",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2548440,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 19176,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 450,
+    "key": "recent-CFX",
+    "symbol": "CFX",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2553150,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 20260,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 451,
+    "key": "recent-CHIP",
+    "symbol": "CHIP",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2557860,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 61,
+    "quality": {
+      "rows": 21631,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 452,
+    "key": "recent-COMP",
+    "symbol": "COMP",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2562570,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 20674,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 453,
+    "key": "recent-CRV",
+    "symbol": "CRV",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2567280,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 247,
+    "quality": {
+      "rows": 22016,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 454,
+    "key": "recent-DASH",
+    "symbol": "DASH",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2571990,
+    "bars": 4710,
+    "candidates": 2,
+    "eligible_states": 26,
+    "quality": {
+      "rows": 20166,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 455,
+    "key": "recent-DOGE",
+    "symbol": "DOGE",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2576700,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 522,
+    "quality": {
+      "rows": 22354,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 456,
+    "key": "recent-DOT",
+    "symbol": "DOT",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2581410,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 117,
+    "quality": {
+      "rows": 21325,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 457,
+    "key": "recent-DYDX",
+    "symbol": "DYDX",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2586120,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 18888,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 458,
+    "key": "recent-DYM",
+    "symbol": "DYM",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2590830,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 6,
+    "quality": {
+      "rows": 19257,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 459,
+    "key": "recent-EIGEN",
+    "symbol": "EIGEN",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2595540,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 14,
+    "quality": {
+      "rows": 21349,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 460,
+    "key": "recent-ENA",
+    "symbol": "ENA",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2600250,
+    "bars": 4710,
+    "candidates": 2,
+    "eligible_states": 1069,
+    "quality": {
+      "rows": 22746,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 461,
+    "key": "recent-ENS",
+    "symbol": "ENS",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2604960,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 19241,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 462,
+    "key": "recent-ETC",
+    "symbol": "ETC",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2609670,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 5,
+    "quality": {
+      "rows": 20763,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 463,
+    "key": "recent-ETH",
+    "symbol": "ETH",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2614380,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 4091,
+    "quality": {
+      "rows": 22983,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 464,
+    "key": "recent-ETHFI",
+    "symbol": "ETHFI",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2619090,
+    "bars": 4710,
+    "candidates": 3,
+    "eligible_states": 139,
+    "quality": {
+      "rows": 22197,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 465,
+    "key": "recent-FARTCOIN",
+    "symbol": "FARTCOIN",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2623800,
+    "bars": 4710,
+    "candidates": 2,
+    "eligible_states": 273,
+    "quality": {
+      "rows": 22181,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 466,
+    "key": "recent-FET",
+    "symbol": "FET",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2628510,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 37,
+    "quality": {
+      "rows": 21359,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 467,
+    "key": "recent-FIL",
+    "symbol": "FIL",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2633220,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 54,
+    "quality": {
+      "rows": 21460,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 468,
+    "key": "recent-FOGO",
+    "symbol": "FOGO",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2637930,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 10,
+    "quality": {
+      "rows": 16983,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 469,
+    "key": "recent-GALA",
+    "symbol": "GALA",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2642640,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 21022,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 470,
+    "key": "recent-GAS",
+    "symbol": "GAS",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2647350,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 20585,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 471,
+    "key": "recent-GMT",
+    "symbol": "GMT",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2652060,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 20048,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 472,
+    "key": "recent-GMX",
+    "symbol": "GMX",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2656770,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 5,
+    "quality": {
+      "rows": 20518,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 473,
+    "key": "recent-GOAT",
+    "symbol": "GOAT",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2661480,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 10,
+    "quality": {
+      "rows": 18756,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 474,
+    "key": "recent-GRAM",
+    "symbol": "GRAM",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2666190,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 312,
+    "quality": {
+      "rows": 21855,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 475,
+    "key": "recent-GRASS",
+    "symbol": "GRASS",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2670900,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 110,
+    "quality": {
+      "rows": 21969,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 476,
+    "key": "recent-GRIFFAIN",
+    "symbol": "GRIFFAIN",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2675610,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 12,
+    "quality": {
+      "rows": 14512,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 477,
+    "key": "recent-HBAR",
+    "symbol": "HBAR",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2680320,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 50,
+    "quality": {
+      "rows": 21357,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 478,
+    "key": "recent-HEMI",
+    "symbol": "HEMI",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2685030,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 6,
+    "quality": {
+      "rows": 20501,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 479,
+    "key": "recent-HMSTR",
+    "symbol": "HMSTR",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2689740,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 8,
+    "quality": {
+      "rows": 11906,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 480,
+    "key": "recent-HYPE",
+    "symbol": "HYPE",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2694450,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 4180,
+    "quality": {
+      "rows": 22909,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 481,
+    "key": "recent-HYPER",
+    "symbol": "HYPER",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2699160,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 6,
+    "quality": {
+      "rows": 19823,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 482,
+    "key": "recent-ICP",
+    "symbol": "ICP",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2703870,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 52,
+    "quality": {
+      "rows": 21157,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 483,
+    "key": "recent-IMX",
+    "symbol": "IMX",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2708580,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 9,
+    "quality": {
+      "rows": 18895,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 484,
+    "key": "recent-INIT",
+    "symbol": "INIT",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2713290,
+    "bars": 4710,
+    "candidates": 4,
+    "eligible_states": 397,
+    "quality": {
+      "rows": 22264,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 485,
+    "key": "recent-INJ",
+    "symbol": "INJ",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2718000,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 263,
+    "quality": {
+      "rows": 22024,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 486,
+    "key": "recent-IO",
+    "symbol": "IO",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2722710,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 20867,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 487,
+    "key": "recent-IOTA",
+    "symbol": "IOTA",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2727420,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 19350,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 488,
+    "key": "recent-JTO",
+    "symbol": "JTO",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2732130,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 19,
+    "quality": {
+      "rows": 21343,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 489,
+    "key": "recent-JUP",
+    "symbol": "JUP",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2736840,
+    "bars": 4710,
+    "candidates": 2,
+    "eligible_states": 149,
+    "quality": {
+      "rows": 21665,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 490,
+    "key": "recent-KAITO",
+    "symbol": "KAITO",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2741550,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 8,
+    "quality": {
+      "rows": 21171,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 491,
+    "key": "recent-KAS",
+    "symbol": "KAS",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2746260,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 9,
+    "quality": {
+      "rows": 19917,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 492,
+    "key": "recent-kBONK",
+    "symbol": "kBONK",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2750970,
+    "bars": 4710,
+    "candidates": 2,
+    "eligible_states": 31,
+    "quality": {
+      "rows": 21154,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 493,
+    "key": "recent-kFLOKI",
+    "symbol": "kFLOKI",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2755680,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 20688,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 494,
+    "key": "recent-kLUNC",
+    "symbol": "kLUNC",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2760390,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 18775,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 495,
+    "key": "recent-kNEIRO",
+    "symbol": "kNEIRO",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2765100,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 5,
+    "quality": {
+      "rows": 18930,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 496,
+    "key": "recent-kPEPE",
+    "symbol": "kPEPE",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2769810,
+    "bars": 4710,
+    "candidates": 2,
+    "eligible_states": 1686,
+    "quality": {
+      "rows": 22769,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 497,
+    "key": "recent-kSHIB",
+    "symbol": "kSHIB",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2774520,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 31,
+    "quality": {
+      "rows": 21299,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 498,
+    "key": "recent-LAYER",
+    "symbol": "LAYER",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2779230,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 5,
+    "quality": {
+      "rows": 17681,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 499,
+    "key": "recent-LDO",
+    "symbol": "LDO",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2783940,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 42,
+    "quality": {
+      "rows": 21211,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 500,
+    "key": "recent-LINEA",
+    "symbol": "LINEA",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2788650,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 5,
+    "quality": {
+      "rows": 19774,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 501,
+    "key": "recent-LINK",
+    "symbol": "LINK",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2793360,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 480,
+    "quality": {
+      "rows": 22361,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 502,
+    "key": "recent-LIT",
+    "symbol": "LIT",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2798070,
+    "bars": 4710,
+    "candidates": 3,
+    "eligible_states": 1887,
+    "quality": {
+      "rows": 22906,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 503,
+    "key": "recent-LTC",
+    "symbol": "LTC",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2802780,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 112,
+    "quality": {
+      "rows": 21938,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 504,
+    "key": "recent-MANTA",
+    "symbol": "MANTA",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2807490,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 19311,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 505,
+    "key": "recent-ME",
+    "symbol": "ME",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2812200,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 17813,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 506,
+    "key": "recent-MEGA",
+    "symbol": "MEGA",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2816910,
+    "bars": 4710,
+    "candidates": 3,
+    "eligible_states": 86,
+    "quality": {
+      "rows": 22008,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 507,
+    "key": "recent-MELANIA",
+    "symbol": "MELANIA",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2821620,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 10,
+    "quality": {
+      "rows": 20461,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 508,
+    "key": "recent-MEME",
+    "symbol": "MEME",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2826330,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 7,
+    "quality": {
+      "rows": 11986,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 509,
+    "key": "recent-MERL",
+    "symbol": "MERL",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2831040,
+    "bars": 4710,
+    "candidates": 3,
+    "eligible_states": 21,
+    "quality": {
+      "rows": 19192,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 510,
+    "key": "recent-MET",
+    "symbol": "MET",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2835750,
+    "bars": 4710,
+    "candidates": 3,
+    "eligible_states": 40,
+    "quality": {
+      "rows": 21355,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 511,
+    "key": "recent-MINA",
+    "symbol": "MINA",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2840460,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 8,
+    "quality": {
+      "rows": 18691,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 512,
+    "key": "recent-MNT",
+    "symbol": "MNT",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2845170,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 10,
+    "quality": {
+      "rows": 20463,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 513,
+    "key": "recent-MON",
+    "symbol": "MON",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2849880,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 105,
+    "quality": {
+      "rows": 22079,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 514,
+    "key": "recent-MOODENG",
+    "symbol": "MOODENG",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2854590,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 19584,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 515,
+    "key": "recent-MORPHO",
+    "symbol": "MORPHO",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2859300,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 69,
+    "quality": {
+      "rows": 21780,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 516,
+    "key": "recent-MOVE",
+    "symbol": "MOVE",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2864010,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 19524,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 517,
+    "key": "recent-NEAR",
+    "symbol": "NEAR",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2868720,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 3023,
+    "quality": {
+      "rows": 22897,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 518,
+    "key": "recent-NEO",
+    "symbol": "NEO",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2873430,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 20031,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 519,
+    "key": "recent-NIL",
+    "symbol": "NIL",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2878140,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 36,
+    "quality": {
+      "rows": 21159,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 520,
+    "key": "recent-NOT",
+    "symbol": "NOT",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2882850,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 6,
+    "quality": {
+      "rows": 10578,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 521,
+    "key": "recent-NXPC",
+    "symbol": "NXPC",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2887560,
+    "bars": 4710,
+    "candidates": 2,
+    "eligible_states": 17,
+    "quality": {
+      "rows": 18089,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 522,
+    "key": "recent-ONDO",
+    "symbol": "ONDO",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2892270,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 285,
+    "quality": {
+      "rows": 22247,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 523,
+    "key": "recent-OP",
+    "symbol": "OP",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2896980,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 46,
+    "quality": {
+      "rows": 21389,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 524,
+    "key": "recent-ORDI",
+    "symbol": "ORDI",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2901690,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 20360,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 525,
+    "key": "recent-PAXG",
+    "symbol": "PAXG",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2906400,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 180,
+    "quality": {
+      "rows": 21601,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 526,
+    "key": "recent-PENDLE",
+    "symbol": "PENDLE",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2911110,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 64,
+    "quality": {
+      "rows": 21767,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 527,
+    "key": "recent-PENGU",
+    "symbol": "PENGU",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2915820,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 54,
+    "quality": {
+      "rows": 21137,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 528,
+    "key": "recent-PEOPLE",
+    "symbol": "PEOPLE",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2920530,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 20095,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 529,
+    "key": "recent-PNUT",
+    "symbol": "PNUT",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2925240,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 19871,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 530,
+    "key": "recent-POL",
+    "symbol": "POL",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2929950,
+    "bars": 4710,
+    "candidates": 2,
+    "eligible_states": 31,
+    "quality": {
+      "rows": 22000,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 531,
+    "key": "recent-POLYX",
+    "symbol": "POLYX",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2934660,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 8,
+    "quality": {
+      "rows": 17413,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 532,
+    "key": "recent-PONS",
+    "symbol": "PONS",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2939370,
+    "bars": 4710,
+    "candidates": 3,
+    "eligible_states": 254,
+    "quality": {
+      "rows": 22570,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 533,
+    "key": "recent-POPCAT",
+    "symbol": "POPCAT",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2944080,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 8,
+    "quality": {
+      "rows": 18236,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 534,
+    "key": "recent-PROVE",
+    "symbol": "PROVE",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2948790,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 18138,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 535,
+    "key": "recent-PUMP",
+    "symbol": "PUMP",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2953500,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 1683,
+    "quality": {
+      "rows": 22883,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 536,
+    "key": "recent-PURR",
+    "symbol": "PURR",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2958210,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 60,
+    "quality": {
+      "rows": 19785,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 537,
+    "key": "recent-PYTH",
+    "symbol": "PYTH",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2962920,
+    "bars": 4710,
+    "candidates": 3,
+    "eligible_states": 37,
+    "quality": {
+      "rows": 21028,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 538,
+    "key": "recent-RENDER",
+    "symbol": "RENDER",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2967630,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 18,
+    "quality": {
+      "rows": 21515,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 539,
+    "key": "recent-RESOLV",
+    "symbol": "RESOLV",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2972340,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 6,
+    "quality": {
+      "rows": 17201,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 540,
+    "key": "recent-REZ",
+    "symbol": "REZ",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2977050,
+    "bars": 4710,
+    "candidates": 2,
+    "eligible_states": 9,
+    "quality": {
+      "rows": 21069,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 541,
+    "key": "recent-RSR",
+    "symbol": "RSR",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2981760,
+    "bars": 4710,
+    "candidates": 3,
+    "eligible_states": 16,
+    "quality": {
+      "rows": 20475,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 542,
+    "key": "recent-RUNE",
+    "symbol": "RUNE",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2986470,
+    "bars": 4710,
+    "candidates": 4,
+    "eligible_states": 149,
+    "quality": {
+      "rows": 21507,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 543,
+    "key": "recent-S",
+    "symbol": "S",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2991180,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 26,
+    "quality": {
+      "rows": 21396,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 544,
+    "key": "recent-SAGA",
+    "symbol": "SAGA",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 2995890,
+    "bars": 4710,
+    "candidates": 2,
+    "eligible_states": 7,
+    "quality": {
+      "rows": 13174,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 545,
+    "key": "recent-SAND",
+    "symbol": "SAND",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3000600,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 5,
+    "quality": {
+      "rows": 20819,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 546,
+    "key": "recent-SEI",
+    "symbol": "SEI",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3005310,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 37,
+    "quality": {
+      "rows": 21019,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 547,
+    "key": "recent-SKR",
+    "symbol": "SKR",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3010020,
+    "bars": 4710,
+    "candidates": 2,
+    "eligible_states": 44,
+    "quality": {
+      "rows": 21082,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 548,
+    "key": "recent-SKY",
+    "symbol": "SKY",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3014730,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 16,
+    "quality": {
+      "rows": 20953,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 549,
+    "key": "recent-SNX",
+    "symbol": "SNX",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3019440,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 20367,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 550,
+    "key": "recent-SOL",
+    "symbol": "SOL",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3024150,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 3555,
+    "quality": {
+      "rows": 22983,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 551,
+    "key": "recent-SOPH",
+    "symbol": "SOPH",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3028860,
+    "bars": 4710,
+    "candidates": 3,
+    "eligible_states": 23,
+    "quality": {
+      "rows": 14697,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 552,
+    "key": "recent-SPX",
+    "symbol": "SPX",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3033570,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 89,
+    "quality": {
+      "rows": 21318,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 553,
+    "key": "recent-STABLE",
+    "symbol": "STABLE",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3038280,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 14,
+    "quality": {
+      "rows": 20277,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 554,
+    "key": "recent-STBL",
+    "symbol": "STBL",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3042990,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 20878,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 555,
+    "key": "recent-STRK",
+    "symbol": "STRK",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3047700,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 117,
+    "quality": {
+      "rows": 22128,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 556,
+    "key": "recent-STX",
+    "symbol": "STX",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3052410,
+    "bars": 4710,
+    "candidates": 2,
+    "eligible_states": 46,
+    "quality": {
+      "rows": 21287,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 557,
+    "key": "recent-SUI",
+    "symbol": "SUI",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3057120,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 588,
+    "quality": {
+      "rows": 22248,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 558,
+    "key": "recent-SUPER",
+    "symbol": "SUPER",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3061830,
+    "bars": 4710,
+    "candidates": 3,
+    "eligible_states": 11,
+    "quality": {
+      "rows": 19161,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 559,
+    "key": "recent-SUSHI",
+    "symbol": "SUSHI",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3066540,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 19454,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 560,
+    "key": "recent-SYRUP",
+    "symbol": "SYRUP",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3071250,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 17,
+    "quality": {
+      "rows": 20202,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 561,
+    "key": "recent-TAO",
+    "symbol": "TAO",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3075960,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 267,
+    "quality": {
+      "rows": 22042,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 562,
+    "key": "recent-TIA",
+    "symbol": "TIA",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3080670,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 63,
+    "quality": {
+      "rows": 21700,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 563,
+    "key": "recent-TNSR",
+    "symbol": "TNSR",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3085380,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 8,
+    "quality": {
+      "rows": 10383,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 564,
+    "key": "recent-TRB",
+    "symbol": "TRB",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3090090,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 3,
+    "quality": {
+      "rows": 20093,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 565,
+    "key": "recent-TRUMP",
+    "symbol": "TRUMP",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3094800,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 435,
+    "quality": {
+      "rows": 22144,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 566,
+    "key": "recent-TRX",
+    "symbol": "TRX",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3099510,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 288,
+    "quality": {
+      "rows": 21995,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 567,
+    "key": "recent-TURBO",
+    "symbol": "TURBO",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3104220,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 20037,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 568,
+    "key": "recent-UMA",
+    "symbol": "UMA",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3108930,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 18453,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 569,
+    "key": "recent-UNI",
+    "symbol": "UNI",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3113640,
+    "bars": 4710,
+    "candidates": 2,
+    "eligible_states": 1100,
+    "quality": {
+      "rows": 22682,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 570,
+    "key": "recent-USELESS",
+    "symbol": "USELESS",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3118350,
+    "bars": 4710,
+    "candidates": 4,
+    "eligible_states": 145,
+    "quality": {
+      "rows": 21952,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 571,
+    "key": "recent-USUAL",
+    "symbol": "USUAL",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3123060,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 5,
+    "quality": {
+      "rows": 18513,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 572,
+    "key": "recent-VIRTUAL",
+    "symbol": "VIRTUAL",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3127770,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 43,
+    "quality": {
+      "rows": 21147,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 573,
+    "key": "recent-VVV",
+    "symbol": "VVV",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3132480,
+    "bars": 4710,
+    "candidates": 3,
+    "eligible_states": 526,
+    "quality": {
+      "rows": 22862,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 574,
+    "key": "recent-W",
+    "symbol": "W",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3137190,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 21368,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 575,
+    "key": "recent-WCT",
+    "symbol": "WCT",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3141900,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 6,
+    "quality": {
+      "rows": 16987,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 576,
+    "key": "recent-WIF",
+    "symbol": "WIF",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3146610,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 44,
+    "quality": {
+      "rows": 21065,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 577,
+    "key": "recent-WLD",
+    "symbol": "WLD",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3151320,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 811,
+    "quality": {
+      "rows": 22584,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 578,
+    "key": "recent-WLFI",
+    "symbol": "WLFI",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3156030,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 216,
+    "quality": {
+      "rows": 21934,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 579,
+    "key": "recent-XAI",
+    "symbol": "XAI",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3160740,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 14457,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 580,
+    "key": "recent-XLM",
+    "symbol": "XLM",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3165450,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 86,
+    "quality": {
+      "rows": 21573,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 581,
+    "key": "recent-XMR",
+    "symbol": "XMR",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3170160,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 2560,
+    "quality": {
+      "rows": 22888,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 582,
+    "key": "recent-XPL",
+    "symbol": "XPL",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3174870,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 713,
+    "quality": {
+      "rows": 22705,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 583,
+    "key": "recent-XRP",
+    "symbol": "XRP",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3179580,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 2101,
+    "quality": {
+      "rows": 22911,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 584,
+    "key": "recent-XTEN",
+    "symbol": "XTEN",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3184290,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 33,
+    "quality": {
+      "rows": 14549,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 585,
+    "key": "recent-YGG",
+    "symbol": "YGG",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3189000,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 0,
+    "quality": {
+      "rows": 19465,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 586,
+    "key": "recent-ZEC",
+    "symbol": "ZEC",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3193710,
+    "bars": 4710,
+    "candidates": 2,
+    "eligible_states": 4118,
+    "quality": {
+      "rows": 22911,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 587,
+    "key": "recent-ZEN",
+    "symbol": "ZEN",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3198420,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 4,
+    "quality": {
+      "rows": 19023,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 588,
+    "key": "recent-ZETA",
+    "symbol": "ZETA",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3203130,
+    "bars": 4710,
+    "candidates": 1,
+    "eligible_states": 1,
+    "quality": {
+      "rows": 19857,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 589,
+    "key": "recent-ZK",
+    "symbol": "ZK",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3207840,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 12,
+    "quality": {
+      "rows": 21277,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 590,
+    "key": "recent-ZORA",
+    "symbol": "ZORA",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3212550,
+    "bars": 4710,
+    "candidates": 0,
+    "eligible_states": 2,
+    "quality": {
+      "rows": 18724,
+      "invalid": 0
+    }
+  },
+  {
+    "id": 591,
+    "key": "recent-ZRO",
+    "symbol": "ZRO",
+    "period": "recent",
+    "start": "2026-10-29T00:00:00Z",
+    "end": "2026-11-14T08:30:00Z",
+    "offset": 3217260,
+    "bars": 4710,
+    "candidates": 4,
+    "eligible_states": 679,
+    "quality": {
+      "rows": 22513,
+      "invalid": 0
+    }
+  }
+]

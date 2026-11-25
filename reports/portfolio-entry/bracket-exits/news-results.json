@@ -1,0 +1,415 @@
+{
+  "candidates": 3113,
+  "true_analysis_coverage": 2646,
+  "window": [
+    "2026-11-14T00:00:00+00:00",
+    "2026-11-19T11:50:00+00:00"
+  ],
+  "valuation": "2026-11-20T12:00:00+00:00",
+  "models": {
+    "ridge/bracket/availability": {
+      "base": {
+        "trades": 0,
+        "closed": 0,
+        "long": 0,
+        "short": 0,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "avg_gross": 0.0,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": 0.0,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 0,
+        "rejects": {},
+        "exits": {},
+        "max_holding_minutes": null
+      },
+      "stress": {
+        "trades": 0,
+        "closed": 0,
+        "long": 0,
+        "short": 0,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "avg_gross": 0.0,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": 0.0,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 0,
+        "rejects": {},
+        "exits": {},
+        "max_holding_minutes": null
+      }
+    },
+    "ridge/bracket/news_intelligence": {
+      "base": {
+        "trades": 0,
+        "closed": 0,
+        "long": 0,
+        "short": 0,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "avg_gross": 0.0,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": 0.0,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 0,
+        "rejects": {},
+        "exits": {},
+        "max_holding_minutes": null
+      },
+      "stress": {
+        "trades": 0,
+        "closed": 0,
+        "long": 0,
+        "short": 0,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "avg_gross": 0.0,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": 0.0,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 0,
+        "rejects": {},
+        "exits": {},
+        "max_holding_minutes": null
+      }
+    },
+    "ridge/learned_protected/availability": {
+      "base": {
+        "trades": 0,
+        "closed": 0,
+        "long": 0,
+        "short": 0,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "avg_gross": 0.0,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": 0.0,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 0,
+        "rejects": {},
+        "exits": {},
+        "max_holding_minutes": null
+      },
+      "stress": {
+        "trades": 0,
+        "closed": 0,
+        "long": 0,
+        "short": 0,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "avg_gross": 0.0,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": 0.0,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 0,
+        "rejects": {},
+        "exits": {},
+        "max_holding_minutes": null
+      }
+    },
+    "ridge/learned_protected/news_intelligence": {
+      "base": {
+        "trades": 64,
+        "closed": 64,
+        "long": 0,
+        "short": 64,
+        "net": -56.707033471677505,
+        "max_drawdown": 114.54995704222051,
+        "avg_gross": 413.92974553527046,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": -56.70703347167754,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 2517,
+        "rejects": {
+          "busy": 1145,
+          "sizing": 79,
+          "slippage_limit": 2,
+          "daily_loss": 370
+        },
+        "exits": {
+          "3": 55,
+          "1": 9
+        },
+        "max_holding_minutes": 1025
+      },
+      "stress": {
+        "trades": 63,
+        "closed": 63,
+        "long": 0,
+        "short": 63,
+        "net": -23.618998729708892,
+        "max_drawdown": 68.12188385222225,
+        "avg_gross": 418.93852222136445,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": -23.618998729708785,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 2517,
+        "rejects": {
+          "busy": 1512,
+          "sizing": 128,
+          "slippage_limit": 4,
+          "daily_loss": 242
+        },
+        "exits": {
+          "3": 57,
+          "1": 6
+        },
+        "max_holding_minutes": 995
+      }
+    },
+    "neural/bracket/availability": {
+      "base": {
+        "trades": 0,
+        "closed": 0,
+        "long": 0,
+        "short": 0,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "avg_gross": 0.0,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": 0.0,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 0,
+        "rejects": {},
+        "exits": {},
+        "max_holding_minutes": null
+      },
+      "stress": {
+        "trades": 0,
+        "closed": 0,
+        "long": 0,
+        "short": 0,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "avg_gross": 0.0,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": 0.0,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 0,
+        "rejects": {},
+        "exits": {},
+        "max_holding_minutes": null
+      }
+    },
+    "neural/bracket/news_intelligence": {
+      "base": {
+        "trades": 39,
+        "closed": 37,
+        "long": 0,
+        "short": 39,
+        "net": 72.65847362241038,
+        "max_drawdown": 67.50680000502143,
+        "avg_gross": 686.3970543512482,
+        "ending_open": 2,
+        "ending_inventory": [
+          {
+            "symbol": "SOL",
+            "sign": -1,
+            "entry": 872521,
+            "price": 71.75,
+            "notional": 152.21233910867574,
+            "pnl": 3.354022784848303
+          },
+          {
+            "symbol": "XRP",
+            "sign": -1,
+            "entry": 874401,
+            "price": 0.95181,
+            "notional": 152.3324338541949,
+            "pnl": 3.221591802335275
+          }
+        ],
+        "realized_net": 66.08285903522675,
+        "open_marked_pnl": 6.575614587183578,
+        "missing_funding_hours": 0,
+        "passed": 2517,
+        "rejects": {
+          "busy": 1897,
+          "sizing": 180,
+          "daily_loss": 126,
+          "slippage_limit": 1
+        },
+        "exits": {
+          "2": 20,
+          "1": 17,
+          "0": 2
+        },
+        "max_holding_minutes": 5522
+      },
+      "stress": {
+        "trades": 35,
+        "closed": 33,
+        "long": 0,
+        "short": 35,
+        "net": 52.515257779929925,
+        "max_drawdown": 77.24168395278298,
+        "avg_gross": 650.0047441484578,
+        "ending_open": 2,
+        "ending_inventory": [
+          {
+            "symbol": "SOL",
+            "sign": -1,
+            "entry": 873397,
+            "price": 71.75,
+            "notional": 150.28449965521665,
+            "pnl": 5.291774703376866
+          },
+          {
+            "symbol": "XRP",
+            "sign": -1,
+            "entry": 874402,
+            "price": 0.95181,
+            "notional": 152.28617759505883,
+            "pnl": 3.2678483478448634
+          }
+        ],
+        "realized_net": 43.95563472870821,
+        "open_marked_pnl": 8.55962305122173,
+        "missing_funding_hours": 0,
+        "passed": 2517,
+        "rejects": {
+          "busy": 1618,
+          "sizing": 187,
+          "daily_loss": 215,
+          "slippage_limit": 6
+        },
+        "exits": {
+          "2": 18,
+          "1": 15,
+          "0": 2
+        },
+        "max_holding_minutes": 5521
+      }
+    },
+    "neural/learned_protected/availability": {
+      "base": {
+        "trades": 64,
+        "closed": 64,
+        "long": 0,
+        "short": 64,
+        "net": -21.495981576464146,
+        "max_drawdown": 65.6251912186624,
+        "avg_gross": 416.3533938629235,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": -21.495981576464036,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 2517,
+        "rejects": {
+          "busy": 1529,
+          "sizing": 113,
+          "slippage_limit": 1,
+          "daily_loss": 242
+        },
+        "exits": {
+          "3": 58,
+          "1": 6
+        },
+        "max_holding_minutes": 995
+      },
+      "stress": {
+        "trades": 53,
+        "closed": 53,
+        "long": 0,
+        "short": 53,
+        "net": -79.44267147111486,
+        "max_drawdown": 130.2386080255958,
+        "avg_gross": 365.39532371649057,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": -79.44267147111492,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 2517,
+        "rejects": {
+          "busy": 881,
+          "sizing": 73,
+          "slippage_limit": 9,
+          "daily_loss": 444
+        },
+        "exits": {
+          "3": 45,
+          "1": 8
+        },
+        "max_holding_minutes": 995
+      }
+    },
+    "neural/learned_protected/news_intelligence": {
+      "base": {
+        "trades": 64,
+        "closed": 64,
+        "long": 0,
+        "short": 64,
+        "net": -20.41083070164359,
+        "max_drawdown": 64.54004034384207,
+        "avg_gross": 416.4791565657815,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": -20.4108307016436,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 2517,
+        "rejects": {
+          "busy": 1529,
+          "sizing": 113,
+          "slippage_limit": 1,
+          "daily_loss": 242
+        },
+        "exits": {
+          "3": 58,
+          "1": 6
+        },
+        "max_holding_minutes": 995
+      },
+      "stress": {
+        "trades": 65,
+        "closed": 65,
+        "long": 0,
+        "short": 65,
+        "net": -63.05565814796796,
+        "max_drawdown": 118.87342120792664,
+        "avg_gross": 439.4084800253277,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": -63.05565814796794,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 2517,
+        "rejects": {
+          "busy": 1042,
+          "sizing": 76,
+          "slippage_limit": 11,
+          "daily_loss": 392
+        },
+        "exits": {
+          "3": 58,
+          "1": 7
+        },
+        "max_holding_minutes": 995
+      }
+    }
+  }
+}

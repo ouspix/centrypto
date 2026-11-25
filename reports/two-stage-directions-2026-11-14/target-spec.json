@@ -1,0 +1,48 @@
+{
+  "objective": "Bullish and bearish target generation only; no model retraining.",
+  "target_definition": "24h return >=+10% for long, <=-10% for short; separate 24h cooldown per token and side. Best entry in prior24h through anchor; best direction-adjusted exit5m..24h after entry. Neighbors within5m must retain95% of best return.",
+  "target_sides": [
+    "long",
+    "short"
+  ],
+  "source_experiment": "/home/mellinien/projects/centrypto/reports/two-stage-policy-2026-11-14",
+  "source_spec_sha256": "7ca62546a77ae7fad386dfef6df1868d7353d79701a68e8a4fe3b3d3fc96cbcc",
+  "periods": [
+    {
+      "id": "apr",
+      "start": "2026-04-11T00:00:00Z",
+      "end": "2026-05-01T00:00:00Z"
+    },
+    {
+      "id": "mayjun",
+      "start": "2026-05-21T00:00:00Z",
+      "end": "2026-06-10T00:00:00Z"
+    },
+    {
+      "id": "recent",
+      "start": "2026-10-29T00:00:00Z",
+      "end": "2026-11-14T08:30:00Z"
+    }
+  ],
+  "economics": {
+    "notional_usd": 100,
+    "fees": 0,
+    "funding_payments": 0,
+    "slippage": 0,
+    "minimum_prior_minute_quote_volume_usd": 10000,
+    "decision_delay_seconds": 5,
+    "execution_delay_seconds": 60,
+    "terminal_retry_minutes": 30
+  },
+  "bar_minutes": 5,
+  "holding_limit_minutes": 1440,
+  "anchor_cooldown_minutes_per_side": 1440,
+  "entry_label_maturity_minutes": 2912,
+  "required_split_purge_minutes": 1440,
+  "entry_target_columns": [
+    "long",
+    "short"
+  ],
+  "exit_target": "CLOSE at/after side-specific optimum, HOLD before it; force CLOSE at step288.",
+  "training_status": "Not trained. Existing models are long-only; their runtime cannot consume the new direction labels."
+}

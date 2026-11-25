@@ -1,0 +1,291 @@
+{
+  "comparisons": {
+    "two_stage": {
+      "all": {
+        "trades": 176,
+        "scored_trades": 176,
+        "censored_trades": 0,
+        "gross_profit_usd": 34.15133673782439,
+        "mean_return_pct": 0.19404168601036584,
+        "win_rate_pct": 48.29545454545455,
+        "median_holding_minutes": 950.0,
+        "deadline_trades": 12
+      },
+      "recent": {
+        "trades": 176,
+        "scored_trades": 176,
+        "censored_trades": 0,
+        "gross_profit_usd": 34.15133673782439,
+        "mean_return_pct": 0.19404168601036584,
+        "win_rate_pct": 48.29545454545455,
+        "median_holding_minutes": 950.0,
+        "deadline_trades": 12
+      },
+      "news_available_at_entry": {
+        "trades": 176,
+        "scored_trades": 176,
+        "censored_trades": 0,
+        "gross_profit_usd": 34.15133673782439,
+        "mean_return_pct": 0.19404168601036584,
+        "win_rate_pct": 48.29545454545455,
+        "median_holding_minutes": 950.0,
+        "deadline_trades": 12
+      },
+      "news_trained_model": {
+        "trades": 3,
+        "scored_trades": 3,
+        "censored_trades": 0,
+        "gross_profit_usd": -43.6812738485026,
+        "mean_return_pct": -14.560424616167532,
+        "win_rate_pct": 0.0,
+        "median_holding_minutes": 1030.0,
+        "deadline_trades": 0
+      }
+    },
+    "entry_fixed24h": {
+      "all": {
+        "trades": 155,
+        "scored_trades": 155,
+        "censored_trades": 0,
+        "gross_profit_usd": -5.6783901215267605,
+        "mean_return_pct": -0.036634774977592,
+        "win_rate_pct": 45.806451612903224,
+        "median_holding_minutes": 1440.0,
+        "deadline_trades": 155
+      },
+      "recent": {
+        "trades": 155,
+        "scored_trades": 155,
+        "censored_trades": 0,
+        "gross_profit_usd": -5.6783901215267605,
+        "mean_return_pct": -0.036634774977592,
+        "win_rate_pct": 45.806451612903224,
+        "median_holding_minutes": 1440.0,
+        "deadline_trades": 155
+      },
+      "news_available_at_entry": {
+        "trades": 155,
+        "scored_trades": 155,
+        "censored_trades": 0,
+        "gross_profit_usd": -5.6783901215267605,
+        "mean_return_pct": -0.036634774977592,
+        "win_rate_pct": 45.806451612903224,
+        "median_holding_minutes": 1440.0,
+        "deadline_trades": 155
+      },
+      "news_trained_model": {
+        "trades": 2,
+        "scored_trades": 2,
+        "censored_trades": 0,
+        "gross_profit_usd": -36.83387261944451,
+        "mean_return_pct": -18.416936309722256,
+        "win_rate_pct": 0.0,
+        "median_holding_minutes": 1440.0,
+        "deadline_trades": 2
+      }
+    },
+    "cash": {
+      "all": {
+        "trades": 0,
+        "scored_trades": 0,
+        "censored_trades": 0,
+        "gross_profit_usd": 0.0,
+        "mean_return_pct": null,
+        "win_rate_pct": null,
+        "median_holding_minutes": null,
+        "deadline_trades": 0
+      },
+      "recent": {
+        "trades": 0,
+        "scored_trades": 0,
+        "censored_trades": 0,
+        "gross_profit_usd": 0.0,
+        "mean_return_pct": null,
+        "win_rate_pct": null,
+        "median_holding_minutes": null,
+        "deadline_trades": 0
+      },
+      "news_available_at_entry": {
+        "trades": 0,
+        "scored_trades": 0,
+        "censored_trades": 0,
+        "gross_profit_usd": 0.0,
+        "mean_return_pct": null,
+        "win_rate_pct": null,
+        "median_holding_minutes": null,
+        "deadline_trades": 0
+      },
+      "news_trained_model": {
+        "trades": 0,
+        "scored_trades": 0,
+        "censored_trades": 0,
+        "gross_profit_usd": 0.0,
+        "mean_return_pct": null,
+        "win_rate_pct": null,
+        "median_holding_minutes": null,
+        "deadline_trades": 0
+      }
+    }
+  },
+  "folds": [
+    {
+      "start": "2026-06-01T00:00:00Z",
+      "end": "2026-06-10T00:00:00Z",
+      "entry_checkpoint": 4000,
+      "exit_checkpoint": 4000,
+      "entry_threshold": null,
+      "exit_threshold": 0.25,
+      "cash": true,
+      "validation_profit_usd": 0.0,
+      "test": {
+        "trades": 0,
+        "scored_trades": 0,
+        "censored_trades": 0,
+        "gross_profit_usd": 0.0,
+        "mean_return_pct": null,
+        "win_rate_pct": null,
+        "median_holding_minutes": null,
+        "deadline_trades": 0
+      },
+      "entry_news_features_retained": 0,
+      "exit_news_features_retained": 0
+    },
+    {
+      "start": "2026-11-03T00:00:00Z",
+      "end": "2026-11-07T00:00:00Z",
+      "entry_checkpoint": 200,
+      "exit_checkpoint": 200,
+      "entry_threshold": 0.9,
+      "exit_threshold": 0.75,
+      "cash": false,
+      "validation_profit_usd": 107.31356276732424,
+      "test": {
+        "trades": 36,
+        "scored_trades": 36,
+        "censored_trades": 0,
+        "gross_profit_usd": 114.23321061329511,
+        "mean_return_pct": 3.1731447392581975,
+        "win_rate_pct": 77.77777777777779,
+        "median_holding_minutes": 1102.5,
+        "deadline_trades": 4
+      },
+      "entry_news_features_retained": 0,
+      "exit_news_features_retained": 0
+    },
+    {
+      "start": "2026-11-07T00:00:00Z",
+      "end": "2026-11-11T00:00:00Z",
+      "entry_checkpoint": 200,
+      "exit_checkpoint": 4000,
+      "entry_threshold": 0.75,
+      "exit_threshold": 0.25,
+      "cash": false,
+      "validation_profit_usd": 68.50796892828765,
+      "test": {
+        "trades": 137,
+        "scored_trades": 137,
+        "censored_trades": 0,
+        "gross_profit_usd": -36.40060002696812,
+        "mean_return_pct": -0.2656978104158257,
+        "win_rate_pct": 41.605839416058394,
+        "median_holding_minutes": 935.0,
+        "deadline_trades": 8
+      },
+      "entry_news_features_retained": 0,
+      "exit_news_features_retained": 0
+    },
+    {
+      "start": "2026-11-11T00:00:00Z",
+      "end": "2026-11-14T08:30:00Z",
+      "entry_checkpoint": 200,
+      "exit_checkpoint": 200,
+      "entry_threshold": 0.5,
+      "exit_threshold": 0.75,
+      "cash": false,
+      "validation_profit_usd": 30.341246929510326,
+      "test": {
+        "trades": 3,
+        "scored_trades": 3,
+        "censored_trades": 0,
+        "gross_profit_usd": -43.6812738485026,
+        "mean_return_pct": -14.560424616167532,
+        "win_rate_pct": 0.0,
+        "median_holding_minutes": 1030.0,
+        "deadline_trades": 0
+      },
+      "entry_news_features_retained": 47,
+      "exit_news_features_retained": 0
+    }
+  ],
+  "exit_with_teacher_entries_diagnostic": {
+    "entry_points": 185,
+    "mean_oracle_return_pct": 17.200519816939895,
+    "mean_learned_exit_return_pct": 9.76114183245087,
+    "aggregate_capture_pct": 56.74910954050138,
+    "mean_regret_pct": 7.439377984489025,
+    "limit": "Fixed hindsight-good entries supplied to the exit model. Overlapping teacher positions are independent diagnostics; this is not an executable portfolio or end-to-end performance."
+  },
+  "entry_test_metrics": [
+    {
+      "fold": "2026-06-01T00:00:00Z",
+      "states": 26481,
+      "positives": 119,
+      "positive_rate": 0.004493787884712219,
+      "average_precision": 0.013631479375149535
+    },
+    {
+      "fold": "2026-11-03T00:00:00Z",
+      "states": 7291,
+      "positives": 45,
+      "positive_rate": 0.006171992979943752,
+      "average_precision": 0.05709652394571875,
+      "precision": 0.14285714285714285,
+      "recall": 0.08888888888888889,
+      "f1": 0.1095890410958904,
+      "predicted_positive_states": 28
+    },
+    {
+      "fold": "2026-11-07T00:00:00Z",
+      "states": 4304,
+      "positives": 10,
+      "positive_rate": 0.0023234200198203325,
+      "average_precision": 0.023171656816724978,
+      "precision": 0.025,
+      "recall": 0.3,
+      "f1": 0.046153846153846156,
+      "predicted_positive_states": 120
+    },
+    {
+      "fold": "2026-11-11T00:00:00Z",
+      "states": 3864,
+      "positives": 0,
+      "positive_rate": 0.0,
+      "average_precision": null,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "predicted_positive_states": 15
+    }
+  ],
+  "fees_funding_slippage": 0,
+  "notional_usd_per_trade": 100,
+  "candidate_summary": {
+    "teacher_rallies": 355,
+    "unique_teacher_entries": 354,
+    "all_qualifying_5m_observations": 29979,
+    "mature_eligible_states": 103281,
+    "mature_good_entry_states": 430,
+    "teacher_symbols": 122,
+    "scanned_symbols": 235,
+    "series": 592,
+    "global_states": 3221970,
+    "exclusions": {
+      "no_liquid_executable_teacher_entry": 97,
+      "unfinished_rally_teacher_horizon": 16,
+      "unresolved_teacher_search_terminal": 14,
+      "no_positive_executable_teacher_gain": 1
+    },
+    "target_rule": "24h close-to-close return >=10%; one anchor per token per24h; hindsight entry search includes prior24h; exit <=24h after entry."
+  },
+  "research_caveat": "Chronological test data is unseen to each fitted model; these dates were examined in earlier research. Older histories have no news feed. The all-token five-minute policy has a different opportunity universe from the previous SMA-gated replay."
+}

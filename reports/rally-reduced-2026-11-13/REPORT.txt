@@ -1,0 +1,197 @@
+Expanded rally regression and dimension-reduction study
+Frozen data cutoff: 13 November 2026, 20:00 UTC
+
+Removing correlated duplicates helped slightly. Aggressive relevance selection
+made held-out prediction worse. This research does not establish a stable trading
+edge, even with fees excluded. It predicts the return after a rally signal under
+the existing long entry/exit rules; it does not identify what caused the rally.
+
+DATA AND COVERAGE
+
+The archive now supplies 8,984,010 minute candles across three discontinuous
+periods: April 11-30, May 21-June 9, and October 29-November 13. There are 3,166
+detected alerts across 184 symbols, grouped into 3,016 signal episodes. Execution
+and liquidity rules leave 1,742 candidate entries from 1,136 episodes on 37 dates,
+versus the previous 107 entries. Immediate and continuation entries can overlap.
+
+The original strict detector is preserved. A separately labeled broader cohort
+adds 5-minute moves >=1%, >=2 prior-day standard deviations, and >=2 times median
+volume, with the same breakout and BTC-outperformance conditions. Winners were
+not used to choose alerts. The strict cohort remains separately reportable.
+All 321 original execution rows, including slippage variants, reconcile exactly.
+
+Feature coverage, counted by candidate entry:
+                         April    May-June    Recent     Total
+Candidates                  58       1,123       561     1,742
+Binance spot                38         805       415     1,258
+Fresh derivatives           19       1,015       535     1,569
+Fresh best bid/ask            0           0        56        56
+Known news feed              0           0       535       535
+Direct/project news          0           0       317       317
+Whale-source reports         0           0        81        81
+
+The spot cache contains 788,278 candles. Known 1,000-token contract multipliers
+are reconciled; ambiguous LIT, kNEIRO and NEIROETH spot identities are excluded.
+Missing observations remain unknown. Older months have no news coverage.
+
+NEWS MAPPING
+
+The complete account-scoped database export contains 11,477 documents, 2,752
+analyses and 3,341 immutable event revisions. Availability runs from October 31
+through November 13: 14 calendar days, not several months of news.
+
+The mapping produces 7,404 asset-document links across 143 symbols and 5,123
+documents. There are 3,254 links actually available before the replay entries.
+It uses explicit cashtags, unambiguous exact-case tickers, conservative project
+names and one name learned from an earlier structured analysis. Direct mentions,
+project/platform mentions, and broad market context remain separate. Links retain
+document IDs, source URLs, matched text, publication time and availability time.
+
+All entry features respect the latest of publication, collection, availability
+and alias-discovery time, and the historical revision available at that point.
+Stories are deduplicated. Counts, recency, sources and topics use 1/6/24-hour
+windows. Topics include listings, security, unlocks, buybacks/burns, regulation,
+exchange flows, adoption, upgrades, macro, liquidations, ETFs and airdrops.
+
+Topic labels identify mentions, not verified events. A buyback announcement is
+not proof of execution; an unlock mention is not a complete vesting ledger.
+Whale features are attributed reports from sources such as Lookonchain, not
+complete on-chain flows, verified wallet identities, or exchange net deposits.
+Manual review removed three generic MEME/sector-index matches. No MEME entry was
+in the model, so that repair changed no feature value or evaluated outcome.
+
+CORRELATION AND DIMENSION REDUCTION
+
+The final full-history diagnostic starts with 634 candidate inputs:
+  - 40 collection/availability metadata columns excluded from economic selection.
+  - 33 columns lack sufficient observed history.
+  - 14 are constant or nearly constant.
+  - 547 remain eligible; 120 redundant columns collapse to 427 representatives.
+  - 417 representatives fail the specified stable relevance rule; 10 remain.
+
+These counts describe the final training set. Every historical fold independently
+learns its own eligibility, correlations and selection using earlier data only.
+Pearson and Spearman matrices are saved. Redundancy uses |Spearman| >=0.90 after
+training-median imputation. For example, 60-minute spot taker-buy share and buy
+imbalance have correlation 1.000: they encode the same information. Perpetual
+15-minute and 30-minute realized volatility have Spearman 0.911.
+
+Nonlinear relevance uses mutual information on training episodes, then grouped
+permutation tests in three chronological inner windows. A feature must help in
+at least two windows. The fixed shallow gradient-boosted regression can capture
+nonlinear effects and interactions. Low linear correlation alone is not grounds
+for removal. The final 10-input candidate contains:
+  perp_range_pct_1m, perp_return_pct_30m, calendar_hour_sin,
+  perp_range_pct_5m, perp_rv_pct_60m, eth_vwap_distance_pct_15m,
+  spot_rv_pct_240m, perp_rv_pct_15m, btc_rebound_pct_60m,
+  setup_continuation (entry-mode control).
+
+The most persistent economic inputs were 1-minute token range, retained in 14/18
+outer folds, and 60-minute token volatility, retained in 12/18. The final list is
+not evidence that all ten generalize: their combined outer performance worsened.
+OI/funding inputs did not earn stable retention. Sparse liquidity and whale
+features cannot be declared irrelevant. News inputs did not pass stable retention
+in either experiment. Exclusion means insufficient predictive support under this
+test, not absence of economic or causal importance.
+
+HELD-OUT RESULTS
+
+Whole symbol episodes stay together. Training labels must be fully observable
+at least 120 minutes before each evaluation fold. Features stop five seconds
+before entry. Older folds are weekly and recent folds daily. Training weights
+give each episode equal initial weight and a fixed 60-day age half-life.
+Evaluation error weights episodes equally. No parameters or thresholds were
+tuned against these outer results. Selection always means prediction >0.
+
+Full-history walk-forward: 1,547 entries, 1,014 episodes, 18 evaluation folds.
+Error is mean absolute error in percentage points; smaller is better.
+
+Model                    Error     Selected trades    Mean selected return
+Historical mean          1.324              18                 -0.193%
+Wide nonlinear           1.319             421                 +0.128%
+Correlation reduced      1.316             426                 +0.084%
+Relevance reduced        1.348             418                 +0.012%
+
+Recent subset of the same experiment: 561 entries, 363 episodes.
+Model                    Error     Selected trades    Mean selected return
+Historical mean          1.219              18                 -0.193%
+Wide nonlinear           1.234             113                 -0.329%
+Correlation reduced      1.223             111                 -0.349%
+Relevance reduced        1.239             134                 -0.162%
+
+These returns exclude commissions, funding payments and slippage. Separate
+5/10-bps-per-side slippage sensitivities are saved without adding fees. All-history
+wide-model means become +0.027%/-0.080%; correlation-reduced means become
+-0.019%/-0.120%. Overlapping $100 entry variants are not a deployable portfolio,
+and summing their P&L is not compounded account performance.
+
+The strict-cohort wide model selected 61 entries averaging +0.507%; the reduced
+model selected 84 averaging +0.176%. These are descriptive subsets, not a newly
+chosen strategy. The reduced full-history average turns negative (-0.013%) when
+INIT is excluded. All model R-squared values on the full test are negative.
+
+NEWS-SPECIFIC COMPARISON
+
+A second experiment trains only on news-covered recent history, so absence of
+older news cannot be mistaken for evidence against news. It evaluates 304 entries
+from 197 episodes over nine dates, November 5-13.
+
+Model                         Error      Mean selected return     Trades
+Historical mean               1.157             -0.450%              58
+Wide nonlinear                1.191             -0.314%              81
+Correlation reduced           1.186             -0.311%              81
+Relevance reduced             1.324             -0.846%              66
+Relevance reduced, no news    1.231             -0.465%             102
+
+Allowing news inputs did not demonstrate incremental predictive value. The
+relevance pipeline's error difference versus the no-news pipeline was +0.092
+points, with an illustrative day-block bootstrap interval of [-0.167,+0.407].
+Only nine dates support that interval. Neither pipeline retained explicit news
+inputs; allowing them also changes which other features pass screening. This is
+a comparison of whole selection pipelines, not a causal estimate of news impact.
+The final news-only research fit retains two BTC activity/liquidity-proxy inputs
+and entry mode. The price-impact input is a candle proxy, not measured book depth.
+
+COMPARISON WITH THE PREVIOUS MODEL
+
+On the same 45 entries evaluated previously, the old wide nonlinear error was
+2.316 points. Expanded-data wide error is 2.177, correlation-reduced error 2.141,
+and relevance-reduced error 2.154. The old historical-mean baseline remains better
+at 2.091. The reduced model's ten selected entries average +0.630%, but removing
+the two INIT entries changes this to -0.534%. This apparent improvement is not a
+robust new edge. The matched slice was studied before, not a pristine holdout.
+
+LIMITS AND DECISION
+
+Retain the correlation-reduced research candidate for comparison. Reject the
+claim that aggressively dropping to ten inputs improves the strategy: it did
+not. Preserve the excluded features and removal audit for future evidence;
+do not equate a failed relevance test with proof that a variable has no bearing.
+
+The archive has large calendar gaps and uneven source provenance. The old SQLite
+file reported corruption; exports instead use its intact imported PostgreSQL
+copy. Older import code can include synthetic flat zero-volume candles. They
+cannot trigger volume-qualified entries, but may affect historical lookbacks.
+Valid OHLC arithmetic therefore does not prove a uniformly verified trade tape.
+Recent results are shown separately. There is no complete historical order-book,
+liquidation, exchange-flow, buyback-execution or token-unlock ledger in this sample.
+
+Minute OHLC execution retains the earlier fill assumptions: observed positive
+entry-minute volume, next-minute prices, conservative same-bar barrier ordering,
+gap handling and prior-minute notional caps. Positive future entry-minute volume
+is an ex-post fill-availability assumption, not a pre-entry predictor; rejected
+or unfilled candidates are not scored as returns. No historical queue position,
+true market impact, short borrow, or liquidation risk is reconstructed.
+The signal closes at the next-minute opening boundary; using that opening price
+also approximates the fill without reconstructing signal-computation latency.
+The five-second cutoff applies to regression inputs, not a simulated live order
+round trip. These inherited execution assumptions remain material limitations.
+
+Audits passed for 1,742 feature cutoffs, 100,230 derivative timestamps, 788,278
+spot candles, 3,254 news links, 392 active analysis references, 111,488 rebuilt
+news feature values, 321 original execution rows, 27 outer folds and 162 nested
+time windows. No episode overlap or future training-label violation was found.
+Source correctness, sampling bias and prior research remain separate limitations.
+
+Models, feature masks, prediction rows and source links are saved beside this
+report. No trading settings, orders, collector configuration or databases changed.

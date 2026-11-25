@@ -1,0 +1,85 @@
+{
+  "fixed_no_deadline": {
+    "entries": 41,
+    "closed": 40,
+    "openAtCutoff": 0,
+    "unknown": 1,
+    "winners": 11,
+    "closedNetUsd": -49.707577281762305,
+    "markedNetUsd": -49.707577281762305,
+    "avgNetPct": -0.4238638155294814,
+    "medianHoldingMinutes": 40.37759166558583,
+    "exitTypes": {
+      "initial stop": 29,
+      "profit floor": 11,
+      "unresolved price gap": 1
+    },
+    "gapBridged": 1
+  },
+  "trail_0.5": {
+    "entries": 49,
+    "closed": 49,
+    "openAtCutoff": 0,
+    "unknown": 0,
+    "winners": 13,
+    "closedNetUsd": -46.73852502106042,
+    "markedNetUsd": -46.73852502106042,
+    "avgNetPct": -0.2630410887774329,
+    "medianHoldingMinutes": 41.501799996693926,
+    "exitTypes": {
+      "initial stop": 36,
+      "trailing stop": 13
+    },
+    "gapBridged": 2
+  },
+  "trail_0.5_from_entry": {
+    "entries": 51,
+    "closed": 51,
+    "openAtCutoff": 0,
+    "unknown": 0,
+    "winners": 9,
+    "closedNetUsd": -64.68688946208705,
+    "markedNetUsd": -64.68688946208705,
+    "avgNetPct": -0.28825622484505703,
+    "medianHoldingMinutes": 26.752883330980936,
+    "exitTypes": {
+      "trailing stop": 51
+    },
+    "gapBridged": 2
+  },
+  "trail_1": {
+    "entries": 37,
+    "closed": 36,
+    "openAtCutoff": 0,
+    "unknown": 1,
+    "winners": 14,
+    "closedNetUsd": -14.07650728721093,
+    "markedNetUsd": -14.07650728721093,
+    "avgNetPct": -0.12838547328273026,
+    "medianHoldingMinutes": 120.38139166633289,
+    "exitTypes": {
+      "initial stop": 22,
+      "trailing stop": 14,
+      "unresolved price gap": 1
+    },
+    "gapBridged": 2
+  },
+  "trail_1.5": {
+    "entries": 33,
+    "closed": 31,
+    "openAtCutoff": 1,
+    "unknown": 1,
+    "winners": 8,
+    "closedNetUsd": -55.032354533429114,
+    "markedNetUsd": -58.36723533747369,
+    "avgNetPct": -0.5218477036242609,
+    "medianHoldingMinutes": 383.77038333018623,
+    "exitTypes": {
+      "initial stop": 23,
+      "trailing stop": 8,
+      "unresolved funding": 1,
+      "open at cutoff": 1
+    },
+    "gapBridged": 3
+  }
+}

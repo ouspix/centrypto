@@ -1,0 +1,3554 @@
+[
+  {
+    "key": "apr-0G",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:38:00Z",
+    "last_source_candle_open": "2026-04-30T20:37:00Z"
+  },
+  {
+    "key": "apr-2Z",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-AAVE",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-ACE",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:32:00Z",
+    "last_source_candle_open": "2026-04-30T20:31:00Z"
+  },
+  {
+    "key": "apr-ADA",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-AERO",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-AI",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-AI16Z",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-AIXBT",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-ALGO",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-ALT",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-ANIME",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-APE",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-APEX",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:41:00Z",
+    "last_source_candle_open": "2026-04-30T20:40:00Z"
+  },
+  {
+    "key": "apr-APT",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-AR",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-ARB",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-ARK",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-ASTER",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-ATOM",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-AVAX",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:41:00Z",
+    "last_source_candle_open": "2026-04-30T20:40:00Z"
+  },
+  {
+    "key": "apr-AVNT",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-AXS",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-AZTEC",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-BABY",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:41:00Z",
+    "last_source_candle_open": "2026-04-30T20:40:00Z"
+  },
+  {
+    "key": "apr-BADGER",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-BANANA",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:41:00Z",
+    "last_source_candle_open": "2026-04-30T20:40:00Z"
+  },
+  {
+    "key": "apr-BCH",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-BERA",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:41:00Z",
+    "last_source_candle_open": "2026-04-30T20:40:00Z"
+  },
+  {
+    "key": "apr-BIGTIME",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-BIO",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-BLAST",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T18:32:00Z",
+    "last_source_candle_open": "2026-04-30T18:31:00Z"
+  },
+  {
+    "key": "apr-BLUR",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-BLZ",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-BNB",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-BNT",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-BOME",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:36:00Z",
+    "last_source_candle_open": "2026-04-30T20:35:00Z"
+  },
+  {
+    "key": "apr-BRETT",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-BSV",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-BTC",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:41:00Z",
+    "last_source_candle_open": "2026-04-30T20:40:00Z"
+  },
+  {
+    "key": "apr-CAKE",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-CANTO",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-CATI",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-CC",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-CELO",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:38:00Z",
+    "last_source_candle_open": "2026-04-30T20:37:00Z"
+  },
+  {
+    "key": "apr-CFX",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-CHILLGUY",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-CHIP",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:41:00Z",
+    "last_source_candle_open": "2026-04-30T20:40:00Z"
+  },
+  {
+    "key": "apr-COMP",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:41:00Z",
+    "last_source_candle_open": "2026-04-30T20:40:00Z"
+  },
+  {
+    "key": "apr-CRV",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-CYBER",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-DASH",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-DOGE",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:41:00Z",
+    "last_source_candle_open": "2026-04-30T20:40:00Z"
+  },
+  {
+    "key": "apr-DOOD",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-DOT",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-DYDX",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-DYM",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-EIGEN",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-ENA",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-ENS",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-ETC",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-ETH",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:41:00Z",
+    "last_source_candle_open": "2026-04-30T20:40:00Z"
+  },
+  {
+    "key": "apr-ETHFI",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-FARTCOIN",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-FET",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-FIL",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-FOGO",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-FRIEND",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-FTM",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-FTT",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T19:43:00Z",
+    "last_source_candle_open": "2026-04-30T19:42:00Z"
+  },
+  {
+    "key": "apr-FXS",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-GALA",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-GAS",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-GMT",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-GMX",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:34:00Z",
+    "last_source_candle_open": "2026-04-30T20:33:00Z"
+  },
+  {
+    "key": "apr-GOAT",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-GRASS",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:38:00Z",
+    "last_source_candle_open": "2026-04-30T20:37:00Z"
+  },
+  {
+    "key": "apr-GRIFFAIN",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-HBAR",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-HEMI",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:41:00Z",
+    "last_source_candle_open": "2026-04-30T20:40:00Z"
+  },
+  {
+    "key": "apr-HMSTR",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:14:00Z",
+    "last_source_candle_open": "2026-04-30T20:13:00Z"
+  },
+  {
+    "key": "apr-HPOS",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-HYPE",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:41:00Z",
+    "last_source_candle_open": "2026-04-30T20:40:00Z"
+  },
+  {
+    "key": "apr-HYPER",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-ICP",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-ILV",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-IMX",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-INIT",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-INJ",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-IO",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-IOTA",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:29:00Z",
+    "last_source_candle_open": "2026-04-30T20:28:00Z"
+  },
+  {
+    "key": "apr-IP",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-JELLY",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-JTO",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-JUP",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-KAITO",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-KAS",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-kBONK",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-kDOGS",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-kFLOKI",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-kLUNC",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-kNEIRO",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-kPEPE",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-kSHIB",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-LAUNCHCOIN",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-LAYER",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:37:00Z",
+    "last_source_candle_open": "2026-04-30T20:36:00Z"
+  },
+  {
+    "key": "apr-LDO",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-LINEA",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-LINK",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-LISTA",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-LIT",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-LOOM",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-LTC",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-MANTA",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:37:00Z",
+    "last_source_candle_open": "2026-04-30T20:36:00Z"
+  },
+  {
+    "key": "apr-MATIC",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-MAV",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-MAVIA",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:36:00Z",
+    "last_source_candle_open": "2026-04-30T20:35:00Z"
+  },
+  {
+    "key": "apr-ME",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-MEGA",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:41:00Z",
+    "last_source_candle_open": "2026-04-30T20:40:00Z"
+  },
+  {
+    "key": "apr-MELANIA",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-MEME",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T19:21:00Z",
+    "last_source_candle_open": "2026-04-30T19:20:00Z"
+  },
+  {
+    "key": "apr-MERL",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-MET",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:41:00Z",
+    "last_source_candle_open": "2026-04-30T20:40:00Z"
+  },
+  {
+    "key": "apr-MEW",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:34:00Z",
+    "last_source_candle_open": "2026-04-30T20:33:00Z"
+  },
+  {
+    "key": "apr-MINA",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-MKR",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-MNT",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-MON",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-MOODENG",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-MORPHO",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-MOVE",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-MYRO",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-NEAR",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-NEIROETH",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-NEO",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-NFTI",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-NIL",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:34:00Z",
+    "last_source_candle_open": "2026-04-30T20:33:00Z"
+  },
+  {
+    "key": "apr-NOT",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T19:12:00Z",
+    "last_source_candle_open": "2026-04-30T19:11:00Z"
+  },
+  {
+    "key": "apr-NTRN",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-NXPC",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-OGN",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-OM",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-OMNI",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-ONDO",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-OP",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-ORBS",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-ORDI",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-OX",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-PANDORA",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-PAXG",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-PENDLE",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-PENGU",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-PEOPLE",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-PIXEL",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-PNUT",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-POL",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-POLYX",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:37:00Z",
+    "last_source_candle_open": "2026-04-30T20:36:00Z"
+  },
+  {
+    "key": "apr-POPCAT",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-PROMPT",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-PROVE",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-PUMP",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-PURR",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:08:00Z",
+    "last_source_candle_open": "2026-04-30T20:07:00Z"
+  },
+  {
+    "key": "apr-PYTH",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-RDNT",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-RENDER",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-REQ",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-RESOLV",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-REZ",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-RLB",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-RNDR",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-RSR",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:13:00Z",
+    "last_source_candle_open": "2026-04-30T20:12:00Z"
+  },
+  {
+    "key": "apr-RUNE",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-S",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-SAGA",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-SAND",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-SCR",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:33:00Z",
+    "last_source_candle_open": "2026-04-30T20:32:00Z"
+  },
+  {
+    "key": "apr-SEI",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-SHIA",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-SKR",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-SKY",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-SNX",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:41:00Z",
+    "last_source_candle_open": "2026-04-30T20:40:00Z"
+  },
+  {
+    "key": "apr-SOL",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-SOPH",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-SPX",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:41:00Z",
+    "last_source_candle_open": "2026-04-30T20:40:00Z"
+  },
+  {
+    "key": "apr-STABLE",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-STBL",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-STG",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-STRAX",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-STRK",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-STX",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-SUI",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-SUPER",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-SUSHI",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:38:00Z",
+    "last_source_candle_open": "2026-04-30T20:37:00Z"
+  },
+  {
+    "key": "apr-SYRUP",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-TAO",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-TIA",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-TNSR",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:12:00Z",
+    "last_source_candle_open": "2026-04-30T20:11:00Z"
+  },
+  {
+    "key": "apr-TON",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-TRB",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:38:00Z",
+    "last_source_candle_open": "2026-04-30T20:37:00Z"
+  },
+  {
+    "key": "apr-TRUMP",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-TRX",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-TST",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-TURBO",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-UMA",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:35:00Z",
+    "last_source_candle_open": "2026-04-30T20:34:00Z"
+  },
+  {
+    "key": "apr-UNI",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-UNIBOT",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-11T05:00:00Z",
+    "last_source_candle_open": "2026-04-11T04:59:00Z"
+  },
+  {
+    "key": "apr-USTC",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:37:00Z",
+    "last_source_candle_open": "2026-04-30T20:36:00Z"
+  },
+  {
+    "key": "apr-USUAL",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-VINE",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:19:00Z",
+    "last_source_candle_open": "2026-04-30T20:18:00Z"
+  },
+  {
+    "key": "apr-VIRTUAL",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-VVV",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-W",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-WCT",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-WIF",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-WLD",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-WLFI",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:41:00Z",
+    "last_source_candle_open": "2026-04-30T20:40:00Z"
+  },
+  {
+    "key": "apr-XAI",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:27:00Z",
+    "last_source_candle_open": "2026-04-30T20:26:00Z"
+  },
+  {
+    "key": "apr-XLM",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-XMR",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-XPL",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-XRP",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-YGG",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-YZY",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:26:00Z",
+    "last_source_candle_open": "2026-04-30T20:25:00Z"
+  },
+  {
+    "key": "apr-ZEC",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:41:00Z",
+    "last_source_candle_open": "2026-04-30T20:40:00Z"
+  },
+  {
+    "key": "apr-ZEN",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "apr-ZEREBRO",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-ZETA",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:36:00Z",
+    "last_source_candle_open": "2026-04-30T20:35:00Z"
+  },
+  {
+    "key": "apr-ZK",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-ZORA",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:40:00Z",
+    "last_source_candle_open": "2026-04-30T20:39:00Z"
+  },
+  {
+    "key": "apr-ZRO",
+    "nominal_end": "2026-05-01T00:00:00Z",
+    "actual_source_end_exclusive": "2026-04-30T20:39:00Z",
+    "last_source_candle_open": "2026-04-30T20:38:00Z"
+  },
+  {
+    "key": "mayjun-0G",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-2Z",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-AAVE",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-ACE",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:46:00Z",
+    "last_source_candle_open": "2026-06-09T06:45:00Z"
+  },
+  {
+    "key": "mayjun-ADA",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-AERO",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-AIXBT",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-ALGO",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-ALT",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-ANIME",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-APE",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-APEX",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-APT",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-AR",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-ARB",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-ARK",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-ASTER",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-ATOM",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-AVAX",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-AVNT",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-AXS",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-AZTEC",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-BABY",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-BANANA",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-BCH",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-BERA",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-BIGTIME",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-BIO",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-BLAST",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-05-25T09:01:00Z",
+    "last_source_candle_open": "2026-05-25T09:00:00Z"
+  },
+  {
+    "key": "mayjun-BLUR",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-BNB",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-BOME",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:42:00Z",
+    "last_source_candle_open": "2026-06-09T06:41:00Z"
+  },
+  {
+    "key": "mayjun-BRETT",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-BSV",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-BTC",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-CAKE",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-CC",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-CELO",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-CFX",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-CHILLGUY",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-05-25T09:16:00Z",
+    "last_source_candle_open": "2026-05-25T09:15:00Z"
+  },
+  {
+    "key": "mayjun-CHIP",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-COMP",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-CRV",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-DASH",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-DOGE",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-DOOD",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:49:00Z",
+    "last_source_candle_open": "2026-06-09T06:48:00Z"
+  },
+  {
+    "key": "mayjun-DOT",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-DYDX",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-DYM",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-EIGEN",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-ENA",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-ENS",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-ETC",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-ETH",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-ETHFI",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-FARTCOIN",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-FET",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-FIL",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-FOGO",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:49:00Z",
+    "last_source_candle_open": "2026-06-09T06:48:00Z"
+  },
+  {
+    "key": "mayjun-FTT",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-05-25T09:12:00Z",
+    "last_source_candle_open": "2026-05-25T09:11:00Z"
+  },
+  {
+    "key": "mayjun-GALA",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-GAS",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-GMT",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-GMX",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-GOAT",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-GRASS",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-GRIFFAIN",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-HBAR",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-HEMI",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-HMSTR",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-HYPE",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-HYPER",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-ICP",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-IMX",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-INIT",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-INJ",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-IO",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-IOTA",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-IP",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-JTO",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-JUP",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-KAITO",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-KAS",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-kBONK",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-kFLOKI",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-kLUNC",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-kNEIRO",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-kPEPE",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-kSHIB",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-LAYER",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-LDO",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-LINEA",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-LINK",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-LIT",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-LTC",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-MANTA",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-ME",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-MEGA",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-MELANIA",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-MEME",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-MERL",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-MET",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-MINA",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-MNT",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-MON",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-MOODENG",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-MORPHO",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-MOVE",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-NEAR",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-NEO",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-NIL",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-NOT",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-NXPC",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-ONDO",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-OP",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-ORDI",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-PAXG",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-PENDLE",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-PENGU",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-PEOPLE",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:45:00Z",
+    "last_source_candle_open": "2026-06-09T06:44:00Z"
+  },
+  {
+    "key": "mayjun-PNUT",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-POL",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-POLYX",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-POPCAT",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-PROVE",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-PUMP",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-PURR",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-PYTH",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-RENDER",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-RESOLV",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-REZ",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-RSR",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:35:00Z",
+    "last_source_candle_open": "2026-06-09T06:34:00Z"
+  },
+  {
+    "key": "mayjun-RUNE",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-S",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-SAGA",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-SAND",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-SEI",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-SKR",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-SKY",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:49:00Z",
+    "last_source_candle_open": "2026-06-09T06:48:00Z"
+  },
+  {
+    "key": "mayjun-SNX",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-SOL",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-SOPH",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:49:00Z",
+    "last_source_candle_open": "2026-06-09T06:48:00Z"
+  },
+  {
+    "key": "mayjun-SPX",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-STABLE",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-STBL",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-STRK",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-STX",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-SUI",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-SUPER",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-SUSHI",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-SYRUP",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-TAO",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-TIA",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-TNSR",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:35:00Z",
+    "last_source_candle_open": "2026-06-09T06:34:00Z"
+  },
+  {
+    "key": "mayjun-TON",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-TRB",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-TRUMP",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-TRX",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-TST",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-05-25T09:14:00Z",
+    "last_source_candle_open": "2026-05-25T09:13:00Z"
+  },
+  {
+    "key": "mayjun-TURBO",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-UMA",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-UNI",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-USUAL",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:45:00Z",
+    "last_source_candle_open": "2026-06-09T06:44:00Z"
+  },
+  {
+    "key": "mayjun-VINE",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:48:00Z",
+    "last_source_candle_open": "2026-06-09T06:47:00Z"
+  },
+  {
+    "key": "mayjun-VIRTUAL",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-VVV",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-W",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-WCT",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:42:00Z",
+    "last_source_candle_open": "2026-06-09T06:41:00Z"
+  },
+  {
+    "key": "mayjun-WIF",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-WLD",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-WLFI",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-XAI",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:49:00Z",
+    "last_source_candle_open": "2026-06-09T06:48:00Z"
+  },
+  {
+    "key": "mayjun-XLM",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-XMR",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-XPL",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-XRP",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-YGG",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-ZEC",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-ZEN",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-ZETA",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:47:00Z",
+    "last_source_candle_open": "2026-06-09T06:46:00Z"
+  },
+  {
+    "key": "mayjun-ZK",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:50:00Z",
+    "last_source_candle_open": "2026-06-09T06:49:00Z"
+  },
+  {
+    "key": "mayjun-ZORA",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "mayjun-ZRO",
+    "nominal_end": "2026-06-10T00:00:00Z",
+    "actual_source_end_exclusive": "2026-06-09T06:51:00Z",
+    "last_source_candle_open": "2026-06-09T06:50:00Z"
+  },
+  {
+    "key": "recent-0G",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-2Z",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-AAVE",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-ACE",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:29:00Z",
+    "last_source_candle_open": "2026-11-14T08:28:00Z"
+  },
+  {
+    "key": "recent-ADA",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-AERO",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-AIXBT",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-ALGO",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-ALT",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-ANIME",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-APE",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:29:00Z",
+    "last_source_candle_open": "2026-11-14T08:28:00Z"
+  },
+  {
+    "key": "recent-APEX",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:23:00Z",
+    "last_source_candle_open": "2026-11-14T08:22:00Z"
+  },
+  {
+    "key": "recent-APT",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-AR",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-ARB",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-ASTER",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-ATOM",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-AVAX",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-AVNT",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:29:00Z",
+    "last_source_candle_open": "2026-11-14T08:28:00Z"
+  },
+  {
+    "key": "recent-AXS",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-AZTEC",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-BABY",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-BANANA",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-BCH",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-BERA",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-BIGTIME",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-BIO",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-BLUR",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:21:00Z",
+    "last_source_candle_open": "2026-11-14T08:20:00Z"
+  },
+  {
+    "key": "recent-BNB",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-BOME",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:23:00Z",
+    "last_source_candle_open": "2026-11-14T08:22:00Z"
+  },
+  {
+    "key": "recent-BRETT",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-BSV",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:25:00Z",
+    "last_source_candle_open": "2026-11-14T08:24:00Z"
+  },
+  {
+    "key": "recent-BTC",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-CAKE",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-CASHCAT",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-CC",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-CELO",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-CFX",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-CHIP",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-COMP",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:29:00Z",
+    "last_source_candle_open": "2026-11-14T08:28:00Z"
+  },
+  {
+    "key": "recent-CRV",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-DASH",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-DOGE",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-DOT",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-DYDX",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-DYM",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-EIGEN",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-ENA",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-ENS",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-ETC",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-ETH",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-ETHFI",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-FARTCOIN",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-FET",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-FIL",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-FOGO",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:29:00Z",
+    "last_source_candle_open": "2026-11-14T08:28:00Z"
+  },
+  {
+    "key": "recent-GALA",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:29:00Z",
+    "last_source_candle_open": "2026-11-14T08:28:00Z"
+  },
+  {
+    "key": "recent-GAS",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-GMT",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-GMX",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-GOAT",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:29:00Z",
+    "last_source_candle_open": "2026-11-14T08:28:00Z"
+  },
+  {
+    "key": "recent-GRAM",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-GRASS",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-GRIFFAIN",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:20:00Z",
+    "last_source_candle_open": "2026-11-14T08:19:00Z"
+  },
+  {
+    "key": "recent-HBAR",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-HEMI",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-HMSTR",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:28:00Z",
+    "last_source_candle_open": "2026-11-14T08:27:00Z"
+  },
+  {
+    "key": "recent-HYPE",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-HYPER",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:29:00Z",
+    "last_source_candle_open": "2026-11-14T08:28:00Z"
+  },
+  {
+    "key": "recent-ICP",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-IMX",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-INIT",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-INJ",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-IO",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-IOTA",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-JTO",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-JUP",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-KAITO",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-KAS",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-kBONK",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-kFLOKI",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-kLUNC",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:29:00Z",
+    "last_source_candle_open": "2026-11-14T08:28:00Z"
+  },
+  {
+    "key": "recent-kNEIRO",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-kPEPE",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-kSHIB",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-LAYER",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-LDO",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-LINEA",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:29:00Z",
+    "last_source_candle_open": "2026-11-14T08:28:00Z"
+  },
+  {
+    "key": "recent-LINK",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-LIT",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-LTC",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-MANTA",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-ME",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:24:00Z",
+    "last_source_candle_open": "2026-11-14T08:23:00Z"
+  },
+  {
+    "key": "recent-MEGA",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-MELANIA",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-MEME",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:29:00Z",
+    "last_source_candle_open": "2026-11-14T08:28:00Z"
+  },
+  {
+    "key": "recent-MERL",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-MET",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-MINA",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-MNT",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-MON",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-MOODENG",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-MORPHO",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-MOVE",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-NEAR",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-NEO",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-NIL",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-NOT",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:06:00Z",
+    "last_source_candle_open": "2026-11-14T08:05:00Z"
+  },
+  {
+    "key": "recent-NXPC",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:27:00Z",
+    "last_source_candle_open": "2026-11-14T08:26:00Z"
+  },
+  {
+    "key": "recent-ONDO",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-OP",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-ORDI",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-PAXG",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-PENDLE",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-PENGU",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-PEOPLE",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:29:00Z",
+    "last_source_candle_open": "2026-11-14T08:28:00Z"
+  },
+  {
+    "key": "recent-PNUT",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-POL",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-POLYX",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-PONS",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-POPCAT",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-PROVE",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-PUMP",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-PURR",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-PYTH",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-RENDER",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-RESOLV",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-REZ",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-RSR",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-RUNE",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-S",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-SAGA",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:27:00Z",
+    "last_source_candle_open": "2026-11-14T08:26:00Z"
+  },
+  {
+    "key": "recent-SAND",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-SEI",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-SKR",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-SKY",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-SNX",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-SOL",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-SOPH",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:29:00Z",
+    "last_source_candle_open": "2026-11-14T08:28:00Z"
+  },
+  {
+    "key": "recent-SPX",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-STABLE",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-STBL",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-STRK",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-STX",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-SUI",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-SUPER",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-SUSHI",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-SYRUP",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-TAO",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-TIA",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-TNSR",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:10:00Z",
+    "last_source_candle_open": "2026-11-14T08:09:00Z"
+  },
+  {
+    "key": "recent-TRB",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-TRUMP",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-TRX",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-TURBO",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-UMA",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-UNI",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-USELESS",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-USUAL",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-VIRTUAL",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-VVV",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-W",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-WCT",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-WIF",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-WLD",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-WLFI",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-XAI",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-XLM",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-XMR",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-XPL",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-XRP",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-XTEN",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:27:00Z",
+    "last_source_candle_open": "2026-11-14T08:26:00Z"
+  },
+  {
+    "key": "recent-YGG",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-ZEC",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-ZEN",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:29:00Z",
+    "last_source_candle_open": "2026-11-14T08:28:00Z"
+  },
+  {
+    "key": "recent-ZETA",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-ZK",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:29:00Z",
+    "last_source_candle_open": "2026-11-14T08:28:00Z"
+  },
+  {
+    "key": "recent-ZORA",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  },
+  {
+    "key": "recent-ZRO",
+    "nominal_end": "2026-11-14T08:30:00Z",
+    "actual_source_end_exclusive": "2026-11-14T08:30:00Z",
+    "last_source_candle_open": "2026-11-14T08:29:00Z"
+  }
+]

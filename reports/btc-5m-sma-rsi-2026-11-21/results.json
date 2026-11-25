@@ -1,0 +1,340 @@
+{
+  "initial_equity": 10000.0,
+  "coverage": {
+    "from_utc": "2026-04-01T00:00:00+00:00",
+    "through_utc": "2026-11-21T12:40:00+00:00",
+    "bars": 20644,
+    "expected_bars": 67544,
+    "missing_bars": 46900,
+    "segments_with_possible_signals": 16,
+    "segments": [
+      {
+        "from_utc": "2026-04-01T00:00:00+00:00",
+        "through_utc": "2026-04-04T07:35:00+00:00",
+        "bars": 955,
+        "long_signals": 25,
+        "short_signals": 15
+      },
+      {
+        "from_utc": "2026-04-04T07:40:00+00:00",
+        "through_utc": "2026-04-13T08:40:00+00:00",
+        "bars": 2604,
+        "long_signals": 96,
+        "short_signals": 54
+      },
+      {
+        "from_utc": "2026-04-13T08:45:00+00:00",
+        "through_utc": "2026-04-18T07:35:00+00:00",
+        "bars": 1426,
+        "long_signals": 88,
+        "short_signals": 16
+      },
+      {
+        "from_utc": "2026-04-18T07:40:00+00:00",
+        "through_utc": "2026-04-25T07:30:00+00:00",
+        "bars": 2014,
+        "long_signals": 76,
+        "short_signals": 40
+      },
+      {
+        "from_utc": "2026-04-25T07:35:00+00:00",
+        "through_utc": "2026-04-30T20:40:00+00:00",
+        "bars": 1597,
+        "long_signals": 63,
+        "short_signals": 62
+      },
+      {
+        "from_utc": "2026-05-21T11:55:00+00:00",
+        "through_utc": "2026-05-23T08:20:00+00:00",
+        "bars": 533,
+        "long_signals": 8,
+        "short_signals": 31
+      },
+      {
+        "from_utc": "2026-05-23T08:30:00+00:00",
+        "through_utc": "2026-05-28T12:40:00+00:00",
+        "bars": 1490,
+        "long_signals": 70,
+        "short_signals": 49
+      },
+      {
+        "from_utc": "2026-05-28T13:25:00+00:00",
+        "through_utc": "2026-05-30T08:35:00+00:00",
+        "bars": 518,
+        "long_signals": 5,
+        "short_signals": 18
+      },
+      {
+        "from_utc": "2026-05-30T08:40:00+00:00",
+        "through_utc": "2026-06-01T06:55:00+00:00",
+        "bars": 555,
+        "long_signals": 15,
+        "short_signals": 12
+      },
+      {
+        "from_utc": "2026-06-01T07:00:00+00:00",
+        "through_utc": "2026-06-02T00:40:00+00:00",
+        "bars": 212,
+        "long_signals": 0,
+        "short_signals": 17
+      },
+      {
+        "from_utc": "2026-06-02T01:00:00+00:00",
+        "through_utc": "2026-06-02T01:05:00+00:00",
+        "bars": 1,
+        "long_signals": 0,
+        "short_signals": 0
+      },
+      {
+        "from_utc": "2026-06-02T01:25:00+00:00",
+        "through_utc": "2026-06-03T22:00:00+00:00",
+        "bars": 535,
+        "long_signals": 0,
+        "short_signals": 29
+      },
+      {
+        "from_utc": "2026-06-03T22:15:00+00:00",
+        "through_utc": "2026-06-06T09:05:00+00:00",
+        "bars": 706,
+        "long_signals": 6,
+        "short_signals": 29
+      },
+      {
+        "from_utc": "2026-06-06T09:10:00+00:00",
+        "through_utc": "2026-06-07T10:40:00+00:00",
+        "bars": 306,
+        "long_signals": 20,
+        "short_signals": 0
+      },
+      {
+        "from_utc": "2026-06-07T10:45:00+00:00",
+        "through_utc": "2026-06-09T06:50:00+00:00",
+        "bars": 529,
+        "long_signals": 2,
+        "short_signals": 11
+      },
+      {
+        "from_utc": "2026-10-29T09:15:00+00:00",
+        "through_utc": "2026-10-31T09:30:00+00:00",
+        "bars": 579,
+        "long_signals": 11,
+        "short_signals": 32
+      },
+      {
+        "from_utc": "2026-10-31T09:40:00+00:00",
+        "through_utc": "2026-11-21T12:40:00+00:00",
+        "bars": 6084,
+        "long_signals": 84,
+        "short_signals": 288
+      }
+    ],
+    "gaps": [
+      {
+        "from_utc": "2026-04-04T07:35:00+00:00",
+        "through_utc": "2026-04-04T07:40:00+00:00",
+        "bars": 1
+      },
+      {
+        "from_utc": "2026-04-13T08:40:00+00:00",
+        "through_utc": "2026-04-13T08:45:00+00:00",
+        "bars": 1
+      },
+      {
+        "from_utc": "2026-04-18T07:35:00+00:00",
+        "through_utc": "2026-04-18T07:40:00+00:00",
+        "bars": 1
+      },
+      {
+        "from_utc": "2026-04-25T07:30:00+00:00",
+        "through_utc": "2026-04-25T07:35:00+00:00",
+        "bars": 1
+      },
+      {
+        "from_utc": "2026-04-30T20:40:00+00:00",
+        "through_utc": "2026-05-21T11:55:00+00:00",
+        "bars": 5943
+      },
+      {
+        "from_utc": "2026-05-23T08:20:00+00:00",
+        "through_utc": "2026-05-23T08:30:00+00:00",
+        "bars": 2
+      },
+      {
+        "from_utc": "2026-05-28T12:40:00+00:00",
+        "through_utc": "2026-05-28T13:25:00+00:00",
+        "bars": 9
+      },
+      {
+        "from_utc": "2026-05-30T08:35:00+00:00",
+        "through_utc": "2026-05-30T08:40:00+00:00",
+        "bars": 1
+      },
+      {
+        "from_utc": "2026-06-01T06:55:00+00:00",
+        "through_utc": "2026-06-01T07:00:00+00:00",
+        "bars": 1
+      },
+      {
+        "from_utc": "2026-06-02T00:40:00+00:00",
+        "through_utc": "2026-06-02T01:00:00+00:00",
+        "bars": 4
+      },
+      {
+        "from_utc": "2026-06-02T01:05:00+00:00",
+        "through_utc": "2026-06-02T01:25:00+00:00",
+        "bars": 4
+      },
+      {
+        "from_utc": "2026-06-03T22:00:00+00:00",
+        "through_utc": "2026-06-03T22:15:00+00:00",
+        "bars": 3
+      },
+      {
+        "from_utc": "2026-06-06T09:05:00+00:00",
+        "through_utc": "2026-06-06T09:10:00+00:00",
+        "bars": 1
+      },
+      {
+        "from_utc": "2026-06-07T10:40:00+00:00",
+        "through_utc": "2026-06-07T10:45:00+00:00",
+        "bars": 1
+      },
+      {
+        "from_utc": "2026-06-09T06:50:00+00:00",
+        "through_utc": "2026-10-29T09:15:00+00:00",
+        "bars": 40925
+      },
+      {
+        "from_utc": "2026-10-31T09:30:00+00:00",
+        "through_utc": "2026-10-31T09:40:00+00:00",
+        "bars": 2
+      }
+    ],
+    "exposed_bar_pct": 6.161596589808177
+  },
+  "results": {
+    "gross": {
+      "trades": 409,
+      "wins": 105,
+      "win_rate_pct": 25.672371638141808,
+      "profit_factor": 0.8583759112150343,
+      "pnl": -604.1185502766576,
+      "mean_return_bps": -1.457291836804581,
+      "median_hold_minutes": 10.0,
+      "fees": 0.0,
+      "funding_paid": 0.0,
+      "ending_equity": 9395.881449723352,
+      "return_pct": -6.041185502766478,
+      "max_close_drawdown_pct": 11.302024499183991,
+      "funded_position_hours": 0,
+      "data_gap_exits": 1,
+      "end_of_sample_exits": 0,
+      "by_side": {
+        "long": {
+          "trades": 167,
+          "wins": 55,
+          "win_rate_pct": 32.93413173652694,
+          "profit_factor": 1.1307326769986608,
+          "pnl": 177.30114873173372,
+          "mean_return_bps": 1.0156694219972886,
+          "median_hold_minutes": 10.0,
+          "fees": 0.0,
+          "funding_paid": 0.0
+        },
+        "short": {
+          "trades": 242,
+          "wins": 50,
+          "win_rate_pct": 20.66115702479339,
+          "profit_factor": 0.7314189185505603,
+          "pnl": -781.4196990083914,
+          "mean_return_bps": -3.1638394823414084,
+          "median_hold_minutes": 10.0,
+          "fees": 0.0,
+          "funding_paid": 0.0
+        }
+      }
+    },
+    "fees_funding": {
+      "trades": 409,
+      "wins": 75,
+      "win_rate_pct": 18.337408312958434,
+      "profit_factor": 0.4061439997295584,
+      "pnl": -3499.3744275113995,
+      "mean_return_bps": -10.45843368168334,
+      "median_hold_minutes": 10.0,
+      "fees": 3039.048315839261,
+      "funding_paid": 0.17391234011340168,
+      "ending_equity": 6500.625572488608,
+      "return_pct": -34.993744275113926,
+      "max_close_drawdown_pct": 36.6814050055385,
+      "funded_position_hours": 100,
+      "data_gap_exits": 1,
+      "end_of_sample_exits": 0,
+      "by_side": {
+        "long": {
+          "trades": 167,
+          "wins": 38,
+          "win_rate_pct": 22.75449101796407,
+          "profit_factor": 0.48385239531307955,
+          "pnl": -1089.9736740281116,
+          "mean_return_bps": -7.993431247608039,
+          "median_hold_minutes": 10.0,
+          "fees": 1292.3525895654186,
+          "funding_paid": 1.056403742599889
+        },
+        "short": {
+          "trades": 242,
+          "wins": 37,
+          "win_rate_pct": 15.289256198347108,
+          "profit_factor": 0.36274129765297386,
+          "pnl": -2409.400753483288,
+          "mean_return_bps": -12.159489080404727,
+          "median_hold_minutes": 10.0,
+          "fees": 1746.6957262738422,
+          "funding_paid": -0.8824914024864873
+        }
+      }
+    },
+    "net": {
+      "trades": 409,
+      "wins": 68,
+      "win_rate_pct": 16.625916870415647,
+      "profit_factor": 0.3527032012192878,
+      "pnl": -4010.690662371426,
+      "mean_return_bps": -12.459092311688988,
+      "median_hold_minutes": 10.0,
+      "fees": 2927.3475462069564,
+      "funding_paid": 0.19106502987289525,
+      "ending_equity": 5989.30933762856,
+      "return_pct": -40.1069066237144,
+      "max_close_drawdown_pct": 41.627075137714314,
+      "funded_position_hours": 100,
+      "data_gap_exits": 1,
+      "end_of_sample_exits": 0,
+      "by_side": {
+        "long": {
+          "trades": 167,
+          "wins": 33,
+          "win_rate_pct": 19.760479041916167,
+          "profit_factor": 0.41472700298847176,
+          "pnl": -1324.9388349660117,
+          "mean_return_bps": -9.992533515493294,
+          "median_hold_minutes": 10.0,
+          "fees": 1253.5577352206185,
+          "funding_paid": 0.9980264101101632
+        },
+        "short": {
+          "trades": 242,
+          "wins": 35,
+          "win_rate_pct": 14.462809917355372,
+          "profit_factor": 0.316996235824787,
+          "pnl": -2685.751827405414,
+          "mean_return_bps": -14.161221728898411,
+          "median_hold_minutes": 10.0,
+          "fees": 1673.789810986338,
+          "funding_paid": -0.806961380237268
+        }
+      }
+    }
+  }
+}

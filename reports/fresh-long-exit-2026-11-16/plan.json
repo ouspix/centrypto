@@ -1,0 +1,11 @@
+{
+  "entry_windows": [
+    {"start": "2026-11-14T08:30:00Z", "end": "2026-11-15T02:30:00Z"},
+    {"start": "2026-11-15T02:30:00Z", "end": "2026-11-15T20:30:00Z"}
+  ],
+  "market_end": "2026-11-16T21:05:00Z",
+  "primary_checkpoint": "2026-11-11T00:00:00Z",
+  "earlier_checkpoints": ["2026-11-03T00:00:00Z", "2026-11-07T00:00:00Z"],
+  "baseline": "drop_spot",
+  "replacement_long_exit": "add_position_history"
+}

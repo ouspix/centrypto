@@ -1,0 +1,54 @@
+{
+  "main": {
+    "training_draw_1:base": {
+      "fills": 11524,
+      "closed": 11524,
+      "wins": 10592,
+      "cutoff": 1
+    },
+    "training_draw_1:stress": {
+      "fills": 10741,
+      "closed": 10741,
+      "wins": 9728,
+      "cutoff": 3
+    },
+    "training_draw_2:base": {
+      "fills": 11010,
+      "closed": 11010,
+      "wins": 10133,
+      "cutoff": 7
+    },
+    "training_draw_2:stress": {
+      "fills": 10595,
+      "closed": 10595,
+      "wins": 9633,
+      "cutoff": 5
+    }
+  },
+  "development": {
+    "training_draw_1:base": {
+      "fills": 6443,
+      "closed": 6443,
+      "wins": 5917,
+      "cutoff": 9
+    },
+    "training_draw_1:stress": {
+      "fills": 6051,
+      "closed": 6051,
+      "wins": 5485,
+      "cutoff": 9
+    },
+    "training_draw_2:base": {
+      "fills": 6264,
+      "closed": 6264,
+      "wins": 5806,
+      "cutoff": 10
+    },
+    "training_draw_2:stress": {
+      "fills": 5797,
+      "closed": 5797,
+      "wins": 5277,
+      "cutoff": 9
+    }
+  }
+}

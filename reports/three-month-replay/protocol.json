@@ -1,0 +1,54 @@
+{
+  "intent": "Fit the four strategy roles using only pre-holdout observations and replay a common three-month historical holdout.",
+  "data": "All recovered native Hyperliquid traded-minute partitions since March 22, 2025 with the local venue collector extending the latest marks into November 22, 2026. GDELT archived English title and description from inspected minute batches. Earlier archive gaps are preserved.",
+  "setup": {
+    "long_sma": [
+      3,
+      12
+    ],
+    "short_sma": [
+      8,
+      30
+    ],
+    "maximum_setup_minutes": 60,
+    "decision_offset_seconds": 5,
+    "execution_minute_after_closed_bar": 1,
+    "minimum_prior_minute_quote_usd": 10000,
+    "complete_native_lookback_hours": 24
+  },
+  "fit": {
+    "first_source_date": "2025-03-22",
+    "end_exclusive": "2026-08-07",
+    "maximum_label_maturity": "2026-08-08",
+    "calibration_start": "2026-08-08",
+    "calibration_end_exclusive": "2026-08-21",
+    "holdout_start": "2026-08-22",
+    "purge": "Price and settlement outcome tails must mature before the next block."
+  },
+  "valuation": "2026-11-22T21:25:00Z",
+  "last_entry_decision_boundary": "2026-11-21T21:20:00Z exclusive",
+  "exit": "Fit a per-side logistic exit model using one entry path per observed SMA setup. Label sampled states using after-cost best executable exit in the subsequent 24-hour trajectory. First qualifying score at 0.50 or force at 24 hours. Simulated exit can wait up to three additional minutes for an open, then is unknown when no executable mark exists.",
+  "entry": "Fit separate per-side regularized expected-payoff heads using the two newly fitted exits. Calibrate only on August 8 through August 20 decisions. One constant-by-side control and ranked market-only, availability, uniform news, 90-day market, 90-day news and relative news variants. The 90-day news arm also shares its pass set with an alphabetical tie-only comparator.",
+  "execution": {
+    "hurdle_bps": 15,
+    "slots": 10,
+    "notional_usd": 100,
+    "fee_bps_per_leg": 4.5,
+    "base_candle_slip_bps_per_leg": 1,
+    "stress_candle_slip_bps_per_leg": 3,
+    "stress_latency_minutes": 1,
+    "settled_funding": "Native hourly rates. Value at settlement-minute open or latest prior native opening within 5 minutes. Preserve unknown settlement exposure.",
+    "marks": "Most recent native traded minute open. Report stale marks.",
+    "seeded_constant_ties": [
+      11,
+      23,
+      37,
+      53,
+      71,
+      89,
+      107,
+      131
+    ]
+  },
+  "status": "Retrospective. Existing fixed SMA design and universe, with all fitted parameters developed solely on earlier observations and the test kept out of training."
+}

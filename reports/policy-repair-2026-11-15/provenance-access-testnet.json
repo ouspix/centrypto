@@ -1,0 +1,1 @@
+{"status":"applied","migration":"20261115083500_observation_access","before":{"addedColumns":5,"observationTable":true,"migrationLedger":true},"after":{"addedColumns":5,"observationTable":true,"migrationLedger":true},"historicalDatesBackfilled":false}

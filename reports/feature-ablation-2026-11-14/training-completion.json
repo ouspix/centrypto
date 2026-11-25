@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "outer_runs": 240,
+  "seeds": [
+    20261114,
+    20261115,
+    20261116
+  ],
+  "variants": 20,
+  "final_core_and_full_models_saved": true,
+  "original_files_verified": 43,
+  "experiment_lock_verified": true
+}

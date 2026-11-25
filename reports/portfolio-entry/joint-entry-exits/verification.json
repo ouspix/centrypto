@@ -1,0 +1,13 @@
+{
+  "gradient_checks": 18,
+  "knot_cases": 512,
+  "forecasts": 92845,
+  "ledger_positions": 7497,
+  "marked_open": 8,
+  "forward_hashes": 51,
+  "results": {
+    "main-results.json": "8a0d9ff64d7bd43725832a462a9caaee4e0dc45f8b24f98e35c3597279ad0385",
+    "news-results.json": "f5298ac5f91a24bae5faab497d14d7bd1fe07bb9a5fcbe1e032048a4be393d71",
+    "fixed-ablation.json": "26b78b68b4cf2976e29e05849372a0893ac85158b22a38f732a804d470324d5a"
+  }
+}

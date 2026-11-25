@@ -1,0 +1,260 @@
+{
+  "policies": {
+    "selected": [
+      {
+        "config": 1,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 15,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "validation_tuned_no_indicators": [
+      {
+        "config": 0,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 0,
+        "threshold": 0.9,
+        "pair": 2
+      }
+    ],
+    "archived_price_error_cash": [
+      null,
+      null
+    ],
+    "original_price_error_frozen_thresholds": [
+      {
+        "config": 0,
+        "threshold": 0.95,
+        "pair": null
+      },
+      {
+        "config": 0,
+        "threshold": 0.9,
+        "pair": null
+      }
+    ],
+    "repaired_classifier_frozen_thresholds": [
+      {
+        "config": -1,
+        "threshold": 0.95,
+        "pair": null
+      },
+      {
+        "config": -1,
+        "threshold": 0.9,
+        "pair": null
+      }
+    ],
+    "best_active_indicator_challenger": [
+      {
+        "config": 1,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 15,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ]
+  },
+  "selected": [
+    {
+      "config": 1,
+      "threshold": 0.9,
+      "pair": 0,
+      "rsi": 3,
+      "bb": null,
+      "sma": [
+        3,
+        12
+      ]
+    },
+    {
+      "config": 15,
+      "threshold": 0.95,
+      "pair": 0,
+      "rsi": 7.5,
+      "bb": 12,
+      "sma": [
+        3,
+        12
+      ]
+    }
+  ],
+  "challenger": [
+    {
+      "config": 1,
+      "threshold": 0.9,
+      "pair": 0,
+      "rsi": 3,
+      "bb": null,
+      "sma": [
+        3,
+        12
+      ]
+    },
+    {
+      "config": 15,
+      "threshold": 0.95,
+      "pair": 0,
+      "rsi": 7.5,
+      "bb": 12,
+      "sma": [
+        3,
+        12
+      ]
+    }
+  ],
+  "validation": {
+    "selected": {
+      "trades": 39,
+      "priced": 39,
+      "unknown": 0,
+      "net": 79.07440158744987,
+      "known_net": 79.07440158744987,
+      "closed_drawdown_usd": 24.962344467801728,
+      "lower_bound_usd": 11.882508307048116,
+      "wins": 24,
+      "active_days": 8,
+      "positive_days": 7,
+      "available_days": 9,
+      "symbols": 15,
+      "gross": 87.10551223327859,
+      "fees": 3.478471016819004,
+      "slippage": 0.7659828530365341,
+      "funding": 3.786656775973191
+    },
+    "validation_tuned_no_indicators": {
+      "trades": 42,
+      "priced": 42,
+      "unknown": 0,
+      "net": 53.2126499387757,
+      "known_net": 53.2126499387757,
+      "closed_drawdown_usd": 26.17326608514285,
+      "lower_bound_usd": 8.387142727645976,
+      "wins": 26,
+      "active_days": 6,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 15,
+      "gross": 61.78925297143502,
+      "fees": 3.7692404765197294,
+      "slippage": 0.8351952169973854,
+      "funding": 3.972167339142199
+    },
+    "archived_price_error_cash": {
+      "trades": 0,
+      "priced": 0,
+      "unknown": 0,
+      "net": 0,
+      "known_net": 0,
+      "closed_drawdown_usd": 0.0,
+      "lower_bound_usd": 0.0,
+      "wins": 0,
+      "active_days": 0,
+      "positive_days": 0,
+      "available_days": 9,
+      "symbols": 0,
+      "gross": 0,
+      "fees": 0,
+      "slippage": 0,
+      "funding": 0
+    },
+    "original_price_error_frozen_thresholds": {
+      "trades": 85,
+      "priced": 85,
+      "unknown": 0,
+      "net": 63.73761243349378,
+      "known_net": 63.73761243349378,
+      "closed_drawdown_usd": 26.01842080385591,
+      "lower_bound_usd": -17.594093628127506,
+      "wins": 45,
+      "active_days": 7,
+      "positive_days": 4,
+      "available_days": 9,
+      "symbols": 26,
+      "gross": 74.61074250461286,
+      "fees": 7.621665977280404,
+      "slippage": 1.6872865763553733,
+      "funding": 1.5641775174833061
+    },
+    "repaired_classifier_frozen_thresholds": {
+      "trades": 89,
+      "priced": 87,
+      "unknown": 2,
+      "net": null,
+      "known_net": 83.0596157618543,
+      "closed_drawdown_usd": null,
+      "lower_bound_usd": null,
+      "wins": 51,
+      "active_days": 7,
+      "positive_days": 7,
+      "available_days": 9,
+      "symbols": 26,
+      "gross": 92.04124325332859,
+      "fees": 7.9704946368662775,
+      "slippage": 1.7624338840297884,
+      "funding": null
+    },
+    "best_active_indicator_challenger": {
+      "trades": 39,
+      "priced": 39,
+      "unknown": 0,
+      "net": 79.07440158744987,
+      "known_net": 79.07440158744987,
+      "closed_drawdown_usd": 24.962344467801728,
+      "lower_bound_usd": 11.882508307048116,
+      "wins": 24,
+      "active_days": 8,
+      "positive_days": 7,
+      "available_days": 9,
+      "symbols": 15,
+      "gross": 87.10551223327859,
+      "fees": 3.478471016819004,
+      "slippage": 0.7659828530365341,
+      "funding": 3.786656775973191
+    }
+  },
+  "days": [
+    "2026-11-05",
+    "2026-11-06",
+    "2026-11-07",
+    "2026-11-08",
+    "2026-11-09",
+    "2026-11-10",
+    "2026-11-11",
+    "2026-11-12",
+    "2026-11-13"
+  ],
+  "joint_configurations": 49,
+  "single_side_trials": 1296,
+  "network_hashes": {
+    "/srv/centrypto-checkpoint/data/research/centrypto/sma-rsi-bb-optimization-2026-11-21/weights/spec01_long_20261114.joblib": "cb473f951f7531782dac35f88b697abe6dec982cc1950fe4990e219c6402c2d3",
+    "/srv/centrypto-checkpoint/data/research/centrypto/sma-rsi-bb-optimization-2026-11-21/weights/spec01_long_20261115.joblib": "314ba84ef9f1ec2086e204179b9a7d8a9e2d1199bd1621dfdf60bd1cf119f3bf",
+    "/srv/centrypto-checkpoint/data/research/centrypto/sma-rsi-bb-optimization-2026-11-21/weights/spec01_long_20261116.joblib": "f3be797d34bec0eee87592452968e6b6a8846244d1fe6e9530818d37b44b0177",
+    "/srv/centrypto-checkpoint/data/research/centrypto/sma-rsi-bb-optimization-2026-11-21/weights/spec15_short_20261114.joblib": "eeacbd5dabc2963826a79f2931ed596ae2cf2cfa9cb4ae202ad03c21c60264ab",
+    "/srv/centrypto-checkpoint/data/research/centrypto/sma-rsi-bb-optimization-2026-11-21/weights/spec15_short_20261115.joblib": "fb206d53f413983b68e5dddc9f50573698e586a16e545707fe79f7b283f66426",
+    "/srv/centrypto-checkpoint/data/research/centrypto/sma-rsi-bb-optimization-2026-11-21/weights/spec15_short_20261116.joblib": "9ea3f905310e225a95c7b0a7485dd52fd9fd3959147d6b77119295a1eb3aeca8",
+    "/srv/centrypto-checkpoint/data/research/centrypto/policy-repair-2026-11-15/models/2026-11-11/long_exit_20261114.joblib": "56d3e2040a180d63197778a6a8ebe55da71d86c5d1056e6b2a7a9b1bdfe01da5",
+    "/srv/centrypto-checkpoint/data/research/centrypto/policy-repair-2026-11-15/models/2026-11-11/long_exit_20261115.joblib": "5411a816aa3142d09ca1d0c26cdd3b1bc526f54c57a394316496385c580f0094",
+    "/srv/centrypto-checkpoint/data/research/centrypto/policy-repair-2026-11-15/models/2026-11-11/long_exit_20261116.joblib": "19bd3dc11bb6ae33905ad69c452dc8e3923cf529ec5e7b73ae623340444667fe",
+    "/srv/centrypto-checkpoint/data/research/centrypto/policy-repair-2026-11-15/models/2026-11-11/short_exit_20261114.joblib": "ea07f8fb9d6441dd26b98b7445f0f72df059aeb1c3374755501eb1552156199f",
+    "/srv/centrypto-checkpoint/data/research/centrypto/policy-repair-2026-11-15/models/2026-11-11/short_exit_20261115.joblib": "b094e4e8a9d91c5eaedd2b6dd10a1186e87bd494b182a580efaa16ee166eaa73",
+    "/srv/centrypto-checkpoint/data/research/centrypto/policy-repair-2026-11-15/models/2026-11-11/short_exit_20261116.joblib": "e7beddb4948137cbc9e61790d5088b3ea1056c0bc6154a51ef985d7937af157d",
+    "/srv/centrypto-checkpoint/data/research/centrypto/entry-price-error-2026-11-15/models/2026-11-11/long_entry_20261114.joblib": "bdaf43d0d445e76545fec897e689de4090859f930463228ada40e93de4d96517",
+    "/srv/centrypto-checkpoint/data/research/centrypto/entry-price-error-2026-11-15/models/2026-11-11/long_entry_20261115.joblib": "09c91ae24869de162930a3c25562d64b0e60dd63ab260df97dff98663846f87e",
+    "/srv/centrypto-checkpoint/data/research/centrypto/entry-price-error-2026-11-15/models/2026-11-11/long_entry_20261116.joblib": "71c58bf05c1ba84c2fca590a49019691f941b1c1521e7019c89df8f0256437a1",
+    "/srv/centrypto-checkpoint/data/research/centrypto/entry-price-error-2026-11-15/models/2026-11-11/short_entry_20261114.joblib": "a0ceb3d0ddcaba40f48d9c7b6e9af594fa3f29540f0e0a8ed5950861f378de3f",
+    "/srv/centrypto-checkpoint/data/research/centrypto/entry-price-error-2026-11-15/models/2026-11-11/short_entry_20261115.joblib": "46746713382a5aed78e2905376891bf6643cd59b0aac137fcc02dae8d5c88eae",
+    "/srv/centrypto-checkpoint/data/research/centrypto/entry-price-error-2026-11-15/models/2026-11-11/short_entry_20261116.joblib": "9d7a9df2c0bfbf5fd8ed58ed2e64ded122753e63745a8235787070bece30a2d4"
+  },
+  "plan_sha256": "662afb59419eea37ca44a8e7c77e8c92bbbcbf34065fbbf188a4bb406d9e3d55"
+}

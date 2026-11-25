@@ -1,0 +1,23 @@
+{
+  "train": {
+    "decisions": 326546,
+    "decisions_with_typed_headline": 26837,
+    "represented_clusters": 1128,
+    "represented_assets": 15,
+    "distinct_decision_dates": 308
+  },
+  "history": {
+    "decisions": 1348,
+    "decisions_with_typed_headline": 7,
+    "represented_clusters": 1,
+    "represented_assets": 1,
+    "distinct_decision_dates": 1
+  },
+  "benchmark": {
+    "decisions": 5211,
+    "decisions_with_typed_headline": 175,
+    "represented_clusters": 8,
+    "represented_assets": 4,
+    "distinct_decision_dates": 3
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "model_sha256": "2afc2e876d566d57a011e7dc0596e897acad7fab7113032cec72654002744765",
+  "label_samples": 6214,
+  "samples_crossing_funding": 4668,
+  "original_overlap": {
+    "long": {
+      "rows": 12914,
+      "same_exit_fraction": 0.9269784729750659,
+      "median_absolute_net_bps_difference": 1.4210854715202004e-14
+    },
+    "short": {
+      "rows": 7299,
+      "same_exit_fraction": 0.9172489382107138,
+      "median_absolute_net_bps_difference": 2.842170943040401e-14
+    }
+  },
+  "source_hashes_verified": 501,
+  "continuous_days_on_each_side": 218
+}

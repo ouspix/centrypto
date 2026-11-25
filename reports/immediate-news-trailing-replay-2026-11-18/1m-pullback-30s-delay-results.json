@@ -1,0 +1,694 @@
+{
+  "archive/long/first entry only": {
+    "entries": 18,
+    "setups": 18,
+    "closed": 15,
+    "winners": 11,
+    "open": 2,
+    "unknown": 1,
+    "closedNet": -8.509048048831916,
+    "markedNet": -12.429239044442397,
+    "afterCostsReentry": 0,
+    "reentries": 0,
+    "fees": 1.124514712806525,
+    "funding": -0.0946043461359293,
+    "meanPct": -0.7112038916405224,
+    "medianStop": 6.116302933233186,
+    "medianNotional": 56.657942000000006,
+    "exitTypes": {
+      "trailing stop": 11,
+      "initial stop": 4,
+      "unresolved price gap": 1,
+      "open at cutoff": 2
+    },
+    "rejected": {
+      "symbol already open": 7,
+      "already in own position at signal": 101,
+      "position cap": 1,
+      "setup retired after exit": 116,
+      "pre-entry drawdown": 11,
+      "below minimum order": 3
+    }
+  },
+  "archive/long/repeat": {
+    "entries": 25,
+    "setups": 16,
+    "closed": 21,
+    "winners": 17,
+    "open": 3,
+    "unknown": 1,
+    "closedNet": -4.458371583131351,
+    "markedNet": -9.549507989614408,
+    "afterCostsReentry": 3.5419968031747926,
+    "reentries": 9,
+    "fees": 1.528055729808525,
+    "funding": -0.10102783430596361,
+    "meanPct": -0.2920192481377028,
+    "medianStop": 6.414755655374996,
+    "medianNotional": 60.255214,
+    "exitTypes": {
+      "trailing stop": 17,
+      "initial stop": 4,
+      "unresolved price gap": 1,
+      "open at cutoff": 3
+    },
+    "rejected": {
+      "symbol already open": 42,
+      "already in own position at signal": 175,
+      "position cap": 1,
+      "pre-entry drawdown": 11,
+      "below minimum order": 3
+    }
+  },
+  "archive/short/first entry only": {
+    "entries": 14,
+    "setups": 14,
+    "closed": 11,
+    "winners": 9,
+    "open": 3,
+    "unknown": 0,
+    "closedNet": 2.323467592190202,
+    "markedNet": 0.026828994187964063,
+    "afterCostsReentry": 0,
+    "reentries": 0,
+    "fees": 1.062526904732025,
+    "funding": 0.0995753034199148,
+    "meanPct": -0.27651802920401575,
+    "medianStop": 5.718616763141217,
+    "medianNotional": 74.39676,
+    "exitTypes": {
+      "initial stop": 2,
+      "trailing stop": 9,
+      "open at cutoff": 3
+    },
+    "rejected": {
+      "already in own position at signal": 116,
+      "setup retired after exit": 95,
+      "symbol already open": 125,
+      "pre-entry drawdown": 70
+    }
+  },
+  "archive/short/repeat": {
+    "entries": 15,
+    "setups": 12,
+    "closed": 12,
+    "winners": 10,
+    "open": 3,
+    "unknown": 0,
+    "closedNet": 2.3719151949847443,
+    "markedNet": 0.07527659698250613,
+    "afterCostsReentry": 2.4488632897321034,
+    "reentries": 3,
+    "fees": 1.101336563243025,
+    "funding": 0.1285381447254524,
+    "meanPct": -0.2293383524628235,
+    "medianStop": 5.888653453691403,
+    "medianNotional": 69.07600000000001,
+    "exitTypes": {
+      "initial stop": 2,
+      "trailing stop": 10,
+      "open at cutoff": 3
+    },
+    "rejected": {
+      "already in own position at signal": 86,
+      "setup retired after exit": 1,
+      "symbol already open": 248,
+      "pre-entry drawdown": 70
+    }
+  },
+  "archive/combined/first entry only": {
+    "entries": 30,
+    "setups": 30,
+    "closed": 26,
+    "winners": 21,
+    "open": 3,
+    "unknown": 1,
+    "closedNet": -2.6157297803282424,
+    "markedNet": -4.632428779281725,
+    "afterCostsReentry": 0,
+    "reentries": 0,
+    "fees": 2.11699629574785,
+    "funding": 0.0238614224659985,
+    "meanPct": -0.28488735738821785,
+    "medianStop": 6.0065606719257385,
+    "medianNotional": 72.60252,
+    "exitTypes": {
+      "trailing stop": 21,
+      "initial stop": 5,
+      "unresolved price gap": 1,
+      "open at cutoff": 3
+    },
+    "rejected": {
+      "symbol already open": 179,
+      "already in own position at signal": 117,
+      "position cap": 8,
+      "setup retired after exit": 259,
+      "pre-entry drawdown": 81,
+      "below minimum order": 3
+    },
+    "bySide": {
+      "long": {
+        "entries": 15,
+        "setups": 15,
+        "closed": 14,
+        "winners": 11,
+        "open": 0,
+        "unknown": 1,
+        "closedNet": -5.67196280386295,
+        "markedNet": -5.67196280386295,
+        "afterCostsReentry": 0,
+        "reentries": 0,
+        "fees": 0.947734137645075,
+        "funding": -0.051406099717921504,
+        "meanPct": -0.37319326757592824,
+        "medianStop": 6.27298573256569,
+        "medianNotional": 60.255214,
+        "exitTypes": {
+          "trailing stop": 11,
+          "initial stop": 3,
+          "unresolved price gap": 1
+        }
+      },
+      "short": {
+        "entries": 15,
+        "setups": 15,
+        "closed": 12,
+        "winners": 10,
+        "open": 3,
+        "unknown": 0,
+        "closedNet": 3.0562330235347077,
+        "markedNet": 1.0395340245812248,
+        "afterCostsReentry": 0,
+        "reentries": 0,
+        "fees": 1.169262158102775,
+        "funding": 0.07526752218392001,
+        "meanPct": -0.20246850787968815,
+        "medianStop": 5.5485800725910295,
+        "medianNotional": 79.71752,
+        "exitTypes": {
+          "initial stop": 2,
+          "trailing stop": 10,
+          "open at cutoff": 3
+        }
+      }
+    }
+  },
+  "archive/combined/repeat": {
+    "entries": 38,
+    "setups": 26,
+    "closed": 33,
+    "winners": 28,
+    "open": 4,
+    "unknown": 1,
+    "closedNet": 1.4833942881668647,
+    "markedNet": -3.165328652962804,
+    "afterCostsReentry": 6.857969328051041,
+    "reentries": 12,
+    "fees": 2.5577701946226,
+    "funding": 0.0288161126596422,
+    "meanPct": -0.10661261511041081,
+    "medianStop": 6.412479420466065,
+    "medianNotional": 72.60252,
+    "exitTypes": {
+      "trailing stop": 28,
+      "initial stop": 5,
+      "unresolved price gap": 1,
+      "open at cutoff": 4
+    },
+    "rejected": {
+      "symbol already open": 345,
+      "already in own position at signal": 201,
+      "position cap": 8,
+      "setup retired after exit": 1,
+      "pre-entry drawdown": 81,
+      "below minimum order": 3
+    },
+    "bySide": {
+      "long": {
+        "entries": 23,
+        "setups": 14,
+        "closed": 20,
+        "winners": 17,
+        "open": 2,
+        "unknown": 1,
+        "closedNet": -1.6212863381623852,
+        "markedNet": -3.928173717042259,
+        "afterCostsReentry": 3.721537571221989,
+        "reentries": 9,
+        "fees": 1.460466615432825,
+        "funding": -0.0734707301095082,
+        "meanPct": -0.04886842518451951,
+        "medianStop": 6.709050495771299,
+        "medianNotional": 76.12903999999999,
+        "exitTypes": {
+          "trailing stop": 17,
+          "initial stop": 3,
+          "unresolved price gap": 1,
+          "open at cutoff": 2
+        }
+      },
+      "short": {
+        "entries": 15,
+        "setups": 12,
+        "closed": 13,
+        "winners": 11,
+        "open": 2,
+        "unknown": 0,
+        "closedNet": 3.10468062632925,
+        "markedNet": 0.7628450640794548,
+        "afterCostsReentry": 3.1364317568290523,
+        "reentries": 3,
+        "fees": 1.097303579189775,
+        "funding": 0.10228684276915041,
+        "meanPct": -0.19130409366838472,
+        "medianStop": 5.888653453691403,
+        "medianNotional": 69.07600000000001,
+        "exitTypes": {
+          "initial stop": 2,
+          "trailing stop": 11,
+          "open at cutoff": 2
+        }
+      }
+    }
+  },
+  "modeled/long/first entry only": {
+    "entries": 26,
+    "setups": 26,
+    "closed": 22,
+    "winners": 17,
+    "open": 2,
+    "unknown": 2,
+    "closedNet": -14.668422273855466,
+    "markedNet": -17.8092663319937,
+    "afterCostsReentry": 0,
+    "reentries": 0,
+    "fees": 1.5850032685319249,
+    "funding": -0.10930520596198691,
+    "meanPct": -0.6837332321768644,
+    "medianStop": 6.689885221379894,
+    "medianNotional": 51.3857650425,
+    "exitTypes": {
+      "trailing stop": 17,
+      "unresolved price gap": 2,
+      "initial stop": 5,
+      "open at cutoff": 2
+    },
+    "rejected": {
+      "already in own position at signal": 881,
+      "symbol already open": 740,
+      "position cap": 2164,
+      "setup retired after exit": 1253,
+      "pre-entry drawdown": 632,
+      "below minimum order": 9
+    }
+  },
+  "modeled/long/repeat": {
+    "entries": 40,
+    "setups": 21,
+    "closed": 33,
+    "winners": 27,
+    "open": 5,
+    "unknown": 2,
+    "closedNet": -14.740335419577747,
+    "markedNet": -24.288241133479733,
+    "afterCostsReentry": -3.6242576760596616,
+    "reentries": 19,
+    "fees": 2.42963573066505,
+    "funding": -0.08645660481501251,
+    "meanPct": -0.6241767070690204,
+    "medianStop": 7.179634779743823,
+    "medianNotional": 65.9186878725,
+    "exitTypes": {
+      "trailing stop": 27,
+      "unresolved price gap": 2,
+      "initial stop": 6,
+      "open at cutoff": 5
+    },
+    "rejected": {
+      "already in own position at signal": 1351,
+      "symbol already open": 824,
+      "position cap": 2447,
+      "pre-entry drawdown": 732,
+      "setup retired after exit": 223,
+      "below minimum order": 88
+    }
+  },
+  "modeled/long/repeat bridge gaps": {
+    "entries": 57,
+    "setups": 30,
+    "closed": 50,
+    "winners": 39,
+    "open": 5,
+    "unknown": 2,
+    "closedNet": -32.28071860174793,
+    "markedNet": -41.82862431564991,
+    "afterCostsReentry": -12.727435444927051,
+    "reentries": 27,
+    "fees": 3.381436232187975,
+    "funding": -0.32026000396233945,
+    "meanPct": -0.9571346680904914,
+    "medianStop": 7.316772498289264,
+    "medianNotional": 57.08042595,
+    "exitTypes": {
+      "trailing stop": 39,
+      "unresolved funding": 2,
+      "initial stop": 11,
+      "open at cutoff": 5
+    },
+    "rejected": {
+      "already in own position at signal": 1909,
+      "symbol already open": 678,
+      "position cap": 1981,
+      "pre-entry drawdown": 792,
+      "setup retired after exit": 200,
+      "below minimum order": 88
+    }
+  },
+  "modeled/short/first entry only": {
+    "entries": 22,
+    "setups": 22,
+    "closed": 19,
+    "winners": 17,
+    "open": 1,
+    "unknown": 2,
+    "closedNet": 6.758268614834773,
+    "markedNet": 6.48228787273543,
+    "afterCostsReentry": 0,
+    "reentries": 0,
+    "fees": 1.133115288684525,
+    "funding": 0.055964269919797,
+    "meanPct": 0.5230649990503311,
+    "medianStop": 5.608595908703556,
+    "medianNotional": 48.830294639,
+    "exitTypes": {
+      "trailing stop": 17,
+      "initial stop": 2,
+      "unresolved price gap": 2,
+      "open at cutoff": 1
+    },
+    "rejected": {
+      "already in own position at signal": 702,
+      "setup retired after exit": 1389,
+      "symbol already open": 2576,
+      "position cap": 799,
+      "pre-entry drawdown": 231
+    }
+  },
+  "modeled/short/repeat": {
+    "entries": 66,
+    "setups": 15,
+    "closed": 61,
+    "winners": 56,
+    "open": 3,
+    "unknown": 2,
+    "closedNet": 18.167625686016674,
+    "markedNet": 17.083510500283996,
+    "afterCostsReentry": 9.016352983277638,
+    "reentries": 51,
+    "fees": 3.892394547639675,
+    "funding": 0.08920696642318232,
+    "meanPct": 0.3269386843881531,
+    "medianStop": 5.931492743711965,
+    "medianNotional": 48.991634428750004,
+    "exitTypes": {
+      "trailing stop": 56,
+      "initial stop": 5,
+      "unresolved price gap": 2,
+      "open at cutoff": 3
+    },
+    "rejected": {
+      "already in own position at signal": 991,
+      "setup retired after exit": 185,
+      "symbol already open": 2800,
+      "pullback preceded prior exit": 1,
+      "pre-entry drawdown": 356,
+      "position cap": 1320
+    }
+  },
+  "modeled/short/repeat bridge gaps": {
+    "entries": 104,
+    "setups": 31,
+    "closed": 98,
+    "winners": 91,
+    "open": 4,
+    "unknown": 2,
+    "closedNet": 39.158486381545586,
+    "markedNet": 37.89275877995249,
+    "afterCostsReentry": 13.56340870686049,
+    "reentries": 73,
+    "fees": 7.556846496872175,
+    "funding": 0.44622751932381377,
+    "meanPct": 0.42056211178117103,
+    "medianStop": 5.638539165153741,
+    "medianNotional": 79.29857587750001,
+    "exitTypes": {
+      "trailing stop": 91,
+      "initial stop": 7,
+      "unresolved funding": 2,
+      "open at cutoff": 4
+    },
+    "rejected": {
+      "already in own position at signal": 1834,
+      "setup retired after exit": 227,
+      "symbol already open": 2344,
+      "pullback preceded prior exit": 1,
+      "pre-entry drawdown": 256,
+      "position cap": 952,
+      "below minimum order": 1
+    }
+  },
+  "modeled/combined/first entry only": {
+    "entries": 38,
+    "setups": 38,
+    "closed": 34,
+    "winners": 32,
+    "open": 2,
+    "unknown": 2,
+    "closedNet": 13.07128002595939,
+    "markedNet": 10.30675548049999,
+    "afterCostsReentry": 0,
+    "reentries": 0,
+    "fees": 2.3066644570494748,
+    "funding": 0.10996108904919383,
+    "meanPct": 0.5014102069545536,
+    "medianStop": 6.254248055238489,
+    "medianNotional": 48.98922236999999,
+    "exitTypes": {
+      "trailing stop": 32,
+      "unresolved price gap": 2,
+      "initial stop": 2,
+      "open at cutoff": 2
+    },
+    "rejected": {
+      "already in own position at signal": 1250,
+      "position cap": 4327,
+      "symbol already open": 2954,
+      "pre-entry drawdown": 1161,
+      "setup retired after exit": 1685,
+      "below minimum order": 9
+    },
+    "bySide": {
+      "long": {
+        "entries": 20,
+        "setups": 20,
+        "closed": 18,
+        "winners": 16,
+        "open": 0,
+        "unknown": 2,
+        "closedNet": -0.6990259002076423,
+        "markedNet": -0.6990259002076423,
+        "afterCostsReentry": 0,
+        "reentries": 0,
+        "fees": 1.0839802515997499,
+        "funding": -0.05526685860802741,
+        "meanPct": 0.09116726564453019,
+        "medianStop": 7.201054692566853,
+        "medianNotional": 49.502188724999996,
+        "exitTypes": {
+          "trailing stop": 16,
+          "unresolved price gap": 2,
+          "initial stop": 2
+        }
+      },
+      "short": {
+        "entries": 18,
+        "setups": 18,
+        "closed": 16,
+        "winners": 16,
+        "open": 2,
+        "unknown": 0,
+        "closedNet": 13.770305926167033,
+        "markedNet": 11.005781380707633,
+        "afterCostsReentry": 0,
+        "reentries": 0,
+        "fees": 1.222684205449725,
+        "funding": 0.16522794765722124,
+        "meanPct": 0.9116531482645771,
+        "medianStop": 4.860331386346827,
+        "medianNotional": 48.96092778975,
+        "exitTypes": {
+          "trailing stop": 16,
+          "open at cutoff": 2
+        }
+      }
+    }
+  },
+  "modeled/combined/repeat": {
+    "entries": 82,
+    "setups": 34,
+    "closed": 74,
+    "winners": 67,
+    "open": 6,
+    "unknown": 2,
+    "closedNet": 10.142015934462071,
+    "markedNet": 3.6082227784410743,
+    "afterCostsReentry": 10.7681462980525,
+    "reentries": 48,
+    "fees": 5.416603211918475,
+    "funding": 0.14107867085888445,
+    "meanPct": 0.10928766009103753,
+    "medianStop": 6.694375524283725,
+    "medianNotional": 74.01891702750001,
+    "exitTypes": {
+      "trailing stop": 67,
+      "initial stop": 7,
+      "unresolved price gap": 2,
+      "open at cutoff": 6
+    },
+    "rejected": {
+      "already in own position at signal": 1705,
+      "position cap": 5421,
+      "symbol already open": 2666,
+      "pre-entry drawdown": 1195,
+      "setup retired after exit": 223,
+      "below minimum order": 132
+    },
+    "bySide": {
+      "long": {
+        "entries": 36,
+        "setups": 20,
+        "closed": 32,
+        "winners": 26,
+        "open": 3,
+        "unknown": 1,
+        "closedNet": -16.440719976300084,
+        "markedNet": -22.970989888526333,
+        "afterCostsReentry": -5.690666017372944,
+        "reentries": 16,
+        "fees": 2.207555022580875,
+        "funding": -0.0312122584457527,
+        "meanPct": -0.6927620010862786,
+        "medianStop": 6.903999016969057,
+        "medianNotional": 65.60334477974999,
+        "exitTypes": {
+          "trailing stop": 26,
+          "initial stop": 6,
+          "unresolved price gap": 1,
+          "open at cutoff": 3
+        }
+      },
+      "short": {
+        "entries": 46,
+        "setups": 14,
+        "closed": 42,
+        "winners": 41,
+        "open": 3,
+        "unknown": 1,
+        "closedNet": 26.582735910762153,
+        "markedNet": 26.579212666967408,
+        "afterCostsReentry": 16.458812315425444,
+        "reentries": 32,
+        "fees": 3.2090481893376,
+        "funding": 0.17229092930463716,
+        "meanPct": 0.73310406322895,
+        "medianStop": 5.94947096448265,
+        "medianNotional": 77.7465922575,
+        "exitTypes": {
+          "trailing stop": 41,
+          "unresolved price gap": 1,
+          "initial stop": 1,
+          "open at cutoff": 3
+        }
+      }
+    }
+  },
+  "modeled/combined/repeat bridge gaps": {
+    "entries": 102,
+    "setups": 45,
+    "closed": 93,
+    "winners": 81,
+    "open": 7,
+    "unknown": 2,
+    "closedNet": -4.7068073124654015,
+    "markedNet": -12.379596569822246,
+    "afterCostsReentry": 8.812728483357255,
+    "reentries": 57,
+    "fees": 7.112301129685124,
+    "funding": -0.01071552563800341,
+    "meanPct": -0.12107360823383465,
+    "medianStop": 6.69375428217216,
+    "medianNotional": 78.6368668975,
+    "exitTypes": {
+      "trailing stop": 81,
+      "initial stop": 12,
+      "unresolved funding": 2,
+      "open at cutoff": 7
+    },
+    "rejected": {
+      "already in own position at signal": 2284,
+      "position cap": 3985,
+      "symbol already open": 3552,
+      "pre-entry drawdown": 1119,
+      "setup retired after exit": 294,
+      "below minimum order": 88
+    },
+    "bySide": {
+      "long": {
+        "entries": 47,
+        "setups": 26,
+        "closed": 43,
+        "winners": 33,
+        "open": 3,
+        "unknown": 1,
+        "closedNet": -31.352285227438653,
+        "markedNet": -37.7593468832024,
+        "afterCostsReentry": -2.669411162876492,
+        "reentries": 21,
+        "fees": 2.8961162926884,
+        "funding": -0.20678098151440497,
+        "meanPct": -0.9107320222374531,
+        "medianStop": 7.124618828868822,
+        "medianNotional": 65.1733704,
+        "exitTypes": {
+          "trailing stop": 33,
+          "initial stop": 10,
+          "unresolved funding": 1,
+          "open at cutoff": 3
+        }
+      },
+      "short": {
+        "entries": 55,
+        "setups": 19,
+        "closed": 50,
+        "winners": 48,
+        "open": 4,
+        "unknown": 1,
+        "closedNet": 26.645477914973252,
+        "markedNet": 25.379750313380153,
+        "afterCostsReentry": 11.482139646233747,
+        "reentries": 36,
+        "fees": 4.2161848369967245,
+        "funding": 0.19606545587640153,
+        "meanPct": 0.551598374065544,
+        "medianStop": 5.745244283941627,
+        "medianNotional": 89.4138707,
+        "exitTypes": {
+          "trailing stop": 48,
+          "unresolved funding": 1,
+          "initial stop": 2,
+          "open at cutoff": 4
+        }
+      }
+    }
+  }
+}

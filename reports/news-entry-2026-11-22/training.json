@@ -1,0 +1,1427 @@
+{
+  "news_source": {
+    "cutoff": "2026-11-20T12:00:00.000Z",
+    "sha256": "b7308b6b35bdb7dc788c05eb20cffd37322fb19777e3ba1c9d3a9259246e5a78",
+    "exporter_sha256": "e56df922e367606dc09f8b32be309a2f51d6ac195a98c54681b343a8b6dfb399",
+    "counts": {
+      "documents": 17211,
+      "analyses": 4258,
+      "revisions": 5476
+    },
+    "first_document": "2026-10-31T09:46:30.819Z",
+    "last_document": "2026-11-20T11:59:11.196Z"
+  },
+  "lock_sha256": "4cbede175a6cffcf5d09960d83b47d396ef88b12cc71fe9c30bfcc7758f4f560",
+  "event_audit": {
+    "expired_or_unmapped": 5825,
+    "accepted_analysis": 1701,
+    "duplicates_or_repeats": 1159,
+    "accepted_revision": 938
+  },
+  "coverage": {
+    "long": {
+      "train": {
+        "rows": 44649,
+        "feed_observed": 5063,
+        "analysis_observed": 5321,
+        "both_observed": 5063,
+        "rows_with_asset_events": 3701,
+        "rows_with_market_events": 2743,
+        "unique_asset_events": 304,
+        "unique_market_events": 9,
+        "episodes": 9683
+      },
+      "validation": {
+        "rows": 3034,
+        "feed_observed": 2999,
+        "analysis_observed": 3034,
+        "both_observed": 2999,
+        "rows_with_asset_events": 2068,
+        "rows_with_market_events": 1660,
+        "unique_asset_events": 81,
+        "unique_market_events": 26,
+        "episodes": 477
+      }
+    },
+    "short": {
+      "train": {
+        "rows": 45360,
+        "feed_observed": 5613,
+        "analysis_observed": 5627,
+        "both_observed": 5613,
+        "rows_with_asset_events": 4178,
+        "rows_with_market_events": 2575,
+        "unique_asset_events": 304,
+        "unique_market_events": 9,
+        "episodes": 10112
+      },
+      "validation": {
+        "rows": 3728,
+        "feed_observed": 3724,
+        "analysis_observed": 3728,
+        "both_observed": 3724,
+        "rows_with_asset_events": 2320,
+        "rows_with_market_events": 2466,
+        "unique_asset_events": 78,
+        "unique_market_events": 27,
+        "episodes": 548
+      }
+    }
+  },
+  "diagnostics": {
+    "coverage_only": {
+      "long": [
+        {
+          "seed": 20261114,
+          "curve": [
+            {
+              "updates": 0,
+              "train_cost": 0.07235824775599568,
+              "validation_cost": 0.08390887803872453
+            },
+            {
+              "updates": 200,
+              "batch_objective_with_l2": 0.049467343198527816,
+              "train_cost": 0.04390400243395516,
+              "validation_cost": 0.04142734771250171
+            },
+            {
+              "updates": 600,
+              "batch_objective_with_l2": 0.04143893210667655,
+              "train_cost": 0.04066085426924885,
+              "validation_cost": 0.03997259823838799
+            },
+            {
+              "updates": 1500,
+              "batch_objective_with_l2": 0.029327850893850017,
+              "train_cost": 0.038058292900242006,
+              "validation_cost": 0.033949209232673076
+            },
+            {
+              "updates": 4000,
+              "batch_objective_with_l2": 0.03578875442470588,
+              "train_cost": 0.03836701086511408,
+              "validation_cost": 0.03483344795082488
+            }
+          ],
+          "features": {
+            "news_feed_observed": {
+              "observed_rows": 44649,
+              "nonzero_rows": 5063,
+              "retained": true
+            },
+            "news_analysis_observed": {
+              "observed_rows": 44649,
+              "nonzero_rows": 5321,
+              "retained": true
+            }
+          }
+        },
+        {
+          "seed": 20261115,
+          "curve": [
+            {
+              "updates": 0,
+              "train_cost": 0.07201796446549326,
+              "validation_cost": 0.08461935915472982
+            },
+            {
+              "updates": 200,
+              "batch_objective_with_l2": 0.039679158493096486,
+              "train_cost": 0.04706826845724103,
+              "validation_cost": 0.054443912984854556
+            },
+            {
+              "updates": 600,
+              "batch_objective_with_l2": 0.04013610037638115,
+              "train_cost": 0.03908328664573551,
+              "validation_cost": 0.0355468964190357
+            },
+            {
+              "updates": 1500,
+              "batch_objective_with_l2": 0.032359892063685974,
+              "train_cost": 0.040641987377308585,
+              "validation_cost": 0.04083810763718108
+            },
+            {
+              "updates": 4000,
+              "batch_objective_with_l2": 0.03649411878402963,
+              "train_cost": 0.03911518537241306,
+              "validation_cost": 0.03933348578538797
+            }
+          ],
+          "features": {
+            "news_feed_observed": {
+              "observed_rows": 44649,
+              "nonzero_rows": 5063,
+              "retained": true
+            },
+            "news_analysis_observed": {
+              "observed_rows": 44649,
+              "nonzero_rows": 5321,
+              "retained": true
+            }
+          }
+        },
+        {
+          "seed": 20261116,
+          "curve": [
+            {
+              "updates": 0,
+              "train_cost": 0.07142657660614829,
+              "validation_cost": 0.08480229453690348
+            },
+            {
+              "updates": 200,
+              "batch_objective_with_l2": 0.05253801371063566,
+              "train_cost": 0.04242697796779602,
+              "validation_cost": 0.036946503059125904
+            },
+            {
+              "updates": 600,
+              "batch_objective_with_l2": 0.041593566918913076,
+              "train_cost": 0.040320414058084966,
+              "validation_cost": 0.03608970265195433
+            },
+            {
+              "updates": 1500,
+              "batch_objective_with_l2": 0.02692818218020617,
+              "train_cost": 0.03885129854668598,
+              "validation_cost": 0.03589663785020673
+            },
+            {
+              "updates": 4000,
+              "batch_objective_with_l2": 0.03761176239848599,
+              "train_cost": 0.037355899501206866,
+              "validation_cost": 0.032598021560314105
+            }
+          ],
+          "features": {
+            "news_feed_observed": {
+              "observed_rows": 44649,
+              "nonzero_rows": 5063,
+              "retained": true
+            },
+            "news_analysis_observed": {
+              "observed_rows": 44649,
+              "nonzero_rows": 5321,
+              "retained": true
+            }
+          }
+        }
+      ],
+      "short": [
+        {
+          "seed": 20261114,
+          "curve": [
+            {
+              "updates": 0,
+              "train_cost": 0.0693738235160092,
+              "validation_cost": 0.08530048155187549
+            },
+            {
+              "updates": 200,
+              "batch_objective_with_l2": 0.04543960774077158,
+              "train_cost": 0.04568098871914706,
+              "validation_cost": 0.05491780465985957
+            },
+            {
+              "updates": 600,
+              "batch_objective_with_l2": 0.027896541468103737,
+              "train_cost": 0.03701654973302347,
+              "validation_cost": 0.04672528930117037
+            },
+            {
+              "updates": 1500,
+              "batch_objective_with_l2": 0.038613132055798034,
+              "train_cost": 0.03518361782004557,
+              "validation_cost": 0.04232310229209677
+            },
+            {
+              "updates": 4000,
+              "batch_objective_with_l2": 0.03464036742873508,
+              "train_cost": 0.03289890519743553,
+              "validation_cost": 0.036706560977322104
+            }
+          ],
+          "features": {
+            "news_feed_observed": {
+              "observed_rows": 45360,
+              "nonzero_rows": 5613,
+              "retained": true
+            },
+            "news_analysis_observed": {
+              "observed_rows": 45360,
+              "nonzero_rows": 5627,
+              "retained": true
+            }
+          }
+        },
+        {
+          "seed": 20261115,
+          "curve": [
+            {
+              "updates": 0,
+              "train_cost": 0.07325800567088513,
+              "validation_cost": 0.08787573342595585
+            },
+            {
+              "updates": 200,
+              "batch_objective_with_l2": 0.04470060968712507,
+              "train_cost": 0.0415599496829034,
+              "validation_cost": 0.0480193457226051
+            },
+            {
+              "updates": 600,
+              "batch_objective_with_l2": 0.037384139204360414,
+              "train_cost": 0.03781835822751489,
+              "validation_cost": 0.044114077376386465
+            },
+            {
+              "updates": 1500,
+              "batch_objective_with_l2": 0.03719314147445399,
+              "train_cost": 0.03579996210460818,
+              "validation_cost": 0.04111217887815456
+            },
+            {
+              "updates": 4000,
+              "batch_objective_with_l2": 0.02998305908915939,
+              "train_cost": 0.03180301495367241,
+              "validation_cost": 0.03485760739360998
+            }
+          ],
+          "features": {
+            "news_feed_observed": {
+              "observed_rows": 45360,
+              "nonzero_rows": 5613,
+              "retained": true
+            },
+            "news_analysis_observed": {
+              "observed_rows": 45360,
+              "nonzero_rows": 5627,
+              "retained": true
+            }
+          }
+        },
+        {
+          "seed": 20261116,
+          "curve": [
+            {
+              "updates": 0,
+              "train_cost": 0.07118653592453246,
+              "validation_cost": 0.08562402893700996
+            },
+            {
+              "updates": 200,
+              "batch_objective_with_l2": 0.04908777481749025,
+              "train_cost": 0.041473823958691064,
+              "validation_cost": 0.0464089007000636
+            },
+            {
+              "updates": 600,
+              "batch_objective_with_l2": 0.026646492568518983,
+              "train_cost": 0.0357251667846224,
+              "validation_cost": 0.04187709202444199
+            },
+            {
+              "updates": 1500,
+              "batch_objective_with_l2": 0.026167091253982946,
+              "train_cost": 0.03534579534005392,
+              "validation_cost": 0.040757699725789256
+            },
+            {
+              "updates": 4000,
+              "batch_objective_with_l2": 0.03716874902978503,
+              "train_cost": 0.03386732732708971,
+              "validation_cost": 0.038472967728697544
+            }
+          ],
+          "features": {
+            "news_feed_observed": {
+              "observed_rows": 45360,
+              "nonzero_rows": 5613,
+              "retained": true
+            },
+            "news_analysis_observed": {
+              "observed_rows": 45360,
+              "nonzero_rows": 5627,
+              "retained": true
+            }
+          }
+        }
+      ]
+    },
+    "news": {
+      "long": [
+        {
+          "seed": 20261114,
+          "curve": [
+            {
+              "updates": 0,
+              "train_cost": 0.07235824775716426,
+              "validation_cost": 0.08390887804321989
+            },
+            {
+              "updates": 200,
+              "batch_objective_with_l2": 0.049455594850149456,
+              "train_cost": 0.04389299608351377,
+              "validation_cost": 0.04165471692677795
+            },
+            {
+              "updates": 600,
+              "batch_objective_with_l2": 0.041467978601586866,
+              "train_cost": 0.04068063208899213,
+              "validation_cost": 0.040305451585031675
+            },
+            {
+              "updates": 1500,
+              "batch_objective_with_l2": 0.029257154555935326,
+              "train_cost": 0.03800358623511566,
+              "validation_cost": 0.034278576561571926
+            },
+            {
+              "updates": 4000,
+              "batch_objective_with_l2": 0.03477126225113201,
+              "train_cost": 0.03797614185826496,
+              "validation_cost": 0.035304279454225124
+            }
+          ],
+          "features": {
+            "news_feed_observed": {
+              "observed_rows": 44649,
+              "nonzero_rows": 5063,
+              "retained": true
+            },
+            "news_analysis_observed": {
+              "observed_rows": 44649,
+              "nonzero_rows": 5321,
+              "retained": true
+            },
+            "news_asset_bullish_30m": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2494,
+              "retained": true
+            },
+            "news_asset_bearish_30m": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2971,
+              "retained": true
+            },
+            "news_asset_count_30m": {
+              "observed_rows": 5063,
+              "nonzero_rows": 3701,
+              "retained": true
+            },
+            "news_asset_bullish_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2494,
+              "retained": true
+            },
+            "news_asset_bearish_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2971,
+              "retained": true
+            },
+            "news_asset_count_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 3701,
+              "retained": true
+            },
+            "news_market_bullish_30m": {
+              "observed_rows": 5063,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_market_bearish_30m": {
+              "observed_rows": 5063,
+              "nonzero_rows": 790,
+              "retained": true
+            },
+            "news_market_count_30m": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2743,
+              "retained": true
+            },
+            "news_market_bullish_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_market_bearish_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 790,
+              "retained": true
+            },
+            "news_market_count_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2743,
+              "retained": true
+            },
+            "news_asset_listing_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 161,
+              "retained": true
+            },
+            "news_asset_security_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2545,
+              "retained": true
+            },
+            "news_asset_supply_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 992,
+              "retained": true
+            },
+            "news_asset_adoption_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 1397,
+              "retained": true
+            },
+            "news_asset_macro_regulation_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2247,
+              "retained": true
+            },
+            "news_asset_other_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2777,
+              "retained": true
+            },
+            "news_asset_confirmed_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 334,
+              "retained": true
+            },
+            "news_asset_rumor_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_asset_contradicted_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2070,
+              "retained": true
+            },
+            "news_asset_correction_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_latest_asset_freshness": {
+              "observed_rows": 5063,
+              "nonzero_rows": 3701,
+              "retained": true
+            },
+            "news_asset_reaction_pct": {
+              "observed_rows": 5063,
+              "nonzero_rows": 3081,
+              "retained": true
+            },
+            "news_asset_reaction_vs_btc_pct": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2762,
+              "retained": true
+            },
+            "news_asset_volume_reaction_log": {
+              "observed_rows": 5063,
+              "nonzero_rows": 3107,
+              "retained": true
+            }
+          }
+        },
+        {
+          "seed": 20261115,
+          "curve": [
+            {
+              "updates": 0,
+              "train_cost": 0.072017964466475,
+              "validation_cost": 0.0846193591572146
+            },
+            {
+              "updates": 200,
+              "batch_objective_with_l2": 0.039735491836849886,
+              "train_cost": 0.0470568712967052,
+              "validation_cost": 0.05455275161194517
+            },
+            {
+              "updates": 600,
+              "batch_objective_with_l2": 0.04016590103667376,
+              "train_cost": 0.03903022442472341,
+              "validation_cost": 0.035445630553809275
+            },
+            {
+              "updates": 1500,
+              "batch_objective_with_l2": 0.032762703426773364,
+              "train_cost": 0.0404682966534598,
+              "validation_cost": 0.04052355336090989
+            },
+            {
+              "updates": 4000,
+              "batch_objective_with_l2": 0.03619339538471216,
+              "train_cost": 0.0388104322054845,
+              "validation_cost": 0.03838462219784286
+            }
+          ],
+          "features": {
+            "news_feed_observed": {
+              "observed_rows": 44649,
+              "nonzero_rows": 5063,
+              "retained": true
+            },
+            "news_analysis_observed": {
+              "observed_rows": 44649,
+              "nonzero_rows": 5321,
+              "retained": true
+            },
+            "news_asset_bullish_30m": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2494,
+              "retained": true
+            },
+            "news_asset_bearish_30m": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2971,
+              "retained": true
+            },
+            "news_asset_count_30m": {
+              "observed_rows": 5063,
+              "nonzero_rows": 3701,
+              "retained": true
+            },
+            "news_asset_bullish_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2494,
+              "retained": true
+            },
+            "news_asset_bearish_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2971,
+              "retained": true
+            },
+            "news_asset_count_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 3701,
+              "retained": true
+            },
+            "news_market_bullish_30m": {
+              "observed_rows": 5063,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_market_bearish_30m": {
+              "observed_rows": 5063,
+              "nonzero_rows": 790,
+              "retained": true
+            },
+            "news_market_count_30m": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2743,
+              "retained": true
+            },
+            "news_market_bullish_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_market_bearish_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 790,
+              "retained": true
+            },
+            "news_market_count_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2743,
+              "retained": true
+            },
+            "news_asset_listing_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 161,
+              "retained": true
+            },
+            "news_asset_security_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2545,
+              "retained": true
+            },
+            "news_asset_supply_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 992,
+              "retained": true
+            },
+            "news_asset_adoption_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 1397,
+              "retained": true
+            },
+            "news_asset_macro_regulation_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2247,
+              "retained": true
+            },
+            "news_asset_other_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2777,
+              "retained": true
+            },
+            "news_asset_confirmed_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 334,
+              "retained": true
+            },
+            "news_asset_rumor_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_asset_contradicted_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2070,
+              "retained": true
+            },
+            "news_asset_correction_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_latest_asset_freshness": {
+              "observed_rows": 5063,
+              "nonzero_rows": 3701,
+              "retained": true
+            },
+            "news_asset_reaction_pct": {
+              "observed_rows": 5063,
+              "nonzero_rows": 3081,
+              "retained": true
+            },
+            "news_asset_reaction_vs_btc_pct": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2762,
+              "retained": true
+            },
+            "news_asset_volume_reaction_log": {
+              "observed_rows": 5063,
+              "nonzero_rows": 3107,
+              "retained": true
+            }
+          }
+        },
+        {
+          "seed": 20261116,
+          "curve": [
+            {
+              "updates": 0,
+              "train_cost": 0.07142657660308147,
+              "validation_cost": 0.08480229453664513
+            },
+            {
+              "updates": 200,
+              "batch_objective_with_l2": 0.0525148525614188,
+              "train_cost": 0.04237347519136837,
+              "validation_cost": 0.036773369084353066
+            },
+            {
+              "updates": 600,
+              "batch_objective_with_l2": 0.04154896193515696,
+              "train_cost": 0.040313239494305576,
+              "validation_cost": 0.03607804664454897
+            },
+            {
+              "updates": 1500,
+              "batch_objective_with_l2": 0.026940555996763087,
+              "train_cost": 0.038760271754578204,
+              "validation_cost": 0.035675790969959785
+            },
+            {
+              "updates": 4000,
+              "batch_objective_with_l2": 0.03755322810916546,
+              "train_cost": 0.03732742614013361,
+              "validation_cost": 0.032485311846657816
+            }
+          ],
+          "features": {
+            "news_feed_observed": {
+              "observed_rows": 44649,
+              "nonzero_rows": 5063,
+              "retained": true
+            },
+            "news_analysis_observed": {
+              "observed_rows": 44649,
+              "nonzero_rows": 5321,
+              "retained": true
+            },
+            "news_asset_bullish_30m": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2494,
+              "retained": true
+            },
+            "news_asset_bearish_30m": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2971,
+              "retained": true
+            },
+            "news_asset_count_30m": {
+              "observed_rows": 5063,
+              "nonzero_rows": 3701,
+              "retained": true
+            },
+            "news_asset_bullish_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2494,
+              "retained": true
+            },
+            "news_asset_bearish_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2971,
+              "retained": true
+            },
+            "news_asset_count_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 3701,
+              "retained": true
+            },
+            "news_market_bullish_30m": {
+              "observed_rows": 5063,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_market_bearish_30m": {
+              "observed_rows": 5063,
+              "nonzero_rows": 790,
+              "retained": true
+            },
+            "news_market_count_30m": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2743,
+              "retained": true
+            },
+            "news_market_bullish_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_market_bearish_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 790,
+              "retained": true
+            },
+            "news_market_count_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2743,
+              "retained": true
+            },
+            "news_asset_listing_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 161,
+              "retained": true
+            },
+            "news_asset_security_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2545,
+              "retained": true
+            },
+            "news_asset_supply_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 992,
+              "retained": true
+            },
+            "news_asset_adoption_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 1397,
+              "retained": true
+            },
+            "news_asset_macro_regulation_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2247,
+              "retained": true
+            },
+            "news_asset_other_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2777,
+              "retained": true
+            },
+            "news_asset_confirmed_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 334,
+              "retained": true
+            },
+            "news_asset_rumor_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_asset_contradicted_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2070,
+              "retained": true
+            },
+            "news_asset_correction_4h": {
+              "observed_rows": 5063,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_latest_asset_freshness": {
+              "observed_rows": 5063,
+              "nonzero_rows": 3701,
+              "retained": true
+            },
+            "news_asset_reaction_pct": {
+              "observed_rows": 5063,
+              "nonzero_rows": 3081,
+              "retained": true
+            },
+            "news_asset_reaction_vs_btc_pct": {
+              "observed_rows": 5063,
+              "nonzero_rows": 2762,
+              "retained": true
+            },
+            "news_asset_volume_reaction_log": {
+              "observed_rows": 5063,
+              "nonzero_rows": 3107,
+              "retained": true
+            }
+          }
+        }
+      ],
+      "short": [
+        {
+          "seed": 20261114,
+          "curve": [
+            {
+              "updates": 0,
+              "train_cost": 0.06937382348922007,
+              "validation_cost": 0.08530048159913876
+            },
+            {
+              "updates": 200,
+              "batch_objective_with_l2": 0.04542966330305638,
+              "train_cost": 0.04569649382249706,
+              "validation_cost": 0.05594135421074604
+            },
+            {
+              "updates": 600,
+              "batch_objective_with_l2": 0.02775664053888985,
+              "train_cost": 0.03708588675032429,
+              "validation_cost": 0.046618262350590495
+            },
+            {
+              "updates": 1500,
+              "batch_objective_with_l2": 0.03857183021602291,
+              "train_cost": 0.03530196539991473,
+              "validation_cost": 0.043120445971433156
+            },
+            {
+              "updates": 4000,
+              "batch_objective_with_l2": 0.03462872330785192,
+              "train_cost": 0.03279058466939445,
+              "validation_cost": 0.036064815921677554
+            }
+          ],
+          "features": {
+            "news_feed_observed": {
+              "observed_rows": 45360,
+              "nonzero_rows": 5613,
+              "retained": true
+            },
+            "news_analysis_observed": {
+              "observed_rows": 45360,
+              "nonzero_rows": 5627,
+              "retained": true
+            },
+            "news_asset_bullish_30m": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2895,
+              "retained": true
+            },
+            "news_asset_bearish_30m": {
+              "observed_rows": 5613,
+              "nonzero_rows": 3242,
+              "retained": true
+            },
+            "news_asset_count_30m": {
+              "observed_rows": 5613,
+              "nonzero_rows": 4178,
+              "retained": true
+            },
+            "news_asset_bullish_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2895,
+              "retained": true
+            },
+            "news_asset_bearish_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 3242,
+              "retained": true
+            },
+            "news_asset_count_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 4178,
+              "retained": true
+            },
+            "news_market_bullish_30m": {
+              "observed_rows": 5613,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_market_bearish_30m": {
+              "observed_rows": 5613,
+              "nonzero_rows": 370,
+              "retained": true
+            },
+            "news_market_count_30m": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2575,
+              "retained": true
+            },
+            "news_market_bullish_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_market_bearish_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 370,
+              "retained": true
+            },
+            "news_market_count_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2575,
+              "retained": true
+            },
+            "news_asset_listing_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 254,
+              "retained": true
+            },
+            "news_asset_security_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2941,
+              "retained": true
+            },
+            "news_asset_supply_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 1053,
+              "retained": true
+            },
+            "news_asset_adoption_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 1602,
+              "retained": true
+            },
+            "news_asset_macro_regulation_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2506,
+              "retained": true
+            },
+            "news_asset_other_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 3170,
+              "retained": true
+            },
+            "news_asset_confirmed_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 677,
+              "retained": true
+            },
+            "news_asset_rumor_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_asset_contradicted_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2377,
+              "retained": true
+            },
+            "news_asset_correction_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_latest_asset_freshness": {
+              "observed_rows": 5613,
+              "nonzero_rows": 4178,
+              "retained": true
+            },
+            "news_asset_reaction_pct": {
+              "observed_rows": 5613,
+              "nonzero_rows": 3545,
+              "retained": true
+            },
+            "news_asset_reaction_vs_btc_pct": {
+              "observed_rows": 5613,
+              "nonzero_rows": 3055,
+              "retained": true
+            },
+            "news_asset_volume_reaction_log": {
+              "observed_rows": 5613,
+              "nonzero_rows": 3550,
+              "retained": true
+            }
+          }
+        },
+        {
+          "seed": 20261115,
+          "curve": [
+            {
+              "updates": 0,
+              "train_cost": 0.07325800566761721,
+              "validation_cost": 0.08787573336584792
+            },
+            {
+              "updates": 200,
+              "batch_objective_with_l2": 0.04467281779501305,
+              "train_cost": 0.04159157115080625,
+              "validation_cost": 0.0484768085127345
+            },
+            {
+              "updates": 600,
+              "batch_objective_with_l2": 0.037587050741012734,
+              "train_cost": 0.03788529787952077,
+              "validation_cost": 0.04522258714185344
+            },
+            {
+              "updates": 1500,
+              "batch_objective_with_l2": 0.03656060656356849,
+              "train_cost": 0.03562902635713624,
+              "validation_cost": 0.04123893240617383
+            },
+            {
+              "updates": 4000,
+              "batch_objective_with_l2": 0.030055759680102153,
+              "train_cost": 0.0318305749597452,
+              "validation_cost": 0.035065241940880974
+            }
+          ],
+          "features": {
+            "news_feed_observed": {
+              "observed_rows": 45360,
+              "nonzero_rows": 5613,
+              "retained": true
+            },
+            "news_analysis_observed": {
+              "observed_rows": 45360,
+              "nonzero_rows": 5627,
+              "retained": true
+            },
+            "news_asset_bullish_30m": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2895,
+              "retained": true
+            },
+            "news_asset_bearish_30m": {
+              "observed_rows": 5613,
+              "nonzero_rows": 3242,
+              "retained": true
+            },
+            "news_asset_count_30m": {
+              "observed_rows": 5613,
+              "nonzero_rows": 4178,
+              "retained": true
+            },
+            "news_asset_bullish_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2895,
+              "retained": true
+            },
+            "news_asset_bearish_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 3242,
+              "retained": true
+            },
+            "news_asset_count_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 4178,
+              "retained": true
+            },
+            "news_market_bullish_30m": {
+              "observed_rows": 5613,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_market_bearish_30m": {
+              "observed_rows": 5613,
+              "nonzero_rows": 370,
+              "retained": true
+            },
+            "news_market_count_30m": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2575,
+              "retained": true
+            },
+            "news_market_bullish_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_market_bearish_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 370,
+              "retained": true
+            },
+            "news_market_count_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2575,
+              "retained": true
+            },
+            "news_asset_listing_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 254,
+              "retained": true
+            },
+            "news_asset_security_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2941,
+              "retained": true
+            },
+            "news_asset_supply_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 1053,
+              "retained": true
+            },
+            "news_asset_adoption_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 1602,
+              "retained": true
+            },
+            "news_asset_macro_regulation_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2506,
+              "retained": true
+            },
+            "news_asset_other_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 3170,
+              "retained": true
+            },
+            "news_asset_confirmed_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 677,
+              "retained": true
+            },
+            "news_asset_rumor_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_asset_contradicted_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2377,
+              "retained": true
+            },
+            "news_asset_correction_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_latest_asset_freshness": {
+              "observed_rows": 5613,
+              "nonzero_rows": 4178,
+              "retained": true
+            },
+            "news_asset_reaction_pct": {
+              "observed_rows": 5613,
+              "nonzero_rows": 3545,
+              "retained": true
+            },
+            "news_asset_reaction_vs_btc_pct": {
+              "observed_rows": 5613,
+              "nonzero_rows": 3055,
+              "retained": true
+            },
+            "news_asset_volume_reaction_log": {
+              "observed_rows": 5613,
+              "nonzero_rows": 3550,
+              "retained": true
+            }
+          }
+        },
+        {
+          "seed": 20261116,
+          "curve": [
+            {
+              "updates": 0,
+              "train_cost": 0.07118653592053169,
+              "validation_cost": 0.08562402893912736
+            },
+            {
+              "updates": 200,
+              "batch_objective_with_l2": 0.048962185980190476,
+              "train_cost": 0.04151974652277268,
+              "validation_cost": 0.046666695825798826
+            },
+            {
+              "updates": 600,
+              "batch_objective_with_l2": 0.026606415737627603,
+              "train_cost": 0.03566463279559412,
+              "validation_cost": 0.04147144340966098
+            },
+            {
+              "updates": 1500,
+              "batch_objective_with_l2": 0.026201175552941547,
+              "train_cost": 0.03538043646687062,
+              "validation_cost": 0.04100440917571916
+            },
+            {
+              "updates": 4000,
+              "batch_objective_with_l2": 0.03724432991520791,
+              "train_cost": 0.033972774274751004,
+              "validation_cost": 0.03859351912980146
+            }
+          ],
+          "features": {
+            "news_feed_observed": {
+              "observed_rows": 45360,
+              "nonzero_rows": 5613,
+              "retained": true
+            },
+            "news_analysis_observed": {
+              "observed_rows": 45360,
+              "nonzero_rows": 5627,
+              "retained": true
+            },
+            "news_asset_bullish_30m": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2895,
+              "retained": true
+            },
+            "news_asset_bearish_30m": {
+              "observed_rows": 5613,
+              "nonzero_rows": 3242,
+              "retained": true
+            },
+            "news_asset_count_30m": {
+              "observed_rows": 5613,
+              "nonzero_rows": 4178,
+              "retained": true
+            },
+            "news_asset_bullish_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2895,
+              "retained": true
+            },
+            "news_asset_bearish_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 3242,
+              "retained": true
+            },
+            "news_asset_count_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 4178,
+              "retained": true
+            },
+            "news_market_bullish_30m": {
+              "observed_rows": 5613,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_market_bearish_30m": {
+              "observed_rows": 5613,
+              "nonzero_rows": 370,
+              "retained": true
+            },
+            "news_market_count_30m": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2575,
+              "retained": true
+            },
+            "news_market_bullish_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_market_bearish_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 370,
+              "retained": true
+            },
+            "news_market_count_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2575,
+              "retained": true
+            },
+            "news_asset_listing_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 254,
+              "retained": true
+            },
+            "news_asset_security_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2941,
+              "retained": true
+            },
+            "news_asset_supply_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 1053,
+              "retained": true
+            },
+            "news_asset_adoption_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 1602,
+              "retained": true
+            },
+            "news_asset_macro_regulation_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2506,
+              "retained": true
+            },
+            "news_asset_other_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 3170,
+              "retained": true
+            },
+            "news_asset_confirmed_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 677,
+              "retained": true
+            },
+            "news_asset_rumor_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_asset_contradicted_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 2377,
+              "retained": true
+            },
+            "news_asset_correction_4h": {
+              "observed_rows": 5613,
+              "nonzero_rows": 0,
+              "retained": false
+            },
+            "news_latest_asset_freshness": {
+              "observed_rows": 5613,
+              "nonzero_rows": 4178,
+              "retained": true
+            },
+            "news_asset_reaction_pct": {
+              "observed_rows": 5613,
+              "nonzero_rows": 3545,
+              "retained": true
+            },
+            "news_asset_reaction_vs_btc_pct": {
+              "observed_rows": 5613,
+              "nonzero_rows": 3055,
+              "retained": true
+            },
+            "news_asset_volume_reaction_log": {
+              "observed_rows": 5613,
+              "nonzero_rows": 3550,
+              "retained": true
+            }
+          }
+        }
+      ]
+    }
+  },
+  "bundles": {
+    "coverage_only": {
+      "file": "coverage_only-four-models.joblib",
+      "sha256": "d128e461f215384c6ee521909ceae6350857499ee3ac8edc8b631790e01fb3fc"
+    },
+    "news": {
+      "file": "news-four-models.joblib",
+      "sha256": "703140e9344679999b01a0fb83c74e58b106c862f68db602f9fd60b7f8807803"
+    }
+  }
+}

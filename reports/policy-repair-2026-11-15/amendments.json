@@ -1,0 +1,11 @@
+{
+  "purpose": "Correct discovered data and comparison defects; no thresholds or selection rules tuned to test profit.",
+  "changes": [
+    "Before the first replay, native volatility windows additionally require their preceding close and volume-ratio features require both contributing windows. All 48 models retrained.",
+    "Baseline comparison preserves the old missing-fill behavior; repaired policies retain pending exit requests. Baseline replay rerun.",
+    "Final source audit found legacy five-minute bars allowed four observed one-minute candles. Past completeness now counts all five raw minutes; archive end comes from the final valid raw minute. All 48 models and all replays regenerated. Earlier results preserved externally and are not final results.",
+    "Restored detector opportunities previously omitted because their future entry execution price was absent. Original IDs and training matrices remain fixed; restored outcomes are unknown, and qualifying unpriced entries censor replay profit rather than disappearing. All validation selection and test replays rerun on the expanded causal candidate universe."
+  ],
+  "historical_research_holdout": false,
+  "fees": 0
+}

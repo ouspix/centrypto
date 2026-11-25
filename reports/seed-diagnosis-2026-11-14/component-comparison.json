@@ -1,0 +1,22 @@
+[
+  {
+    "changed": "Entry models",
+    "B_pnl": 74.8073690345977,
+    "C_pnl": 53.74688385675518
+  },
+  {
+    "changed": "Exit models",
+    "B_pnl": 118.81211603845475,
+    "C_pnl": 185.1881057653749
+  },
+  {
+    "changed": "Threshold/cash policies",
+    "B_pnl": -156.63410485032932,
+    "C_pnl": -109.42078094091542
+  },
+  {
+    "changed": "All components",
+    "B_pnl": -128.8502617254095,
+    "C_pnl": -103.74858220196116
+  }
+]

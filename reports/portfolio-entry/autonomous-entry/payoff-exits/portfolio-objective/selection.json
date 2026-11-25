@@ -1,0 +1,186 @@
+{
+  "selected_step": 150,
+  "checkpoints": {
+    "50": {
+      "min_closed": 502,
+      "worst_win_rate": 0.6877394636015326,
+      "worst_net": -269.5222574203676,
+      "utility": 0.47125572270163896,
+      "volume_qualified": true,
+      "target_met": false
+    },
+    "100": {
+      "min_closed": 556,
+      "worst_win_rate": 0.7068345323741008,
+      "worst_net": -224.59195125672431,
+      "utility": 0.5264393908024346,
+      "volume_qualified": true,
+      "target_met": false
+    },
+    "150": {
+      "min_closed": 532,
+      "worst_win_rate": 0.7142857142857143,
+      "worst_net": -228.15921568281738,
+      "utility": 0.5310253000826481,
+      "volume_qualified": true,
+      "target_met": false
+    },
+    "200": {
+      "min_closed": 629,
+      "worst_win_rate": 0.7186009538950715,
+      "worst_net": -303.75642192948476,
+      "utility": 0.4746198921043207,
+      "volume_qualified": true,
+      "target_met": false
+    },
+    "250": {
+      "min_closed": 629,
+      "worst_win_rate": 0.7186009538950715,
+      "worst_net": -303.75642192948476,
+      "utility": 0.4746198921043207,
+      "volume_qualified": true,
+      "target_met": false
+    }
+  },
+  "validation": {
+    "modes": {
+      "base": {
+        "net": -211.83210546567489,
+        "max_drawdown": 226.0619629019959,
+        "rejects": {
+          "busy": 7521,
+          "slippage_limit": 165,
+          "daily_loss": 332
+        },
+        "cutoff_closes": {
+          "fills": 1,
+          "closed": 1,
+          "wins": 1,
+          "losses": 0,
+          "break_even": 0,
+          "win_rate": 1.0,
+          "average_win": 0.763831902387026,
+          "average_loss": null,
+          "realized_net": 0.763831902387026
+        },
+        "fills": 571,
+        "closed": 571,
+        "wins": 416,
+        "losses": 155,
+        "break_even": 0,
+        "win_rate": 0.7285464098073555,
+        "average_win": 1.559445649021196,
+        "average_loss": -5.552009648119307,
+        "realized_net": -211.83210546567514,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "open_marked_pnl": 0,
+        "missing_funding_hours": 0,
+        "by_side": {
+          "long": {
+            "fills": 299,
+            "closed": 299,
+            "wins": 269,
+            "losses": 30,
+            "break_even": 0,
+            "win_rate": 0.8996655518394648,
+            "average_win": 0.5420117872481324,
+            "average_loss": -6.049797305643895,
+            "realized_net": -35.69274839956926
+          },
+          "short": {
+            "fills": 272,
+            "closed": 272,
+            "wins": 147,
+            "losses": 125,
+            "break_even": 0,
+            "win_rate": 0.5404411764705882,
+            "average_win": 3.4212804028780264,
+            "average_loss": -5.432540610313407,
+            "realized_net": -176.1393570661059
+          }
+        }
+      },
+      "stress": {
+        "net": -228.15921568281738,
+        "max_drawdown": 242.48964687618547,
+        "rejects": {
+          "busy": 7294,
+          "slippage_limit": 225,
+          "daily_loss": 508
+        },
+        "cutoff_closes": {
+          "fills": 3,
+          "closed": 3,
+          "wins": 1,
+          "losses": 2,
+          "break_even": 0,
+          "win_rate": 0.3333333333333333,
+          "average_win": 0.7462505137817791,
+          "average_loss": -3.40184729477107,
+          "realized_net": -6.057444075760361
+        },
+        "fills": 532,
+        "closed": 532,
+        "wins": 380,
+        "losses": 152,
+        "break_even": 0,
+        "win_rate": 0.7142857142857143,
+        "average_win": 1.6284482568720389,
+        "average_loss": -5.572168113777581,
+        "realized_net": -228.15921568281755,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "open_marked_pnl": 0,
+        "missing_funding_hours": 37,
+        "by_side": {
+          "long": {
+            "fills": 269,
+            "closed": 269,
+            "wins": 240,
+            "losses": 29,
+            "break_even": 0,
+            "win_rate": 0.8921933085501859,
+            "average_win": 0.5048487318643703,
+            "average_loss": -6.073234205406651,
+            "realized_net": -54.960096309343996
+          },
+          "short": {
+            "fills": 263,
+            "closed": 263,
+            "wins": 140,
+            "losses": 123,
+            "break_even": 0,
+            "win_rate": 0.532319391634981,
+            "average_win": 3.554618871170899,
+            "average_loss": -5.454030579978856,
+            "realized_net": -173.19911937347354
+          }
+        }
+      }
+    },
+    "objective": {
+      "min_closed": 532,
+      "worst_win_rate": 0.7142857142857143,
+      "worst_net": -228.15921568281738,
+      "utility": 0.5310253000826481,
+      "volume_qualified": true,
+      "target_met": false
+    },
+    "ledger": "647318739951cb72dd3dfaf657be1d7c99e80d55a33e897d96491a6a597f221d",
+    "audit": {
+      "validation:base": {
+        "fills": 571,
+        "closed": 571,
+        "wins": 416,
+        "cutoff": 1
+      },
+      "validation:stress": {
+        "fills": 532,
+        "closed": 532,
+        "wins": 380,
+        "cutoff": 3
+      }
+    }
+  }
+}

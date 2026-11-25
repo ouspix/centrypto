@@ -1,0 +1,610 @@
+{
+  "window": [
+    "2026-03-01T00:00:00+00:00",
+    "2026-08-22T00:00:00+00:00"
+  ],
+  "stage": "exit fit",
+  "fixed_value_model": true,
+  "frozen_model": "0ea9c07a4e58ac8a5bfc0f5769a873d0807866672c9d0d1d1cb9e5571b8229f4",
+  "exact_fit_reproduction": true,
+  "checkpoints": [
+    {
+      "step": 1,
+      "modes": {
+        "base": {
+          "net": -58.712119350193234,
+          "wins": 263,
+          "closed": 551,
+          "win_rate": 0.47731397459165154,
+          "fills": 551,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        },
+        "stress": {
+          "net": -116.78682856028217,
+          "wins": 241,
+          "closed": 518,
+          "win_rate": 0.46525096525096526,
+          "fills": 518,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        }
+      }
+    },
+    {
+      "step": 10,
+      "modes": {
+        "base": {
+          "net": -93.79909071484371,
+          "wins": 274,
+          "closed": 676,
+          "win_rate": 0.40532544378698226,
+          "fills": 676,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        },
+        "stress": {
+          "net": -45.86236683834136,
+          "wins": 264,
+          "closed": 642,
+          "win_rate": 0.411214953271028,
+          "fills": 642,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        }
+      }
+    },
+    {
+      "step": 20,
+      "modes": {
+        "base": {
+          "net": 4.392032771816048,
+          "wins": 177,
+          "closed": 467,
+          "win_rate": 0.37901498929336186,
+          "fills": 467,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        },
+        "stress": {
+          "net": -17.875029630738027,
+          "wins": 164,
+          "closed": 435,
+          "win_rate": 0.37701149425287356,
+          "fills": 435,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        }
+      }
+    },
+    {
+      "step": 30,
+      "modes": {
+        "base": {
+          "net": -48.33058970175148,
+          "wins": 143,
+          "closed": 388,
+          "win_rate": 0.36855670103092786,
+          "fills": 388,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        },
+        "stress": {
+          "net": -49.94031675981887,
+          "wins": 143,
+          "closed": 391,
+          "win_rate": 0.3657289002557545,
+          "fills": 391,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        }
+      }
+    },
+    {
+      "step": 40,
+      "modes": {
+        "base": {
+          "net": -78.65856895060824,
+          "wins": 127,
+          "closed": 370,
+          "win_rate": 0.34324324324324323,
+          "fills": 370,
+          "ending_open": 0,
+          "missing_funding_hours": 1
+        },
+        "stress": {
+          "net": 10.435609059516992,
+          "wins": 125,
+          "closed": 358,
+          "win_rate": 0.34916201117318435,
+          "fills": 358,
+          "ending_open": 0,
+          "missing_funding_hours": 1
+        }
+      }
+    },
+    {
+      "step": 50,
+      "modes": {
+        "base": {
+          "net": -69.93235369355216,
+          "wins": 117,
+          "closed": 370,
+          "win_rate": 0.3162162162162162,
+          "fills": 370,
+          "ending_open": 0,
+          "missing_funding_hours": 9
+        },
+        "stress": {
+          "net": -120.2652752133979,
+          "wins": 112,
+          "closed": 359,
+          "win_rate": 0.31197771587743733,
+          "fills": 359,
+          "ending_open": 0,
+          "missing_funding_hours": 9
+        }
+      }
+    },
+    {
+      "step": 60,
+      "modes": {
+        "base": {
+          "net": 14.181921919658407,
+          "wins": 107,
+          "closed": 376,
+          "win_rate": 0.2845744680851064,
+          "fills": 376,
+          "ending_open": 0,
+          "missing_funding_hours": 40
+        },
+        "stress": {
+          "net": -165.57633518687908,
+          "wins": 96,
+          "closed": 353,
+          "win_rate": 0.2719546742209632,
+          "fills": 353,
+          "ending_open": 0,
+          "missing_funding_hours": 9
+        }
+      }
+    },
+    {
+      "step": 70,
+      "modes": {
+        "base": {
+          "net": -150.55405647256316,
+          "wins": 95,
+          "closed": 368,
+          "win_rate": 0.25815217391304346,
+          "fills": 368,
+          "ending_open": 0,
+          "missing_funding_hours": 40
+        },
+        "stress": {
+          "net": -245.46191670976452,
+          "wins": 85,
+          "closed": 353,
+          "win_rate": 0.24079320113314448,
+          "fills": 353,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        }
+      }
+    },
+    {
+      "step": 80,
+      "modes": {
+        "base": {
+          "net": -111.07619037014979,
+          "wins": 84,
+          "closed": 350,
+          "win_rate": 0.24,
+          "fills": 350,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        },
+        "stress": {
+          "net": -66.11601639414403,
+          "wins": 95,
+          "closed": 368,
+          "win_rate": 0.25815217391304346,
+          "fills": 368,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        }
+      }
+    },
+    {
+      "step": 90,
+      "modes": {
+        "base": {
+          "net": -197.67133453306224,
+          "wins": 78,
+          "closed": 354,
+          "win_rate": 0.22033898305084745,
+          "fills": 354,
+          "ending_open": 0,
+          "missing_funding_hours": 40
+        },
+        "stress": {
+          "net": -202.41413899374447,
+          "wins": 86,
+          "closed": 359,
+          "win_rate": 0.2395543175487465,
+          "fills": 359,
+          "ending_open": 0,
+          "missing_funding_hours": 40
+        }
+      }
+    },
+    {
+      "step": 100,
+      "modes": {
+        "base": {
+          "net": -166.3139179737866,
+          "wins": 77,
+          "closed": 339,
+          "win_rate": 0.22713864306784662,
+          "fills": 339,
+          "ending_open": 0,
+          "missing_funding_hours": 40
+        },
+        "stress": {
+          "net": -176.16888467983154,
+          "wins": 81,
+          "closed": 341,
+          "win_rate": 0.2375366568914956,
+          "fills": 341,
+          "ending_open": 0,
+          "missing_funding_hours": 40
+        }
+      }
+    },
+    {
+      "step": 110,
+      "modes": {
+        "base": {
+          "net": -213.86870124382494,
+          "wins": 71,
+          "closed": 334,
+          "win_rate": 0.2125748502994012,
+          "fills": 334,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        },
+        "stress": {
+          "net": -244.18380224086445,
+          "wins": 71,
+          "closed": 343,
+          "win_rate": 0.20699708454810495,
+          "fills": 343,
+          "ending_open": 0,
+          "missing_funding_hours": 40
+        }
+      }
+    },
+    {
+      "step": 120,
+      "modes": {
+        "base": {
+          "net": -173.41441312081542,
+          "wins": 65,
+          "closed": 316,
+          "win_rate": 0.20569620253164558,
+          "fills": 316,
+          "ending_open": 0,
+          "missing_funding_hours": 40
+        },
+        "stress": {
+          "net": -176.58398397833253,
+          "wins": 73,
+          "closed": 327,
+          "win_rate": 0.22324159021406728,
+          "fills": 327,
+          "ending_open": 0,
+          "missing_funding_hours": 40
+        }
+      }
+    },
+    {
+      "step": 130,
+      "modes": {
+        "base": {
+          "net": -138.0387931540688,
+          "wins": 67,
+          "closed": 309,
+          "win_rate": 0.2168284789644013,
+          "fills": 309,
+          "ending_open": 0,
+          "missing_funding_hours": 40
+        },
+        "stress": {
+          "net": -157.779503188508,
+          "wins": 65,
+          "closed": 292,
+          "win_rate": 0.2226027397260274,
+          "fills": 292,
+          "ending_open": 0,
+          "missing_funding_hours": 40
+        }
+      }
+    },
+    {
+      "step": 140,
+      "modes": {
+        "base": {
+          "net": -96.21802789207868,
+          "wins": 69,
+          "closed": 307,
+          "win_rate": 0.2247557003257329,
+          "fills": 307,
+          "ending_open": 0,
+          "missing_funding_hours": 40
+        },
+        "stress": {
+          "net": -181.71203647294328,
+          "wins": 71,
+          "closed": 322,
+          "win_rate": 0.2204968944099379,
+          "fills": 322,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        }
+      }
+    },
+    {
+      "step": 150,
+      "modes": {
+        "base": {
+          "net": -172.43154054190882,
+          "wins": 57,
+          "closed": 293,
+          "win_rate": 0.1945392491467577,
+          "fills": 293,
+          "ending_open": 0,
+          "missing_funding_hours": 40
+        },
+        "stress": {
+          "net": -209.4573176795766,
+          "wins": 64,
+          "closed": 309,
+          "win_rate": 0.20711974110032363,
+          "fills": 309,
+          "ending_open": 0,
+          "missing_funding_hours": 40
+        }
+      }
+    },
+    {
+      "step": 160,
+      "modes": {
+        "base": {
+          "net": -177.7988282337128,
+          "wins": 58,
+          "closed": 298,
+          "win_rate": 0.19463087248322147,
+          "fills": 298,
+          "ending_open": 0,
+          "missing_funding_hours": 37
+        },
+        "stress": {
+          "net": -121.97448165748438,
+          "wins": 61,
+          "closed": 288,
+          "win_rate": 0.21180555555555555,
+          "fills": 288,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        }
+      }
+    },
+    {
+      "step": 170,
+      "modes": {
+        "base": {
+          "net": -125.314966983271,
+          "wins": 49,
+          "closed": 270,
+          "win_rate": 0.1814814814814815,
+          "fills": 270,
+          "ending_open": 0,
+          "missing_funding_hours": 40
+        },
+        "stress": {
+          "net": -187.3242751635662,
+          "wins": 55,
+          "closed": 266,
+          "win_rate": 0.20676691729323307,
+          "fills": 266,
+          "ending_open": 0,
+          "missing_funding_hours": 40
+        }
+      }
+    },
+    {
+      "step": 180,
+      "modes": {
+        "base": {
+          "net": -288.98434614601535,
+          "wins": 53,
+          "closed": 279,
+          "win_rate": 0.18996415770609318,
+          "fills": 279,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        },
+        "stress": {
+          "net": -183.70742379665148,
+          "wins": 53,
+          "closed": 278,
+          "win_rate": 0.1906474820143885,
+          "fills": 278,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        }
+      }
+    },
+    {
+      "step": 190,
+      "modes": {
+        "base": {
+          "net": -272.94162051215926,
+          "wins": 49,
+          "closed": 272,
+          "win_rate": 0.1801470588235294,
+          "fills": 272,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        },
+        "stress": {
+          "net": -132.23145672814076,
+          "wins": 58,
+          "closed": 275,
+          "win_rate": 0.2109090909090909,
+          "fills": 275,
+          "ending_open": 0,
+          "missing_funding_hours": 40
+        }
+      }
+    },
+    {
+      "step": 200,
+      "modes": {
+        "base": {
+          "net": -286.17558462980776,
+          "wins": 54,
+          "closed": 295,
+          "win_rate": 0.18305084745762712,
+          "fills": 295,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        },
+        "stress": {
+          "net": -203.92773613287704,
+          "wins": 59,
+          "closed": 291,
+          "win_rate": 0.2027491408934708,
+          "fills": 291,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        }
+      }
+    },
+    {
+      "step": 210,
+      "modes": {
+        "base": {
+          "net": -167.50565423131434,
+          "wins": 50,
+          "closed": 273,
+          "win_rate": 0.18315018315018314,
+          "fills": 273,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        },
+        "stress": {
+          "net": -88.0713465937597,
+          "wins": 54,
+          "closed": 258,
+          "win_rate": 0.20930232558139536,
+          "fills": 258,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        }
+      }
+    },
+    {
+      "step": 220,
+      "modes": {
+        "base": {
+          "net": -178.86996940648737,
+          "wins": 44,
+          "closed": 236,
+          "win_rate": 0.1864406779661017,
+          "fills": 236,
+          "ending_open": 0,
+          "missing_funding_hours": 40
+        },
+        "stress": {
+          "net": -96.99508348547761,
+          "wins": 50,
+          "closed": 278,
+          "win_rate": 0.17985611510791366,
+          "fills": 278,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        }
+      }
+    },
+    {
+      "step": 230,
+      "modes": {
+        "base": {
+          "net": -199.6940918640862,
+          "wins": 48,
+          "closed": 263,
+          "win_rate": 0.18250950570342206,
+          "fills": 263,
+          "ending_open": 0,
+          "missing_funding_hours": 40
+        },
+        "stress": {
+          "net": -14.302025079151235,
+          "wins": 54,
+          "closed": 244,
+          "win_rate": 0.22131147540983606,
+          "fills": 244,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        }
+      }
+    },
+    {
+      "step": 240,
+      "modes": {
+        "base": {
+          "net": 24.23052678943327,
+          "wins": 65,
+          "closed": 320,
+          "win_rate": 0.203125,
+          "fills": 320,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        },
+        "stress": {
+          "net": -78.328408980429,
+          "wins": 51,
+          "closed": 255,
+          "win_rate": 0.2,
+          "fills": 255,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        }
+      }
+    },
+    {
+      "step": 250,
+      "modes": {
+        "base": {
+          "net": -160.16450170048256,
+          "wins": 56,
+          "closed": 290,
+          "win_rate": 0.19310344827586207,
+          "fills": 290,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        },
+        "stress": {
+          "net": -193.8233918719775,
+          "wins": 53,
+          "closed": 292,
+          "win_rate": 0.1815068493150685,
+          "fills": 292,
+          "ending_open": 0,
+          "missing_funding_hours": 0
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "alerts": 3166,
+  "alert_symbols": 184,
+  "unique_signal_episodes": 3016,
+  "candidate_entries": 1742,
+  "entry_episodes": 1136,
+  "source_candle_rows": 8984010,
+  "invalid_candles": 0,
+  "entries_by_period": {
+    "apr": 58,
+    "mayjun": 1123,
+    "recent": 561
+  },
+  "entries_by_mode": {
+    "continuation": 670,
+    "immediate": 1072
+  },
+  "dates_with_entries": 37,
+  "original_rows_reconciled": 321,
+  "original_rows_missing": 0,
+  "rejections": {
+    "continuation:0:entry_unavailable": 201,
+    "continuation:5:entry_unavailable": 201,
+    "continuation:10:entry_unavailable": 201,
+    "immediate:0:insufficient_prior_volume_for_100_usd": 1807,
+    "immediate:5:insufficient_prior_volume_for_100_usd": 1807,
+    "immediate:10:insufficient_prior_volume_for_100_usd": 1807,
+    "continuation:0:insufficient_prior_volume_for_100_usd": 2000,
+    "continuation:5:insufficient_prior_volume_for_100_usd": 2000,
+    "continuation:10:insufficient_prior_volume_for_100_usd": 2000,
+    "immediate:0:entry_unavailable": 282,
+    "immediate:5:entry_unavailable": 282,
+    "immediate:10:entry_unavailable": 282,
+    "continuation:no_resumption_before_expiry": 237,
+    "continuation:0:stop_outside_0.2_to_8_percent": 31,
+    "immediate:0:stop_outside_0.2_to_8_percent": 4,
+    "immediate:5:stop_outside_0.2_to_8_percent": 4,
+    "immediate:10:stop_outside_0.2_to_8_percent": 4,
+    "continuation:setup_data_gap": 24,
+    "continuation:5:stop_outside_0.2_to_8_percent": 14,
+    "continuation:10:stop_outside_0.2_to_8_percent": 6,
+    "unresolved_outcome": 3,
+    "duplicate_strategy_entry": 9
+  }
+}

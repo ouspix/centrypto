@@ -1,0 +1,54 @@
+{
+  "sides": {
+    "long": {
+      "cash": false,
+      "entry_threshold": 0.9,
+      "exit_threshold": 0.5,
+      "validation_pnl_usd": 11.56184864297536
+    },
+    "short": {
+      "cash": false,
+      "entry_threshold": 0.5,
+      "exit_threshold": 0.5,
+      "validation_pnl_usd": 90.54664024984754
+    }
+  },
+  "pairs": [
+    [
+      3,
+      12
+    ],
+    [
+      5,
+      20
+    ],
+    [
+      8,
+      30
+    ],
+    [
+      10,
+      30
+    ],
+    [
+      10,
+      50
+    ],
+    [
+      20,
+      50
+    ],
+    [
+      20,
+      80
+    ],
+    [
+      30,
+      80
+    ]
+  ],
+  "entry_window_minutes": 60,
+  "holding_limit_minutes": 1440,
+  "fees": 0,
+  "research_only": true
+}

@@ -1,0 +1,19 @@
+{
+  "rows": 5944,
+  "worst_mandatory": {
+    "fold": "2026-06-01T00:00:00Z",
+    "side": "short",
+    "stage": "exit",
+    "seed": 20261116,
+    "feature": "sma_gap_20_80",
+    "group": "mandatory",
+    "rows": 1514,
+    "retained": true,
+    "observed_pct": 55.680317040951124,
+    "imputed_pct": 44.319682959048876,
+    "dropped_pct": 0,
+    "stale_tick_pct": 0.0,
+    "scope": "every model decision state on actually selected full-model positions"
+  },
+  "publication_limits": "No independent publishedAt/receivedAt timestamps. Tick stale means exceeding the feature\u2019s 60/120-second record-time limit; price-bar publication latency is not certified."
+}

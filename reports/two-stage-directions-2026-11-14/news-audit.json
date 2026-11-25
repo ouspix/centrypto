@@ -1,0 +1,287 @@
+{
+  "as_of": "2026-11-14T10:26:56.462Z",
+  "today_start_paris": "2026-11-13T23:00:00.000Z",
+  "read_only": true,
+  "documents": {
+    "total": 11813,
+    "unique_story_hashes": 11679,
+    "first_available": "2026-10-31T09:46:30.819Z",
+    "last_available": "2026-11-14T10:22:27.344Z",
+    "today_ingested": 283,
+    "today_status": {
+      "analyzed": 283
+    }
+  },
+  "all": {
+    "analyses": 2883,
+    "signal_revisions": 4182,
+    "unique_event_keys": 3414,
+    "direction": {
+      "bearish": 1107,
+      "mixed": 773,
+      "bullish": 643,
+      "neutral": 1659
+    },
+    "claim_type": {
+      "reported_claim": 3884,
+      "confirmed_announcement": 161,
+      "opinion": 137
+    },
+    "horizon": {
+      "short_term": 2221,
+      "day_scale": 1961
+    },
+    "confidence": {
+      "observed": 4182,
+      "min": 0.18,
+      "median": 0.74,
+      "max": 1
+    },
+    "materiality": {
+      "observed": 4182,
+      "min": 0.05,
+      "median": 0.38,
+      "max": 0.98
+    },
+    "category_distinct": 812,
+    "category_top": {
+      "crypto_security_incident": 159,
+      "exchange_operations": 112,
+      "etf_flows": 106,
+      "market_data": 105,
+      "derivatives_liquidations": 80,
+      "security_incident": 75,
+      "derivatives_positioning": 71,
+      "corporate_treasury": 61,
+      "onchain_activity": 59,
+      "crypto_regulation": 58,
+      "market_commentary": 57,
+      "exchange_security_recovery": 55,
+      "onchain_transfer": 51,
+      "exchange_listing": 46,
+      "onchain_transfers": 44,
+      "protocol_development": 42,
+      "market_analysis": 41,
+      "large_holder_position": 41,
+      "exchange_flows": 39,
+      "regulatory_policy": 39
+    },
+    "with_facts": 3518,
+    "with_explicit_direct_or_indirect_asset_targets": 1309,
+    "with_multiple_symbols": 574,
+    "with_multiple_explicit_asset_targets": 178,
+    "with_contradictions": 338,
+    "target_relation": {
+      "collateral": 27,
+      "direct": 2181,
+      "venue": 727,
+      "unresolved": 223,
+      "market": 252,
+      "indirect": 93
+    },
+    "target_channel": {
+      "collateral": 47,
+      "none": 1126,
+      "settlement": 32,
+      "capacity": 342,
+      "supply": 476,
+      "demand": 636,
+      "liquidity": 685,
+      "rates": 106,
+      "cashflow": 53
+    },
+    "target_instrument_kind": {
+      "asset": 2421,
+      "perp": 432,
+      "spot": 650
+    },
+    "fact_change": {
+      "repeat": 960,
+      "update": 463,
+      "announcement": 2057,
+      "resolution": 34,
+      "correction": 4
+    },
+    "fact_impact": {
+      "operational_risk": 667,
+      "background": 1939,
+      "catalyst": 675,
+      "scheduled": 237
+    },
+    "legacy_symbol_links": 3866,
+    "legacy_symbol_links_without_explicit_asset_target": 2319,
+    "signal_fields": [
+      "category",
+      "claimType",
+      "confidence",
+      "contradictions",
+      "corroboration",
+      "direction",
+      "eventKey",
+      "evidenceIds",
+      "expiresAt",
+      "facts",
+      "horizon",
+      "materiality",
+      "summary",
+      "symbols"
+    ],
+    "fact_fields": [
+      "change",
+      "deadline",
+      "factKey",
+      "impact",
+      "origins",
+      "subject",
+      "targets"
+    ],
+    "target_fields": [
+      "channel",
+      "contract",
+      "instrumentKind",
+      "mechanism",
+      "quote",
+      "relation",
+      "symbol"
+    ]
+  },
+  "today": {
+    "analyses": 103,
+    "signal_revisions": 158,
+    "unique_event_keys": 132,
+    "direction": {
+      "bearish": 64,
+      "neutral": 41,
+      "mixed": 31,
+      "bullish": 22
+    },
+    "claim_type": {
+      "opinion": 5,
+      "reported_claim": 150,
+      "confirmed_announcement": 3
+    },
+    "horizon": {
+      "day_scale": 62,
+      "short_term": 96
+    },
+    "confidence": {
+      "observed": 158,
+      "min": 0.35,
+      "median": 0.72,
+      "max": 0.98
+    },
+    "materiality": {
+      "observed": 158,
+      "min": 0.1,
+      "median": 0.36,
+      "max": 0.78
+    },
+    "category_distinct": 51,
+    "category_top": {
+      "leveraged_position_risk": 15,
+      "onchain_transfers": 14,
+      "etf_flows": 13,
+      "market_liquidations": 9,
+      "onchain_buying": 6,
+      "market_data": 6,
+      "corporate_treasury": 6,
+      "onchain_flows": 6,
+      "exchange_operations": 5,
+      "onchain_market_analysis": 5,
+      "corporate_governance": 4,
+      "cybersecurity": 4,
+      "onchain_trading": 4,
+      "crypto_policy": 4,
+      "market_microstructure": 4,
+      "market_sentiment": 3,
+      "governance_product_strategy": 3,
+      "market_opinion": 3,
+      "bitcoin_mining": 3,
+      "market_outlook": 2
+    },
+    "with_facts": 158,
+    "with_explicit_direct_or_indirect_asset_targets": 87,
+    "with_multiple_symbols": 11,
+    "with_multiple_explicit_asset_targets": 4,
+    "with_contradictions": 6,
+    "target_relation": {
+      "direct": 124,
+      "unresolved": 11,
+      "market": 10,
+      "indirect": 1,
+      "venue": 21
+    },
+    "target_channel": {
+      "none": 51,
+      "supply": 36,
+      "capacity": 8,
+      "demand": 33,
+      "liquidity": 38,
+      "settlement": 1
+    },
+    "target_instrument_kind": {
+      "asset": 108,
+      "perp": 27,
+      "spot": 32
+    },
+    "fact_change": {
+      "announcement": 91,
+      "update": 18,
+      "repeat": 48,
+      "resolution": 1
+    },
+    "fact_impact": {
+      "background": 102,
+      "catalyst": 30,
+      "scheduled": 4,
+      "operational_risk": 22
+    },
+    "legacy_symbol_links": 151,
+    "legacy_symbol_links_without_explicit_asset_target": 58,
+    "signal_fields": [
+      "category",
+      "claimType",
+      "confidence",
+      "contradictions",
+      "corroboration",
+      "direction",
+      "eventKey",
+      "evidenceIds",
+      "expiresAt",
+      "facts",
+      "horizon",
+      "materiality",
+      "summary",
+      "symbols"
+    ],
+    "fact_fields": [
+      "change",
+      "deadline",
+      "factKey",
+      "impact",
+      "origins",
+      "subject",
+      "targets"
+    ],
+    "target_fields": [
+      "channel",
+      "contract",
+      "instrumentKind",
+      "mechanism",
+      "quote",
+      "relation",
+      "symbol"
+    ]
+  },
+  "immutable_revision_rows": 3518,
+  "missing_evidence_signal_revisions": 0,
+  "latest_active_events": 221,
+  "latest_active_directions": {
+    "neutral": 95,
+    "bearish": 37,
+    "mixed": 58,
+    "bullish": 31
+  },
+  "latest_active_asset_links": 79,
+  "note": "Signal counts are immutable analysis appearances, not independent stories or trades. Today is ingestion/analysis availability on 14 Nov in Europe/Paris. No raw article text exported."
+}

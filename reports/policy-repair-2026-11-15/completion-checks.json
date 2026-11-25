@@ -1,0 +1,12 @@
+{
+  "python_tests": 7,
+  "collector_tests": 10,
+  "typescript": "passed",
+  "sqlite_schema": "passed",
+  "postgres_schema": "passed",
+  "desktop_render": "passed",
+  "mobile_render": "passed",
+  "collector": "active",
+  "trading_models": "offline_only",
+  "historical_publication_timing": "unverifiable"
+}

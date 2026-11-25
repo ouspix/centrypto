@@ -1,0 +1,61 @@
+{
+  "lockedAt": "2026-11-13T20:34:33.021441+00:00",
+  "note": "Fixed before expanded-model fitting; all previous replay outcomes are acknowledged as already inspected. No hyperparameter or selection-threshold tuning on outer-fold results.",
+  "files": {
+    "spec.json": "0db168f7df4e51d71e7aa5dbf5caf86294d1954f72c6c43582446512def99622",
+    "common.py": "f9899c54e1db0545be0bf9e1df079d91f2d1bf07d6942f1a163cb20fa06317a0",
+    "news.py": "bde27c899a89dc97734a105bbbb1aef759397c13c5174b4bd7aeb0f10716484f",
+    "build-cohort.py": "270d33e5693f8a00cf6ec06cf0e9d5f90addf661b5d8a483d82c9fcfbcb64f6f",
+    "build-features.py": "271a8b0ad889e58d4f5584da9a96bc1c272c10ec95d5e9322f61ea89feee1268",
+    "reduction.py": "50869b3a19bf4ad9b773720b046a12beef8b941086c8cfd59c2fb8a0c8e757c2",
+    "train.py": "f1b5025f5fe3714c2c21bbfe88476da45906b2f09829cf319561cda59312e470",
+    "features.npz": "384d5ad64cedf5b9e306a676cda3e80581d409996bf4b62257f7125c0c18629a",
+    "entry-metadata.json": "763032098cd2f4563a3c309b9e13579b23e64a0bc1b59d81e2ce2ef921342b46",
+    "trades.csv": "abaa8dbb12b9b07792e2e03ff00851d812577f5771d5b76f1d92a8f7798b4ff8"
+  },
+  "post_lock_repairs": [
+    {
+      "at": "2026-11-13T20:42:21.573392+00:00",
+      "file": "news.py",
+      "previous_sha256": "cb14944cfcce27711c569dc8cc65c7f1fc823ddf9e0e5f8edd6cb832b36eb386",
+      "new_sha256": "bde27c899a89dc97734a105bbbb1aef759397c13c5174b4bd7aeb0f10716484f",
+      "reason": "Manual source review identified three generic MEME/sector-index bare-ticker false matches. Require a cashtag. There are no MEME candidate entries; no feature value, target, selection policy or evaluated entry changed. All other edges match exactly.",
+      "removed_edges": [
+        {
+          "symbol": "MEME",
+          "documentId": "73f55bbd-bac8-4925-8b1b-774e0c9e09bd",
+          "link_available_ms": 1793843972331,
+          "document_available_ms": 1793843972331,
+          "published_ms": 1793843886000,
+          "method": "direct_ticker",
+          "term": "MEME",
+          "role": "direct",
+          "snippet": "TC)\u4e0a\u6da84.94%,\u7a81\u78348.0\u4e07\u7f8e\u5143;Ethereum(ETH)\u4e0a\u6da87.21%,\u7a81\u78342400\u7f8e\u5143\u3002 \u503c\u5f97\u6ce8\u610f\u7684\u662f,MAG7.ssi\u4e0a\u6da84.37%,DEFI.ssi\u4e0a\u6da84.11%,MEME.ssi\u4e0a\u6da83.54%\u3002"
+        },
+        {
+          "symbol": "MEME",
+          "documentId": "eb080f91-8795-4a15-9b2d-557d9dd1da15",
+          "link_available_ms": 1793844211348,
+          "document_available_ms": 1793844211348,
+          "published_ms": 1793843931000,
+          "method": "direct_ticker",
+          "term": "MEME",
+          "role": "direct",
+          "snippet": ")\u4e0a\u6da8 4.94%,\u7a81\u7834 8.0 \u4e07\u7f8e\u5143;Ethereum(ETH)\u4e0a\u6da8 7.21%,\u7a81\u7834 2400 \u7f8e\u5143\u3002MAG7.ssi \u4e0a\u6da8 4.37%,DEFI.ssi \u4e0a\u6da8 4.11%,MEME.ssi \u4e0a\u6da8 3.54%\u3002\u5176\u4ed6\u677f\u5757\u65b9\u9762,RWA \u677f\u5757\u4e0a\u6da8 5.47%,Ondo Finance(ONDO)\u4e0a\u6da8 7.25%;Layer2 \u677f\u5757\u4e0a\u6da8 5.28%,Stacks(STX)\u4e0a\u6da8 11.31%;PayFi \u677f\u5757"
+        },
+        {
+          "symbol": "MEME",
+          "documentId": "88dbae01-9503-4c10-bc29-c1ea3e99f2c3",
+          "link_available_ms": 1794374162003,
+          "document_available_ms": 1794374162003,
+          "published_ms": 1794374118000,
+          "method": "direct_ticker",
+          "term": "MEME",
+          "role": "direct",
+          "snippet": "\u4eba\u53ca\u8ddf\u5355\u529f\u80fd\u3002\u8be5\u5408\u7ea6\u652f\u6301 1\u201410 \u500d\u505a\u591a\u548c\u505a\u7a7a\u3002MIHAO \u662f\u5c06\u6d77\u5916\u793e\u4ea4\u5a92\u4f53\u6d41\u884c\u7684 Chinese Time / Chinamaxxing \u6587\u5316\u6897\u4e0e\u732b\u54aa\u5f62\u8c61\u7ed3\u5408\u7684 Solana MEME\u3002"
+        }
+      ],
+      "feature_matrix_unchanged": true
+    }
+  ]
+}

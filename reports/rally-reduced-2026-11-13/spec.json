@@ -1,0 +1,75 @@
+{
+  "version": "expanded-reduced-rallies-1",
+  "purpose": "Expand the archive sample, map the complete historical news database, study correlated inputs, and test train-only dimension reduction",
+  "periods": [
+    {
+      "id": "apr",
+      "start": "2026-04-11T00:00:00Z",
+      "end": "2026-05-01T00:00:00Z",
+      "signal_start": "2026-04-12T00:00:00Z"
+    },
+    {
+      "id": "mayjun",
+      "start": "2026-05-21T00:00:00Z",
+      "end": "2026-06-10T00:00:00Z",
+      "signal_start": "2026-05-22T00:00:00Z"
+    },
+    {
+      "id": "recent",
+      "start": "2026-10-29T00:00:00Z",
+      "end": "2026-11-13T20:00:00Z",
+      "signal_start": "2026-10-30T12:00:00Z"
+    }
+  ],
+  "universe": "All native symbols actually recorded in each period; no current-listing filter. Namespace/spot pair identifiers containing ':' or '@' are excluded. Older mainnet SQLite source is the imported origin of older PostgreSQL candles.",
+  "rally_cohorts": {
+    "strict": "Original detector: complete 5m return >=2%, >=3x prior-day return standard deviation, volume >=3x prior-day median; prior-30m breakout and BTC outperformance; 120m symbol cooldown.",
+    "broader": "Additional moderate rallies: complete 5m return >=1%, >=2x prior-day return standard deviation, volume >=2x prior-day median; same breakout/BTC/coverage rules and 120m cooldown. Includes losers; no future-outcome selection.",
+    "deduplication": "Union exact symbol+alert-time events from both detectors. Alerts in the same symbol within a 120m episode share a group across both entry variants, train/test and sample weights. No episode may cross folds.",
+    "execution": "Original immediate and continuation setup/exits; $100 positions; zero commissions/funding payments; 0/5/10bps slippage. The continuation anchored VWAP remains based on the 5m alert. No prices bridged across the three archive periods."
+  },
+  "feature_policy": "Preserve the prior 578-input definitions where available, then add direct historical document-to-asset mapping and topic/recency/source features. All features use entry minus 5 seconds. Rare/absent data is unknown, not zero. Existing original entries and outcomes are reconciled where the data overlaps. Known k-prefixed contract multipliers are reconciled explicitly to base-token Binance spot units; LIT, kNEIRO and NEIROETH are excluded from spot matching where historical identity is ambiguous.",
+  "news_mapping": {
+    "source": "Full account-scoped NewsDocument, NewsAnalysis and immutable NewsEventRevision export before 2026-11-13T20:00Z; no mutable current NewsEvent projection.",
+    "availability": "Maximum of publication, collection and availableAt. Every revision becomes usable only after its own timestamp. Deduplicate captured story hashes, selecting latest known source+externalId revision as of entry.",
+    "direct_links": "Explicit cashtags, unambiguous exact-case tickers, conservative fixed project-name aliases and names learned from an earlier available structured subject/symbol mapping. Ambiguous words/tickers require a cashtag or specific project phrase. Save link method, matched term, document ID and source timestamps.",
+    "roles": "Direct asset mentions, project/platform mentions and market-wide macro/exchange context remain separate. Broad market news is not recoded as direct token news. Negated, future or reported claims are not verified events.",
+    "time_windows_hours": [
+      1,
+      6,
+      24
+    ],
+    "analysis": "Preserve historical available direction/confidence/materiality; raw document topics are deterministic text features. No new hindsight sentiment labels or later wallet identities."
+  },
+  "dimension_reduction": {
+    "coverage": "Drop constants and numeric columns with fewer than max(30,20% of training rows) observed values. Drop near-constant features with >=99% identical observed values; retain entry-mode indicator when variable.",
+    "redundancy": "Greedy representatives with absolute training Spearman correlation >=0.90, after training-median imputation. Prefer higher coverage, then shorter/lexicographic names; never pick representatives using test outcomes. Record each removed column and its retained representative. Also report Pearson/Spearman relationships on the final historical training sample as descriptive, not causal.",
+    "relevance": "Three chronological inner validation windows inside each outer training set. Correlation filtering and mutual-information pre-screening fit on each inner training portion only; test up to 40 nonlinear candidates. Keep features with positive held-inner-window permutation importance in at least two usable windows and positive mean MSE improvement; cap at 20. Correlated inner aliases map to the final outer-training representative. If none qualify, abstain via a training mean model. No feature is declared causally irrelevant from a low score. Inner permutation tests use entry-mode strata; mode is retained as a control if any economic feature qualifies. Positive importance must exceed 1e-6 percentage-points-squared. Selection retains at most 20 inputs including mode.",
+    "comparison": "Historical mean, original wide nonlinear model, correlation-reduced nonlinear model, relevance-reduced nonlinear model, and relevance-reduced model without news mapping/signals. Same targets, dates and candidates for all models.",
+    "administrative_metadata": "Reduced models exclude collection coverage/availability flags, collector sample counts and snapshot-age metadata from economic selection. Missingness is retained as missing; this is not a claim that data quality has no effect on execution."
+  },
+  "evaluation": {
+    "target": "Realized zero-cost return_pct of the unchanged long entry/exit strategy",
+    "split": "Weekly UTC folds for April-June, daily UTC folds for the recent period. Whole symbol episodes stay together. Train only on strictly earlier episodes with every outcome observable before fold start minus 120m. Record time gaps and report recent/news-period and strict/original subsets separately.",
+    "minimum_train_episodes": 80,
+    "minimum_train_rows": 120,
+    "label_completion_lag_seconds": 65,
+    "purge_minutes": 120,
+    "training_weights": "Each episode has total weight one; exponentially reduce age with a fixed 60-calendar-day half-life. Evaluation weights each episode equally without age decay. Normalize the decayed weights back to the number of episodes so regularization strength is comparable between folds.",
+    "selection": "Predicted return >0, fixed. No tuning after viewing outer results. Later original dates were already inspected in earlier work; this is not a pristine prospective holdout.",
+    "nonlinear": {
+      "loss": "squared_error",
+      "learning_rate": 0.03,
+      "max_iter": 80,
+      "max_depth": 2,
+      "max_leaf_nodes": 4,
+      "min_samples_leaf": 12,
+      "l2_regularization": 20.0,
+      "early_stopping": false,
+      "random_state": 20261113
+    },
+    "news_window_experiment": "Also repeat the same comparisons using only recent training/test episodes with news-feed coverage. This separates incremental news value from the older archive's complete absence of news."
+  },
+  "storage": "Large read-only exports are stored under a dedicated Windows temp research cache because the WSL filesystem has limited free space; paths and hashes are recorded. Code, selected evidence, audits and results remain in this report directory.",
+  "deployment": "Research only. No trading settings, orders, database mutations or automatic deployment."
+}

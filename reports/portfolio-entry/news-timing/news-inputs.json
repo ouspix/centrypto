@@ -1,0 +1,23 @@
+{
+  "article_sha256": "adacc01fe55a501cd9e43b135862cbae36c6825c2bfe6fbefc130949290722be",
+  "batches_sha256": "b0e5882ed77cbbc1f02a1ed11af194088a7a14e22c1914732725d6deb81fe8ba",
+  "original_article_sha256": "5fee90d80afd8a401df22adc56bfbdb5f25f7ce937c8c481c0f2caf83781e719",
+  "original_batches_sha256": "4250af23b578cef38411cb368f2f628d88a50ccdb4d82c8b6140b5bb936baa46",
+  "availability_delay_ms": 0,
+  "windows_ms": {
+    "5m": 300000,
+    "30m": 1800000,
+    "2h": 7200000,
+    "8h": 28800000
+  },
+  "totals": {
+    "stories": 235885,
+    "with_publication": 235885,
+    "expired_on_arrival": 1848,
+    "available_at_publication": 2654,
+    "arrived_within_5m": 109413,
+    "arrived_within_30m": 133816,
+    "arrived_within_2h": 191128,
+    "arrived_within_8h": 230488
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "modes": {
+    "base": {
+      "managed": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "active_diagnostic": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      }
+    },
+    "stress": {
+      "managed": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "active_diagnostic": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      }
+    }
+  },
+  "source": "2c82779b2e2b838a1bc35dfada44bb64f63489ad2b208322774ea1f843bc747a"
+}

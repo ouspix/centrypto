@@ -1,0 +1,67 @@
+{
+  "archive_structure": {
+    "entries": 6,
+    "scored": 6,
+    "winners": 3,
+    "netUsd": 1.4916459716158004,
+    "avgNetPct": 0.09547558236093975,
+    "unknown": 0,
+    "blocked": {}
+  },
+  "archive_fixed_floor": {
+    "entries": 6,
+    "scored": 6,
+    "winners": 3,
+    "netUsd": 1.5387763005219313,
+    "avgNetPct": 0.10227581246978085,
+    "unknown": 0,
+    "blocked": {}
+  },
+  "archive_scale_out": {
+    "entries": 6,
+    "scored": 6,
+    "winners": 3,
+    "netUsd": 2.191156450525891,
+    "avgNetPct": 0.12941262498084138,
+    "unknown": 0,
+    "blocked": {}
+  },
+  "modeled_structure": {
+    "entries": 52,
+    "scored": 48,
+    "winners": 12,
+    "netUsd": -59.7344221921092,
+    "avgNetPct": -0.38699137761330604,
+    "unknown": 4,
+    "blocked": {
+      "duplicate open symbol": 19,
+      "position cap": 41,
+      "capital cap": 3
+    }
+  },
+  "modeled_fixed_floor": {
+    "entries": 69,
+    "scored": 67,
+    "winners": 37,
+    "netUsd": -12.127908052320961,
+    "avgNetPct": -0.09092366398430668,
+    "unknown": 2,
+    "blocked": {
+      "position cap": 33,
+      "duplicate open symbol": 13
+    }
+  },
+  "modeled_scale_out": {
+    "entries": 52,
+    "scored": 48,
+    "winners": 16,
+    "netUsd": -36.41044250826601,
+    "avgNetPct": -0.19023570525907857,
+    "unknown": 4,
+    "blocked": {
+      "duplicate open symbol": 19,
+      "position cap": 41,
+      "capital cap": 3
+    }
+  }
+}

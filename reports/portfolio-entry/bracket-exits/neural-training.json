@@ -1,0 +1,224 @@
+{
+  "targets": "678eaaa6cace7158e9dcdac7847973d5b5be01c8f27345860d1f9240421c6350",
+  "model": "d1b92a2727cdea6498173f975f52834a9b8c5dd3ac303547410370bf2f0c7a93",
+  "policies": {
+    "bracket": {
+      "folds": [
+        {
+          "begin": "2026-05-01T00:00:00+00:00",
+          "end": "2026-06-01T00:00:00+00:00",
+          "train": {
+            "rows": 47096,
+            "dates": 89,
+            "first": "2026-02-01T08:15:05+00:00",
+            "last": "2026-04-30T22:20:05+00:00",
+            "matured_at": "2026-04-30T23:49:00+00:00",
+            "normalized_loss": 0.36350543693490156
+          },
+          "validation": 21430,
+          "matured_validation": 19864,
+          "trading": null
+        },
+        {
+          "begin": "2026-06-01T00:00:00+00:00",
+          "end": "2026-07-01T00:00:00+00:00",
+          "train": {
+            "rows": 69173,
+            "dates": 120,
+            "first": "2026-02-01T08:15:05+00:00",
+            "last": "2026-05-31T23:20:05+00:00",
+            "matured_at": "2026-05-31T23:35:00+00:00",
+            "normalized_loss": 0.3716776090983673
+          },
+          "validation": 23578,
+          "matured_validation": 22326,
+          "trading": null
+        },
+        {
+          "begin": "2026-07-01T00:00:00+00:00",
+          "end": "2026-08-01T00:00:00+00:00",
+          "train": {
+            "rows": 93060,
+            "dates": 150,
+            "first": "2026-02-01T08:15:05+00:00",
+            "last": "2026-06-30T21:25:05+00:00",
+            "matured_at": "2026-06-30T23:57:00+00:00",
+            "normalized_loss": 0.3738964221348384
+          },
+          "validation": 19047,
+          "matured_validation": 16207,
+          "trading": null
+        },
+        {
+          "begin": "2026-08-01T00:00:00+00:00",
+          "end": "2026-08-22T00:00:00+00:00",
+          "train": {
+            "rows": 110496,
+            "dates": 181,
+            "first": "2026-02-01T08:15:05+00:00",
+            "last": "2026-07-31T18:05:05+00:00",
+            "matured_at": "2026-07-31T22:42:00+00:00",
+            "normalized_loss": 0.3811734292495434
+          },
+          "validation": 11193,
+          "matured_validation": 11189,
+          "trading": {
+            "base": {
+              "trades": 0,
+              "closed": 0,
+              "long": 0,
+              "short": 0,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "avg_gross": 0.0,
+              "ending_open": 0,
+              "ending_inventory": [],
+              "realized_net": 0.0,
+              "open_marked_pnl": 0.0,
+              "missing_funding_hours": 0,
+              "passed": 0,
+              "rejects": {},
+              "exits": {},
+              "max_holding_minutes": null
+            },
+            "stress": {
+              "trades": 0,
+              "closed": 0,
+              "long": 0,
+              "short": 0,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "avg_gross": 0.0,
+              "ending_open": 0,
+              "ending_inventory": [],
+              "realized_net": 0.0,
+              "open_marked_pnl": 0.0,
+              "missing_funding_hours": 0,
+              "passed": 0,
+              "rejects": {},
+              "exits": {},
+              "max_holding_minutes": null
+            }
+          }
+        }
+      ],
+      "final": {
+        "rows": 124520,
+        "dates": 201,
+        "first": "2026-02-01T08:15:05+00:00",
+        "last": "2026-08-20T23:50:05+00:00",
+        "matured_at": "2026-08-21T14:50:00+00:00",
+        "normalized_loss": 0.37753992337258424
+      }
+    },
+    "learned_protected": {
+      "folds": [
+        {
+          "begin": "2026-05-01T00:00:00+00:00",
+          "end": "2026-06-01T00:00:00+00:00",
+          "train": {
+            "rows": 49132,
+            "dates": 89,
+            "first": "2026-02-01T08:15:05+00:00",
+            "last": "2026-04-30T22:20:05+00:00",
+            "matured_at": "2026-04-30T23:56:00+00:00",
+            "normalized_loss": 0.36223856498322987
+          },
+          "validation": 21430,
+          "matured_validation": 21246,
+          "trading": null
+        },
+        {
+          "begin": "2026-06-01T00:00:00+00:00",
+          "end": "2026-07-01T00:00:00+00:00",
+          "train": {
+            "rows": 70555,
+            "dates": 120,
+            "first": "2026-02-01T08:15:05+00:00",
+            "last": "2026-05-31T20:10:05+00:00",
+            "matured_at": "2026-05-31T23:41:00+00:00",
+            "normalized_loss": 0.36664672637000983
+          },
+          "validation": 23578,
+          "matured_validation": 23311,
+          "trading": null
+        },
+        {
+          "begin": "2026-07-01T00:00:00+00:00",
+          "end": "2026-08-01T00:00:00+00:00",
+          "train": {
+            "rows": 94045,
+            "dates": 150,
+            "first": "2026-02-01T08:15:05+00:00",
+            "last": "2026-06-30T21:25:05+00:00",
+            "matured_at": "2026-06-30T23:41:00+00:00",
+            "normalized_loss": 0.3753317758419581
+          },
+          "validation": 19047,
+          "matured_validation": 18805,
+          "trading": null
+        },
+        {
+          "begin": "2026-08-01T00:00:00+00:00",
+          "end": "2026-08-22T00:00:00+00:00",
+          "train": {
+            "rows": 113093,
+            "dates": 181,
+            "first": "2026-02-01T08:15:05+00:00",
+            "last": "2026-07-31T16:05:05+00:00",
+            "matured_at": "2026-07-31T23:41:00+00:00",
+            "normalized_loss": 0.3774943034648769
+          },
+          "validation": 11193,
+          "matured_validation": 11189,
+          "trading": {
+            "base": {
+              "trades": 0,
+              "closed": 0,
+              "long": 0,
+              "short": 0,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "avg_gross": 0.0,
+              "ending_open": 0,
+              "ending_inventory": [],
+              "realized_net": 0.0,
+              "open_marked_pnl": 0.0,
+              "missing_funding_hours": 0,
+              "passed": 0,
+              "rejects": {},
+              "exits": {},
+              "max_holding_minutes": null
+            },
+            "stress": {
+              "trades": 0,
+              "closed": 0,
+              "long": 0,
+              "short": 0,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "avg_gross": 0.0,
+              "ending_open": 0,
+              "ending_inventory": [],
+              "realized_net": 0.0,
+              "open_marked_pnl": 0.0,
+              "missing_funding_hours": 0,
+              "passed": 0,
+              "rejects": {},
+              "exits": {},
+              "max_holding_minutes": null
+            }
+          }
+        }
+      ],
+      "final": {
+        "rows": 124519,
+        "dates": 201,
+        "first": "2026-02-01T08:15:05+00:00",
+        "last": "2026-08-20T23:50:05+00:00",
+        "matured_at": "2026-08-21T11:36:00+00:00",
+        "normalized_loss": 0.37954343832799325
+      }
+    }
+  }
+}

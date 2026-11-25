@@ -1,0 +1,34 @@
+{
+  "filename": "selected-models.joblib",
+  "sha256": "5ba7489415b2c2a88d0d031f51e91df4b3507711ec0fb6e0f3eab93a0cd9bf5e",
+  "selection": [
+    {
+      "config": 1,
+      "threshold": 0.9,
+      "pair": 0,
+      "rsi": 3,
+      "bb": null,
+      "sma": [
+        3,
+        12
+      ]
+    },
+    {
+      "config": 15,
+      "threshold": 0.95,
+      "pair": 0,
+      "rsi": 7.5,
+      "bb": 12,
+      "sma": [
+        3,
+        12
+      ]
+    }
+  ],
+  "seeds": [
+    20261114,
+    20261115,
+    20261116
+  ],
+  "artifact": "offline four-ensemble research bundle"
+}

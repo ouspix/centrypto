@@ -1,0 +1,431 @@
+{
+  "window": [
+    "2026-08-22T00:00:00+00:00",
+    "2026-11-21T21:20:00+00:00"
+  ],
+  "valuation": "2026-11-22T21:25:00+00:00",
+  "eligible": 89732,
+  "eligible_dates": 91,
+  "news_4h": 39236,
+  "models": {
+    "news": {
+      "sides": {
+        "long": {
+          "candidates": 15927,
+          "passed": 0,
+          "priced": 0,
+          "distinct_scores": 1,
+          "mean_passing_forecast": null,
+          "realized_passing_bps": null
+        },
+        "short": {
+          "candidates": 73805,
+          "passed": 0,
+          "priced": 0,
+          "distinct_scores": 73805,
+          "mean_passing_forecast": null,
+          "realized_passing_bps": null
+        }
+      },
+      "risk_forecasts": {
+        "mean_predicted_adverse_bps": 179.9884304529534,
+        "mean_actual_adverse_bps": 173.25908546548885,
+        "adverse_absolute_error_bps": 104.70844800878561,
+        "mean_predicted_hours": 7.721637903499951,
+        "mean_actual_hours": 7.905505030240887,
+        "holding_absolute_error_hours": 2.4987545437608256
+      },
+      "passes_without_aug19": 0,
+      "decisions_flipped_without_aug19": 0,
+      "passes_omitting_each_month": {
+        "2026-02": 0,
+        "2026-03": 0,
+        "2026-04": 0,
+        "2026-05": 0,
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0
+      }
+    },
+    "market": {
+      "sides": {
+        "long": {
+          "candidates": 15927,
+          "passed": 0,
+          "priced": 0,
+          "distinct_scores": 1,
+          "mean_passing_forecast": null,
+          "realized_passing_bps": null
+        },
+        "short": {
+          "candidates": 73805,
+          "passed": 0,
+          "priced": 0,
+          "distinct_scores": 1,
+          "mean_passing_forecast": null,
+          "realized_passing_bps": null
+        }
+      },
+      "risk_forecasts": {
+        "mean_predicted_adverse_bps": 175.87040762710666,
+        "mean_actual_adverse_bps": 173.25908546548885,
+        "adverse_absolute_error_bps": 104.40552671939977,
+        "mean_predicted_hours": 7.822503587153144,
+        "mean_actual_hours": 7.905505030240887,
+        "holding_absolute_error_hours": 2.499396313568574
+      },
+      "passes_without_aug19": 0,
+      "decisions_flipped_without_aug19": 0,
+      "passes_omitting_each_month": {
+        "2026-02": 1,
+        "2026-03": 0,
+        "2026-04": 0,
+        "2026-05": 0,
+        "2026-06": 1,
+        "2026-07": 1,
+        "2026-08": 0
+      }
+    }
+  },
+  "control_actions": {
+    "managed": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "news_gate": [
+      100.0,
+      0.0,
+      0.0
+    ],
+    "tied_gate": [
+      100.0,
+      0.0,
+      0.0
+    ],
+    "market_gate": [
+      100.0,
+      0.0,
+      0.0
+    ],
+    "previous_pooled": [
+      100.0,
+      0.0,
+      0.0
+    ],
+    "cash": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "same_size_news_gate": [
+      50.0,
+      0.0,
+      0.0
+    ],
+    "best_active_development": [
+      50.0,
+      0.0,
+      0.0
+    ]
+  },
+  "modes": {
+    "base": {
+      "managed": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "news_gate": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "tied_gate": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "market_gate": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "previous_pooled": {
+        "gate_passed": 89732,
+        "trades": 1392,
+        "allocation": {
+          "busy_or_used": 45596
+        },
+        "long": 411,
+        "short": 981,
+        "complete": true,
+        "net": -486.3405156994679,
+        "max_drawdown": 545.8059375886768,
+        "ending_equity": 513.6594843005321,
+        "long_net": -269.2017717113358,
+        "short_net": -217.13874398812735,
+        "fees": 125.2374350580852,
+        "funding": -1.0827520185530048,
+        "mean_gross": 464.42594615848844,
+        "peak_gross": 987.7456747678015,
+        "max_gross_to_equity": 1.0565676846526204
+      },
+      "cash": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "same_size_news_gate": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "best_active_development": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      }
+    },
+    "stress": {
+      "managed": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "news_gate": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "tied_gate": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "market_gate": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "previous_pooled": {
+        "gate_passed": 89732,
+        "trades": 1375,
+        "allocation": {
+          "busy_or_used": 44701
+        },
+        "long": 419,
+        "short": 956,
+        "complete": true,
+        "net": -486.4479421970408,
+        "max_drawdown": 573.1350837299583,
+        "ending_equity": 513.5520578029592,
+        "long_net": -185.5124619229892,
+        "short_net": -300.93548027404444,
+        "fees": 123.78047571014461,
+        "funding": -7.943935969651481,
+        "mean_gross": 457.62411503043677,
+        "peak_gross": 998.0902344379305,
+        "max_gross_to_equity": 1.0548178448196552
+      },
+      "cash": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "same_size_news_gate": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      },
+      "best_active_development": {
+        "gate_passed": 0,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      }
+    }
+  },
+  "lock": "4bf9a252e5f9fb7c1b9bd87079358e5bac140df8262ba241681ed238e614b923"
+}

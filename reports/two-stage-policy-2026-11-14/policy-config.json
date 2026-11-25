@@ -1,0 +1,13 @@
+{
+  "cash": true,
+  "entry_threshold": null,
+  "validation_profit_usd": 0.0,
+  "trades": 0,
+  "exit_threshold": 0.25,
+  "bar_minutes": 5,
+  "holding_limit_minutes": 1440,
+  "fees": 0,
+  "entry_news": true,
+  "exit_news": false,
+  "research_only": true
+}

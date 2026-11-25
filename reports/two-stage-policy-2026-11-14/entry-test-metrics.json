@@ -1,0 +1,42 @@
+[
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "states": 26481,
+    "positives": 119,
+    "positive_rate": 0.004493787884712219,
+    "average_precision": 0.013631479375149535
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "states": 7291,
+    "positives": 45,
+    "positive_rate": 0.006171992979943752,
+    "average_precision": 0.05709652394571875,
+    "precision": 0.14285714285714285,
+    "recall": 0.08888888888888889,
+    "f1": 0.1095890410958904,
+    "predicted_positive_states": 28
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "states": 4304,
+    "positives": 10,
+    "positive_rate": 0.0023234200198203325,
+    "average_precision": 0.023171656816724978,
+    "precision": 0.025,
+    "recall": 0.3,
+    "f1": 0.046153846153846156,
+    "predicted_positive_states": 120
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "states": 3864,
+    "positives": 0,
+    "positive_rate": 0.0,
+    "average_precision": null,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "predicted_positive_states": 15
+  }
+]

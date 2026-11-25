@@ -1,0 +1,196 @@
+{
+  "interval": [
+    "2026-11-17T00:00:00+00:00",
+    "2026-11-21T13:00:00+00:00"
+  ],
+  "account_fills": 11,
+  "modeled_fills": 11,
+  "median_adverse_residual_bps": -0.9999000099991662,
+  "funding_payments": 4,
+  "matched_funding": 4,
+  "absolute_funding_residual_usd": 2.2917229397503066e-05,
+  "fee_residual_usd": -0.03699054379999993,
+  "fills": [
+    {
+      "symbol": "WLD",
+      "at": 1795180497794,
+      "kind": "fill",
+      "quantity": -984.1,
+      "actual": 0.23985,
+      "modeled": 0.239766021,
+      "source": "candle_proxy",
+      "actual_fee": 0.101967,
+      "fee_residual": -0.0042493732500000075,
+      "adverse_residual_bps": -3.5025396697063726,
+      "parent_intent_age_ms": 2378
+    },
+    {
+      "symbol": "JUP",
+      "at": 1795184829023,
+      "kind": "fill",
+      "quantity": 736.0,
+      "actual": 0.23408,
+      "modeled": 0.234103408,
+      "source": "candle_proxy",
+      "actual_fee": 0.074426,
+      "fee_residual": -0.0031012959999999895,
+      "adverse_residual_bps": -0.9999000099991662,
+      "parent_intent_age_ms": 2269
+    },
+    {
+      "symbol": "JUP",
+      "at": 1795185795632,
+      "kind": "fill",
+      "quantity": -736.0,
+      "actual": 0.22892,
+      "modeled": 0.22889710800000002,
+      "source": "candle_proxy",
+      "actual_fee": 0.072785,
+      "fee_residual": -0.0030333039999999867,
+      "adverse_residual_bps": -1.0001000100001711,
+      "parent_intent_age_ms": 2510
+    },
+    {
+      "symbol": "WLD",
+      "at": 1795186355923,
+      "kind": "fill",
+      "quantity": 984.1,
+      "actual": 0.24159,
+      "modeled": 0.24119411699999999,
+      "source": "candle_proxy",
+      "actual_fee": 0.102707,
+      "fee_residual": -0.004279923549999981,
+      "adverse_residual_bps": 16.413460034765404,
+      "parent_intent_age_ms": 2349
+    },
+    {
+      "symbol": "ZEC",
+      "at": 1795199368876,
+      "kind": "fill",
+      "quantity": 0.21,
+      "actual": 770.62,
+      "modeled": 770.2570179999999,
+      "source": "candle_proxy",
+      "actual_fee": 0.06991,
+      "fee_residual": -0.0029135899999999937,
+      "adverse_residual_bps": 4.712478971533596,
+      "parent_intent_age_ms": 2259
+    },
+    {
+      "symbol": "ZEC",
+      "at": 1795205287746,
+      "kind": "protection",
+      "quantity": -0.19,
+      "actual": 751.28,
+      "modeled": 752.2247699999999,
+      "source": "candle_proxy",
+      "actual_fee": 0.061665,
+      "fee_residual": -0.002569440000000006,
+      "adverse_residual_bps": 12.559676810429687,
+      "parent_intent_age_ms": 5921129
+    },
+    {
+      "symbol": "ZEC",
+      "at": 1795205287746,
+      "kind": "protection",
+      "quantity": -0.02,
+      "actual": 751.4,
+      "modeled": 752.2247699999999,
+      "source": "candle_proxy",
+      "actual_fee": 0.006492,
+      "fee_residual": -0.0002705999999999993,
+      "adverse_residual_bps": 10.964408949202253,
+      "parent_intent_age_ms": 5921129
+    },
+    {
+      "symbol": "CRV",
+      "at": 1795249500850,
+      "kind": "fill",
+      "quantity": -854.8,
+      "actual": 0.16753,
+      "modeled": 0.167513247,
+      "source": "candle_proxy",
+      "actual_fee": 0.061864,
+      "fee_residual": -0.0025780898000000024,
+      "adverse_residual_bps": -1.0001000100023916,
+      "parent_intent_age_ms": 2230
+    },
+    {
+      "symbol": "CRV",
+      "at": 1795250042232,
+      "kind": "fill",
+      "quantity": 854.8,
+      "actual": 0.16592,
+      "modeled": 0.16593659200000002,
+      "source": "candle_proxy",
+      "actual_fee": 0.061269,
+      "fee_residual": -0.0025537871999999975,
+      "adverse_residual_bps": -0.9999000099991662,
+      "parent_intent_age_ms": 2512
+    },
+    {
+      "symbol": "ZEC",
+      "at": 1795255963132,
+      "kind": "fill",
+      "quantity": 0.42,
+      "actual": 747.22,
+      "modeled": 748.414834,
+      "source": "candle_proxy",
+      "actual_fee": 0.135575,
+      "fee_residual": -0.005649579999999987,
+      "adverse_residual_bps": -15.964862609871844,
+      "parent_intent_age_ms": 2616
+    },
+    {
+      "symbol": "ZEC",
+      "at": 1795260744660,
+      "kind": "protection",
+      "quantity": -0.42,
+      "actual": 766.04,
+      "modeled": 762.673725,
+      "source": "candle_proxy",
+      "actual_fee": 0.13899,
+      "fee_residual": -0.005791559999999973,
+      "adverse_residual_bps": -44.137812666877885,
+      "parent_intent_age_ms": 4784144
+    }
+  ],
+  "funding": [
+    {
+      "symbol": "WLD",
+      "at": 1795183200023,
+      "quantity": -984.1,
+      "receipt": -0.016043,
+      "modeled": -0.0160231752706025,
+      "valuation": "candle_proxy",
+      "residual": -1.982472939750235e-05
+    },
+    {
+      "symbol": "ZEC",
+      "at": 1795201200083,
+      "quantity": 0.21,
+      "receipt": -0.002027,
+      "modeled": -0.00202731375,
+      "valuation": "candle_proxy",
+      "residual": 3.137499999996546e-07
+    },
+    {
+      "symbol": "ZEC",
+      "at": 1795204800001,
+      "quantity": 0.21,
+      "receipt": -0.001996,
+      "modeled": -0.0019972837500000003,
+      "valuation": "candle_proxy",
+      "residual": 1.2837500000003992e-06
+    },
+    {
+      "symbol": "ZEC",
+      "at": 1795258800080,
+      "quantity": 0.42,
+      "receipt": -0.003916,
+      "modeled": -0.0039145049999999995,
+      "valuation": "candle_proxy",
+      "residual": -1.4950000000006625e-06
+    }
+  ]
+}

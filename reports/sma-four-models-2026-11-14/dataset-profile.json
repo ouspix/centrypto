@@ -1,0 +1,36 @@
+{
+  "counts": {
+    "apr_long_setups": 2917,
+    "apr_short_setups": 3071,
+    "mayjun_long_setups": 22334,
+    "mayjun_short_setups": 23192,
+    "recent_long_setups": 16243,
+    "recent_short_setups": 16403
+  },
+  "setups": 84160,
+  "candidate_rows": 349094,
+  "by_side": {
+    "long": {
+      "setups": 41494,
+      "known_setups": 37151,
+      "unknown_setups": 4343,
+      "successful_10pct": 3639,
+      "failed_to_reach_10pct": 33512,
+      "no_profitable_observed_entry_exit": 1180,
+      "positive_candidates": 7377,
+      "negative_candidates": 149044,
+      "unknown_candidates": 16777
+    },
+    "short": {
+      "setups": 42666,
+      "known_setups": 38176,
+      "unknown_setups": 4490,
+      "successful_10pct": 4835,
+      "failed_to_reach_10pct": 33341,
+      "no_profitable_observed_entry_exit": 571,
+      "positive_candidates": 10296,
+      "negative_candidates": 148476,
+      "unknown_candidates": 17124
+    }
+  }
+}

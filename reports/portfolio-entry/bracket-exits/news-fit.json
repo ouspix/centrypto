@@ -1,0 +1,68 @@
+{
+  "analysis": "58d105e5dd0371d26909f892e2cf47e7e7f042c5843beb122dc5d89623eb4258",
+  "exits": "678eaaa6cace7158e9dcdac7847973d5b5be01c8f27345860d1f9240421c6350",
+  "source": "6f5da508e4e29a50ee5e80b3c7a73f7eba40961bdebdcc09c30a8f954431b38a",
+  "models": "67e4ea0e70658da1d35c12ec8530d8dbd131d579379ddeba6ec9668ccc0b9fc5",
+  "details": {
+    "ridge": {
+      "bracket": {
+        "availability": {
+          "rows": 10315,
+          "first": "2026-11-01T09:35:05+00:00",
+          "last": "2026-11-13T21:45:05+00:00",
+          "outcome_end": "2026-11-13T23:17:00+00:00"
+        },
+        "news_intelligence": {
+          "rows": 10315,
+          "first": "2026-11-01T09:35:05+00:00",
+          "last": "2026-11-13T21:45:05+00:00",
+          "outcome_end": "2026-11-13T23:17:00+00:00"
+        }
+      },
+      "learned_protected": {
+        "availability": {
+          "rows": 10465,
+          "first": "2026-11-01T09:35:05+00:00",
+          "last": "2026-11-13T20:55:05+00:00",
+          "outcome_end": "2026-11-13T23:03:00+00:00"
+        },
+        "news_intelligence": {
+          "rows": 10465,
+          "first": "2026-11-01T09:35:05+00:00",
+          "last": "2026-11-13T20:55:05+00:00",
+          "outcome_end": "2026-11-13T23:03:00+00:00"
+        }
+      }
+    },
+    "neural": {
+      "bracket": {
+        "availability": {
+          "rows": 10315,
+          "first": "2026-11-01T09:35:05+00:00",
+          "last": "2026-11-13T21:45:05+00:00",
+          "outcome_end": "2026-11-13T23:17:00+00:00"
+        },
+        "news_intelligence": {
+          "rows": 10315,
+          "first": "2026-11-01T09:35:05+00:00",
+          "last": "2026-11-13T21:45:05+00:00",
+          "outcome_end": "2026-11-13T23:17:00+00:00"
+        }
+      },
+      "learned_protected": {
+        "availability": {
+          "rows": 10465,
+          "first": "2026-11-01T09:35:05+00:00",
+          "last": "2026-11-13T20:55:05+00:00",
+          "outcome_end": "2026-11-13T23:03:00+00:00"
+        },
+        "news_intelligence": {
+          "rows": 10465,
+          "first": "2026-11-01T09:35:05+00:00",
+          "last": "2026-11-13T20:55:05+00:00",
+          "outcome_end": "2026-11-13T23:03:00+00:00"
+        }
+      }
+    }
+  }
+}

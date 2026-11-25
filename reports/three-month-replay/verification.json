@@ -1,0 +1,31 @@
+{
+  "train_calibration_holdout_separation": true,
+  "latest_base_outcome": {
+    "cal": "2026-08-21T13:36:00+00:00",
+    "test": "2026-11-22T02:46:00+00:00",
+    "train": "2026-08-07T12:41:00+00:00"
+  },
+  "priced_trades_reconciled": 40286,
+  "complete_ledgers_reconciled": 16,
+  "forward_runtime_files_verified": 51,
+  "manifests": {
+    "protocol.json": "c1822e0d9e68e162c7f3b49fbdd273332ac825a71106b3b997b6e183ec90a67f",
+    "candles.json": "c3ecc576db67866df48319a6f0175df8a2baddc6495599d791f818b6d7c1bc25",
+    "funding.json": "91fecadd973987248e68a40b12db57911490efa68d719fa5548489d2a56d3c60",
+    "news-inputs.json": "16caf61a87c1744abf69a6c37d9f96b9ea9aca84acf3e816d367dc7220e75e51",
+    "exit-training.json": "cfba33f9842cc27de4625bb6c65de9b8c5ecbbe9f275d64b32ae71c385a4ea0c",
+    "entry-training.json": "8716bdc9e9f26a3fd44d127af5980e683eada414450868f94ed847d01f600c48",
+    "results.json": "337e7216ce978ab6427784f83dfe026eef4f8b81bc93e1df396d9364207abae7",
+    "trade-ledgers.jsonl.gz": "fce108d9d908fd237f6c18b6a4443fe6cfaf4b46ca38b6858d4e0befc20f2b8f",
+    "daily-equity.csv": "f233ba1f2dacd9779cba164edb0dbab8029c5747c9452a84f3d709b3a6e45b82",
+    "entry_policy.py": "47e2773418cdfcb5fb78271beca3761d89e08534a2549462044242b75452812f",
+    "exit_policy.py": "47827de329d3803b36693b5469cf5808032d2e72acf9151df6b9c61a7d7456c8",
+    "write_report.py": "f658a188e8f2787c691f1915baf38216c9bbd9b36ea5532b2a50a7615db4717f",
+    "news_backfill.py": "4575c7bb84ed0b81a6cafd5d6c2420b1290e2c77551b46af772c2a885d7dd2d5",
+    "config.py": "ff61bb0639d014a1caa2e17d3de77d690fb02efe4bb858c09f400f98d926b6ea",
+    "verify_replay.py": "e244d1ea0d8723f3f802b16c56ee77a7e8df25edbbe65240e05bf3a8e33352c7",
+    "run_replay.py": "286df5b4e09c46655ecbb164a24e38587ec5080233f0a9d9791cb64f9cc0654e",
+    "source_data.py": "3cec46a2b375b49edf1195f7cfed4bfd0349c90ce3e991281d4c7610624acabf",
+    "market_features.py": "8132e589e392a22cef97802e94960d203dcefd9d6bfba9cd1078b8c278393f42"
+  }
+}

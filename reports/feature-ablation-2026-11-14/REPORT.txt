@@ -1,0 +1,157 @@
+FEATURE ABLATION — SEPARATE LONG/SHORT ENTRY AND EXIT MODELS
+
+Completed 20 configurations x 3 paired seeds x 4 chronological outer folds = 240 replays. Each uses four direction/stage-specific models. Fees, funding payments and slippage excluded; $100 notional per trade.
+News remains excluded. Core/full final artifacts are prespecified research artifacts, not a test-selected production winner. Production was not changed.
+
+MANDATORY INPUTS (chosen architectural core, not empirically proven indispensable)
+Both stages: 5-minute, 60-minute and rolling 24-hour returns; 60-minute realized volatility; 60-minute log traded quote volume; gaps for all eight SMA pairs.
+Entry additionally: triggering fast/slow periods and setup age. Total 16 raw core fields.
+Exit additionally: current side-adjusted trade return and elapsed holding fraction. Total 15 raw core fields.
+SMA pairs, in five-minute bars: 3/12, 5/20, 8/30, 10/30, 10/50, 20/50, 20/80, 30/80.
+Exit decisions every five minutes, with a strict 24-hour maximum. The holding time is chosen by the exit model within this limit.
+
+OPTIONAL INPUT GROUPS
+Group | Raw entry fields | Raw exit fields | Retained in outer training (min/max)
+price_shape | 32 | 32 | 32/32
+volume_detail | 9 | 9 | 9/9
+sma_detail | 66 | 58 | 58/66
+market_context | 25 | 25 | 25/25
+derivatives | 10 | 10 | 10/10
+liquidity | 3 | 3 | 0/0
+spot | 25 | 25 | 25/25
+clock | 2 | 2 | 2/2
+position_history | 0 | 6 | 0/6
+
+WHAT WAS TRAINED
+For each optional group: add it to the mandatory core, and remove it from the full model. Also train core-only and full-input controls. All variants keep the same input width, seeds, minibatch sequence, data, labels, detector rules, thresholds grid and learning budget. Disabled values AND their missingness flags are zeroed after training-only preprocessing.
+The entry target identifies observed >=10% favorable moves within 24h and candidate entries within 95% of the best gain in the SMA opportunity window. Failed observed setups are negatives; unknown outcomes remain unlabeled. Exit targets label states at/after the best observed exit for sampled successful and failed candidate entries.
+Networks: 32/16 tanh hidden units, balanced binary cross entropy, Adam, L2=.001, 4,000 updates. Earlier validation average precision chooses the checkpoint; earlier validation profit chooses trading thresholds or cash. Test results never choose the final core/full artifacts.
+Optional means a training configuration: changing groups requires the corresponding retrained artifact, not dropping live inputs from a model trained to use them. Missing observations remain supported through training-fitted imputation.
+See feature-catalog.csv for every raw field, feature-schema.json for the partition, experiment.json for all 20 configurations.
+
+BASELINE STABILITY: FULL-PERIOD RESULTS
+Variant | Seed | Trades | Priced subtotal USD | Unpriced exits | Complete PnL USD | Mean priced trade % | Peak notional USD
+core | 20261114 | 2325 | +167.23 | 2 | unavailable | +0.07 | 8000
+core | 20261115 | 2196 | +227.80 | 8 | unavailable | +0.10 | 7400
+core | 20261116 | 1587 | +435.33 | 4 | unavailable | +0.28 | 8000
+full | 20261114 | 236 | +207.73 | 0 | +207.73 | +0.88 | 3100
+full | 20261115 | 2131 | -128.85 | 0 | -128.85 | -0.06 | 5100
+full | 20261116 | 3206 | -103.75 | 0 | -103.75 | -0.03 | 4500
+The original full model is exactly reproduced for the original seed. Its profit changes sign across initializations; the previous single profitable run was not a stable result.
+A priced subtotal excludes unresolved exits and is NOT total strategy profit. Exact missing deadline prices are not fabricated or replaced by later quotes.
+
+OPTIONAL-GROUP EFFECTS ON COMMON COMPLETE WINDOWS
+Included: 2026-11-03T00:00:00Z, 2026-11-07T00:00:00Z, 2026-11-11T00:00:00Z
+Excluded: 2026-06-01T00:00:00Z
+Supplemental descriptive comparison on the same windows for every variant and seed. Windows selected solely by complete exit-price availability across the entire matrix; not a full-period result or a new blind test.
+Positive contribution means including the group helped. Negative means including it hurt. Medians below are across three paired seed differences, not confidence intervals.
+Group | Add-to-core median USD | Full-minus-drop median USD | Across both contexts/seeds
+price_shape | +144.98 | +107.86 | mixed_or_context_dependent
+volume_detail | +59.34 | +20.46 | mixed_or_context_dependent
+sma_detail | +115.76 | -69.80 | mixed_or_context_dependent
+market_context | +258.56 | -10.85 | mixed_or_context_dependent
+derivatives | +98.94 | -54.51 | mixed_or_context_dependent
+liquidity | +0.00 | +0.00 | no_effect
+spot | +167.50 | -39.42 | mixed_or_context_dependent
+clock | +61.04 | -9.63 | mixed_or_context_dependent
+position_history | +171.50 | +40.71 | mixed_or_context_dependent
+
+Core versus full on the same complete windows (USD at $100 per trade):
+Seed | Core PnL | Full PnL | Full minus core
+20261114 | -182.08 | +178.42 | +360.49
+20261115 | -169.12 | +21.98 | +191.10
+20261116 | -53.57 | +69.69 | +123.25
+The full input set outperformed the core in all three seeds on these complete November windows. Optional information can be useful collectively even when no individual group has a stable profit contribution in both contexts. This does not override the instability of full-period profit.
+
+FULL-PERIOD EVIDENCE STATUS
+price_shape: inconclusive_full_period_due_to_missing_exits
+volume_detail: inconclusive_full_period_due_to_missing_exits
+sma_detail: inconclusive_full_period_due_to_missing_exits
+market_context: inconclusive_full_period_due_to_missing_exits
+derivatives: inconclusive_full_period_due_to_missing_exits
+liquidity: untestable_no_training_variation
+spot: inconclusive_full_period_due_to_missing_exits
+clock: inconclusive_full_period_due_to_missing_exits
+position_history: inconclusive_full_period_due_to_missing_exits
+Liquidity has no usable variation in the outer training folds. A zero ablation effect here means untestable, not evidence that liquidity never matters.
+Group tests cannot establish that every individual feature within a group is useful or useless. Interactions/redundancy can produce different add-to-core and remove-from-full results.
+
+DIRECTION/STAGE-SPECIFIC DIAGNOSTIC PATTERNS
+These are descriptive AP patterns, not significance claims or deployment choices. Consistent means the contribution had the same sign in all three seeds in BOTH add-to-core and full-minus-drop comparisons.
+long_entry: consistent AP help = none; consistent AP harm = none.
+short_entry: consistent AP help = none; consistent AP harm = none.
+long_exit: consistent AP help = none; consistent AP harm = sma_detail, derivatives.
+short_exit: consistent AP help = none; consistent AP harm = market_context.
+
+HELD-OUT TARGET RECOGNITION
+Average precision (AP) measures ranking of labeled entry/exit targets on identical test examples. It does not measure calibrated win probability or trading profit. Differences below are median across seeds of the four-fold mean AP change, in percentage points.
+Group | Model | Add-to-core AP pp | Full-minus-drop AP pp | Positive seed counts (add/drop)
+price_shape | long_entry | +0.20 | -0.47 | 2/1
+price_shape | short_entry | -2.30 | +2.54 | 0/2
+price_shape | long_exit | +0.09 | +0.53 | 2/3
+price_shape | short_exit | -0.25 | +0.66 | 0/2
+volume_detail | long_entry | +1.02 | +0.29 | 2/2
+volume_detail | short_entry | +1.06 | +0.56 | 2/2
+volume_detail | long_exit | -0.33 | +0.31 | 0/3
+volume_detail | short_exit | -0.69 | -0.34 | 0/1
+sma_detail | long_entry | +0.08 | +2.58 | 2/3
+sma_detail | short_entry | -5.78 | +0.88 | 0/3
+sma_detail | long_exit | -0.84 | -0.63 | 0/0
+sma_detail | short_exit | -1.49 | -1.42 | 0/1
+market_context | long_entry | +1.44 | +1.04 | 2/3
+market_context | short_entry | -9.44 | -0.72 | 0/1
+market_context | long_exit | -2.25 | +0.44 | 0/2
+market_context | short_exit | -7.28 | -0.58 | 0/0
+derivatives | long_entry | +1.82 | -0.54 | 2/1
+derivatives | short_entry | -4.74 | +0.74 | 0/3
+derivatives | long_exit | -0.46 | -0.28 | 0/0
+derivatives | short_exit | -1.29 | -0.01 | 0/1
+liquidity | long_entry | +0.00 | +0.00 | 0/0
+liquidity | short_entry | +0.00 | +0.00 | 0/0
+liquidity | long_exit | +0.00 | +0.00 | 0/0
+liquidity | short_exit | +0.00 | +0.00 | 0/0
+spot | long_entry | +2.85 | +0.58 | 2/2
+spot | short_entry | -0.42 | +0.58 | 1/2
+spot | long_exit | -0.66 | -0.14 | 0/1
+spot | short_exit | -2.12 | -0.13 | 0/1
+clock | long_entry | +2.32 | +0.27 | 3/2
+clock | short_entry | -2.03 | +0.33 | 0/2
+clock | long_exit | +0.23 | +0.34 | 2/2
+clock | short_exit | -0.89 | -0.79 | 0/1
+position_history | long_entry | +0.00 | +0.00 | 0/0
+position_history | short_entry | +0.00 | +0.00 | 0/0
+position_history | long_exit | +1.63 | +1.94 | 3/2
+position_history | short_exit | +0.46 | +0.24 | 2/2
+
+VALIDATION
+{
+  "preserved_baseline_files": 92,
+  "unchanged_candidate_arrays": 2,
+  "purged_fold_checks": 4,
+  "model_mask_and_checkpoint_checks": 816,
+  "trade_constraints_verified": 113100,
+  "censored_deadlines_verified": 76,
+  "entry_scores_reproduced": 113100,
+  "sampled_full_exit_paths_reproduced": 602,
+  "first_trade_runtime_reproductions": 222,
+  "exact_baseline_network_reproductions": 16,
+  "exact_baseline_trade_reproductions": 236,
+  "independent_native_payoffs": 113024,
+  "no_news_or_target_input_mutation": 1,
+  "serialized_final_policies_loaded": 2,
+  "exact_final_baseline_network_reproductions": 4
+}
+
+LIMITS
+These chronological periods are unseen by each fitted model but have already been researched in earlier experiments. They are not untouched research holdouts. There are only four outer periods and three initializations, with shared observations and rare long targets in later windows; this is not an independent statistical significance test.
+The core was retained by design, not individually ablated. Mandatory raw fields can still have missing observations; mandatory means retained in the allowed feature set, not a promise of complete source coverage.
+Whale/on-chain flows are not present in this feature dataset and were not tested. News was explicitly excluded. Missing liquidity history cannot be classified as noise.
+Adding/removing a group can change validation-selected thresholds, trade count, exposure and exit timing. Profit effects therefore measure the retrained whole policy; AP diagnostics separately measure target ranking. Neither establishes a causal market driver.
+Test windows start flat and exclude setups detected before the window. Portfolio notional is unconstrained apart from one position per symbol. Dollar totals are sums at $100 per trade, not a compounded fixed-capital portfolio return.
+Native candle fills are replay assumptions, not executable quotes. Costs are zero as requested; no claim of live profitability follows.
+Final core/full models are in models/core and models/full. Intermediate models, prepared matrices and every run/trade record remain in /mnt/c/Users/melli/.codex/research/centrypto/feature-ablation-2026-11-14.
+
+LOAD A PRESPECIFIED RESEARCH ARTIFACT
+Add this report directory to sys.path, then: from inference import ResearchPolicy; policy = ResearchPolicy(report_directory / "models" / "core")
+Use "full" for the full-input control. The API consumes contemporaneous feature dictionaries and returns entry/hold/exit decisions without placing orders.
+train_ablation.py resumes this locked experiment from its external cache. Keep the original preparation/schema files frozen; a different feature partition, data population or optimizer requires a new experiment directory and cache.

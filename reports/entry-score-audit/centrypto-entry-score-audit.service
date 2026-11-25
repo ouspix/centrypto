@@ -1,0 +1,15 @@
+[Unit]
+Description=Score the declared Centrypto research controls after frozen forward data are sealed
+After=centrypto-frozen-entry-evaluation.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/srv/centrypto-checkpoint
+Environment=OPENBLAS_NUM_THREADS=1
+Environment=OMP_NUM_THREADS=1
+ExecStart=/srv/centrypto-checkpoint/data/research/python -u reports/entry-score-audit/study.py shadow
+ExecStart=/srv/centrypto-checkpoint/data/research/python -u reports/entry-score-audit/execution.py shadow
+Restart=on-failure
+RestartSec=30min
+Nice=10
+UMask=0077

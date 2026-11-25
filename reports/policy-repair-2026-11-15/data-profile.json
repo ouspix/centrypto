@@ -1,0 +1,135 @@
+{
+  "candidates": 349094,
+  "causal_quality_pass": 204974,
+  "known_outcomes": 213937,
+  "by_fold": [
+    {
+      "fold": "2026-06-01T00:00:00Z",
+      "side": "long",
+      "split": "train",
+      "rows": 11097,
+      "positive": 1768,
+      "unique_times": 4165
+    },
+    {
+      "fold": "2026-06-01T00:00:00Z",
+      "side": "long",
+      "split": "validation",
+      "rows": 5144,
+      "positive": 373,
+      "unique_times": 1822
+    },
+    {
+      "fold": "2026-06-01T00:00:00Z",
+      "side": "short",
+      "split": "train",
+      "rows": 11386,
+      "positive": 685,
+      "unique_times": 4325
+    },
+    {
+      "fold": "2026-06-01T00:00:00Z",
+      "side": "short",
+      "split": "validation",
+      "rows": 4734,
+      "positive": 211,
+      "unique_times": 1730
+    },
+    {
+      "fold": "2026-11-03T00:00:00Z",
+      "side": "long",
+      "split": "train",
+      "rows": 30769,
+      "positive": 3071,
+      "unique_times": 11428
+    },
+    {
+      "fold": "2026-11-03T00:00:00Z",
+      "side": "long",
+      "split": "validation",
+      "rows": 4728,
+      "positive": 96,
+      "unique_times": 1695
+    },
+    {
+      "fold": "2026-11-03T00:00:00Z",
+      "side": "short",
+      "split": "train",
+      "rows": 30886,
+      "positive": 2307,
+      "unique_times": 11625
+    },
+    {
+      "fold": "2026-11-03T00:00:00Z",
+      "side": "short",
+      "split": "validation",
+      "rows": 4560,
+      "positive": 0,
+      "unique_times": 1684
+    },
+    {
+      "fold": "2026-11-07T00:00:00Z",
+      "side": "long",
+      "split": "train",
+      "rows": 38321,
+      "positive": 3321,
+      "unique_times": 14177
+    },
+    {
+      "fold": "2026-11-07T00:00:00Z",
+      "side": "long",
+      "split": "validation",
+      "rows": 10376,
+      "positive": 812,
+      "unique_times": 3803
+    },
+    {
+      "fold": "2026-11-07T00:00:00Z",
+      "side": "short",
+      "split": "train",
+      "rows": 38695,
+      "positive": 3325,
+      "unique_times": 14441
+    },
+    {
+      "fold": "2026-11-07T00:00:00Z",
+      "side": "short",
+      "split": "validation",
+      "rows": 10328,
+      "positive": 376,
+      "unique_times": 3901
+    },
+    {
+      "fold": "2026-11-11T00:00:00Z",
+      "side": "long",
+      "split": "train",
+      "rows": 44926,
+      "positive": 3464,
+      "unique_times": 16620
+    },
+    {
+      "fold": "2026-11-11T00:00:00Z",
+      "side": "long",
+      "split": "validation",
+      "rows": 3121,
+      "positive": 8,
+      "unique_times": 1191
+    },
+    {
+      "fold": "2026-11-11T00:00:00Z",
+      "side": "short",
+      "split": "train",
+      "rows": 45730,
+      "positive": 3621,
+      "unique_times": 17133
+    },
+    {
+      "fold": "2026-11-11T00:00:00Z",
+      "side": "short",
+      "split": "validation",
+      "rows": 3796,
+      "positive": 32,
+      "unique_times": 1313
+    }
+  ]
+}

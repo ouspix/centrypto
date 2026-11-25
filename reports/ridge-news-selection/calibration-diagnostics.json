@@ -1,0 +1,704 @@
+{
+  "constant": {
+    "long": {
+      "raw_distinct": 1,
+      "calibrated_distinct": 1,
+      "passing": 0,
+      "raw_payoff_spearman": null,
+      "by_population": {
+        "all": {
+          "total": 799,
+          "priced": 799,
+          "forecast_bps": -26.709530214263925,
+          "realized_bps": -26.709530214263925,
+          "error_bps": -4.55316496507098e-15,
+          "rmse_bps": 241.62613535405106
+        },
+        "passed": {
+          "total": 0,
+          "priced": 0
+        },
+        "near_gate": {
+          "total": 0,
+          "priced": 0
+        },
+        "competing": {
+          "total": 0,
+          "priced": 0
+        },
+        "executed": {
+          "total": 0,
+          "priced": 0
+        }
+      }
+    },
+    "short": {
+      "raw_distinct": 1,
+      "calibrated_distinct": 1,
+      "passing": 549,
+      "raw_payoff_spearman": null,
+      "by_population": {
+        "all": {
+          "total": 549,
+          "priced": 549,
+          "forecast_bps": 53.281364676704676,
+          "realized_bps": 53.28136467670467,
+          "error_bps": -3.3132776020871703e-15,
+          "rmse_bps": 280.1615370008222
+        },
+        "passed": {
+          "total": 549,
+          "priced": 549,
+          "forecast_bps": 53.281364676704676,
+          "realized_bps": 53.28136467670467,
+          "error_bps": -3.3132776020871703e-15,
+          "rmse_bps": 280.1615370008222
+        },
+        "near_gate": {
+          "total": 0,
+          "priced": 0
+        },
+        "competing": {
+          "total": 2,
+          "priced": 2,
+          "forecast_bps": 53.28136467670467,
+          "realized_bps": 141.72653891652692,
+          "error_bps": -88.44517423982226,
+          "rmse_bps": 161.15733481412428
+        },
+        "executed": {
+          "total": 57,
+          "priced": 57,
+          "forecast_bps": 53.281364676704676,
+          "realized_bps": 27.69335223542231,
+          "error_bps": 25.58801244128237,
+          "rmse_bps": 433.5516506425602
+        }
+      }
+    }
+  },
+  "market218": {
+    "long": {
+      "raw_distinct": 799,
+      "calibrated_distinct": 1,
+      "passing": 0,
+      "raw_payoff_spearman": -0.12833583399211032,
+      "by_population": {
+        "all": {
+          "total": 799,
+          "priced": 799,
+          "forecast_bps": -26.709530214263925,
+          "realized_bps": -26.709530214263925,
+          "error_bps": -4.55316496507098e-15,
+          "rmse_bps": 241.62613535405106
+        },
+        "passed": {
+          "total": 0,
+          "priced": 0
+        },
+        "near_gate": {
+          "total": 0,
+          "priced": 0
+        },
+        "competing": {
+          "total": 0,
+          "priced": 0
+        },
+        "executed": {
+          "total": 0,
+          "priced": 0
+        }
+      }
+    },
+    "short": {
+      "raw_distinct": 549,
+      "calibrated_distinct": 549,
+      "passing": 549,
+      "raw_payoff_spearman": 0.04671119813991535,
+      "by_population": {
+        "all": {
+          "total": 549,
+          "priced": 549,
+          "forecast_bps": 53.28136467670467,
+          "realized_bps": 53.28136467670467,
+          "error_bps": -6.6265552041743405e-15,
+          "rmse_bps": 278.3527531834616
+        },
+        "passed": {
+          "total": 549,
+          "priced": 549,
+          "forecast_bps": 53.28136467670467,
+          "realized_bps": 53.28136467670467,
+          "error_bps": -6.6265552041743405e-15,
+          "rmse_bps": 278.3527531834616
+        },
+        "near_gate": {
+          "total": 0,
+          "priced": 0
+        },
+        "competing": {
+          "total": 2,
+          "priced": 2,
+          "forecast_bps": 48.41470131528598,
+          "realized_bps": 141.72653891652692,
+          "error_bps": -93.31183760124095,
+          "rmse_bps": 164.14786081480284
+        },
+        "executed": {
+          "total": 57,
+          "priced": 57,
+          "forecast_bps": 56.40248341597228,
+          "realized_bps": 27.69335223542231,
+          "error_bps": 28.70913118054997,
+          "rmse_bps": 445.45376468989093
+        }
+      }
+    }
+  },
+  "content218": {
+    "long": {
+      "raw_distinct": 799,
+      "calibrated_distinct": 1,
+      "passing": 0,
+      "raw_payoff_spearman": -0.11956948346075179,
+      "by_population": {
+        "all": {
+          "total": 799,
+          "priced": 799,
+          "forecast_bps": -26.709530214263925,
+          "realized_bps": -26.709530214263925,
+          "error_bps": -4.55316496507098e-15,
+          "rmse_bps": 241.62613535405106
+        },
+        "passed": {
+          "total": 0,
+          "priced": 0
+        },
+        "near_gate": {
+          "total": 0,
+          "priced": 0
+        },
+        "competing": {
+          "total": 0,
+          "priced": 0
+        },
+        "executed": {
+          "total": 0,
+          "priced": 0
+        }
+      }
+    },
+    "short": {
+      "raw_distinct": 549,
+      "calibrated_distinct": 549,
+      "passing": 549,
+      "raw_payoff_spearman": 0.05475384850688412,
+      "by_population": {
+        "all": {
+          "total": 549,
+          "priced": 549,
+          "forecast_bps": 53.28136467670467,
+          "realized_bps": 53.28136467670467,
+          "error_bps": -4.969916403130755e-15,
+          "rmse_bps": 278.2162840712294
+        },
+        "passed": {
+          "total": 549,
+          "priced": 549,
+          "forecast_bps": 53.28136467670467,
+          "realized_bps": 53.28136467670467,
+          "error_bps": -4.969916403130755e-15,
+          "rmse_bps": 278.2162840712294
+        },
+        "near_gate": {
+          "total": 0,
+          "priced": 0
+        },
+        "competing": {
+          "total": 2,
+          "priced": 2,
+          "forecast_bps": 47.54084804943455,
+          "realized_bps": 141.72653891652692,
+          "error_bps": -94.18569086709238,
+          "rmse_bps": 164.39356184380082
+        },
+        "executed": {
+          "total": 57,
+          "priced": 57,
+          "forecast_bps": 56.33022357701937,
+          "realized_bps": 27.69335223542231,
+          "error_bps": 28.636871341597047,
+          "rmse_bps": 445.12865346748526
+        }
+      }
+    }
+  },
+  "market357": {
+    "long": {
+      "raw_distinct": 799,
+      "calibrated_distinct": 1,
+      "passing": 0,
+      "raw_payoff_spearman": -0.07705088543599815,
+      "by_population": {
+        "all": {
+          "total": 799,
+          "priced": 799,
+          "forecast_bps": -26.709530214263925,
+          "realized_bps": -26.709530214263925,
+          "error_bps": -4.55316496507098e-15,
+          "rmse_bps": 241.62613535405106
+        },
+        "passed": {
+          "total": 0,
+          "priced": 0
+        },
+        "near_gate": {
+          "total": 0,
+          "priced": 0
+        },
+        "competing": {
+          "total": 0,
+          "priced": 0
+        },
+        "executed": {
+          "total": 0,
+          "priced": 0
+        }
+      }
+    },
+    "short": {
+      "raw_distinct": 549,
+      "calibrated_distinct": 549,
+      "passing": 549,
+      "raw_payoff_spearman": 0.08550125538026611,
+      "by_population": {
+        "all": {
+          "total": 549,
+          "priced": 549,
+          "forecast_bps": 53.28136467670467,
+          "realized_bps": 53.28136467670467,
+          "error_bps": -1.6566388010435851e-15,
+          "rmse_bps": 277.85124977720193
+        },
+        "passed": {
+          "total": 549,
+          "priced": 549,
+          "forecast_bps": 53.28136467670467,
+          "realized_bps": 53.28136467670467,
+          "error_bps": -1.6566388010435851e-15,
+          "rmse_bps": 277.85124977720193
+        },
+        "near_gate": {
+          "total": 0,
+          "priced": 0
+        },
+        "competing": {
+          "total": 2,
+          "priced": 2,
+          "forecast_bps": 46.65769307146887,
+          "realized_bps": 141.72653891652692,
+          "error_bps": -95.06884584505806,
+          "rmse_bps": 165.62388322079
+        },
+        "executed": {
+          "total": 57,
+          "priced": 57,
+          "forecast_bps": 56.83522125587052,
+          "realized_bps": 27.69335223542231,
+          "error_bps": 29.141869020448222,
+          "rmse_bps": 447.0126323387782
+        }
+      }
+    }
+  },
+  "availability357": {
+    "long": {
+      "raw_distinct": 799,
+      "calibrated_distinct": 1,
+      "passing": 0,
+      "raw_payoff_spearman": -0.06409580500286556,
+      "by_population": {
+        "all": {
+          "total": 799,
+          "priced": 799,
+          "forecast_bps": -26.709530214263925,
+          "realized_bps": -26.709530214263925,
+          "error_bps": -4.55316496507098e-15,
+          "rmse_bps": 241.62613535405106
+        },
+        "passed": {
+          "total": 0,
+          "priced": 0
+        },
+        "near_gate": {
+          "total": 0,
+          "priced": 0
+        },
+        "competing": {
+          "total": 0,
+          "priced": 0
+        },
+        "executed": {
+          "total": 0,
+          "priced": 0
+        }
+      }
+    },
+    "short": {
+      "raw_distinct": 549,
+      "calibrated_distinct": 549,
+      "passing": 549,
+      "raw_payoff_spearman": 0.09461265240264237,
+      "by_population": {
+        "all": {
+          "total": 549,
+          "priced": 549,
+          "forecast_bps": 53.28136467670467,
+          "realized_bps": 53.28136467670467,
+          "error_bps": -4.969916403130755e-15,
+          "rmse_bps": 277.6941697873756
+        },
+        "passed": {
+          "total": 549,
+          "priced": 549,
+          "forecast_bps": 53.28136467670467,
+          "realized_bps": 53.28136467670467,
+          "error_bps": -4.969916403130755e-15,
+          "rmse_bps": 277.6941697873756
+        },
+        "near_gate": {
+          "total": 0,
+          "priced": 0
+        },
+        "competing": {
+          "total": 2,
+          "priced": 2,
+          "forecast_bps": 46.14002951341373,
+          "realized_bps": 141.72653891652692,
+          "error_bps": -95.58650940311321,
+          "rmse_bps": 165.7953144511767
+        },
+        "executed": {
+          "total": 57,
+          "priced": 57,
+          "forecast_bps": 56.88640072526702,
+          "realized_bps": 27.69335223542231,
+          "error_bps": 29.193048489844717,
+          "rmse_bps": 447.37017725893014
+        }
+      }
+    }
+  },
+  "content357": {
+    "long": {
+      "raw_distinct": 799,
+      "calibrated_distinct": 1,
+      "passing": 0,
+      "raw_payoff_spearman": -0.05075195147016364,
+      "by_population": {
+        "all": {
+          "total": 799,
+          "priced": 799,
+          "forecast_bps": -26.709530214263925,
+          "realized_bps": -26.709530214263925,
+          "error_bps": -4.55316496507098e-15,
+          "rmse_bps": 241.62613535405106
+        },
+        "passed": {
+          "total": 0,
+          "priced": 0
+        },
+        "near_gate": {
+          "total": 0,
+          "priced": 0
+        },
+        "competing": {
+          "total": 0,
+          "priced": 0
+        },
+        "executed": {
+          "total": 0,
+          "priced": 0
+        }
+      }
+    },
+    "short": {
+      "raw_distinct": 549,
+      "calibrated_distinct": 549,
+      "passing": 549,
+      "raw_payoff_spearman": 0.07912753809200351,
+      "by_population": {
+        "all": {
+          "total": 549,
+          "priced": 549,
+          "forecast_bps": 53.28136467670467,
+          "realized_bps": 53.28136467670467,
+          "error_bps": -3.3132776020871703e-15,
+          "rmse_bps": 277.64699988318915
+        },
+        "passed": {
+          "total": 549,
+          "priced": 549,
+          "forecast_bps": 53.28136467670467,
+          "realized_bps": 53.28136467670467,
+          "error_bps": -3.3132776020871703e-15,
+          "rmse_bps": 277.64699988318915
+        },
+        "near_gate": {
+          "total": 0,
+          "priced": 0
+        },
+        "competing": {
+          "total": 2,
+          "priced": 2,
+          "forecast_bps": 45.431378459045064,
+          "realized_bps": 141.72653891652692,
+          "error_bps": -96.29516045748187,
+          "rmse_bps": 165.9758666499597
+        },
+        "executed": {
+          "total": 57,
+          "priced": 57,
+          "forecast_bps": 56.924341305287186,
+          "realized_bps": 27.69335223542231,
+          "error_bps": 29.230989069864876,
+          "rmse_bps": 446.95523122283373
+        }
+      }
+    }
+  },
+  "market_decay": {
+    "long": {
+      "raw_distinct": 799,
+      "calibrated_distinct": 1,
+      "passing": 0,
+      "raw_payoff_spearman": -0.1657958412723574,
+      "by_population": {
+        "all": {
+          "total": 799,
+          "priced": 799,
+          "forecast_bps": -26.709530214263925,
+          "realized_bps": -26.709530214263925,
+          "error_bps": -4.55316496507098e-15,
+          "rmse_bps": 241.62613535405106
+        },
+        "passed": {
+          "total": 0,
+          "priced": 0
+        },
+        "near_gate": {
+          "total": 0,
+          "priced": 0
+        },
+        "competing": {
+          "total": 0,
+          "priced": 0
+        },
+        "executed": {
+          "total": 0,
+          "priced": 0
+        }
+      }
+    },
+    "short": {
+      "raw_distinct": 549,
+      "calibrated_distinct": 549,
+      "passing": 549,
+      "raw_payoff_spearman": 0.07176789349287269,
+      "by_population": {
+        "all": {
+          "total": 549,
+          "priced": 549,
+          "forecast_bps": 53.28136467670467,
+          "realized_bps": 53.28136467670467,
+          "error_bps": 0.0,
+          "rmse_bps": 278.5181671740212
+        },
+        "passed": {
+          "total": 549,
+          "priced": 549,
+          "forecast_bps": 53.28136467670467,
+          "realized_bps": 53.28136467670467,
+          "error_bps": 0.0,
+          "rmse_bps": 278.5181671740212
+        },
+        "near_gate": {
+          "total": 0,
+          "priced": 0
+        },
+        "competing": {
+          "total": 2,
+          "priced": 2,
+          "forecast_bps": 48.49465825569669,
+          "realized_bps": 141.72653891652692,
+          "error_bps": -93.23188066083026,
+          "rmse_bps": 164.31529725231655
+        },
+        "executed": {
+          "total": 57,
+          "priced": 57,
+          "forecast_bps": 56.35536009061543,
+          "realized_bps": 27.69335223542231,
+          "error_bps": 28.66200785519312,
+          "rmse_bps": 444.62227006757973
+        }
+      }
+    }
+  },
+  "content_decay": {
+    "long": {
+      "raw_distinct": 799,
+      "calibrated_distinct": 1,
+      "passing": 0,
+      "raw_payoff_spearman": -0.14416396068779494,
+      "by_population": {
+        "all": {
+          "total": 799,
+          "priced": 799,
+          "forecast_bps": -26.709530214263925,
+          "realized_bps": -26.709530214263925,
+          "error_bps": -4.55316496507098e-15,
+          "rmse_bps": 241.62613535405106
+        },
+        "passed": {
+          "total": 0,
+          "priced": 0
+        },
+        "near_gate": {
+          "total": 0,
+          "priced": 0
+        },
+        "competing": {
+          "total": 0,
+          "priced": 0
+        },
+        "executed": {
+          "total": 0,
+          "priced": 0
+        }
+      }
+    },
+    "short": {
+      "raw_distinct": 549,
+      "calibrated_distinct": 549,
+      "passing": 549,
+      "raw_payoff_spearman": 0.07378913513179934,
+      "by_population": {
+        "all": {
+          "total": 549,
+          "priced": 549,
+          "forecast_bps": 53.28136467670467,
+          "realized_bps": 53.28136467670467,
+          "error_bps": -8.283194005217926e-15,
+          "rmse_bps": 278.36273543387927
+        },
+        "passed": {
+          "total": 549,
+          "priced": 549,
+          "forecast_bps": 53.28136467670467,
+          "realized_bps": 53.28136467670467,
+          "error_bps": -8.283194005217926e-15,
+          "rmse_bps": 278.36273543387927
+        },
+        "near_gate": {
+          "total": 0,
+          "priced": 0
+        },
+        "competing": {
+          "total": 2,
+          "priced": 2,
+          "forecast_bps": 47.69183671057935,
+          "realized_bps": 141.72653891652692,
+          "error_bps": -94.03470220594758,
+          "rmse_bps": 164.54486422226813
+        },
+        "executed": {
+          "total": 57,
+          "priced": 57,
+          "forecast_bps": 56.361195420853385,
+          "realized_bps": 27.69335223542231,
+          "error_bps": 28.667843185431067,
+          "rmse_bps": 444.3849472640129
+        }
+      }
+    }
+  },
+  "relative_content": {
+    "long": {
+      "raw_distinct": 754,
+      "calibrated_distinct": 1,
+      "passing": 0,
+      "raw_payoff_spearman": -0.028349786546499677,
+      "by_population": {
+        "all": {
+          "total": 799,
+          "priced": 799,
+          "forecast_bps": -26.709530214263925,
+          "realized_bps": -26.709530214263925,
+          "error_bps": -4.55316496507098e-15,
+          "rmse_bps": 241.62613535405106
+        },
+        "passed": {
+          "total": 0,
+          "priced": 0
+        },
+        "near_gate": {
+          "total": 0,
+          "priced": 0
+        },
+        "competing": {
+          "total": 0,
+          "priced": 0
+        },
+        "executed": {
+          "total": 0,
+          "priced": 0
+        }
+      }
+    },
+    "short": {
+      "raw_distinct": 498,
+      "calibrated_distinct": 549,
+      "passing": 549,
+      "raw_payoff_spearman": 0.016203576940095596,
+      "by_population": {
+        "all": {
+          "total": 549,
+          "priced": 549,
+          "forecast_bps": 53.28136467670467,
+          "realized_bps": 53.28136467670467,
+          "error_bps": -3.3132776020871703e-15,
+          "rmse_bps": 277.64699988318915
+        },
+        "passed": {
+          "total": 549,
+          "priced": 549,
+          "forecast_bps": 53.28136467670467,
+          "realized_bps": 53.28136467670467,
+          "error_bps": -3.3132776020871703e-15,
+          "rmse_bps": 277.64699988318915
+        },
+        "near_gate": {
+          "total": 0,
+          "priced": 0
+        },
+        "competing": {
+          "total": 2,
+          "priced": 2,
+          "forecast_bps": 45.431378459045064,
+          "realized_bps": 141.72653891652692,
+          "error_bps": -96.29516045748187,
+          "rmse_bps": 165.9758666499597
+        },
+        "executed": {
+          "total": 57,
+          "priced": 57,
+          "forecast_bps": 56.924341305287186,
+          "realized_bps": 27.69335223542231,
+          "error_bps": 29.230989069864876,
+          "rmse_bps": 446.95523122283373
+        }
+      }
+    }
+  }
+}

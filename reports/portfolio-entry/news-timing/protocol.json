@@ -1,0 +1,7 @@
+{
+  "visibility": "Historical first visibility at max(archive batch time, HTTP Last-Modified when known, publication timestamp when known). No fixed waiting period. Retain canonical and syndicated deduplication.",
+  "features": "Four cumulative asset flags count whether any visible matched story has a documented publication age of at most 5m, 30m, 2h and 8h, including boundary, and remains unexpired. Stories without publication may contribute to existing aggregates. Drop the always-zero pending processing flag. Recompute existing content features on the immediate clock.",
+  "fit": "Same market matrix, candidate and outcome tape, direction inputs, ridge penalty, MLP architecture and seed, expanding chronological splits and median side calibration as the previous experiment. Fit outcomes mature before their validation block.",
+  "execution": "Use prior trained portfolio risk coefficients and the same pretest periods to choose cash or size. Compare both models with their previous delayed-news fit at the same fixed $100 size under base and stress, $1,000 starting equity and strict 15 bps hurdle.",
+  "scope": "Historical retrospective comparison only. The news ingestion filter and asset matcher are inherited."
+}

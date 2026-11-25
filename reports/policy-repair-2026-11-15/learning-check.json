@@ -1,0 +1,5 @@
+{
+  "models": 48,
+  "lower_final_vs_first_recorded_training_loss": 48,
+  "checkpoint": "fixed 4000; validation metrics never select a checkpoint"
+}

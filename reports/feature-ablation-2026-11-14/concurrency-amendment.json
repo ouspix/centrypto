@@ -1,0 +1,6 @@
+{
+  "only_change": "CPU worker count 4 to 8; no features, labels, seeds, training, selection or execution changes.",
+  "completed_runs_reused": true,
+  "model_rules_unchanged": true,
+  "stopped_process_count": 6
+}

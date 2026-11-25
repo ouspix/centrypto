@@ -1,0 +1,151 @@
+{
+  "day_partitions_verified": 539,
+  "frozen_minute_comparisons": 205626,
+  "max_relative_numeric_error": 2.220389130095367e-16,
+  "hourly_cross_check": {
+    "raw_mirror": {
+      "matched_complete_native_hours": 93237,
+      "by_symbol": {
+        "BTC": {
+          "hours": 2635,
+          "fraction_matching": {
+            "open": 1.0,
+            "high": 1.0,
+            "low": 1.0,
+            "close": 1.0,
+            "volume": 1.0
+          },
+          "median_volume_ratio": 1.0000000000000278
+        },
+        "ETH": {
+          "hours": 2634,
+          "fraction_matching": {
+            "open": 1.0,
+            "high": 1.0,
+            "low": 1.0,
+            "close": 1.0,
+            "volume": 1.0
+          },
+          "median_volume_ratio": 1.000000000000002
+        },
+        "SOL": {
+          "hours": 2634,
+          "fraction_matching": {
+            "open": 1.0,
+            "high": 1.0,
+            "low": 1.0,
+            "close": 1.0,
+            "volume": 1.0
+          },
+          "median_volume_ratio": 0.9999999999999996
+        },
+        "HYPE": {
+          "hours": 2634,
+          "fraction_matching": {
+            "open": 1.0,
+            "high": 1.0,
+            "low": 1.0,
+            "close": 1.0,
+            "volume": 1.0
+          },
+          "median_volume_ratio": 1.0000000000000007
+        },
+        "DOGE": {
+          "hours": 2196,
+          "fraction_matching": {
+            "open": 1.0,
+            "high": 1.0,
+            "low": 1.0,
+            "close": 1.0,
+            "volume": 1.0
+          },
+          "median_volume_ratio": 1.0
+        },
+        "XRP": {
+          "hours": 2238,
+          "fraction_matching": {
+            "open": 1.0,
+            "high": 1.0,
+            "low": 1.0,
+            "close": 1.0,
+            "volume": 1.0
+          },
+          "median_volume_ratio": 1.0
+        }
+      }
+    },
+    "reservoir": {
+      "matched_complete_native_hours": 204650,
+      "by_symbol": {
+        "BTC": {
+          "hours": 8309,
+          "fraction_matching": {
+            "open": 1.0,
+            "high": 0.9731616319653388,
+            "low": 0.9740040919484896,
+            "close": 0.9997592971476712,
+            "volume": 0.9978336743290408
+          },
+          "median_volume_ratio": 0.9999999999999881
+        },
+        "ETH": {
+          "hours": 8309,
+          "fraction_matching": {
+            "open": 0.9998796485738356,
+            "high": 0.9916957515946564,
+            "low": 0.9880852088097244,
+            "close": 1.0,
+            "volume": 0.9978336743290408
+          },
+          "median_volume_ratio": 0.9999999999999994
+        },
+        "SOL": {
+          "hours": 8273,
+          "fraction_matching": {
+            "open": 0.9998791248640154,
+            "high": 0.9856158588178412,
+            "low": 0.9771545992989242,
+            "close": 0.9995164994560619,
+            "volume": 0.9991538740481083
+          },
+          "median_volume_ratio": 1.0
+        },
+        "HYPE": {
+          "hours": 8309,
+          "fraction_matching": {
+            "open": 0.9997592971476712,
+            "high": 0.9941027801179444,
+            "low": 0.9839932603201348,
+            "close": 1.0,
+            "volume": 0.9972319171982188
+          },
+          "median_volume_ratio": 0.9999999999999999
+        },
+        "DOGE": {
+          "hours": 3434,
+          "fraction_matching": {
+            "open": 1.0,
+            "high": 0.9959231217239372,
+            "low": 0.9839836924868958,
+            "close": 1.0,
+            "volume": 0.999126383226558
+          },
+          "median_volume_ratio": 1.0
+        },
+        "XRP": {
+          "hours": 6441,
+          "fraction_matching": {
+            "open": 0.999844744604875,
+            "high": 0.9895978885266263,
+            "low": 0.968483154789629,
+            "close": 0.999844744604875,
+            "volume": 0.9987579568390001
+          },
+          "median_volume_ratio": 1.0
+        }
+      }
+    }
+  },
+  "funding_rows": 4958848,
+  "unique_timestamp_per_symbol": true
+}

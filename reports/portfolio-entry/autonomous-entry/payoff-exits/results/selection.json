@@ -1,0 +1,10 @@
+{
+  "model": "snapshot-neural",
+  "criterion": "Highest lower-of-base-and-stress validation net P&L",
+  "scores": {
+    "snapshot-named": -1148.4671973387008,
+    "snapshot-neural": -233.32525289471755,
+    "ordered-named": -1149.6351439284208,
+    "ordered-neural": -441.3738962996795
+  }
+}

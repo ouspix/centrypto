@@ -1,0 +1,3 @@
+# Install alongside the recovered Python 3.12 research runtime.
+lightgbm==4.6.0
+websockets==15.0.1

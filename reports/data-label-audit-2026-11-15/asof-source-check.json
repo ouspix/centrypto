@@ -1,0 +1,70 @@
+{
+  "checks": [
+    {
+      "symbol": "0G",
+      "decision": "2026-11-07T15:05:05.000Z",
+      "exportedTickTime": "2026-11-07T15:05:04.487Z",
+      "dbTickTime": "2026-11-07T15:05:04.487Z",
+      "fieldsCompared": 9,
+      "match": true
+    },
+    {
+      "symbol": "2Z",
+      "decision": "2026-11-07T03:10:05.000Z",
+      "exportedTickTime": "2026-11-07T03:10:01.746Z",
+      "dbTickTime": "2026-11-07T03:10:01.746Z",
+      "fieldsCompared": 9,
+      "match": true
+    },
+    {
+      "symbol": "AAVE",
+      "decision": "2026-11-07T03:10:05.000Z",
+      "exportedTickTime": "2026-11-07T03:10:01.746Z",
+      "dbTickTime": "2026-11-07T03:10:01.746Z",
+      "fieldsCompared": 9,
+      "match": true
+    },
+    {
+      "symbol": "ACE",
+      "decision": "2026-11-07T00:35:05.000Z",
+      "exportedTickTime": "2026-11-07T00:35:01.304Z",
+      "dbTickTime": "2026-11-07T00:35:01.304Z",
+      "fieldsCompared": 9,
+      "match": true
+    },
+    {
+      "symbol": "0G",
+      "decision": "2026-05-23T11:55:05.000Z",
+      "exportedTickTime": "2026-05-23T11:54:58.858Z",
+      "dbTickTime": "2026-05-23T11:54:58.858Z",
+      "fieldsCompared": 9,
+      "match": true
+    },
+    {
+      "symbol": "2Z",
+      "decision": "2026-05-23T11:55:05.000Z",
+      "exportedTickTime": "2026-05-23T11:54:58.858Z",
+      "dbTickTime": "2026-05-23T11:54:58.858Z",
+      "fieldsCompared": 9,
+      "match": true
+    },
+    {
+      "symbol": "AAVE",
+      "decision": "2026-05-23T11:55:05.000Z",
+      "exportedTickTime": "2026-05-23T11:54:58.858Z",
+      "dbTickTime": "2026-05-23T11:54:58.858Z",
+      "fieldsCompared": 9,
+      "match": true
+    },
+    {
+      "symbol": "ACE",
+      "decision": "2026-05-23T11:55:05.000Z",
+      "exportedTickTime": "2026-05-23T11:54:58.858Z",
+      "dbTickTime": "2026-05-23T11:54:58.858Z",
+      "fieldsCompared": 9,
+      "match": true
+    }
+  ],
+  "allMatch": true,
+  "scope": "Eight sampled latest-tick joins compared directly with source DB; publication time is not separately recorded."
+}

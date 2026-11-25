@@ -1,0 +1,7 @@
+{
+  "file": "/home/mellinien/projects/centrypto/reports/two-stage-rebuild-2026-11-14/validate.py",
+  "before_sha256": "6484d22d14646a8423a70d0124d71fd1e71e64d048aa6fab53b8a160e2473b32",
+  "after_sha256": "476b2cc08bd620e3ce1d4fe86c76c642503741cf464e3408b4d385c953afbd76",
+  "scope": "Validation only; no fitted code, model, data, target, threshold or trades changed.",
+  "reason": "The quarantine assertion incorrectly carried a censored baseline position across independent outer replay folds. Check occupancy and quarantine within the same policy/fold/symbol, matching the actual replay book scope."
+}

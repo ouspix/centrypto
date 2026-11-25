@@ -1,0 +1,107 @@
+SMA detectors and four independent models — completed 14 November 2026
+
+Implemented and trained long-entry, short-entry, long-exit and short-exit networks, plus causal bullish/bearish SMA detectors. All four final artifacts are saved. Nothing was activated in production. The old model, its training inputs and its results remain unchanged and match all 43 original delivery hashes.
+
+RESULTS — $100 notional per trade; fees, funding payments and slippage excluded
+
+Across the same four chronological outer test windows:
+
+                         Current system        SMA / four-model system
+Trades                         120                      157
+Gross PnL                    -$0.97                  +$161.36
+Long trades                     54                       57
+Long PnL                    -$92.88                   +$44.36
+Short trades                    66                      100
+Short PnL                   +$91.91                  +$117.01
+Winners / losers             58 / 62                  84 / 73
+Median holding minutes          925                      310
+Peak simultaneous positions      37                       20
+Peak gross notional          $3,700                   $2,000
+Censored/unpriced trades          0                        0
+
+Results by test window (boundaries defined in UTC):
+
+Window                          Current                 New
+1–10 June                       $0.00              +$29.31 (46 shorts)
+3–7 November                    $0.00              +$44.36 (57 longs)
+7–11 November                  -$8.32                $0.00 (no trades)
+11–14 November                 +$7.35              +$87.70 (54 shorts)
+
+The 14 November archive ends at 09:30 Paris / 08:30 UTC. Both systems stop allowing entries 24h32m before each test/archive end, preserving comparable holding room. A missing exact-deadline price would be censored and that symbol quarantined; no test trade needed that treatment here.
+
+The improvement in the two windows where the old system actually traded is -$0.97 to +$87.70. The new system takes no longs in those windows: on 7 November its validation-selected long threshold is not reached in test, and on 11 November long validation selects cash. Its profitable long trades come entirely from 3–7 November. Therefore this is evidence of improved overall selection and abstention, not proof that long entries during falling markets have been solved.
+
+The largest three winners contribute $72.87: two INIT shorts and one kPEPE short. Excluding those three retrospectively leaves +$88.49 across all folds; that is a sensitivity diagnostic, not a second strategy result. The three profits' entry/exit opens were independently read from the public exchange candle endpoint and matched exactly. The same three trades account for about 83% of the last window's +$87.70. All 157 payoffs were also independently recomputed from the frozen original 1m candles.
+
+UNSEEN RALLIES AND DETECTOR COVERAGE
+
+Models were fitted only on earlier data, with purged validation and no test-driven parameter changes. These test periods were already inspected in earlier research: they are unseen by each fitted model, but are not pristine research holdouts. A later untouched confirmation period is still required before asserting generalization beyond this comparison.
+
+Using 501 scorable previously defined >=+10% bullish / <=-10% bearish 24h rally windows inside the comparable test scope:
+
+                 Rally windows   Detector coverage   Old participation   New participation
+Bullish                151              126                   3                  6
+Bearish                350              308                   4                 16
+Total                  501              434                   7                 22
+
+Coverage means at least one same-direction eligible detector candidate in the event's preceding-24h anchor window. Participation means a same-direction executed trade in that window. This is not capture of the exact optimum. Windows can overlap and are not independent; their PnL is never summed separately. The primary results include every executed trade, including failed setups and trades outside these rally windows. The detector covers 86.6% of the scorable windows, but the trading policy participates in only 4.4%; opportunity capture remains limited.
+
+WHAT WAS IMPLEMENTED
+
+- Eight fast/slow SMA pairs: 3/12, 5/20, 8/30, 10/30, 10/50, 20/50, 20/80, 30/80, in closed five-minute candles. Bullish crossings route to the long-entry model; bearish crossings route to the short-entry model.
+- A detected pair opens a one-hour entry window, ending earlier on the opposite crossing of that same pair. Each five-minute candidate carries pair identity, fast/slow periods and time since detection. Pairs are discrete candidate inputs; periods outside this eight-pair menu are not searched.
+- Each direction has its own entry and exit weights, preprocessing, selected checkpoint and validation-selected trading thresholds. There is no raw long-score-versus-short-score comparison: if both directions qualify simultaneously the policy waits. Within one direction it chooses the highest-scoring pair, breaking ties by pair index. One position per symbol and at most one entry per detector event.
+- Entry models retain contemporaneous, asset-relevant news plus market and SMA features. Exit models receive market/SMA and side-adjusted position state, with no news or entry score. All decisions occur on five-minute steps; every position has a strict 24h holding limit.
+- Four smaller 32/16 tanh binary networks with L2 regularization. Each trains for 4,000 updates and independently selects among checkpoints 200/600/1500/4000 using earlier validation AP. Each side then independently selects entry/exit thresholds using continuous validation gross PnL, with cash allowed. A score is not a calibrated probability of making money.
+
+SUCCESSFUL AND FAILED SETUPS
+
+The detector produces 84,160 setups and 349,094 candidate states across the frozen archives. Of these, 75,327 setups have sufficiently observed outcomes: 8,474 reach the 10% target and 66,853 fall short. A further 8,833 have incomplete outcomes and stay unlabeled. Among known setups, 1,751 have no profitable observed eligible entry/exit combination at all. Setup counts overlap across SMA pairs and are not independent rallies.
+
+An entry candidate is positive if its observed best five-minute-to-24h gross gain reaches 10% and retains at least 95% of the best eligible candidate gain within that setup's one-hour window. Other fully observed candidates are negative. Thus failed means failure to reach the stated rally target; it does not necessarily mean every candidate loses money. Future outcomes are used only for labels. Live detection and replay do not filter on those outcomes.
+
+Outcome labeling requires an observed exact-deadline price and at least 90% of the five-minute future fill grid, across eligible candidates in the setup. The teacher optimum is therefore the best observed exit, not a claim of complete tick-level foresight. Unknown labels never become negatives. All setups remain eligible for out-of-sample inference regardless of future label availability.
+
+The final long-entry model trains on 130,229 candidate states (7,176 positive); short entry trains on 133,141 states (9,265 positive). Exit training draws a deterministic uniform sample of 6,000 unique candidate entries per side from all labeled setups, independent of success, with 13 fixed decision-time samples per entry. It never selects only optimal/winning entries or samples decision rows because they happen to be peaks.
+
+Final long-exit training includes 5,307 entries below the 10% target, including 280 with no positive observed exit; 41,542/77,497 sampled states are losing. Short exit includes 5,334 entries below target, including 170 with no positive observed exit; 36,284/77,431 states are losing. This directly broadens exit training beyond the successful-entry paths used previously. It does not by itself prove that the new exit policy is optimal.
+
+FINAL SAVED MODELS
+
+Model                 Selected updates   Entry threshold   Exit threshold
+Long entry                   200               0.90               —
+Long exit                    600                 —               0.50
+Short entry                  200               0.50               —
+Short exit                 4,000                 —               0.50
+
+These are final research artifacts fitted using available history and earlier validation. They are not the models used retrospectively for all test periods; each test period used its own earlier fitted models. The final audit's 15 November boundary is source end plus the 24h purge for arithmetic, not future data. All source observations stop on 14 November at 09:30 Paris.
+
+VALIDATION
+
+- Closed-candle causality, opposite-direction symmetry, detector expiry and numerical gradients checked before fitting.
+- 80 independently recomputed setup targets and direction-adjusted states checked against prices.
+- All 157 native-price payoffs, runtime entry decisions, runtime exits and complete exit paths reproduced.
+- All four chronological split boundaries and event grouping verified; label maturation is a conservative 48h32m followed by a 24h purge.
+- Four separately serialized final networks verified; target/gain mutation cannot change model inputs; exit models contain no news fields.
+- No holding period exceeds 24h; no overlapping position in the same symbol and no repeated entry for the same detector event.
+- Original artifacts and frozen experiment code/config hashes verified unchanged. The only validation-script repair normalized missing example prices to JSON null; no training or policy change was made after outcomes were viewed.
+
+COMPARISON LIMITS
+
+This is a comparison of complete systems, not a causal ablation of long/short separation alone. Detectors, entry labels, network capacity, exit training population, independent thresholds and abstention behavior all change together. Gross PnL is a sum of $100-notional trades, not an account return; no capital allocation or margin simulator was added. Exposure and realized-exit-order drawdown are available in comparison.json, with the latter not a mark-to-market portfolio drawdown. Costs are intentionally excluded.
+
+HOW TO USE AND REPRODUCE
+
+Inference: inference.py exposes ResearchPolicy.decide_entry and inherited exit. Pass completed five-minute closes with their timestamps, contemporaneous feature dictionaries, the frozen market-eligibility flag, current position status and previously used event keys. Event keys use timestamps and remain stable across rolling buffers. The API only returns decisions; it has no order or exchange-account access. example-entry-input.json / example-entry-output.json demonstrate serialization, not live market inputs.
+
+Four saved models: long_entry_model.joblib, short_entry_model.joblib, long_exit_model.joblib, short_exit_model.joblib. policy-config.json contains final independent thresholds. model-card.json contains dimensions, per-model learning curves and training populations. Fold models remain in the external research cache.
+
+Run from the repository with the existing research Python environment:
+  python reports/sma-four-models-2026-11-14/build.py
+  python reports/sma-four-models-2026-11-14/test_four.py
+  python reports/sma-four-models-2026-11-14/train_four.py
+  python reports/sma-four-models-2026-11-14/evaluate.py
+  python reports/sma-four-models-2026-11-14/validate_four.py
+  python reports/sma-four-models-2026-11-14/deliver.py
+
+Large datasets and fold models are stored at /mnt/c/Users/melli/.codex/research/centrypto/sma-four-models-2026-11-14. Original frozen caches are reused read-only. Reproducing requires those caches and the original two-stage model modules. predictions.csv contains every new out-of-sample trade; comparison.json, rally-events.json, validation.json and public-source-check.json provide inspectable results.

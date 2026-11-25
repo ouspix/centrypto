@@ -1,0 +1,19 @@
+{
+  "repository_root": "/home/mellinien/projects/centrypto",
+  "files": {
+    "services/MarketCollectorService.ts": "1dea77297fd67f6b73dc012b625fcebfcc3373f10149a2912713f98ceab5df98",
+    "lib/market-observations.ts": "5567746519bac8de2bf9a672ad60068911b406a3243f5a568e904f32cd7fce08",
+    "prisma/market/schema.prisma": "fd7a944da3de1daef6679b0089ecbf94c75d0ee3a5db6d8eeea0b30517fbb2ec",
+    "prisma/runtime-market/schema.prisma": "fb4f61cd635eed3535395bbf3a3f8dfc59b617c2d470bbd47095410b352a52a8",
+    "collector/deploy/grants.sql": "473bcb09e3381a92d60ff4bb1b57a78ce6897d391dbdf01c4ff6ff7ce7ab08c7",
+    "__tests__/MarketCollectorBuffer.test.ts": "eba5487101b1f66f380a3ad613e23957844bc56d648a30679022a78a0c5b17d4",
+    "__tests__/MarketObservations.test.ts": "29f2050023957bed42fff59073e81df3573a3e7f99e5d6b3cc9feba635d51c8d",
+    "scripts/market_provenance_migration.cjs": "04b339bdb406d3566d3ddc37e231a89c6ecc5cd69519c02f5d0c58e784e17b99",
+    "scripts/verify_market_provenance.cjs": "806991382f92089758c2fb341a9e3d51c29a40c0ed478f64513144438c890738",
+    "scripts/build_market_provenance.mjs": "2c71cfb6f7414fae59e2c9d673837d96527a6dc0e4163315e59b3f38ca9ca0df",
+    "scripts/activate_market_provenance.py": "4ef8f02bf5f871a274e9717dd42b5336753505d5c1515ceaca72b762a0ff161a",
+    "prisma/runtime-market/migrations/20261115083000_observation_provenance/migration.sql": "3d2334fdacfd9d5ef8b10dc1b2c8f95da3b92e61b697ff22510de990f025748a",
+    "prisma/runtime-market/migrations/20261115083500_observation_access/migration.sql": "b86f341c52a80d70f85c3ec2b56c0c4f5c4bac2d9a9f85b2ca0518c843d6ab79",
+    "prisma/market/migrations/20261115083000_observation_provenance/migration.sql": "f38f7a2b46613b75d89fca4a24ac40ed699a24e937c34161cfcc772d88e248ad"
+  }
+}

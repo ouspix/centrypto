@@ -1,0 +1,1563 @@
+[
+  {
+    "choices": [
+      {
+        "config": 1,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 15,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 39,
+      "priced": 39,
+      "unknown": 0,
+      "net": 79.07440158744987,
+      "known_net": 79.07440158744987,
+      "closed_drawdown_usd": 24.962344467801728,
+      "lower_bound_usd": 11.882508307048116,
+      "wins": 24,
+      "active_days": 8,
+      "positive_days": 7,
+      "available_days": 9,
+      "symbols": 15,
+      "gross": 87.10551223327859,
+      "fees": 3.478471016819004,
+      "slippage": 0.7659828530365341,
+      "funding": 3.786656775973191
+    },
+    "eligible": true
+  },
+  {
+    "choices": [
+      {
+        "config": 1,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 18,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 39,
+      "priced": 39,
+      "unknown": 0,
+      "net": 79.07440158744987,
+      "known_net": 79.07440158744987,
+      "closed_drawdown_usd": 24.962344467801728,
+      "lower_bound_usd": 11.882508307048116,
+      "wins": 24,
+      "active_days": 8,
+      "positive_days": 7,
+      "available_days": 9,
+      "symbols": 15,
+      "gross": 87.10551223327859,
+      "fees": 3.478471016819004,
+      "slippage": 0.7659828530365341,
+      "funding": 3.786656775973191
+    },
+    "eligible": true
+  },
+  {
+    "choices": [
+      {
+        "config": 1,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 21,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 39,
+      "priced": 39,
+      "unknown": 0,
+      "net": 79.07440158744987,
+      "known_net": 79.07440158744987,
+      "closed_drawdown_usd": 24.962344467801728,
+      "lower_bound_usd": 11.882508307048116,
+      "wins": 24,
+      "active_days": 8,
+      "positive_days": 7,
+      "available_days": 9,
+      "symbols": 15,
+      "gross": 87.10551223327859,
+      "fees": 3.478471016819004,
+      "slippage": 0.7659828530365341,
+      "funding": 3.786656775973191
+    },
+    "eligible": true
+  },
+  {
+    "choices": [
+      {
+        "config": 0,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 15,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 37,
+      "priced": 37,
+      "unknown": 0,
+      "net": 82.52281217263035,
+      "known_net": 82.52281217263035,
+      "closed_drawdown_usd": 20.39375508761637,
+      "lower_bound_usd": 10.647509513412734,
+      "wins": 23,
+      "active_days": 7,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 14,
+      "gross": 90.32979068608994,
+      "fees": 3.2999396501669036,
+      "slippage": 0.7266316438480477,
+      "funding": 3.7804072194446436
+    },
+    "eligible": true
+  },
+  {
+    "choices": [
+      {
+        "config": 0,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 18,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 37,
+      "priced": 37,
+      "unknown": 0,
+      "net": 82.52281217263035,
+      "known_net": 82.52281217263035,
+      "closed_drawdown_usd": 20.39375508761637,
+      "lower_bound_usd": 10.647509513412734,
+      "wins": 23,
+      "active_days": 7,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 14,
+      "gross": 90.32979068608994,
+      "fees": 3.2999396501669036,
+      "slippage": 0.7266316438480477,
+      "funding": 3.7804072194446436
+    },
+    "eligible": true
+  },
+  {
+    "choices": [
+      {
+        "config": 0,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 21,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 37,
+      "priced": 37,
+      "unknown": 0,
+      "net": 82.52281217263035,
+      "known_net": 82.52281217263035,
+      "closed_drawdown_usd": 20.39375508761637,
+      "lower_bound_usd": 10.647509513412734,
+      "wins": 23,
+      "active_days": 7,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 14,
+      "gross": 90.32979068608994,
+      "fees": 3.2999396501669036,
+      "slippage": 0.7266316438480477,
+      "funding": 3.7804072194446436
+    },
+    "eligible": true
+  },
+  {
+    "choices": [
+      {
+        "config": 0,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 20,
+        "threshold": 0.95,
+        "pair": 1
+      }
+    ],
+    "summary": {
+      "trades": 33,
+      "priced": 33,
+      "unknown": 0,
+      "net": 57.17209657224732,
+      "known_net": 57.17209657224732,
+      "closed_drawdown_usd": 18.173018048802426,
+      "lower_bound_usd": 8.814596870619432,
+      "wins": 21,
+      "active_days": 6,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 13,
+      "gross": 62.96000403520104,
+      "fees": 2.9599202432009943,
+      "slippage": 0.6555193607341014,
+      "funding": 2.1724678590186213
+    },
+    "eligible": true
+  },
+  {
+    "choices": [
+      {
+        "config": 10,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 15,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 37,
+      "priced": 37,
+      "unknown": 0,
+      "net": 80.61678739145387,
+      "known_net": 80.61678739145387,
+      "closed_drawdown_usd": 20.39375508761637,
+      "lower_bound_usd": 8.316443607488731,
+      "wins": 23,
+      "active_days": 7,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 14,
+      "gross": 88.41446650352339,
+      "fees": 3.2990779266466888,
+      "slippage": 0.7262486173141861,
+      "funding": 3.7723525681086545
+    },
+    "eligible": true
+  },
+  {
+    "choices": [
+      {
+        "config": 10,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 18,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 37,
+      "priced": 37,
+      "unknown": 0,
+      "net": 80.61678739145387,
+      "known_net": 80.61678739145387,
+      "closed_drawdown_usd": 20.39375508761637,
+      "lower_bound_usd": 8.316443607488731,
+      "wins": 23,
+      "active_days": 7,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 14,
+      "gross": 88.41446650352339,
+      "fees": 3.2990779266466888,
+      "slippage": 0.7262486173141861,
+      "funding": 3.7723525681086545
+    },
+    "eligible": true
+  },
+  {
+    "choices": [
+      {
+        "config": 10,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 21,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 37,
+      "priced": 37,
+      "unknown": 0,
+      "net": 80.61678739145387,
+      "known_net": 80.61678739145387,
+      "closed_drawdown_usd": 20.39375508761637,
+      "lower_bound_usd": 8.316443607488731,
+      "wins": 23,
+      "active_days": 7,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 14,
+      "gross": 88.41446650352339,
+      "fees": 3.2990779266466888,
+      "slippage": 0.7262486173141861,
+      "funding": 3.7723525681086545
+    },
+    "eligible": true
+  },
+  {
+    "choices": [
+      {
+        "config": 16,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 15,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 36,
+      "priced": 36,
+      "unknown": 0,
+      "net": 80.38702596239334,
+      "known_net": 80.38702596239334,
+      "closed_drawdown_usd": 20.39375508761637,
+      "lower_bound_usd": 8.281202346461946,
+      "wins": 22,
+      "active_days": 7,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 14,
+      "gross": 88.070768957364,
+      "fees": 3.2089322927806934,
+      "slippage": 0.7061818844782423,
+      "funding": 3.768628817711733
+    },
+    "eligible": true
+  },
+  {
+    "choices": [
+      {
+        "config": 16,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 18,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 36,
+      "priced": 36,
+      "unknown": 0,
+      "net": 80.38702596239334,
+      "known_net": 80.38702596239334,
+      "closed_drawdown_usd": 20.39375508761637,
+      "lower_bound_usd": 8.281202346461946,
+      "wins": 22,
+      "active_days": 7,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 14,
+      "gross": 88.070768957364,
+      "fees": 3.2089322927806934,
+      "slippage": 0.7061818844782423,
+      "funding": 3.768628817711733
+    },
+    "eligible": true
+  },
+  {
+    "choices": [
+      {
+        "config": 16,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 21,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 36,
+      "priced": 36,
+      "unknown": 0,
+      "net": 80.38702596239334,
+      "known_net": 80.38702596239334,
+      "closed_drawdown_usd": 20.39375508761637,
+      "lower_bound_usd": 8.281202346461946,
+      "wins": 22,
+      "active_days": 7,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 14,
+      "gross": 88.070768957364,
+      "fees": 3.2089322927806934,
+      "slippage": 0.7061818844782423,
+      "funding": 3.768628817711733
+    },
+    "eligible": true
+  },
+  {
+    "choices": [
+      {
+        "config": 20,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 15,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 36,
+      "priced": 36,
+      "unknown": 0,
+      "net": 80.38702596239334,
+      "known_net": 80.38702596239334,
+      "closed_drawdown_usd": 20.39375508761637,
+      "lower_bound_usd": 8.281202346461946,
+      "wins": 22,
+      "active_days": 7,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 14,
+      "gross": 88.070768957364,
+      "fees": 3.2089322927806934,
+      "slippage": 0.7061818844782423,
+      "funding": 3.768628817711733
+    },
+    "eligible": true
+  },
+  {
+    "choices": [
+      {
+        "config": 20,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 18,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 36,
+      "priced": 36,
+      "unknown": 0,
+      "net": 80.38702596239334,
+      "known_net": 80.38702596239334,
+      "closed_drawdown_usd": 20.39375508761637,
+      "lower_bound_usd": 8.281202346461946,
+      "wins": 22,
+      "active_days": 7,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 14,
+      "gross": 88.070768957364,
+      "fees": 3.2089322927806934,
+      "slippage": 0.7061818844782423,
+      "funding": 3.768628817711733
+    },
+    "eligible": true
+  },
+  {
+    "choices": [
+      {
+        "config": 20,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 21,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 36,
+      "priced": 36,
+      "unknown": 0,
+      "net": 80.38702596239334,
+      "known_net": 80.38702596239334,
+      "closed_drawdown_usd": 20.39375508761637,
+      "lower_bound_usd": 8.281202346461946,
+      "wins": 22,
+      "active_days": 7,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 14,
+      "gross": 88.070768957364,
+      "fees": 3.2089322927806934,
+      "slippage": 0.7061818844782423,
+      "funding": 3.768628817711733
+    },
+    "eligible": true
+  },
+  {
+    "choices": [
+      {
+        "config": 16,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 20,
+        "threshold": 0.95,
+        "pair": 1
+      }
+    ],
+    "summary": {
+      "trades": 32,
+      "priced": 32,
+      "unknown": 0,
+      "net": 55.036310362010305,
+      "known_net": 55.036310362010305,
+      "closed_drawdown_usd": 18.173018048802426,
+      "lower_bound_usd": 6.505632681288494,
+      "wins": 20,
+      "active_days": 6,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 13,
+      "gross": 60.7009823064751,
+      "fees": 2.868912885814784,
+      "slippage": 0.635069601364296,
+      "funding": 2.160689457285711
+    },
+    "eligible": true
+  },
+  {
+    "choices": [
+      {
+        "config": 10,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 20,
+        "threshold": 0.95,
+        "pair": 1
+      }
+    ],
+    "summary": {
+      "trades": 33,
+      "priced": 33,
+      "unknown": 0,
+      "net": 55.266071791070836,
+      "known_net": 55.266071791070836,
+      "closed_drawdown_usd": 18.173018048802426,
+      "lower_bound_usd": 6.505632681288494,
+      "wins": 21,
+      "active_days": 6,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 13,
+      "gross": 61.04467985263449,
+      "fees": 2.9590585196807795,
+      "slippage": 0.6551363342002399,
+      "funding": 2.164413207682632
+    },
+    "eligible": true
+  },
+  {
+    "choices": [
+      {
+        "config": 20,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 20,
+        "threshold": 0.95,
+        "pair": 1
+      }
+    ],
+    "summary": {
+      "trades": 32,
+      "priced": 32,
+      "unknown": 0,
+      "net": 55.036310362010305,
+      "known_net": 55.036310362010305,
+      "closed_drawdown_usd": 18.173018048802426,
+      "lower_bound_usd": 6.505632681288494,
+      "wins": 20,
+      "active_days": 6,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 13,
+      "gross": 60.7009823064751,
+      "fees": 2.868912885814784,
+      "slippage": 0.635069601364296,
+      "funding": 2.160689457285711
+    },
+    "eligible": true
+  },
+  {
+    "choices": [
+      null,
+      {
+        "config": 20,
+        "threshold": 0.95,
+        "pair": 1
+      }
+    ],
+    "summary": {
+      "trades": 20,
+      "priced": 20,
+      "unknown": 0,
+      "net": 55.03800474219181,
+      "known_net": 55.03800474219181,
+      "closed_drawdown_usd": 18.173018048802426,
+      "lower_bound_usd": 4.656969106327007,
+      "wins": 14,
+      "active_days": 5,
+      "positive_days": 5,
+      "available_days": 9,
+      "symbols": 11,
+      "gross": 63.672500695344915,
+      "fees": 1.7715216615907226,
+      "slippage": 0.3873042302839196,
+      "funding": 6.475670061278467
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 1,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 20,
+        "threshold": 0.95,
+        "pair": 1
+      }
+    ],
+    "summary": {
+      "trades": 35,
+      "priced": 35,
+      "unknown": 0,
+      "net": 53.723685987066844,
+      "known_net": 53.723685987066844,
+      "closed_drawdown_usd": 22.741607428987777,
+      "lower_bound_usd": 4.268937258982514,
+      "wins": 22,
+      "active_days": 7,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 14,
+      "gross": 59.73572558238969,
+      "fees": 3.1384516098530946,
+      "slippage": 0.6948705699225879,
+      "funding": 2.178717415547169
+    },
+    "eligible": true
+  },
+  {
+    "choices": [
+      {
+        "config": 0,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 16,
+        "threshold": 0.95,
+        "pair": 1
+      }
+    ],
+    "summary": {
+      "trades": 33,
+      "priced": 33,
+      "unknown": 0,
+      "net": 52.277166080271655,
+      "known_net": 52.277166080271655,
+      "closed_drawdown_usd": 18.173018048802426,
+      "lower_bound_usd": 3.8303865385626557,
+      "wins": 21,
+      "active_days": 6,
+      "positive_days": 5,
+      "available_days": 9,
+      "symbols": 13,
+      "gross": 58.07199264550673,
+      "fees": 2.9621202882913784,
+      "slippage": 0.656497060782061,
+      "funding": 2.176209216161641
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 10,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 16,
+        "threshold": 0.95,
+        "pair": 1
+      }
+    ],
+    "summary": {
+      "trades": 33,
+      "priced": 33,
+      "unknown": 0,
+      "net": 50.37114129909517,
+      "known_net": 50.37114129909517,
+      "closed_drawdown_usd": 18.173018048802426,
+      "lower_bound_usd": 2.7976339373461356,
+      "wins": 21,
+      "active_days": 6,
+      "positive_days": 5,
+      "available_days": 9,
+      "symbols": 13,
+      "gross": 56.15666846294019,
+      "fees": 2.9612585647711636,
+      "slippage": 0.6561140342481995,
+      "funding": 2.168154564825652
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 16,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 16,
+        "threshold": 0.95,
+        "pair": 1
+      }
+    ],
+    "summary": {
+      "trades": 32,
+      "priced": 32,
+      "unknown": 0,
+      "net": 50.14137987003464,
+      "known_net": 50.14137987003464,
+      "closed_drawdown_usd": 18.173018048802426,
+      "lower_bound_usd": 2.3568940373956364,
+      "wins": 20,
+      "active_days": 6,
+      "positive_days": 5,
+      "available_days": 9,
+      "symbols": 13,
+      "gross": 55.81297091678079,
+      "fees": 2.871112930905168,
+      "slippage": 0.6360473014122556,
+      "funding": 2.164430814428731
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 20,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 16,
+        "threshold": 0.95,
+        "pair": 1
+      }
+    ],
+    "summary": {
+      "trades": 32,
+      "priced": 32,
+      "unknown": 0,
+      "net": 50.14137987003464,
+      "known_net": 50.14137987003464,
+      "closed_drawdown_usd": 18.173018048802426,
+      "lower_bound_usd": 2.3568940373956364,
+      "wins": 20,
+      "active_days": 6,
+      "positive_days": 5,
+      "available_days": 9,
+      "symbols": 13,
+      "gross": 55.81297091678079,
+      "fees": 2.871112930905168,
+      "slippage": 0.6360473014122556,
+      "funding": 2.164430814428731
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      null,
+      null
+    ],
+    "summary": {
+      "trades": 0,
+      "priced": 0,
+      "unknown": 0,
+      "net": 0,
+      "known_net": 0,
+      "closed_drawdown_usd": 0.0,
+      "lower_bound_usd": 0.0,
+      "wins": 0,
+      "active_days": 0,
+      "positive_days": 0,
+      "available_days": 9,
+      "symbols": 0,
+      "gross": 0,
+      "fees": 0,
+      "slippage": 0,
+      "funding": 0
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 15,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 15,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 40,
+      "priced": 40,
+      "unknown": 0,
+      "net": 69.19669811299875,
+      "known_net": 69.19669811299875,
+      "closed_drawdown_usd": 21.51670377224402,
+      "lower_bound_usd": -0.14186887925325903,
+      "wins": 24,
+      "active_days": 8,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 15,
+      "gross": 77.37798842412201,
+      "fees": 3.564085507394397,
+      "slippage": 0.7840355430057263,
+      "funding": 3.8331692607231163
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 15,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 18,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 40,
+      "priced": 40,
+      "unknown": 0,
+      "net": 69.19669811299875,
+      "known_net": 69.19669811299875,
+      "closed_drawdown_usd": 21.51670377224402,
+      "lower_bound_usd": -0.14186887925325903,
+      "wins": 24,
+      "active_days": 8,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 15,
+      "gross": 77.37798842412201,
+      "fees": 3.564085507394397,
+      "slippage": 0.7840355430057263,
+      "funding": 3.8331692607231163
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 15,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 21,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 40,
+      "priced": 40,
+      "unknown": 0,
+      "net": 69.19669811299875,
+      "known_net": 69.19669811299875,
+      "closed_drawdown_usd": 21.51670377224402,
+      "lower_bound_usd": -0.14186887925325903,
+      "wins": 24,
+      "active_days": 8,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 15,
+      "gross": 77.37798842412201,
+      "fees": 3.564085507394397,
+      "slippage": 0.7840355430057263,
+      "funding": 3.8331692607231163
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 1,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 16,
+        "threshold": 0.95,
+        "pair": 1
+      }
+    ],
+    "summary": {
+      "trades": 35,
+      "priced": 35,
+      "unknown": 0,
+      "net": 48.82875549509117,
+      "known_net": 48.82875549509117,
+      "closed_drawdown_usd": 22.74160742898778,
+      "lower_bound_usd": -0.25669463597652,
+      "wins": 22,
+      "active_days": 7,
+      "positive_days": 5,
+      "available_days": 9,
+      "symbols": 14,
+      "gross": 54.847714192695385,
+      "fees": 3.1406516549434786,
+      "slippage": 0.6958482699705475,
+      "funding": 2.1824587726901887
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 15,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 20,
+        "threshold": 0.95,
+        "pair": 1
+      }
+    ],
+    "summary": {
+      "trades": 36,
+      "priced": 36,
+      "unknown": 0,
+      "net": 43.84598251261574,
+      "known_net": 43.84598251261574,
+      "closed_drawdown_usd": 21.51670377224402,
+      "lower_bound_usd": -0.26501756992640635,
+      "wins": 22,
+      "active_days": 7,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 14,
+      "gross": 50.0082017732331,
+      "fees": 3.224066100428488,
+      "slippage": 0.7129232598917801,
+      "funding": 2.225229900297094
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      null,
+      {
+        "config": 10,
+        "threshold": 0.8,
+        "pair": 7
+      }
+    ],
+    "summary": {
+      "trades": 29,
+      "priced": 29,
+      "unknown": 0,
+      "net": 13.915889352671481,
+      "known_net": 13.915889352671481,
+      "closed_drawdown_usd": 12.070935663681844,
+      "lower_bound_usd": -0.27238154045040347,
+      "wins": 17,
+      "active_days": 7,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 14,
+      "gross": 18.545990743553077,
+      "fees": 2.601913660961914,
+      "slippage": 0.5763484366949092,
+      "funding": 1.4518392932247697
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      null,
+      {
+        "config": 15,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 25,
+      "priced": 25,
+      "unknown": 0,
+      "net": 70.10321808519724,
+      "known_net": 70.10321808519724,
+      "closed_drawdown_usd": 19.717603906770922,
+      "lower_bound_usd": -0.3397871577069935,
+      "wins": 16,
+      "active_days": 6,
+      "positive_days": 5,
+      "available_days": 9,
+      "symbols": 12,
+      "gross": 78.46180182444763,
+      "fees": 2.214910149412858,
+      "slippage": 0.4843560752425956,
+      "funding": 5.659317514594933
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      null,
+      {
+        "config": 18,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 25,
+      "priced": 25,
+      "unknown": 0,
+      "net": 70.10321808519724,
+      "known_net": 70.10321808519724,
+      "closed_drawdown_usd": 19.717603906770922,
+      "lower_bound_usd": -0.3397871577069935,
+      "wins": 16,
+      "active_days": 6,
+      "positive_days": 5,
+      "available_days": 9,
+      "symbols": 12,
+      "gross": 78.46180182444763,
+      "fees": 2.214910149412858,
+      "slippage": 0.4843560752425956,
+      "funding": 5.659317514594933
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      null,
+      {
+        "config": 21,
+        "threshold": 0.95,
+        "pair": 0
+      }
+    ],
+    "summary": {
+      "trades": 25,
+      "priced": 25,
+      "unknown": 0,
+      "net": 70.10321808519724,
+      "known_net": 70.10321808519724,
+      "closed_drawdown_usd": 19.717603906770922,
+      "lower_bound_usd": -0.3397871577069935,
+      "wins": 16,
+      "active_days": 6,
+      "positive_days": 5,
+      "available_days": 9,
+      "symbols": 12,
+      "gross": 78.46180182444763,
+      "fees": 2.214910149412858,
+      "slippage": 0.4843560752425956,
+      "funding": 5.659317514594933
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      null,
+      {
+        "config": 16,
+        "threshold": 0.95,
+        "pair": 1
+      }
+    ],
+    "summary": {
+      "trades": 20,
+      "priced": 20,
+      "unknown": 0,
+      "net": 50.143074250216145,
+      "known_net": 50.143074250216145,
+      "closed_drawdown_usd": 18.173018048802426,
+      "lower_bound_usd": -0.8521878926603605,
+      "wins": 14,
+      "active_days": 5,
+      "positive_days": 4,
+      "available_days": 9,
+      "symbols": 11,
+      "gross": 58.78448930565061,
+      "fees": 1.7737217066811064,
+      "slippage": 0.3882819303318792,
+      "funding": 6.4794114184214875
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 15,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 16,
+        "threshold": 0.95,
+        "pair": 1
+      }
+    ],
+    "summary": {
+      "trades": 36,
+      "priced": 36,
+      "unknown": 0,
+      "net": 38.95105202064008,
+      "known_net": 38.95105202064008,
+      "closed_drawdown_usd": 21.51670377224402,
+      "lower_bound_usd": -2.4680688476932744,
+      "wins": 22,
+      "active_days": 7,
+      "positive_days": 5,
+      "available_days": 9,
+      "symbols": 14,
+      "gross": 45.1201903835388,
+      "fees": 3.226266145518872,
+      "slippage": 0.7139009599397397,
+      "funding": 2.2289712574401133
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 0,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 10,
+        "threshold": 0.8,
+        "pair": 7
+      }
+    ],
+    "summary": {
+      "trades": 46,
+      "priced": 46,
+      "unknown": 0,
+      "net": 24.98612129916206,
+      "known_net": 24.98612129916206,
+      "closed_drawdown_usd": 22.958424631803172,
+      "lower_bound_usd": -5.9306404614850905,
+      "wins": 26,
+      "active_days": 8,
+      "positive_days": 7,
+      "available_days": 9,
+      "symbols": 16,
+      "gross": 27.104068128306935,
+      "fees": 4.138257890318841,
+      "slippage": 0.9192102619197058,
+      "funding": -2.9395213230936754
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 16,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 10,
+        "threshold": 0.8,
+        "pair": 7
+      }
+    ],
+    "summary": {
+      "trades": 45,
+      "priced": 45,
+      "unknown": 0,
+      "net": 22.85033508892505,
+      "known_net": 22.85033508892505,
+      "closed_drawdown_usd": 22.958424631803176,
+      "lower_bound_usd": -6.049466952042081,
+      "wins": 25,
+      "active_days": 8,
+      "positive_days": 7,
+      "available_days": 9,
+      "symbols": 16,
+      "gross": 24.845046399580994,
+      "fees": 4.0472505329326305,
+      "slippage": 0.8987605025499004,
+      "funding": -2.951299724826585
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 10,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 10,
+        "threshold": 0.8,
+        "pair": 7
+      }
+    ],
+    "summary": {
+      "trades": 47,
+      "priced": 47,
+      "unknown": 0,
+      "net": 20.727381656895236,
+      "known_net": 20.727381656895236,
+      "closed_drawdown_usd": 22.958424631803172,
+      "lower_bound_usd": -6.719647750234396,
+      "wins": 26,
+      "active_days": 8,
+      "positive_days": 7,
+      "available_days": 9,
+      "symbols": 16,
+      "gross": 22.94526773839596,
+      "fees": 4.226377805297901,
+      "slippage": 0.938376585209397,
+      "funding": -2.946868309006574
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 20,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 10,
+        "threshold": 0.8,
+        "pair": 7
+      }
+    ],
+    "summary": {
+      "trades": 46,
+      "priced": 46,
+      "unknown": 0,
+      "net": 18.75291282769646,
+      "known_net": 18.75291282769646,
+      "closed_drawdown_usd": 22.958424631803172,
+      "lower_bound_usd": -8.945233237782938,
+      "wins": 25,
+      "active_days": 8,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 16,
+      "gross": 20.855715540251296,
+      "fees": 4.135446693949719,
+      "slippage": 0.9179607163566497,
+      "funding": -2.9506046977515354
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 0,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      null
+    ],
+    "summary": {
+      "trades": 21,
+      "priced": 21,
+      "unknown": 0,
+      "net": 17.792934961031477,
+      "known_net": 17.792934961031477,
+      "closed_drawdown_usd": 15.28367328317293,
+      "lower_bound_usd": -12.195296157624178,
+      "wins": 12,
+      "active_days": 6,
+      "positive_days": 4,
+      "available_days": 9,
+      "symbols": 4,
+      "gross": 14.663436967581045,
+      "fees": 1.8964082459561522,
+      "slippage": 0.4228903983535516,
+      "funding": -5.448796637760136
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 16,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      null
+    ],
+    "summary": {
+      "trades": 20,
+      "priced": 20,
+      "unknown": 0,
+      "net": 15.657148750794459,
+      "known_net": 15.657148750794459,
+      "closed_drawdown_usd": 15.283673283172929,
+      "lower_bound_usd": -12.83693100209069,
+      "wins": 11,
+      "active_days": 5,
+      "positive_days": 3,
+      "available_days": 9,
+      "symbols": 4,
+      "gross": 12.404415238855105,
+      "fees": 1.805400888569942,
+      "slippage": 0.40244063898374616,
+      "funding": -5.460575039493046
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 15,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 10,
+        "threshold": 0.8,
+        "pair": 7
+      }
+    ],
+    "summary": {
+      "trades": 48,
+      "priced": 48,
+      "unknown": 0,
+      "net": 14.1981809651899,
+      "known_net": 14.1981809651899,
+      "closed_drawdown_usd": 32.28836244662436,
+      "lower_bound_usd": -16.05160624642879,
+      "wins": 27,
+      "active_days": 8,
+      "positive_days": 6,
+      "available_days": 9,
+      "symbols": 17,
+      "gross": 16.58089187892833,
+      "fees": 4.313505409797604,
+      "slippage": 0.9571018375122775,
+      "funding": -2.8878963335714527
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 10,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      null
+    ],
+    "summary": {
+      "trades": 22,
+      "priced": 22,
+      "unknown": 0,
+      "net": 13.534195318764645,
+      "known_net": 13.534195318764645,
+      "closed_drawdown_usd": 15.283673283172927,
+      "lower_bound_usd": -17.47461607027721,
+      "wins": 12,
+      "active_days": 5,
+      "positive_days": 3,
+      "available_days": 9,
+      "symbols": 5,
+      "gross": 10.504636577670068,
+      "fees": 1.984528160935212,
+      "slippage": 0.44205672164324283,
+      "funding": -5.456143623673034
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 1,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      {
+        "config": 10,
+        "threshold": 0.8,
+        "pair": 7
+      }
+    ],
+    "summary": {
+      "trades": 48,
+      "priced": 48,
+      "unknown": 0,
+      "net": 21.537710713981586,
+      "known_net": 21.537710713981586,
+      "closed_drawdown_usd": 22.958424631803176,
+      "lower_bound_usd": -21.192881428996326,
+      "wins": 27,
+      "active_days": 8,
+      "positive_days": 7,
+      "available_days": 9,
+      "symbols": 17,
+      "gross": 23.879789675495587,
+      "fees": 4.3167892569709405,
+      "slippage": 0.9585614711081922,
+      "funding": -2.9332717665651273
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 15,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      null
+    ],
+    "summary": {
+      "trades": 24,
+      "priced": 24,
+      "unknown": 0,
+      "net": 4.920718810864779,
+      "known_net": 4.920718810864779,
+      "closed_drawdown_usd": 29.560684563750755,
+      "lower_bound_usd": -22.98558885091764,
+      "wins": 13,
+      "active_days": 6,
+      "positive_days": 4,
+      "available_days": 9,
+      "symbols": 8,
+      "gross": 2.173327993002895,
+      "fees": 2.16076182361473,
+      "slippage": 0.48038662693580625,
+      "funding": -5.388539268412421
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 20,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      null
+    ],
+    "summary": {
+      "trades": 21,
+      "priced": 21,
+      "unknown": 0,
+      "net": 11.559726489565872,
+      "known_net": 11.559726489565872,
+      "closed_drawdown_usd": 15.283673283172929,
+      "lower_bound_usd": -23.31423678752928,
+      "wins": 11,
+      "active_days": 5,
+      "positive_days": 3,
+      "available_days": 9,
+      "symbols": 4,
+      "gross": 8.415084379525407,
+      "fees": 1.8935970495870307,
+      "slippage": 0.42164085279049546,
+      "funding": -5.459880012417996
+    },
+    "eligible": false
+  },
+  {
+    "choices": [
+      {
+        "config": 1,
+        "threshold": 0.9,
+        "pair": 0
+      },
+      null
+    ],
+    "summary": {
+      "trades": 23,
+      "priced": 23,
+      "unknown": 0,
+      "net": 14.344524375850995,
+      "known_net": 14.344524375850995,
+      "closed_drawdown_usd": 15.283673283172927,
+      "lower_bound_usd": -27.158327760893187,
+      "wins": 13,
+      "active_days": 7,
+      "positive_days": 5,
+      "available_days": 9,
+      "symbols": 6,
+      "gross": 11.439158514769698,
+      "fees": 2.074939612608252,
+      "slippage": 0.462241607542038,
+      "funding": -5.442547081231588
+    },
+    "eligible": false
+  }
+]

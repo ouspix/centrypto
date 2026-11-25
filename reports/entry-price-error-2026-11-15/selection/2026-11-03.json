@@ -1,0 +1,588 @@
+{
+  "current": {
+    "long": {
+      "cash": true,
+      "entry_threshold": null,
+      "exit_threshold": null
+    },
+    "short": {
+      "cash": true,
+      "entry_threshold": null,
+      "exit_threshold": null
+    }
+  },
+  "price_error": {
+    "long": {
+      "cash": true,
+      "entry_threshold": null,
+      "exit_threshold": null
+    },
+    "short": {
+      "cash": true,
+      "entry_threshold": null,
+      "exit_threshold": null
+    }
+  },
+  "validation_only_trials": {
+    "sides": {
+      "long": [
+        {
+          "policy": {
+            "cash": false,
+            "entry_threshold": 0.8,
+            "exit_threshold": 0.5
+          },
+          "bound": {
+            "pass": false,
+            "lower_bound": -54.11143597493342,
+            "trades": 75,
+            "symbols": 33,
+            "active_days": 3,
+            "available_days": 3,
+            "positive_days": 1,
+            "day_pnl": {
+              "2026-06-07": -13.27413140964968,
+              "2026-10-30": 7.854169754506989,
+              "2026-10-31": -18.037145324977807
+            }
+          },
+          "members": [
+            {
+              "trades": 136,
+              "priced": 136,
+              "censored": 0,
+              "gross_pnl_usd": -42.27031625430879,
+              "priced_subtotal_usd": -42.27031625430879,
+              "mean_return_pct": -0.31081114892874107,
+              "wins": 66,
+              "losses": 69,
+              "median_holding_minutes": 40.0,
+              "notional_hours": 14708.333333333334
+            },
+            {
+              "trades": 104,
+              "priced": 104,
+              "censored": 0,
+              "gross_pnl_usd": -28.00940297416539,
+              "priced_subtotal_usd": -28.00940297416539,
+              "mean_return_pct": -0.26932118244389797,
+              "wins": 52,
+              "losses": 52,
+              "median_holding_minutes": 70.0,
+              "notional_hours": 21941.666666666668
+            },
+            {
+              "trades": 114,
+              "priced": 114,
+              "censored": 0,
+              "gross_pnl_usd": -22.544570801597,
+              "priced_subtotal_usd": -22.544570801597,
+              "mean_return_pct": -0.19775939299646492,
+              "wins": 60,
+              "losses": 54,
+              "median_holding_minutes": 55.0,
+              "notional_hours": 22275.0
+            }
+          ]
+        },
+        {
+          "policy": {
+            "cash": false,
+            "entry_threshold": 0.9,
+            "exit_threshold": 0.5
+          },
+          "bound": {
+            "pass": false,
+            "lower_bound": -63.633122364806354,
+            "trades": 43,
+            "symbols": 20,
+            "active_days": 3,
+            "available_days": 3,
+            "positive_days": 1,
+            "day_pnl": {
+              "2026-06-07": -5.499955381226229,
+              "2026-10-30": 0.20822699522844434,
+              "2026-10-31": -21.211040788268786
+            }
+          },
+          "members": [
+            {
+              "trades": 64,
+              "priced": 64,
+              "censored": 0,
+              "gross_pnl_usd": -34.33792558428257,
+              "priced_subtotal_usd": -34.33792558428257,
+              "mean_return_pct": -0.5365300872544152,
+              "wins": 27,
+              "losses": 35,
+              "median_holding_minutes": 40.0,
+              "notional_hours": 7100.0
+            },
+            {
+              "trades": 57,
+              "priced": 57,
+              "censored": 0,
+              "gross_pnl_usd": -32.81280604192616,
+              "priced_subtotal_usd": -32.81280604192616,
+              "mean_return_pct": -0.5756632638934414,
+              "wins": 25,
+              "losses": 32,
+              "median_holding_minutes": 75.0,
+              "notional_hours": 12233.333333333334
+            },
+            {
+              "trades": 61,
+              "priced": 61,
+              "censored": 0,
+              "gross_pnl_usd": -32.01182610278457,
+              "priced_subtotal_usd": -32.01182610278457,
+              "mean_return_pct": -0.5247840344718782,
+              "wins": 28,
+              "losses": 32,
+              "median_holding_minutes": 40.0,
+              "notional_hours": 10191.666666666666
+            }
+          ]
+        },
+        {
+          "policy": {
+            "cash": false,
+            "entry_threshold": 0.95,
+            "exit_threshold": 0.5
+          },
+          "bound": {
+            "pass": false,
+            "lower_bound": -59.20573157377923,
+            "trades": 25,
+            "symbols": 11,
+            "active_days": 3,
+            "available_days": 3,
+            "positive_days": 0,
+            "day_pnl": {
+              "2026-06-07": -4.739546505634107,
+              "2026-10-30": -5.029939715532128,
+              "2026-10-31": -19.73524385792641
+            }
+          },
+          "members": [
+            {
+              "trades": 29,
+              "priced": 29,
+              "censored": 0,
+              "gross_pnl_usd": -38.91852667013053,
+              "priced_subtotal_usd": -38.91852667013053,
+              "mean_return_pct": -1.3420181610389839,
+              "wins": 9,
+              "losses": 19,
+              "median_holding_minutes": 50.0,
+              "notional_hours": 3116.6666666666665
+            },
+            {
+              "trades": 29,
+              "priced": 29,
+              "censored": 0,
+              "gross_pnl_usd": -21.86155823562399,
+              "priced_subtotal_usd": -21.86155823562399,
+              "mean_return_pct": -0.7538468357111721,
+              "wins": 12,
+              "losses": 17,
+              "median_holding_minutes": 65.0,
+              "notional_hours": 4475.0
+            },
+            {
+              "trades": 32,
+              "priced": 32,
+              "censored": 0,
+              "gross_pnl_usd": -32.24550484885657,
+              "priced_subtotal_usd": -32.24550484885657,
+              "mean_return_pct": -1.0076720265267678,
+              "wins": 14,
+              "losses": 18,
+              "median_holding_minutes": 35.0,
+              "notional_hours": 4408.333333333333
+            }
+          ]
+        }
+      ],
+      "short": [
+        {
+          "policy": {
+            "cash": false,
+            "entry_threshold": 0.8,
+            "exit_threshold": 0.5
+          },
+          "bound": {
+            "pass": false,
+            "lower_bound": -122.10502294487137,
+            "trades": 134,
+            "symbols": 63,
+            "active_days": 3,
+            "available_days": 3,
+            "positive_days": 2,
+            "day_pnl": {
+              "2026-06-07": 3.3414580722383675,
+              "2026-10-30": -40.701674314957124,
+              "2026-10-31": 15.028913556245449
+            }
+          },
+          "members": [
+            {
+              "trades": 197,
+              "priced": 197,
+              "censored": 0,
+              "gross_pnl_usd": -31.417383283592365,
+              "priced_subtotal_usd": -31.417383283592365,
+              "mean_return_pct": -0.15947910296239778,
+              "wins": 90,
+              "losses": 105,
+              "median_holding_minutes": 80.0,
+              "notional_hours": 56583.333333333336
+            },
+            {
+              "trades": 157,
+              "priced": 157,
+              "censored": 0,
+              "gross_pnl_usd": -20.69035074798422,
+              "priced_subtotal_usd": -20.69035074798422,
+              "mean_return_pct": -0.1317856735540396,
+              "wins": 68,
+              "losses": 88,
+              "median_holding_minutes": 95.0,
+              "notional_hours": 51633.333333333336
+            },
+            {
+              "trades": 221,
+              "priced": 221,
+              "censored": 0,
+              "gross_pnl_usd": -23.069364328121736,
+              "priced_subtotal_usd": -23.069364328121736,
+              "mean_return_pct": -0.10438626392815266,
+              "wins": 93,
+              "losses": 128,
+              "median_holding_minutes": 55.0,
+              "notional_hours": 34041.666666666664
+            }
+          ]
+        },
+        {
+          "policy": {
+            "cash": false,
+            "entry_threshold": 0.9,
+            "exit_threshold": 0.5
+          },
+          "bound": {
+            "pass": false,
+            "lower_bound": -9.708132159094916,
+            "trades": 72,
+            "symbols": 37,
+            "active_days": 3,
+            "available_days": 3,
+            "positive_days": 2,
+            "day_pnl": {
+              "2026-06-07": 2.5706488487980845,
+              "2026-10-30": -3.2360440530316383,
+              "2026-10-31": 17.368902940644602
+            }
+          },
+          "members": [
+            {
+              "trades": 119,
+              "priced": 119,
+              "censored": 0,
+              "gross_pnl_usd": -16.599722054271744,
+              "priced_subtotal_usd": -16.599722054271744,
+              "mean_return_pct": -0.13949346264093904,
+              "wins": 59,
+              "losses": 58,
+              "median_holding_minutes": 65.0,
+              "notional_hours": 29758.333333333332
+            },
+            {
+              "trades": 81,
+              "priced": 81,
+              "censored": 0,
+              "gross_pnl_usd": 0.26042155328478245,
+              "priced_subtotal_usd": 0.26042155328478245,
+              "mean_return_pct": 0.0032150809047504004,
+              "wins": 37,
+              "losses": 44,
+              "median_holding_minutes": 105.0,
+              "notional_hours": 26083.333333333332
+            },
+            {
+              "trades": 121,
+              "priced": 121,
+              "censored": 0,
+              "gross_pnl_usd": 12.180671373277075,
+              "priced_subtotal_usd": 12.180671373277075,
+              "mean_return_pct": 0.10066670556427335,
+              "wins": 62,
+              "losses": 59,
+              "median_holding_minutes": 45.0,
+              "notional_hours": 16725.0
+            }
+          ]
+        },
+        {
+          "policy": {
+            "cash": false,
+            "entry_threshold": 0.95,
+            "exit_threshold": 0.5
+          },
+          "bound": {
+            "pass": true,
+            "lower_bound": 22.04098460672772,
+            "trades": 45,
+            "symbols": 26,
+            "active_days": 3,
+            "available_days": 3,
+            "positive_days": 3,
+            "day_pnl": {
+              "2026-06-07": 10.019974770497496,
+              "2026-10-30": 10.672812921289166,
+              "2026-10-31": 7.34699486890924
+            }
+          },
+          "members": [
+            {
+              "trades": 70,
+              "priced": 70,
+              "censored": 0,
+              "gross_pnl_usd": -0.8927985429318381,
+              "priced_subtotal_usd": -0.8927985429318381,
+              "mean_return_pct": -0.01275426489902626,
+              "wins": 35,
+              "losses": 35,
+              "median_holding_minutes": 57.5,
+              "notional_hours": 15766.666666666666
+            },
+            {
+              "trades": 45,
+              "priced": 45,
+              "censored": 0,
+              "gross_pnl_usd": 35.21021797040301,
+              "priced_subtotal_usd": 35.21021797040301,
+              "mean_return_pct": 0.782449288231178,
+              "wins": 23,
+              "losses": 22,
+              "median_holding_minutes": 105.0,
+              "notional_hours": 13108.333333333334
+            },
+            {
+              "trades": 67,
+              "priced": 67,
+              "censored": 0,
+              "gross_pnl_usd": 28.93431629362131,
+              "priced_subtotal_usd": 28.93431629362131,
+              "mean_return_pct": 0.4318554670689748,
+              "wins": 38,
+              "losses": 29,
+              "median_holding_minutes": 45.0,
+              "notional_hours": 7975.0
+            }
+          ]
+        }
+      ]
+    },
+    "joint": [
+      {
+        "policy": {
+          "long": {
+            "cash": true,
+            "entry_threshold": null,
+            "exit_threshold": null
+          },
+          "short": {
+            "cash": true,
+            "entry_threshold": null,
+            "exit_threshold": null
+          }
+        },
+        "bound": {
+          "pass": false,
+          "lower_bound": 0.0,
+          "trades": 0,
+          "symbols": 0,
+          "active_days": 0,
+          "available_days": 3,
+          "positive_days": 0,
+          "day_pnl": {
+            "2026-06-07": 0,
+            "2026-10-30": 0,
+            "2026-10-31": 0
+          }
+        },
+        "members": [
+          {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          }
+        ]
+      },
+      {
+        "policy": {
+          "long": {
+            "cash": true,
+            "entry_threshold": null,
+            "exit_threshold": null
+          },
+          "short": {
+            "cash": true,
+            "entry_threshold": null,
+            "exit_threshold": null
+          }
+        },
+        "bound": {
+          "pass": false,
+          "lower_bound": 0.0,
+          "trades": 0,
+          "symbols": 0,
+          "active_days": 0,
+          "available_days": 3,
+          "positive_days": 0,
+          "day_pnl": {
+            "2026-06-07": 0,
+            "2026-10-30": 0,
+            "2026-10-31": 0
+          }
+        },
+        "members": [
+          {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          }
+        ]
+      },
+      {
+        "policy": {
+          "long": {
+            "cash": true,
+            "entry_threshold": null,
+            "exit_threshold": null
+          },
+          "short": {
+            "cash": true,
+            "entry_threshold": null,
+            "exit_threshold": null
+          }
+        },
+        "bound": {
+          "pass": false,
+          "lower_bound": 0.0,
+          "trades": 0,
+          "symbols": 0,
+          "active_days": 0,
+          "available_days": 3,
+          "positive_days": 0,
+          "day_pnl": {
+            "2026-06-07": 0,
+            "2026-10-30": 0,
+            "2026-10-31": 0
+          }
+        },
+        "members": [
+          {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          }
+        ]
+      }
+    ]
+  }
+}

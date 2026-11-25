@@ -1,0 +1,6 @@
+{
+  "at": "2026-11-14T09:00:42.0199069Z",
+  "repair": "Limit replay entries by both fold end and each series archive end minus24h32m; preserve strict same-series assertion.",
+  "preliminary_outcomes_seen": "One completed June fold selected cash. No performance thresholds, network sizes, or target definitions were tuned.",
+  "finding": "A replay assertion caught an attempted holding path across an archive boundary during validation spanning historical gaps."
+}

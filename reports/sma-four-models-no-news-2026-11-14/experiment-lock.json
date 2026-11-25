@@ -1,0 +1,20 @@
+{
+  "files": {
+    "four_common.py": "8bfe151a380ccf5c460360100c63784c82c0a49c5c52d865a9ae7c6ed1087d37",
+    "detectors.py": "4fed0e7d9fae3181dd9ad57122d12bdb9b206ce6ec9f8758e7f468645e45a990",
+    "build.py": "90f2e9ceeeb85d23810e01e79ac7764ed51be07f28fc3a4a4c1b3954d6e31b4b",
+    "data_four.py": "4b8f3541346991684a68b4137840fad8a688993c43424524ac247ebf1c22b1db",
+    "network.py": "6d69b36b296f46b9484725ebceb09017eba4ef165a2b116964a74de88c305ec1",
+    "engine.py": "afae53a6bbe79e05ff4694f850e0e9249abdc9ee6a25c8f2e3139829b7e6c374",
+    "train_four.py": "2a0b1f570ba1844566ba479635c6537809ad2d60deb08fe5fde6689a52a36459",
+    "policy_four.py": "6e55accdc8a8fd037c2028c9ceeaa48670cba5f82fc0010b02faff327bf8bca9",
+    "test_four.py": "7e033cf6bee34c9481df1eee663a6f08064a760221f6c048671daf6549a0483d",
+    "config.json": "ed24a7ad91836812dc93fe918607397443b02b4315b7d55890013895c9cb401d"
+  },
+  "baseline_manifest_sha256": "7ee1b75b3da73ab9b4a18d841c690cbea45d1e7e4342a42dff603ed9f4bd6de2",
+  "datasets": {
+    "setups.npy": "fc0742db0a89453a60225ef6cff91a58624d21ea8df0fa7bf5d8f823785a723f",
+    "candidates.npy": "a4a1f153c55c64e05969245a5f9e1dd1ba17b7c45852edf19b4673d6da604745"
+  },
+  "test_outcomes_not_used_to_change_protocol": true
+}

@@ -1,0 +1,17 @@
+{
+  "feature_rows": 1742,
+  "feature_dimensions": 634,
+  "source_candles": 8984010,
+  "invalid_source_candles": 0,
+  "feature_cutoff_checks": 1742,
+  "derivative_timestamp_checks": 100230,
+  "spot_files": 119,
+  "spot_candles_checked": 788278,
+  "news_entry_document_links_checked": 3254,
+  "active_analysis_references_checked": 392,
+  "regenerated_news_feature_values_checked": 111488,
+  "original_execution_rows_reconciled": 321,
+  "locked_hashes_verified": 10,
+  "post_lock_repairs": 1,
+  "status": "passed"
+}

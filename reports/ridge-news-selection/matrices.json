@@ -1,0 +1,106 @@
+{
+  "history": {
+    "long": {
+      "rows": 799,
+      "priced": 799,
+      "direct4h": 461,
+      "recent_feed": 799,
+      "file_sha256": "9407b58e89acbc9081034eead0f43693acf33d5a52c6406604b978dd75d00463",
+      "latest_end": "2026-11-12T10:46:00+00:00",
+      "excluded_training_rows": null,
+      "statuses": {
+        "priced": 799
+      }
+    },
+    "short": {
+      "rows": 549,
+      "priced": 549,
+      "direct4h": 313,
+      "recent_feed": 549,
+      "file_sha256": "eb87fcd8dce40e072e272d15c34da88b44f7502f03b174e981dd6f2e3a7a297b",
+      "latest_end": "2026-11-12T10:46:00+00:00",
+      "excluded_training_rows": null,
+      "statuses": {
+        "priced": 549
+      }
+    }
+  },
+  "development": {
+    "long": {
+      "rows": 2407,
+      "priced": 2403,
+      "direct4h": 1243,
+      "recent_feed": 2407,
+      "file_sha256": "e40c1371edd60535c3f6d180138c3c23fd7de5704e9003de4b3910a80904d7c6",
+      "latest_end": "2026-11-16T00:31:00+00:00",
+      "excluded_training_rows": null,
+      "statuses": {
+        "priced": 2403,
+        "unknown_funding": 2,
+        "unknown_entry": 2
+      }
+    },
+    "short": {
+      "rows": 1403,
+      "priced": 1402,
+      "direct4h": 718,
+      "recent_feed": 1403,
+      "file_sha256": "18459aa5a1b8e83c6398170a6e24d49b4e6624f530b2b26c0c85f29be63b18b9",
+      "latest_end": "2026-11-16T16:46:00+00:00",
+      "excluded_training_rows": null,
+      "statuses": {
+        "priced": 1402,
+        "unknown_entry": 1
+      }
+    }
+  },
+  "benchmark": {
+    "long": {
+      "rows": 3319,
+      "priced": 3318,
+      "direct4h": 1606,
+      "recent_feed": 3319,
+      "file_sha256": "481d9ced231ad4b435ff9e3ed6e35a5d24f05d7287188727b19ce9051f42303e",
+      "latest_end": "2026-11-20T22:51:00+00:00",
+      "excluded_training_rows": null,
+      "statuses": {
+        "priced": 3318,
+        "entry_rejected": 1
+      }
+    },
+    "short": {
+      "rows": 1892,
+      "priced": 1892,
+      "direct4h": 881,
+      "recent_feed": 1892,
+      "file_sha256": "b6f2a41a3a133cf210545604a49f5c999734669b3147562bee8707712f440453",
+      "latest_end": "2026-11-21T11:56:00+00:00",
+      "excluded_training_rows": null,
+      "statuses": {
+        "priced": 1892
+      }
+    }
+  },
+  "train": {
+    "long": {
+      "rows": 208708,
+      "priced": 208708,
+      "direct4h": 120861,
+      "recent_feed": 208708,
+      "file_sha256": "1d5a80788e0224c8d40a9e7dcfe0e4097922ae0ec8891b4fb6e94ebae44a9cfb",
+      "latest_end": null,
+      "excluded_training_rows": 43,
+      "statuses": {}
+    },
+    "short": {
+      "rows": 117838,
+      "priced": 117838,
+      "direct4h": 69053,
+      "recent_feed": 117838,
+      "file_sha256": "03138cb41fbb901ce2dd1548a58f9b455ae80312b3978d4ee5d08e7a2fde75a9",
+      "latest_end": null,
+      "excluded_training_rows": 48,
+      "statuses": {}
+    }
+  }
+}

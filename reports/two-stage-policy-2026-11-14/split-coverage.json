@@ -1,0 +1,98 @@
+[
+  {
+    "test_start": "2026-11-11",
+    "validation_days": 2,
+    "validation_start": "2026-11-06T00:00:00Z",
+    "validation_positives": 4,
+    "training_news_states": 7512,
+    "training_news_positives": 13
+  },
+  {
+    "test_start": "2026-11-11",
+    "validation_days": 3,
+    "validation_start": "2026-11-05T00:00:00Z",
+    "validation_positives": 14,
+    "training_news_states": 4194,
+    "training_news_positives": 7
+  },
+  {
+    "test_start": "2026-11-11",
+    "validation_days": 4,
+    "validation_start": "2026-11-04T00:00:00Z",
+    "validation_positives": 45,
+    "training_news_states": 1559,
+    "training_news_positives": 5
+  },
+  {
+    "test_start": "2026-11-12",
+    "validation_days": 2,
+    "validation_start": "2026-11-07T00:00:00Z",
+    "validation_positives": 10,
+    "training_news_states": 10699,
+    "training_news_positives": 27
+  },
+  {
+    "test_start": "2026-11-12",
+    "validation_days": 3,
+    "validation_start": "2026-11-06T00:00:00Z",
+    "validation_positives": 13,
+    "training_news_states": 7512,
+    "training_news_positives": 13
+  },
+  {
+    "test_start": "2026-11-12",
+    "validation_days": 4,
+    "validation_start": "2026-11-05T00:00:00Z",
+    "validation_positives": 23,
+    "training_news_states": 4194,
+    "training_news_positives": 7
+  },
+  {
+    "test_start": "2026-11-13",
+    "validation_days": 2,
+    "validation_start": "2026-11-08T00:00:00Z",
+    "validation_positives": 19,
+    "training_news_states": 14847,
+    "training_news_positives": 58
+  },
+  {
+    "test_start": "2026-11-13",
+    "validation_days": 3,
+    "validation_start": "2026-11-07T00:00:00Z",
+    "validation_positives": 20,
+    "training_news_states": 10699,
+    "training_news_positives": 27
+  },
+  {
+    "test_start": "2026-11-13",
+    "validation_days": 4,
+    "validation_start": "2026-11-06T00:00:00Z",
+    "validation_positives": 23,
+    "training_news_states": 7512,
+    "training_news_positives": 13
+  },
+  {
+    "test_start": "2026-11-14",
+    "validation_days": 2,
+    "validation_start": "2026-11-09T00:00:00Z",
+    "validation_positives": 20,
+    "training_news_states": 18872,
+    "training_news_positives": 68
+  },
+  {
+    "test_start": "2026-11-14",
+    "validation_days": 3,
+    "validation_start": "2026-11-08T00:00:00Z",
+    "validation_positives": 29,
+    "training_news_states": 14847,
+    "training_news_positives": 58
+  },
+  {
+    "test_start": "2026-11-14",
+    "validation_days": 4,
+    "validation_start": "2026-11-07T00:00:00Z",
+    "validation_positives": 30,
+    "training_news_states": 10699,
+    "training_news_positives": 27
+  }
+]

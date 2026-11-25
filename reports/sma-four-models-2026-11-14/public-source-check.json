@@ -1,0 +1,81 @@
+{
+  "checked_at": "2026-11-14T14:41:22.069Z",
+  "endpoint": "https://api.hyperliquid.xyz/info",
+  "checks": [
+    {
+      "symbol": "INIT",
+      "side": "short",
+      "entry": "2026-11-11T05:31:00Z",
+      "exit": "2026-11-11T18:06:00Z",
+      "recorded_return_pct": 43.53516914591991,
+      "exchange_return_pct": 43.53516914591991,
+      "difference": 0,
+      "prices": [
+        {
+          "time": 1794375060000,
+          "available": true,
+          "open": 0.25747,
+          "close": 0.25385,
+          "volume": 72143
+        },
+        {
+          "time": 1794420360000,
+          "available": true,
+          "open": 0.14538,
+          "close": 0.14621,
+          "volume": 19133
+        }
+      ]
+    },
+    {
+      "symbol": "kPEPE",
+      "side": "short",
+      "entry": "2026-11-11T01:01:00Z",
+      "exit": "2026-11-11T23:21:00Z",
+      "recorded_return_pct": 15.851851851851851,
+      "exchange_return_pct": 15.851851851851851,
+      "difference": 0,
+      "prices": [
+        {
+          "time": 1794358860000,
+          "available": true,
+          "open": 0.0054,
+          "close": 0.005373,
+          "volume": 6649051
+        },
+        {
+          "time": 1794439260000,
+          "available": true,
+          "open": 0.004544,
+          "close": 0.004555,
+          "volume": 4109882
+        }
+      ]
+    },
+    {
+      "symbol": "INIT",
+      "side": "short",
+      "entry": "2026-11-11T21:56:00Z",
+      "exit": "2026-11-12T02:06:00Z",
+      "recorded_return_pct": 13.482035716806662,
+      "exchange_return_pct": 13.482035716806662,
+      "difference": 0,
+      "prices": [
+        {
+          "time": 1794434160000,
+          "available": true,
+          "open": 0.14167,
+          "close": 0.14167,
+          "volume": 21879
+        },
+        {
+          "time": 1794449160000,
+          "available": true,
+          "open": 0.12257,
+          "close": 0.12219,
+          "volume": 49994
+        }
+      ]
+    }
+  ]
+}

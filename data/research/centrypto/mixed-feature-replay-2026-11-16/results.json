@@ -1,0 +1,4193 @@
+{
+  "model_sources": {
+    "drop_spot": {
+      "long_entry": "drop_spot",
+      "short_entry": "drop_spot",
+      "long_exit": "drop_spot",
+      "short_exit": "drop_spot"
+    },
+    "long_entry_core_plus_spot": {
+      "long_entry": "add_spot",
+      "short_entry": "add_volume_detail",
+      "long_exit": "add_position_history",
+      "short_exit": "add_position_history"
+    },
+    "long_entry_full_minus_derivatives": {
+      "long_entry": "drop_derivatives",
+      "short_entry": "add_volume_detail",
+      "long_exit": "add_position_history",
+      "short_exit": "add_position_history"
+    }
+  },
+  "fold_plan": [
+    {
+      "start": "2026-06-01T00:00:00Z",
+      "end": "2026-06-10T00:00:00Z",
+      "validation_start": "2026-05-27T00:00:00Z"
+    },
+    {
+      "start": "2026-11-03T00:00:00Z",
+      "end": "2026-11-07T00:00:00Z",
+      "validation_start": "2026-06-07T00:00:00Z"
+    },
+    {
+      "start": "2026-11-07T00:00:00Z",
+      "end": "2026-11-11T00:00:00Z",
+      "validation_start": "2026-11-02T00:00:00Z"
+    },
+    {
+      "start": "2026-11-11T00:00:00Z",
+      "end": "2026-11-14T08:30:00Z",
+      "validation_start": "2026-11-05T00:00:00Z"
+    }
+  ],
+  "seeds": [
+    20261114,
+    20261115,
+    20261116
+  ],
+  "notional_usd": 100,
+  "fees": 0,
+  "funding_payments": 0,
+  "slippage": 0,
+  "baseline_replays_matched": 12,
+  "native_payoffs_verified": 14193,
+  "all_windows": [
+    {
+      "seed": 20261114,
+      "variant": "drop_spot",
+      "delta_vs_full_minus_spot_usd": 0.0,
+      "trades": 438,
+      "priced": 438,
+      "censored": 0,
+      "gross_pnl_usd": 129.01789887159057,
+      "priced_subtotal_usd": 129.01789887159057,
+      "mean_return_pct": 0.2945614129488369,
+      "wins": 187,
+      "losses": 251,
+      "median_holding_minutes": 185.0,
+      "notional_hours": 201708.33333333334,
+      "folds": 4,
+      "by_side": {
+        "long": {
+          "trades": 252,
+          "priced": 252,
+          "censored": 0,
+          "gross_pnl_usd": -42.12886739077088,
+          "priced_subtotal_usd": -42.12886739077088,
+          "mean_return_pct": -0.16717804520147175,
+          "wins": 91,
+          "losses": 161,
+          "median_holding_minutes": 135.0,
+          "notional_hours": 104316.66666666667
+        },
+        "short": {
+          "trades": 186,
+          "priced": 186,
+          "censored": 0,
+          "gross_pnl_usd": 171.14676626236144,
+          "priced_subtotal_usd": 171.14676626236144,
+          "mean_return_pct": 0.9201439046363519,
+          "wins": 96,
+          "losses": 90,
+          "median_holding_minutes": 290.0,
+          "notional_hours": 97391.66666666667
+        }
+      },
+      "peak_notional_usd": 2700
+    },
+    {
+      "seed": 20261114,
+      "variant": "long_entry_core_plus_spot",
+      "delta_vs_full_minus_spot_usd": null,
+      "trades": 1562,
+      "priced": 1561,
+      "censored": 1,
+      "gross_pnl_usd": null,
+      "priced_subtotal_usd": -314.1219366789711,
+      "mean_return_pct": -0.20123122144713076,
+      "wins": 562,
+      "losses": 995,
+      "median_holding_minutes": 120.0,
+      "notional_hours": 624016.6666666666,
+      "folds": 4,
+      "by_side": {
+        "long": {
+          "trades": 963,
+          "priced": 963,
+          "censored": 0,
+          "gross_pnl_usd": -492.0246120209334,
+          "priced_subtotal_usd": -492.0246120209334,
+          "mean_return_pct": -0.5109289844454137,
+          "wins": 300,
+          "losses": 660,
+          "median_holding_minutes": 70.0,
+          "notional_hours": 245091.66666666666
+        },
+        "short": {
+          "trades": 599,
+          "priced": 598,
+          "censored": 1,
+          "gross_pnl_usd": null,
+          "priced_subtotal_usd": 177.90267534196232,
+          "mean_return_pct": 0.2974961126119771,
+          "wins": 262,
+          "losses": 335,
+          "median_holding_minutes": 295.0,
+          "notional_hours": 378925.0
+        }
+      },
+      "peak_notional_usd": 5900
+    },
+    {
+      "seed": 20261114,
+      "variant": "long_entry_full_minus_derivatives",
+      "delta_vs_full_minus_spot_usd": null,
+      "trades": 2124,
+      "priced": 2123,
+      "censored": 1,
+      "gross_pnl_usd": null,
+      "priced_subtotal_usd": -441.85800627320003,
+      "mean_return_pct": -0.20812906560207256,
+      "wins": 767,
+      "losses": 1353,
+      "median_holding_minutes": 125.0,
+      "notional_hours": 753116.6666666666,
+      "folds": 4,
+      "by_side": {
+        "long": {
+          "trades": 1554,
+          "priced": 1554,
+          "censored": 0,
+          "gross_pnl_usd": -621.6727645948806,
+          "priced_subtotal_usd": -621.6727645948806,
+          "mean_return_pct": -0.40004682406362974,
+          "wins": 520,
+          "losses": 1032,
+          "median_holding_minutes": 105.0,
+          "notional_hours": 398950.0
+        },
+        "short": {
+          "trades": 570,
+          "priced": 569,
+          "censored": 1,
+          "gross_pnl_usd": null,
+          "priced_subtotal_usd": 179.81475832168047,
+          "mean_return_pct": 0.3160189074194736,
+          "wins": 247,
+          "losses": 321,
+          "median_holding_minutes": 280.0,
+          "notional_hours": 354166.6666666667
+        }
+      },
+      "peak_notional_usd": 6100
+    },
+    {
+      "seed": 20261115,
+      "variant": "drop_spot",
+      "delta_vs_full_minus_spot_usd": 0.0,
+      "trades": 578,
+      "priced": 578,
+      "censored": 0,
+      "gross_pnl_usd": 90.65969276719898,
+      "priced_subtotal_usd": 90.65969276719898,
+      "mean_return_pct": 0.15685067952802592,
+      "wins": 238,
+      "losses": 337,
+      "median_holding_minutes": 80.0,
+      "notional_hours": 165600.0,
+      "folds": 4,
+      "by_side": {
+        "long": {
+          "trades": 376,
+          "priced": 376,
+          "censored": 0,
+          "gross_pnl_usd": -91.09157874756144,
+          "priced_subtotal_usd": -91.09157874756144,
+          "mean_return_pct": -0.2422648370945783,
+          "wins": 129,
+          "losses": 244,
+          "median_holding_minutes": 60.0,
+          "notional_hours": 55066.666666666664
+        },
+        "short": {
+          "trades": 202,
+          "priced": 202,
+          "censored": 0,
+          "gross_pnl_usd": 181.75127151476036,
+          "priced_subtotal_usd": 181.75127151476036,
+          "mean_return_pct": 0.8997587698750513,
+          "wins": 109,
+          "losses": 93,
+          "median_holding_minutes": 287.5,
+          "notional_hours": 110533.33333333333
+        }
+      },
+      "peak_notional_usd": 3300
+    },
+    {
+      "seed": 20261115,
+      "variant": "long_entry_core_plus_spot",
+      "delta_vs_full_minus_spot_usd": null,
+      "trades": 2455,
+      "priced": 2454,
+      "censored": 1,
+      "gross_pnl_usd": null,
+      "priced_subtotal_usd": 37.315671500207756,
+      "mean_return_pct": 0.01520606010603413,
+      "wins": 996,
+      "losses": 1451,
+      "median_holding_minutes": 85.0,
+      "notional_hours": 764458.3333333334,
+      "folds": 4,
+      "by_side": {
+        "long": {
+          "trades": 1622,
+          "priced": 1622,
+          "censored": 0,
+          "gross_pnl_usd": -268.5734066214789,
+          "priced_subtotal_usd": -268.5734066214789,
+          "mean_return_pct": -0.16558163170251475,
+          "wins": 578,
+          "losses": 1040,
+          "median_holding_minutes": 55.0,
+          "notional_hours": 235175.0
+        },
+        "short": {
+          "trades": 833,
+          "priced": 832,
+          "censored": 1,
+          "gross_pnl_usd": null,
+          "priced_subtotal_usd": 305.8890781216868,
+          "mean_return_pct": 0.3676551419731812,
+          "wins": 418,
+          "losses": 411,
+          "median_holding_minutes": 307.5,
+          "notional_hours": 529283.3333333334
+        }
+      },
+      "peak_notional_usd": 6000
+    },
+    {
+      "seed": 20261115,
+      "variant": "long_entry_full_minus_derivatives",
+      "delta_vs_full_minus_spot_usd": null,
+      "trades": 1737,
+      "priced": 1736,
+      "censored": 1,
+      "gross_pnl_usd": null,
+      "priced_subtotal_usd": -317.0550718604719,
+      "mean_return_pct": -0.18263541005787554,
+      "wins": 673,
+      "losses": 1059,
+      "median_holding_minutes": 195.0,
+      "notional_hours": 874216.6666666666,
+      "folds": 4,
+      "by_side": {
+        "long": {
+          "trades": 984,
+          "priced": 984,
+          "censored": 0,
+          "gross_pnl_usd": -554.3158371972318,
+          "priced_subtotal_usd": -554.3158371972318,
+          "mean_return_pct": -0.5633291028427152,
+          "wins": 312,
+          "losses": 671,
+          "median_holding_minutes": 140.0,
+          "notional_hours": 405416.6666666667
+        },
+        "short": {
+          "trades": 753,
+          "priced": 752,
+          "censored": 1,
+          "gross_pnl_usd": null,
+          "priced_subtotal_usd": 237.26076533675996,
+          "mean_return_pct": 0.3155063368839893,
+          "wins": 361,
+          "losses": 388,
+          "median_holding_minutes": 295.0,
+          "notional_hours": 468800.0
+        }
+      },
+      "peak_notional_usd": 6600
+    },
+    {
+      "seed": 20261116,
+      "variant": "drop_spot",
+      "delta_vs_full_minus_spot_usd": 0.0,
+      "trades": 171,
+      "priced": 171,
+      "censored": 0,
+      "gross_pnl_usd": 138.07555292378467,
+      "priced_subtotal_usd": 138.07555292378467,
+      "mean_return_pct": 0.8074593738233021,
+      "wins": 86,
+      "losses": 85,
+      "median_holding_minutes": 405.0,
+      "notional_hours": 123450.0,
+      "folds": 4,
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "short": {
+          "trades": 171,
+          "priced": 171,
+          "censored": 0,
+          "gross_pnl_usd": 138.07555292378467,
+          "priced_subtotal_usd": 138.07555292378467,
+          "mean_return_pct": 0.8074593738233021,
+          "wins": 86,
+          "losses": 85,
+          "median_holding_minutes": 405.0,
+          "notional_hours": 123450.0
+        }
+      },
+      "peak_notional_usd": 3100
+    },
+    {
+      "seed": 20261116,
+      "variant": "long_entry_core_plus_spot",
+      "delta_vs_full_minus_spot_usd": -291.2832600007272,
+      "trades": 2523,
+      "priced": 2523,
+      "censored": 0,
+      "gross_pnl_usd": -153.20770707694248,
+      "priced_subtotal_usd": -153.20770707694248,
+      "mean_return_pct": -0.06072441818348889,
+      "wins": 977,
+      "losses": 1539,
+      "median_holding_minutes": 60.0,
+      "notional_hours": 560516.6666666666,
+      "folds": 4,
+      "by_side": {
+        "long": {
+          "trades": 1869,
+          "priced": 1869,
+          "censored": 0,
+          "gross_pnl_usd": -290.50222869012714,
+          "priced_subtotal_usd": -290.50222869012714,
+          "mean_return_pct": -0.15543190406106322,
+          "wins": 700,
+          "losses": 1164,
+          "median_holding_minutes": 40.0,
+          "notional_hours": 231166.66666666666
+        },
+        "short": {
+          "trades": 654,
+          "priced": 654,
+          "censored": 0,
+          "gross_pnl_usd": 137.29452161318474,
+          "priced_subtotal_usd": 137.29452161318474,
+          "mean_return_pct": 0.20993046118223965,
+          "wins": 277,
+          "losses": 375,
+          "median_holding_minutes": 222.5,
+          "notional_hours": 329350.0
+        }
+      },
+      "peak_notional_usd": 5300
+    },
+    {
+      "seed": 20261116,
+      "variant": "long_entry_full_minus_derivatives",
+      "delta_vs_full_minus_spot_usd": -761.5844740593153,
+      "trades": 2609,
+      "priced": 2609,
+      "censored": 0,
+      "gross_pnl_usd": -623.5089211355306,
+      "priced_subtotal_usd": -623.5089211355306,
+      "mean_return_pct": -0.23898387165026086,
+      "wins": 903,
+      "losses": 1701,
+      "median_holding_minutes": 105.0,
+      "notional_hours": 771300.0,
+      "folds": 4,
+      "by_side": {
+        "long": {
+          "trades": 2041,
+          "priced": 2041,
+          "censored": 0,
+          "gross_pnl_usd": -743.4368326570691,
+          "priced_subtotal_usd": -743.4368326570691,
+          "mean_return_pct": -0.36425126538807895,
+          "wins": 662,
+          "losses": 1375,
+          "median_holding_minutes": 95.0,
+          "notional_hours": 477433.3333333333
+        },
+        "short": {
+          "trades": 568,
+          "priced": 568,
+          "censored": 0,
+          "gross_pnl_usd": 119.92791152153839,
+          "priced_subtotal_usd": 119.92791152153839,
+          "mean_return_pct": 0.2111406892984831,
+          "wins": 241,
+          "losses": 326,
+          "median_holding_minutes": 225.0,
+          "notional_hours": 293866.6666666667
+        }
+      },
+      "peak_notional_usd": 6700
+    }
+  ],
+  "common_complete_windows": {
+    "included": [
+      "2026-11-03T00:00:00Z",
+      "2026-11-07T00:00:00Z",
+      "2026-11-11T00:00:00Z"
+    ],
+    "excluded": [
+      "2026-06-01T00:00:00Z"
+    ],
+    "comparison": [
+      {
+        "seed": 20261114,
+        "variant": "drop_spot",
+        "delta_vs_full_minus_spot_usd": 0.0,
+        "trades": 390,
+        "priced": 390,
+        "censored": 0,
+        "gross_pnl_usd": 123.08505371502488,
+        "priced_subtotal_usd": 123.08505371502488,
+        "mean_return_pct": 0.3156027018333971,
+        "wins": 165,
+        "losses": 225,
+        "median_holding_minutes": 210.0,
+        "notional_hours": 195150.0,
+        "folds": 3,
+        "by_side": {
+          "long": {
+            "trades": 252,
+            "priced": 252,
+            "censored": 0,
+            "gross_pnl_usd": -42.12886739077088,
+            "priced_subtotal_usd": -42.12886739077088,
+            "mean_return_pct": -0.16717804520147175,
+            "wins": 91,
+            "losses": 161,
+            "median_holding_minutes": 135.0,
+            "notional_hours": 104316.66666666667
+          },
+          "short": {
+            "trades": 138,
+            "priced": 138,
+            "censored": 0,
+            "gross_pnl_usd": 165.21392110579575,
+            "priced_subtotal_usd": 165.21392110579575,
+            "mean_return_pct": 1.1972023268535923,
+            "wins": 74,
+            "losses": 64,
+            "median_holding_minutes": 385.0,
+            "notional_hours": 90833.33333333333
+          }
+        },
+        "peak_notional_usd": 2700
+      },
+      {
+        "seed": 20261114,
+        "variant": "long_entry_core_plus_spot",
+        "delta_vs_full_minus_spot_usd": -128.99658350126808,
+        "trades": 1072,
+        "priced": 1072,
+        "censored": 0,
+        "gross_pnl_usd": -5.911529786243193,
+        "priced_subtotal_usd": -5.911529786243193,
+        "mean_return_pct": -0.005514486740898501,
+        "wins": 376,
+        "losses": 692,
+        "median_holding_minutes": 70.0,
+        "notional_hours": 319216.6666666667,
+        "folds": 3,
+        "by_side": {
+          "long": {
+            "trades": 626,
+            "priced": 626,
+            "censored": 0,
+            "gross_pnl_usd": -96.83965343772476,
+            "priced_subtotal_usd": -96.83965343772476,
+            "mean_return_pct": -0.154695932009145,
+            "wins": 194,
+            "losses": 429,
+            "median_holding_minutes": 40.0,
+            "notional_hours": 61025.0
+          },
+          "short": {
+            "trades": 446,
+            "priced": 446,
+            "censored": 0,
+            "gross_pnl_usd": 90.92812365148151,
+            "priced_subtotal_usd": 90.92812365148151,
+            "mean_return_pct": 0.20387471670735766,
+            "wins": 182,
+            "losses": 263,
+            "median_holding_minutes": 227.5,
+            "notional_hours": 258191.66666666666
+          }
+        },
+        "peak_notional_usd": 5900
+      },
+      {
+        "seed": 20261114,
+        "variant": "long_entry_full_minus_derivatives",
+        "delta_vs_full_minus_spot_usd": -69.05341547667132,
+        "trades": 650,
+        "priced": 650,
+        "censored": 0,
+        "gross_pnl_usd": 54.031638238353565,
+        "priced_subtotal_usd": 54.031638238353565,
+        "mean_return_pct": 0.08312559728977471,
+        "wins": 249,
+        "losses": 400,
+        "median_holding_minutes": 190.0,
+        "notional_hours": 324258.3333333333,
+        "folds": 3,
+        "by_side": {
+          "long": {
+            "trades": 203,
+            "priced": 203,
+            "censored": 0,
+            "gross_pnl_usd": -50.35047418993439,
+            "priced_subtotal_usd": -50.35047418993439,
+            "mean_return_pct": -0.24803189256125313,
+            "wins": 63,
+            "losses": 140,
+            "median_holding_minutes": 160.0,
+            "notional_hours": 65908.33333333333
+          },
+          "short": {
+            "trades": 447,
+            "priced": 447,
+            "censored": 0,
+            "gross_pnl_usd": 104.38211242828801,
+            "priced_subtotal_usd": 104.38211242828801,
+            "mean_return_pct": 0.2335170300409128,
+            "wins": 186,
+            "losses": 260,
+            "median_holding_minutes": 225.0,
+            "notional_hours": 258350.0
+          }
+        },
+        "peak_notional_usd": 5900
+      },
+      {
+        "seed": 20261115,
+        "variant": "drop_spot",
+        "delta_vs_full_minus_spot_usd": 0.0,
+        "trades": 504,
+        "priced": 504,
+        "censored": 0,
+        "gross_pnl_usd": 61.39938587486071,
+        "priced_subtotal_usd": 61.39938587486071,
+        "mean_return_pct": 0.12182417832313633,
+        "wins": 200,
+        "losses": 301,
+        "median_holding_minutes": 90.0,
+        "notional_hours": 156125.0,
+        "folds": 3,
+        "by_side": {
+          "long": {
+            "trades": 376,
+            "priced": 376,
+            "censored": 0,
+            "gross_pnl_usd": -91.09157874756144,
+            "priced_subtotal_usd": -91.09157874756144,
+            "mean_return_pct": -0.2422648370945783,
+            "wins": 129,
+            "losses": 244,
+            "median_holding_minutes": 60.0,
+            "notional_hours": 55066.666666666664
+          },
+          "short": {
+            "trades": 128,
+            "priced": 128,
+            "censored": 0,
+            "gross_pnl_usd": 152.49096462242215,
+            "priced_subtotal_usd": 152.49096462242215,
+            "mean_return_pct": 1.191335661112673,
+            "wins": 71,
+            "losses": 57,
+            "median_holding_minutes": 450.0,
+            "notional_hours": 101058.33333333333
+          }
+        },
+        "peak_notional_usd": 3300
+      },
+      {
+        "seed": 20261115,
+        "variant": "long_entry_core_plus_spot",
+        "delta_vs_full_minus_spot_usd": -74.82147141055273,
+        "trades": 1075,
+        "priced": 1075,
+        "censored": 0,
+        "gross_pnl_usd": -13.42208553569202,
+        "priced_subtotal_usd": -13.42208553569202,
+        "mean_return_pct": -0.012485660963434437,
+        "wins": 366,
+        "losses": 705,
+        "median_holding_minutes": 70.0,
+        "notional_hours": 348400.0,
+        "folds": 3,
+        "by_side": {
+          "long": {
+            "trades": 637,
+            "priced": 637,
+            "censored": 0,
+            "gross_pnl_usd": -105.77290454722961,
+            "priced_subtotal_usd": -105.77290454722961,
+            "mean_return_pct": -0.16604851577273094,
+            "wins": 176,
+            "losses": 459,
+            "median_holding_minutes": 45.0,
+            "notional_hours": 68641.66666666667
+          },
+          "short": {
+            "trades": 438,
+            "priced": 438,
+            "censored": 0,
+            "gross_pnl_usd": 92.35081901153758,
+            "priced_subtotal_usd": 92.35081901153758,
+            "mean_return_pct": 0.2108466187478027,
+            "wins": 190,
+            "losses": 246,
+            "median_holding_minutes": 260.0,
+            "notional_hours": 279758.3333333333
+          }
+        },
+        "peak_notional_usd": 6000
+      },
+      {
+        "seed": 20261115,
+        "variant": "long_entry_full_minus_derivatives",
+        "delta_vs_full_minus_spot_usd": -14.27851977611897,
+        "trades": 681,
+        "priced": 681,
+        "censored": 0,
+        "gross_pnl_usd": 47.12086609874174,
+        "priced_subtotal_usd": 47.12086609874174,
+        "mean_return_pct": 0.06919363597465748,
+        "wins": 259,
+        "losses": 420,
+        "median_holding_minutes": 120.0,
+        "notional_hours": 306675.0,
+        "folds": 3,
+        "by_side": {
+          "long": {
+            "trades": 234,
+            "priced": 234,
+            "censored": 0,
+            "gross_pnl_usd": -45.49984684484772,
+            "priced_subtotal_usd": -45.49984684484772,
+            "mean_return_pct": -0.19444378993524666,
+            "wins": 63,
+            "losses": 171,
+            "median_holding_minutes": 50.0,
+            "notional_hours": 25508.333333333332
+          },
+          "short": {
+            "trades": 447,
+            "priced": 447,
+            "censored": 0,
+            "gross_pnl_usd": 92.62071294358942,
+            "priced_subtotal_usd": 92.62071294358942,
+            "mean_return_pct": 0.20720517437044614,
+            "wins": 196,
+            "losses": 249,
+            "median_holding_minutes": 255.0,
+            "notional_hours": 281166.6666666667
+          }
+        },
+        "peak_notional_usd": 6000
+      },
+      {
+        "seed": 20261116,
+        "variant": "drop_spot",
+        "delta_vs_full_minus_spot_usd": 0.0,
+        "trades": 132,
+        "priced": 132,
+        "censored": 0,
+        "gross_pnl_usd": 120.25531454983378,
+        "priced_subtotal_usd": 120.25531454983378,
+        "mean_return_pct": 0.9110251102260135,
+        "wins": 68,
+        "losses": 64,
+        "median_holding_minutes": 495.0,
+        "notional_hours": 117475.0,
+        "folds": 3,
+        "by_side": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          "short": {
+            "trades": 132,
+            "priced": 132,
+            "censored": 0,
+            "gross_pnl_usd": 120.25531454983378,
+            "priced_subtotal_usd": 120.25531454983378,
+            "mean_return_pct": 0.9110251102260135,
+            "wins": 68,
+            "losses": 64,
+            "median_holding_minutes": 495.0,
+            "notional_hours": 117475.0
+          }
+        },
+        "peak_notional_usd": 3100
+      },
+      {
+        "seed": 20261116,
+        "variant": "long_entry_core_plus_spot",
+        "delta_vs_full_minus_spot_usd": -106.6220766610718,
+        "trades": 1030,
+        "priced": 1030,
+        "censored": 0,
+        "gross_pnl_usd": 13.633237888761983,
+        "priced_subtotal_usd": 13.633237888761983,
+        "mean_return_pct": 0.013236153290060178,
+        "wins": 362,
+        "losses": 665,
+        "median_holding_minutes": 65.0,
+        "notional_hours": 291116.6666666667,
+        "folds": 3,
+        "by_side": {
+          "long": {
+            "trades": 563,
+            "priced": 563,
+            "censored": 0,
+            "gross_pnl_usd": -100.49952668071936,
+            "priced_subtotal_usd": -100.49952668071936,
+            "mean_return_pct": -0.1785071521860024,
+            "wins": 171,
+            "losses": 390,
+            "median_holding_minutes": 35.0,
+            "notional_hours": 47208.333333333336
+          },
+          "short": {
+            "trades": 467,
+            "priced": 467,
+            "censored": 0,
+            "gross_pnl_usd": 114.13276456948131,
+            "priced_subtotal_usd": 114.13276456948131,
+            "mean_return_pct": 0.24439564147640538,
+            "wins": 191,
+            "losses": 275,
+            "median_holding_minutes": 200.0,
+            "notional_hours": 243908.33333333334
+          }
+        },
+        "peak_notional_usd": 5100
+      },
+      {
+        "seed": 20261116,
+        "variant": "long_entry_full_minus_derivatives",
+        "delta_vs_full_minus_spot_usd": -65.325194746788,
+        "trades": 807,
+        "priced": 807,
+        "censored": 0,
+        "gross_pnl_usd": 54.930119803045784,
+        "priced_subtotal_usd": 54.930119803045784,
+        "mean_return_pct": 0.06806706295296876,
+        "wins": 297,
+        "losses": 507,
+        "median_holding_minutes": 85.0,
+        "notional_hours": 274858.3333333333,
+        "folds": 3,
+        "by_side": {
+          "long": {
+            "trades": 344,
+            "priced": 344,
+            "censored": 0,
+            "gross_pnl_usd": -61.74634356433397,
+            "priced_subtotal_usd": -61.74634356433397,
+            "mean_return_pct": -0.17949518478004062,
+            "wins": 106,
+            "losses": 236,
+            "median_holding_minutes": 35.0,
+            "notional_hours": 31225.0
+          },
+          "short": {
+            "trades": 463,
+            "priced": 463,
+            "censored": 0,
+            "gross_pnl_usd": 116.6764633673798,
+            "priced_subtotal_usd": 116.6764633673798,
+            "mean_return_pct": 0.25200100079347687,
+            "wins": 191,
+            "losses": 271,
+            "median_holding_minutes": 205.0,
+            "notional_hours": 243633.33333333334
+          }
+        },
+        "peak_notional_usd": 5100
+      }
+    ]
+  },
+  "runs": [
+    {
+      "variant": "drop_spot",
+      "seed": 20261114,
+      "fold": "2026-06-01T00:00:00Z",
+      "end": "2026-06-10T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/entry_long_20261114_0dfeb8a01c0c1c66.joblib",
+          "sha256": "993ff605972163ba6e7e2ac07a81df83dff0aba30dd99cb1aa45ec7c9e2c1ef5"
+        },
+        "long_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/exit_long_20261115_0a94bfda09049945.joblib",
+          "sha256": "f7017752c56fbf3b6fd923ba154dc0674984eb009c054d3bd2123bc25ed6a54f"
+        },
+        "short_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/entry_short_20261124_01d7c7c7fb32505a.joblib",
+          "sha256": "c8d90b8ac58ebab189f79a2203394a8ea64f3b94181e2b1bdd46289b450ca406"
+        },
+        "short_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/exit_short_20261125_91290af56dd46503.joblib",
+          "sha256": "74d2179ab21e3f3d6cd0a3245050a0220b07c390e2d51ed137c98deb08c0e218"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 7.480433263618968
+        }
+      },
+      "validation": {
+        "trades": 52,
+        "priced": 52,
+        "censored": 0,
+        "gross_pnl_usd": 7.480433263618968,
+        "priced_subtotal_usd": 7.480433263618968,
+        "mean_return_pct": 0.14385448583882632,
+        "wins": 26,
+        "losses": 26,
+        "median_holding_minutes": 67.5,
+        "notional_hours": 8616.666666666666
+      },
+      "test": {
+        "trades": 48,
+        "priced": 48,
+        "censored": 0,
+        "gross_pnl_usd": 5.932845156565669,
+        "priced_subtotal_usd": 5.932845156565669,
+        "mean_return_pct": 0.12360094076178478,
+        "wins": 22,
+        "losses": 26,
+        "median_holding_minutes": 42.5,
+        "notional_hours": 6558.333333333333,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "short": {
+          "trades": 48,
+          "priced": 48,
+          "censored": 0,
+          "gross_pnl_usd": 5.932845156565669,
+          "priced_subtotal_usd": 5.932845156565669,
+          "mean_return_pct": 0.12360094076178478,
+          "wins": 22,
+          "losses": 26,
+          "median_holding_minutes": 42.5,
+          "notional_hours": 6558.333333333333
+        }
+      }
+    },
+    {
+      "variant": "long_entry_core_plus_spot",
+      "seed": 20261114,
+      "fold": "2026-06-01T00:00:00Z",
+      "end": "2026-06-10T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "add_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/entry_long_20261114_3e4810c6a43f2206.joblib",
+          "sha256": "0a37f5e5d54ba125394c23afac0168281e6a33ad0a6e71b4f6de0e369f53a092"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/exit_long_20261115_3521d3ba236ec8e5.joblib",
+          "sha256": "2fc820c129d51dba25da41c20545cd1e4d28ec79688af6146283f9ec53b8c57d"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/entry_short_20261124_5bc76ee91931388d.joblib",
+          "sha256": "e08b8cd8ffe7dea8056c955d20e0f5d7393663abbf79c0869b5ec577c61c396d"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/exit_short_20261125_35397449d888bf21.joblib",
+          "sha256": "9fe0a2cb341a3a56125e8d9162be75370d2056e35c31faeb2d57c096f330c3fd"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.9,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 28.370490368576338
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.75,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 4.331494985222692
+        }
+      },
+      "validation": {
+        "trades": 95,
+        "priced": 95,
+        "censored": 0,
+        "gross_pnl_usd": -12.82954332828658,
+        "priced_subtotal_usd": -12.82954332828658,
+        "mean_return_pct": -0.1350478245082798,
+        "wins": 48,
+        "losses": 47,
+        "median_holding_minutes": 485.0,
+        "notional_hours": 74308.33333333333
+      },
+      "test": {
+        "trades": 490,
+        "priced": 489,
+        "censored": 1,
+        "gross_pnl_usd": null,
+        "priced_subtotal_usd": -308.21040689272786,
+        "mean_return_pct": -0.6302871306599752,
+        "wins": 186,
+        "losses": 303,
+        "median_holding_minutes": 340.0,
+        "notional_hours": 304800.0,
+        "direction_conflicts_waited": 11
+      },
+      "by_side": {
+        "long": {
+          "trades": 337,
+          "priced": 337,
+          "censored": 0,
+          "gross_pnl_usd": -395.18495858320864,
+          "priced_subtotal_usd": -395.18495858320864,
+          "mean_return_pct": -1.1726556634516576,
+          "wins": 106,
+          "losses": 231,
+          "median_holding_minutes": 285.0,
+          "notional_hours": 184066.66666666666
+        },
+        "short": {
+          "trades": 153,
+          "priced": 152,
+          "censored": 1,
+          "gross_pnl_usd": null,
+          "priced_subtotal_usd": 86.97455169048081,
+          "mean_return_pct": 0.5722009979636895,
+          "wins": 80,
+          "losses": 72,
+          "median_holding_minutes": 475.0,
+          "notional_hours": 120733.33333333333
+        }
+      }
+    },
+    {
+      "variant": "long_entry_full_minus_derivatives",
+      "seed": 20261114,
+      "fold": "2026-06-01T00:00:00Z",
+      "end": "2026-06-10T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_derivatives",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/entry_long_20261114_2f44ff6a096847ee.joblib",
+          "sha256": "9c5a059a88b71f3ec0d9231d6d73d8f0833c50da070ecc7ded0b63efb1b2a59f"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/exit_long_20261115_3521d3ba236ec8e5.joblib",
+          "sha256": "2fc820c129d51dba25da41c20545cd1e4d28ec79688af6146283f9ec53b8c57d"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/entry_short_20261124_5bc76ee91931388d.joblib",
+          "sha256": "e08b8cd8ffe7dea8056c955d20e0f5d7393663abbf79c0869b5ec577c61c396d"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/exit_short_20261125_35397449d888bf21.joblib",
+          "sha256": "9fe0a2cb341a3a56125e8d9162be75370d2056e35c31faeb2d57c096f330c3fd"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.9,
+          "exit_threshold": 0.5,
+          "validation_pnl_usd": 24.083308613284956
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.75,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 4.331494985222692
+        }
+      },
+      "validation": {
+        "trades": 185,
+        "priced": 185,
+        "censored": 0,
+        "gross_pnl_usd": -9.332899531037434,
+        "priced_subtotal_usd": -9.332899531037434,
+        "mean_return_pct": -0.05044810557317532,
+        "wins": 83,
+        "losses": 102,
+        "median_holding_minutes": 140.0,
+        "notional_hours": 81166.66666666667
+      },
+      "test": {
+        "trades": 1474,
+        "priced": 1473,
+        "censored": 1,
+        "gross_pnl_usd": null,
+        "priced_subtotal_usd": -495.8896445115537,
+        "mean_return_pct": -0.3366528475977961,
+        "wins": 518,
+        "losses": 953,
+        "median_holding_minutes": 110.0,
+        "notional_hours": 428858.3333333333,
+        "direction_conflicts_waited": 51
+      },
+      "by_side": {
+        "long": {
+          "trades": 1351,
+          "priced": 1351,
+          "censored": 0,
+          "gross_pnl_usd": -571.3222904049461,
+          "priced_subtotal_usd": -571.3222904049461,
+          "mean_return_pct": -0.422888445895593,
+          "wins": 457,
+          "losses": 892,
+          "median_holding_minutes": 100.0,
+          "notional_hours": 333041.6666666667
+        },
+        "short": {
+          "trades": 123,
+          "priced": 122,
+          "censored": 1,
+          "gross_pnl_usd": null,
+          "priced_subtotal_usd": 75.43264589339245,
+          "mean_return_pct": 0.6183003761753479,
+          "wins": 61,
+          "losses": 61,
+          "median_holding_minutes": 457.5,
+          "notional_hours": 95816.66666666667
+        }
+      }
+    },
+    {
+      "variant": "drop_spot",
+      "seed": 20261115,
+      "fold": "2026-06-01T00:00:00Z",
+      "end": "2026-06-10T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/entry_long_20261115_0dfeb8a01c0c1c66.joblib",
+          "sha256": "0eee75bf3706246fbeff95ed5ece11f18f5feca9a78a08e8965c2f9473a0ddd2"
+        },
+        "long_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/exit_long_20261116_0a94bfda09049945.joblib",
+          "sha256": "ca95f26df947f4c4a7fae6ad0aa3ed784c9fc78502e9917fa2137f7d9d07b8dd"
+        },
+        "short_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/entry_short_20261125_01d7c7c7fb32505a.joblib",
+          "sha256": "a8185b67eac7d2b14ab3962568aa99b1310effadcbaa77f9c1ae99543f4b39ea"
+        },
+        "short_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/exit_short_20261126_91290af56dd46503.joblib",
+          "sha256": "33859a0c2c2776383d7346985934d5531dd8a4103291323e17499733903ad770"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.5,
+          "validation_pnl_usd": 6.151239419423967
+        }
+      },
+      "validation": {
+        "trades": 64,
+        "priced": 64,
+        "censored": 0,
+        "gross_pnl_usd": 6.151239419423967,
+        "priced_subtotal_usd": 6.151239419423967,
+        "mean_return_pct": 0.09611311592849948,
+        "wins": 33,
+        "losses": 31,
+        "median_holding_minutes": 160.0,
+        "notional_hours": 19608.333333333332
+      },
+      "test": {
+        "trades": 74,
+        "priced": 74,
+        "censored": 0,
+        "gross_pnl_usd": 29.260306892338253,
+        "priced_subtotal_usd": 29.260306892338253,
+        "mean_return_pct": 0.3954095525991656,
+        "wins": 38,
+        "losses": 36,
+        "median_holding_minutes": 22.5,
+        "notional_hours": 9475.0,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "short": {
+          "trades": 74,
+          "priced": 74,
+          "censored": 0,
+          "gross_pnl_usd": 29.260306892338253,
+          "priced_subtotal_usd": 29.260306892338253,
+          "mean_return_pct": 0.3954095525991656,
+          "wins": 38,
+          "losses": 36,
+          "median_holding_minutes": 22.5,
+          "notional_hours": 9475.0
+        }
+      }
+    },
+    {
+      "variant": "long_entry_core_plus_spot",
+      "seed": 20261115,
+      "fold": "2026-06-01T00:00:00Z",
+      "end": "2026-06-10T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "add_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/entry_long_20261115_3e4810c6a43f2206.joblib",
+          "sha256": "d06b021f2ee1814e0397f3b82f0d0ea4bd08f0130625d1d45110a6195bd80c5b"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/exit_long_20261116_3521d3ba236ec8e5.joblib",
+          "sha256": "91af3e4a90dec8bc4f0c2207abe8cd4dec10b970bd3def5e71a4dfe7755bc08d"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/entry_short_20261125_5bc76ee91931388d.joblib",
+          "sha256": "fecedb55864fbd3db44e3bc7c09eee1d5cbcb1f3875c6532a286371fd8296482"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/exit_short_20261126_35397449d888bf21.joblib",
+          "sha256": "f4fa1e562d4543b8a95e401a2dc84cd5074a50f881ee011c84098922d28c62e5"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.75,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 15.929104067590387
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 25.01630292191078
+        }
+      },
+      "validation": {
+        "trades": 302,
+        "priced": 302,
+        "censored": 0,
+        "gross_pnl_usd": 39.42157425268803,
+        "priced_subtotal_usd": 39.42157425268803,
+        "mean_return_pct": 0.13053501408174845,
+        "wins": 134,
+        "losses": 166,
+        "median_holding_minutes": 190.0,
+        "notional_hours": 152383.33333333334
+      },
+      "test": {
+        "trades": 1380,
+        "priced": 1379,
+        "censored": 1,
+        "gross_pnl_usd": null,
+        "priced_subtotal_usd": 50.73775703589982,
+        "mean_return_pct": 0.036793152310297186,
+        "wins": 630,
+        "losses": 746,
+        "median_holding_minutes": 100.0,
+        "notional_hours": 416058.3333333333,
+        "direction_conflicts_waited": 175
+      },
+      "by_side": {
+        "long": {
+          "trades": 985,
+          "priced": 985,
+          "censored": 0,
+          "gross_pnl_usd": -162.80050207424938,
+          "priced_subtotal_usd": -162.80050207424938,
+          "mean_return_pct": -0.165279697537309,
+          "wins": 402,
+          "losses": 581,
+          "median_holding_minutes": 60.0,
+          "notional_hours": 166533.33333333334
+        },
+        "short": {
+          "trades": 395,
+          "priced": 394,
+          "censored": 1,
+          "gross_pnl_usd": null,
+          "priced_subtotal_usd": 213.53825911014917,
+          "mean_return_pct": 0.5419752769293126,
+          "wins": 228,
+          "losses": 165,
+          "median_holding_minutes": 345.0,
+          "notional_hours": 249525.0
+        }
+      }
+    },
+    {
+      "variant": "long_entry_full_minus_derivatives",
+      "seed": 20261115,
+      "fold": "2026-06-01T00:00:00Z",
+      "end": "2026-06-10T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_derivatives",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/entry_long_20261115_2f44ff6a096847ee.joblib",
+          "sha256": "add9dccfe89205ededca393c7a86ae1cfb51de4faf447ba575bedd57f625f32b"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/exit_long_20261116_3521d3ba236ec8e5.joblib",
+          "sha256": "91af3e4a90dec8bc4f0c2207abe8cd4dec10b970bd3def5e71a4dfe7755bc08d"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/entry_short_20261125_5bc76ee91931388d.joblib",
+          "sha256": "fecedb55864fbd3db44e3bc7c09eee1d5cbcb1f3875c6532a286371fd8296482"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/exit_short_20261126_35397449d888bf21.joblib",
+          "sha256": "f4fa1e562d4543b8a95e401a2dc84cd5074a50f881ee011c84098922d28c62e5"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.9,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 52.233996145267554
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 25.01630292191078
+        }
+      },
+      "validation": {
+        "trades": 222,
+        "priced": 222,
+        "censored": 0,
+        "gross_pnl_usd": 3.836425807488851,
+        "priced_subtotal_usd": 3.836425807488851,
+        "mean_return_pct": 0.01728119733103086,
+        "wins": 91,
+        "losses": 130,
+        "median_holding_minutes": 447.5,
+        "notional_hours": 166791.66666666666
+      },
+      "test": {
+        "trades": 1056,
+        "priced": 1055,
+        "censored": 1,
+        "gross_pnl_usd": null,
+        "priced_subtotal_usd": -364.17593795921374,
+        "mean_return_pct": -0.3451904625205817,
+        "wins": 414,
+        "losses": 639,
+        "median_holding_minutes": 250.0,
+        "notional_hours": 567541.6666666666,
+        "direction_conflicts_waited": 82
+      },
+      "by_side": {
+        "long": {
+          "trades": 750,
+          "priced": 750,
+          "censored": 0,
+          "gross_pnl_usd": -508.8159903523842,
+          "priced_subtotal_usd": -508.8159903523842,
+          "mean_return_pct": -0.6784213204698456,
+          "wins": 249,
+          "losses": 500,
+          "median_holding_minutes": 200.0,
+          "notional_hours": 379908.3333333333
+        },
+        "short": {
+          "trades": 306,
+          "priced": 305,
+          "censored": 1,
+          "gross_pnl_usd": null,
+          "priced_subtotal_usd": 144.64005239317046,
+          "mean_return_pct": 0.47422967997760807,
+          "wins": 165,
+          "losses": 139,
+          "median_holding_minutes": 340.0,
+          "notional_hours": 187633.33333333334
+        }
+      }
+    },
+    {
+      "variant": "drop_spot",
+      "seed": 20261116,
+      "fold": "2026-06-01T00:00:00Z",
+      "end": "2026-06-10T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/entry_long_20261116_0dfeb8a01c0c1c66.joblib",
+          "sha256": "a64d1130e89bd8e5faf73b81578aa8ee8e3d68ac6c7322be31b1f36d30925b47"
+        },
+        "long_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/exit_long_20261117_0a94bfda09049945.joblib",
+          "sha256": "b6369269254fc3249e707746d34732a29cd511715b2caf2c884d746c4eaa2ee3"
+        },
+        "short_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/entry_short_20261126_01d7c7c7fb32505a.joblib",
+          "sha256": "0b6ef249f08aef3997b04abe49733a407af94c8786ae4d70ebe29ea62943bf45"
+        },
+        "short_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/exit_short_20261127_91290af56dd46503.joblib",
+          "sha256": "15b882eb6739b8d42d5107e89db917890eae92acc260a74b5e73e9e1901cb23d"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.75,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 22.265116442148273
+        }
+      },
+      "validation": {
+        "trades": 41,
+        "priced": 41,
+        "censored": 0,
+        "gross_pnl_usd": 22.265116442148273,
+        "priced_subtotal_usd": 22.265116442148273,
+        "mean_return_pct": 0.5430516205402017,
+        "wins": 21,
+        "losses": 19,
+        "median_holding_minutes": 110.0,
+        "notional_hours": 8891.666666666666
+      },
+      "test": {
+        "trades": 39,
+        "priced": 39,
+        "censored": 0,
+        "gross_pnl_usd": 17.8202383739509,
+        "priced_subtotal_usd": 17.8202383739509,
+        "mean_return_pct": 0.4569291890756641,
+        "wins": 18,
+        "losses": 21,
+        "median_holding_minutes": 45.0,
+        "notional_hours": 5975.0,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "short": {
+          "trades": 39,
+          "priced": 39,
+          "censored": 0,
+          "gross_pnl_usd": 17.8202383739509,
+          "priced_subtotal_usd": 17.8202383739509,
+          "mean_return_pct": 0.4569291890756641,
+          "wins": 18,
+          "losses": 21,
+          "median_holding_minutes": 45.0,
+          "notional_hours": 5975.0
+        }
+      }
+    },
+    {
+      "variant": "long_entry_core_plus_spot",
+      "seed": 20261116,
+      "fold": "2026-06-01T00:00:00Z",
+      "end": "2026-06-10T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "add_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/entry_long_20261116_3e4810c6a43f2206.joblib",
+          "sha256": "82e5fc8a2ad4b52a7b0279b9e71800c19516e9167c9673e630300513b539c7fa"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/exit_long_20261117_3521d3ba236ec8e5.joblib",
+          "sha256": "bcc9e06f110b021d45c0e8d3e52e4798ad2f9ef6dd2b1cbd34e35037d509a243"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/entry_short_20261126_5bc76ee91931388d.joblib",
+          "sha256": "54227515ed6c32f7d01f0e33cb094519aae7ecd223dee81e6294cba8454c40ab"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/exit_short_20261127_35397449d888bf21.joblib",
+          "sha256": "a056d7622b2c706e0b6f7cec9f327810e8c74604216127c35474f8bddcbd684c"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.75,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 42.214111850515025
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.75,
+          "exit_threshold": 0.5,
+          "validation_pnl_usd": 27.705996618251383
+        }
+      },
+      "validation": {
+        "trades": 262,
+        "priced": 262,
+        "censored": 0,
+        "gross_pnl_usd": 49.6224231398656,
+        "priced_subtotal_usd": 49.6224231398656,
+        "mean_return_pct": 0.18939856160254048,
+        "wins": 121,
+        "losses": 141,
+        "median_holding_minutes": 82.5,
+        "notional_hours": 70008.33333333333
+      },
+      "test": {
+        "trades": 1493,
+        "priced": 1493,
+        "censored": 0,
+        "gross_pnl_usd": -166.84094496570435,
+        "priced_subtotal_usd": -166.84094496570435,
+        "mean_return_pct": -0.11174879100181136,
+        "wins": 615,
+        "losses": 874,
+        "median_holding_minutes": 55.0,
+        "notional_hours": 269400.0,
+        "direction_conflicts_waited": 49
+      },
+      "by_side": {
+        "long": {
+          "trades": 1306,
+          "priced": 1306,
+          "censored": 0,
+          "gross_pnl_usd": -190.0027020094078,
+          "priced_subtotal_usd": -190.0027020094078,
+          "mean_return_pct": -0.1454844578938804,
+          "wins": 529,
+          "losses": 774,
+          "median_holding_minutes": 40.0,
+          "notional_hours": 183958.33333333334
+        },
+        "short": {
+          "trades": 187,
+          "priced": 187,
+          "censored": 0,
+          "gross_pnl_usd": 23.16175704370344,
+          "priced_subtotal_usd": 23.16175704370344,
+          "mean_return_pct": 0.12385966333531251,
+          "wins": 86,
+          "losses": 100,
+          "median_holding_minutes": 230.0,
+          "notional_hours": 85441.66666666667
+        }
+      }
+    },
+    {
+      "variant": "long_entry_full_minus_derivatives",
+      "seed": 20261116,
+      "fold": "2026-06-01T00:00:00Z",
+      "end": "2026-06-10T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_derivatives",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/entry_long_20261116_2f44ff6a096847ee.joblib",
+          "sha256": "b7dc8b77fc4595f50814d5215bd92391b5c2ee356319f37f26b4027c539b5caf"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/exit_long_20261117_3521d3ba236ec8e5.joblib",
+          "sha256": "bcc9e06f110b021d45c0e8d3e52e4798ad2f9ef6dd2b1cbd34e35037d509a243"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/entry_short_20261126_5bc76ee91931388d.joblib",
+          "sha256": "54227515ed6c32f7d01f0e33cb094519aae7ecd223dee81e6294cba8454c40ab"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-06-01/exit_short_20261127_35397449d888bf21.joblib",
+          "sha256": "a056d7622b2c706e0b6f7cec9f327810e8c74604216127c35474f8bddcbd684c"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.5,
+          "validation_pnl_usd": 14.014397884760626
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.75,
+          "exit_threshold": 0.5,
+          "validation_pnl_usd": 27.705996618251383
+        }
+      },
+      "validation": {
+        "trades": 404,
+        "priced": 404,
+        "censored": 0,
+        "gross_pnl_usd": 29.969781115608413,
+        "priced_subtotal_usd": 29.969781115608413,
+        "mean_return_pct": 0.0741826265237832,
+        "wins": 159,
+        "losses": 244,
+        "median_holding_minutes": 140.0,
+        "notional_hours": 147741.66666666666
+      },
+      "test": {
+        "trades": 1802,
+        "priced": 1802,
+        "censored": 0,
+        "gross_pnl_usd": -678.4390409385765,
+        "priced_subtotal_usd": -678.4390409385765,
+        "mean_return_pct": -0.3764922535730169,
+        "wins": 606,
+        "losses": 1194,
+        "median_holding_minutes": 110.0,
+        "notional_hours": 496441.6666666667,
+        "direction_conflicts_waited": 87
+      },
+      "by_side": {
+        "long": {
+          "trades": 1697,
+          "priced": 1697,
+          "censored": 0,
+          "gross_pnl_usd": -681.6904890927351,
+          "priced_subtotal_usd": -681.6904890927351,
+          "mean_return_pct": -0.4017032935136919,
+          "wins": 556,
+          "losses": 1139,
+          "median_holding_minutes": 105.0,
+          "notional_hours": 446208.3333333333
+        },
+        "short": {
+          "trades": 105,
+          "priced": 105,
+          "censored": 0,
+          "gross_pnl_usd": 3.251448154158573,
+          "priced_subtotal_usd": 3.251448154158573,
+          "mean_return_pct": 0.030966172896748315,
+          "wins": 50,
+          "losses": 55,
+          "median_holding_minutes": 240.0,
+          "notional_hours": 50233.333333333336
+        }
+      }
+    },
+    {
+      "variant": "drop_spot",
+      "seed": 20261114,
+      "fold": "2026-11-03T00:00:00Z",
+      "end": "2026-11-07T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/entry_long_20261114_bd0b6766572cf63a.joblib",
+          "sha256": "a434e38d6e642ca9ab0b2043c7c92040199b70eb9274452beeb74c9d3a10820c"
+        },
+        "long_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/exit_long_20261115_ee90fa94f8382f3c.joblib",
+          "sha256": "d39a496209a61c47b5e33805e3183a606dad5d9e7debc23428a8ad5592a17f4c"
+        },
+        "short_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/entry_short_20261124_bd0b6766572cf63a.joblib",
+          "sha256": "be940a7c924b03125a602e9ad350dd7fb6d8b9e26b4761760a30c45b3029cb9c"
+        },
+        "short_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/exit_short_20261125_ee90fa94f8382f3c.joblib",
+          "sha256": "3b2643e254d87553ec07d72336eebb87621f980b7ee32f153b6e96e96b56ca00"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.75,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 70.63063071576599
+        },
+        "short": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        }
+      },
+      "validation": {
+        "trades": 90,
+        "priced": 90,
+        "censored": 0,
+        "gross_pnl_usd": 70.63063071576599,
+        "priced_subtotal_usd": 70.63063071576599,
+        "mean_return_pct": 0.7847847857307332,
+        "wins": 47,
+        "losses": 43,
+        "median_holding_minutes": 472.5,
+        "notional_hours": 73841.66666666667
+      },
+      "test": {
+        "trades": 63,
+        "priced": 63,
+        "censored": 0,
+        "gross_pnl_usd": 52.80697639655592,
+        "priced_subtotal_usd": 52.80697639655592,
+        "mean_return_pct": 0.8382059745485066,
+        "wins": 39,
+        "losses": 24,
+        "median_holding_minutes": 465.0,
+        "notional_hours": 60833.333333333336,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 63,
+          "priced": 63,
+          "censored": 0,
+          "gross_pnl_usd": 52.80697639655592,
+          "priced_subtotal_usd": 52.80697639655592,
+          "mean_return_pct": 0.8382059745485066,
+          "wins": 39,
+          "losses": 24,
+          "median_holding_minutes": 465.0,
+          "notional_hours": 60833.333333333336
+        },
+        "short": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        }
+      }
+    },
+    {
+      "variant": "long_entry_core_plus_spot",
+      "seed": 20261114,
+      "fold": "2026-11-03T00:00:00Z",
+      "end": "2026-11-07T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "add_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/entry_long_20261114_0cfbf580cfc9ccb3.joblib",
+          "sha256": "f60acbad540ea270907a7d22cc880ee7af51139db51c5fa99af17f0df9879101"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/exit_long_20261115_c022349b83df62a8.joblib",
+          "sha256": "5af5d4b47818b7814a172683a4f16689951cec5573d0ce6e1ed667a9886b4c64"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/entry_short_20261124_07e474d30a49a50b.joblib",
+          "sha256": "5b4fe0b7e7864d7c2769eb75cf87c4ab1fe826db2a3521d8489d2711cf250494"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/exit_short_20261125_c022349b83df62a8.joblib",
+          "sha256": "1f6a8f40aad7a0a06511c949336f4749e855baf7023d287456ffda06a3b8e8e9"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 51.067020427008394
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.9,
+          "exit_threshold": 0.5,
+          "validation_pnl_usd": 62.4839779440818
+        }
+      },
+      "validation": {
+        "trades": 784,
+        "priced": 784,
+        "censored": 0,
+        "gross_pnl_usd": 64.94424030508003,
+        "priced_subtotal_usd": 64.94424030508003,
+        "mean_return_pct": 0.08283704120545922,
+        "wins": 306,
+        "losses": 476,
+        "median_holding_minutes": 50.0,
+        "notional_hours": 105150.0
+      },
+      "test": {
+        "trades": 590,
+        "priced": 590,
+        "censored": 0,
+        "gross_pnl_usd": -100.65319697860816,
+        "priced_subtotal_usd": -100.65319697860816,
+        "mean_return_pct": -0.1705986389467935,
+        "wins": 181,
+        "losses": 407,
+        "median_holding_minutes": 40.0,
+        "notional_hours": 57800.0,
+        "direction_conflicts_waited": 11
+      },
+      "by_side": {
+        "long": {
+          "trades": 583,
+          "priced": 583,
+          "censored": 0,
+          "gross_pnl_usd": -83.6152868172598,
+          "priced_subtotal_usd": -83.6152868172598,
+          "mean_return_pct": -0.14342244737094306,
+          "wins": 179,
+          "losses": 402,
+          "median_holding_minutes": 40.0,
+          "notional_hours": 56666.666666666664
+        },
+        "short": {
+          "trades": 7,
+          "priced": 7,
+          "censored": 0,
+          "gross_pnl_usd": -17.037910161348346,
+          "priced_subtotal_usd": -17.037910161348346,
+          "mean_return_pct": -2.4339871659069066,
+          "wins": 2,
+          "losses": 5,
+          "median_holding_minutes": 70.0,
+          "notional_hours": 1133.3333333333333
+        }
+      }
+    },
+    {
+      "variant": "long_entry_full_minus_derivatives",
+      "seed": 20261114,
+      "fold": "2026-11-03T00:00:00Z",
+      "end": "2026-11-07T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_derivatives",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/entry_long_20261114_1baa52fc0fc7a9bf.joblib",
+          "sha256": "184d5f1614bb2e3811185637ac4561784d954de5c10c9c9b3d912492bf955e1d"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/exit_long_20261115_c022349b83df62a8.joblib",
+          "sha256": "5af5d4b47818b7814a172683a4f16689951cec5573d0ce6e1ed667a9886b4c64"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/entry_short_20261124_07e474d30a49a50b.joblib",
+          "sha256": "5b4fe0b7e7864d7c2769eb75cf87c4ab1fe826db2a3521d8489d2711cf250494"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/exit_short_20261125_c022349b83df62a8.joblib",
+          "sha256": "1f6a8f40aad7a0a06511c949336f4749e855baf7023d287456ffda06a3b8e8e9"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.5,
+          "validation_pnl_usd": 171.03929540487445
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.9,
+          "exit_threshold": 0.5,
+          "validation_pnl_usd": 62.4839779440818
+        }
+      },
+      "validation": {
+        "trades": 300,
+        "priced": 300,
+        "censored": 0,
+        "gross_pnl_usd": 202.2513592120821,
+        "priced_subtotal_usd": 202.2513592120821,
+        "mean_return_pct": 0.674171197373607,
+        "wins": 163,
+        "losses": 136,
+        "median_holding_minutes": 215.0,
+        "notional_hours": 140225.0
+      },
+      "test": {
+        "trades": 201,
+        "priced": 201,
+        "censored": 0,
+        "gross_pnl_usd": -64.25094665141647,
+        "priced_subtotal_usd": -64.25094665141647,
+        "mean_return_pct": -0.319656451002072,
+        "wins": 65,
+        "losses": 136,
+        "median_holding_minutes": 160.0,
+        "notional_hours": 66091.66666666667,
+        "direction_conflicts_waited": 8
+      },
+      "by_side": {
+        "long": {
+          "trades": 196,
+          "priced": 196,
+          "censored": 0,
+          "gross_pnl_usd": -66.0972516649105,
+          "priced_subtotal_usd": -66.0972516649105,
+          "mean_return_pct": -0.3372308758413801,
+          "wins": 61,
+          "losses": 135,
+          "median_holding_minutes": 160.0,
+          "notional_hours": 64741.666666666664
+        },
+        "short": {
+          "trades": 5,
+          "priced": 5,
+          "censored": 0,
+          "gross_pnl_usd": 1.8463050134940429,
+          "priced_subtotal_usd": 1.8463050134940429,
+          "mean_return_pct": 0.36926100269880857,
+          "wins": 4,
+          "losses": 1,
+          "median_holding_minutes": 130.0,
+          "notional_hours": 1350.0
+        }
+      }
+    },
+    {
+      "variant": "drop_spot",
+      "seed": 20261115,
+      "fold": "2026-11-03T00:00:00Z",
+      "end": "2026-11-07T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/entry_long_20261115_bd0b6766572cf63a.joblib",
+          "sha256": "b2ee8e63702b0bd6e3a09879d3f5c43b5e4bf5ad81acf5130a19a849bfc8c1c0"
+        },
+        "long_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/exit_long_20261116_ee90fa94f8382f3c.joblib",
+          "sha256": "cf7fc7ef643316a92df5f4fd290d8300cb759e0353cc59e48065558ffcb0871b"
+        },
+        "short_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/entry_short_20261125_bd0b6766572cf63a.joblib",
+          "sha256": "7e50a372a1d19d9758eabe80873bcb80f2d7de599f2256cd49ef12c9a8aca0b1"
+        },
+        "short_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/exit_short_20261126_ee90fa94f8382f3c.joblib",
+          "sha256": "5e27598d317668a32e9d8f984635fc278d1cd9dc396c398300b288788b11312a"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.75,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 55.696406316862145
+        },
+        "short": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        }
+      },
+      "validation": {
+        "trades": 141,
+        "priced": 141,
+        "censored": 0,
+        "gross_pnl_usd": 55.696406316862145,
+        "priced_subtotal_usd": 55.696406316862145,
+        "mean_return_pct": 0.39500997387845493,
+        "wins": 61,
+        "losses": 80,
+        "median_holding_minutes": 45.0,
+        "notional_hours": 21433.333333333332
+      },
+      "test": {
+        "trades": 114,
+        "priced": 114,
+        "censored": 0,
+        "gross_pnl_usd": -12.043940549363084,
+        "priced_subtotal_usd": -12.043940549363084,
+        "mean_return_pct": -0.1056486013102025,
+        "wins": 44,
+        "losses": 70,
+        "median_holding_minutes": 25.0,
+        "notional_hours": 12075.0,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 114,
+          "priced": 114,
+          "censored": 0,
+          "gross_pnl_usd": -12.043940549363084,
+          "priced_subtotal_usd": -12.043940549363084,
+          "mean_return_pct": -0.1056486013102025,
+          "wins": 44,
+          "losses": 70,
+          "median_holding_minutes": 25.0,
+          "notional_hours": 12075.0
+        },
+        "short": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        }
+      }
+    },
+    {
+      "variant": "long_entry_core_plus_spot",
+      "seed": 20261115,
+      "fold": "2026-11-03T00:00:00Z",
+      "end": "2026-11-07T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "add_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/entry_long_20261115_0cfbf580cfc9ccb3.joblib",
+          "sha256": "55f4c60c92bace2fc27c9aed1cc36f998c8a33a4dfdcf755353d43b54b86c05b"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/exit_long_20261116_c022349b83df62a8.joblib",
+          "sha256": "bacecf9d0862673e064984cbd090fcde909cb9c76366f9a4bcdde7144f97130e"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/entry_short_20261125_07e474d30a49a50b.joblib",
+          "sha256": "8b1b434a01fbb4d387714fb054d5624d13ab156d0388dcfcfd218730da054f2c"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/exit_short_20261126_c022349b83df62a8.joblib",
+          "sha256": "a54d703ecb6fa0fba7f813c0ff4ec0e23b2dd4f164e9f5e601f824953b42ada3"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 81.21316926074941
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.9,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 47.27938732934627
+        }
+      },
+      "validation": {
+        "trades": 805,
+        "priced": 805,
+        "censored": 0,
+        "gross_pnl_usd": 86.39829002011223,
+        "priced_subtotal_usd": 86.39829002011223,
+        "mean_return_pct": 0.1073270683479655,
+        "wins": 301,
+        "losses": 498,
+        "median_holding_minutes": 55.0,
+        "notional_hours": 107683.33333333333
+      },
+      "test": {
+        "trades": 646,
+        "priced": 646,
+        "censored": 0,
+        "gross_pnl_usd": -120.24612179216454,
+        "priced_subtotal_usd": -120.24612179216454,
+        "mean_return_pct": -0.18613950741821136,
+        "wins": 179,
+        "losses": 465,
+        "median_holding_minutes": 45.0,
+        "notional_hours": 69625.0,
+        "direction_conflicts_waited": 11
+      },
+      "by_side": {
+        "long": {
+          "trades": 635,
+          "priced": 635,
+          "censored": 0,
+          "gross_pnl_usd": -107.6586095517257,
+          "priced_subtotal_usd": -107.6586095517257,
+          "mean_return_pct": -0.16954111740429245,
+          "wins": 175,
+          "losses": 458,
+          "median_holding_minutes": 45.0,
+          "notional_hours": 68266.66666666667
+        },
+        "short": {
+          "trades": 11,
+          "priced": 11,
+          "censored": 0,
+          "gross_pnl_usd": -12.587512240438857,
+          "priced_subtotal_usd": -12.587512240438857,
+          "mean_return_pct": -1.1443192945853506,
+          "wins": 4,
+          "losses": 7,
+          "median_holding_minutes": 70.0,
+          "notional_hours": 1358.3333333333333
+        }
+      }
+    },
+    {
+      "variant": "long_entry_full_minus_derivatives",
+      "seed": 20261115,
+      "fold": "2026-11-03T00:00:00Z",
+      "end": "2026-11-07T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_derivatives",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/entry_long_20261115_1baa52fc0fc7a9bf.joblib",
+          "sha256": "6d0aed2a6a5d66f2e409cc01364c15ce5676efb48cd8469e3f73121a2e719bfc"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/exit_long_20261116_c022349b83df62a8.joblib",
+          "sha256": "bacecf9d0862673e064984cbd090fcde909cb9c76366f9a4bcdde7144f97130e"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/entry_short_20261125_07e474d30a49a50b.joblib",
+          "sha256": "8b1b434a01fbb4d387714fb054d5624d13ab156d0388dcfcfd218730da054f2c"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/exit_short_20261126_c022349b83df62a8.joblib",
+          "sha256": "a54d703ecb6fa0fba7f813c0ff4ec0e23b2dd4f164e9f5e601f824953b42ada3"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 93.89512400051196
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.9,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 47.27938732934627
+        }
+      },
+      "validation": {
+        "trades": 288,
+        "priced": 288,
+        "censored": 0,
+        "gross_pnl_usd": 101.89282125382177,
+        "priced_subtotal_usd": 101.89282125382177,
+        "mean_return_pct": 0.3537945182424367,
+        "wins": 129,
+        "losses": 159,
+        "median_holding_minutes": 65.0,
+        "notional_hours": 53916.666666666664
+      },
+      "test": {
+        "trades": 254,
+        "priced": 254,
+        "censored": 0,
+        "gross_pnl_usd": -58.39312914853845,
+        "priced_subtotal_usd": -58.39312914853845,
+        "mean_return_pct": -0.22989420924621437,
+        "wins": 73,
+        "losses": 181,
+        "median_holding_minutes": 50.0,
+        "notional_hours": 28241.666666666668,
+        "direction_conflicts_waited": 5
+      },
+      "by_side": {
+        "long": {
+          "trades": 234,
+          "priced": 234,
+          "censored": 0,
+          "gross_pnl_usd": -45.49984684484772,
+          "priced_subtotal_usd": -45.49984684484772,
+          "mean_return_pct": -0.19444378993524666,
+          "wins": 63,
+          "losses": 171,
+          "median_holding_minutes": 50.0,
+          "notional_hours": 25508.333333333332
+        },
+        "short": {
+          "trades": 20,
+          "priced": 20,
+          "censored": 0,
+          "gross_pnl_usd": -12.893282303690722,
+          "priced_subtotal_usd": -12.893282303690722,
+          "mean_return_pct": -0.644664115184536,
+          "wins": 10,
+          "losses": 10,
+          "median_holding_minutes": 67.5,
+          "notional_hours": 2733.333333333333
+        }
+      }
+    },
+    {
+      "variant": "drop_spot",
+      "seed": 20261116,
+      "fold": "2026-11-03T00:00:00Z",
+      "end": "2026-11-07T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/entry_long_20261116_bd0b6766572cf63a.joblib",
+          "sha256": "50d73086210ab7773e777bfba29794fc8102ebdbad0a092b2a96b84271e90d60"
+        },
+        "long_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/exit_long_20261117_ee90fa94f8382f3c.joblib",
+          "sha256": "895d41bf839b130cfc99d3aa7b8caded9c14f253dd24002ec7e8393c14006913"
+        },
+        "short_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/entry_short_20261126_bd0b6766572cf63a.joblib",
+          "sha256": "97aae1bc3ad778750371a8c34e61129a6cd70f4c23fb5fe246781a67f2d232f2"
+        },
+        "short_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/exit_short_20261127_ee90fa94f8382f3c.joblib",
+          "sha256": "59918665d76601d31dd5cfc96eae7ec55027620a94131df5699fbb32c6fdcfe9"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        },
+        "short": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        }
+      },
+      "validation": {
+        "trades": 0,
+        "priced": 0,
+        "censored": 0,
+        "gross_pnl_usd": 0.0,
+        "priced_subtotal_usd": 0.0,
+        "mean_return_pct": null,
+        "wins": 0,
+        "losses": 0,
+        "median_holding_minutes": null,
+        "notional_hours": 0
+      },
+      "test": {
+        "trades": 0,
+        "priced": 0,
+        "censored": 0,
+        "gross_pnl_usd": 0.0,
+        "priced_subtotal_usd": 0.0,
+        "mean_return_pct": null,
+        "wins": 0,
+        "losses": 0,
+        "median_holding_minutes": null,
+        "notional_hours": 0,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "short": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        }
+      }
+    },
+    {
+      "variant": "long_entry_core_plus_spot",
+      "seed": 20261116,
+      "fold": "2026-11-03T00:00:00Z",
+      "end": "2026-11-07T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "add_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/entry_long_20261116_0cfbf580cfc9ccb3.joblib",
+          "sha256": "52dd955745fff61bd70c3ca98c47d0b4544426daf0f3fdc1cefe57556db10b0e"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/exit_long_20261117_c022349b83df62a8.joblib",
+          "sha256": "6c41408c2ad92062bfd89b54061a01e16292c5a521b36ace7c175d64a6e50151"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/entry_short_20261126_07e474d30a49a50b.joblib",
+          "sha256": "e82aea7a5c235b8d51df674a05f4bd68273a3f0d40d6bbe5124eb3cfd5761e98"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/exit_short_20261127_c022349b83df62a8.joblib",
+          "sha256": "fbe6eb9f15c17fd5b0571263ad258fadab39d092324f5ab9409d1cabd893e07b"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 64.3186277055147
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.9,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 34.06406643614463
+        }
+      },
+      "validation": {
+        "trades": 760,
+        "priced": 760,
+        "censored": 0,
+        "gross_pnl_usd": 68.96552337956625,
+        "priced_subtotal_usd": 68.96552337956625,
+        "mean_return_pct": 0.0907441097099556,
+        "wins": 300,
+        "losses": 459,
+        "median_holding_minutes": 45.0,
+        "notional_hours": 82208.33333333333
+      },
+      "test": {
+        "trades": 575,
+        "priced": 575,
+        "censored": 0,
+        "gross_pnl_usd": -106.1747385696919,
+        "priced_subtotal_usd": -106.1747385696919,
+        "mean_return_pct": -0.1846517192516381,
+        "wins": 175,
+        "losses": 398,
+        "median_holding_minutes": 35.0,
+        "notional_hours": 48708.333333333336,
+        "direction_conflicts_waited": 14
+      },
+      "by_side": {
+        "long": {
+          "trades": 563,
+          "priced": 563,
+          "censored": 0,
+          "gross_pnl_usd": -100.49952668071936,
+          "priced_subtotal_usd": -100.49952668071936,
+          "mean_return_pct": -0.1785071521860024,
+          "wins": 171,
+          "losses": 390,
+          "median_holding_minutes": 35.0,
+          "notional_hours": 47208.333333333336
+        },
+        "short": {
+          "trades": 12,
+          "priced": 12,
+          "censored": 0,
+          "gross_pnl_usd": -5.675211888972531,
+          "priced_subtotal_usd": -5.675211888972531,
+          "mean_return_pct": -0.47293432408104424,
+          "wins": 4,
+          "losses": 8,
+          "median_holding_minutes": 62.5,
+          "notional_hours": 1500.0
+        }
+      }
+    },
+    {
+      "variant": "long_entry_full_minus_derivatives",
+      "seed": 20261116,
+      "fold": "2026-11-03T00:00:00Z",
+      "end": "2026-11-07T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_derivatives",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/entry_long_20261116_1baa52fc0fc7a9bf.joblib",
+          "sha256": "058d285f8065564fb4fd557ba3eb0b3d84652599a84f86b28a81ff60ac9a6e23"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/exit_long_20261117_c022349b83df62a8.joblib",
+          "sha256": "6c41408c2ad92062bfd89b54061a01e16292c5a521b36ace7c175d64a6e50151"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/entry_short_20261126_07e474d30a49a50b.joblib",
+          "sha256": "e82aea7a5c235b8d51df674a05f4bd68273a3f0d40d6bbe5124eb3cfd5761e98"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-03/exit_short_20261127_c022349b83df62a8.joblib",
+          "sha256": "fbe6eb9f15c17fd5b0571263ad258fadab39d092324f5ab9409d1cabd893e07b"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 101.1860815599004
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.9,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 34.06406643614463
+        }
+      },
+      "validation": {
+        "trades": 349,
+        "priced": 349,
+        "censored": 0,
+        "gross_pnl_usd": 107.04095244639018,
+        "priced_subtotal_usd": 107.04095244639018,
+        "mean_return_pct": 0.30670760013292314,
+        "wins": 153,
+        "losses": 193,
+        "median_holding_minutes": 55.0,
+        "notional_hours": 51841.666666666664
+      },
+      "test": {
+        "trades": 319,
+        "priced": 319,
+        "censored": 0,
+        "gross_pnl_usd": -63.60843762140394,
+        "priced_subtotal_usd": -63.60843762140394,
+        "mean_return_pct": -0.1993994909761879,
+        "wins": 98,
+        "losses": 219,
+        "median_holding_minutes": 35.0,
+        "notional_hours": 29400.0,
+        "direction_conflicts_waited": 8
+      },
+      "by_side": {
+        "long": {
+          "trades": 302,
+          "priced": 302,
+          "censored": 0,
+          "gross_pnl_usd": -63.16676273019405,
+          "priced_subtotal_usd": -63.16676273019405,
+          "mean_return_pct": -0.20916146599402002,
+          "wins": 90,
+          "losses": 210,
+          "median_holding_minutes": 35.0,
+          "notional_hours": 26491.666666666668
+        },
+        "short": {
+          "trades": 17,
+          "priced": 17,
+          "censored": 0,
+          "gross_pnl_usd": -0.4416748912098867,
+          "priced_subtotal_usd": -0.4416748912098867,
+          "mean_return_pct": -0.025980875953522747,
+          "wins": 8,
+          "losses": 9,
+          "median_holding_minutes": 70.0,
+          "notional_hours": 2908.3333333333335
+        }
+      }
+    },
+    {
+      "variant": "drop_spot",
+      "seed": 20261114,
+      "fold": "2026-11-07T00:00:00Z",
+      "end": "2026-11-11T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/entry_long_20261114_bd0b6766572cf63a.joblib",
+          "sha256": "b4e5afe4056f2aa9028d6767a13eaaa1154abefd5a1662174933844f16b02134"
+        },
+        "long_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/exit_long_20261115_ee90fa94f8382f3c.joblib",
+          "sha256": "204e3b2acf7dd948f27381cef3d6cd192f67ace2169d434d4686a037b7dbf26c"
+        },
+        "short_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/entry_short_20261124_bd0b6766572cf63a.joblib",
+          "sha256": "4645cbe3306833318438281d20d457aa11bf531d764b1d9659968728940a9af3"
+        },
+        "short_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/exit_short_20261125_ee90fa94f8382f3c.joblib",
+          "sha256": "014a1c5a2cbb3871a1def9aa58c62eb73cf3133996db1d061ec7994f21e2e9d4"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 26.43466385077156
+        },
+        "short": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        }
+      },
+      "validation": {
+        "trades": 408,
+        "priced": 408,
+        "censored": 0,
+        "gross_pnl_usd": 26.43466385077156,
+        "priced_subtotal_usd": 26.43466385077156,
+        "mean_return_pct": 0.06479084277149892,
+        "wins": 138,
+        "losses": 269,
+        "median_holding_minutes": 70.0,
+        "notional_hours": 69066.66666666667
+      },
+      "test": {
+        "trades": 189,
+        "priced": 189,
+        "censored": 0,
+        "gross_pnl_usd": -94.9358437873268,
+        "priced_subtotal_usd": -94.9358437873268,
+        "mean_return_pct": -0.5023060517847979,
+        "wins": 52,
+        "losses": 137,
+        "median_holding_minutes": 105.0,
+        "notional_hours": 43483.333333333336,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 189,
+          "priced": 189,
+          "censored": 0,
+          "gross_pnl_usd": -94.9358437873268,
+          "priced_subtotal_usd": -94.9358437873268,
+          "mean_return_pct": -0.5023060517847979,
+          "wins": 52,
+          "losses": 137,
+          "median_holding_minutes": 105.0,
+          "notional_hours": 43483.333333333336
+        },
+        "short": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        }
+      }
+    },
+    {
+      "variant": "long_entry_core_plus_spot",
+      "seed": 20261114,
+      "fold": "2026-11-07T00:00:00Z",
+      "end": "2026-11-11T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "add_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/entry_long_20261114_0cfbf580cfc9ccb3.joblib",
+          "sha256": "8e7fc68e58ccf66cc65cd3faf9c53adbfbe4c2d744b0551010e81b047d9d5de9"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/exit_long_20261115_c022349b83df62a8.joblib",
+          "sha256": "e77242d74dee1e9e00f50c15eeab8565f07a84456745fa428d9d043d57851282"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/entry_short_20261124_07e474d30a49a50b.joblib",
+          "sha256": "b990d29d4af9ac865d04da2e0e239bb8a0ba46c6dcf8bd09b2bd05f4bf37d3bd"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/exit_short_20261125_c022349b83df62a8.joblib",
+          "sha256": "2e61795687f94549a70ed8b37c56c6f2a92d46d31a595c56e16ca60dec8d0f30"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.75,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 21.591265372778707
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 46.55469389023529
+        }
+      },
+      "validation": {
+        "trades": 439,
+        "priced": 439,
+        "censored": 0,
+        "gross_pnl_usd": 74.87906603513969,
+        "priced_subtotal_usd": 74.87906603513969,
+        "mean_return_pct": 0.17056734859940703,
+        "wins": 184,
+        "losses": 254,
+        "median_holding_minutes": 100.0,
+        "notional_hours": 92216.66666666667
+      },
+      "test": {
+        "trades": 306,
+        "priced": 306,
+        "censored": 0,
+        "gross_pnl_usd": -58.2008233734948,
+        "priced_subtotal_usd": -58.2008233734948,
+        "mean_return_pct": -0.19019876919442744,
+        "wins": 105,
+        "losses": 199,
+        "median_holding_minutes": 95.0,
+        "notional_hours": 64733.333333333336,
+        "direction_conflicts_waited": 11
+      },
+      "by_side": {
+        "long": {
+          "trades": 43,
+          "priced": 43,
+          "censored": 0,
+          "gross_pnl_usd": -13.224366620464945,
+          "priced_subtotal_usd": -13.224366620464945,
+          "mean_return_pct": -0.30754340977825456,
+          "wins": 15,
+          "losses": 27,
+          "median_holding_minutes": 50.0,
+          "notional_hours": 4358.333333333333
+        },
+        "short": {
+          "trades": 263,
+          "priced": 263,
+          "censored": 0,
+          "gross_pnl_usd": -44.97645675302984,
+          "priced_subtotal_usd": -44.97645675302984,
+          "mean_return_pct": -0.17101314354764197,
+          "wins": 90,
+          "losses": 172,
+          "median_holding_minutes": 105.0,
+          "notional_hours": 60375.0
+        }
+      }
+    },
+    {
+      "variant": "long_entry_full_minus_derivatives",
+      "seed": 20261114,
+      "fold": "2026-11-07T00:00:00Z",
+      "end": "2026-11-11T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_derivatives",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/entry_long_20261114_1baa52fc0fc7a9bf.joblib",
+          "sha256": "450bd5ea71d1d8f82e77d2abc2e5dba858688ea09bcc3e68bc46d8dd8707fa0e"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/exit_long_20261115_c022349b83df62a8.joblib",
+          "sha256": "e77242d74dee1e9e00f50c15eeab8565f07a84456745fa428d9d043d57851282"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/entry_short_20261124_07e474d30a49a50b.joblib",
+          "sha256": "b990d29d4af9ac865d04da2e0e239bb8a0ba46c6dcf8bd09b2bd05f4bf37d3bd"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/exit_short_20261125_c022349b83df62a8.joblib",
+          "sha256": "2e61795687f94549a70ed8b37c56c6f2a92d46d31a595c56e16ca60dec8d0f30"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.9,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 7.616142945298167
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 46.55469389023529
+        }
+      },
+      "validation": {
+        "trades": 369,
+        "priced": 369,
+        "censored": 0,
+        "gross_pnl_usd": 54.96997363207549,
+        "priced_subtotal_usd": 54.96997363207549,
+        "mean_return_pct": 0.148970118244107,
+        "wins": 161,
+        "losses": 208,
+        "median_holding_minutes": 120.0,
+        "notional_hours": 91158.33333333333
+      },
+      "test": {
+        "trades": 269,
+        "priced": 269,
+        "censored": 0,
+        "gross_pnl_usd": -46.842754520429736,
+        "priced_subtotal_usd": -46.842754520429736,
+        "mean_return_pct": -0.17413663390494324,
+        "wins": 93,
+        "losses": 175,
+        "median_holding_minutes": 105.0,
+        "notional_hours": 61708.333333333336,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 1,
+          "priced": 1,
+          "censored": 0,
+          "gross_pnl_usd": -1.639459529138798,
+          "priced_subtotal_usd": -1.639459529138798,
+          "mean_return_pct": -1.639459529138798,
+          "wins": 0,
+          "losses": 1,
+          "median_holding_minutes": 335.0,
+          "notional_hours": 558.3333333333333
+        },
+        "short": {
+          "trades": 268,
+          "priced": 268,
+          "censored": 0,
+          "gross_pnl_usd": -45.20329499129094,
+          "priced_subtotal_usd": -45.20329499129094,
+          "mean_return_pct": -0.16866901116153335,
+          "wins": 93,
+          "losses": 174,
+          "median_holding_minutes": 105.0,
+          "notional_hours": 61150.0
+        }
+      }
+    },
+    {
+      "variant": "drop_spot",
+      "seed": 20261115,
+      "fold": "2026-11-07T00:00:00Z",
+      "end": "2026-11-11T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/entry_long_20261115_bd0b6766572cf63a.joblib",
+          "sha256": "861a092e858772f2ec6df552bbc41a05c91472eeb58a24ffe04a31f5a963ce45"
+        },
+        "long_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/exit_long_20261116_ee90fa94f8382f3c.joblib",
+          "sha256": "8ee088b592c891e2f6dc10622eeab12c7c15fc93640502b2e920e22004792901"
+        },
+        "short_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/entry_short_20261125_bd0b6766572cf63a.joblib",
+          "sha256": "319a18a6c59b2961b22c75ac528cda6f53ad9867216c1f1d160ccb24e43f5a81"
+        },
+        "short_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/exit_short_20261126_ee90fa94f8382f3c.joblib",
+          "sha256": "e30488858fecb8ca838f3dc52321a666f5b73b70a34e6eccca74ee90633ff7c7"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 15.884298368706641
+        },
+        "short": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        }
+      },
+      "validation": {
+        "trades": 596,
+        "priced": 596,
+        "censored": 0,
+        "gross_pnl_usd": 15.884298368706641,
+        "priced_subtotal_usd": 15.884298368706641,
+        "mean_return_pct": 0.0266515073300447,
+        "wins": 197,
+        "losses": 397,
+        "median_holding_minutes": 45.0,
+        "notional_hours": 72800.0
+      },
+      "test": {
+        "trades": 262,
+        "priced": 262,
+        "censored": 0,
+        "gross_pnl_usd": -79.04763819819836,
+        "priced_subtotal_usd": -79.04763819819836,
+        "mean_return_pct": -0.3017085427412151,
+        "wins": 85,
+        "losses": 174,
+        "median_holding_minutes": 75.0,
+        "notional_hours": 42991.666666666664,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 262,
+          "priced": 262,
+          "censored": 0,
+          "gross_pnl_usd": -79.04763819819836,
+          "priced_subtotal_usd": -79.04763819819836,
+          "mean_return_pct": -0.3017085427412151,
+          "wins": 85,
+          "losses": 174,
+          "median_holding_minutes": 75.0,
+          "notional_hours": 42991.666666666664
+        },
+        "short": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        }
+      }
+    },
+    {
+      "variant": "long_entry_core_plus_spot",
+      "seed": 20261115,
+      "fold": "2026-11-07T00:00:00Z",
+      "end": "2026-11-11T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "add_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/entry_long_20261115_0cfbf580cfc9ccb3.joblib",
+          "sha256": "af365c6509b0241754abe6aa5c505b1c516d607e9281d8ca967baecef2c21dcd"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/exit_long_20261116_c022349b83df62a8.joblib",
+          "sha256": "1645381bcde944472380a0d05b853a4ebb87f0bb924bf3dd21402c2793334d02"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/entry_short_20261125_07e474d30a49a50b.joblib",
+          "sha256": "58adf7b23019fe44a6843d6540eb29fe1db0aa2ea270d61a6187924e83705c80"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/exit_short_20261126_c022349b83df62a8.joblib",
+          "sha256": "e5beca3289c3d74d0b9f570b5b0064e311dd4a1924b2cdc19809c37cdc5df276"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.9,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 5.50489647100747
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 55.55017104718999
+        }
+      },
+      "validation": {
+        "trades": 383,
+        "priced": 383,
+        "censored": 0,
+        "gross_pnl_usd": 60.60600860972744,
+        "priced_subtotal_usd": 60.60600860972744,
+        "mean_return_pct": 0.1582402313569907,
+        "wins": 182,
+        "losses": 201,
+        "median_holding_minutes": 145.0,
+        "notional_hours": 104000.0
+      },
+      "test": {
+        "trades": 254,
+        "priced": 254,
+        "censored": 0,
+        "gross_pnl_usd": -27.50443570123391,
+        "priced_subtotal_usd": -27.50443570123391,
+        "mean_return_pct": -0.10828517992611775,
+        "wins": 92,
+        "losses": 160,
+        "median_holding_minutes": 125.0,
+        "notional_hours": 67316.66666666667,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 2,
+          "priced": 2,
+          "censored": 0,
+          "gross_pnl_usd": 1.8857050044960855,
+          "priced_subtotal_usd": 1.8857050044960855,
+          "mean_return_pct": 0.9428525022480427,
+          "wins": 1,
+          "losses": 1,
+          "median_holding_minutes": 112.5,
+          "notional_hours": 375.0
+        },
+        "short": {
+          "trades": 252,
+          "priced": 252,
+          "censored": 0,
+          "gross_pnl_usd": -29.390140705729998,
+          "priced_subtotal_usd": -29.390140705729998,
+          "mean_return_pct": -0.11662754248305554,
+          "wins": 91,
+          "losses": 159,
+          "median_holding_minutes": 125.0,
+          "notional_hours": 66941.66666666667
+        }
+      }
+    },
+    {
+      "variant": "long_entry_full_minus_derivatives",
+      "seed": 20261115,
+      "fold": "2026-11-07T00:00:00Z",
+      "end": "2026-11-11T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_derivatives",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/entry_long_20261115_1baa52fc0fc7a9bf.joblib",
+          "sha256": "b8c6934e064ed0489322f141f4f92e1cf992d12e742ccff34d854e1cbe78dd9c"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/exit_long_20261116_c022349b83df62a8.joblib",
+          "sha256": "1645381bcde944472380a0d05b853a4ebb87f0bb924bf3dd21402c2793334d02"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/entry_short_20261125_07e474d30a49a50b.joblib",
+          "sha256": "58adf7b23019fe44a6843d6540eb29fe1db0aa2ea270d61a6187924e83705c80"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/exit_short_20261126_c022349b83df62a8.joblib",
+          "sha256": "e5beca3289c3d74d0b9f570b5b0064e311dd4a1924b2cdc19809c37cdc5df276"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 55.55017104718999
+        }
+      },
+      "validation": {
+        "trades": 383,
+        "priced": 383,
+        "censored": 0,
+        "gross_pnl_usd": 55.55017104718999,
+        "priced_subtotal_usd": 55.55017104718999,
+        "mean_return_pct": 0.1450396110892689,
+        "wins": 180,
+        "losses": 203,
+        "median_holding_minutes": 145.0,
+        "notional_hours": 103941.66666666667
+      },
+      "test": {
+        "trades": 252,
+        "priced": 252,
+        "censored": 0,
+        "gross_pnl_usd": -28.814476710426252,
+        "priced_subtotal_usd": -28.814476710426252,
+        "mean_return_pct": -0.11434316154931053,
+        "wins": 91,
+        "losses": 159,
+        "median_holding_minutes": 125.0,
+        "notional_hours": 66975.0,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "short": {
+          "trades": 252,
+          "priced": 252,
+          "censored": 0,
+          "gross_pnl_usd": -28.814476710426252,
+          "priced_subtotal_usd": -28.814476710426252,
+          "mean_return_pct": -0.11434316154931053,
+          "wins": 91,
+          "losses": 159,
+          "median_holding_minutes": 125.0,
+          "notional_hours": 66975.0
+        }
+      }
+    },
+    {
+      "variant": "drop_spot",
+      "seed": 20261116,
+      "fold": "2026-11-07T00:00:00Z",
+      "end": "2026-11-11T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/entry_long_20261116_bd0b6766572cf63a.joblib",
+          "sha256": "face9a0bad6737ae2e096ff8e5ed0f55215aede91335f2b2259acb9417769072"
+        },
+        "long_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/exit_long_20261117_ee90fa94f8382f3c.joblib",
+          "sha256": "b97be4197eabd0dccd17dfa4213784e4707ac24f0d5c40b18764fd4c353fd456"
+        },
+        "short_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/entry_short_20261126_bd0b6766572cf63a.joblib",
+          "sha256": "a27ecb05c7722b7a0d911274411a95ad0286e2c8ca85301ffa28e49ff19875e3"
+        },
+        "short_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/exit_short_20261127_ee90fa94f8382f3c.joblib",
+          "sha256": "c73a8313fd1aa4a9d229478e4739b08163eca5dd70199795c6008f1c2b5401de"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        },
+        "short": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        }
+      },
+      "validation": {
+        "trades": 0,
+        "priced": 0,
+        "censored": 0,
+        "gross_pnl_usd": 0.0,
+        "priced_subtotal_usd": 0.0,
+        "mean_return_pct": null,
+        "wins": 0,
+        "losses": 0,
+        "median_holding_minutes": null,
+        "notional_hours": 0
+      },
+      "test": {
+        "trades": 0,
+        "priced": 0,
+        "censored": 0,
+        "gross_pnl_usd": 0.0,
+        "priced_subtotal_usd": 0.0,
+        "mean_return_pct": null,
+        "wins": 0,
+        "losses": 0,
+        "median_holding_minutes": null,
+        "notional_hours": 0,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "short": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        }
+      }
+    },
+    {
+      "variant": "long_entry_core_plus_spot",
+      "seed": 20261116,
+      "fold": "2026-11-07T00:00:00Z",
+      "end": "2026-11-11T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "add_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/entry_long_20261116_0cfbf580cfc9ccb3.joblib",
+          "sha256": "e3176bc562110cea7fa91c46cad6b79b8c2f0001a62e3e461968b3d600fb94ac"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/exit_long_20261117_c022349b83df62a8.joblib",
+          "sha256": "780225959fb18cac6497b82341cfe3b5a2eeddd35eb0e6ef99748aedc24e5b2a"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/entry_short_20261126_07e474d30a49a50b.joblib",
+          "sha256": "b69d600c2684b326c8e716e392cf1537020014fcd45972ad31606a88089b4b69"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/exit_short_20261127_c022349b83df62a8.joblib",
+          "sha256": "037801766d19b04f13490b347f78a199e339f6d8532242b34446acddf3bd72f3"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 40.478431190132916
+        }
+      },
+      "validation": {
+        "trades": 406,
+        "priced": 406,
+        "censored": 0,
+        "gross_pnl_usd": 40.478431190132916,
+        "priced_subtotal_usd": 40.478431190132916,
+        "mean_return_pct": 0.09970056943382492,
+        "wins": 178,
+        "losses": 228,
+        "median_holding_minutes": 110.0,
+        "notional_hours": 90625.0
+      },
+      "test": {
+        "trades": 280,
+        "priced": 280,
+        "censored": 0,
+        "gross_pnl_usd": -21.519396103653587,
+        "priced_subtotal_usd": -21.519396103653587,
+        "mean_return_pct": -0.07685498608447709,
+        "wins": 100,
+        "losses": 179,
+        "median_holding_minutes": 100.0,
+        "notional_hours": 61783.333333333336,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "short": {
+          "trades": 280,
+          "priced": 280,
+          "censored": 0,
+          "gross_pnl_usd": -21.519396103653587,
+          "priced_subtotal_usd": -21.519396103653587,
+          "mean_return_pct": -0.07685498608447709,
+          "wins": 100,
+          "losses": 179,
+          "median_holding_minutes": 100.0,
+          "notional_hours": 61783.333333333336
+        }
+      }
+    },
+    {
+      "variant": "long_entry_full_minus_derivatives",
+      "seed": 20261116,
+      "fold": "2026-11-07T00:00:00Z",
+      "end": "2026-11-11T00:00:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_derivatives",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/entry_long_20261116_1baa52fc0fc7a9bf.joblib",
+          "sha256": "67598dcca18e89885e554159bd6bfce373864fd38891e852f4258f90ad4508ce"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/exit_long_20261117_c022349b83df62a8.joblib",
+          "sha256": "780225959fb18cac6497b82341cfe3b5a2eeddd35eb0e6ef99748aedc24e5b2a"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/entry_short_20261126_07e474d30a49a50b.joblib",
+          "sha256": "b69d600c2684b326c8e716e392cf1537020014fcd45972ad31606a88089b4b69"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-07/exit_short_20261127_c022349b83df62a8.joblib",
+          "sha256": "037801766d19b04f13490b347f78a199e339f6d8532242b34446acddf3bd72f3"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.75,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 2.917418662730765
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 40.478431190132916
+        }
+      },
+      "validation": {
+        "trades": 443,
+        "priced": 443,
+        "censored": 0,
+        "gross_pnl_usd": 69.3578548258041,
+        "priced_subtotal_usd": 69.3578548258041,
+        "mean_return_pct": 0.15656400637879028,
+        "wins": 194,
+        "losses": 249,
+        "median_holding_minutes": 100.0,
+        "notional_hours": 92766.66666666667
+      },
+      "test": {
+        "trades": 313,
+        "priced": 313,
+        "censored": 0,
+        "gross_pnl_usd": -22.788815137657654,
+        "priced_subtotal_usd": -22.788815137657654,
+        "mean_return_pct": -0.07280771609475288,
+        "wins": 112,
+        "losses": 200,
+        "median_holding_minutes": 90.0,
+        "notional_hours": 64833.333333333336,
+        "direction_conflicts_waited": 14
+      },
+      "by_side": {
+        "long": {
+          "trades": 42,
+          "priced": 42,
+          "censored": 0,
+          "gross_pnl_usd": 1.4204191658600753,
+          "priced_subtotal_usd": 1.4204191658600753,
+          "mean_return_pct": 0.03381950394904941,
+          "wins": 16,
+          "losses": 26,
+          "median_holding_minutes": 55.0,
+          "notional_hours": 4733.333333333333
+        },
+        "short": {
+          "trades": 271,
+          "priced": 271,
+          "censored": 0,
+          "gross_pnl_usd": -24.209234303517743,
+          "priced_subtotal_usd": -24.209234303517743,
+          "mean_return_pct": -0.08933296790965957,
+          "wins": 96,
+          "losses": 174,
+          "median_holding_minutes": 100.0,
+          "notional_hours": 60100.0
+        }
+      }
+    },
+    {
+      "variant": "drop_spot",
+      "seed": 20261114,
+      "fold": "2026-11-11T00:00:00Z",
+      "end": "2026-11-14T08:30:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/entry_long_20261114_bd0b6766572cf63a.joblib",
+          "sha256": "9fac974bc353481a2c20b6d4c8da1f9870dc17afebdfb54bc4d3cc9507422916"
+        },
+        "long_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/exit_long_20261115_ee90fa94f8382f3c.joblib",
+          "sha256": "b9a5649b2744f876876a4c6ec6e9c0f52efd824f3d4fef107693ff053612b7b8"
+        },
+        "short_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/entry_short_20261124_bd0b6766572cf63a.joblib",
+          "sha256": "35fbcb4b4603235b5a21da4077426e26c4680e548ddd8bd374fb66ac5ba274cd"
+        },
+        "short_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/exit_short_20261125_ee90fa94f8382f3c.joblib",
+          "sha256": "0b72d90237ac2f1b3bf6295f76b7d2384a6fb01d7127aee3ddae40763a446611"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 103.1952525084087
+        }
+      },
+      "validation": {
+        "trades": 204,
+        "priced": 204,
+        "censored": 0,
+        "gross_pnl_usd": 103.1952525084087,
+        "priced_subtotal_usd": 103.1952525084087,
+        "mean_return_pct": 0.505859080923572,
+        "wins": 101,
+        "losses": 103,
+        "median_holding_minutes": 422.5,
+        "notional_hours": 147391.66666666666
+      },
+      "test": {
+        "trades": 138,
+        "priced": 138,
+        "censored": 0,
+        "gross_pnl_usd": 165.21392110579575,
+        "priced_subtotal_usd": 165.21392110579575,
+        "mean_return_pct": 1.1972023268535923,
+        "wins": 74,
+        "losses": 64,
+        "median_holding_minutes": 385.0,
+        "notional_hours": 90833.33333333333,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "short": {
+          "trades": 138,
+          "priced": 138,
+          "censored": 0,
+          "gross_pnl_usd": 165.21392110579575,
+          "priced_subtotal_usd": 165.21392110579575,
+          "mean_return_pct": 1.1972023268535923,
+          "wins": 74,
+          "losses": 64,
+          "median_holding_minutes": 385.0,
+          "notional_hours": 90833.33333333333
+        }
+      }
+    },
+    {
+      "variant": "long_entry_core_plus_spot",
+      "seed": 20261114,
+      "fold": "2026-11-11T00:00:00Z",
+      "end": "2026-11-14T08:30:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "add_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/entry_long_20261114_0cfbf580cfc9ccb3.joblib",
+          "sha256": "075271e36353ef099523bb3720103572ebcc53ee97130a4061729342350d6e37"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/exit_long_20261115_c022349b83df62a8.joblib",
+          "sha256": "2bc9affa766579b0f4f2e7af5a52888238d876e7f7e6b0425aaaf2f988eee8f1"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/entry_short_20261124_07e474d30a49a50b.joblib",
+          "sha256": "bb8eb4b963685013447c051c2339b31e44b6e70985cec5277f4480ffcf857b52"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/exit_short_20261125_c022349b83df62a8.joblib",
+          "sha256": "01a0a94dbf92b72c263e8f7e78bde7cc95fa605383e881ca21f0701deb64cca1"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 234.13308121466173
+        }
+      },
+      "validation": {
+        "trades": 241,
+        "priced": 241,
+        "censored": 0,
+        "gross_pnl_usd": 234.13308121466173,
+        "priced_subtotal_usd": 234.13308121466173,
+        "mean_return_pct": 0.9715065610566876,
+        "wins": 121,
+        "losses": 120,
+        "median_holding_minutes": 660.0,
+        "notional_hours": 272166.6666666667
+      },
+      "test": {
+        "trades": 176,
+        "priced": 176,
+        "censored": 0,
+        "gross_pnl_usd": 152.94249056585974,
+        "priced_subtotal_usd": 152.94249056585974,
+        "mean_return_pct": 0.8689914236696576,
+        "wins": 90,
+        "losses": 86,
+        "median_holding_minutes": 640.0,
+        "notional_hours": 196683.33333333334,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "short": {
+          "trades": 176,
+          "priced": 176,
+          "censored": 0,
+          "gross_pnl_usd": 152.94249056585974,
+          "priced_subtotal_usd": 152.94249056585974,
+          "mean_return_pct": 0.8689914236696576,
+          "wins": 90,
+          "losses": 86,
+          "median_holding_minutes": 640.0,
+          "notional_hours": 196683.33333333334
+        }
+      }
+    },
+    {
+      "variant": "long_entry_full_minus_derivatives",
+      "seed": 20261114,
+      "fold": "2026-11-11T00:00:00Z",
+      "end": "2026-11-14T08:30:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_derivatives",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/entry_long_20261114_1baa52fc0fc7a9bf.joblib",
+          "sha256": "5b05595e77227e895ca3cdc16297a4ad81a3628777608dc5ff8ba8cb8d43d864"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/exit_long_20261115_c022349b83df62a8.joblib",
+          "sha256": "2bc9affa766579b0f4f2e7af5a52888238d876e7f7e6b0425aaaf2f988eee8f1"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/entry_short_20261124_07e474d30a49a50b.joblib",
+          "sha256": "bb8eb4b963685013447c051c2339b31e44b6e70985cec5277f4480ffcf857b52"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/exit_short_20261125_c022349b83df62a8.joblib",
+          "sha256": "01a0a94dbf92b72c263e8f7e78bde7cc95fa605383e881ca21f0701deb64cca1"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": false,
+          "entry_threshold": 0.9,
+          "exit_threshold": 0.25,
+          "validation_pnl_usd": 8.817229449068542
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 234.13308121466173
+        }
+      },
+      "validation": {
+        "trades": 243,
+        "priced": 243,
+        "censored": 0,
+        "gross_pnl_usd": 231.57735027482448,
+        "priced_subtotal_usd": 231.57735027482448,
+        "mean_return_pct": 0.9529932110075081,
+        "wins": 120,
+        "losses": 123,
+        "median_holding_minutes": 660.0,
+        "notional_hours": 271208.3333333333
+      },
+      "test": {
+        "trades": 180,
+        "priced": 180,
+        "censored": 0,
+        "gross_pnl_usd": 165.12533941019984,
+        "priced_subtotal_usd": 165.12533941019984,
+        "mean_return_pct": 0.9173629967233324,
+        "wins": 91,
+        "losses": 89,
+        "median_holding_minutes": 630.0,
+        "notional_hours": 196458.33333333334,
+        "direction_conflicts_waited": 3
+      },
+      "by_side": {
+        "long": {
+          "trades": 6,
+          "priced": 6,
+          "censored": 0,
+          "gross_pnl_usd": 17.3862370041149,
+          "priced_subtotal_usd": 17.3862370041149,
+          "mean_return_pct": 2.8977061673524833,
+          "wins": 2,
+          "losses": 4,
+          "median_holding_minutes": 50.0,
+          "notional_hours": 608.3333333333334
+        },
+        "short": {
+          "trades": 174,
+          "priced": 174,
+          "censored": 0,
+          "gross_pnl_usd": 147.7391024060849,
+          "priced_subtotal_usd": 147.7391024060849,
+          "mean_return_pct": 0.849075301184396,
+          "wins": 89,
+          "losses": 85,
+          "median_holding_minutes": 642.5,
+          "notional_hours": 195850.0
+        }
+      }
+    },
+    {
+      "variant": "drop_spot",
+      "seed": 20261115,
+      "fold": "2026-11-11T00:00:00Z",
+      "end": "2026-11-14T08:30:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/entry_long_20261115_bd0b6766572cf63a.joblib",
+          "sha256": "32cca8e2e26ca1e4921ecb223193cc312a61789fe1fba7ce6c99ae55a479f1c3"
+        },
+        "long_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/exit_long_20261116_ee90fa94f8382f3c.joblib",
+          "sha256": "95484cab6692581e2855a1016b8a1108d76416251da71038f52ced83083bc027"
+        },
+        "short_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/entry_short_20261125_bd0b6766572cf63a.joblib",
+          "sha256": "b86330d182d1a4a57c158be3657b1f2c2cb9d2569bf444d027d38b056cde436e"
+        },
+        "short_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/exit_short_20261126_ee90fa94f8382f3c.joblib",
+          "sha256": "932f80cc29018009280c3a33439bc6fff58927a7b1adb5e77ada5e12c895135e"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 134.45978773693656
+        }
+      },
+      "validation": {
+        "trades": 198,
+        "priced": 198,
+        "censored": 0,
+        "gross_pnl_usd": 134.45978773693656,
+        "priced_subtotal_usd": 134.45978773693656,
+        "mean_return_pct": 0.6790898370552352,
+        "wins": 94,
+        "losses": 104,
+        "median_holding_minutes": 470.0,
+        "notional_hours": 164158.33333333334
+      },
+      "test": {
+        "trades": 128,
+        "priced": 128,
+        "censored": 0,
+        "gross_pnl_usd": 152.49096462242215,
+        "priced_subtotal_usd": 152.49096462242215,
+        "mean_return_pct": 1.191335661112673,
+        "wins": 71,
+        "losses": 57,
+        "median_holding_minutes": 450.0,
+        "notional_hours": 101058.33333333333,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "short": {
+          "trades": 128,
+          "priced": 128,
+          "censored": 0,
+          "gross_pnl_usd": 152.49096462242215,
+          "priced_subtotal_usd": 152.49096462242215,
+          "mean_return_pct": 1.191335661112673,
+          "wins": 71,
+          "losses": 57,
+          "median_holding_minutes": 450.0,
+          "notional_hours": 101058.33333333333
+        }
+      }
+    },
+    {
+      "variant": "long_entry_core_plus_spot",
+      "seed": 20261115,
+      "fold": "2026-11-11T00:00:00Z",
+      "end": "2026-11-14T08:30:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "add_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/entry_long_20261115_0cfbf580cfc9ccb3.joblib",
+          "sha256": "13eff04006fb5ebc2ece65f2e96254a9477efe65e19e1e5fea0f01e4a8a18afc"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/exit_long_20261116_c022349b83df62a8.joblib",
+          "sha256": "b1156ac208f6e05650a249ca443fbc23c0700f915f535d4821be1b39561fa5bc"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/entry_short_20261125_07e474d30a49a50b.joblib",
+          "sha256": "94f7c71aa81b31df20b8e8dca664b33ff6f2e7b4be913dfe024aa8c5c58a691c"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/exit_short_20261126_c022349b83df62a8.joblib",
+          "sha256": "5b4710469d76ea6e62da2725e414e42cab0e9efe7718e83c2e7952425dccd66f"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 289.2233327204518
+        }
+      },
+      "validation": {
+        "trades": 233,
+        "priced": 233,
+        "censored": 0,
+        "gross_pnl_usd": 289.2233327204518,
+        "priced_subtotal_usd": 289.2233327204518,
+        "mean_return_pct": 1.241301857169321,
+        "wins": 127,
+        "losses": 106,
+        "median_holding_minutes": 770.0,
+        "notional_hours": 295658.3333333333
+      },
+      "test": {
+        "trades": 175,
+        "priced": 175,
+        "censored": 0,
+        "gross_pnl_usd": 134.32847195770643,
+        "priced_subtotal_usd": 134.32847195770643,
+        "mean_return_pct": 0.767591268329751,
+        "wins": 95,
+        "losses": 80,
+        "median_holding_minutes": 670.0,
+        "notional_hours": 211458.33333333334,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "short": {
+          "trades": 175,
+          "priced": 175,
+          "censored": 0,
+          "gross_pnl_usd": 134.32847195770643,
+          "priced_subtotal_usd": 134.32847195770643,
+          "mean_return_pct": 0.767591268329751,
+          "wins": 95,
+          "losses": 80,
+          "median_holding_minutes": 670.0,
+          "notional_hours": 211458.33333333334
+        }
+      }
+    },
+    {
+      "variant": "long_entry_full_minus_derivatives",
+      "seed": 20261115,
+      "fold": "2026-11-11T00:00:00Z",
+      "end": "2026-11-14T08:30:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_derivatives",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/entry_long_20261115_1baa52fc0fc7a9bf.joblib",
+          "sha256": "19f44c016e9f2960f11e0b0580d711f38b5fe7d9fc683d5dbd4b14d9afbfa0c5"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/exit_long_20261116_c022349b83df62a8.joblib",
+          "sha256": "b1156ac208f6e05650a249ca443fbc23c0700f915f535d4821be1b39561fa5bc"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/entry_short_20261125_07e474d30a49a50b.joblib",
+          "sha256": "94f7c71aa81b31df20b8e8dca664b33ff6f2e7b4be913dfe024aa8c5c58a691c"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/exit_short_20261126_c022349b83df62a8.joblib",
+          "sha256": "5b4710469d76ea6e62da2725e414e42cab0e9efe7718e83c2e7952425dccd66f"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 289.2233327204518
+        }
+      },
+      "validation": {
+        "trades": 233,
+        "priced": 233,
+        "censored": 0,
+        "gross_pnl_usd": 289.2233327204518,
+        "priced_subtotal_usd": 289.2233327204518,
+        "mean_return_pct": 1.241301857169321,
+        "wins": 127,
+        "losses": 106,
+        "median_holding_minutes": 770.0,
+        "notional_hours": 295658.3333333333
+      },
+      "test": {
+        "trades": 175,
+        "priced": 175,
+        "censored": 0,
+        "gross_pnl_usd": 134.32847195770643,
+        "priced_subtotal_usd": 134.32847195770643,
+        "mean_return_pct": 0.767591268329751,
+        "wins": 95,
+        "losses": 80,
+        "median_holding_minutes": 670.0,
+        "notional_hours": 211458.33333333334,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "short": {
+          "trades": 175,
+          "priced": 175,
+          "censored": 0,
+          "gross_pnl_usd": 134.32847195770643,
+          "priced_subtotal_usd": 134.32847195770643,
+          "mean_return_pct": 0.767591268329751,
+          "wins": 95,
+          "losses": 80,
+          "median_holding_minutes": 670.0,
+          "notional_hours": 211458.33333333334
+        }
+      }
+    },
+    {
+      "variant": "drop_spot",
+      "seed": 20261116,
+      "fold": "2026-11-11T00:00:00Z",
+      "end": "2026-11-14T08:30:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/entry_long_20261116_bd0b6766572cf63a.joblib",
+          "sha256": "d9e0273f262a4babd0b1c794200b55d2ecf25e3bce6db0d0ccf54f1f9d055d7e"
+        },
+        "long_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/exit_long_20261117_ee90fa94f8382f3c.joblib",
+          "sha256": "ddcb100474372b0c016702a7e0c11c9727bb298790cf0b7f5a5b2c1e21d954b3"
+        },
+        "short_entry": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/entry_short_20261126_bd0b6766572cf63a.joblib",
+          "sha256": "9934c48d1dc44ccfa83c90393073121083e6ae511fcff941eba5f979e13df19e"
+        },
+        "short_exit": {
+          "sweep_variant": "drop_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/exit_short_20261127_ee90fa94f8382f3c.joblib",
+          "sha256": "8dc75d4514bbd94221a7a82827ce8248bc063c8d25158f6e6928dad27edaf2ce"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 115.28982593724373
+        }
+      },
+      "validation": {
+        "trades": 209,
+        "priced": 209,
+        "censored": 0,
+        "gross_pnl_usd": 115.28982593724373,
+        "priced_subtotal_usd": 115.28982593724373,
+        "mean_return_pct": 0.5516259614222189,
+        "wins": 91,
+        "losses": 117,
+        "median_holding_minutes": 530.0,
+        "notional_hours": 193675.0
+      },
+      "test": {
+        "trades": 132,
+        "priced": 132,
+        "censored": 0,
+        "gross_pnl_usd": 120.25531454983378,
+        "priced_subtotal_usd": 120.25531454983378,
+        "mean_return_pct": 0.9110251102260135,
+        "wins": 68,
+        "losses": 64,
+        "median_holding_minutes": 495.0,
+        "notional_hours": 117475.0,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "short": {
+          "trades": 132,
+          "priced": 132,
+          "censored": 0,
+          "gross_pnl_usd": 120.25531454983378,
+          "priced_subtotal_usd": 120.25531454983378,
+          "mean_return_pct": 0.9110251102260135,
+          "wins": 68,
+          "losses": 64,
+          "median_holding_minutes": 495.0,
+          "notional_hours": 117475.0
+        }
+      }
+    },
+    {
+      "variant": "long_entry_core_plus_spot",
+      "seed": 20261116,
+      "fold": "2026-11-11T00:00:00Z",
+      "end": "2026-11-14T08:30:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "add_spot",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/entry_long_20261116_0cfbf580cfc9ccb3.joblib",
+          "sha256": "893f01e4d747321660e075bc95a853eb31aff46388334d0a27136c3017ccbbac"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/exit_long_20261117_c022349b83df62a8.joblib",
+          "sha256": "b1b6abdb8d463530844345bb64d2b1b7f1256c77c625a99b1eb691c9f6b3bf8f"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/entry_short_20261126_07e474d30a49a50b.joblib",
+          "sha256": "e493e482fe5e5e73461fb7aa94538c424d07ba4309a78b2da4f62fb5cdc4c359"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/exit_short_20261127_c022349b83df62a8.joblib",
+          "sha256": "d541a82c738b9c418be6e804584c720dc4f8d48945a75b6ed2402475f4b922cb"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 204.67251883150954
+        }
+      },
+      "validation": {
+        "trades": 226,
+        "priced": 226,
+        "censored": 0,
+        "gross_pnl_usd": 204.67251883150954,
+        "priced_subtotal_usd": 204.67251883150954,
+        "mean_return_pct": 0.9056306142987147,
+        "wins": 114,
+        "losses": 112,
+        "median_holding_minutes": 592.5,
+        "notional_hours": 234316.66666666666
+      },
+      "test": {
+        "trades": 175,
+        "priced": 175,
+        "censored": 0,
+        "gross_pnl_usd": 141.32737256210743,
+        "priced_subtotal_usd": 141.32737256210743,
+        "mean_return_pct": 0.8075849860691853,
+        "wins": 87,
+        "losses": 88,
+        "median_holding_minutes": 570.0,
+        "notional_hours": 180625.0,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "short": {
+          "trades": 175,
+          "priced": 175,
+          "censored": 0,
+          "gross_pnl_usd": 141.32737256210743,
+          "priced_subtotal_usd": 141.32737256210743,
+          "mean_return_pct": 0.8075849860691853,
+          "wins": 87,
+          "losses": 88,
+          "median_holding_minutes": 570.0,
+          "notional_hours": 180625.0
+        }
+      }
+    },
+    {
+      "variant": "long_entry_full_minus_derivatives",
+      "seed": 20261116,
+      "fold": "2026-11-11T00:00:00Z",
+      "end": "2026-11-14T08:30:00Z",
+      "models": {
+        "long_entry": {
+          "sweep_variant": "drop_derivatives",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/entry_long_20261116_1baa52fc0fc7a9bf.joblib",
+          "sha256": "081883e30b4b6a3117688bb303059813598faf6885bbc1e4356beda069694ad0"
+        },
+        "long_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/exit_long_20261117_c022349b83df62a8.joblib",
+          "sha256": "b1b6abdb8d463530844345bb64d2b1b7f1256c77c625a99b1eb691c9f6b3bf8f"
+        },
+        "short_entry": {
+          "sweep_variant": "add_volume_detail",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/entry_short_20261126_07e474d30a49a50b.joblib",
+          "sha256": "e493e482fe5e5e73461fb7aa94538c424d07ba4309a78b2da4f62fb5cdc4c359"
+        },
+        "short_exit": {
+          "sweep_variant": "add_position_history",
+          "file": "feature-ablation-2026-11-14/models/2026-11-11/exit_short_20261127_c022349b83df62a8.joblib",
+          "sha256": "d541a82c738b9c418be6e804584c720dc4f8d48945a75b6ed2402475f4b922cb"
+        }
+      },
+      "policies": {
+        "long": {
+          "cash": true,
+          "entry_threshold": null,
+          "exit_threshold": null,
+          "validation_pnl_usd": 0.0
+        },
+        "short": {
+          "cash": false,
+          "entry_threshold": 0.5,
+          "exit_threshold": 0.75,
+          "validation_pnl_usd": 204.67251883150954
+        }
+      },
+      "validation": {
+        "trades": 226,
+        "priced": 226,
+        "censored": 0,
+        "gross_pnl_usd": 204.67251883150954,
+        "priced_subtotal_usd": 204.67251883150954,
+        "mean_return_pct": 0.9056306142987147,
+        "wins": 114,
+        "losses": 112,
+        "median_holding_minutes": 592.5,
+        "notional_hours": 234316.66666666666
+      },
+      "test": {
+        "trades": 175,
+        "priced": 175,
+        "censored": 0,
+        "gross_pnl_usd": 141.32737256210743,
+        "priced_subtotal_usd": 141.32737256210743,
+        "mean_return_pct": 0.8075849860691853,
+        "wins": 87,
+        "losses": 88,
+        "median_holding_minutes": 570.0,
+        "notional_hours": 180625.0,
+        "direction_conflicts_waited": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "short": {
+          "trades": 175,
+          "priced": 175,
+          "censored": 0,
+          "gross_pnl_usd": 141.32737256210743,
+          "priced_subtotal_usd": 141.32737256210743,
+          "mean_return_pct": 0.8075849860691853,
+          "wins": 87,
+          "losses": 88,
+          "median_holding_minutes": 570.0,
+          "notional_hours": 180625.0
+        }
+      }
+    }
+  ]
+}

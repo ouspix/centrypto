@@ -1,0 +1,186 @@
+{
+  "asOf": "2026-11-17T15:28:28.508271",
+  "timezone": "Europe/Paris",
+  "fromUtc": "2026-11-16T23:00:00Z",
+  "scope": {
+    "completedLive": 185,
+    "completedResearch": 44,
+    "deferred": 469,
+    "oldPromptCompletedLive": 180,
+    "newPromptCompletedLive": 5,
+    "allFinalLiveNotesPreferCash": true,
+    "newOrderIntents": 0,
+    "proposalRevisionActions": {
+      "pass": 365,
+      "research": 16,
+      "missing": 4,
+      "wait": 4,
+      "enter": 1
+    }
+  },
+  "promptAttribution": {
+    "restartParis": "2026-11-17T16:01:25+01:00",
+    "workerPid": 228777,
+    "version": "desk-39-concise-lead-decisions",
+    "evidence": [
+      "Worker startup log reports desk-39. Source files were modified before that process started.",
+      "roundtable.ts supplies roleInstructions on each role invocation; roles.ts routes lead to leadInstructions; runtime.ts starts an ephemeral inference thread with those developerInstructions."
+    ],
+    "limitation": "Historical full request bodies/prompt hashes are not stored, so exact historical bytes cannot be independently recovered.",
+    "memory": "shifts.ts supplies three previous role journals, and roundtable.ts also supplies saved decisionContext. Old judgments can persist as context despite new developer instructions; anchoring is a hypothesis, not established causation."
+  },
+  "newPromptTurns": [
+    {
+      "shiftId": "379a5eae-9637-4e9f-8f03-1f4d671c4174",
+      "endedAt": "2026-11-17T15:05:50.741",
+      "note": {
+        "thesis": "Upper rejection and live retreat strengthen the short case, but retained lower-range recovery narrowly outweighs extrapolating a full unwind. Depth is sufficient and costs modest; the objection is economic persistence.",
+        "dissent": "Failure may propagate before the lower base breaks. Falling OI and unsigned volume cannot distinguish continued selling from exhaustion.",
+        "summary": "Retain cash; pass ETH short. Proposal and pass watch saved; no orders.",
+        "followUpAt": null,
+        "evidenceIds": [
+          "mainnet:perp:ETH@1794927873758:1808:1808.1",
+          "opportunity-scan:16:1794927810326"
+        ],
+        "invalidation": "Sustained recovery above $1,832.1 weakens the short thesis. Material supply or demand evidence could reverse the pass."
+      }
+    },
+    {
+      "shiftId": "2bae9577-66ef-4486-b50e-c668f556fb02",
+      "endedAt": "2026-11-17T15:10:18.056",
+      "note": {
+        "thesis": "Cheaper $68.949 entry improves recovery payoff, but repeated completed reversals and live loss of $69.367 weaken the saved retention test. Depth is sufficient; economic persistence determines the pass. Original 17:20 UTC assessment deadline remains unchanged.",
+        "dissent": "The retained morning base and improved payoff support buying before recovery. I favor cash because upper-range repair has again surrendered; unsigned volume and OI cannot establish remaining sellers or exhaustion.",
+        "summary": "Retain cash; pass HYPE long. Updated proposal, recorded comparison and closed expired XPL assessment. No orders.",
+        "followUpAt": null,
+        "evidenceIds": [
+          "mainnet:perp:HYPE@1794928169811:68.948:68.949",
+          "opportunity-scan:16:1794928119344"
+        ],
+        "invalidation": "Loss of $68.256 undermines recovery. Material attributable demand or supply evidence could reverse the pass."
+      }
+    },
+    {
+      "shiftId": "074008c8-aaba-43c9-bd5d-28ac914a3dff",
+      "endedAt": "2026-11-17T15:15:51.863",
+      "note": {
+        "thesis": "Midday expansion failure strengthens CC’s short case, but entry near repeatedly recovered morning congestion leaves downside persistence contested. Sampled liquidity is sufficient; economics determines the pass.",
+        "dissent": "Broad weakness could overwhelm the morning range before confirmation. I favor cash because demonstrated lower-range recovery outweighs extrapolating the upper failure at this lower entry; falling OI identifies no seller intent.",
+        "summary": "Retain cash; pass CC short. Saved proposal and watch, recorded comparison, closed expired VVV/XRP assessments. No orders.",
+        "followUpAt": null,
+        "evidenceIds": [
+          "mainnet:perp:CC@1794928478848:0.08073:0.080768",
+          "opportunity-scan:16:1794928426660"
+        ],
+        "invalidation": "Sustained recovery above 0.082891 weakens the short. Material supply overwhelming lower-range recovery could reverse the cash decision."
+      }
+    },
+    {
+      "shiftId": "d3e25ecc-f1a5-410e-b247-e9ad77ec2cdd",
+      "endedAt": "2026-11-17T15:20:28.799",
+      "note": {
+        "thesis": "Cheaper LIT entry improves recovery payoff and sampled depth is sufficient, but repeated completed rebound failures outweigh the retained lower base and partial live repair.",
+        "dissent": "The retained base and cheaper entry could support recovery immediately. I favor cash because renewed surrender extends the repeated recovery failures; unsigned turnover does not establish residual selling.",
+        "summary": "Retain cash; pass LIT long. Proposal, watch and comparison saved. Closed expired YGG/ZEC assessments. No orders.",
+        "followUpAt": null,
+        "evidenceIds": [
+          "mainnet:perp:LIT@1794928775638:2.9671:2.9673",
+          "opportunity-scan:16:1794928735917"
+        ],
+        "invalidation": "Loss of 2.9336 undermines recovery. Material attributable demand, supply or incident-economic changes could reverse the pass."
+      }
+    },
+    {
+      "shiftId": "8d890237-2e0a-4272-b636-dd83f1082d7d",
+      "endedAt": "2026-11-17T15:25:32.449",
+      "note": {
+        "thesis": "Higher entry improves CHIP downside payoff and midday expansion failed, but repeated lower-range recovery contests further downside. Sampled cover depth independently fails: $2,045 versus $2,500 required.",
+        "dissent": "Broad weakness could overwhelm the recovered range immediately. I favor cash because recurrent recovery and current live repair contest that extension, alongside deficient cover liquidity.",
+        "summary": "Retain cash; pass CHIP short. Saved proposal, depth watch and comparison; closed expired ZEN assessment. No orders.",
+        "followUpAt": null,
+        "evidenceIds": [
+          "mainnet:perp:CHIP@1794929083222:0.027909:0.027941",
+          "opportunity-scan:16:1794929045337"
+        ],
+        "invalidation": "Sustained recovery above 0.028412 weakens the fresh short thesis. Cover-depth recovery permits reassessment of economics."
+      }
+    }
+  ],
+  "findings": [
+    {
+      "priority": "medium",
+      "issue": "Technical passes use vague news-dependent reconsideration",
+      "evidence": "ETH, HYPE, CC and LIT new-prompt decisions require material attributable supply/demand without a concrete observation defining reversal. ETH/CC/LIT created material_news watches; HYPE retained prior monitoring. Across the day, 80 set_watch calls chose pass/material_news (calls, not unique watches).",
+      "interpretation": "Cash may be justified; the documented reassessment condition is not sufficiently testable. A news trigger does not directly test the stated technical persistence question."
+    },
+    {
+      "priority": "medium",
+      "issue": "CHIP cover-side depth described as an enforced short-entry blocker",
+      "evidence": "16:24:43 CET archived quote: bids $5,760.07, asks $2,045.01, both complete in band. Lead described asks below $2,500 as independently blocking the short.",
+      "code": "execution-risk.ts uses depth.levels[buy ? 1 : 0] for entry minDepthUsd; size_swing_trade likewise uses bids for sell entries.",
+      "interpretation": "Thin cover liquidity can justify a discretionary pass, but it is distinct from failing the host short-entry depth check."
+    },
+    {
+      "priority": "context",
+      "issue": "One real entry preference was reached under the old prompt",
+      "evidence": "14:09 CET XMR action=enter, quantity 0.581, notional $302.67, planned risk $6.09745 within headroom-adjusted $6.1005. Preview returned Order violates slippage limit. Fresh quote subsequently crossed the saved $518.28 retention boundary; lead changed to pass before sending an order.",
+      "interpretation": "The book risk budget was not what blocked this attempt; the preview and subsequent evidence change matter."
+    },
+    {
+      "priority": "low",
+      "issue": "New-prompt CC pagination mistake",
+      "evidence": "At 16:14:47 CET lead sent cursor=\"5\" instead of returned nextCursor, causing Unexpected end of JSON input. It retried without the fabricated cursor with limit 50, obtained six records and completed the review.",
+      "code": "work-ledger.ts decodes cursor as base64url JSON; the literal numeric offset is not a valid cursor."
+    }
+  ],
+  "validationErrors": [
+    {
+      "shiftId": "e91fa0ae-3372-4109-b15b-6fec841daa13",
+      "createdAt": "2026-11-17T00:02:23.69",
+      "name": "backtest_strategy",
+      "error": "Arguments do not match tool schema: /variants/0: must have required property 'lookbackBars' ({\"missingProperty\":\"lookbackBars\"}). Correct these fields and retry."
+    },
+    {
+      "shiftId": "e91fa0ae-3372-4109-b15b-6fec841daa13",
+      "createdAt": "2026-11-17T00:02:32.081",
+      "name": "backtest_strategy",
+      "error": "Arguments do not match tool schema: /variants/0: must have required property 'orderUsd' ({\"missingProperty\":\"orderUsd\"}). Correct these fields and retry."
+    },
+    {
+      "shiftId": "e91fa0ae-3372-4109-b15b-6fec841daa13",
+      "createdAt": "2026-11-17T00:02:40.765",
+      "name": "backtest_strategy",
+      "error": "Arguments do not match tool schema: /variants/0: must have required property 'targetBps' ({\"missingProperty\":\"targetBps\"}). Correct these fields and retry."
+    },
+    {
+      "shiftId": "e91fa0ae-3372-4109-b15b-6fec841daa13",
+      "createdAt": "2026-11-17T00:02:46.449",
+      "name": "backtest_strategy",
+      "error": "Arguments do not match tool schema: /variants/0: must have required property 'maxHoldBars' ({\"missingProperty\":\"maxHoldBars\"}). Correct these fields and retry."
+    },
+    {
+      "shiftId": "6ffa199c-55fa-4818-8408-b9345f62a2f5",
+      "createdAt": "2026-11-17T00:31:20.47",
+      "name": "record_candidate_comparison",
+      "error": "Arguments do not match tool schema: /candidates/0/mechanism: must NOT have fewer than 10 characters ({\"limit\":10}). Correct these fields and retry."
+    },
+    {
+      "shiftId": "9da1b48f-6214-405f-871c-befa5c3de497",
+      "createdAt": "2026-11-17T06:00:22.234",
+      "name": "screen_markets",
+      "error": "Arguments do not match tool schema: /preset: must be equal to one of the allowed values ({\"allowedValues\":[\"balanced\",\"relative\",\"compression\",\"breakout\",\"pullback\",\"dislocation\",\"catalyst\"]}). Correct these fields and retry."
+    },
+    {
+      "shiftId": "6468bd4c-fd00-4eb6-9293-98d99ab87f0a",
+      "createdAt": "2026-11-17T08:01:51.666",
+      "name": "backtest_strategy",
+      "error": "Arguments do not match tool schema: /variants/0/lookbackBars: must be >= 2 ({\"comparison\":\">=\",\"limit\":2}). Correct these fields and retry."
+    }
+  ],
+  "limitations": [
+    "Census of today’s activity and final notes; detailed evidence checks focused on the five new-prompt reviews, unique XMR preview attempt and previously examined LIT case.",
+    "No hindsight return study or counterfactual fills; zero trades alone does not establish poor judgment.",
+    "Five post-restart decisions are too few to measure prompt performance.",
+    "Review only; no trading or configuration changes performed."
+  ]
+}

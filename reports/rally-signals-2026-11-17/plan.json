@@ -1,0 +1,27 @@
+{
+  "windows": [
+    {"start": "2026-11-14T08:30:00Z", "end": "2026-11-15T02:30:00Z"},
+    {"start": "2026-11-15T02:30:00Z", "end": "2026-11-15T20:30:00Z"},
+    {"start": "2026-11-15T20:30:00Z", "end": "2026-11-15T22:25:00Z"}
+  ],
+  "market_end": "2026-11-16T23:00:00Z",
+  "model_checkpoint": "2026-11-11T00:00:00Z",
+  "calibration_start": "2026-11-05T00:00:00Z",
+  "calibration_end": "2026-11-08T23:28:00Z",
+  "seeds": [20261114, 20261115, 20261116],
+  "signal_models": {"long": ["drop_derivatives", "add_spot"], "short": ["add_volume_detail"]},
+  "primary_validation_quantile": 0.95,
+  "sensitivity_quantiles": [0.90, 0.99],
+  "alert_cooldown_minutes": 1440,
+  "rally_gain_pct": 10,
+  "rally_definition": "Closed 5m crossing from below10% to side-adjusted rolling24h close-to-close return >=10%, with a 24h minimum separation per symbol and direction. A continuing above-threshold move cannot become a new event without resetting below10%. Extends the direction study's24h cooldown with explicit rearming for distinct episodes.",
+  "caught_definition": "At least one same-symbol, same-direction alert during the preceding 24h, strictly before the rally's first qualifying observation. Lead time is time from alert to that observation.",
+  "false_alert_definition": "No distinct same-direction rally confirmation in the next24h, with >=90% of expected rolling24h return observations and an observed final 5m observation. Insufficient paths remain unknown.",
+  "model_scoring": "Latest archived checkpoint for all three seeds. Max score across active SMA pairs per symbol, direction and timestamp. Cutoffs are the fixed percentiles of the earlier validation score distribution. No trade policy cash gate.",
+  "rally_denominator": "All distinct rallies with confirmation after the first alert window begins and before the last alert window ends plus24h, restricted to symbols present in the frozen179-symbol universe. Partial pre-window alert opportunities disclosed.",
+  "agent_comparisons": [
+    "Current default balanced1h screen reconstructed from closed native candles and as-of ticks at15m cadence. Top10 candidates, exact project ranking functions, no news catalysts supplied.",
+    "Timestamped historical mainnet tool inputs and immutable proposal revisions. Attention to a symbol in either direction is a conservative existing-awareness comparator. Absence in incomplete logs is not proof of agent ignorance."
+  ],
+  "freshness": "All evaluation inputs are later than the original sweep cutoff. First36h were previously inspected for trading PnL. Final1h55m were not in that replay. New signal definitions are fixed before scoring."
+}

@@ -1,0 +1,147 @@
+{
+  "barrier_queries": 4000,
+  "gradient_coordinates": 30,
+  "audited_decisions": 500,
+  "ledgers": {
+    "training-trades.jsonl.gz": {
+      "cutoff": "2026-08-22T00:00:00+00:00",
+      "books": {
+        "final_training_draw_1:base": {
+          "fills": 6550,
+          "closed": 6550,
+          "wins": 3998,
+          "cutoff": 1
+        },
+        "final_training_draw_1:stress": {
+          "fills": 5573,
+          "closed": 5573,
+          "wins": 3369,
+          "cutoff": 1
+        },
+        "final_training_draw_2:base": {
+          "fills": 6361,
+          "closed": 6361,
+          "wins": 3873,
+          "cutoff": 1
+        },
+        "final_training_draw_2:stress": {
+          "fills": 5868,
+          "closed": 5868,
+          "wins": 3620,
+          "cutoff": 0
+        }
+      }
+    },
+    "news-training-trades.jsonl.gz": {
+      "cutoff": "2026-11-14T00:00:00+00:00",
+      "books": {
+        "intelligence_training_draw_1:base": {
+          "fills": 865,
+          "closed": 865,
+          "wins": 548,
+          "cutoff": 7
+        },
+        "intelligence_training_draw_1:stress": {
+          "fills": 688,
+          "closed": 688,
+          "wins": 424,
+          "cutoff": 3
+        },
+        "intelligence_training_draw_2:base": {
+          "fills": 768,
+          "closed": 768,
+          "wins": 473,
+          "cutoff": 8
+        },
+        "intelligence_training_draw_2:stress": {
+          "fills": 552,
+          "closed": 552,
+          "wins": 330,
+          "cutoff": 7
+        },
+        "masked_training_draw_1:base": {
+          "fills": 809,
+          "closed": 809,
+          "wins": 506,
+          "cutoff": 8
+        },
+        "masked_training_draw_1:stress": {
+          "fills": 619,
+          "closed": 619,
+          "wins": 372,
+          "cutoff": 4
+        },
+        "masked_training_draw_2:base": {
+          "fills": 741,
+          "closed": 741,
+          "wins": 472,
+          "cutoff": 2
+        },
+        "masked_training_draw_2:stress": {
+          "fills": 698,
+          "closed": 698,
+          "wins": 409,
+          "cutoff": 7
+        }
+      }
+    },
+    "backtest-trades.jsonl.gz": {
+      "cutoff": "2026-11-22T21:25:00+00:00",
+      "books": {
+        "main:base": {
+          "fills": 4057,
+          "closed": 4057,
+          "wins": 2657,
+          "cutoff": 0
+        },
+        "main:stress": {
+          "fills": 3671,
+          "closed": 3671,
+          "wins": 2394,
+          "cutoff": 0
+        }
+      }
+    },
+    "news-backtest-trades.jsonl.gz": {
+      "cutoff": "2026-11-20T12:00:00+00:00",
+      "books": {
+        "main:base": {
+          "fills": 477,
+          "closed": 477,
+          "wins": 332,
+          "cutoff": 0
+        },
+        "main:stress": {
+          "fills": 357,
+          "closed": 357,
+          "wins": 239,
+          "cutoff": 0
+        },
+        "intelligence:base": {
+          "fills": 513,
+          "closed": 513,
+          "wins": 358,
+          "cutoff": 0
+        },
+        "intelligence:stress": {
+          "fills": 405,
+          "closed": 405,
+          "wins": 284,
+          "cutoff": 0
+        },
+        "masked:base": {
+          "fills": 491,
+          "closed": 491,
+          "wins": 346,
+          "cutoff": 0
+        },
+        "masked:stress": {
+          "fills": 427,
+          "closed": 427,
+          "wins": 293,
+          "cutoff": 0
+        }
+      }
+    }
+  }
+}

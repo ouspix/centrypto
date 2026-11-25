@@ -1,0 +1,14 @@
+[Unit]
+Description=Evaluate the frozen Centrypto entry forecast on mature forward data
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/srv/centrypto-checkpoint
+Environment=OPENBLAS_NUM_THREADS=1
+Environment=OMP_NUM_THREADS=2
+ExecStart=/srv/centrypto-checkpoint/data/research/python -u reports/capped-entry-value/forward_window.py
+Restart=on-failure
+RestartSec=30min
+Nice=10
+UMask=0077

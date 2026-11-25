@@ -1,0 +1,19 @@
+{
+  "files": {
+    "four_common.py": "51fdf29536d302188e998dbd8b5d1fd2a300f0d0dd3427fb7d03e941263a4a6f",
+    "data_four.py": "4b8f3541346991684a68b4137840fad8a688993c43424524ac247ebf1c22b1db",
+    "network.py": "6d69b36b296f46b9484725ebceb09017eba4ef165a2b116964a74de88c305ec1",
+    "engine.py": "afae53a6bbe79e05ff4694f850e0e9249abdc9ee6a25c8f2e3139829b7e6c374",
+    "detectors.py": "4fed0e7d9fae3181dd9ad57122d12bdb9b206ce6ec9f8758e7f468645e45a990",
+    "schema.py": "386093c36ecee4d03128670eff115e2b266cddb58f83b00d97c6b528cc838e8b",
+    "masked.py": "2fba69da577c4cb0e9b6b93e8694e16f88b8349b001e2f9e0c447640a1351573",
+    "prepare.py": "393400d45cac9092fde4eaa54433913fdf5681212a65019b48bf85de570d54ea",
+    "train_ablation.py": "5a3d0c8f4a1378ffa185d4d548301ebb3007b50bd972421672ed37a5cf50fab0",
+    "config.json": "f4f2d56a6c74b4d26eec1e484aed2d3f8b5a2c2c9dae9e6bb8509d43693ad203",
+    "experiment.json": "0caf7db1fba70513cfdc151ac9831bc797d8d9e4ed45d6a8ff9fb2d11d3954ff",
+    "feature-schema.json": "b6acb1e066e9b3fa52998138575ba8617ae33d480bc94e5ea99011ca99f10bf6"
+  },
+  "candidate_hash": "a4a1f153c55c64e05969245a5f9e1dd1ba17b7c45852edf19b4673d6da604745",
+  "setup_hash": "fc0742db0a89453a60225ef6cff91a58624d21ea8df0fa7bf5d8f823785a723f",
+  "rules_fixed_before_runs": true
+}

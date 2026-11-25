@@ -1,0 +1,159 @@
+TWO-STAGE LONG/SHORT REBUILD - 14 NOVEMBER 2026
+
+Entry and exit models rebuilt and trained separately. No trading activation.
+Entry uses market, SMA and asset-relevant news plus candidate side. Exit uses market, SMA, actual side and trade state; no news or entry-model score.
+Eight fixed SMA pairs (5-minute candles): [[3, 12], [5, 20], [8, 30], [10, 30], [10, 50], [20, 50], [20, 80], [30, 80]]. Both networks have independent weights. Added40 explicit crossover, gap-change and time-since-cross features to the existing137 market inputs.
+News has161 raw inputs: numeric evidence confidence/materiality and directional strengths/counts, categorical multi-hot topics/claims/channels, temporal and coverage fields. Mixed and unspecified direction are retained. Preprocessing is fitted only on training data and removes unobserved/constant columns.
+News requires explicit supported direct/indirect asset/perp impact. Generic market context, venue/collateral-only links, spot-only mappings, and unsupported ticker mentions are excluded. Indirect effects do not inherit a directional claim. Canonicalize raw analysis event keys exactly as the application does before merging immutable revisions; one active revision per event.
+Use only evidence, publication, collection, analysis and revisions available by the decision. Repeated stories do not restart the publication clock. Unknown coverage is different from zero relevant events.
+Targets by direction: {"long": 355, "short": 573} across235 native tokens. Same accepted rally windows; entries/exits reoptimized under a strict24h deadline. Candidate side is evaluated before entry; future rally direction is a label, never an input.
+Five-minute decisions; actual entry fill begins the strict24h holding limit. Missing deadline marks are censored, never filled at a later price; that symbol is then quarantined for the rest of the archive replay.100 USD hypothetical notional per trade; no fees, funding payments or slippage. A total gross PnL is given only when every trade is priced.
+A first rebuild run inherited the previous up-to30m terminal retry. After observing that baseline overrun, this correctness repair was applied and all models refitted. Prior results were seen, are archived, and are disclosed in strict-deadline-correction.json.
+Chronological outer tests preserve48h32m label maturity and24h purge. Inner validation needs at least5 positive targets per side. All selection uses earlier validation, with cash allowed. These dates were studied in prior research; they are unseen to each fitted model, not pristine research holdouts.
+
+OUT-OF-FOLD RESULTS
+{
+  "two_stage": {
+    "all": {
+      "trades": 120,
+      "scored_trades": 120,
+      "censored_trades": 0,
+      "data_complete": true,
+      "gross_profit_usd": -0.96956594130544,
+      "priced_trades_gross_profit_usd": -0.96956594130544,
+      "mean_return_pct": -0.008079716177545333,
+      "win_rate_pct": 48.333333333333336,
+      "median_holding_minutes": 925.0,
+      "deadline_trades": 1
+    },
+    "long": {
+      "trades": 54,
+      "scored_trades": 54,
+      "censored_trades": 0,
+      "data_complete": true,
+      "gross_profit_usd": -92.88454663390404,
+      "priced_trades_gross_profit_usd": -92.88454663390404,
+      "mean_return_pct": -1.720084196924149,
+      "win_rate_pct": 22.22222222222222,
+      "median_holding_minutes": 987.5,
+      "deadline_trades": 1
+    },
+    "short": {
+      "trades": 66,
+      "scored_trades": 66,
+      "censored_trades": 0,
+      "data_complete": true,
+      "gross_profit_usd": 91.91498069259859,
+      "priced_trades_gross_profit_usd": 91.91498069259859,
+      "mean_return_pct": 1.3926512226151302,
+      "win_rate_pct": 69.6969696969697,
+      "median_holding_minutes": 910.0,
+      "deadline_trades": 0
+    }
+  },
+  "entry_fixed24h": {
+    "all": {
+      "trades": 106,
+      "scored_trades": 87,
+      "censored_trades": 19,
+      "data_complete": false,
+      "gross_profit_usd": null,
+      "priced_trades_gross_profit_usd": 13.733070661088714,
+      "mean_return_pct": 0.15785138690906567,
+      "win_rate_pct": 50.57471264367817,
+      "median_holding_minutes": 1440.0,
+      "deadline_trades": 87
+    },
+    "long": {
+      "trades": 47,
+      "scored_trades": 43,
+      "censored_trades": 4,
+      "data_complete": false,
+      "gross_profit_usd": null,
+      "priced_trades_gross_profit_usd": -73.08314870349838,
+      "mean_return_pct": -1.6996081093836832,
+      "win_rate_pct": 27.906976744186046,
+      "median_holding_minutes": 1440.0,
+      "deadline_trades": 43
+    },
+    "short": {
+      "trades": 59,
+      "scored_trades": 44,
+      "censored_trades": 15,
+      "data_complete": false,
+      "gross_profit_usd": null,
+      "priced_trades_gross_profit_usd": 86.81621936458711,
+      "mean_return_pct": 1.973095894649707,
+      "win_rate_pct": 72.72727272727273,
+      "median_holding_minutes": 1440.0,
+      "deadline_trades": 44
+    }
+  },
+  "cash": {
+    "all": {
+      "trades": 0,
+      "scored_trades": 0,
+      "censored_trades": 0,
+      "data_complete": true,
+      "gross_profit_usd": 0.0,
+      "priced_trades_gross_profit_usd": 0.0,
+      "mean_return_pct": null,
+      "win_rate_pct": null,
+      "median_holding_minutes": null,
+      "deadline_trades": 0
+    }
+  }
+}
+
+EXIT-ONLY DIAGNOSTIC AT HINDSIGHT-GOOD ENTRIES
+{
+  "all": {
+    "entry_points": 598,
+    "scored_entry_points": 598,
+    "censored_entry_points": 0,
+    "mean_oracle_return_pct": 15.481934775863467,
+    "mean_learned_return_pct": 6.278715833439321,
+    "aggregate_capture_pct": 40.55511100090616
+  },
+  "long": {
+    "entry_points": 185,
+    "scored_entry_points": 185,
+    "censored_entry_points": 0,
+    "mean_oracle_return_pct": 17.200519771171415,
+    "mean_learned_return_pct": 7.9260453277606695,
+    "aggregate_capture_pct": 46.08026637104861
+  },
+  "short": {
+    "entry_points": 413,
+    "scored_entry_points": 413,
+    "censored_entry_points": 0,
+    "mean_oracle_return_pct": 14.712108567311482,
+    "mean_learned_return_pct": 5.540807948573827,
+    "aggregate_capture_pct": 37.66154880670762
+  }
+}
+Teacher entries are supplied in hindsight, including overlapping positions. Capture is exit-only on priced entries, not executable portfolio performance. Censored exits are explicitly excluded from both return and oracle denominator.
+
+Prior long-only reference: {"trades": 176, "scored_trades": 176, "censored_trades": 0, "gross_profit_usd": 34.15133673782439, "mean_return_pct": 0.19404168601036584, "win_rate_pct": 48.29545454545455, "median_holding_minutes": 950.0, "deadline_trades": 12}
+New side universe, news mapping and SMA inputs differ together. This is not a controlled ablation; the same dates were researched previously.
+
+FINAL MODEL
+Entry trained on173936 side/state examples, with1034 positives. Exit trained on the same1034 positive entry points.
+Positive entry targets by side: {"long": 400, "short": 634}
+Only9 final training positives have an explicit relevant active news event; per-fold coverage is in results.json. Do not interpret generic feed coverage as evidence that the model learned news catalysts.
+Selected policy: {"cash": false, "entry_threshold": 0.5, "validation_profit_usd": 84.0725082177766, "trades": 135}
+Scores optimize balanced BCE label imitation, not profit directly. Validation AP selects entry checkpoint; teacher-entry returns select exit checkpoint/threshold; end-to-end validation selects entry threshold or cash.
+Validation permutation checks in validation-feature-importance.json describe associations, not causal profit or a retrained ablation.
+Linear gross returns from native perp prices, with no historical borrowing, margin, liquidation or instrument-availability verification.
+No capital-constrained account simulation, order placement or live deployment. Old experiments and models are preserved.
+
+FILES AND REPRODUCTION
+entry_model.joblib and exit_model.joblib: independent models. policy.py: offline API/CLI. policy-config.json: validation selection.
+results.json, predictions.csv, teacher-exit-diagnostic.csv, model-card.json, preflight-validation.json and validation.json: results and verification.
+Persistent large data: /mnt/c/Users/melli/.codex/research/centrypto/two-stage-rebuild-2026-11-14
+Source features and raw news: /mnt/c/Users/melli/.codex/research/centrypto/two-stage-policy-2026-11-14
+Interpreter: /mnt/c/Users/melli/.codex/research/centrypto/two-stage-policy-2026-11-14/venv/bin/python
+Order: bootstrap.py, build_features.py, strict_deadline.py, test_rebuild.py, lock.py, train.py, analyze.py, validate.py.
+Do not run bootstrap.py over changed experiment files or alter a locked protocol and reuse fitted checkpoints.
+
+Each outer fold is a separate replay book. Unpriceable deadline exits quarantine the symbol for the remainder of that replay; a later fold starts a new book. The fixed24h baseline has censored trades and no complete aggregate profit estimate.

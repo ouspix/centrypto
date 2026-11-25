@@ -1,0 +1,15 @@
+{
+  "priced_trades": 3105,
+  "complete_books": 22,
+  "forecast_rows": 89732,
+  "local_minutes": 1539283,
+  "hype_asof_close": 69.294,
+  "original_forward_files": 51,
+  "training_lock": "4bf9a252e5f9fb7c1b9bd87079358e5bac140df8262ba241681ed238e614b923",
+  "result": "9797a154e77fb1c685e3c6077903bcffa0789766979edbfc0b1ff979fa0c676d",
+  "ledger": "bab2023aa89b485e4c80f1899c25de295d612802ddd3fee636a744cbd2045b91",
+  "risk_examples": 10100,
+  "sampled_risk_labels": 62,
+  "risk_source": "2c82779b2e2b838a1bc35dfada44bb64f63489ad2b208322774ea1f843bc747a",
+  "risk_result": "6d38fdc69047adfd40fcaaf3b9b326d83b64e1f20d8b57b775b125ba0fd13170"
+}

@@ -1,0 +1,142 @@
+{
+  "status": "passed",
+  "preserved_prior_files": 71,
+  "liquidity_recomputed_from_export": true,
+  "source_db_periods": 3,
+  "source_db_missing_exit_checks": 39,
+  "source_db_asof_joins": 8,
+  "annotated_path_label_checks": [
+    {
+      "case": "strong_positive",
+      "side": "long",
+      "symbol": "BABY",
+      "gain_matches": true,
+      "label_matches": true
+    },
+    {
+      "case": "eight_percent_negative",
+      "side": "long",
+      "symbol": "CHIP",
+      "gain_matches": true,
+      "label_matches": true
+    },
+    {
+      "case": "profitable_below_95pct",
+      "side": "long",
+      "symbol": "AR",
+      "gain_matches": true,
+      "label_matches": true
+    },
+    {
+      "case": "adverse_before_success",
+      "side": "long",
+      "symbol": "BIO",
+      "gain_matches": true,
+      "label_matches": true
+    },
+    {
+      "case": "post_peak_recovery",
+      "side": "long",
+      "symbol": "AR",
+      "gain_matches": true,
+      "label_matches": true
+    },
+    {
+      "case": "failed_setup",
+      "side": "long",
+      "symbol": "AAVE",
+      "gain_matches": true,
+      "label_matches": true
+    },
+    {
+      "case": "unresolved_future",
+      "side": "long",
+      "symbol": "AAVE",
+      "gain_matches": true,
+      "label_matches": true
+    },
+    {
+      "case": "reversal",
+      "side": "long",
+      "symbol": "AR",
+      "gain_matches": true,
+      "label_matches": true
+    },
+    {
+      "case": "recent_positive",
+      "side": "long",
+      "symbol": "INIT",
+      "gain_matches": true,
+      "label_matches": true
+    },
+    {
+      "case": "strong_positive",
+      "side": "short",
+      "symbol": "BABY",
+      "gain_matches": true,
+      "label_matches": true
+    },
+    {
+      "case": "eight_percent_negative",
+      "side": "short",
+      "symbol": "AAVE",
+      "gain_matches": true,
+      "label_matches": true
+    },
+    {
+      "case": "profitable_below_95pct",
+      "side": "short",
+      "symbol": "AAVE",
+      "gain_matches": true,
+      "label_matches": true
+    },
+    {
+      "case": "adverse_before_success",
+      "side": "short",
+      "symbol": "BABY",
+      "gain_matches": true,
+      "label_matches": true
+    },
+    {
+      "case": "post_peak_recovery",
+      "side": "short",
+      "symbol": "AAVE",
+      "gain_matches": true,
+      "label_matches": true
+    },
+    {
+      "case": "failed_setup",
+      "side": "short",
+      "symbol": "ASTER",
+      "gain_matches": true,
+      "label_matches": true
+    },
+    {
+      "case": "unresolved_future",
+      "side": "short",
+      "symbol": "AAVE",
+      "gain_matches": true,
+      "label_matches": true
+    },
+    {
+      "case": "reversal",
+      "side": "short",
+      "symbol": "BABY",
+      "gain_matches": true,
+      "label_matches": true
+    },
+    {
+      "case": "recent_positive",
+      "side": "short",
+      "symbol": "AAVE",
+      "gain_matches": true,
+      "label_matches": true
+    }
+  ],
+  "future_truncation_decisions": 18,
+  "feature_comparisons": 3186,
+  "frozen_matrix_reproductions": 32,
+  "exact_decision_flow_replays": 12,
+  "publication_availability_certified": false,
+  "raw_data_or_model_mutations": false
+}

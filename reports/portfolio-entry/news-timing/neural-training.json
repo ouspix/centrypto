@@ -1,0 +1,754 @@
+{
+  "folds": [
+    {
+      "month": "2026-02",
+      "fit": {
+        "rows": 85787,
+        "dates": 116,
+        "first": "2025-10-01T00:20:05+00:00",
+        "last": "2026-01-30T23:45:05+00:00",
+        "matured_at": "2026-01-31T18:51:00+00:00",
+        "normalized_loss": 0.3481650377139886
+      }
+    },
+    {
+      "month": "2026-03",
+      "fit": {
+        "rows": 101771,
+        "dates": 144,
+        "first": "2025-10-01T00:20:05+00:00",
+        "last": "2026-02-27T23:45:05+00:00",
+        "matured_at": "2026-02-28T10:36:00+00:00",
+        "normalized_loss": 0.3532162769278804
+      }
+    },
+    {
+      "month": "2026-04",
+      "fit": {
+        "rows": 119286,
+        "dates": 175,
+        "first": "2025-10-01T00:20:05+00:00",
+        "last": "2026-03-30T23:45:05+00:00",
+        "matured_at": "2026-03-31T12:46:00+00:00",
+        "normalized_loss": 0.3585759199726136
+      }
+    },
+    {
+      "month": "2026-05",
+      "fit": {
+        "rows": 134828,
+        "dates": 205,
+        "first": "2025-10-01T00:20:05+00:00",
+        "last": "2026-04-29T23:45:05+00:00",
+        "matured_at": "2026-04-30T12:31:00+00:00",
+        "normalized_loss": 0.3583754097272689
+      }
+    },
+    {
+      "month": "2026-06",
+      "fit": {
+        "rows": 156182,
+        "dates": 236,
+        "first": "2025-10-01T00:20:05+00:00",
+        "last": "2026-05-30T08:30:05+00:00",
+        "matured_at": "2026-05-30T18:21:00+00:00",
+        "normalized_loss": 0.3635663098242556
+      }
+    },
+    {
+      "month": "2026-07",
+      "fit": {
+        "rows": 179607,
+        "dates": 266,
+        "first": "2025-10-01T00:20:05+00:00",
+        "last": "2026-06-29T23:45:05+00:00",
+        "matured_at": "2026-06-30T14:06:00+00:00",
+        "normalized_loss": 0.3685884623120877
+      }
+    },
+    {
+      "month": "2026-08",
+      "fit": {
+        "rows": 198726,
+        "dates": 297,
+        "first": "2025-10-01T00:20:05+00:00",
+        "last": "2026-07-30T23:45:05+00:00",
+        "matured_at": "2026-07-31T13:21:00+00:00",
+        "normalized_loss": 0.36706085282290085
+      }
+    }
+  ],
+  "final": {
+    "rows": 210555,
+    "dates": 318,
+    "first": "2025-10-01T00:20:05+00:00",
+    "last": "2026-08-20T23:45:05+00:00",
+    "matured_at": "2026-08-21T11:36:00+00:00",
+    "normalized_loss": 0.36798264759907356
+  },
+  "calibration": {
+    "2026-02": {
+      "1": {
+        "slope": 0.0,
+        "intercept": -23.739152331144258,
+        "rows": 2826,
+        "days": 27,
+        "mean_bps": -23.739152331144258
+      },
+      "-1": {
+        "slope": 0.056284379516850364,
+        "intercept": -1.7083588720578131,
+        "rows": 12908,
+        "days": 27,
+        "mean_bps": -2.477569971074033
+      }
+    },
+    "2026-03": {
+      "1": {
+        "slope": 0.22533835747754002,
+        "intercept": -8.576162557723908,
+        "rows": 3156,
+        "days": 30,
+        "mean_bps": -13.648378169136343
+      },
+      "-1": {
+        "slope": 0.0,
+        "intercept": -33.2440373817347,
+        "rows": 13803,
+        "days": 30,
+        "mean_bps": -33.2440373817347
+      }
+    },
+    "2026-04": {
+      "1": {
+        "slope": 0.17959422665951466,
+        "intercept": -29.927161527859873,
+        "rows": 2721,
+        "days": 29,
+        "mean_bps": -31.041240188658065
+      },
+      "-1": {
+        "slope": 0.004243962919030633,
+        "intercept": -17.405989980748505,
+        "rows": 12298,
+        "days": 29,
+        "mean_bps": -17.38497456006992
+      }
+    },
+    "2026-05": {
+      "1": {
+        "slope": 0.0,
+        "intercept": -3.1090095072867614,
+        "rows": 3826,
+        "days": 30,
+        "mean_bps": -3.1090095072867614
+      },
+      "-1": {
+        "slope": 0.010668144674403433,
+        "intercept": -35.73180372422115,
+        "rows": 17010,
+        "days": 30,
+        "mean_bps": -35.921296025517435
+      }
+    },
+    "2026-06": {
+      "1": {
+        "slope": 0.0,
+        "intercept": -61.00226455549607,
+        "rows": 4097,
+        "days": 29,
+        "mean_bps": -61.00226455549607
+      },
+      "-1": {
+        "slope": 0.0,
+        "intercept": -29.032843217774772,
+        "rows": 18739,
+        "days": 29,
+        "mean_bps": -29.032843217774772
+      }
+    },
+    "2026-07": {
+      "1": {
+        "slope": 0.8467873120528293,
+        "intercept": -25.500033373551037,
+        "rows": 3452,
+        "days": 30,
+        "mean_bps": -39.712777884371185
+      },
+      "-1": {
+        "slope": 0.0,
+        "intercept": -26.678662693212395,
+        "rows": 14949,
+        "days": 30,
+        "mean_bps": -26.678662693212395
+      }
+    },
+    "2026-08": {
+      "1": {
+        "slope": 0.3163818503572597,
+        "intercept": 47.17208498610722,
+        "rows": 2027,
+        "days": 20,
+        "mean_bps": 45.269849879266154
+      },
+      "-1": {
+        "slope": 0.02066413865129228,
+        "intercept": -56.191288626144406,
+        "rows": 9161,
+        "days": 20,
+        "mean_bps": -56.37759349250121
+      }
+    }
+  },
+  "model": "d0c40abed3e30bd4f7399f2de8f75441c519d15eaae57ec3a42011356b3f6398",
+  "dataset": "7ad81fb43162032f0df10b508ee37b9fc4fddafb0246f9fe939363aed2da6150",
+  "selected_size": 0.0,
+  "development": [
+    {
+      "size": 0.0,
+      "objective": 0.0,
+      "blocks": [
+        {
+          "month": "2026-05",
+          "modes": {
+            "base": {
+              "gate_passed": 4,
+              "trades": 0,
+              "allocation": {},
+              "long": 0,
+              "short": 0,
+              "complete": true,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "ending_equity": 1000.0,
+              "long_net": 0,
+              "short_net": 0,
+              "fees": 0,
+              "funding": 0,
+              "mean_gross": 0.0,
+              "peak_gross": 0.0,
+              "max_gross_to_equity": 0.0
+            },
+            "stress": {
+              "gate_passed": 4,
+              "trades": 0,
+              "allocation": {},
+              "long": 0,
+              "short": 0,
+              "complete": true,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "ending_equity": 1000.0,
+              "long_net": 0,
+              "short_net": 0,
+              "fees": 0,
+              "funding": 0,
+              "mean_gross": 0.0,
+              "peak_gross": 0.0,
+              "max_gross_to_equity": 0.0
+            }
+          },
+          "utility": 0.0
+        },
+        {
+          "month": "2026-06",
+          "modes": {
+            "base": {
+              "gate_passed": 36,
+              "trades": 0,
+              "allocation": {},
+              "long": 0,
+              "short": 0,
+              "complete": true,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "ending_equity": 1000.0,
+              "long_net": 0,
+              "short_net": 0,
+              "fees": 0,
+              "funding": 0,
+              "mean_gross": 0.0,
+              "peak_gross": 0.0,
+              "max_gross_to_equity": 0.0
+            },
+            "stress": {
+              "gate_passed": 36,
+              "trades": 0,
+              "allocation": {},
+              "long": 0,
+              "short": 0,
+              "complete": true,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "ending_equity": 1000.0,
+              "long_net": 0,
+              "short_net": 0,
+              "fees": 0,
+              "funding": 0,
+              "mean_gross": 0.0,
+              "peak_gross": 0.0,
+              "max_gross_to_equity": 0.0
+            }
+          },
+          "utility": 0.0
+        },
+        {
+          "month": "2026-07",
+          "modes": {
+            "base": {
+              "gate_passed": 0,
+              "trades": 0,
+              "allocation": {},
+              "long": 0,
+              "short": 0,
+              "complete": true,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "ending_equity": 1000.0,
+              "long_net": 0,
+              "short_net": 0,
+              "fees": 0,
+              "funding": 0,
+              "mean_gross": 0.0,
+              "peak_gross": 0.0,
+              "max_gross_to_equity": 0.0
+            },
+            "stress": {
+              "gate_passed": 0,
+              "trades": 0,
+              "allocation": {},
+              "long": 0,
+              "short": 0,
+              "complete": true,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "ending_equity": 1000.0,
+              "long_net": 0,
+              "short_net": 0,
+              "fees": 0,
+              "funding": 0,
+              "mean_gross": 0.0,
+              "peak_gross": 0.0,
+              "max_gross_to_equity": 0.0
+            }
+          },
+          "utility": 0.0
+        },
+        {
+          "month": "2026-08",
+          "modes": {
+            "base": {
+              "gate_passed": 1,
+              "trades": 0,
+              "allocation": {},
+              "long": 0,
+              "short": 0,
+              "complete": true,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "ending_equity": 1000.0,
+              "long_net": 0,
+              "short_net": 0,
+              "fees": 0,
+              "funding": 0,
+              "mean_gross": 0.0,
+              "peak_gross": 0.0,
+              "max_gross_to_equity": 0.0
+            },
+            "stress": {
+              "gate_passed": 1,
+              "trades": 0,
+              "allocation": {},
+              "long": 0,
+              "short": 0,
+              "complete": true,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "ending_equity": 1000.0,
+              "long_net": 0,
+              "short_net": 0,
+              "fees": 0,
+              "funding": 0,
+              "mean_gross": 0.0,
+              "peak_gross": 0.0,
+              "max_gross_to_equity": 0.0
+            }
+          },
+          "utility": 0.0
+        }
+      ]
+    },
+    {
+      "size": 50.0,
+      "objective": -0.01667962690562656,
+      "blocks": [
+        {
+          "month": "2026-05",
+          "modes": {
+            "base": {
+              "gate_passed": 4,
+              "trades": 0,
+              "allocation": {
+                "busy_or_used": 0
+              },
+              "long": 0,
+              "short": 0,
+              "complete": true,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "ending_equity": 1000.0,
+              "long_net": 0,
+              "short_net": 0,
+              "fees": 0,
+              "funding": 0,
+              "mean_gross": 0.0,
+              "peak_gross": 0.0,
+              "max_gross_to_equity": 0.0
+            },
+            "stress": {
+              "gate_passed": 4,
+              "trades": 0,
+              "allocation": {
+                "busy_or_used": 0
+              },
+              "long": 0,
+              "short": 0,
+              "complete": true,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "ending_equity": 1000.0,
+              "long_net": 0,
+              "short_net": 0,
+              "fees": 0,
+              "funding": 0,
+              "mean_gross": 0.0,
+              "peak_gross": 0.0,
+              "max_gross_to_equity": 0.0
+            }
+          },
+          "utility": 0.0
+        },
+        {
+          "month": "2026-06",
+          "modes": {
+            "base": {
+              "gate_passed": 36,
+              "trades": 2,
+              "allocation": {
+                "busy_or_used": 0
+              },
+              "long": 2,
+              "short": 0,
+              "complete": true,
+              "net": -0.6958614536649748,
+              "max_drawdown": 5.222775100040849,
+              "ending_equity": 999.304138546335,
+              "long_net": -0.6958614536649537,
+              "short_net": 0,
+              "fees": 0.08973925267213553,
+              "funding": -0.02668369462736623,
+              "mean_gross": 0.5824781067939001,
+              "peak_gross": 54.55005738383647,
+              "max_gross_to_equity": 0.05430422683830625
+            },
+            "stress": {
+              "gate_passed": 36,
+              "trades": 2,
+              "allocation": {
+                "busy_or_used": 0
+              },
+              "long": 2,
+              "short": 0,
+              "complete": true,
+              "net": -0.6312641814637345,
+              "max_drawdown": 5.080105568034924,
+              "ending_equity": 999.3687358185363,
+              "long_net": -0.6312641814637567,
+              "short_net": 0,
+              "fees": 0.08976833886476543,
+              "funding": -0.026693319855523347,
+              "mean_gross": 0.5827575897983348,
+              "peak_gross": 54.47198420270127,
+              "max_gross_to_equity": 0.05423072032967505
+            }
+          },
+          "utility": -0.06671850762250624
+        },
+        {
+          "month": "2026-07",
+          "modes": {
+            "base": {
+              "gate_passed": 0,
+              "trades": 0,
+              "allocation": {},
+              "long": 0,
+              "short": 0,
+              "complete": true,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "ending_equity": 1000.0,
+              "long_net": 0,
+              "short_net": 0,
+              "fees": 0,
+              "funding": 0,
+              "mean_gross": 0.0,
+              "peak_gross": 0.0,
+              "max_gross_to_equity": 0.0
+            },
+            "stress": {
+              "gate_passed": 0,
+              "trades": 0,
+              "allocation": {},
+              "long": 0,
+              "short": 0,
+              "complete": true,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "ending_equity": 1000.0,
+              "long_net": 0,
+              "short_net": 0,
+              "fees": 0,
+              "funding": 0,
+              "mean_gross": 0.0,
+              "peak_gross": 0.0,
+              "max_gross_to_equity": 0.0
+            }
+          },
+          "utility": 0.0
+        },
+        {
+          "month": "2026-08",
+          "modes": {
+            "base": {
+              "gate_passed": 1,
+              "trades": 0,
+              "allocation": {
+                "busy_or_used": 0
+              },
+              "long": 0,
+              "short": 0,
+              "complete": true,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "ending_equity": 1000.0,
+              "long_net": 0,
+              "short_net": 0,
+              "fees": 0,
+              "funding": 0,
+              "mean_gross": 0.0,
+              "peak_gross": 0.0,
+              "max_gross_to_equity": 0.0
+            },
+            "stress": {
+              "gate_passed": 1,
+              "trades": 0,
+              "allocation": {
+                "busy_or_used": 0
+              },
+              "long": 0,
+              "short": 0,
+              "complete": true,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "ending_equity": 1000.0,
+              "long_net": 0,
+              "short_net": 0,
+              "fees": 0,
+              "funding": 0,
+              "mean_gross": 0.0,
+              "peak_gross": 0.0,
+              "max_gross_to_equity": 0.0
+            }
+          },
+          "utility": 0.0
+        }
+      ]
+    },
+    {
+      "size": 100.0,
+      "objective": -0.03335925381125312,
+      "blocks": [
+        {
+          "month": "2026-05",
+          "modes": {
+            "base": {
+              "gate_passed": 4,
+              "trades": 0,
+              "allocation": {
+                "busy_or_used": 0
+              },
+              "long": 0,
+              "short": 0,
+              "complete": true,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "ending_equity": 1000.0,
+              "long_net": 0,
+              "short_net": 0,
+              "fees": 0,
+              "funding": 0,
+              "mean_gross": 0.0,
+              "peak_gross": 0.0,
+              "max_gross_to_equity": 0.0
+            },
+            "stress": {
+              "gate_passed": 4,
+              "trades": 0,
+              "allocation": {
+                "busy_or_used": 0
+              },
+              "long": 0,
+              "short": 0,
+              "complete": true,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "ending_equity": 1000.0,
+              "long_net": 0,
+              "short_net": 0,
+              "fees": 0,
+              "funding": 0,
+              "mean_gross": 0.0,
+              "peak_gross": 0.0,
+              "max_gross_to_equity": 0.0
+            }
+          },
+          "utility": 0.0
+        },
+        {
+          "month": "2026-06",
+          "modes": {
+            "base": {
+              "gate_passed": 36,
+              "trades": 2,
+              "allocation": {
+                "busy_or_used": 0
+              },
+              "long": 2,
+              "short": 0,
+              "complete": true,
+              "net": -1.3917229073299495,
+              "max_drawdown": 10.445550200081698,
+              "ending_equity": 998.60827709267,
+              "long_net": -1.3917229073299073,
+              "short_net": 0,
+              "fees": 0.17947850534427107,
+              "funding": -0.05336738925473246,
+              "mean_gross": 1.1649562135878002,
+              "peak_gross": 109.10011476767293,
+              "max_gross_to_equity": 0.10812120405943444
+            },
+            "stress": {
+              "gate_passed": 36,
+              "trades": 2,
+              "allocation": {
+                "busy_or_used": 0
+              },
+              "long": 2,
+              "short": 0,
+              "complete": true,
+              "net": -1.262528362927469,
+              "max_drawdown": 10.160211136069734,
+              "ending_equity": 998.7374716370725,
+              "long_net": -1.2625283629275135,
+              "short_net": 0,
+              "fees": 0.17953667772953086,
+              "funding": -0.05338663971104669,
+              "mean_gross": 1.1655151795966696,
+              "peak_gross": 108.94396840540254,
+              "max_gross_to_equity": 0.10798316842789236
+            }
+          },
+          "utility": -0.13343701524501247
+        },
+        {
+          "month": "2026-07",
+          "modes": {
+            "base": {
+              "gate_passed": 0,
+              "trades": 0,
+              "allocation": {},
+              "long": 0,
+              "short": 0,
+              "complete": true,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "ending_equity": 1000.0,
+              "long_net": 0,
+              "short_net": 0,
+              "fees": 0,
+              "funding": 0,
+              "mean_gross": 0.0,
+              "peak_gross": 0.0,
+              "max_gross_to_equity": 0.0
+            },
+            "stress": {
+              "gate_passed": 0,
+              "trades": 0,
+              "allocation": {},
+              "long": 0,
+              "short": 0,
+              "complete": true,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "ending_equity": 1000.0,
+              "long_net": 0,
+              "short_net": 0,
+              "fees": 0,
+              "funding": 0,
+              "mean_gross": 0.0,
+              "peak_gross": 0.0,
+              "max_gross_to_equity": 0.0
+            }
+          },
+          "utility": 0.0
+        },
+        {
+          "month": "2026-08",
+          "modes": {
+            "base": {
+              "gate_passed": 1,
+              "trades": 0,
+              "allocation": {
+                "busy_or_used": 0
+              },
+              "long": 0,
+              "short": 0,
+              "complete": true,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "ending_equity": 1000.0,
+              "long_net": 0,
+              "short_net": 0,
+              "fees": 0,
+              "funding": 0,
+              "mean_gross": 0.0,
+              "peak_gross": 0.0,
+              "max_gross_to_equity": 0.0
+            },
+            "stress": {
+              "gate_passed": 1,
+              "trades": 0,
+              "allocation": {
+                "busy_or_used": 0
+              },
+              "long": 0,
+              "short": 0,
+              "complete": true,
+              "net": 0.0,
+              "max_drawdown": 0.0,
+              "ending_equity": 1000.0,
+              "long_net": 0,
+              "short_net": 0,
+              "fees": 0,
+              "funding": 0,
+              "mean_gross": 0.0,
+              "peak_gross": 0.0,
+              "max_gross_to_equity": 0.0
+            }
+          },
+          "utility": 0.0
+        }
+      ]
+    }
+  ]
+}

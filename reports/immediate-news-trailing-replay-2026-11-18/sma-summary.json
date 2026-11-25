@@ -1,0 +1,451 @@
+{
+  "Immediate news": {
+    "signals": 59,
+    "asOfSignals": 59,
+    "medianWaitMin": 0.0,
+    "archive": {
+      "entries": 3,
+      "closed": 3,
+      "openAtCutoff": 0,
+      "unknown": 0,
+      "winners": 0,
+      "closedNetUsd": -6.786697369320136,
+      "markedNetUsd": -6.786697369320136,
+      "avgNetPct": -0.6609130694683187,
+      "medianHoldingMinutes": 61.19205000003179,
+      "exitTypes": {
+        "initial stop": 3
+      },
+      "priceable": 3,
+      "rejections": {}
+    },
+    "modeled": {
+      "entries": 38,
+      "closed": 36,
+      "openAtCutoff": 0,
+      "unknown": 2,
+      "winners": 9,
+      "closedNetUsd": -28.26775365427478,
+      "markedNetUsd": -28.26775365427478,
+      "avgNetPct": -0.2847959323273653,
+      "medianHoldingMinutes": 44.87737499872843,
+      "exitTypes": {
+        "initial stop": 27,
+        "trailing stop": 9,
+        "unresolved price gap": 2
+      },
+      "priceable": 55,
+      "rejections": {
+        "symbol already open": 7,
+        "position cap": 8,
+        "capital cap": 2
+      }
+    }
+  },
+  "1m 10/30 at review": {
+    "signals": 22,
+    "asOfSignals": 22,
+    "medianWaitMin": 0.0,
+    "archive": {
+      "entries": 2,
+      "closed": 2,
+      "openAtCutoff": 0,
+      "unknown": 0,
+      "winners": 0,
+      "closedNetUsd": -3.58462720014329,
+      "markedNetUsd": -3.58462720014329,
+      "avgNetPct": -0.6644960401712035,
+      "medianHoldingMinutes": 62.600849999984106,
+      "exitTypes": {
+        "initial stop": 2
+      },
+      "priceable": 2,
+      "rejections": {}
+    },
+    "modeled": {
+      "entries": 17,
+      "closed": 16,
+      "openAtCutoff": 0,
+      "unknown": 1,
+      "winners": 2,
+      "closedNetUsd": -31.986183004407405,
+      "markedNetUsd": -31.986183004407405,
+      "avgNetPct": -0.5555966147252696,
+      "medianHoldingMinutes": 15.625141668319703,
+      "exitTypes": {
+        "initial stop": 14,
+        "trailing stop": 2,
+        "unresolved price gap": 1
+      },
+      "priceable": 19,
+      "rejections": {
+        "capital cap": 1,
+        "symbol already open": 1
+      }
+    }
+  },
+  "1m 10/30 up to 6h": {
+    "signals": 56,
+    "asOfSignals": 22,
+    "medianWaitMin": 3.7786333322525025,
+    "archive": {
+      "entries": 2,
+      "closed": 2,
+      "openAtCutoff": 0,
+      "unknown": 0,
+      "winners": 0,
+      "closedNetUsd": -3.58462720014329,
+      "markedNetUsd": -3.58462720014329,
+      "avgNetPct": -0.6644960401712035,
+      "medianHoldingMinutes": 62.600849999984106,
+      "exitTypes": {
+        "initial stop": 2
+      },
+      "priceable": 2,
+      "rejections": {}
+    },
+    "modeled": {
+      "entries": 37,
+      "closed": 35,
+      "openAtCutoff": 0,
+      "unknown": 2,
+      "winners": 7,
+      "closedNetUsd": -39.47740508369045,
+      "markedNetUsd": -39.47740508369045,
+      "avgNetPct": -0.3584534706755688,
+      "medianHoldingMinutes": 32.447616668542224,
+      "exitTypes": {
+        "initial stop": 28,
+        "trailing stop": 7,
+        "unresolved price gap": 2
+      },
+      "priceable": 50,
+      "rejections": {
+        "position cap": 7,
+        "symbol already open": 3,
+        "capital cap": 3
+      }
+    }
+  },
+  "5m 5/20 at review": {
+    "signals": 14,
+    "asOfSignals": 14,
+    "medianWaitMin": 0.0,
+    "archive": {
+      "entries": 1,
+      "closed": 1,
+      "openAtCutoff": 0,
+      "unknown": 0,
+      "winners": 0,
+      "closedNetUsd": -3.202070169176845,
+      "markedNetUsd": -3.202070169176845,
+      "avgNetPct": -0.6537471280625493,
+      "medianHoldingMinutes": 61.19205000003179,
+      "exitTypes": {
+        "initial stop": 1
+      },
+      "priceable": 1,
+      "rejections": {}
+    },
+    "modeled": {
+      "entries": 13,
+      "closed": 12,
+      "openAtCutoff": 0,
+      "unknown": 1,
+      "winners": 2,
+      "closedNetUsd": -25.3407008398553,
+      "markedNetUsd": -25.3407008398553,
+      "avgNetPct": -0.4821672888980296,
+      "medianHoldingMinutes": 36.87689166665078,
+      "exitTypes": {
+        "initial stop": 10,
+        "trailing stop": 2,
+        "unresolved price gap": 1
+      },
+      "priceable": 13,
+      "rejections": {}
+    }
+  },
+  "5m 5/20 up to 6h": {
+    "signals": 53,
+    "asOfSignals": 14,
+    "medianWaitMin": 15.040083332856495,
+    "archive": {
+      "entries": 1,
+      "closed": 1,
+      "openAtCutoff": 0,
+      "unknown": 0,
+      "winners": 0,
+      "closedNetUsd": -3.202070169176845,
+      "markedNetUsd": -3.202070169176845,
+      "avgNetPct": -0.6537471280625493,
+      "medianHoldingMinutes": 61.19205000003179,
+      "exitTypes": {
+        "initial stop": 1
+      },
+      "priceable": 1,
+      "rejections": {}
+    },
+    "modeled": {
+      "entries": 34,
+      "closed": 32,
+      "openAtCutoff": 0,
+      "unknown": 2,
+      "winners": 10,
+      "closedNetUsd": -24.87085768118171,
+      "markedNetUsd": -24.87085768118171,
+      "avgNetPct": -0.14599244750274512,
+      "medianHoldingMinutes": 44.5037249982357,
+      "exitTypes": {
+        "initial stop": 22,
+        "trailing stop": 10,
+        "unresolved price gap": 2
+      },
+      "priceable": 51,
+      "rejections": {
+        "symbol already open": 6,
+        "position cap": 8,
+        "capital cap": 3
+      }
+    }
+  },
+  "5m 9/21 at review": {
+    "signals": 13,
+    "asOfSignals": 13,
+    "medianWaitMin": 0.0,
+    "archive": {
+      "entries": 0,
+      "closed": 0,
+      "openAtCutoff": 0,
+      "unknown": 0,
+      "winners": 0,
+      "closedNetUsd": 0,
+      "markedNetUsd": 0,
+      "avgNetPct": null,
+      "medianHoldingMinutes": null,
+      "exitTypes": {},
+      "priceable": 0,
+      "rejections": {}
+    },
+    "modeled": {
+      "entries": 12,
+      "closed": 11,
+      "openAtCutoff": 0,
+      "unknown": 1,
+      "winners": 2,
+      "closedNetUsd": -19.992165280299314,
+      "markedNetUsd": -19.992165280299314,
+      "avgNetPct": -0.5318328321087658,
+      "medianHoldingMinutes": 35.75181666612625,
+      "exitTypes": {
+        "initial stop": 9,
+        "trailing stop": 2,
+        "unresolved price gap": 1
+      },
+      "priceable": 12,
+      "rejections": {}
+    }
+  },
+  "5m 9/21 up to 6h": {
+    "signals": 51,
+    "asOfSignals": 13,
+    "medianWaitMin": 22.56096666653951,
+    "archive": {
+      "entries": 1,
+      "closed": 1,
+      "openAtCutoff": 0,
+      "unknown": 0,
+      "winners": 0,
+      "closedNetUsd": -3.1594293349934905,
+      "markedNetUsd": -3.1594293349934905,
+      "avgNetPct": -0.6448512724771751,
+      "medianHoldingMinutes": 64.75825000206629,
+      "exitTypes": {
+        "initial stop": 1
+      },
+      "priceable": 1,
+      "rejections": {}
+    },
+    "modeled": {
+      "entries": 33,
+      "closed": 31,
+      "openAtCutoff": 0,
+      "unknown": 2,
+      "winners": 9,
+      "closedNetUsd": -27.904300108919152,
+      "markedNetUsd": -27.904300108919152,
+      "avgNetPct": -0.2568180229826646,
+      "medianHoldingMinutes": 41.253683332602186,
+      "exitTypes": {
+        "initial stop": 22,
+        "trailing stop": 9,
+        "unresolved price gap": 2
+      },
+      "priceable": 47,
+      "rejections": {
+        "position cap": 8,
+        "symbol already open": 3,
+        "capital cap": 3
+      }
+    }
+  },
+  "5m 20/50 at review": {
+    "signals": 13,
+    "asOfSignals": 13,
+    "medianWaitMin": 0.0,
+    "archive": {
+      "entries": 1,
+      "closed": 1,
+      "openAtCutoff": 0,
+      "unknown": 0,
+      "winners": 0,
+      "closedNetUsd": -0.32352894212399846,
+      "markedNetUsd": -0.32352894212399846,
+      "avgNetPct": -0.6632213852727563,
+      "medianHoldingMinutes": 32.447616668542224,
+      "exitTypes": {
+        "initial stop": 1
+      },
+      "priceable": 1,
+      "rejections": {}
+    },
+    "modeled": {
+      "entries": 11,
+      "closed": 11,
+      "openAtCutoff": 0,
+      "unknown": 0,
+      "winners": 3,
+      "closedNetUsd": -10.326445035198285,
+      "markedNetUsd": -10.326445035198285,
+      "avgNetPct": -0.3670819431112949,
+      "medianHoldingMinutes": 38.001966667175296,
+      "exitTypes": {
+        "initial stop": 8,
+        "trailing stop": 3
+      },
+      "priceable": 12,
+      "rejections": {
+        "symbol already open": 1
+      }
+    }
+  },
+  "5m 20/50 up to 6h": {
+    "signals": 45,
+    "asOfSignals": 13,
+    "medianWaitMin": 43.22039999961853,
+    "archive": {
+      "entries": 3,
+      "closed": 3,
+      "openAtCutoff": 0,
+      "unknown": 0,
+      "winners": 1,
+      "closedNetUsd": -0.9459196709330082,
+      "markedNetUsd": -0.9459196709330082,
+      "avgNetPct": -0.26330661893229595,
+      "medianHoldingMinutes": 64.75825000206629,
+      "exitTypes": {
+        "initial stop": 2,
+        "trailing stop": 1
+      },
+      "priceable": 3,
+      "rejections": {}
+    },
+    "modeled": {
+      "entries": 33,
+      "closed": 32,
+      "openAtCutoff": 0,
+      "unknown": 1,
+      "winners": 10,
+      "closedNetUsd": -24.38065152273866,
+      "markedNetUsd": -24.38065152273866,
+      "avgNetPct": -0.27438485753347064,
+      "medianHoldingMinutes": 41.6278749982516,
+      "exitTypes": {
+        "initial stop": 22,
+        "trailing stop": 10,
+        "unresolved price gap": 1
+      },
+      "priceable": 40,
+      "rejections": {
+        "symbol already open": 1,
+        "position cap": 6
+      }
+    }
+  },
+  "5m 5/20 reclaim at review": {
+    "signals": 0,
+    "asOfSignals": 0,
+    "medianWaitMin": null,
+    "archive": {
+      "entries": 0,
+      "closed": 0,
+      "openAtCutoff": 0,
+      "unknown": 0,
+      "winners": 0,
+      "closedNetUsd": 0,
+      "markedNetUsd": 0,
+      "avgNetPct": null,
+      "medianHoldingMinutes": null,
+      "exitTypes": {},
+      "priceable": 0,
+      "rejections": {}
+    },
+    "modeled": {
+      "entries": 0,
+      "closed": 0,
+      "openAtCutoff": 0,
+      "unknown": 0,
+      "winners": 0,
+      "closedNetUsd": 0,
+      "markedNetUsd": 0,
+      "avgNetPct": null,
+      "medianHoldingMinutes": null,
+      "exitTypes": {},
+      "priceable": 0,
+      "rejections": {}
+    }
+  },
+  "5m 5/20 reclaim up to 6h": {
+    "signals": 50,
+    "asOfSignals": 0,
+    "medianWaitMin": 45.08906666636467,
+    "archive": {
+      "entries": 1,
+      "closed": 1,
+      "openAtCutoff": 0,
+      "unknown": 0,
+      "winners": 1,
+      "closedNetUsd": 0.28160139845249854,
+      "markedNetUsd": 0.28160139845249854,
+      "avgNetPct": 0.5800347080921825,
+      "medianHoldingMinutes": 814.690299999714,
+      "exitTypes": {
+        "trailing stop": 1
+      },
+      "priceable": 1,
+      "rejections": {}
+    },
+    "modeled": {
+      "entries": 37,
+      "closed": 36,
+      "openAtCutoff": 0,
+      "unknown": 1,
+      "winners": 13,
+      "closedNetUsd": -15.28145255599915,
+      "markedNetUsd": -15.28145255599915,
+      "avgNetPct": -0.061772486881788685,
+      "medianHoldingMinutes": 62.002533334493634,
+      "exitTypes": {
+        "initial stop": 23,
+        "trailing stop": 13,
+        "unresolved price gap": 1
+      },
+      "priceable": 47,
+      "rejections": {
+        "position cap": 8,
+        "symbol already open": 1,
+        "capital cap": 1
+      }
+    }
+  }
+}

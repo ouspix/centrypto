@@ -1,0 +1,9 @@
+{
+  "input_hashes_verified": 424,
+  "model_sha256": "4923119de36fdc4b83a4f6fe0ca46e83aaea4775c093716224e3929e535141f6",
+  "priced_targets_sampled": 3393,
+  "targets_with_settlements": 2600,
+  "contiguous_dates_per_side": 357,
+  "same_decision_population": true,
+  "prior_benchmark_and_control_reproduced": true
+}

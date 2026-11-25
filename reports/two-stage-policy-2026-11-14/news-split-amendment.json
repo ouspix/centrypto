@@ -1,0 +1,9 @@
+{
+  "repair": "Use the latest two eligible validation dates with unchanged48h32m label maturity and24h purge; test actual news-trained entry model in the latest fold.",
+  "preliminary_results_seen": true,
+  "at": "2026-11-14T09:03:48.6597006Z",
+  "preserved_artifacts": "C:/Users/melli/.codex/research/centrypto/two-stage-policy-2026-11-14/before-news-split",
+  "reason": "All initial outer fits retained zero news dimensions because the 20%-of-history validation windows consumed the news era.",
+  "optimizer_or_model_changes": false,
+  "coverage_guard": "If the latest two validation dates have fewer than five positive entry targets, expand backward by whole dates until five are available. This was required by a coverage-only preflight; no new prediction profits were used to choose the window."
+}

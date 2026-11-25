@@ -1,0 +1,723 @@
+[
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-07-28.parquet",
+    "size": 573308360,
+    "sha256": "c1ffff290ee8034df2bcec5e042c30375acc089ca534f5432e6fa702d6d41150"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-07-29.parquet",
+    "size": 568137802,
+    "sha256": "9d40144af89e75ac3bf3d2ee35394d7a14304ae8d45b4b5c6f1f4dd4fdd25ee3"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-07-30.parquet",
+    "size": 483933080,
+    "sha256": "6cd1eff80e7b7b7d43d1ac7ee9cbff5dfb4a9fd928219716a08b4e9656943794"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-07-31.parquet",
+    "size": 538642855,
+    "sha256": "50c8167b4055a0442adcf93fe5e627256f5f73662e53e1e327ac235db6a80f51"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-01.parquet",
+    "size": 705395674,
+    "sha256": "da8b9d7ce880e92ac24ab35ce9ebdcfe0d624156e652f0f8c799ed97827d260d"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-02.parquet",
+    "size": 390710613,
+    "sha256": "77c830b9564ec06528d6589ec7c24c954d90329ca3bd4ad40c2a2ea10a72b3cb"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-04.parquet",
+    "size": 389084570,
+    "sha256": "77e11f29182d0fe31911604e3546201905ab0fd4162810f8a0b45ac3a3a2cdf5"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-05.parquet",
+    "size": 413284170,
+    "sha256": "49be4dde43300f4a22f0174b92fdd1c7866c5f48adda9f8bfc027c83bdc30d82"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-06.parquet",
+    "size": 340538086,
+    "sha256": "35ae1148e8d78a9735159fbad28dc0e407894d21902b3380b022ccac9900a82c"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-07.parquet",
+    "size": 376648135,
+    "sha256": "2202cf300c9b2a27f2f558710dce979ae1b6ce271df6eae605aab44e1c8f44b2"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-08.parquet",
+    "size": 402082347,
+    "sha256": "ad56f2d818f171aae80cb0f2b39542ea9a3e5075010243fc9863a21e8edaf704"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-09.parquet",
+    "size": 394050346,
+    "sha256": "7266cf421991758abb9e82219e5b1478f573a58a5c9f05116d060573d9d956d3"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-10.parquet",
+    "size": 379768388,
+    "sha256": "e94deb21f952c5e4df8a2f127002a6635ee52827bebfabf05ed1963e64f1b3da"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-11.parquet",
+    "size": 560238918,
+    "sha256": "197889797b3321a2eb6667d13cee0fd67bba97f51f3647b516d0660a9bdbccf4"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-12.parquet",
+    "size": 531197013,
+    "sha256": "8bf8f5f0921232bdeed156666a9e27eb1da58dc935b52d103e388e6ee7bacc9e"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-13.parquet",
+    "size": 604341794,
+    "sha256": "088fa915beeba2171d3c1ec5c05c5a5635e954582015c5ce81921515b18a60fa"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-14.parquet",
+    "size": 743424001,
+    "sha256": "aad99365e7727716835718b2b14e3f3b7d52ef80b60973146048e5da49b08527"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-15.parquet",
+    "size": 512385351,
+    "sha256": "42f0b71b6c13e6fc8ce5e56fa680b5af049818af0d1381562872e4857c18a705"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-16.parquet",
+    "size": 241382032,
+    "sha256": "e33bc9a981f3b051dd8221d475b237a3bcf85711a8d810bc5db29ee513ade12d"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-17.parquet",
+    "size": 286079065,
+    "sha256": "f39f7dc715b2deeeb33e9ca8956820f9ca3e5c5e05205c882c3c4e4b287b7f7e"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-18.parquet",
+    "size": 439693374,
+    "sha256": "90c91023a234951a404613e40bc59950cb7f76eafe731180f01f470c3529989e"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-19.parquet",
+    "size": 452385400,
+    "sha256": "49bd9c04cd71959c5c6aa8e7eb5fefc987aa5d53bda34047b7d4c419b09044ea"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-20.parquet",
+    "size": 436121588,
+    "sha256": "8389a19657a21d270dc9372a1f19bddd0114f20151101e2e7aba13df974a525a"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-21.parquet",
+    "size": 364916872,
+    "sha256": "e158cbc8b99e96a505ff2e07468ade1bfa06711a4eaef7e54e93cbf1be8eebb4"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-22.parquet",
+    "size": 600392896,
+    "sha256": "3ada16ad372ed72d6667affd5241f22059d825da45ef2423b7072f4d99923f7e"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-23.parquet",
+    "size": 381475500,
+    "sha256": "701023044372dc225bb609a7af2c93c6b32ef0c0bc0282ff194b79565ae3d23a"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-24.parquet",
+    "size": 520883385,
+    "sha256": "82457e5ad5a6a77615407a8816d02347822d341e2f5e233fb214c92f17d89f94"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-25.parquet",
+    "size": 627747534,
+    "sha256": "6baf40bc94d7bd9e1925d44f3e8930577a631e3d90dceb7ad5a7a113cbc9fc5f"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-26.parquet",
+    "size": 513314519,
+    "sha256": "b34026a6dab1ba8ce65fb8a838453c63dce5ebb8fd8d6a1b96240eb81fa27a8b"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-27.parquet",
+    "size": 499412292,
+    "sha256": "34298812c6b93ecad5ff03e8beb2f2f585ad0c5f49265a4a88aeaefd980db5e7"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-28.parquet",
+    "size": 421734056,
+    "sha256": "54be6675f68b5078271dae8148eb6f7ed78c03992d0d8f6ebc12c64599b799b5"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-29.parquet",
+    "size": 557791865,
+    "sha256": "42b355c275b88136453be84fa16183fcb02ab58d431003de496bf96e12f7429e"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-08-30.parquet",
+    "size": 274986610,
+    "sha256": "b8466f6c4d9098a1efbbf2520e632fb86682ead03bf106b49a57e6e269d86af1"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-01.parquet",
+    "size": 483806536,
+    "sha256": "3f4eeb31c62f3d18c1504ed96cb3defb6ff4a1d44b2ac9499da464bbb3f94c02"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-02.parquet",
+    "size": 423650214,
+    "sha256": "8d634eec1a676be5a8b7558783c8b2ffd0104afd74428a94fd3f81cbd39ad0a3"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-03.parquet",
+    "size": 327081453,
+    "sha256": "087c811530e63e89cc0598558d0b24180bc4511ed1c26d7d06c2d47c52e5b6c9"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-04.parquet",
+    "size": 365340449,
+    "sha256": "f95765380136b15486fb44547cb3b7c4533a9b287d89e5eb2e3ecae35df1b7d7"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-05.parquet",
+    "size": 433173919,
+    "sha256": "2e217234a5c2cf51479c8284023068f3d789fbb6e51df3f2c77a19f12b116fa9"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-06.parquet",
+    "size": 249314730,
+    "sha256": "63c4f2d27535452c952e8c7173a94276049cebc09ea591ce1baef4b16958f842"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-07.parquet",
+    "size": 238664361,
+    "sha256": "01f3abd9c893a3435e745cf0b93629d624ff6144aaa48abc2ce070d61bd9a501"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-08.parquet",
+    "size": 431448068,
+    "sha256": "8c0a4b50af8a41a739c8953fa1912196e6800ba93e2cdeb4b4c9e1d9365f5c16"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-10.parquet",
+    "size": 492052711,
+    "sha256": "574c2d77f93ccc34a436fbd105e7d3577b4b87ff1ed75d75148071a9aad36274"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-11.parquet",
+    "size": 483134592,
+    "sha256": "ed83961b5c4312209cc0bc3f16d0be2a46734ddb42ae060f9495a6db8cb00b48"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-12.parquet",
+    "size": 497344107,
+    "sha256": "59305bb6fcf3c9156f787e7d877fdcc0715dbfd0e8a313b770d0fba2e48374af"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-13.parquet",
+    "size": 453068256,
+    "sha256": "3c5e1571e228baf9fe2857f82c6fdb13d1bc7456402b90e36bca1042b0712f6d"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-15.parquet",
+    "size": 511215536,
+    "sha256": "fb99a64ecced8e782f902da3919717eeb00cd91ab0065cacadcf2534ee3ec42a"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-16.parquet",
+    "size": 439082201,
+    "sha256": "d19f1671c9ac27ce7e5cd240dd676e0a809cd4e6e66529254a6d912bb0071b58"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-17.parquet",
+    "size": 592257591,
+    "sha256": "5f91dfaee92b8b27fe5b5fe3f8ce0efabb3ac45f6076c01cc789b2c6729cef1b"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-18.parquet",
+    "size": 597730341,
+    "sha256": "2cf608e98c4d54a95756a2802ddd12d33621dc54aa277ef08a857f8d23b0c7d3"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-20.parquet",
+    "size": 436674932,
+    "sha256": "80c1377bda9901d8a417875330d8787b69ce60156afaa30ba83c00b73296538a"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-21.parquet",
+    "size": 489636549,
+    "sha256": "3e5ad37e8470c2d8287811673fe62c553a2a6e74b73908362c482930dd096a38"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-22.parquet",
+    "size": 749535729,
+    "sha256": "06a0aa60f2d564819df78196dce4d709da746350e39983cdd00e928cf0379121"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-23.parquet",
+    "size": 532577289,
+    "sha256": "dc4916a97dbf8ab42d1ba141e91c82677d423908c7125c7305b53f70be68f48b"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-24.parquet",
+    "size": 534487030,
+    "sha256": "17bd06eb494159e8dd89519e947b456d50283938ab083428036898fb592aed3e"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-25.parquet",
+    "size": 750533081,
+    "sha256": "e7dc6b3baa9c5ee82fcb79d6f2cd6b223e542aeecbbb193df7367cb2fa187c52"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-26.parquet",
+    "size": 565593182,
+    "sha256": "0897abbf48272dc79d67a4ba2b721ae509c181f16dc4c4dd1ce0e62ac9dced8e"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-27.parquet",
+    "size": 402941656,
+    "sha256": "86115968c354cfbb077b250ae5230c8b743ed3c0545cdd11c5fa900cc24d7d4b"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-29.parquet",
+    "size": 485549773,
+    "sha256": "a2b1b328f0e9eddb120d928ae27abdbc31ac0d989f7022466c5ebc0ebb5074fb"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-09-30.parquet",
+    "size": 504037935,
+    "sha256": "679ca8f1dc437f3a706dca632270bdd291e18391dd903295ba5a8de822953096"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-01.parquet",
+    "size": 514406334,
+    "sha256": "025b2b5839821a3e93d5ae3a1903d1ae7bb40feaf245b52db0cb889ef335e2ea"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-02.parquet",
+    "size": 554787780,
+    "sha256": "46cf5e40b5e0c8eee6a2d13090df96bd7c832f43ff99bf33bcd3e50873ad219e"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-04.parquet",
+    "size": 360263779,
+    "sha256": "c75b339827f001c12c9bf9d605aca427f5ffd33d67fd1456b7cee5b01d517357"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-05.parquet",
+    "size": 428409248,
+    "sha256": "b925a894745c5c5f5672ac7a3d45477ef2aa16a7da641d25e524370d638f996b"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-06.parquet",
+    "size": 496348881,
+    "sha256": "785eb16b3e21da5eb6c6d6b367a1e395656d6504f785b7372e022bc9c98c4e08"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-07.parquet",
+    "size": 555530774,
+    "sha256": "56038d5f388d2477f975e5afcdd0571644b38b2b5990fce015c7702ad705843d"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-08.parquet",
+    "size": 452369320,
+    "sha256": "c0d3e41f36ec666d1bbf34663ea72aea7fc8c166db3605dd60e3807a03f01d72"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-09.parquet",
+    "size": 528108010,
+    "sha256": "2efd7c2ff196f74202c59e13b85496838c0fb9737881f55fd8f37330886bd042"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-10.parquet",
+    "size": 1169267002,
+    "sha256": "26687e2f9fcaeb44c9dc498f9d884735ede4b7b57858af45a10d7cfa53aac273"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-11.parquet",
+    "size": 771294841,
+    "sha256": "ed39b7b9cb00c2c3947cc07a42c8e7f9d659f2d8bac4203b5fdbb609f14c1677"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-12.parquet",
+    "size": 585418133,
+    "sha256": "0413c81df5ff3867ae5f5e3dbfb0dc24ae07f5bf7dd5079f22b1ba47fe0324cb"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-14.parquet",
+    "size": 608451779,
+    "sha256": "02916633f18f1ee65b9682855c9d045c5a3d59fae70ecadfca6e77cbc84e8c55"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-15.parquet",
+    "size": 464942420,
+    "sha256": "92b606d482a758a491f529e7212168322fed21f4d8c3518557c2861ddca4dc8c"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-16.parquet",
+    "size": 491902860,
+    "sha256": "dfe03b611b314f63418a3aee95d5f096a74f8073403ed2e47964398f10f867c5"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-17.parquet",
+    "size": 560052256,
+    "sha256": "82c26656783c0080d8f9172ad6e2ae1982764d4ab80fc0d682cb2bcbda2d3319"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-18.parquet",
+    "size": 269736847,
+    "sha256": "401d3f73497865ae5ab827d0ce25ba0d6b79c008729a8f86086b9c57b9973b09"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-19.parquet",
+    "size": 319983288,
+    "sha256": "a4f413cb7a697ac746de86cdcc05077cb8a6fadd370690dd11f97611168e5b43"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-21.parquet",
+    "size": 507693812,
+    "sha256": "bc3cc36e79c77d3f05d14a3a58be10440a3472b5e7eae133a0efda3357a99c6a"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-22.parquet",
+    "size": 464173863,
+    "sha256": "7368a49fa54e56983df7792a0ea78e5ca97a3a1e4233b441248f875153d17e24"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-23.parquet",
+    "size": 389887290,
+    "sha256": "cbb969de2e1cd8b49b47e40c99f6b8fbcdd593cec4b7efe94556e37c1d1cc99f"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-24.parquet",
+    "size": 356473002,
+    "sha256": "e8aacf6cd99395df4b24e12d040c97ff13e51be8573db539462c9a1ea96d8630"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-25.parquet",
+    "size": 274425418,
+    "sha256": "b975dcbe81f8152bfd27d8f8236c5c0ee6533a44ac1c1906bba6b8f007b70159"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-26.parquet",
+    "size": 362936192,
+    "sha256": "2a85d671d344bcac0943683f01948ba843ca3791f576d2ef1a5a98bd16df0589"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-27.parquet",
+    "size": 449984027,
+    "sha256": "b2d30f333faa663b0c1c1c7718673a0eeb30de1bfa77895e8f2d56193a9a41c2"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-28.parquet",
+    "size": 464404049,
+    "sha256": "202f1115e7bbfd01a9aa2e97d86c94667c10e333b7b668e8a8bda9c57114ebaf"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-29.parquet",
+    "size": 506773937,
+    "sha256": "14fcb3ab2228cf840925800fa48550dee9c8d7c0aaa94d7d403508966572bf42"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-30.parquet",
+    "size": 567444994,
+    "sha256": "4379015034383041eeb1ac6bb3ea9bae1552d1758fd463e82d60a064d1f18b91"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-10-31.parquet",
+    "size": 429930388,
+    "sha256": "df34e3a865176f6f78d6c159204e3ceee5ce326401df0cdc2c0637b9b9e44821"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-11-01.parquet",
+    "size": 285288324,
+    "sha256": "f9b838372a1e9f11c40906639b4c12b010901c7b8952d753648f786befff3d05"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-11-02.parquet",
+    "size": 332294208,
+    "sha256": "dc4b1037eb114c84fdca039011b753629d9d01e6be5826f017af60993c3447f5"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-11-03.parquet",
+    "size": 579765103,
+    "sha256": "b4e9dd7d0226feed4be50ab72af19d05b594fd6150e62cf3ba2b17859d9fac62"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-11-04.parquet",
+    "size": 760071753,
+    "sha256": "e96058f59c74329c020f04611b9a92485d6771f4a811cce49165ea41c3292852"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-11-05.parquet",
+    "size": 503160631,
+    "sha256": "346788c5d3a82b6153d2f5026c2f98960da7029a98521cfcdbcddee6e9a977ad"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-11-06.parquet",
+    "size": 458678402,
+    "sha256": "f8c394f8bc54366588a000212e708b733b5a1797a66235233621575704c81316"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-11-07.parquet",
+    "size": 603295923,
+    "sha256": "910d60155a5f0d96a4fb6e17df108c9c8397fc04793df39dcc8cd49ee4dd7500"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-11-08.parquet",
+    "size": 403007180,
+    "sha256": "98dc590715448a5cad27aead4b7a3a598653ec059f5c4a35dd42156c64a122c6"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-11-09.parquet",
+    "size": 378405841,
+    "sha256": "30d803d74ae2448e30a800cc9f7eca151465d857800bbdfa31f3476289de0449"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-11-10.parquet",
+    "size": 479140056,
+    "sha256": "c4743d7ed7e9d285e8c1fdebd295e6a0dccf42c498a4673e397fa58ba251b518"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-11-12.parquet",
+    "size": 435918279,
+    "sha256": "c7075c62dc2c49d7e115f9f2656352514cbcc77bdf62ac96aab35162333f7dee"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-11-13.parquet",
+    "size": 523657844,
+    "sha256": "03a63f7cf23a65e67eb1e79f96accabc528880b083575b65eb39db5a535cc198"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-11-14.parquet",
+    "size": 590429002,
+    "sha256": "82578be217d68633772f4792e0306876c00cda48014a1f1a152866cd991c365c"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-11-15.parquet",
+    "size": 338337781,
+    "sha256": "9cbd8a4de0541b9f81838902d61bb3161160868a9b3bc81d06af3aed78e419f3"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-11-16.parquet",
+    "size": 428898099,
+    "sha256": "6748769f0f60ea200e753abec1e547a693ba558dff4bbfe807b7a2580084ec4e"
+  },
+  {
+    "repo": "craftify2221/hyperliquid-fills-raw",
+    "revision": "de05dc101c819aa68accfefd6647b8bf6de02189",
+    "path": "fills/fills_raw_2025-11-17.parquet",
+    "size": 503646830,
+    "sha256": "deff7af27f6046595ecfd044bbf43fe7a7f2d77dd5cfe80fd7fd4d59ea94dd24"
+  }
+]

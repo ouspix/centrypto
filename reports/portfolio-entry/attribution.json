@@ -1,0 +1,46 @@
+{
+  "scope": "Retrospective diagnostic. Previous entry gate held fixed; add learned portfolio risk charge at the same $100 notional.",
+  "risk_lock": "2c82779b2e2b838a1bc35dfada44bb64f63489ad2b208322774ea1f843bc747a",
+  "modes": {
+    "base": {
+      "gate_passed": 89732,
+      "trades": 169,
+      "allocation": {
+        "busy_or_used": 8155
+      },
+      "long": 56,
+      "short": 113,
+      "complete": true,
+      "net": -17.02633715193656,
+      "max_drawdown": 27.45395490363137,
+      "ending_equity": 982.9736628480634,
+      "long_net": -9.245321146097456,
+      "short_net": -7.781016005839173,
+      "fees": 15.207720672204097,
+      "funding": 0.48125078688314277,
+      "mean_gross": 64.15128276524656,
+      "peak_gross": 303.18123824096864,
+      "max_gross_to_equity": 0.3056345718370537
+    },
+    "stress": {
+      "gate_passed": 89732,
+      "trades": 169,
+      "allocation": {
+        "busy_or_used": 8159
+      },
+      "long": 56,
+      "short": 113,
+      "complete": true,
+      "net": -22.248224264477585,
+      "max_drawdown": 30.96585603892845,
+      "ending_equity": 977.7517757355224,
+      "long_net": -10.117707898493292,
+      "short_net": -12.130516365984315,
+      "fees": 15.20928493396779,
+      "funding": 0.4801727873082346,
+      "mean_gross": 64.22425413093082,
+      "peak_gross": 303.1777577571508,
+      "max_gross_to_equity": 0.3068671244104638
+    }
+  }
+}

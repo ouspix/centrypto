@@ -1,0 +1,5 @@
+{
+  "valid_input_matches_artifact": true,
+  "missing_columns_rejected": true,
+  "historical_example": "example-features.json is a historical training-row fixture, not a current trading signal"
+}

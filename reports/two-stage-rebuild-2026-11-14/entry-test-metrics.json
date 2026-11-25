@@ -1,0 +1,98 @@
+[
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "states": 53335,
+    "positives": 441,
+    "positive_rate": 0.008268491365015507,
+    "average_precision": 0.008932514278105763,
+    "by_side": {
+      "long": {
+        "states": 26481,
+        "positives": 119,
+        "average_precision": 0.007763765110870239,
+        "positive_rate": 0.004493787884712219
+      },
+      "short": {
+        "states": 26854,
+        "positives": 322,
+        "average_precision": 0.011755418646129227,
+        "positive_rate": 0.011990765109658241
+      }
+    },
+    "macro_side_average_precision": 0.009759591878499733
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "states": 14154,
+    "positives": 73,
+    "positive_rate": 0.005157552659511566,
+    "average_precision": 0.02220864793864738,
+    "by_side": {
+      "long": {
+        "states": 7291,
+        "positives": 45,
+        "average_precision": 0.04555508501584717,
+        "positive_rate": 0.006171992979943752
+      },
+      "short": {
+        "states": 6863,
+        "positives": 28,
+        "average_precision": 0.00790906873662691,
+        "positive_rate": 0.004079848527908325
+      }
+    },
+    "macro_side_average_precision": 0.02673207687623704
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "states": 8608,
+    "positives": 20,
+    "positive_rate": 0.0023234200198203325,
+    "average_precision": 0.024639566532706204,
+    "by_side": {
+      "long": {
+        "states": 4304,
+        "positives": 10,
+        "average_precision": 0.029560494865185232,
+        "positive_rate": 0.0023234200198203325
+      },
+      "short": {
+        "states": 4304,
+        "positives": 10,
+        "average_precision": 0.029409478234262054,
+        "positive_rate": 0.0023234200198203325
+      }
+    },
+    "macro_side_average_precision": 0.029484986549723643,
+    "precision": 0.025,
+    "recall": 0.05,
+    "f1": 0.03333333333333333,
+    "predicted_positive_states": 40
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "states": 7728,
+    "positives": 25,
+    "positive_rate": 0.003234989708289504,
+    "average_precision": 0.014680794900548258,
+    "by_side": {
+      "long": {
+        "states": 3864,
+        "positives": 0,
+        "average_precision": null,
+        "positive_rate": 0.0
+      },
+      "short": {
+        "states": 3864,
+        "positives": 25,
+        "average_precision": 0.028064950928010562,
+        "positive_rate": 0.006469979416579008
+      }
+    },
+    "macro_side_average_precision": 0.028064950928010562,
+    "precision": 0.03125,
+    "recall": 0.08,
+    "f1": 0.0449438202247191,
+    "predicted_positive_states": 64
+  }
+]

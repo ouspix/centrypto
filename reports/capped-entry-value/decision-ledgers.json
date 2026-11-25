@@ -1,0 +1,12 @@
+{
+  "history": {
+    "rows": 39022,
+    "relative_path": "data/research/centrypto/capped-entry-value/history-decisions.jsonl.gz",
+    "sha256": "b572b6970d4a39353dc7e95c0e40f6ab2c7bc26b8cc79fe4121663b0401f3d2c"
+  },
+  "benchmark": {
+    "rows": 5211,
+    "relative_path": "data/research/centrypto/capped-entry-value/benchmark-decisions.jsonl.gz",
+    "sha256": "eb108bda1d47b797f8ec479c90641196e80ffa68ce062d67d923504e4c0ebc6d"
+  }
+}

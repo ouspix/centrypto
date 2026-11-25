@@ -1,0 +1,30 @@
+{
+  "roleVersion": "desk-39-concise-lead-decisions",
+  "oldRoleVersion": "desk-38-closed-position-watch-dependencies",
+  "oldWords": 5360,
+  "newWords": 2501,
+  "reductionPercent": 53.33955223880598,
+  "nonLeadModesIdenticalExceptVersion": true,
+  "leadLiveAndConsultAuthorityModesChecked": true,
+  "checks": {
+    "targetedTestsPassed": 102,
+    "targetedTestFiles": 12,
+    "typecheck": "passed",
+    "eslint": "passed",
+    "gitDiffCheck": "passed"
+  },
+  "replay": {
+    "file": "revised-medium-result.json",
+    "model": "gpt-6.1-sol",
+    "effort": "medium",
+    "decision": "wait",
+    "totalTokens": 76186,
+    "limitations": [
+      "One reconstructed historical case; archived cost, funding and event responses unavailable.",
+      "After the replay, clarified a protection sentence from \"a price alone proves no stop\" to \"a price alone cannot verify a stop\"; no other source-prompt differences.",
+      "This verifies observed replay behavior and code contracts, not trading performance or broader decision quality."
+    ]
+  },
+  "liveDeployment": "Source revision only. No service restart, settings change or trading mutation performed.",
+  "finalPromptSha256": "26ef1f4ab4ea4c132c08a8d17aa825aa5aa7ef906c5dc46a4de5e9d7c277ffa4"
+}

@@ -1,0 +1,7 @@
+{
+  "feature_fold_stage_rows": 8952,
+  "exact_frozen_matrix_checks": 32,
+  "mandatory_min_observed_pct": 64.4871270944013,
+  "stale_features": [],
+  "note": "Percent denominators are raw model rows (including repeated SMA setups). Dropped columns are not imputed. Freshness is measured against retained record/bar timestamps, not independently verified exchange publication/receipt times."
+}

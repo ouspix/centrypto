@@ -1,0 +1,1605 @@
+[
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-03-30.parquet",
+    "size": 5426570,
+    "sha256": "0991dd4bb662f8178d6e5f4c7f890117e8817e993034aba982fedb3814d36c71"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-03-31.parquet",
+    "size": 5454986,
+    "sha256": "e5bdf9f35aad9a01696a7f358aac1f655e58124b420ca5ae44c526ee2ae2537b"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-01.parquet",
+    "size": 5255912,
+    "sha256": "73885dbef24cfcfdc39c8d9294ef2f4a6a4a7d594f80ad17533b015416acf512"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-02.parquet",
+    "size": 5494071,
+    "sha256": "c87dc3cdc8b6359764582ed65aed1632d497fd489979ad18ed480597b57561a5"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-03.parquet",
+    "size": 4429326,
+    "sha256": "a085f0b5b3df10146b1593e31fababa8eb484573800fb2a009c979377f251f17"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-04.parquet",
+    "size": 3853008,
+    "sha256": "ede86433372dcaccc7faca76f4a55318a7417cb52f01c000754fe6e1ddf750a1"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-05.parquet",
+    "size": 4243129,
+    "sha256": "41618df3c32d4c713bfbb168a4b9337f5f153b28e5c4cb33081c5d2293dd7c7c"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-06.parquet",
+    "size": 5173089,
+    "sha256": "1dc8746052f50bb1eb43e0a0d828a9f7b7aa0f6409497571bef70bfc372e8cae"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-07.parquet",
+    "size": 5559536,
+    "sha256": "015dc7889fd2830085548075eaa4c83e5594d654e6b05e4cf02dc41324d3e2e0"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-08.parquet",
+    "size": 5536143,
+    "sha256": "44bbcf061971cfdf3e55dfdfe6da7de40723a7cc1221b6546b7935fd0f2fa321"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-09.parquet",
+    "size": 5321807,
+    "sha256": "8f2da8c6228690ff7fc53dd14950b1c8f7fb95fa2e13662a84e32764a239476f"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-10.parquet",
+    "size": 5308210,
+    "sha256": "2810fe16752d0f9bac6125c2444d338e18d5db4f48e680a03c717c535c80ce0c"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-11.parquet",
+    "size": 4542121,
+    "sha256": "9a866bffd9eedfa75d217d3703c59cc7a686d4fdf08ac454d7d4f7516a29f051"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-12.parquet",
+    "size": 4767839,
+    "sha256": "ea26302a0afe2f2a5e2bfa530350906afb6f66f905677e780eb83e4712f81a3b"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-13.parquet",
+    "size": 5398472,
+    "sha256": "d2fb36c073c8f5a699ac8a2b9418b82edc6770ba46129c41307ebbfcfb99779b"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-14.parquet",
+    "size": 5388391,
+    "sha256": "1a288926710e1786c15ed10ebc8e5b2aa250ca624b8d65c637d3741f1009f85b"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-15.parquet",
+    "size": 5370576,
+    "sha256": "c27aceb163e97a103ce4fd6503a7a76692f2b7f2d1765e953c7d0ec4b9693fc5"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-16.parquet",
+    "size": 5766091,
+    "sha256": "0ca27be47396d13a8b0f567b32a9de23b12d008340a2fea54006c336fc6e0c6c"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-17.parquet",
+    "size": 5822932,
+    "sha256": "162d523db9d63640c06635ff79f003ba929c6a5b360d4a8b02849eae1b98ec59"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-18.parquet",
+    "size": 5027945,
+    "sha256": "94e442c0677ae8f1755b91e2a7fa8000172186329d8d3d99030216456f86d08d"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-19.parquet",
+    "size": 5096509,
+    "sha256": "6ca000d31ca3fe801c49e4bcfcaa01fa58ec158d62be96000270c4590dd63ba8"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-20.parquet",
+    "size": 5435559,
+    "sha256": "ec64050c835136423c3b6f57d9ae1a9860df2522aa4deb7d8bf14a2174561857"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-21.parquet",
+    "size": 5252341,
+    "sha256": "ecddc6a1a93f6a8aec135a3454b31c3195dda7271cae4a3224ac7cb6433db022"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-22.parquet",
+    "size": 5303979,
+    "sha256": "3f80b38336a1dde4bd5c158b9ea3f71dc0c21d7e9b6b530ea103c3c7da7d39d5"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-23.parquet",
+    "size": 5342701,
+    "sha256": "abdb9e5dc9330ca80ff6e0808c5203baf4597d20c534eeb14359f2c84db0b13e"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-24.parquet",
+    "size": 5202105,
+    "sha256": "f62052ec11dbdf9a755774ca1909aa042bbe266cdc460b6d17096ab162ff5b19"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-25.parquet",
+    "size": 4290244,
+    "sha256": "79b28e4fc12b6872f957d856862263070004a1add071445f45599c2502c0a0f0"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-26.parquet",
+    "size": 4376621,
+    "sha256": "9afd455d90f0f08ffdb15c17191981b3f93954abb0fce27e1997eb951629b092"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-27.parquet",
+    "size": 5364685,
+    "sha256": "7109b438c0f904cd84d422fc1f655b6d9d98608ed7ca14b1c5827f918f50b62c"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-28.parquet",
+    "size": 5156834,
+    "sha256": "ed10c5044e19d32a78eb36fd37100759cd99abb0f99077a043c073acce69c1ab"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-29.parquet",
+    "size": 5478764,
+    "sha256": "56acc4e7a5c16ee6eb1d7367ab57f86d0385c1ca12fb2e19e49141536867ffdf"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-04-30.parquet",
+    "size": 5106349,
+    "sha256": "4f13dec270b9d144172775c2079d97e2ca2e46412e50b135b09c5ecb7c0b27f7"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-01.parquet",
+    "size": 4985920,
+    "sha256": "a06f30568564c34130c59cbcbd753ccf39a863882c9f4ef15143234971388c25"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-02.parquet",
+    "size": 4208727,
+    "sha256": "29f954956c860952c3115aaa6de59f46303af4789973534ff0f5fb14a8ef7760"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-03.parquet",
+    "size": 4376997,
+    "sha256": "64448ecc899c494479b041b3e74bbf93912492072d31af9b8b3fe9dc701872e9"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-04.parquet",
+    "size": 5553296,
+    "sha256": "4e4e6abd320ad72ac88cce65ac038fdfc29f5f16a0548cf90d0cc3f8c1b3ecd6"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-05.parquet",
+    "size": 5476063,
+    "sha256": "198ecbfb4ebe8241046ebaacf05dde3f03628ebee8099a872e005305f9029386"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-06.parquet",
+    "size": 5890343,
+    "sha256": "c6f0427c0b59c9f4b1c8b313b57a94cc9e31ca9ea25c7be267843015ddc1bff7"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-07.parquet",
+    "size": 5754386,
+    "sha256": "f3644b8a03cb2122d120be8c78d2b18ed61937590dc6afa8699389574801dc33"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-08.parquet",
+    "size": 5653988,
+    "sha256": "630fb91ad39157b4bfcf1ef0553512a60f073b1db0c95fea03ef0cf1ed890080"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-09.parquet",
+    "size": 4768226,
+    "sha256": "b2f098d7fba9bc69399e4d666189e1b73d6a34f8d95c7791bc0b5cd4d33b6f57"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-10.parquet",
+    "size": 4983433,
+    "sha256": "0b048c7d0ef50d74995495d3d1c07167c6a0b4df89325e284d67617887bf09b2"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-11.parquet",
+    "size": 5568350,
+    "sha256": "57a889522dab7f211469a64cecf95bb870cc53525c765073bcb404345da5aa5a"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-12.parquet",
+    "size": 5782930,
+    "sha256": "2430269fdf4cb1d8d76b066f314e0c01f509a24094e5125e86e2e1c152bb5978"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-13.parquet",
+    "size": 5746294,
+    "sha256": "8c2ce2c6f1d29ed2525e83a00b48905233490071047229d7afc212531f46de36"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-14.parquet",
+    "size": 5711498,
+    "sha256": "42568e79cc1ed678a23179913500fcf1157f82aa288465bef6476b804694c3f0"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-15.parquet",
+    "size": 5884163,
+    "sha256": "9ec21410529eb70a8fb390f28f01034d42712b67dddb654185ab6bc6ac97714d"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-16.parquet",
+    "size": 4672852,
+    "sha256": "cdbfbd4838f9a70d1df65547cf30d8007a5078db825623df8ea24f6ad0942f59"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-17.parquet",
+    "size": 4575721,
+    "sha256": "9d52ff7f66a38dc7b62f218c269fdb24b61ccd729c1b95041fdc4d596ff810fb"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-18.parquet",
+    "size": 5766898,
+    "sha256": "e616f9efab9e2a5c1ba4c1f92fc65e18eeb418aa040169c86ec388952fbee25a"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-19.parquet",
+    "size": 5388173,
+    "sha256": "35e49f74886056a59224176d80ff701dc9e0c44e21e5d4999fbe2f564d110336"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-20.parquet",
+    "size": 5454402,
+    "sha256": "3dee9f06a21acd48a816127c2e2d643d42b6d9a89e9b105ff985b5fcf144a1ec"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-21.parquet",
+    "size": 5726628,
+    "sha256": "e5988f8ab834f841124da60b01be9274bfc9ccf2041063ad3a47ce3fd55ea0e8"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-22.parquet",
+    "size": 5628714,
+    "sha256": "06e85d064d16d4300855b64d4b50a87a5ad0a34ef0fd3070d3a1c56b1e0e0173"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-23.parquet",
+    "size": 5194567,
+    "sha256": "29411cc358ce637825f8c9045e24e17d3e1cf63b18219dc3ecc789388c3c2fbd"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-24.parquet",
+    "size": 4804331,
+    "sha256": "5d6122b5e1b396d875f0b9e7b0932778aea33c05cd5ee707db5913dca7f0d0c0"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-25.parquet",
+    "size": 4847009,
+    "sha256": "e141e0fbe29c3c67aadd303f58c68dd143a64fd9abc25a3cffd7ff4a5c7bfade"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-26.parquet",
+    "size": 5664612,
+    "sha256": "cc9c65ce6870c4c77f9597275436a28053e634047846db345af515dd54d6bfd5"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-27.parquet",
+    "size": 5718391,
+    "sha256": "c6babe041ee0f9e17ed4afd47a249f2e3595bce326169d53717ac0ceb5355523"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-28.parquet",
+    "size": 5880229,
+    "sha256": "3c1802af2ef7598adb7258778632d093722ec265c9d47ad7e64708412abfb332"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-29.parquet",
+    "size": 5586292,
+    "sha256": "e88d1d5ca900400125aa05a83556d77a777136d0f98d84903bbd757e7c234aaa"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-30.parquet",
+    "size": 4779088,
+    "sha256": "8042853925c9247db9275d08e76afb718c64d81c88603c4f63311effe4eb783c"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-05-31.parquet",
+    "size": 4959064,
+    "sha256": "fc8e28d783a2f16a3a10e58eefdbfd1cfd3d3b798e32c9cde998ca40befd780e"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-01.parquet",
+    "size": 6173833,
+    "sha256": "01ea3673cccabb1de00f60661683f811bafabbd0068d2a5bdd95d3a8d8b61b68"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-02.parquet",
+    "size": 6545545,
+    "sha256": "b351114822fbe0369322d40e595f134ed6589d8ebb16bbc24e29cc8fe5461d15"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-03.parquet",
+    "size": 6417556,
+    "sha256": "8920f0bf2e2608a4566873bef12fcb7b88768f6bc6ecab57d152cd30c63e009d"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-04.parquet",
+    "size": 6690682,
+    "sha256": "e1c56499cb36ffd86739b77ac2be9e6a1cc6d55ddd456f05c5bccca2e04f7d0e"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-05.parquet",
+    "size": 7050123,
+    "sha256": "da666ae80f20c1c17a676a4ac2e18539f4e6a63779b781129799eb736eeefba9"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-06.parquet",
+    "size": 5650350,
+    "sha256": "7ade2b046acf38634086c6c70f03e8b97c9a904b04b5a7db34218b21903baa57"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-07.parquet",
+    "size": 5519298,
+    "sha256": "b98adff10a8b98fa0545a9e2d862a940aba878a6ed21d5e52edab586336720bd"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-08.parquet",
+    "size": 6003692,
+    "sha256": "82353814e0cc062f93e659ad9f87c01f7b4be052193dba9d47ccdbc47c23cf3d"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-09.parquet",
+    "size": 6138386,
+    "sha256": "f04c8a794ee9f50d9d9b70dcaffd3522bfb080372d2baba4c6c527c942c2b90a"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-10.parquet",
+    "size": 6202677,
+    "sha256": "7373d8d2a6c60bec94b343f8f5dd267e6990f9d4edb1777a3af762f593c7cd99"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-11.parquet",
+    "size": 6032643,
+    "sha256": "4f8f61a4c5a835921b0b22c8011061930bc3444a2b7ed8635130b49a0b799ea9"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-12.parquet",
+    "size": 5792016,
+    "sha256": "78fb24897af42eda21248fcafa42cf943f2457ea5a64ccf30eb0b9e19572f2d9"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-13.parquet",
+    "size": 4833885,
+    "sha256": "360fb526aa37ad98690732e45ef68e3ba7ddfd5c89a54ffef0ba50d7033c0e3f"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-14.parquet",
+    "size": 5022507,
+    "sha256": "cc4abe491739897b63718dd9486723effb6a99abf8b6e5a734187b8a18ef1301"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-15.parquet",
+    "size": 5872858,
+    "sha256": "00ab567cff07fb574b9b3fe53d5ef1f8f84db29da29c67aa1f3d32db7be203e4"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-16.parquet",
+    "size": 5760150,
+    "sha256": "8626fb7d8897fcf809fdaf649442000a31885b96a3ac89391913c0fcaec207c0"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-17.parquet",
+    "size": 5944463,
+    "sha256": "034e0d4822cfa9da6944e7586cea0d63dc767ec329d2d669f82c4b8820e5c403"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-18.parquet",
+    "size": 5929458,
+    "sha256": "3aa278ee67fa797f28289812fd7f8e0cc5b85b7d9a13b442dfd34450d8f6a62a"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-19.parquet",
+    "size": 5254829,
+    "sha256": "2843d0c32bcff31812bd3ed0f36c659ed9ad7d41e3216d751a653014b2e62b29"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-20.parquet",
+    "size": 4791459,
+    "sha256": "6acd39f78d099178713890ec8232dcc1911c915fdfe8d475a74aa3720f664cf5"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-21.parquet",
+    "size": 4822612,
+    "sha256": "85204b53a9671ef5bb7ffb8a9c10d1eac3b805e17a969291893f1ffcf748958f"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-22.parquet",
+    "size": 5758520,
+    "sha256": "a3f36f38f38c456326fe94a4210e68447f206d4fbb639c7a4af6bf58926e97ed"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-23.parquet",
+    "size": 6057313,
+    "sha256": "2aa96066f575e6aa5864be4aa47dc0244c6d4c35ae182895989f17a95d882d06"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-24.parquet",
+    "size": 6070076,
+    "sha256": "128e0e9f82265a568226600ffd5eca68beb3c08870cbf6652d91b0fe62f5429d"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-25.parquet",
+    "size": 5939428,
+    "sha256": "1ba3828e3bde7b6f12afd780d90de44ca45e188f672ab15eaaca111025807de1"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-26.parquet",
+    "size": 5903790,
+    "sha256": "5401871e94730a730e88d5cf9eb3210c1870b61efb42f2e640c7924e09f117e6"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-27.parquet",
+    "size": 4643564,
+    "sha256": "f6f631318c17e95afbf58891b80ceade67062673cd33ff5f366a206292058ec7"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-28.parquet",
+    "size": 4622439,
+    "sha256": "84c741390e33e5d40f761f3b95ef8db09db63fd4c180f405ae9afad61453fdf1"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-29.parquet",
+    "size": 5506976,
+    "sha256": "694bba6ba26a7c29226947c2e463da95fef2d259ad8b5ddb12b6b5c678353b15"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-06-30.parquet",
+    "size": 5322662,
+    "sha256": "2088fcf4cb84cd92691ecefd2dc64b34b4a4660bcab99f29a61ec7e3236981a0"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-01.parquet",
+    "size": 5642059,
+    "sha256": "fd9776674945d079d25e3726a6aa85a0305f0c395a0ee24dd4fd58fb92c868ce"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-02.parquet",
+    "size": 5685867,
+    "sha256": "68fd5f59b5d00189e4665f332d000ef801e7504f2451f2285a00bab97b870b27"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-03.parquet",
+    "size": 5133294,
+    "sha256": "4b2eac0107b748eb09da18fc97613b0765550f1d4ee2694f9fdf831a6634ab5c"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-04.parquet",
+    "size": 4614853,
+    "sha256": "94d6dcc78646733f01f873f13600f81689f13903ac857ab558b248c8686f0b0f"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-05.parquet",
+    "size": 4553679,
+    "sha256": "0bfbea375c601642bc82aa9b51a0ea35800ae4e29376b5c3392376a5413a2cdf"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-06.parquet",
+    "size": 5614731,
+    "sha256": "2f70ae5114b85d5491f2432855f6c51e7d0f90355c9cd8ad9562611d8ec20d8a"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-07.parquet",
+    "size": 5685590,
+    "sha256": "f7923d6619c162f2b97ae88322d70d031b868208779b73f4c4ebcc196a846a4e"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-08.parquet",
+    "size": 5727613,
+    "sha256": "a9b8ff6776f3601a8fa29ff52caeb6adf22ab68bdad828e1fe8efda5737ac3a4"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-09.parquet",
+    "size": 5417697,
+    "sha256": "0355e5ae10788a1b7d7747f7f70a002f4aec62e92aad08b3e8c95e59ea2a24be"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-10.parquet",
+    "size": 5333834,
+    "sha256": "48dbd7f58ff1e6d6d774dd706bad92708075d80f534bbc2ebbb56f94b628e0d2"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-11.parquet",
+    "size": 4590212,
+    "sha256": "86c5dca2fbb1ab4eb7a7189e0534e34b328314ead8a45e1bcb0be227a61fe102"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-12.parquet",
+    "size": 4606794,
+    "sha256": "8b6889b9730377985a1730240f5576545c9342d6a2349cbb6384460c4dbff898"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-13.parquet",
+    "size": 5605445,
+    "sha256": "010f265830262f9878f1547c17e5dfafd55f214ab46c6884a274a9f189ec041b"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-14.parquet",
+    "size": 5566907,
+    "sha256": "1016ab5b8eb8aae2b8fe9c73ba97922109181fa65bdc630577e5cfbffa217e31"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-15.parquet",
+    "size": 5519845,
+    "sha256": "e31ac4e6e967dcc836be2accf88101c5ec10a44e993cf82f5416c4f3033fae75"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-16.parquet",
+    "size": 5591788,
+    "sha256": "bf0105dcce32da6940fcff69ef12ba1ece8be62acb7241689b5c93aee10f4596"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-17.parquet",
+    "size": 5688862,
+    "sha256": "e984ed54bcebe108edc4c4dac1456febcf08a12c3c638849a687799e83da43b0"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-18.parquet",
+    "size": 4512907,
+    "sha256": "e0ce7dd6c0779fc04871108a637f03ab2325b67f620b1f69d7637c3bd18067ad"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-19.parquet",
+    "size": 4581072,
+    "sha256": "1d1bf5670d2b4cae769eca5f465d8f0928be270e3dbd376c670481b100901282"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-20.parquet",
+    "size": 5555576,
+    "sha256": "9bbee62aa2b686ad0e6911b8600c789fe081c8a18eb026083204e26bba84fe89"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-21.parquet",
+    "size": 5396300,
+    "sha256": "f70f4e05de2241f6053e8be2a1314a98c4bb3361ff2feda61b2383f8d6f0f9fd"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-22.parquet",
+    "size": 5434516,
+    "sha256": "b609b29d2e477a5f9d26f587beaea0daa27db9a9b905b34b7977cdd346713c5f"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-23.parquet",
+    "size": 5455185,
+    "sha256": "f4444fe2aa85b06b7e0c21408d219f8df0ee5ab0d66c710ad3ed9f73935ba446"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-24.parquet",
+    "size": 5380687,
+    "sha256": "7324a9e59afa35f9f72ee68e57e97295467360aef06d233b6a3480caede84937"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-25.parquet",
+    "size": 4279004,
+    "sha256": "f961c11dfed617dff997693049b9127825aef1439a889c94f5ac5a9487c1d9c4"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-26.parquet",
+    "size": 4494787,
+    "sha256": "b569ffc5ed81ad32a891db8afb3a243d4af95f3c7b4a681e6065123047ef8e50"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-27.parquet",
+    "size": 5684351,
+    "sha256": "3d7d2649cccf0fafe24b3fa9b1f77b2575c9942d08fbdc7c669d11f5c6fa2e09"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-28.parquet",
+    "size": 5612560,
+    "sha256": "022f8202ccd851b87a928c6b3a8a5ae2e2a2305170e88e70bf4eec8e8c5e9729"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-29.parquet",
+    "size": 5964295,
+    "sha256": "95ae6ee157e10d852a29605c4b926a134f557dc6ce4a22e08aa1b1aab6177973"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-30.parquet",
+    "size": 5643596,
+    "sha256": "cdd803eeb84d3a467966c7947cee6e5be1b25ba3346b673dbd9e3a560e3e1f95"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-07-31.parquet",
+    "size": 5646418,
+    "sha256": "1747bdb60fb7426e7ea4f8733b3f691fb3732a47ec72c24f9950f4e86015f14d"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-01.parquet",
+    "size": 4500919,
+    "sha256": "7a8294c73d890284abbf31e99341dc0810c3917b470347390f093874b04973da"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-02.parquet",
+    "size": 4651567,
+    "sha256": "8acfae160b15c0683b45f4ad776974e95d35af884ee289ee83ee4f0436a076ea"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-03.parquet",
+    "size": 5495825,
+    "sha256": "4870b351f1949e1c2864dc22e382a1e0153cd92073244926486afef67c69b506"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-04.parquet",
+    "size": 5586779,
+    "sha256": "292936e416a0f0c1a5f524a3f0fd38d34117573cf7bd4b1d2dfdfd649bfbd8df"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-05.parquet",
+    "size": 5586536,
+    "sha256": "a9341515699e85262b0bd9421788116916ad7111bc222a6cf5d445f90f0b2206"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-06.parquet",
+    "size": 5628865,
+    "sha256": "089c2826362f29c0a9a79de075bc8692feca63629119f0b7550c63faf5fd74e1"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-07.parquet",
+    "size": 5493464,
+    "sha256": "bb341a73642272dcc21194a9d7f0b25157388fffcefa1381f33e94c521a2c5fb"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-08.parquet",
+    "size": 4500376,
+    "sha256": "6a4f6dc5a084eeba889746130f939cc5a74936ec06a8ee48554cb0064cda17be"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-09.parquet",
+    "size": 4597626,
+    "sha256": "77cd4d819fe3452ab277b9b853a43670c0752466574ac8f7baadfd6bb0d3fff7"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-10.parquet",
+    "size": 5564538,
+    "sha256": "b8a3e2d9abd45fef46b7309e1eb436739ab2b7892feb84a9c7af91a022bb9e08"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-11.parquet",
+    "size": 5538836,
+    "sha256": "7bf7bdc13ff9e3b55c1ad596439bb7ec684a0243a14d0e889a4a6e2a462c7719"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-12.parquet",
+    "size": 5649317,
+    "sha256": "73cd5d6273819f646a41082e76ec07b1a6d9e03c29cfc0db4ca6fcb42e9e10bb"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-13.parquet",
+    "size": 5516784,
+    "sha256": "34a68ce6f165c53a7d001456ad85d40d1fe7e20ad857397b6dd009ea4485136c"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-14.parquet",
+    "size": 5465566,
+    "sha256": "727a9815bc9d82a4a3a3c5ff22b5193869d319c9e7ffe3ac14cb9a41a5fd8975"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-15.parquet",
+    "size": 4301502,
+    "sha256": "9b1c818e7087a3fd8a46502ac67b18223565740655956cae30190e1bf88fb491"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-16.parquet",
+    "size": 4354663,
+    "sha256": "d3f50637455986c95a7c2b9801cf7a77e1a3c82669285fc47fa501dfa7848872"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-17.parquet",
+    "size": 5491307,
+    "sha256": "ea227d82d3e3c5c5942d73e3eff71fbd44b0c8adf95bcb2e9c35cf2913f7251d"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-18.parquet",
+    "size": 5724464,
+    "sha256": "83efc7746c333ffe60c45aab4c8a5f7442196e15d9931ec1842fc211b61aa1f8"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-19.parquet",
+    "size": 6350410,
+    "sha256": "11da069a8d7bcdff7257986fa847ad45f013247f42fd4472e5075eb88dbdcc93"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-20.parquet",
+    "size": 6651078,
+    "sha256": "d4d1db70917b2f73dfc2518d05fedb928d7b2cc0c237ecfe08094f3705744cc8"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-21.parquet",
+    "size": 7049571,
+    "sha256": "7178e1c2e89a6fcdceeaf6daf4154fd21607b54f53f03a0d1a94d1d03b77fc64"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-22.parquet",
+    "size": 6230464,
+    "sha256": "15b48d091f3163c36fbfb174eb75d2f99515deb6ee32a54804f5c50e84ccb186"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-23.parquet",
+    "size": 5986908,
+    "sha256": "f8c82d5865a4e5c88b0068b6a5c3ade8a9d843c94f13f7664132f725762fd8c1"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-24.parquet",
+    "size": 6625561,
+    "sha256": "0c333907b6eab7e13d6c06d7a193fe8f6cf39bffbaa39873c17ab51ef5052f48"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-25.parquet",
+    "size": 6605764,
+    "sha256": "f6471705d09d8ffb941d70c8cafadb58c17d0dd66e7a316a78b28673f83682a9"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-26.parquet",
+    "size": 6278179,
+    "sha256": "d39aa0db60c2d09c7db9e697965c725d0c9aa2909b5edbf4291d054899041cd3"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-27.parquet",
+    "size": 6342172,
+    "sha256": "4612e86cd95bf0e441db0d6fea3a2d48b3ad26a268e360ca1127c776e6e9e1d0"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-28.parquet",
+    "size": 6362144,
+    "sha256": "f85dfee23f84d1448bb2b15778d6e8355bd32992a9f6437299047d1a0649f0a3"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-29.parquet",
+    "size": 4831307,
+    "sha256": "fd5740e12bfca2ccf11a0a539e361f31064a6e026c0e752182d1935dd2417354"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-30.parquet",
+    "size": 5300055,
+    "sha256": "5ce48c19ca609d0b7a2de996344cb1917a36f6f8b832bab2ec44b77e17936442"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-08-31.parquet",
+    "size": 6287846,
+    "sha256": "255b8c9a99082c0d40a02d7e8ca1e1ef5d310e361d5eaae8df98d90d29faa181"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-01.parquet",
+    "size": 6575819,
+    "sha256": "3e2beedda6c32c594a1adffdb28704b512f0edac85f993bf1f4f676cf92a2d40"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-02.parquet",
+    "size": 6471014,
+    "sha256": "95fa88bfeb74832eafb200f85f720f50fc8728fda5de10adc5c9fe3d00d80aaa"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-03.parquet",
+    "size": 6625340,
+    "sha256": "fa5886cc46c6b58a12da14982383711e3bcc5faebbb3e1cd0c003ba199724fe6"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-04.parquet",
+    "size": 6412952,
+    "sha256": "78670080046af7414a204f2ca908dae890a9bbf9c7936e9f92f8f7b9476b75bc"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-05.parquet",
+    "size": 5208520,
+    "sha256": "dbd39f5f0f26576bab9ec4a6b099687cb51e222fd1dfd8137e231310904ba8bb"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-06.parquet",
+    "size": 5486493,
+    "sha256": "6a543924e366da3bef890135a50c8ae2bdfea566031ee93ced62f196d2552122"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-07.parquet",
+    "size": 5963533,
+    "sha256": "ab995bc77830e9248a9b7eedd9fe7651c4c94573826faeaf8fc35e8b14bdfa03"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-08.parquet",
+    "size": 6554094,
+    "sha256": "48d92723a5ab04fa10a1141db1bf9cc2313f06278acd23b58c4ee32684f4fa51"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-09.parquet",
+    "size": 6568819,
+    "sha256": "c5aaff55fdf5d08e1b6365f4ffa8d15455a3712d1b928ed674fc8602e285e4de"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-10.parquet",
+    "size": 6574974,
+    "sha256": "b63b7a2fbe2fa1dd9a7ef7535c0c058624850e0b687685435f2df0f48adad302"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-11.parquet",
+    "size": 6484502,
+    "sha256": "d4bc5373e0407429cb38ac926f3ff8736101fec21f3bade793d8bb773d733238"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-12.parquet",
+    "size": 4950168,
+    "sha256": "b500d1cdde7386868baeb60330eae5aeea3a3a1dd88931b3d0aadf5fdceed40f"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-13.parquet",
+    "size": 5647631,
+    "sha256": "56f86c867e6820706bf3adb07af41f3083fbe82cd2f30c25daf2b518c89867f4"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-14.parquet",
+    "size": 6600211,
+    "sha256": "5254524b9aaed4ecd7356ac7ebd6bcf63bd5e7f8b79a13b35ff9bc750346a494"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-15.parquet",
+    "size": 6779014,
+    "sha256": "53588b9596c85020469f615fa595e675c59c091f7004acfabe5efe807326ed30"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-16.parquet",
+    "size": 6529098,
+    "sha256": "3b22f03b4b6006354ac530336bf7b6c387febe126bef31f36ae7d7d7a5658b48"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-17.parquet",
+    "size": 6538934,
+    "sha256": "5c601fd730449810083de074b3205672bd7bcfcd955059a6d3b6a780a8492f1f"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-18.parquet",
+    "size": 7013301,
+    "sha256": "fb7c8fc0526f5ff2bd2c08fcff227a3bb076a91efde2161e11f004d9fae24b31"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-19.parquet",
+    "size": 5824995,
+    "sha256": "3e7863b3c9d2e98582e50bb6100db898a01554746e256bf5d606c99bc2472833"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-20.parquet",
+    "size": 6088504,
+    "sha256": "a29be1a3eeb306a34ac0b97acfec426af427ebacdfb0766f636e7e51bb5ade4c"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-21.parquet",
+    "size": 7300754,
+    "sha256": "dd49fb3f64a0468139a1dca88088c4bc8beff04f213fc205e3a17367415e0b8c"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-22.parquet",
+    "size": 7238791,
+    "sha256": "731ccbcc2527b194415cdd3db3eff67f5d2d418c35a3243b808ac0baaa57c895"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-23.parquet",
+    "size": 7277657,
+    "sha256": "2a5b9ef0c243c406151c4380f0f187eb03ab05d73df490014ef717251cdd615d"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-24.parquet",
+    "size": 7250544,
+    "sha256": "261cb2ecb311228ad920ddd2bfd6448921d4b4712f4c43f2f69e8d210186941f"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-25.parquet",
+    "size": 6880888,
+    "sha256": "dce600cb4c6984db29d964ac90756db20904758693cb421bdae86d5c71255339"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-26.parquet",
+    "size": 5740190,
+    "sha256": "9c2701b2c33de8ff630c75b11983ce9943e20b4406b3d1c988ea51c7aec53809"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-27.parquet",
+    "size": 6017846,
+    "sha256": "0db8eea5b119a343ab39a3a55311fc374e29bbc111eb6a2df1d1a05883f30aca"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-28.parquet",
+    "size": 7590019,
+    "sha256": "ef6e24135a3f0352db883485af44944e1172b73c7d2063bd057ca0dcae791ef9"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-29.parquet",
+    "size": 7065329,
+    "sha256": "0b01da347c9febeadb44a7e6fe34e1b1e9fc2ec1c79ac750aceeeaddc6874c50"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-09-30.parquet",
+    "size": 6736952,
+    "sha256": "2cd83284607eaf1195a18717de1c06922d7272efdc64ae96d91e743f57c10fd6"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-01.parquet",
+    "size": 6670049,
+    "sha256": "aeb207fefcda08c5d07bf6bf9a9e554695cb5c962ab90de6236cb43c7f2a0114"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-02.parquet",
+    "size": 6749416,
+    "sha256": "9ca4f45e905a91b202761182a73d187d8706dc634abb808716a84ff8361cfd72"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-03.parquet",
+    "size": 5072817,
+    "sha256": "2293f7af76ac0e33d94d04e4467a8da4cee0b21ac9fe1a06c7d7615278376c04"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-04.parquet",
+    "size": 5142573,
+    "sha256": "21a67491994382d89be6c16e6461aa1df276f4e76096000aea0eb63129d3d081"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-05.parquet",
+    "size": 6375717,
+    "sha256": "6c3b084b6ac108a42ff45dbaf6543feee03c58d3c46d458beb6ca526f188bc84"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-06.parquet",
+    "size": 6283915,
+    "sha256": "f252a882028c74e9bbfe39637363cda3a072d97292d3388d0b38b2878e43f191"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-07.parquet",
+    "size": 6583754,
+    "sha256": "464bb1efab234362f9a05181df08dafd56af61ca4e0cd8f8de87ac741251ada1"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-08.parquet",
+    "size": 7131591,
+    "sha256": "4523de430bad9720350ba7283a2449203c6a1ab46f484f9f6d3878ec4d596dee"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-09.parquet",
+    "size": 6364674,
+    "sha256": "419f85111bfebb0d268b152afa7c57efc54ab17a3ab5932d4c5099e898f1f408"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-10.parquet",
+    "size": 5202163,
+    "sha256": "ab9c24360e2aa7ea873012b90bce7b6d92d2e3a8ba841efbe9c1e7b787075904"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-11.parquet",
+    "size": 5648178,
+    "sha256": "f0efd4f1a7cde80bd6aebc1bbdb1a69788dd1cb261453c34b11f5b2b12624211"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-12.parquet",
+    "size": 7197543,
+    "sha256": "5dec12499aa26a02303133771169ff8e63650e6ef4ad97234ed0eca20b464345"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-13.parquet",
+    "size": 7187911,
+    "sha256": "d9aa66ac6dcbdab20a5f08d18e594af82150370924f42a5ae8fd8ae264c8680b"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-14.parquet",
+    "size": 7406236,
+    "sha256": "f553a0e90a20c30c167e69d2bed8af5767e1da2a8a295f48f971b3236eae1602"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-15.parquet",
+    "size": 7836935,
+    "sha256": "3ff4e9afe59582f89c2e5822211958d4f69abebf95b3bf4bc4bbcf956513cf04"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-16.parquet",
+    "size": 7313901,
+    "sha256": "73c246ba61e6135bccca789d29bc434f22c8250f30d14dfa563659698cd0e151"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-17.parquet",
+    "size": 6152407,
+    "sha256": "d51cda831dc316728bd9a2b3fa0ca10dd3057a71f4b59af49e5017d8bbf1faea"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-18.parquet",
+    "size": 6558090,
+    "sha256": "248cd9728768a12a110e9b65bc160d389bc864f7ce4d727eb3f7343b08f413ed"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-19.parquet",
+    "size": 7092888,
+    "sha256": "350beeac355fdc6a273786c286602c9ae336fa55e192c309d1ab0723dd563a1e"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-20.parquet",
+    "size": 7352062,
+    "sha256": "34449520a49174de1aecd623efff4cf67f463bc50292314285e6ffadcdead9c6"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-21.parquet",
+    "size": 7112890,
+    "sha256": "5e79617e397d80932e3331e911b2e33115aa1b789a373ebf686d7277d8a1539b"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-22.parquet",
+    "size": 7405772,
+    "sha256": "8a18daf2535751c9b6e924ea5e54451fd51fa82ef1e5bdb7e7bc5c7f7c113dea"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-23.parquet",
+    "size": 7132266,
+    "sha256": "1661475233f2460511277fda3a80f9d395d7be45dc37f0a97d7d2a20d73bb744"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-24.parquet",
+    "size": 6076911,
+    "sha256": "9e79f756ffe8082e753f1f4d92ef6d8701a1185f3fb5793cb51d35935823a8bc"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-25.parquet",
+    "size": 5752344,
+    "sha256": "c108f68490cbd101b0d465778703f831e1cddabd82f0fd0c36aa9e0dbd733628"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-26.parquet",
+    "size": 7384790,
+    "sha256": "d40b2ed7fc42f31708cc1140f304dc24ed52968e57281f8d00028fcb4ef0d84c"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-27.parquet",
+    "size": 7324032,
+    "sha256": "f7c5f9119f4d8db8eacc46b9a1e2583b1984308e6fbef90b68cee461d4548509"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-28.parquet",
+    "size": 7235861,
+    "sha256": "7a65518a1ff2dd73bb65af4b2345ec185256a618dad87b530e34b6124f9010be"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-29.parquet",
+    "size": 8034172,
+    "sha256": "17e8fa147a0fdab572cc7f769c9a778cf97b06ec2c933274141f386c8864f111"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-30.parquet",
+    "size": 8108556,
+    "sha256": "084d7a3450ae76da80d3942f3651a54dcab1777dd593332ca5621a45a2510301"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-10-31.parquet",
+    "size": 5817985,
+    "sha256": "accd0b480bcbe53fd36e9f4f666b965d19ddf23cc48df7f09f20f757f454c1e0"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-11-01.parquet",
+    "size": 5798739,
+    "sha256": "7d83a182e86a769a766528839af926a04aa226c4d98cf7c44f19cdf1a03b6216"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-11-02.parquet",
+    "size": 7076206,
+    "sha256": "10ee90f497fca04fa93038324c7124c6e4224c6e2c231220f29f7770b1c06942"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-11-03.parquet",
+    "size": 7100887,
+    "sha256": "d833aabbaac331ff4afb3ff5590d2c3eba7329253d7c8635eb82f171e7d12a7a"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-11-04.parquet",
+    "size": 8087479,
+    "sha256": "2a977123b2a663157dfc9a12e7e8d782a822abbcd9b29bcce6e7fd4ba973b889"
+  },
+  {
+    "repo": "Hydromancer/hyperliquid-reservoir",
+    "revision": "6b40203b4363771c26d4b1ecfda7dca92263e3d4",
+    "path": "candles_1m/candles_1m_2026-11-05.parquet",
+    "size": 8113941,
+    "sha256": "4505e4e0d4299941a4f2e72cb68333096e9115bb5b058eb9b197829c0c2bf548"
+  },
+  {
+    "repo": "ironflow/hyperliquid-funding",
+    "revision": "b2153cf3aed73b6b200a378064538a2263923e9d",
+    "path": "data/2026-03.parquet",
+    "size": 3381832,
+    "sha256": "cc8dc6e57e6d512605f48d0f19039871829318c3a0632ed995b769d957490f2a"
+  },
+  {
+    "repo": "ironflow/hyperliquid-funding",
+    "revision": "b2153cf3aed73b6b200a378064538a2263923e9d",
+    "path": "data/2026-04.parquet",
+    "size": 3313307,
+    "sha256": "008ca1c6864e5a48de61133a8ea4ddb8123be0db9cc291be1a4368e57710998a"
+  },
+  {
+    "repo": "ironflow/hyperliquid-funding",
+    "revision": "b2153cf3aed73b6b200a378064538a2263923e9d",
+    "path": "data/2026-05.parquet",
+    "size": 3413892,
+    "sha256": "4340ecd686296a7b785ffb77570bd7e07254cc600fea7bb321721d386b7c57c0"
+  },
+  {
+    "repo": "ironflow/hyperliquid-funding",
+    "revision": "b2153cf3aed73b6b200a378064538a2263923e9d",
+    "path": "data/2026-06.parquet",
+    "size": 3380173,
+    "sha256": "467131e7320a3d568d289d6d10fcee3f4a0e1dde13b8a73bb04977035ab01678"
+  },
+  {
+    "repo": "ironflow/hyperliquid-funding",
+    "revision": "b2153cf3aed73b6b200a378064538a2263923e9d",
+    "path": "data/2026-07.parquet",
+    "size": 3072990,
+    "sha256": "98860209990f26f30786ffb4d8f21cf97002a7035e71a147c915d7af35da23df"
+  },
+  {
+    "repo": "ironflow/hyperliquid-funding",
+    "revision": "b2153cf3aed73b6b200a378064538a2263923e9d",
+    "path": "data/2026-08.parquet",
+    "size": 3247330,
+    "sha256": "c067fcca81a1b6a5aaa0d636de16b99804d7de683ef90cde8ecd5c176db1bff0"
+  },
+  {
+    "repo": "ironflow/hyperliquid-funding",
+    "revision": "b2153cf3aed73b6b200a378064538a2263923e9d",
+    "path": "data/2026-09.parquet",
+    "size": 3238588,
+    "sha256": "d8e43faa444e64c263a078b855d8c1edb9ef73fba5b63ef908fc5aa9314ec7bc"
+  },
+  {
+    "repo": "ironflow/hyperliquid-funding",
+    "revision": "b2153cf3aed73b6b200a378064538a2263923e9d",
+    "path": "data/2026-10.parquet",
+    "size": 3442125,
+    "sha256": "b081c40f350d3982d1279cd7d019a2d645aabd548cd30358a90e77d4b0e37d8e"
+  }
+]

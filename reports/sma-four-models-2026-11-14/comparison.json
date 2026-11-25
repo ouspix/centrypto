@@ -1,0 +1,503 @@
+{
+  "all_folds": {
+    "current": {
+      "trades": 120,
+      "priced": 120,
+      "censored": 0,
+      "gross_pnl_usd": -0.96956594130544,
+      "priced_subtotal_usd": -0.96956594130544,
+      "mean_return_pct": -0.008079716177545333,
+      "wins": 58,
+      "losses": 62,
+      "median_holding_minutes": 925.0,
+      "notional_hours": 176391.66666666666,
+      "maximum_simultaneous_positions": 37,
+      "peak_gross_notional_usd": 3700,
+      "realized_exit_order_drawdown_usd": 47.88463103442036,
+      "by_side": {
+        "long": {
+          "trades": 54,
+          "priced": 54,
+          "censored": 0,
+          "gross_pnl_usd": -92.88454663390404,
+          "priced_subtotal_usd": -92.88454663390404,
+          "mean_return_pct": -1.720084196924149,
+          "wins": 12,
+          "losses": 42,
+          "median_holding_minutes": 987.5,
+          "notional_hours": 84500.0
+        },
+        "short": {
+          "trades": 66,
+          "priced": 66,
+          "censored": 0,
+          "gross_pnl_usd": 91.91498069259859,
+          "priced_subtotal_usd": 91.91498069259859,
+          "mean_return_pct": 1.3926512226151302,
+          "wins": 46,
+          "losses": 20,
+          "median_holding_minutes": 910.0,
+          "notional_hours": 91891.66666666667
+        }
+      }
+    },
+    "sma_four": {
+      "trades": 157,
+      "priced": 157,
+      "censored": 0,
+      "gross_pnl_usd": 161.36347352980204,
+      "priced_subtotal_usd": 161.36347352980204,
+      "mean_return_pct": 1.027792825030586,
+      "wins": 84,
+      "losses": 73,
+      "median_holding_minutes": 310.0,
+      "notional_hours": 103108.33333333333,
+      "maximum_simultaneous_positions": 20,
+      "peak_gross_notional_usd": 2000,
+      "realized_exit_order_drawdown_usd": 36.895641110195896,
+      "by_side": {
+        "long": {
+          "trades": 57,
+          "priced": 57,
+          "censored": 0,
+          "gross_pnl_usd": 44.35730276498848,
+          "priced_subtotal_usd": 44.35730276498848,
+          "mean_return_pct": 0.778198294122605,
+          "wins": 32,
+          "losses": 25,
+          "median_holding_minutes": 450.0,
+          "notional_hours": 57425.0
+        },
+        "short": {
+          "trades": 100,
+          "priced": 100,
+          "censored": 0,
+          "gross_pnl_usd": 117.00617076481356,
+          "priced_subtotal_usd": 117.00617076481356,
+          "mean_return_pct": 1.1700617076481357,
+          "wins": 52,
+          "losses": 48,
+          "median_holding_minutes": 232.5,
+          "notional_hours": 45683.333333333336
+        }
+      }
+    }
+  },
+  "folds": [
+    {
+      "start": "2026-06-01T00:00:00Z",
+      "end": "2026-06-10T00:00:00Z",
+      "current": {
+        "trades": 0,
+        "priced": 0,
+        "censored": 0,
+        "gross_pnl_usd": 0.0,
+        "priced_subtotal_usd": 0.0,
+        "mean_return_pct": null,
+        "wins": 0,
+        "losses": 0,
+        "median_holding_minutes": null,
+        "notional_hours": 0,
+        "by_side": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          "short": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          }
+        }
+      },
+      "sma_four": {
+        "trades": 46,
+        "priced": 46,
+        "censored": 0,
+        "gross_pnl_usd": 29.309857280858147,
+        "priced_subtotal_usd": 29.309857280858147,
+        "mean_return_pct": 0.6371708104534379,
+        "wins": 24,
+        "losses": 22,
+        "median_holding_minutes": 92.5,
+        "notional_hours": 11091.666666666666,
+        "by_side": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          "short": {
+            "trades": 46,
+            "priced": 46,
+            "censored": 0,
+            "gross_pnl_usd": 29.309857280858147,
+            "priced_subtotal_usd": 29.309857280858147,
+            "mean_return_pct": 0.6371708104534379,
+            "wins": 24,
+            "losses": 22,
+            "median_holding_minutes": 92.5,
+            "notional_hours": 11091.666666666666
+          }
+        }
+      }
+    },
+    {
+      "start": "2026-11-03T00:00:00Z",
+      "end": "2026-11-07T00:00:00Z",
+      "current": {
+        "trades": 0,
+        "priced": 0,
+        "censored": 0,
+        "gross_pnl_usd": 0.0,
+        "priced_subtotal_usd": 0.0,
+        "mean_return_pct": null,
+        "wins": 0,
+        "losses": 0,
+        "median_holding_minutes": null,
+        "notional_hours": 0,
+        "by_side": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          "short": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          }
+        }
+      },
+      "sma_four": {
+        "trades": 57,
+        "priced": 57,
+        "censored": 0,
+        "gross_pnl_usd": 44.35730276498848,
+        "priced_subtotal_usd": 44.35730276498848,
+        "mean_return_pct": 0.778198294122605,
+        "wins": 32,
+        "losses": 25,
+        "median_holding_minutes": 450.0,
+        "notional_hours": 57425.0,
+        "by_side": {
+          "long": {
+            "trades": 57,
+            "priced": 57,
+            "censored": 0,
+            "gross_pnl_usd": 44.35730276498848,
+            "priced_subtotal_usd": 44.35730276498848,
+            "mean_return_pct": 0.778198294122605,
+            "wins": 32,
+            "losses": 25,
+            "median_holding_minutes": 450.0,
+            "notional_hours": 57425.0
+          },
+          "short": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          }
+        }
+      }
+    },
+    {
+      "start": "2026-11-07T00:00:00Z",
+      "end": "2026-11-11T00:00:00Z",
+      "current": {
+        "trades": 60,
+        "priced": 60,
+        "censored": 0,
+        "gross_pnl_usd": -8.31765031283951,
+        "priced_subtotal_usd": -8.31765031283951,
+        "mean_return_pct": -0.13862750521399184,
+        "wins": 32,
+        "losses": 28,
+        "median_holding_minutes": 782.5,
+        "notional_hours": 71316.66666666667,
+        "by_side": {
+          "long": {
+            "trades": 25,
+            "priced": 25,
+            "censored": 0,
+            "gross_pnl_usd": -24.901030942019677,
+            "priced_subtotal_usd": -24.901030942019677,
+            "mean_return_pct": -0.9960412376807871,
+            "wins": 7,
+            "losses": 18,
+            "median_holding_minutes": 815.0,
+            "notional_hours": 33191.666666666664
+          },
+          "short": {
+            "trades": 35,
+            "priced": 35,
+            "censored": 0,
+            "gross_pnl_usd": 16.583380629180176,
+            "priced_subtotal_usd": 16.583380629180176,
+            "mean_return_pct": 0.4738108751194336,
+            "wins": 25,
+            "losses": 10,
+            "median_holding_minutes": 760.0,
+            "notional_hours": 38125.0
+          }
+        }
+      },
+      "sma_four": {
+        "trades": 0,
+        "priced": 0,
+        "censored": 0,
+        "gross_pnl_usd": 0.0,
+        "priced_subtotal_usd": 0.0,
+        "mean_return_pct": null,
+        "wins": 0,
+        "losses": 0,
+        "median_holding_minutes": null,
+        "notional_hours": 0,
+        "by_side": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          "short": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          }
+        }
+      }
+    },
+    {
+      "start": "2026-11-11T00:00:00Z",
+      "end": "2026-11-14T08:30:00Z",
+      "current": {
+        "trades": 60,
+        "priced": 60,
+        "censored": 0,
+        "gross_pnl_usd": 7.348084371534059,
+        "priced_subtotal_usd": 7.348084371534059,
+        "mean_return_pct": 0.12246807285890098,
+        "wins": 26,
+        "losses": 34,
+        "median_holding_minutes": 1047.5,
+        "notional_hours": 105075.0,
+        "by_side": {
+          "long": {
+            "trades": 29,
+            "priced": 29,
+            "censored": 0,
+            "gross_pnl_usd": -67.98351569188436,
+            "priced_subtotal_usd": -67.98351569188436,
+            "mean_return_pct": -2.344259161789116,
+            "wins": 5,
+            "losses": 24,
+            "median_holding_minutes": 1025.0,
+            "notional_hours": 51308.333333333336
+          },
+          "short": {
+            "trades": 31,
+            "priced": 31,
+            "censored": 0,
+            "gross_pnl_usd": 75.3316000634184,
+            "priced_subtotal_usd": 75.3316000634184,
+            "mean_return_pct": 2.430051614948981,
+            "wins": 21,
+            "losses": 10,
+            "median_holding_minutes": 1060.0,
+            "notional_hours": 53766.666666666664
+          }
+        }
+      },
+      "sma_four": {
+        "trades": 54,
+        "priced": 54,
+        "censored": 0,
+        "gross_pnl_usd": 87.69631348395541,
+        "priced_subtotal_usd": 87.69631348395541,
+        "mean_return_pct": 1.6240058052584334,
+        "wins": 28,
+        "losses": 26,
+        "median_holding_minutes": 362.5,
+        "notional_hours": 34591.666666666664,
+        "by_side": {
+          "long": {
+            "trades": 0,
+            "priced": 0,
+            "censored": 0,
+            "gross_pnl_usd": 0.0,
+            "priced_subtotal_usd": 0.0,
+            "mean_return_pct": null,
+            "wins": 0,
+            "losses": 0,
+            "median_holding_minutes": null,
+            "notional_hours": 0
+          },
+          "short": {
+            "trades": 54,
+            "priced": 54,
+            "censored": 0,
+            "gross_pnl_usd": 87.69631348395541,
+            "priced_subtotal_usd": 87.69631348395541,
+            "mean_return_pct": 1.6240058052584334,
+            "wins": 28,
+            "losses": 26,
+            "median_holding_minutes": 362.5,
+            "notional_hours": 34591.666666666664
+          }
+        }
+      }
+    }
+  ],
+  "fees": 0,
+  "comparison_kind": "Whole-system comparison; detector, labels, capacity, side separation, exit training and validation selection change together.",
+  "same_folds_where_current_traded": {
+    "current": {
+      "trades": 120,
+      "priced": 120,
+      "censored": 0,
+      "gross_pnl_usd": -0.96956594130544,
+      "priced_subtotal_usd": -0.96956594130544,
+      "mean_return_pct": -0.008079716177545333,
+      "wins": 58,
+      "losses": 62,
+      "median_holding_minutes": 925.0,
+      "notional_hours": 176391.66666666666,
+      "by_side": {
+        "long": {
+          "trades": 54,
+          "priced": 54,
+          "censored": 0,
+          "gross_pnl_usd": -92.88454663390404,
+          "priced_subtotal_usd": -92.88454663390404,
+          "mean_return_pct": -1.720084196924149,
+          "wins": 12,
+          "losses": 42,
+          "median_holding_minutes": 987.5,
+          "notional_hours": 84500.0
+        },
+        "short": {
+          "trades": 66,
+          "priced": 66,
+          "censored": 0,
+          "gross_pnl_usd": 91.91498069259859,
+          "priced_subtotal_usd": 91.91498069259859,
+          "mean_return_pct": 1.3926512226151302,
+          "wins": 46,
+          "losses": 20,
+          "median_holding_minutes": 910.0,
+          "notional_hours": 91891.66666666667
+        }
+      }
+    },
+    "sma_four": {
+      "trades": 54,
+      "priced": 54,
+      "censored": 0,
+      "gross_pnl_usd": 87.69631348395541,
+      "priced_subtotal_usd": 87.69631348395541,
+      "mean_return_pct": 1.6240058052584334,
+      "wins": 28,
+      "losses": 26,
+      "median_holding_minutes": 362.5,
+      "notional_hours": 34591.666666666664,
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "short": {
+          "trades": 54,
+          "priced": 54,
+          "censored": 0,
+          "gross_pnl_usd": 87.69631348395541,
+          "priced_subtotal_usd": 87.69631348395541,
+          "mean_return_pct": 1.6240058052584334,
+          "wins": 28,
+          "losses": 26,
+          "median_holding_minutes": 362.5,
+          "notional_hours": 34591.666666666664
+        }
+      }
+    }
+  },
+  "rally_participation": {
+    "long": {
+      "events": 151,
+      "detected": 126,
+      "current_participated": 3,
+      "sma_four_participated": 6
+    },
+    "short": {
+      "events": 350,
+      "detected": 308,
+      "current_participated": 4,
+      "sma_four_participated": 16
+    }
+  },
+  "rally_method": "Fixed previously accepted >=+10% / <=-10% 24h rally windows; teacher entry inside comparable replay period, labels available by its end. Detection/participation means a same-direction eligible entry opportunity/trade in the preceding-24h anchor window. Overlapping event windows are not independent and carry no additive PnL."
+}

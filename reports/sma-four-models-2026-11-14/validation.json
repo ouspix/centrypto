@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "checks": {
+    "independent_native_candle_payoffs": 157,
+    "runtime_entry_reproductions": 157,
+    "runtime_exit_reproductions": 157,
+    "purged_split_checks": 3,
+    "full_exit_path_reproductions": 157,
+    "all_outer_fold_split_checks": 4,
+    "final_serialized_entry_example": 1
+  },
+  "four_distinct_final_models": true,
+  "target_mutation_cannot_change_inputs": true,
+  "exit_has_no_news": true,
+  "all_holding_periods_at_most_24h": true,
+  "experiment_lock_verified": true,
+  "original_files_verified": 43
+}

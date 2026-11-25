@@ -1,0 +1,95 @@
+SMA four-model experiment without news — completed 14 November 2026
+
+Repeated the prior detector/four-model experiment with all 161 news input columns removed from both entry models. Exit models already excluded news. Retrained all four networks for each chronological fold and produced four separately saved final models. Earlier artifacts and production are unchanged.
+
+PAIRED RESULTS — $100 per trade; fees, funding payments and slippage excluded
+
+                              With news          Without news
+Trades                            157                   236
+Gross profit                  $161.36               $207.73
+Long trades                        57                    64
+Long profit                    $44.36                $29.75
+Short trades                      100                   172
+Short profit                  $117.01               $177.98
+Mean return per trade           1.028%                0.880%
+Winners / losers               84 / 73              126 / 110
+Median holding minutes            310                   340
+Peak simultaneous positions        20                    31
+Peak gross notional            $2,000                $3,100
+Notional-hours             103,108.33            163,016.67
+Unpriced/censored trades             0                     0
+
+Removing news raised gross profit by $46.36, while long profit fell $14.61 and short profit increased $60.98. The new run takes 79 more trades and carries about 58% more notional-hours. Mean profit per trade declines, so higher total dollars do not establish better risk-adjusted performance or capital efficiency. These are sums of $100-notional trade profits, not account percentage returns.
+
+Chronological test windows, with UTC boundaries:
+
+Window                       With news          Without news
+1–10 June                       $29.31                $29.31
+3–7 November                    $44.36                $44.36
+7–11 November                    $0.00                 $0.00
+11–14 November                  $87.70               $134.06
+
+The entire difference occurs in the last window. Without news, that window contains 7 longs losing $14.61 and 126 shorts earning $148.67. With news, it contained no longs and 54 shorts earning $87.70. Across all windows, 128 trades have identical entry time, exit time, symbol, direction and SMA pair; 29 occur only in the with-news run and 108 only in the no-news run.
+
+WHAT THE COMPARISON DOES AND DOES NOT TEST
+
+The prior with-news version retained zero news features after training preprocessing in the first three folds. Their trained entry weights and results reproduce exactly in this ablation. In the fourth fold, it retained only news_analysis_available and news_feed_available. No article topic, asset sentiment or event-content feature survived in those historical test models.
+
+Thus the changed final-fold result primarily tests removing two availability indicators and the resulting refit, not the predictive value of richer asset-specific news. The no-news run also has a different input dimension, which can change random initialization even with the same seed. This is one deterministic seed per model, not a multi-seed statistical test of news usefulness.
+
+The final with-news models had more recent training data and retained many actual news columns; those are not the models that produced all the historical test trades. They cannot be used to retroactively attribute the historical profit difference to news content.
+
+The same test periods were used as before. They were unseen by each fitted model, but were already examined in earlier research. This remains a retrospective chronological comparison, not a pristine blind test. A later untouched period with adequate contemporaneous news coverage is needed to test whether richer news helps.
+
+CONTROLLED SETTINGS
+
+- Identical frozen market inputs, labels, 84,160 detector setups and 349,094 candidates. Both candidate-array SHA256 hashes match the prior experiment exactly.
+- Same eight SMA pairs, one-hour entry window, opposite-cross invalidation, five-minute decisions and strict 24h holding limit.
+- Same successful/failed setup definitions, unknown-outcome handling, 48h32m label maturation, 24h purge and all training/validation/test boundaries.
+- Same 32/16 networks, seeds, 4,000-update training, regularization, checkpoint grid, threshold grids and independent long/short validation rules.
+- Same deterministic exit samples from successful and failed setups. All ten exit networks (two directions across four folds plus the final fit) have identical weights and preprocessing to the prior experiment. Threshold policies may differ because they are reselected on the changed entry model's earlier validation trades.
+- News columns are removed, including availability and missingness-related news inputs. Entry vectors contain market, SMA and detector-pair context only: 188 raw features instead of 349. Exit vectors remain 185 raw features.
+- Both sides may choose cash. Conflicting long/short entry signals wait; raw scores from independent models are not compared to choose a direction.
+
+FINAL ARTIFACTS AND POLICY
+
+Model                 Selected updates   Transformed dimensions
+Long entry                    600                    363
+Short entry                   600                    363
+Long exit                     600                    360
+Short exit                  4,000                    360
+
+All four final models are trained and saved. Earlier validation selects cash for new long entries in the final no-news policy; short entry and exit thresholds are both 0.50. This does not mean the long models failed to train. It means their final validation trades did not justify enabling entries under the frozen selection rule. No production configuration was changed.
+
+The final source cutoff is 14 November 2026 at 09:30 Paris / 08:30 UTC. The internal final-fit boundary dated 15 November is source end plus the purge interval, not future observations.
+
+RALLY COVERAGE AND CONCENTRATION
+
+Detector coverage is unchanged: 434 of 501 scorable >=+10% bullish / <=-10% bearish rally windows. Trading participation rises from 22 windows with news to 33 without news (6 bullish, 27 bearish). Participation means a same-direction trade within the predefined event window, not capture of its optimum. Windows may overlap and are not independent; their profits are not added separately.
+
+The three largest no-news winners contribute $56.91, compared with $72.87 in the prior run. The corresponding entry/exit prices were independently re-read from the public exchange candle endpoint and matched exactly. See concentration.json and public-source-check.json for the individual trades.
+
+VERIFICATION
+
+All 236 trade payoffs independently match original one-minute candle opens. All 236 runtime entry decisions, runtime exits and complete exit paths reproduce. All four chronological split boundaries pass. No position exceeds 24h, overlaps another position in the same symbol, or reuses the same detector event.
+
+All fold and final artifact input schemas contain zero news fields. A test replaces the news storage with an object that raises on access; building entry inputs still succeeds unchanged. This verifies actual exclusion rather than merely filling news columns with zeros. Target/gain mutation cannot change model inputs. The serialized final inference example passes.
+
+All 46 delivered with-news files remain unchanged, and the original two-stage model's 43 files also remain unchanged. All fixed training/configuration hashes match the pre-fit experiment lock. No test outcome was used to change model settings or repeat selection.
+
+FILES AND REPRODUCTION
+
+The four final models are long_entry_model.joblib, short_entry_model.joblib, long_exit_model.joblib and short_exit_model.joblib. policy-config.json contains the independently selected final policies. inference.py exposes the same research decision API as before; it does not place orders. example-entry-input.json now contains no news fields.
+
+news-ablation.json is the direct comparison against the preceding with-news four-model system. comparison.json additionally preserves the comparison against the older shared two-stage model. predictions.csv contains all 236 no-news test trades. model-card.json, validation.json, ablation-spec.json and delivery-manifest.json preserve metadata, checks and provenance.
+
+To reproduce using the existing research Python environment:
+  python reports/sma-four-models-no-news-2026-11-14/bootstrap_ablation.py
+  python reports/sma-four-models-no-news-2026-11-14/test_four.py
+  python reports/sma-four-models-no-news-2026-11-14/train_four.py
+  python reports/sma-four-models-no-news-2026-11-14/evaluate.py
+  python reports/sma-four-models-no-news-2026-11-14/validate_four.py
+  python reports/sma-four-models-no-news-2026-11-14/compare_news.py
+  python reports/sma-four-models-no-news-2026-11-14/deliver.py
+
+Large datasets and fold models reside in /mnt/c/Users/melli/.codex/research/centrypto/sma-four-models-no-news-2026-11-14. Original frozen caches and model modules are required. A fresh bootstrap intentionally recreates copied code from the baseline; retain this report and comparison script alongside the run.

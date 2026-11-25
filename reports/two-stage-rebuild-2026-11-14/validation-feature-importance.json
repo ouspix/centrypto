@@ -1,0 +1,105 @@
+{
+  "baseline_macro_ap": 0.017519177873937704,
+  "groups": [
+    {
+      "group": "all_news",
+      "retained": true,
+      "validation_macro_ap_drop_mean": -0.020799608500401225,
+      "repeats": [
+        -0.006431881935109317,
+        -0.03516733506569313
+      ]
+    },
+    {
+      "group": "all_sma",
+      "retained": true,
+      "validation_macro_ap_drop_mean": 0.006334638502058923,
+      "repeats": [
+        0.009768476579521002,
+        0.002900800424596844
+      ]
+    },
+    {
+      "group": "candidate_side",
+      "retained": true,
+      "validation_macro_ap_drop_mean": 0.004438946842093139,
+      "repeats": [
+        0.0029306609604399184,
+        0.00594723272374636
+      ]
+    },
+    {
+      "group": "sma_pair_3_12",
+      "retained": true,
+      "validation_macro_ap_drop_mean": 0.0033734058133397258,
+      "repeats": [
+        0.0034333190200388046,
+        0.003313492606640647
+      ]
+    },
+    {
+      "group": "sma_pair_5_20",
+      "retained": true,
+      "validation_macro_ap_drop_mean": 0.00542693327794861,
+      "repeats": [
+        0.0057026614077275335,
+        0.005151205148169687
+      ]
+    },
+    {
+      "group": "sma_pair_8_30",
+      "retained": true,
+      "validation_macro_ap_drop_mean": -0.015548130027624816,
+      "repeats": [
+        -0.011917090195112987,
+        -0.019179169860136645
+      ]
+    },
+    {
+      "group": "sma_pair_10_30",
+      "retained": true,
+      "validation_macro_ap_drop_mean": 0.001339192471250663,
+      "repeats": [
+        0.0010622710422587243,
+        0.0016161139002426016
+      ]
+    },
+    {
+      "group": "sma_pair_10_50",
+      "retained": true,
+      "validation_macro_ap_drop_mean": 0.0032243442235712853,
+      "repeats": [
+        0.003487197036273648,
+        0.0029614914108689223
+      ]
+    },
+    {
+      "group": "sma_pair_20_50",
+      "retained": true,
+      "validation_macro_ap_drop_mean": -0.009125408932431632,
+      "repeats": [
+        -0.005713182879037857,
+        -0.012537634985825406
+      ]
+    },
+    {
+      "group": "sma_pair_20_80",
+      "retained": true,
+      "validation_macro_ap_drop_mean": 0.004457554636829973,
+      "repeats": [
+        0.005034588264298603,
+        0.003880521009361343
+      ]
+    },
+    {
+      "group": "sma_pair_30_80",
+      "retained": true,
+      "validation_macro_ap_drop_mean": -0.0006982107002738557,
+      "repeats": [
+        0.00036360889895667783,
+        -0.0017600302995043893
+      ]
+    }
+  ],
+  "note": "Earlier validation only; diagnostic association, not a retrained ablation or evidence of causal profitability. Not used for selection."
+}

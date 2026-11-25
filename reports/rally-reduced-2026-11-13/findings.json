@@ -1,0 +1,815 @@
+{
+  "final_dimensions": {
+    "candidate_dimensions": 634,
+    "eligible_before_correlation": 547,
+    "correlation_representatives": 427,
+    "final_selected": [
+      "perp_range_pct_1m",
+      "perp_return_pct_30m",
+      "calendar_hour_sin",
+      "perp_range_pct_5m",
+      "perp_rv_pct_60m",
+      "eth_vwap_distance_pct_15m",
+      "spot_rv_pct_240m",
+      "perp_rv_pct_15m",
+      "btc_rebound_pct_60m",
+      "setup_continuation"
+    ]
+  },
+  "removal_counts": {
+    "correlation_representative_not_stably_predictive": 417,
+    "collection_process_metadata": 40,
+    "redundant": 120,
+    "selected": 10,
+    "insufficient_observed_history": 33,
+    "near_constant": 8,
+    "constant": 6
+  },
+  "news_window_final": {
+    "training_rows": 535,
+    "correlation_representatives": 426,
+    "final_selected": [
+      "btc_volume_ratio_60m",
+      "btc_impact_bps_per_10k_240m",
+      "setup_continuation"
+    ]
+  },
+  "headline": [
+    {
+      "experiment": "all_history",
+      "cohort": "all",
+      "model": "historical_mean",
+      "evaluated_entries": 1547,
+      "episodes": 1014,
+      "MAE_pp": 1.3236304060611375,
+      "RMSE_pp": 1.7610541756188147,
+      "R2": -0.007398778923475069,
+      "selected_entries": 18,
+      "selected_mean_return_pct": -0.19272651766704427,
+      "selected_profit_factor": 0.6557550569424079,
+      "selected_mean_5bps_pct": -0.2758339041228087,
+      "selected_mean_10bps_pct": -0.3588749162331342
+    },
+    {
+      "experiment": "all_history",
+      "cohort": "recent",
+      "model": "historical_mean",
+      "evaluated_entries": 561,
+      "episodes": 363,
+      "MAE_pp": 1.2188099287809704,
+      "RMSE_pp": 1.662327438209146,
+      "R2": -0.012315884173918379,
+      "selected_entries": 18,
+      "selected_mean_return_pct": -0.19272651766704427,
+      "selected_profit_factor": 0.6557550569424079,
+      "selected_mean_5bps_pct": -0.2758339041228087,
+      "selected_mean_10bps_pct": -0.3588749162331342
+    },
+    {
+      "experiment": "all_history",
+      "cohort": "strict",
+      "model": "historical_mean",
+      "evaluated_entries": 376,
+      "episodes": 254,
+      "MAE_pp": 1.9657274424613715,
+      "RMSE_pp": 2.586766634929776,
+      "R2": -0.006492465476846787,
+      "selected_entries": 4,
+      "selected_mean_return_pct": -0.2878669678873541,
+      "selected_profit_factor": 0.3913895641880143,
+      "selected_mean_5bps_pct": -0.38752926976851343,
+      "selected_mean_10bps_pct": -0.4870920089105446
+    },
+    {
+      "experiment": "all_history",
+      "cohort": "original",
+      "model": "historical_mean",
+      "evaluated_entries": 107,
+      "episodes": 71,
+      "MAE_pp": 1.8956347821103525,
+      "RMSE_pp": 2.551987660825029,
+      "R2": -0.048251678604606774,
+      "selected_entries": 4,
+      "selected_mean_return_pct": -0.2878669678873541,
+      "selected_profit_factor": 0.3913895641880143,
+      "selected_mean_5bps_pct": -0.38752926976851343,
+      "selected_mean_10bps_pct": -0.4870920089105446
+    },
+    {
+      "experiment": "all_history",
+      "cohort": "all",
+      "model": "wide_nonlinear",
+      "evaluated_entries": 1547,
+      "episodes": 1014,
+      "MAE_pp": 1.3190958849370664,
+      "RMSE_pp": 1.7710933037817076,
+      "R2": -0.018917143335943187,
+      "selected_entries": 421,
+      "selected_mean_return_pct": 0.12796806489038304,
+      "selected_profit_factor": 1.246777879336838,
+      "selected_mean_5bps_pct": 0.026764636923356608,
+      "selected_mean_10bps_pct": -0.07991804314146819
+    },
+    {
+      "experiment": "all_history",
+      "cohort": "recent",
+      "model": "wide_nonlinear",
+      "evaluated_entries": 561,
+      "episodes": 363,
+      "MAE_pp": 1.2336927871326548,
+      "RMSE_pp": 1.6803303448406743,
+      "R2": -0.03436125711327498,
+      "selected_entries": 113,
+      "selected_mean_return_pct": -0.3286094917766315,
+      "selected_profit_factor": 0.5167307693161605,
+      "selected_mean_5bps_pct": -0.4512114630092638,
+      "selected_mean_10bps_pct": -0.5512278108637099
+    },
+    {
+      "experiment": "all_history",
+      "cohort": "strict",
+      "model": "wide_nonlinear",
+      "evaluated_entries": 376,
+      "episodes": 254,
+      "MAE_pp": 1.9103284672027523,
+      "RMSE_pp": 2.584895051795689,
+      "R2": -0.0050365530371803136,
+      "selected_entries": 61,
+      "selected_mean_return_pct": 0.5069702147874294,
+      "selected_profit_factor": 1.870918665244371,
+      "selected_mean_5bps_pct": 0.3941547423669887,
+      "selected_mean_10bps_pct": 0.3109894323854806
+    },
+    {
+      "experiment": "all_history",
+      "cohort": "original",
+      "model": "wide_nonlinear",
+      "evaluated_entries": 107,
+      "episodes": 71,
+      "MAE_pp": 1.8619286938732407,
+      "RMSE_pp": 2.524859307718313,
+      "R2": -0.026083708430056474,
+      "selected_entries": 16,
+      "selected_mean_return_pct": -0.6111753916650371,
+      "selected_profit_factor": 0.4451885443706101,
+      "selected_mean_5bps_pct": -0.7105145466958445,
+      "selected_mean_10bps_pct": -0.8097544618115446
+    },
+    {
+      "experiment": "all_history",
+      "cohort": "all",
+      "model": "correlation_reduced",
+      "evaluated_entries": 1547,
+      "episodes": 1014,
+      "MAE_pp": 1.3155421072723599,
+      "RMSE_pp": 1.7659038498810091,
+      "R2": -0.012954863494992086,
+      "selected_entries": 426,
+      "selected_mean_return_pct": 0.08378109044060722,
+      "selected_profit_factor": 1.159292631209586,
+      "selected_mean_5bps_pct": -0.018832945816230573,
+      "selected_mean_10bps_pct": -0.11953840993942375
+    },
+    {
+      "experiment": "all_history",
+      "cohort": "recent",
+      "model": "correlation_reduced",
+      "evaluated_entries": 561,
+      "episodes": 363,
+      "MAE_pp": 1.2234247477262878,
+      "RMSE_pp": 1.6697108636582345,
+      "R2": -0.021328498436812282,
+      "selected_entries": 111,
+      "selected_mean_return_pct": -0.3493356062569525,
+      "selected_profit_factor": 0.49657245378698467,
+      "selected_mean_5bps_pct": -0.48336480725249015,
+      "selected_mean_10bps_pct": -0.5847069891479265
+    },
+    {
+      "experiment": "all_history",
+      "cohort": "strict",
+      "model": "correlation_reduced",
+      "evaluated_entries": 376,
+      "episodes": 254,
+      "MAE_pp": 1.913488275491435,
+      "RMSE_pp": 2.5854295929527558,
+      "R2": -0.005452267361784724,
+      "selected_entries": 57,
+      "selected_mean_return_pct": 0.2860178407160783,
+      "selected_profit_factor": 1.4649313118141793,
+      "selected_mean_5bps_pct": 0.16992698222647087,
+      "selected_mean_10bps_pct": 0.08556499142706789
+    },
+    {
+      "experiment": "all_history",
+      "cohort": "original",
+      "model": "correlation_reduced",
+      "evaluated_entries": 107,
+      "episodes": 71,
+      "MAE_pp": 1.8555740767449969,
+      "RMSE_pp": 2.530786024480672,
+      "R2": -0.030906507831346186,
+      "selected_entries": 13,
+      "selected_mean_return_pct": -0.7089134355882611,
+      "selected_profit_factor": 0.3954652960397987,
+      "selected_mean_5bps_pct": -0.808154901419745,
+      "selected_mean_10bps_pct": -0.9072972249277304
+    },
+    {
+      "experiment": "all_history",
+      "cohort": "all",
+      "model": "relevance_reduced",
+      "evaluated_entries": 1547,
+      "episodes": 1014,
+      "MAE_pp": 1.347526605063975,
+      "RMSE_pp": 1.8018818478486427,
+      "R2": -0.05465060871750804,
+      "selected_entries": 418,
+      "selected_mean_return_pct": 0.012398088216394224,
+      "selected_profit_factor": 1.0205049848733778,
+      "selected_mean_5bps_pct": -0.08802859465681744,
+      "selected_mean_10bps_pct": -0.18338404020409882
+    },
+    {
+      "experiment": "all_history",
+      "cohort": "recent",
+      "model": "relevance_reduced",
+      "evaluated_entries": 561,
+      "episodes": 363,
+      "MAE_pp": 1.2394290814587499,
+      "RMSE_pp": 1.6642939029124015,
+      "R2": -0.014712356562142537,
+      "selected_entries": 134,
+      "selected_mean_return_pct": -0.16234247297617097,
+      "selected_profit_factor": 0.768475151620907,
+      "selected_mean_5bps_pct": -0.27049669026900824,
+      "selected_mean_10bps_pct": -0.3616752683536334
+    },
+    {
+      "experiment": "all_history",
+      "cohort": "strict",
+      "model": "relevance_reduced",
+      "evaluated_entries": 376,
+      "episodes": 254,
+      "MAE_pp": 1.9563111819008692,
+      "RMSE_pp": 2.6110592180271355,
+      "R2": -0.025485372786438365,
+      "selected_entries": 84,
+      "selected_mean_return_pct": 0.17550531046795184,
+      "selected_profit_factor": 1.2079242662127165,
+      "selected_mean_5bps_pct": 0.06322757713573701,
+      "selected_mean_10bps_pct": -0.013617790287515388
+    },
+    {
+      "experiment": "all_history",
+      "cohort": "original",
+      "model": "relevance_reduced",
+      "evaluated_entries": 107,
+      "episodes": 71,
+      "MAE_pp": 1.8271655748674738,
+      "RMSE_pp": 2.472148869741556,
+      "R2": 0.016311337600528164,
+      "selected_entries": 16,
+      "selected_mean_return_pct": 0.24638677358834946,
+      "selected_profit_factor": 1.2207840957054963,
+      "selected_mean_5bps_pct": 0.16492174432940204,
+      "selected_mean_10bps_pct": 0.08351936744732047
+    },
+    {
+      "experiment": "all_history",
+      "cohort": "all",
+      "model": "relevance_no_news",
+      "evaluated_entries": 1547,
+      "episodes": 1014,
+      "MAE_pp": 1.347526605063975,
+      "RMSE_pp": 1.8018818478486427,
+      "R2": -0.05465060871750804,
+      "selected_entries": 418,
+      "selected_mean_return_pct": 0.012398088216394224,
+      "selected_profit_factor": 1.0205049848733778,
+      "selected_mean_5bps_pct": -0.08802859465681744,
+      "selected_mean_10bps_pct": -0.18338404020409882
+    },
+    {
+      "experiment": "all_history",
+      "cohort": "recent",
+      "model": "relevance_no_news",
+      "evaluated_entries": 561,
+      "episodes": 363,
+      "MAE_pp": 1.2394290814587499,
+      "RMSE_pp": 1.6642939029124015,
+      "R2": -0.014712356562142537,
+      "selected_entries": 134,
+      "selected_mean_return_pct": -0.16234247297617097,
+      "selected_profit_factor": 0.768475151620907,
+      "selected_mean_5bps_pct": -0.27049669026900824,
+      "selected_mean_10bps_pct": -0.3616752683536334
+    },
+    {
+      "experiment": "all_history",
+      "cohort": "strict",
+      "model": "relevance_no_news",
+      "evaluated_entries": 376,
+      "episodes": 254,
+      "MAE_pp": 1.9563111819008692,
+      "RMSE_pp": 2.6110592180271355,
+      "R2": -0.025485372786438365,
+      "selected_entries": 84,
+      "selected_mean_return_pct": 0.17550531046795184,
+      "selected_profit_factor": 1.2079242662127165,
+      "selected_mean_5bps_pct": 0.06322757713573701,
+      "selected_mean_10bps_pct": -0.013617790287515388
+    },
+    {
+      "experiment": "all_history",
+      "cohort": "original",
+      "model": "relevance_no_news",
+      "evaluated_entries": 107,
+      "episodes": 71,
+      "MAE_pp": 1.8271655748674738,
+      "RMSE_pp": 2.472148869741556,
+      "R2": 0.016311337600528164,
+      "selected_entries": 16,
+      "selected_mean_return_pct": 0.24638677358834946,
+      "selected_profit_factor": 1.2207840957054963,
+      "selected_mean_5bps_pct": 0.16492174432940204,
+      "selected_mean_10bps_pct": 0.08351936744732047
+    },
+    {
+      "experiment": "news_window",
+      "cohort": "all",
+      "model": "historical_mean",
+      "evaluated_entries": 304,
+      "episodes": 197,
+      "MAE_pp": 1.1570850556281314,
+      "RMSE_pp": 1.7001898762517373,
+      "R2": -0.03512415441445449,
+      "selected_entries": 58,
+      "selected_mean_return_pct": -0.44962758952118376,
+      "selected_profit_factor": 0.3877319906709457,
+      "selected_mean_5bps_pct": -0.5695580429492375,
+      "selected_mean_10bps_pct": -0.685432845538989
+    },
+    {
+      "experiment": "news_window",
+      "cohort": "all",
+      "model": "wide_nonlinear",
+      "evaluated_entries": 304,
+      "episodes": 197,
+      "MAE_pp": 1.1909307745415287,
+      "RMSE_pp": 1.7432787568434274,
+      "R2": -0.08825649332268148,
+      "selected_entries": 81,
+      "selected_mean_return_pct": -0.31406943616280214,
+      "selected_profit_factor": 0.5157886662629935,
+      "selected_mean_5bps_pct": -0.4162526598577676,
+      "selected_mean_10bps_pct": -0.544193705438708
+    },
+    {
+      "experiment": "news_window",
+      "cohort": "all",
+      "model": "correlation_reduced",
+      "evaluated_entries": 304,
+      "episodes": 197,
+      "MAE_pp": 1.1861672662694365,
+      "RMSE_pp": 1.7318522652791843,
+      "R2": -0.07403708001255982,
+      "selected_entries": 81,
+      "selected_mean_return_pct": -0.31121271566227043,
+      "selected_profit_factor": 0.4867581243849472,
+      "selected_mean_5bps_pct": -0.39827828638296986,
+      "selected_mean_10bps_pct": -0.5243891455155167
+    },
+    {
+      "experiment": "news_window",
+      "cohort": "all",
+      "model": "relevance_reduced",
+      "evaluated_entries": 304,
+      "episodes": 197,
+      "MAE_pp": 1.323856409790828,
+      "RMSE_pp": 1.9154700505344755,
+      "R2": -0.3138576770194563,
+      "selected_entries": 66,
+      "selected_mean_return_pct": -0.8460656901316954,
+      "selected_profit_factor": 0.13182115929719979,
+      "selected_mean_5bps_pct": -0.9360882495254924,
+      "selected_mean_10bps_pct": -1.0260299581198005
+    },
+    {
+      "experiment": "news_window",
+      "cohort": "all",
+      "model": "relevance_no_news",
+      "evaluated_entries": 304,
+      "episodes": 197,
+      "MAE_pp": 1.231425305046666,
+      "RMSE_pp": 1.7785891024435285,
+      "R2": -0.13278853599950358,
+      "selected_entries": 102,
+      "selected_mean_return_pct": -0.46477783323080585,
+      "selected_profit_factor": 0.3540797868827221,
+      "selected_mean_5bps_pct": -0.5700038020422699,
+      "selected_mean_10bps_pct": -0.6728924997043984
+    }
+  ],
+  "matched_previous": [
+    {
+      "version": "expanded",
+      "model": "historical_mean",
+      "n": 45,
+      "MAE_pp": 2.2021330839180027,
+      "selected": 4,
+      "selected_mean_return_pct": -0.2878669678873541
+    },
+    {
+      "version": "expanded",
+      "model": "wide_nonlinear",
+      "n": 45,
+      "MAE_pp": 2.1771773087799993,
+      "selected": 10,
+      "selected_mean_return_pct": -0.9628201748866015
+    },
+    {
+      "version": "expanded",
+      "model": "correlation_reduced",
+      "n": 45,
+      "MAE_pp": 2.1411582189712943,
+      "selected": 7,
+      "selected_mean_return_pct": -1.295038592124688
+    },
+    {
+      "version": "expanded",
+      "model": "relevance_reduced",
+      "n": 45,
+      "MAE_pp": 2.1535611133718016,
+      "selected": 10,
+      "selected_mean_return_pct": 0.6300434848122105
+    },
+    {
+      "version": "previous",
+      "model": "historical_mean",
+      "n": 45,
+      "MAE_pp": 2.091385980503406,
+      "selected": 0,
+      "selected_mean_return_pct": null
+    },
+    {
+      "version": "previous",
+      "model": "ridge_all",
+      "n": 45,
+      "MAE_pp": 3.88602002573607,
+      "selected": 18,
+      "selected_mean_return_pct": -1.1918711520126148
+    },
+    {
+      "version": "previous",
+      "model": "nonlinear_price",
+      "n": 45,
+      "MAE_pp": 2.3101625898659233,
+      "selected": 4,
+      "selected_mean_return_pct": -1.652320903999449
+    },
+    {
+      "version": "previous",
+      "model": "nonlinear_all",
+      "n": 45,
+      "MAE_pp": 2.315592357953685,
+      "selected": 3,
+      "selected_mean_return_pct": -1.6998530335213626
+    }
+  ],
+  "paired_comparisons": [
+    {
+      "experiment": "all_history",
+      "subset": "all",
+      "model_a": "relevance_reduced",
+      "model_b": "historical_mean",
+      "matched_rows": 1547,
+      "matched_episodes": 1014,
+      "calendar_days": 31,
+      "MAE_difference_a_minus_b_pp": 0.023896199002837765,
+      "day_block_bootstrap_95pct": [
+        0.001640405862324672,
+        0.04677930875355648
+      ],
+      "interpretation": "Negative favors model a. Descriptive uncertainty; few days, repeated research and multiple model comparisons limit inference."
+    },
+    {
+      "experiment": "all_history",
+      "subset": "recent",
+      "model_a": "relevance_reduced",
+      "model_b": "historical_mean",
+      "matched_rows": 561,
+      "matched_episodes": 363,
+      "calendar_days": 15,
+      "MAE_difference_a_minus_b_pp": 0.020619152677779327,
+      "day_block_bootstrap_95pct": [
+        -0.006143330168894507,
+        0.047457935249113355
+      ],
+      "interpretation": "Negative favors model a. Descriptive uncertainty; few days, repeated research and multiple model comparisons limit inference."
+    },
+    {
+      "experiment": "all_history",
+      "subset": "all",
+      "model_a": "relevance_reduced",
+      "model_b": "wide_nonlinear",
+      "matched_rows": 1547,
+      "matched_episodes": 1014,
+      "calendar_days": 31,
+      "MAE_difference_a_minus_b_pp": 0.028430720126908705,
+      "day_block_bootstrap_95pct": [
+        0.003503538743663519,
+        0.052934904345058625
+      ],
+      "interpretation": "Negative favors model a. Descriptive uncertainty; few days, repeated research and multiple model comparisons limit inference."
+    },
+    {
+      "experiment": "all_history",
+      "subset": "recent",
+      "model_a": "relevance_reduced",
+      "model_b": "wide_nonlinear",
+      "matched_rows": 561,
+      "matched_episodes": 363,
+      "calendar_days": 15,
+      "MAE_difference_a_minus_b_pp": 0.005736294326095073,
+      "day_block_bootstrap_95pct": [
+        -0.036143010760599475,
+        0.046048627616377256
+      ],
+      "interpretation": "Negative favors model a. Descriptive uncertainty; few days, repeated research and multiple model comparisons limit inference."
+    },
+    {
+      "experiment": "all_history",
+      "subset": "all",
+      "model_a": "relevance_reduced",
+      "model_b": "relevance_no_news",
+      "matched_rows": 1547,
+      "matched_episodes": 1014,
+      "calendar_days": 31,
+      "MAE_difference_a_minus_b_pp": 0.0,
+      "day_block_bootstrap_95pct": [
+        0.0,
+        0.0
+      ],
+      "interpretation": "Negative favors model a. Descriptive uncertainty; few days, repeated research and multiple model comparisons limit inference."
+    },
+    {
+      "experiment": "all_history",
+      "subset": "recent",
+      "model_a": "relevance_reduced",
+      "model_b": "relevance_no_news",
+      "matched_rows": 561,
+      "matched_episodes": 363,
+      "calendar_days": 15,
+      "MAE_difference_a_minus_b_pp": 0.0,
+      "day_block_bootstrap_95pct": [
+        0.0,
+        0.0
+      ],
+      "interpretation": "Negative favors model a. Descriptive uncertainty; few days, repeated research and multiple model comparisons limit inference."
+    },
+    {
+      "experiment": "news_window",
+      "subset": "all",
+      "model_a": "relevance_reduced",
+      "model_b": "historical_mean",
+      "matched_rows": 304,
+      "matched_episodes": 197,
+      "calendar_days": 9,
+      "MAE_difference_a_minus_b_pp": 0.16677135416269645,
+      "day_block_bootstrap_95pct": [
+        0.00233582184353731,
+        0.43347359627911664
+      ],
+      "interpretation": "Negative favors model a. Descriptive uncertainty; few days, repeated research and multiple model comparisons limit inference."
+    },
+    {
+      "experiment": "news_window",
+      "subset": "all",
+      "model_a": "relevance_reduced",
+      "model_b": "wide_nonlinear",
+      "matched_rows": 304,
+      "matched_episodes": 197,
+      "calendar_days": 9,
+      "MAE_difference_a_minus_b_pp": 0.13292563524929923,
+      "day_block_bootstrap_95pct": [
+        -0.10974851741613942,
+        0.48493282476704364
+      ],
+      "interpretation": "Negative favors model a. Descriptive uncertainty; few days, repeated research and multiple model comparisons limit inference."
+    },
+    {
+      "experiment": "news_window",
+      "subset": "all",
+      "model_a": "relevance_reduced",
+      "model_b": "relevance_no_news",
+      "matched_rows": 304,
+      "matched_episodes": 197,
+      "calendar_days": 9,
+      "MAE_difference_a_minus_b_pp": 0.09243110474416208,
+      "day_block_bootstrap_95pct": [
+        -0.16670885357885204,
+        0.40728940021193266
+      ],
+      "interpretation": "Negative favors model a. Descriptive uncertainty; few days, repeated research and multiple model comparisons limit inference."
+    }
+  ],
+  "top_stability": {
+    "all_history": [
+      {
+        "experiment": "all_history",
+        "feature": "setup_continuation",
+        "selected_folds": 18,
+        "evaluated_folds": 18,
+        "fraction": 1.0,
+        "family": "setup"
+      },
+      {
+        "experiment": "all_history",
+        "feature": "perp_range_pct_1m",
+        "selected_folds": 14,
+        "evaluated_folds": 18,
+        "fraction": 0.7777777777777778,
+        "family": "perp"
+      },
+      {
+        "experiment": "all_history",
+        "feature": "perp_rv_pct_60m",
+        "selected_folds": 12,
+        "evaluated_folds": 18,
+        "fraction": 0.6666666666666666,
+        "family": "perp"
+      },
+      {
+        "experiment": "all_history",
+        "feature": "perp_range_pct_1440m",
+        "selected_folds": 6,
+        "evaluated_folds": 18,
+        "fraction": 0.3333333333333333,
+        "family": "perp"
+      },
+      {
+        "experiment": "all_history",
+        "feature": "eth_drawdown_pct_15m",
+        "selected_folds": 5,
+        "evaluated_folds": 18,
+        "fraction": 0.2777777777777778,
+        "family": "eth"
+      },
+      {
+        "experiment": "all_history",
+        "feature": "btc_up_fraction_240m",
+        "selected_folds": 5,
+        "evaluated_folds": 18,
+        "fraction": 0.2777777777777778,
+        "family": "btc"
+      },
+      {
+        "experiment": "all_history",
+        "feature": "perp_rv_pct_15m",
+        "selected_folds": 4,
+        "evaluated_folds": 18,
+        "fraction": 0.2222222222222222,
+        "family": "perp"
+      },
+      {
+        "experiment": "all_history",
+        "feature": "perp_return_pct_30m",
+        "selected_folds": 3,
+        "evaluated_folds": 18,
+        "fraction": 0.16666666666666666,
+        "family": "perp"
+      },
+      {
+        "experiment": "all_history",
+        "feature": "btc_rebound_pct_60m",
+        "selected_folds": 3,
+        "evaluated_folds": 18,
+        "fraction": 0.16666666666666666,
+        "family": "btc"
+      },
+      {
+        "experiment": "all_history",
+        "feature": "btc_return_pct_1440m",
+        "selected_folds": 3,
+        "evaluated_folds": 18,
+        "fraction": 0.16666666666666666,
+        "family": "btc"
+      },
+      {
+        "experiment": "all_history",
+        "feature": "perp_rv_pct_240m",
+        "selected_folds": 3,
+        "evaluated_folds": 18,
+        "fraction": 0.16666666666666666,
+        "family": "perp"
+      },
+      {
+        "experiment": "all_history",
+        "feature": "eth_impact_bps_per_10k_1440m",
+        "selected_folds": 2,
+        "evaluated_folds": 18,
+        "fraction": 0.1111111111111111,
+        "family": "eth"
+      }
+    ],
+    "news_window": [
+      {
+        "experiment": "news_window",
+        "feature": "setup_continuation",
+        "selected_folds": 9,
+        "evaluated_folds": 9,
+        "fraction": 1.0,
+        "family": "setup"
+      },
+      {
+        "experiment": "news_window",
+        "feature": "btc_volume_ratio_60m",
+        "selected_folds": 3,
+        "evaluated_folds": 9,
+        "fraction": 0.3333333333333333,
+        "family": "btc"
+      },
+      {
+        "experiment": "news_window",
+        "feature": "breadth_rally_fraction_60m",
+        "selected_folds": 2,
+        "evaluated_folds": 9,
+        "fraction": 0.2222222222222222,
+        "family": "breadth"
+      },
+      {
+        "experiment": "news_window",
+        "feature": "eth_last_lower_wick_fraction",
+        "selected_folds": 2,
+        "evaluated_folds": 9,
+        "fraction": 0.2222222222222222,
+        "family": "eth"
+      },
+      {
+        "experiment": "news_window",
+        "feature": "eth_trend_efficiency_15m",
+        "selected_folds": 2,
+        "evaluated_folds": 9,
+        "fraction": 0.2222222222222222,
+        "family": "eth"
+      },
+      {
+        "experiment": "news_window",
+        "feature": "btc_return_autocorr_60m",
+        "selected_folds": 2,
+        "evaluated_folds": 9,
+        "fraction": 0.2222222222222222,
+        "family": "btc"
+      },
+      {
+        "experiment": "news_window",
+        "feature": "btc_rv_pct_1440m",
+        "selected_folds": 2,
+        "evaluated_folds": 9,
+        "fraction": 0.2222222222222222,
+        "family": "btc"
+      },
+      {
+        "experiment": "news_window",
+        "feature": "btc_last_upper_wick_fraction",
+        "selected_folds": 1,
+        "evaluated_folds": 9,
+        "fraction": 0.1111111111111111,
+        "family": "btc"
+      },
+      {
+        "experiment": "news_window",
+        "feature": "btc_rv_pct_15m",
+        "selected_folds": 1,
+        "evaluated_folds": 9,
+        "fraction": 0.1111111111111111,
+        "family": "btc"
+      },
+      {
+        "experiment": "news_window",
+        "feature": "calendar_hour_cos",
+        "selected_folds": 1,
+        "evaluated_folds": 9,
+        "fraction": 0.1111111111111111,
+        "family": "calendar"
+      },
+      {
+        "experiment": "news_window",
+        "feature": "btc_trend_efficiency_5m",
+        "selected_folds": 1,
+        "evaluated_folds": 9,
+        "fraction": 0.1111111111111111,
+        "family": "btc"
+      },
+      {
+        "experiment": "news_window",
+        "feature": "derivative_log_turnover_24h",
+        "selected_folds": 1,
+        "evaluated_folds": 9,
+        "fraction": 0.1111111111111111,
+        "family": "derivative"
+      }
+    ]
+  }
+}

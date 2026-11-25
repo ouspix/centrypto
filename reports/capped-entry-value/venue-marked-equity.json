@@ -1,0 +1,1564 @@
+{
+  "period": [
+    "2026-11-17T00:00:00+00:00",
+    "2026-11-21T13:00:00+00:00"
+  ],
+  "asof_ttl_ms": 120000,
+  "source_sha256": "c1ce7719aef3188426568e597f7d2c9c6c51a8ec539c835132e26598147252b9",
+  "fallback": "minute-open proxy",
+  "arms": {
+    "saved_price_error": {
+      "trades": 42,
+      "net": 55.57200062610943,
+      "full_drawdown": 26.320190879263322,
+      "peak_marked_gross": 984.9482290681325,
+      "average_marked_gross": 273.41117442923144,
+      "long_notional_hours": 8294.56305549164,
+      "short_notional_hours": 21507.254957294583,
+      "average_signed_exposure": -121.21735689727473,
+      "peak_entry_notional": 1000.0,
+      "turnover": 8354.152787060588,
+      "minutes_at_capacity": 5,
+      "missing_mark_minutes": 0,
+      "end_inventory": [],
+      "valuation_at": "2026-11-21T13:00:00+00:00",
+      "by_side": {
+        "long": {
+          "trades": 23,
+          "closed_net": 5.115202483102351
+        },
+        "short": {
+          "trades": 19,
+          "closed_net": 50.456798143007084
+        }
+      },
+      "sources": {
+        "candle_proxy": 84
+      },
+      "funding_valuations": {
+        "candle_proxy": 305
+      },
+      "realized_btc_eth_beta_usd": {
+        "BTC": -97.36388493121801,
+        "ETH": -60.16396622616164,
+        "minutes": 6540
+      },
+      "venue_marked_position_minutes": 18220,
+      "total_position_minutes": 18220,
+      "at_entry_cutoff": {
+        "at": "2026-11-20T12:00:00+00:00",
+        "net_equity": 53.25789668074336,
+        "inventory": [
+          {
+            "symbol": "LIT",
+            "side": "short",
+            "quantity": 34.605536678235296,
+            "entry": "2026-11-19T15:36:00+00:00",
+            "mark": 2.5977,
+            "marked_notional": 89.89480262905184,
+            "unrealized_price_pnl": 10.105197370948169
+          },
+          {
+            "symbol": "VVV",
+            "side": "short",
+            "quantity": 4.461147336965832,
+            "entry": "2026-11-19T15:46:00+00:00",
+            "mark": 20.4031,
+            "marked_notional": 91.02123523084755,
+            "unrealized_price_pnl": 8.978764769152447
+          },
+          {
+            "symbol": "ANIME",
+            "side": "short",
+            "quantity": 46755.493688686314,
+            "entry": "2026-11-20T01:06:00+00:00",
+            "mark": 0.00216,
+            "marked_notional": 100.99186636756244,
+            "unrealized_price_pnl": -0.9918663675624352
+          },
+          {
+            "symbol": "JUP",
+            "side": "long",
+            "quantity": 431.21442556451615,
+            "entry": "2026-11-20T11:31:00+00:00",
+            "mark": 0.22872,
+            "marked_notional": 98.62736341511614,
+            "unrealized_price_pnl": -1.3726365848838624
+          }
+        ]
+      }
+    },
+    "matched_price_error": {
+      "trades": 42,
+      "net": 55.57200062610943,
+      "full_drawdown": 26.320190879263322,
+      "peak_marked_gross": 984.9482290681325,
+      "average_marked_gross": 273.41117442923144,
+      "long_notional_hours": 8294.56305549164,
+      "short_notional_hours": 21507.254957294583,
+      "average_signed_exposure": -121.21735689727473,
+      "peak_entry_notional": 1000.0,
+      "turnover": 8354.152787060588,
+      "minutes_at_capacity": 5,
+      "missing_mark_minutes": 0,
+      "end_inventory": [],
+      "valuation_at": "2026-11-21T13:00:00+00:00",
+      "by_side": {
+        "long": {
+          "trades": 23,
+          "closed_net": 5.115202483102351
+        },
+        "short": {
+          "trades": 19,
+          "closed_net": 50.456798143007084
+        }
+      },
+      "sources": {
+        "candle_proxy": 84
+      },
+      "funding_valuations": {
+        "candle_proxy": 305
+      },
+      "realized_btc_eth_beta_usd": {
+        "BTC": -97.36388493121801,
+        "ETH": -60.16396622616164,
+        "minutes": 6540
+      },
+      "venue_marked_position_minutes": 18220,
+      "total_position_minutes": 18220,
+      "at_entry_cutoff": {
+        "at": "2026-11-20T12:00:00+00:00",
+        "net_equity": 53.25789668074336,
+        "inventory": [
+          {
+            "symbol": "LIT",
+            "side": "short",
+            "quantity": 34.605536678235296,
+            "entry": "2026-11-19T15:36:00+00:00",
+            "mark": 2.5977,
+            "marked_notional": 89.89480262905184,
+            "unrealized_price_pnl": 10.105197370948169
+          },
+          {
+            "symbol": "VVV",
+            "side": "short",
+            "quantity": 4.461147336965832,
+            "entry": "2026-11-19T15:46:00+00:00",
+            "mark": 20.4031,
+            "marked_notional": 91.02123523084755,
+            "unrealized_price_pnl": 8.978764769152447
+          },
+          {
+            "symbol": "ANIME",
+            "side": "short",
+            "quantity": 46755.493688686314,
+            "entry": "2026-11-20T01:06:00+00:00",
+            "mark": 0.00216,
+            "marked_notional": 100.99186636756244,
+            "unrealized_price_pnl": -0.9918663675624352
+          },
+          {
+            "symbol": "JUP",
+            "side": "long",
+            "quantity": 431.21442556451615,
+            "entry": "2026-11-20T11:31:00+00:00",
+            "mark": 0.22872,
+            "marked_notional": 98.62736341511614,
+            "unrealized_price_pnl": -1.3726365848838624
+          }
+        ]
+      }
+    },
+    "net_value": {
+      "trades": 66,
+      "net": 52.36991318448199,
+      "full_drawdown": 21.810054466514906,
+      "peak_marked_gross": 998.0783657749831,
+      "average_marked_gross": 424.6215202576275,
+      "long_notional_hours": 12129.518789127404,
+      "short_notional_hours": 34154.226918953995,
+      "average_signed_exposure": -202.0615424754733,
+      "peak_entry_notional": 1000.0,
+      "turnover": 13154.313955799995,
+      "minutes_at_capacity": 820,
+      "missing_mark_minutes": 0,
+      "end_inventory": [],
+      "valuation_at": "2026-11-21T13:00:00+00:00",
+      "by_side": {
+        "long": {
+          "trades": 38,
+          "closed_net": 3.0795788051979525
+        },
+        "short": {
+          "trades": 28,
+          "closed_net": 49.29033437928403
+        }
+      },
+      "sources": {
+        "candle_proxy": 132
+      },
+      "funding_valuations": {
+        "candle_proxy": 468
+      },
+      "realized_btc_eth_beta_usd": {
+        "BTC": -96.77704514237294,
+        "ETH": -149.39588135844951,
+        "minutes": 6540
+      },
+      "venue_marked_position_minutes": 28045,
+      "total_position_minutes": 28045,
+      "at_entry_cutoff": {
+        "at": "2026-11-20T12:00:00+00:00",
+        "net_equity": 41.32891892853065,
+        "inventory": [
+          {
+            "symbol": "MON",
+            "side": "short",
+            "quantity": 7044.446080164825,
+            "entry": "2026-11-19T15:01:00+00:00",
+            "mark": 0.013553,
+            "marked_notional": 95.47337772447388,
+            "unrealized_price_pnl": 4.5266222755261305
+          },
+          {
+            "symbol": "LIT",
+            "side": "short",
+            "quantity": 34.2746499194969,
+            "entry": "2026-11-19T15:26:00+00:00",
+            "mark": 2.5977,
+            "marked_notional": 89.03525809587711,
+            "unrealized_price_pnl": 10.964741904122896
+          },
+          {
+            "symbol": "AAVE",
+            "side": "short",
+            "quantity": 0.9468850691166446,
+            "entry": "2026-11-19T15:31:00+00:00",
+            "mark": 102.35,
+            "marked_notional": 96.91368682408857,
+            "unrealized_price_pnl": 3.086313175911434
+          },
+          {
+            "symbol": "STRK",
+            "side": "short",
+            "quantity": 3195.207699683706,
+            "entry": "2026-11-19T20:21:00+00:00",
+            "mark": 0.0312,
+            "marked_notional": 99.69048023013161,
+            "unrealized_price_pnl": 0.30951976986837926
+          },
+          {
+            "symbol": "SOL",
+            "side": "short",
+            "quantity": 1.3897805894873614,
+            "entry": "2026-11-20T02:06:00+00:00",
+            "mark": 71.735,
+            "marked_notional": 99.69591058687587,
+            "unrealized_price_pnl": 0.3040894131241302
+          },
+          {
+            "symbol": "DOGE",
+            "side": "short",
+            "quantity": 1750.170642075145,
+            "entry": "2026-11-20T02:51:00+00:00",
+            "mark": 0.056859,
+            "marked_notional": 99.51295253775066,
+            "unrealized_price_pnl": 0.4870474622493287
+          },
+          {
+            "symbol": "CASHCAT",
+            "side": "short",
+            "quantity": 2388.013395417861,
+            "entry": "2026-11-20T11:51:00+00:00",
+            "mark": 0.042042,
+            "marked_notional": 100.39685917015771,
+            "unrealized_price_pnl": -0.3968591701577145
+          }
+        ]
+      }
+    },
+    "frozen_mlp_calibrated": {
+      "trades": 141,
+      "net": 109.54346191541079,
+      "full_drawdown": 40.96765359359414,
+      "peak_marked_gross": 1007.4261064813245,
+      "average_marked_gross": 633.0271121358977,
+      "long_notional_hours": 0.0,
+      "short_notional_hours": 68999.95522281286,
+      "average_signed_exposure": -633.0271121358977,
+      "peak_entry_notional": 1000.0,
+      "turnover": 28077.98139513116,
+      "minutes_at_capacity": 2345,
+      "missing_mark_minutes": 0,
+      "end_inventory": [],
+      "valuation_at": "2026-11-21T13:00:00+00:00",
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "closed_net": 0
+        },
+        "short": {
+          "trades": 141,
+          "closed_net": 109.54346191541084
+        }
+      },
+      "sources": {
+        "candle_proxy": 281,
+        "observed_bbo": 1
+      },
+      "funding_valuations": {
+        "candle_proxy": 702
+      },
+      "realized_btc_eth_beta_usd": {
+        "BTC": -204.63484429048503,
+        "ETH": -338.35781586905347,
+        "minutes": 6540
+      },
+      "venue_marked_position_minutes": 42100,
+      "total_position_minutes": 42100,
+      "at_entry_cutoff": {
+        "at": "2026-11-20T12:00:00+00:00",
+        "net_equity": 74.18361421524708,
+        "inventory": [
+          {
+            "symbol": "XPL",
+            "side": "short",
+            "quantity": 2096.294143541964,
+            "entry": "2026-11-19T14:16:00+00:00",
+            "mark": 0.044904,
+            "marked_notional": 94.13199222160834,
+            "unrealized_price_pnl": 5.868007778391663
+          },
+          {
+            "symbol": "FARTCOIN",
+            "side": "short",
+            "quantity": 1156.3186611180486,
+            "entry": "2026-11-19T14:26:00+00:00",
+            "mark": 0.08134,
+            "marked_notional": 94.05495989534207,
+            "unrealized_price_pnl": 5.945040104657942
+          },
+          {
+            "symbol": "PENGU",
+            "side": "short",
+            "quantity": 20979.65198239983,
+            "entry": "2026-11-19T14:56:00+00:00",
+            "mark": 0.004446,
+            "marked_notional": 93.27553271374966,
+            "unrealized_price_pnl": 6.72446728625034
+          },
+          {
+            "symbol": "STRK",
+            "side": "short",
+            "quantity": 3195.207699683706,
+            "entry": "2026-11-19T20:21:00+00:00",
+            "mark": 0.0312,
+            "marked_notional": 99.69048023013161,
+            "unrealized_price_pnl": 0.30951976986837926
+          },
+          {
+            "symbol": "DOGE",
+            "side": "short",
+            "quantity": 1753.2080674584533,
+            "entry": "2026-11-20T02:46:00+00:00",
+            "mark": 0.056859,
+            "marked_notional": 99.68565750762019,
+            "unrealized_price_pnl": 0.3143424923797987
+          },
+          {
+            "symbol": "ETH",
+            "side": "short",
+            "quantity": 0.0573254619970767,
+            "entry": "2026-11-20T09:56:00+00:00",
+            "mark": 1748.0,
+            "marked_notional": 100.20490757089007,
+            "unrealized_price_pnl": -0.20490757089007333
+          },
+          {
+            "symbol": "SOL",
+            "side": "short",
+            "quantity": 1.3861015772272427,
+            "entry": "2026-11-20T10:06:00+00:00",
+            "mark": 71.735,
+            "marked_notional": 99.43199664239626,
+            "unrealized_price_pnl": 0.5680033576037461
+          },
+          {
+            "symbol": "LIT",
+            "side": "short",
+            "quantity": 38.65718410579414,
+            "entry": "2026-11-20T11:41:00+00:00",
+            "mark": 2.5977,
+            "marked_notional": 100.41976715162143,
+            "unrealized_price_pnl": -0.41976715162142547
+          },
+          {
+            "symbol": "CASHCAT",
+            "side": "short",
+            "quantity": 2388.013395417861,
+            "entry": "2026-11-20T11:51:00+00:00",
+            "mark": 0.042042,
+            "marked_notional": 100.39685917015771,
+            "unrealized_price_pnl": -0.3968591701577145
+          }
+        ]
+      }
+    },
+    "lightgbm": {
+      "trades": 0,
+      "net": 0.0,
+      "full_drawdown": 0.0,
+      "peak_marked_gross": 0.0,
+      "average_marked_gross": 0.0,
+      "long_notional_hours": 0.0,
+      "short_notional_hours": 0.0,
+      "average_signed_exposure": 0.0,
+      "peak_entry_notional": 0.0,
+      "turnover": 0.0,
+      "minutes_at_capacity": 0,
+      "missing_mark_minutes": 0,
+      "end_inventory": [],
+      "valuation_at": "2026-11-21T13:00:00+00:00",
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "closed_net": 0
+        },
+        "short": {
+          "trades": 0,
+          "closed_net": 0
+        }
+      },
+      "sources": {},
+      "funding_valuations": {},
+      "realized_btc_eth_beta_usd": {
+        "BTC": 0.0,
+        "ETH": 0.0,
+        "minutes": 6540
+      },
+      "venue_marked_position_minutes": 0,
+      "total_position_minutes": 0,
+      "at_entry_cutoff": {
+        "at": "2026-11-20T12:00:00+00:00",
+        "net_equity": 0.0,
+        "inventory": []
+      }
+    },
+    "market": {
+      "trades": 0,
+      "net": 0.0,
+      "full_drawdown": 0.0,
+      "peak_marked_gross": 0.0,
+      "average_marked_gross": 0.0,
+      "long_notional_hours": 0.0,
+      "short_notional_hours": 0.0,
+      "average_signed_exposure": 0.0,
+      "peak_entry_notional": 0.0,
+      "turnover": 0.0,
+      "minutes_at_capacity": 0,
+      "missing_mark_minutes": 0,
+      "end_inventory": [],
+      "valuation_at": "2026-11-21T13:00:00+00:00",
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "closed_net": 0
+        },
+        "short": {
+          "trades": 0,
+          "closed_net": 0
+        }
+      },
+      "sources": {},
+      "funding_valuations": {},
+      "realized_btc_eth_beta_usd": {
+        "BTC": 0.0,
+        "ETH": 0.0,
+        "minutes": 6540
+      },
+      "venue_marked_position_minutes": 0,
+      "total_position_minutes": 0,
+      "at_entry_cutoff": {
+        "at": "2026-11-20T12:00:00+00:00",
+        "net_equity": 0.0,
+        "inventory": []
+      }
+    },
+    "market_news": {
+      "trades": 136,
+      "net": 91.94086034959007,
+      "full_drawdown": 50.61062296097826,
+      "peak_marked_gross": 1020.2058909291379,
+      "average_marked_gross": 631.1846829834805,
+      "long_notional_hours": 0.0,
+      "short_notional_hours": 68799.13044519936,
+      "average_signed_exposure": -631.1846829834805,
+      "peak_entry_notional": 1000.0,
+      "turnover": 27095.93277215727,
+      "minutes_at_capacity": 2420,
+      "missing_mark_minutes": 0,
+      "end_inventory": [],
+      "valuation_at": "2026-11-21T13:00:00+00:00",
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "closed_net": 0
+        },
+        "short": {
+          "trades": 136,
+          "closed_net": 91.94086034959012
+        }
+      },
+      "sources": {
+        "candle_proxy": 271,
+        "observed_bbo": 1
+      },
+      "funding_valuations": {
+        "candle_proxy": 694
+      },
+      "realized_btc_eth_beta_usd": {
+        "BTC": -203.54205120879618,
+        "ETH": -298.092415385127,
+        "minutes": 6540
+      },
+      "venue_marked_position_minutes": 41705,
+      "total_position_minutes": 41705,
+      "at_entry_cutoff": {
+        "at": "2026-11-20T12:00:00+00:00",
+        "net_equity": 61.25386758759329,
+        "inventory": [
+          {
+            "symbol": "FARTCOIN",
+            "side": "short",
+            "quantity": 1154.9832659672018,
+            "entry": "2026-11-19T14:31:00+00:00",
+            "mark": 0.08134,
+            "marked_notional": 93.94633885377219,
+            "unrealized_price_pnl": 6.053661146227811
+          },
+          {
+            "symbol": "ETH",
+            "side": "short",
+            "quantity": 0.05635318701758044,
+            "entry": "2026-11-19T18:16:00+00:00",
+            "mark": 1748.0,
+            "marked_notional": 98.50537090673062,
+            "unrealized_price_pnl": 1.4946290932693855
+          },
+          {
+            "symbol": "UNI",
+            "side": "short",
+            "quantity": 20.144624138923582,
+            "entry": "2026-11-19T18:21:00+00:00",
+            "mark": 4.7929,
+            "marked_notional": 96.55116903544685,
+            "unrealized_price_pnl": 3.448830964553161
+          },
+          {
+            "symbol": "DOGE",
+            "side": "short",
+            "quantity": 1700.3587568237076,
+            "entry": "2026-11-19T19:46:00+00:00",
+            "mark": 0.056859,
+            "marked_notional": 96.68069855423919,
+            "unrealized_price_pnl": 3.319301445760809
+          },
+          {
+            "symbol": "ASTER",
+            "side": "short",
+            "quantity": 197.882867036209,
+            "entry": "2026-11-19T21:16:00+00:00",
+            "mark": 0.5062,
+            "marked_notional": 100.168307293729,
+            "unrealized_price_pnl": -0.1683072937289903
+          },
+          {
+            "symbol": "PUMP",
+            "side": "short",
+            "quantity": 39451.67692311638,
+            "entry": "2026-11-20T09:21:00+00:00",
+            "mark": 0.002501,
+            "marked_notional": 98.66864398471407,
+            "unrealized_price_pnl": 1.331356015285931
+          },
+          {
+            "symbol": "SOL",
+            "side": "short",
+            "quantity": 1.3861015772272427,
+            "entry": "2026-11-20T10:06:00+00:00",
+            "mark": 71.735,
+            "marked_notional": 99.43199664239626,
+            "unrealized_price_pnl": 0.5680033576037461
+          },
+          {
+            "symbol": "ADA",
+            "side": "short",
+            "quantity": 674.2853357611921,
+            "entry": "2026-11-20T11:31:00+00:00",
+            "mark": 0.14691,
+            "marked_notional": 99.05925867667673,
+            "unrealized_price_pnl": 0.9407413233232723
+          },
+          {
+            "symbol": "LIT",
+            "side": "short",
+            "quantity": 38.65718410579414,
+            "entry": "2026-11-20T11:41:00+00:00",
+            "mark": 2.5977,
+            "marked_notional": 100.41976715162143,
+            "unrealized_price_pnl": -0.41976715162142547
+          }
+        ]
+      }
+    },
+    "market_news_overlap": {
+      "trades": 138,
+      "net": 83.67537557903647,
+      "full_drawdown": 51.76681986335194,
+      "peak_marked_gross": 1019.2977785620102,
+      "average_marked_gross": 642.4056287607691,
+      "long_notional_hours": 0.0,
+      "short_notional_hours": 70022.21353492382,
+      "average_signed_exposure": -642.4056287607691,
+      "peak_entry_notional": 1000.0,
+      "turnover": 27504.073686497373,
+      "minutes_at_capacity": 2390,
+      "missing_mark_minutes": 0,
+      "end_inventory": [],
+      "valuation_at": "2026-11-21T13:00:00+00:00",
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "closed_net": 0
+        },
+        "short": {
+          "trades": 138,
+          "closed_net": 83.67537557903655
+        }
+      },
+      "sources": {
+        "candle_proxy": 275,
+        "observed_bbo": 1
+      },
+      "funding_valuations": {
+        "candle_proxy": 710
+      },
+      "realized_btc_eth_beta_usd": {
+        "BTC": -216.27632772517723,
+        "ETH": -326.7800403154054,
+        "minutes": 6540
+      },
+      "venue_marked_position_minutes": 42550,
+      "total_position_minutes": 42550,
+      "at_entry_cutoff": {
+        "at": "2026-11-20T12:00:00+00:00",
+        "net_equity": 64.56861831419491,
+        "inventory": [
+          {
+            "symbol": "XPL",
+            "side": "short",
+            "quantity": 2096.294143541964,
+            "entry": "2026-11-19T14:16:00+00:00",
+            "mark": 0.044904,
+            "marked_notional": 94.13199222160834,
+            "unrealized_price_pnl": 5.868007778391663
+          },
+          {
+            "symbol": "FARTCOIN",
+            "side": "short",
+            "quantity": 1154.9832659672018,
+            "entry": "2026-11-19T14:31:00+00:00",
+            "mark": 0.08134,
+            "marked_notional": 93.94633885377219,
+            "unrealized_price_pnl": 6.053661146227811
+          },
+          {
+            "symbol": "ETH",
+            "side": "short",
+            "quantity": 0.05635318701758044,
+            "entry": "2026-11-19T18:16:00+00:00",
+            "mark": 1748.0,
+            "marked_notional": 98.50537090673062,
+            "unrealized_price_pnl": 1.4946290932693855
+          },
+          {
+            "symbol": "UNI",
+            "side": "short",
+            "quantity": 20.144624138923582,
+            "entry": "2026-11-19T18:21:00+00:00",
+            "mark": 4.7929,
+            "marked_notional": 96.55116903544685,
+            "unrealized_price_pnl": 3.448830964553161
+          },
+          {
+            "symbol": "STRK",
+            "side": "short",
+            "quantity": 3195.207699683706,
+            "entry": "2026-11-19T20:21:00+00:00",
+            "mark": 0.0312,
+            "marked_notional": 99.69048023013161,
+            "unrealized_price_pnl": 0.30951976986837926
+          },
+          {
+            "symbol": "DOGE",
+            "side": "short",
+            "quantity": 1753.2080674584533,
+            "entry": "2026-11-20T02:46:00+00:00",
+            "mark": 0.056859,
+            "marked_notional": 99.68565750762019,
+            "unrealized_price_pnl": 0.3143424923797987
+          },
+          {
+            "symbol": "HYPE",
+            "side": "short",
+            "quantity": 1.541936493988591,
+            "entry": "2026-11-20T09:56:00+00:00",
+            "mark": 63.868,
+            "marked_notional": 98.48039999806333,
+            "unrealized_price_pnl": 1.5196000019366753
+          },
+          {
+            "symbol": "PUMP",
+            "side": "short",
+            "quantity": 39828.753882954996,
+            "entry": "2026-11-20T11:21:00+00:00",
+            "mark": 0.002501,
+            "marked_notional": 99.61171346127045,
+            "unrealized_price_pnl": 0.38828653872955066
+          },
+          {
+            "symbol": "NEAR",
+            "side": "short",
+            "quantity": 33.64734414429903,
+            "entry": "2026-11-20T11:51:00+00:00",
+            "mark": 2.9698,
+            "marked_notional": 99.92588263973927,
+            "unrealized_price_pnl": 0.0741173602607308
+          },
+          {
+            "symbol": "LINK",
+            "side": "short",
+            "quantity": 11.360899806895377,
+            "entry": "2026-11-20T11:56:00+00:00",
+            "mark": 8.7815,
+            "marked_notional": 99.76574165425174,
+            "unrealized_price_pnl": 0.23425834574825216
+          }
+        ]
+      }
+    },
+    "mlp": {
+      "trades": 136,
+      "net": 91.94086034959007,
+      "full_drawdown": 50.61062296097826,
+      "peak_marked_gross": 1020.2058909291379,
+      "average_marked_gross": 631.1846829834805,
+      "long_notional_hours": 0.0,
+      "short_notional_hours": 68799.13044519936,
+      "average_signed_exposure": -631.1846829834805,
+      "peak_entry_notional": 1000.0,
+      "turnover": 27095.93277215727,
+      "minutes_at_capacity": 2420,
+      "missing_mark_minutes": 0,
+      "end_inventory": [],
+      "valuation_at": "2026-11-21T13:00:00+00:00",
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "closed_net": 0
+        },
+        "short": {
+          "trades": 136,
+          "closed_net": 91.94086034959012
+        }
+      },
+      "sources": {
+        "candle_proxy": 271,
+        "observed_bbo": 1
+      },
+      "funding_valuations": {
+        "candle_proxy": 694
+      },
+      "realized_btc_eth_beta_usd": {
+        "BTC": -203.54205120879618,
+        "ETH": -298.092415385127,
+        "minutes": 6540
+      },
+      "venue_marked_position_minutes": 41705,
+      "total_position_minutes": 41705,
+      "at_entry_cutoff": {
+        "at": "2026-11-20T12:00:00+00:00",
+        "net_equity": 61.25386758759329,
+        "inventory": [
+          {
+            "symbol": "FARTCOIN",
+            "side": "short",
+            "quantity": 1154.9832659672018,
+            "entry": "2026-11-19T14:31:00+00:00",
+            "mark": 0.08134,
+            "marked_notional": 93.94633885377219,
+            "unrealized_price_pnl": 6.053661146227811
+          },
+          {
+            "symbol": "ETH",
+            "side": "short",
+            "quantity": 0.05635318701758044,
+            "entry": "2026-11-19T18:16:00+00:00",
+            "mark": 1748.0,
+            "marked_notional": 98.50537090673062,
+            "unrealized_price_pnl": 1.4946290932693855
+          },
+          {
+            "symbol": "UNI",
+            "side": "short",
+            "quantity": 20.144624138923582,
+            "entry": "2026-11-19T18:21:00+00:00",
+            "mark": 4.7929,
+            "marked_notional": 96.55116903544685,
+            "unrealized_price_pnl": 3.448830964553161
+          },
+          {
+            "symbol": "DOGE",
+            "side": "short",
+            "quantity": 1700.3587568237076,
+            "entry": "2026-11-19T19:46:00+00:00",
+            "mark": 0.056859,
+            "marked_notional": 96.68069855423919,
+            "unrealized_price_pnl": 3.319301445760809
+          },
+          {
+            "symbol": "ASTER",
+            "side": "short",
+            "quantity": 197.882867036209,
+            "entry": "2026-11-19T21:16:00+00:00",
+            "mark": 0.5062,
+            "marked_notional": 100.168307293729,
+            "unrealized_price_pnl": -0.1683072937289903
+          },
+          {
+            "symbol": "PUMP",
+            "side": "short",
+            "quantity": 39451.67692311638,
+            "entry": "2026-11-20T09:21:00+00:00",
+            "mark": 0.002501,
+            "marked_notional": 98.66864398471407,
+            "unrealized_price_pnl": 1.331356015285931
+          },
+          {
+            "symbol": "SOL",
+            "side": "short",
+            "quantity": 1.3861015772272427,
+            "entry": "2026-11-20T10:06:00+00:00",
+            "mark": 71.735,
+            "marked_notional": 99.43199664239626,
+            "unrealized_price_pnl": 0.5680033576037461
+          },
+          {
+            "symbol": "ADA",
+            "side": "short",
+            "quantity": 674.2853357611921,
+            "entry": "2026-11-20T11:31:00+00:00",
+            "mark": 0.14691,
+            "marked_notional": 99.05925867667673,
+            "unrealized_price_pnl": 0.9407413233232723
+          },
+          {
+            "symbol": "LIT",
+            "side": "short",
+            "quantity": 38.65718410579414,
+            "entry": "2026-11-20T11:41:00+00:00",
+            "mark": 2.5977,
+            "marked_notional": 100.41976715162143,
+            "unrealized_price_pnl": -0.41976715162142547
+          }
+        ]
+      }
+    },
+    "news_availability": {
+      "trades": 136,
+      "net": 91.94086034959007,
+      "full_drawdown": 50.61062296097826,
+      "peak_marked_gross": 1020.2058909291379,
+      "average_marked_gross": 631.1846829834805,
+      "long_notional_hours": 0.0,
+      "short_notional_hours": 68799.13044519936,
+      "average_signed_exposure": -631.1846829834805,
+      "peak_entry_notional": 1000.0,
+      "turnover": 27095.93277215727,
+      "minutes_at_capacity": 2420,
+      "missing_mark_minutes": 0,
+      "end_inventory": [],
+      "valuation_at": "2026-11-21T13:00:00+00:00",
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "closed_net": 0
+        },
+        "short": {
+          "trades": 136,
+          "closed_net": 91.94086034959012
+        }
+      },
+      "sources": {
+        "candle_proxy": 271,
+        "observed_bbo": 1
+      },
+      "funding_valuations": {
+        "candle_proxy": 694
+      },
+      "realized_btc_eth_beta_usd": {
+        "BTC": -203.54205120879618,
+        "ETH": -298.092415385127,
+        "minutes": 6540
+      },
+      "venue_marked_position_minutes": 41705,
+      "total_position_minutes": 41705,
+      "at_entry_cutoff": {
+        "at": "2026-11-20T12:00:00+00:00",
+        "net_equity": 61.25386758759329,
+        "inventory": [
+          {
+            "symbol": "FARTCOIN",
+            "side": "short",
+            "quantity": 1154.9832659672018,
+            "entry": "2026-11-19T14:31:00+00:00",
+            "mark": 0.08134,
+            "marked_notional": 93.94633885377219,
+            "unrealized_price_pnl": 6.053661146227811
+          },
+          {
+            "symbol": "ETH",
+            "side": "short",
+            "quantity": 0.05635318701758044,
+            "entry": "2026-11-19T18:16:00+00:00",
+            "mark": 1748.0,
+            "marked_notional": 98.50537090673062,
+            "unrealized_price_pnl": 1.4946290932693855
+          },
+          {
+            "symbol": "UNI",
+            "side": "short",
+            "quantity": 20.144624138923582,
+            "entry": "2026-11-19T18:21:00+00:00",
+            "mark": 4.7929,
+            "marked_notional": 96.55116903544685,
+            "unrealized_price_pnl": 3.448830964553161
+          },
+          {
+            "symbol": "DOGE",
+            "side": "short",
+            "quantity": 1700.3587568237076,
+            "entry": "2026-11-19T19:46:00+00:00",
+            "mark": 0.056859,
+            "marked_notional": 96.68069855423919,
+            "unrealized_price_pnl": 3.319301445760809
+          },
+          {
+            "symbol": "ASTER",
+            "side": "short",
+            "quantity": 197.882867036209,
+            "entry": "2026-11-19T21:16:00+00:00",
+            "mark": 0.5062,
+            "marked_notional": 100.168307293729,
+            "unrealized_price_pnl": -0.1683072937289903
+          },
+          {
+            "symbol": "PUMP",
+            "side": "short",
+            "quantity": 39451.67692311638,
+            "entry": "2026-11-20T09:21:00+00:00",
+            "mark": 0.002501,
+            "marked_notional": 98.66864398471407,
+            "unrealized_price_pnl": 1.331356015285931
+          },
+          {
+            "symbol": "SOL",
+            "side": "short",
+            "quantity": 1.3861015772272427,
+            "entry": "2026-11-20T10:06:00+00:00",
+            "mark": 71.735,
+            "marked_notional": 99.43199664239626,
+            "unrealized_price_pnl": 0.5680033576037461
+          },
+          {
+            "symbol": "ADA",
+            "side": "short",
+            "quantity": 674.2853357611921,
+            "entry": "2026-11-20T11:31:00+00:00",
+            "mark": 0.14691,
+            "marked_notional": 99.05925867667673,
+            "unrealized_price_pnl": 0.9407413233232723
+          },
+          {
+            "symbol": "LIT",
+            "side": "short",
+            "quantity": 38.65718410579414,
+            "entry": "2026-11-20T11:41:00+00:00",
+            "mark": 2.5977,
+            "marked_notional": 100.41976715162143,
+            "unrealized_price_pnl": -0.41976715162142547
+          }
+        ]
+      }
+    },
+    "news_overlap": {
+      "trades": 138,
+      "net": 83.67537557903647,
+      "full_drawdown": 51.76681986335194,
+      "peak_marked_gross": 1019.2977785620102,
+      "average_marked_gross": 642.4056287607691,
+      "long_notional_hours": 0.0,
+      "short_notional_hours": 70022.21353492382,
+      "average_signed_exposure": -642.4056287607691,
+      "peak_entry_notional": 1000.0,
+      "turnover": 27504.073686497373,
+      "minutes_at_capacity": 2390,
+      "missing_mark_minutes": 0,
+      "end_inventory": [],
+      "valuation_at": "2026-11-21T13:00:00+00:00",
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "closed_net": 0
+        },
+        "short": {
+          "trades": 138,
+          "closed_net": 83.67537557903655
+        }
+      },
+      "sources": {
+        "candle_proxy": 275,
+        "observed_bbo": 1
+      },
+      "funding_valuations": {
+        "candle_proxy": 710
+      },
+      "realized_btc_eth_beta_usd": {
+        "BTC": -216.27632772517723,
+        "ETH": -326.7800403154054,
+        "minutes": 6540
+      },
+      "venue_marked_position_minutes": 42550,
+      "total_position_minutes": 42550,
+      "at_entry_cutoff": {
+        "at": "2026-11-20T12:00:00+00:00",
+        "net_equity": 64.56861831419491,
+        "inventory": [
+          {
+            "symbol": "XPL",
+            "side": "short",
+            "quantity": 2096.294143541964,
+            "entry": "2026-11-19T14:16:00+00:00",
+            "mark": 0.044904,
+            "marked_notional": 94.13199222160834,
+            "unrealized_price_pnl": 5.868007778391663
+          },
+          {
+            "symbol": "FARTCOIN",
+            "side": "short",
+            "quantity": 1154.9832659672018,
+            "entry": "2026-11-19T14:31:00+00:00",
+            "mark": 0.08134,
+            "marked_notional": 93.94633885377219,
+            "unrealized_price_pnl": 6.053661146227811
+          },
+          {
+            "symbol": "ETH",
+            "side": "short",
+            "quantity": 0.05635318701758044,
+            "entry": "2026-11-19T18:16:00+00:00",
+            "mark": 1748.0,
+            "marked_notional": 98.50537090673062,
+            "unrealized_price_pnl": 1.4946290932693855
+          },
+          {
+            "symbol": "UNI",
+            "side": "short",
+            "quantity": 20.144624138923582,
+            "entry": "2026-11-19T18:21:00+00:00",
+            "mark": 4.7929,
+            "marked_notional": 96.55116903544685,
+            "unrealized_price_pnl": 3.448830964553161
+          },
+          {
+            "symbol": "STRK",
+            "side": "short",
+            "quantity": 3195.207699683706,
+            "entry": "2026-11-19T20:21:00+00:00",
+            "mark": 0.0312,
+            "marked_notional": 99.69048023013161,
+            "unrealized_price_pnl": 0.30951976986837926
+          },
+          {
+            "symbol": "DOGE",
+            "side": "short",
+            "quantity": 1753.2080674584533,
+            "entry": "2026-11-20T02:46:00+00:00",
+            "mark": 0.056859,
+            "marked_notional": 99.68565750762019,
+            "unrealized_price_pnl": 0.3143424923797987
+          },
+          {
+            "symbol": "HYPE",
+            "side": "short",
+            "quantity": 1.541936493988591,
+            "entry": "2026-11-20T09:56:00+00:00",
+            "mark": 63.868,
+            "marked_notional": 98.48039999806333,
+            "unrealized_price_pnl": 1.5196000019366753
+          },
+          {
+            "symbol": "PUMP",
+            "side": "short",
+            "quantity": 39828.753882954996,
+            "entry": "2026-11-20T11:21:00+00:00",
+            "mark": 0.002501,
+            "marked_notional": 99.61171346127045,
+            "unrealized_price_pnl": 0.38828653872955066
+          },
+          {
+            "symbol": "NEAR",
+            "side": "short",
+            "quantity": 33.64734414429903,
+            "entry": "2026-11-20T11:51:00+00:00",
+            "mark": 2.9698,
+            "marked_notional": 99.92588263973927,
+            "unrealized_price_pnl": 0.0741173602607308
+          },
+          {
+            "symbol": "LINK",
+            "side": "short",
+            "quantity": 11.360899806895377,
+            "entry": "2026-11-20T11:56:00+00:00",
+            "mark": 8.7815,
+            "marked_notional": 99.76574165425174,
+            "unrealized_price_pnl": 0.23425834574825216
+          }
+        ]
+      }
+    },
+    "ridge": {
+      "trades": 131,
+      "net": 105.68988932025353,
+      "full_drawdown": 40.59145826381557,
+      "peak_marked_gross": 1012.8730543272984,
+      "average_marked_gross": 637.0178790125157,
+      "long_notional_hours": 0.0,
+      "short_notional_hours": 69434.94881236421,
+      "average_signed_exposure": -637.0178790125157,
+      "peak_entry_notional": 1000.0,
+      "turnover": 26082.680173576184,
+      "minutes_at_capacity": 2520,
+      "missing_mark_minutes": 0,
+      "end_inventory": [],
+      "valuation_at": "2026-11-21T13:00:00+00:00",
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "closed_net": 0
+        },
+        "short": {
+          "trades": 131,
+          "closed_net": 105.68988932025357
+        }
+      },
+      "sources": {
+        "candle_proxy": 261,
+        "observed_bbo": 1
+      },
+      "funding_valuations": {
+        "candle_proxy": 710
+      },
+      "realized_btc_eth_beta_usd": {
+        "BTC": -212.83653411611158,
+        "ETH": -320.9618177630102,
+        "minutes": 6540
+      },
+      "venue_marked_position_minutes": 42290,
+      "total_position_minutes": 42290,
+      "at_entry_cutoff": {
+        "at": "2026-11-20T12:00:00+00:00",
+        "net_equity": 77.12856695602947,
+        "inventory": [
+          {
+            "symbol": "XPL",
+            "side": "short",
+            "quantity": 2096.294143541964,
+            "entry": "2026-11-19T14:16:00+00:00",
+            "mark": 0.044904,
+            "marked_notional": 94.13199222160834,
+            "unrealized_price_pnl": 5.868007778391663
+          },
+          {
+            "symbol": "FARTCOIN",
+            "side": "short",
+            "quantity": 1156.3186611180486,
+            "entry": "2026-11-19T14:26:00+00:00",
+            "mark": 0.08134,
+            "marked_notional": 94.05495989534207,
+            "unrealized_price_pnl": 5.945040104657942
+          },
+          {
+            "symbol": "ETH",
+            "side": "short",
+            "quantity": 0.05635318701758044,
+            "entry": "2026-11-19T18:16:00+00:00",
+            "mark": 1748.0,
+            "marked_notional": 98.50537090673062,
+            "unrealized_price_pnl": 1.4946290932693855
+          },
+          {
+            "symbol": "UNI",
+            "side": "short",
+            "quantity": 20.144624138923582,
+            "entry": "2026-11-19T18:21:00+00:00",
+            "mark": 4.7929,
+            "marked_notional": 96.55116903544685,
+            "unrealized_price_pnl": 3.448830964553161
+          },
+          {
+            "symbol": "STRK",
+            "side": "short",
+            "quantity": 3195.207699683706,
+            "entry": "2026-11-19T20:21:00+00:00",
+            "mark": 0.0312,
+            "marked_notional": 99.69048023013161,
+            "unrealized_price_pnl": 0.30951976986837926
+          },
+          {
+            "symbol": "VVV",
+            "side": "short",
+            "quantity": 4.819759084342169,
+            "entry": "2026-11-20T07:16:00+00:00",
+            "mark": 20.4031,
+            "marked_notional": 98.3380265737417,
+            "unrealized_price_pnl": 1.6619734262582893
+          },
+          {
+            "symbol": "PURR",
+            "side": "short",
+            "quantity": 1285.6077874344408,
+            "entry": "2026-11-20T09:41:00+00:00",
+            "mark": 0.077953,
+            "marked_notional": 100.21698385387695,
+            "unrealized_price_pnl": -0.21698385387695057
+          },
+          {
+            "symbol": "PUMP",
+            "side": "short",
+            "quantity": 39828.753882954996,
+            "entry": "2026-11-20T11:21:00+00:00",
+            "mark": 0.002501,
+            "marked_notional": 99.61171346127045,
+            "unrealized_price_pnl": 0.38828653872955066
+          },
+          {
+            "symbol": "LIT",
+            "side": "short",
+            "quantity": 38.65718410579414,
+            "entry": "2026-11-20T11:41:00+00:00",
+            "mark": 2.5977,
+            "marked_notional": 100.41976715162143,
+            "unrealized_price_pnl": -0.41976715162142547
+          },
+          {
+            "symbol": "SOL",
+            "side": "short",
+            "quantity": 1.3930521645879763,
+            "entry": "2026-11-20T11:51:00+00:00",
+            "mark": 71.735,
+            "marked_notional": 99.93059702671847,
+            "unrealized_price_pnl": 0.0694029732815133
+          }
+        ]
+      }
+    },
+    "without_breadth": {
+      "trades": 0,
+      "net": 0.0,
+      "full_drawdown": 0.0,
+      "peak_marked_gross": 0.0,
+      "average_marked_gross": 0.0,
+      "long_notional_hours": 0.0,
+      "short_notional_hours": 0.0,
+      "average_signed_exposure": 0.0,
+      "peak_entry_notional": 0.0,
+      "turnover": 0.0,
+      "minutes_at_capacity": 0,
+      "missing_mark_minutes": 0,
+      "end_inventory": [],
+      "valuation_at": "2026-11-21T13:00:00+00:00",
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "closed_net": 0
+        },
+        "short": {
+          "trades": 0,
+          "closed_net": 0
+        }
+      },
+      "sources": {},
+      "funding_valuations": {},
+      "realized_btc_eth_beta_usd": {
+        "BTC": 0.0,
+        "ETH": 0.0,
+        "minutes": 6540
+      },
+      "venue_marked_position_minutes": 0,
+      "total_position_minutes": 0,
+      "at_entry_cutoff": {
+        "at": "2026-11-20T12:00:00+00:00",
+        "net_equity": 0.0,
+        "inventory": []
+      }
+    },
+    "without_funding": {
+      "trades": 136,
+      "net": 86.56780853565056,
+      "full_drawdown": 51.38593452090897,
+      "peak_marked_gross": 1019.5312622087761,
+      "average_marked_gross": 618.3636029111411,
+      "long_notional_hours": 733.9210471909252,
+      "short_notional_hours": 66667.71167012346,
+      "average_signed_exposure": -604.8971616782801,
+      "peak_entry_notional": 1000.0,
+      "turnover": 27098.135650740896,
+      "minutes_at_capacity": 2530,
+      "missing_mark_minutes": 0,
+      "end_inventory": [],
+      "valuation_at": "2026-11-21T13:00:00+00:00",
+      "by_side": {
+        "long": {
+          "trades": 1,
+          "closed_net": -1.6931498013312567
+        },
+        "short": {
+          "trades": 135,
+          "closed_net": 88.26095833698189
+        }
+      },
+      "sources": {
+        "candle_proxy": 271,
+        "observed_bbo": 1
+      },
+      "funding_valuations": {
+        "candle_proxy": 680
+      },
+      "realized_btc_eth_beta_usd": {
+        "BTC": -200.18642253069612,
+        "ETH": -271.8256652591201,
+        "minutes": 6540
+      },
+      "venue_marked_position_minutes": 40905,
+      "total_position_minutes": 40905,
+      "at_entry_cutoff": {
+        "at": "2026-11-20T12:00:00+00:00",
+        "net_equity": 66.37527533321406,
+        "inventory": [
+          {
+            "symbol": "FARTCOIN",
+            "side": "short",
+            "quantity": 1154.9832659672018,
+            "entry": "2026-11-19T14:31:00+00:00",
+            "mark": 0.08134,
+            "marked_notional": 93.94633885377219,
+            "unrealized_price_pnl": 6.053661146227811
+          },
+          {
+            "symbol": "LIT",
+            "side": "short",
+            "quantity": 34.74137666311183,
+            "entry": "2026-11-19T16:01:00+00:00",
+            "mark": 2.5977,
+            "marked_notional": 90.2476741577656,
+            "unrealized_price_pnl": 9.752325842234397
+          },
+          {
+            "symbol": "ETH",
+            "side": "short",
+            "quantity": 0.05635318701758044,
+            "entry": "2026-11-19T18:16:00+00:00",
+            "mark": 1748.0,
+            "marked_notional": 98.50537090673062,
+            "unrealized_price_pnl": 1.4946290932693855
+          },
+          {
+            "symbol": "UNI",
+            "side": "short",
+            "quantity": 20.144624138923582,
+            "entry": "2026-11-19T18:21:00+00:00",
+            "mark": 4.7929,
+            "marked_notional": 96.55116903544685,
+            "unrealized_price_pnl": 3.448830964553161
+          },
+          {
+            "symbol": "DOGE",
+            "side": "short",
+            "quantity": 1700.3587568237076,
+            "entry": "2026-11-19T19:46:00+00:00",
+            "mark": 0.056859,
+            "marked_notional": 96.68069855423919,
+            "unrealized_price_pnl": 3.319301445760809
+          },
+          {
+            "symbol": "ASTER",
+            "side": "short",
+            "quantity": 197.882867036209,
+            "entry": "2026-11-19T21:16:00+00:00",
+            "mark": 0.5062,
+            "marked_notional": 100.168307293729,
+            "unrealized_price_pnl": -0.1683072937289903
+          },
+          {
+            "symbol": "SOL",
+            "side": "short",
+            "quantity": 1.3861015772272427,
+            "entry": "2026-11-20T10:06:00+00:00",
+            "mark": 71.735,
+            "marked_notional": 99.43199664239626,
+            "unrealized_price_pnl": 0.5680033576037461
+          },
+          {
+            "symbol": "PUMP",
+            "side": "short",
+            "quantity": 39828.753882954996,
+            "entry": "2026-11-20T11:21:00+00:00",
+            "mark": 0.002501,
+            "marked_notional": 99.61171346127045,
+            "unrealized_price_pnl": 0.38828653872955066
+          },
+          {
+            "symbol": "NEAR",
+            "side": "short",
+            "quantity": 33.42356827755498,
+            "entry": "2026-11-20T11:41:00+00:00",
+            "mark": 2.9698,
+            "marked_notional": 99.26131307068277,
+            "unrealized_price_pnl": 0.7386869293172118
+          }
+        ]
+      }
+    },
+    "without_liquidity": {
+      "trades": 0,
+      "net": 0.0,
+      "full_drawdown": 0.0,
+      "peak_marked_gross": 0.0,
+      "average_marked_gross": 0.0,
+      "long_notional_hours": 0.0,
+      "short_notional_hours": 0.0,
+      "average_signed_exposure": 0.0,
+      "peak_entry_notional": 0.0,
+      "turnover": 0.0,
+      "minutes_at_capacity": 0,
+      "missing_mark_minutes": 0,
+      "end_inventory": [],
+      "valuation_at": "2026-11-21T13:00:00+00:00",
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "closed_net": 0
+        },
+        "short": {
+          "trades": 0,
+          "closed_net": 0
+        }
+      },
+      "sources": {},
+      "funding_valuations": {},
+      "realized_btc_eth_beta_usd": {
+        "BTC": 0.0,
+        "ETH": 0.0,
+        "minutes": 6540
+      },
+      "venue_marked_position_minutes": 0,
+      "total_position_minutes": 0,
+      "at_entry_cutoff": {
+        "at": "2026-11-20T12:00:00+00:00",
+        "net_equity": 0.0,
+        "inventory": []
+      }
+    },
+    "without_news": {
+      "trades": 0,
+      "net": 0.0,
+      "full_drawdown": 0.0,
+      "peak_marked_gross": 0.0,
+      "average_marked_gross": 0.0,
+      "long_notional_hours": 0.0,
+      "short_notional_hours": 0.0,
+      "average_signed_exposure": 0.0,
+      "peak_entry_notional": 0.0,
+      "turnover": 0.0,
+      "minutes_at_capacity": 0,
+      "missing_mark_minutes": 0,
+      "end_inventory": [],
+      "valuation_at": "2026-11-21T13:00:00+00:00",
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "closed_net": 0
+        },
+        "short": {
+          "trades": 0,
+          "closed_net": 0
+        }
+      },
+      "sources": {},
+      "funding_valuations": {},
+      "realized_btc_eth_beta_usd": {
+        "BTC": 0.0,
+        "ETH": 0.0,
+        "minutes": 6540
+      },
+      "venue_marked_position_minutes": 0,
+      "total_position_minutes": 0,
+      "at_entry_cutoff": {
+        "at": "2026-11-20T12:00:00+00:00",
+        "net_equity": 0.0,
+        "inventory": []
+      }
+    },
+    "without_oi": {
+      "trades": 0,
+      "net": 0.0,
+      "full_drawdown": 0.0,
+      "peak_marked_gross": 0.0,
+      "average_marked_gross": 0.0,
+      "long_notional_hours": 0.0,
+      "short_notional_hours": 0.0,
+      "average_signed_exposure": 0.0,
+      "peak_entry_notional": 0.0,
+      "turnover": 0.0,
+      "minutes_at_capacity": 0,
+      "missing_mark_minutes": 0,
+      "end_inventory": [],
+      "valuation_at": "2026-11-21T13:00:00+00:00",
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "closed_net": 0
+        },
+        "short": {
+          "trades": 0,
+          "closed_net": 0
+        }
+      },
+      "sources": {},
+      "funding_valuations": {},
+      "realized_btc_eth_beta_usd": {
+        "BTC": 0.0,
+        "ETH": 0.0,
+        "minutes": 6540
+      },
+      "venue_marked_position_minutes": 0,
+      "total_position_minutes": 0,
+      "at_entry_cutoff": {
+        "at": "2026-11-20T12:00:00+00:00",
+        "net_equity": 0.0,
+        "inventory": []
+      }
+    }
+  }
+}

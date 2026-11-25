@@ -1,0 +1,157 @@
+{
+  "status": "passed",
+  "decisions": [
+    {
+      "symbol": "BABY",
+      "decision": "2026-06-05T10:00:05Z",
+      "features": 177,
+      "cached_match": true,
+      "future_removed_match": true,
+      "detector_match": true
+    },
+    {
+      "symbol": "CHIP",
+      "decision": "2026-06-02T07:10:05Z",
+      "features": 177,
+      "cached_match": true,
+      "future_removed_match": true,
+      "detector_match": true
+    },
+    {
+      "symbol": "AR",
+      "decision": "2026-06-03T11:05:05Z",
+      "features": 177,
+      "cached_match": true,
+      "future_removed_match": true,
+      "detector_match": true
+    },
+    {
+      "symbol": "BIO",
+      "decision": "2026-06-02T04:15:05Z",
+      "features": 177,
+      "cached_match": true,
+      "future_removed_match": true,
+      "detector_match": true
+    },
+    {
+      "symbol": "AR",
+      "decision": "2026-06-03T10:30:05Z",
+      "features": 177,
+      "cached_match": true,
+      "future_removed_match": true,
+      "detector_match": true
+    },
+    {
+      "symbol": "AAVE",
+      "decision": "2026-06-04T18:30:05Z",
+      "features": 177,
+      "cached_match": true,
+      "future_removed_match": true,
+      "detector_match": true
+    },
+    {
+      "symbol": "AAVE",
+      "decision": "2026-06-07T06:40:05Z",
+      "features": 177,
+      "cached_match": true,
+      "future_removed_match": true,
+      "detector_match": true
+    },
+    {
+      "symbol": "AR",
+      "decision": "2026-06-03T13:05:05Z",
+      "features": 177,
+      "cached_match": true,
+      "future_removed_match": true,
+      "detector_match": true
+    },
+    {
+      "symbol": "BABY",
+      "decision": "2026-06-05T12:05:05Z",
+      "features": 177,
+      "cached_match": true,
+      "future_removed_match": true,
+      "detector_match": true
+    },
+    {
+      "symbol": "AAVE",
+      "decision": "2026-06-04T13:25:05Z",
+      "features": 177,
+      "cached_match": true,
+      "future_removed_match": true,
+      "detector_match": true
+    },
+    {
+      "symbol": "AAVE",
+      "decision": "2026-06-05T06:05:05Z",
+      "features": 177,
+      "cached_match": true,
+      "future_removed_match": true,
+      "detector_match": true
+    },
+    {
+      "symbol": "BABY",
+      "decision": "2026-06-05T15:05:05Z",
+      "features": 177,
+      "cached_match": true,
+      "future_removed_match": true,
+      "detector_match": true
+    },
+    {
+      "symbol": "AAVE",
+      "decision": "2026-06-05T03:50:05Z",
+      "features": 177,
+      "cached_match": true,
+      "future_removed_match": true,
+      "detector_match": true
+    },
+    {
+      "symbol": "ASTER",
+      "decision": "2026-06-02T23:35:05Z",
+      "features": 177,
+      "cached_match": true,
+      "future_removed_match": true,
+      "detector_match": true
+    },
+    {
+      "symbol": "AAVE",
+      "decision": "2026-06-05T08:35:05Z",
+      "features": 177,
+      "cached_match": true,
+      "future_removed_match": true,
+      "detector_match": true
+    },
+    {
+      "symbol": "BABY",
+      "decision": "2026-06-06T00:55:05Z",
+      "features": 177,
+      "cached_match": true,
+      "future_removed_match": true,
+      "detector_match": true
+    },
+    {
+      "symbol": "INIT",
+      "decision": "2026-11-11T00:25:05Z",
+      "features": 177,
+      "cached_match": true,
+      "future_removed_match": true,
+      "detector_match": true
+    },
+    {
+      "symbol": "AAVE",
+      "decision": "2026-11-11T16:20:05Z",
+      "features": 177,
+      "cached_match": true,
+      "future_removed_match": true,
+      "detector_match": true
+    }
+  ],
+  "feature_value_comparisons": 3186,
+  "method": "Rebuilt from native minute candles, spot rows and timestamped tick exports, physically omitting post-decision records; compared to full-history calculation and frozen matrix; recomputed SMA signals.",
+  "publication_limits": [
+    "MarketCandle stores bar openTime but no publishedAt, collectedAt, or revision/availableAt timestamp. Frozen export can contain later backfills/corrections.",
+    "MarketTick has ts but no independent publication/receipt fields. Current collector timestamps snapshots on receipt and accepts books at most two seconds old; historical ingestion paths also exist.",
+    "Historical spot klines contain event close times, not a retained original publication or collection timestamp. A bar-close plus five-second availability assumption is not independently proven.",
+    "Passing truncation checks demonstrates event-time causality on selected snapshots, not proof that all historical inputs existed in the live system at that instant."
+  ]
+}

@@ -1,0 +1,5240 @@
+[
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_clock",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.113140671127769
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7978034062269428
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.25047777536538507
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7598227190720419
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_clock",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.09084788284275391
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7956063853029798
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.2552660143756293
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7650009864222773
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_derivatives",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.10166339188195166
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.8075966292600962
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.20831085424738996
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.745125169333658
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_derivatives",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.09424343157385666
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.7988187360916952
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.16686444871288172
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8261279773889927
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_derivatives",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.004428311278125218
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8635218107289493
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.20848621829269834
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8185850215279462
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_derivatives",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.07080989444294795
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9026575906815438
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.28212413116113666
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7604964014094164
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_derivatives",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.09580501441782646
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7922262130162281
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.19125345799438062
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7285723278467195
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_derivatives",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.08169510906138107
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8020053598552358
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.17366221464181236
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8386166883549927
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_derivatives",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.03262245750571717
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8633217981336403
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.20106257152741264
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8207469882668535
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_derivatives",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.19303446606952002
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9042859799666859
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.15945679089933903
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7730808212494085
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_derivatives",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.10861398217778592
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.8053105342640914
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.2034925901265393
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7344582343598333
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_derivatives",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.0927839034695723
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8042268834271471
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.1248943162366786
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.841342655801727
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_derivatives",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.02340753061077982
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8684018585947235
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.17290938904079328
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8214382180440472
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_derivatives",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.15091843042347855
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9036062180493291
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.1763760710725437
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7461378268954766
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_liquidity",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.10464126122364165
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.8061634946330996
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.24594927959723897
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7868383107582004
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_liquidity",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.09811316125760972
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8087946025236349
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.17314566449598093
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8363124176375273
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_liquidity",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.017171835583621693
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8699960020115194
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.23282269617844187
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8224160243213706
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_liquidity",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.11307410556617326
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9059496927914057
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.23121879179065122
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7563510553260661
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_liquidity",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.08246608693837235
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.807331087784137
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.2505498624847375
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7788793443853561
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_liquidity",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.10453161517274963
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8067754396563158
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.17472503367639244
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8360845209620716
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_liquidity",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.010831729554558528
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8692445303981076
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.24774713843300575
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8213487820282899
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_liquidity",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.10253768441636642
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.904699794757091
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.2419850219906846
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7688445793656542
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_liquidity",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.11571020108359936
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.8107287996643423
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.23935282864110358
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7829002948357972
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_liquidity",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.09552521726275755
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8105930374188719
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.17285958840439955
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8367412946812209
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_liquidity",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.011553190868380823
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8720700057002213
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.27232304672875757
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8287009899202692
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_liquidity",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.08027848159192323
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.906436619809911
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.21933539063710483
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7522972545929043
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_market_context",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.07581912300932525
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.6740041955369931
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.10572292242886726
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.5379055177124588
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_market_context",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.06811464162363426
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8397049740261019
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.048751416875100526
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8086533891014472
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_market_context",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.012484435138105068
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8650997221089441
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.06626967627287039
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.7549902647103297
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_market_context",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.12363961000909704
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9221988079517728
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.250280528933679
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7539400506518817
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_market_context",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.0997418564271057
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.6522028339480631
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.10622437708157445
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.6486124500792101
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_market_context",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.08640889381827016
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8325202444361584
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.09829869396318658
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.7990375260047115
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_market_context",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.003667131534243845
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8637099740933964
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.1015136073183585
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.7767848532838183
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_market_context",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.16822842223380313
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9223243354448232
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.27223220629056033
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7598961590412676
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_market_context",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.09926358016883716
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.704229759323014
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.10658792067979227
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.5682064513619713
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_market_context",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.11017185522917357
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8251285991934525
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.11100192878559223
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8063492127644488
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_market_context",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.010258155914122607
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.862509017168528
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.049384736046778725
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.7889920951793417
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_market_context",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.14132045065071475
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9218293084490247
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.2593402565439321
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7457631293735065
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_price_shape",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.10336641560129947
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.811748905297781
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.2206515116341784
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.770286705224739
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_price_shape",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.09520947658979441
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.7947199796492084
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.17978476812908897
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8332607846638662
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_price_shape",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.004877661396898792
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8758214632756919
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.20672727822174455
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8303037992531132
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_price_shape",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.13767473762790433
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9120212418978708
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.14980205911974562
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7425042941333623
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_price_shape",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.1469472194832307
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7913134516487353
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.23222362416274817
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7638548163813619
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_price_shape",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.1036249516817671
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.791321046505371
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.19103692936521546
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8364060847802348
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_price_shape",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.004872464651302243
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8693675303601127
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.27941516851248493
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8320888472527606
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_price_shape",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.1370080870532429
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9135665681750064
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.18046877901085662
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7628387947812442
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_price_shape",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.15328275580450837
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.8139974568427508
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.22414702724592664
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7666492989368949
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_price_shape",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.10187738183378314
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8011140713529116
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.17776690841749143
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8314235319968477
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_price_shape",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.008086421870366494
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8780630839157484
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.19698646666477604
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8292593078757358
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_price_shape",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.038299056364057324
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.913148772154944
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.21279919389916138
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7660473570277314
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_sma_detail",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.1157101777595011
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7931686222180119
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.22299867797240397
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7664734417263233
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_sma_detail",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.10093063727296729
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.7969353492851776
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.16160163006757988
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8296178868569206
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_sma_detail",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.013959100343398062
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.86483835958748
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.11852333325499612
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8190515179557317
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_sma_detail",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.10575393834017917
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.898389118597427
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.17376329131424434
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7441823098253554
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_sma_detail",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.11899668600195179
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7925480393724476
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.21968733894831804
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7407018215893721
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_sma_detail",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.09028509234125022
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8021061702881691
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.11399605299770126
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8262589956597985
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_sma_detail",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.01317672665996822
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8619244045062574
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.14092324802705125
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8180374012147013
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_sma_detail",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.1246372968565381
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.902983514358068
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.20910325613906236
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7476537062636719
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_sma_detail",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.11822297108917229
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7976444757802013
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.21530999634451511
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7588758557502083
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_sma_detail",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.09773445036951388
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8059746129530561
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.18115050671412358
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8259096393869464
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_sma_detail",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.007620888816149493
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8613924643438453
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.05930060129078868
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8230708806739686
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_sma_detail",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.07104897719023617
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9011029286137754
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.2109598142678107
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7330024267918378
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_spot",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.14450165829221145
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.8089828773988148
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.25396385477103706
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7529941777878448
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_spot",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.10206068268410477
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.7988905747728248
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.17092079508949334
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8232291170182319
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_spot",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.003979266547684487
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8598843608934511
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.19495129439935718
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8103921483748715
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_spot",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.04979682468130009
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9017303464126637
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.30258888378901877
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7305610049930563
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_spot",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.1541505762291916
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7982458147191718
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.25058204714844257
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.744345576670786
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_spot",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.08934780748918739
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8012157127883841
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.18257912762237907
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8198859220782605
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_spot",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.004304607092877704
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8622529697787147
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.17442228612391808
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8016994417413694
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_spot",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.16920682302537085
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.8998195399255297
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.2851050036573338
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7339577624454316
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_spot",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.15073408644691494
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.8060773254360183
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.245297633856438
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7507501335878471
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_spot",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.1013845420091756
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8069105649740561
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.17301144252226994
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8251477525843428
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_spot",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.00390033293772505
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8581369898008459
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.16738665267823444
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8076967970483707
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_spot",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.16112783112332588
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.901987243496805
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.30143522848389714
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7356821149177609
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_volume_detail",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.09895343765560755
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7985244429181841
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.24556030633936077
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7789135108116416
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_volume_detail",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.09645504726963126
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8035903499583951
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.1662441682904572
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8185907195267249
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_volume_detail",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.006754492536505437
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8663984117776503
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.31434819314497975
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8225875129232387
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_volume_detail",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.056281260765766734
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9091633722407093
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.19929860642039302
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7509506965903328
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_volume_detail",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.13422996857640235
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.8025293521541037
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.2509459456940253
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7739902232336617
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_volume_detail",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.11697586845225284
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.7976629533890829
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.16842879686887563
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8168623041557449
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_volume_detail",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.005167560516730824
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8720342050983899
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.2864072197372211
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8203141472233381
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_volume_detail",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.09416008863934869
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9103594052106722
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.20537306995117222
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7662729281596043
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "add_volume_detail",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.12637484536145413
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.8051257751609318
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.24584192119722387
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7811310505784747
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "add_volume_detail",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.10217050252981708
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8022293946194323
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.1682207753747967
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8184493095908828
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "add_volume_detail",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.009437515906821457
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8683141784054584
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.27461945669736587
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8289589023646773
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "add_volume_detail",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.10602111862047708
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9098777734826933
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.28235662777073917
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7667685364963805
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "core",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.10464126122364165
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.8061634946330996
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.24594927959723897
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7868383107582004
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "core",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.09811316125760972
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8087946025236349
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.17314566449598093
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8363124176375273
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "core",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.017171835583621693
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8699960020115194
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.23282269617844187
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8224160243213706
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "core",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.11307410556617326
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9059496927914057
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.23121879179065122
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7563510553260661
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "core",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.08246608693837235
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.807331087784137
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.2505498624847375
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7788793443853561
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "core",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.10453161517274963
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8067754396563158
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.17472503367639244
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8360845209620716
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "core",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.010831729554558528
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8692445303981076
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.24774713843300575
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8213487820282899
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "core",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.10253768441636642
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.904699794757091
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.2419850219906846
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7688445793656542
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "core",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.11571020108359936
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.8107287996643423
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.23935282864110358
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7829002948357972
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "core",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.09552521726275755
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8105930374188719
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.17285958840439955
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8367412946812209
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "core",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.011553190868380823
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8720700057002213
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.27232304672875757
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8287009899202692
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "core",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.08027848159192323
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.906436619809911
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.21933539063710483
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7522972545929043
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_derivatives",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.13472605815028252
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7838014069880335
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.14242681153474823
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.6872954061553117
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_derivatives",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.1454237712011065
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8659753226826442
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.06549125309206366
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8238681751242036
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_derivatives",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.003205421325813828
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8769787269489209
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.07269247428784838
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8221462856056577
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_derivatives",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.13013163629640254
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9190647533581779
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.3213997008714929
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7043521622922375
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_derivatives",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.09103449482841207
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7694448930416533
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.12708436052103195
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.6911750923439889
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_derivatives",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.12285482695125674
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8623211122105328
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.1492207659527161
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8336871708453372
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_derivatives",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.0034968330484234744
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8727382755466769
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.053242620054328484
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8326597354317737
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_derivatives",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.18104975854155594
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9228826521522283
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.3428241976252884
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.6953798673957822
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_derivatives",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.13830105625679084
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7715161895572511
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.12814813303833966
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.6457637049660917
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_derivatives",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.12539935660091814
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8615311927982796
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.08254809483710934
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8196541831414731
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_derivatives",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.004932373173217311
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8705245177078382
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.050949465902694044
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8208904255703877
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_derivatives",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.13205509122171089
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9249025350797437
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.2803173037153035
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.6844576893155213
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_liquidity",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.09901824204320459
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7756514527727661
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.1292275685532373
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.6799220223347027
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_liquidity",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.13798637147196893
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8598431597238124
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.17776841755376555
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8397035898243186
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_liquidity",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.0031422522141142583
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8784791987233823
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.01878550567129676
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8165897420407024
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_liquidity",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.13603922292572096
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9207822131814394
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.32691578783170167
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7009711099591579
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_liquidity",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.0963389466998596
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7605672148652938
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.12685271245612154
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7157428912063586
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_liquidity",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.10874380071386844
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8622807996453662
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.1681016727402361
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8359284537651483
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_liquidity",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.003651683566391919
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8731137009898986
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.06872123945602499
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8014021655158755
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_liquidity",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.168077549704113
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9277071966694955
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.33817738049641033
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.6809439106848062
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_liquidity",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.10002263406358562
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7612476344273821
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.12893476647589444
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.6588130571046984
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_liquidity",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.09161522963252873
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.7958829708297344
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.08786022189681283
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.818288495593226
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_liquidity",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.004641682596502119
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8707695496693864
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.042828042483655744
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8125003354329308
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_liquidity",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.21685073233226476
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9256713920414579
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.30220896373503253
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.6819815066107209
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_market_context",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.1564794336293531
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.8074245502166816
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.21085156913651854
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7258214977783232
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_market_context",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.09039252883748986
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8048155784093861
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.17068942219565128
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.841361623347065
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_market_context",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.009217225198510577
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8717439440811092
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.03468074652166491
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8006731727763483
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_market_context",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.10935712831980358
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9182463639203623
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.2653579379867786
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.6926248388376431
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_market_context",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.13297244563770627
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.8149130516891817
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.19091717423735668
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7354861830394023
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_market_context",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.0915602673519425
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.7994894928717169
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.2041107123406411
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8463288077160726
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_market_context",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.003007760793914598
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8734585426798629
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.06595492156620329
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8106046011263099
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_market_context",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.010001244974045705
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9182940411123319
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.23382767197042337
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.6593484166878374
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_market_context",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.13885875991486984
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.8116735399651578
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.18472672846261406
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7330399115555569
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_market_context",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.09642047097951102
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8151175206430348
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.19402388972277862
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.843693029102276
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_market_context",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.005263982291212745
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8668121992296941
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.11217456022951006
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.7862492098151455
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_market_context",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.13111201766566874
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9189611467791686
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.181734838417818
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.6618115116094925
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_price_shape",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.10575184491050232
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7706494819250072
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.11900501466761318
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.6528207554440131
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_price_shape",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.13026590025285695
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8542100730633228
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.191101498317565
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8368878419931669
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_price_shape",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.0030710450503188733
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8752719133524617
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.12069106610122336
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.7996988801547447
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_price_shape",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.15602842715881998
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9133605640949405
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.30323993831783624
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.6875363583439277
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_price_shape",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.13803515971239286
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7445025406698838
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.11822167837978492
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7393439152863227
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_price_shape",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.08618494269665616
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8562118720902309
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.07415627198506868
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8137861855104394
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_price_shape",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.004516762966110706
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8718946704725319
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.1313467838351869
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8293359980555379
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_price_shape",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.17727844565363665
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9205336175144813
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.27663501474723784
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.6666806767840262
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_price_shape",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.11455316355585621
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7639112914423171
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.11802777249031035
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.6631339641043038
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_price_shape",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.08061842350765551
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.7867183250076255
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.04519286688820295
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8057076699697886
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_price_shape",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.0062921489351322754
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8691604057037198
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.017342001591519045
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8019850696647016
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_price_shape",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.0438580995303559
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9177135592146745
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.24096455072086154
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.6741770047439938
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_sma_detail",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.10753236348212451
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7699165089171169
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.1287747778147618
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.6968512546228706
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_sma_detail",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.09674448051601406
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8574935061844217
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.12683266440494292
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8381554380126082
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_sma_detail",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.0028076771216894985
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8841669957804106
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.04037447407118983
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8240912105039737
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_sma_detail",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.1337482074330681
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.925578640015807
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.33866901426622587
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.6468742300883745
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_sma_detail",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.09588563163663597
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7542959901705824
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.12962790079498626
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7268104257347086
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_sma_detail",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.11428369600480592
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.863602518951389
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.05274889741326945
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8331361744774012
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_sma_detail",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.0020146337559479796
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.9006706899445188
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.036201312726799
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8229167089686761
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_sma_detail",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.04582414053489981
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9303638942446186
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.3863200593541927
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7099487339900445
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_sma_detail",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.0764363208189984
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7734147545164106
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.12802366585897965
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.6821975890221806
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_sma_detail",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.15692988263693824
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8639840404664695
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.03779080532099813
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8388254167305281
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_sma_detail",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.0037842873085568666
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8762160062700917
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.027556335227636
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.819357279059796
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_sma_detail",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.07271386888173992
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9323225473364081
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.3333046242204333
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.6880064127856093
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_spot",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.10328818845509677
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7835993374327648
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.12151550947611167
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.6789354241543062
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_spot",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.15605709087890912
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8563030508590994
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.10730935125899554
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8429496504601036
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_spot",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.004067813362722462
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8769581906631496
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.10678087366152948
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8105515802293008
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_spot",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.11916763298077239
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9235952135811927
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.3207377623601548
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.6908155515884928
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_spot",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.10278767922708751
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7443430239960603
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.12712994215458112
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7203822774277523
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_spot",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.10383634312704845
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.862164969214025
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.08899542470604549
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8259408249717338
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_spot",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.004698341970284102
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8743551161056191
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.030335639053744
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8030340137751111
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_spot",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.09944263383814908
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9296050033449692
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.2968109413033416
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.6900077591147242
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_spot",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.09369568091324594
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7716107254231801
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.12130940898409565
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.6705506000754593
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_spot",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.11355939224232037
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8593257233093854
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.0704253356643617
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8395066418613605
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_spot",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.00427177835446871
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8707764823310526
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.08192998664764047
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8211014843157295
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_spot",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.17844225923021703
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.926226128735484
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.2649394748403911
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.6816296396696124
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_volume_detail",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.08229777082182604
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.765731889762278
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.1275574811966812
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.6643934352567361
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_volume_detail",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.07744149226785776
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8596656532168674
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.1734751798133506
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8412392809368051
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_volume_detail",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.003582193183208383
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8780722579809477
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.09763903566439666
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8169927623256392
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_volume_detail",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.12184727380139027
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9267192829902736
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.3269232353437676
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.6970207234509004
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_volume_detail",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.11174392568537675
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.755232967343746
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.12550548404261183
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7109316816265294
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_volume_detail",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.08074865451762643
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.777544507254408
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.1623212356781843
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8359576129968722
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_volume_detail",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.00483100131725634
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8739572237270316
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.020465230798747527
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8324193034932602
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_volume_detail",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.16797099986451144
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9290014138949333
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.33573547434399137
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.6964107183004423
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "drop_volume_detail",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.08933962619828056
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7542573598430721
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.12740630177512954
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.6514729100990035
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_volume_detail",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.14799359353388875
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.7898759364996315
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.09256586824729471
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8414241602527671
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "drop_volume_detail",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.005436990375241849
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8707721569592795
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.01791021006257256
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8109371868758175
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "drop_volume_detail",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.1983590193418494
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.926183483818511
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.3015425022700701
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.6811584747906662
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "full",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.09901824204320459
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7756514527727661
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.1292275685532373
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.6799220223347027
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "full",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.13798637147196893
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8598431597238124
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.17776841755376555
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8397035898243186
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "full",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.0031422522141142583
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8784791987233823
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.01878550567129676
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8165897420407024
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "full",
+    "seed": 20261114,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.13603922292572096
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9207822131814394
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.32691578783170167
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.7009711099591579
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "full",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.0963389466998596
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7605672148652938
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.12685271245612154
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.7157428912063586
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "full",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.10874380071386844
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.8622807996453662
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.1681016727402361
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.8359284537651483
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "full",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.003651683566391919
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8731137009898986
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.06872123945602499
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8014021655158755
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "full",
+    "seed": 20261115,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.168077549704113
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9277071966694955
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.33817738049641033
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.6809439106848062
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "variant": "full",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 36753,
+        "positives": 2774,
+        "ap": 0.10002263406358562
+      },
+      "long_exit": {
+        "rows": 19360,
+        "positives": 8677,
+        "ap": 0.7612476344273821
+      },
+      "short_entry": {
+        "rows": 39092,
+        "positives": 5396,
+        "ap": 0.12893476647589444
+      },
+      "short_exit": {
+        "rows": 19348,
+        "positives": 5661,
+        "ap": 0.6588130571046984
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "full",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 11666,
+        "positives": 562,
+        "ap": 0.09161522963252873
+      },
+      "long_exit": {
+        "rows": 19407,
+        "positives": 6790,
+        "ap": 0.7958829708297344
+      },
+      "short_entry": {
+        "rows": 10439,
+        "positives": 449,
+        "ap": 0.08786022189681283
+      },
+      "short_exit": {
+        "rows": 19401,
+        "positives": 6658,
+        "ap": 0.818288495593226
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "variant": "full",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5330,
+        "positives": 10,
+        "ap": 0.004641682596502119
+      },
+      "long_exit": {
+        "rows": 19314,
+        "positives": 9004,
+        "ap": 0.8707695496693864
+      },
+      "short_entry": {
+        "rows": 5351,
+        "positives": 53,
+        "ap": 0.042828042483655744
+      },
+      "short_exit": {
+        "rows": 19321,
+        "positives": 4491,
+        "ap": 0.8125003354329308
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "variant": "full",
+    "seed": 20261116,
+    "models": {
+      "long_entry": {
+        "rows": 5637,
+        "positives": 26,
+        "ap": 0.21685073233226476
+      },
+      "long_exit": {
+        "rows": 19385,
+        "positives": 10248,
+        "ap": 0.9256713920414579
+      },
+      "short_entry": {
+        "rows": 6284,
+        "positives": 347,
+        "ap": 0.30220896373503253
+      },
+      "short_exit": {
+        "rows": 19376,
+        "positives": 3145,
+        "ap": 0.6819815066107209
+      }
+    }
+  }
+]

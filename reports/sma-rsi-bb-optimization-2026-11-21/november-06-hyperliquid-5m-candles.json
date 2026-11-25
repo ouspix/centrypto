@@ -1,0 +1,93 @@
+{
+  "venue": "Hyperliquid mainnet perpetuals",
+  "source": "https://api.hyperliquid.xyz/info",
+  "type": "candleSnapshot",
+  "retrieved_at_utc": "2026-11-21T22:24:59+00:00",
+  "data_grain": "Native five-minute OHLCV. The open is the first price of the five-minute bucket.",
+  "rows": [
+    {
+      "settlement_hour_paris": "2026-11-06T10:00:00+01:00",
+      "request": {
+        "coin": "LIT",
+        "interval": "5m",
+        "startTime": 1793955600000,
+        "endTime": 1793955899999
+      },
+      "hyperliquid_candle": {
+        "t": 1793955600000,
+        "T": 1793955899999,
+        "s": "LIT",
+        "i": "5m",
+        "o": "3.3004",
+        "c": "3.346",
+        "h": "3.3598",
+        "l": "3.2992",
+        "v": "53396.0",
+        "n": 432
+      }
+    },
+    {
+      "settlement_hour_paris": "2026-11-06T11:00:00+01:00",
+      "request": {
+        "coin": "LIT",
+        "interval": "5m",
+        "startTime": 1793959200000,
+        "endTime": 1793959499999
+      },
+      "hyperliquid_candle": {
+        "t": 1793959200000,
+        "T": 1793959499999,
+        "s": "LIT",
+        "i": "5m",
+        "o": "3.4013",
+        "c": "3.3947",
+        "h": "3.4133",
+        "l": "3.3926",
+        "v": "50483.0",
+        "n": 394
+      }
+    },
+    {
+      "settlement_hour_paris": "2026-11-06T10:00:00+01:00",
+      "request": {
+        "coin": "ZEC",
+        "interval": "5m",
+        "startTime": 1793955600000,
+        "endTime": 1793955899999
+      },
+      "hyperliquid_candle": {
+        "t": 1793955600000,
+        "T": 1793955899999,
+        "s": "ZEC",
+        "i": "5m",
+        "o": "1257.0",
+        "c": "1268.2",
+        "h": "1270.4",
+        "l": "1256.2",
+        "v": "686.18",
+        "n": 750
+      }
+    },
+    {
+      "settlement_hour_paris": "2026-11-06T11:00:00+01:00",
+      "request": {
+        "coin": "ZEC",
+        "interval": "5m",
+        "startTime": 1793959200000,
+        "endTime": 1793959499999
+      },
+      "hyperliquid_candle": {
+        "t": 1793959200000,
+        "T": 1793959499999,
+        "s": "ZEC",
+        "i": "5m",
+        "o": "1278.9",
+        "c": "1277.8",
+        "h": "1283.8",
+        "l": "1277.7",
+        "v": "342.08",
+        "n": 339
+      }
+    }
+  ]
+}

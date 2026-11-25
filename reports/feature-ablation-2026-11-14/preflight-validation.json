@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "matching_baseline_preprocessors": 16,
+  "inactive_values_and_missingness_masked": true,
+  "all_groups_partitioned": true,
+  "full_mask_reproduces_original_transform": true,
+  "original_files_verified": 43
+}

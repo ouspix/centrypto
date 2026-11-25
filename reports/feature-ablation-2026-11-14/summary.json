@@ -1,0 +1,381 @@
+{
+  "core": {
+    "groups": [],
+    "seeds": [
+      {
+        "seed": 20261114,
+        "trades": 2325,
+        "priced": 2323,
+        "censored": 2,
+        "gross_pnl_usd": null,
+        "priced_subtotal_usd": 167.2254189338065,
+        "mean_return_pct": 0.07198683552897396,
+        "wins": 932,
+        "losses": 1382,
+        "median_holding_minutes": 205.0,
+        "notional_hours": 1142416.6666666667,
+        "folds": 4,
+        "by_side": {
+          "long": {
+            "trades": 1283,
+            "priced": 1283,
+            "censored": 0,
+            "gross_pnl_usd": -406.7079560188157,
+            "priced_subtotal_usd": -406.7079560188157,
+            "mean_return_pct": -0.316997627450363,
+            "wins": 440,
+            "losses": 836,
+            "median_holding_minutes": 85.0,
+            "notional_hours": 320608.3333333333
+          },
+          "short": {
+            "trades": 1042,
+            "priced": 1040,
+            "censored": 2,
+            "gross_pnl_usd": null,
+            "priced_subtotal_usd": 573.9333749526223,
+            "mean_return_pct": 0.5518590143775215,
+            "wins": 492,
+            "losses": 546,
+            "median_holding_minutes": 450.0,
+            "notional_hours": 821808.3333333334
+          }
+        },
+        "peak_notional_usd": 8000
+      },
+      {
+        "seed": 20261115,
+        "trades": 2196,
+        "priced": 2188,
+        "censored": 8,
+        "gross_pnl_usd": null,
+        "priced_subtotal_usd": 227.80066875460034,
+        "mean_return_pct": 0.10411365116755043,
+        "wins": 876,
+        "losses": 1307,
+        "median_holding_minutes": 245.0,
+        "notional_hours": 1189666.6666666667,
+        "folds": 4,
+        "by_side": {
+          "long": {
+            "trades": 1038,
+            "priced": 1038,
+            "censored": 0,
+            "gross_pnl_usd": -449.13575805879293,
+            "priced_subtotal_usd": -449.13575805879293,
+            "mean_return_pct": -0.43269340853448257,
+            "wins": 311,
+            "losses": 722,
+            "median_holding_minutes": 115.0,
+            "notional_hours": 301800.0
+          },
+          "short": {
+            "trades": 1158,
+            "priced": 1150,
+            "censored": 8,
+            "gross_pnl_usd": null,
+            "priced_subtotal_usd": 676.9364268133932,
+            "mean_return_pct": 0.588640371142081,
+            "wins": 565,
+            "losses": 585,
+            "median_holding_minutes": 435.0,
+            "notional_hours": 887866.6666666666
+          }
+        },
+        "peak_notional_usd": 7400
+      },
+      {
+        "seed": 20261116,
+        "trades": 1587,
+        "priced": 1583,
+        "censored": 4,
+        "gross_pnl_usd": null,
+        "priced_subtotal_usd": 435.3295976024729,
+        "mean_return_pct": 0.27500290436037456,
+        "wins": 696,
+        "losses": 887,
+        "median_holding_minutes": 480.0,
+        "notional_hours": 1281575.0,
+        "folds": 4,
+        "by_side": {
+          "long": {
+            "trades": 626,
+            "priced": 626,
+            "censored": 0,
+            "gross_pnl_usd": -381.39841804155327,
+            "priced_subtotal_usd": -381.39841804155327,
+            "mean_return_pct": -0.6092626486286793,
+            "wins": 182,
+            "losses": 444,
+            "median_holding_minutes": 220.0,
+            "notional_hours": 268850.0
+          },
+          "short": {
+            "trades": 961,
+            "priced": 957,
+            "censored": 4,
+            "gross_pnl_usd": null,
+            "priced_subtotal_usd": 816.7280156440262,
+            "mean_return_pct": 0.8534253037032666,
+            "wins": 514,
+            "losses": 443,
+            "median_holding_minutes": 645.0,
+            "notional_hours": 1012725.0
+          }
+        },
+        "peak_notional_usd": 8000
+      }
+    ],
+    "complete_total_pnl": {
+      "n": 0,
+      "median": null,
+      "min": null,
+      "max": null,
+      "positive": 0,
+      "negative": 0,
+      "zero": 0
+    },
+    "priced_subtotals_not_complete_pnl": {
+      "n": 3,
+      "median": 227.80066875460034,
+      "min": 167.2254189338065,
+      "max": 435.3295976024729,
+      "positive": 3,
+      "negative": 0,
+      "zero": 0
+    },
+    "censored": 14
+  },
+  "full": {
+    "groups": [
+      "price_shape",
+      "volume_detail",
+      "sma_detail",
+      "market_context",
+      "derivatives",
+      "liquidity",
+      "spot",
+      "clock",
+      "position_history"
+    ],
+    "seeds": [
+      {
+        "seed": 20261114,
+        "trades": 236,
+        "priced": 236,
+        "censored": 0,
+        "gross_pnl_usd": 207.72700008913324,
+        "priced_subtotal_usd": 207.72700008913324,
+        "mean_return_pct": 0.8801991529200561,
+        "wins": 126,
+        "losses": 110,
+        "median_holding_minutes": 340.0,
+        "notional_hours": 163016.66666666666,
+        "folds": 4,
+        "by_side": {
+          "long": {
+            "trades": 64,
+            "priced": 64,
+            "censored": 0,
+            "gross_pnl_usd": 29.745141242799967,
+            "priced_subtotal_usd": 29.745141242799967,
+            "mean_return_pct": 0.4647678319187495,
+            "wins": 34,
+            "losses": 30,
+            "median_holding_minutes": 402.5,
+            "notional_hours": 62016.666666666664
+          },
+          "short": {
+            "trades": 172,
+            "priced": 172,
+            "censored": 0,
+            "gross_pnl_usd": 177.9818588463333,
+            "priced_subtotal_usd": 177.9818588463333,
+            "mean_return_pct": 1.0347782491065889,
+            "wins": 92,
+            "losses": 80,
+            "median_holding_minutes": 322.5,
+            "notional_hours": 101000.0
+          }
+        },
+        "peak_notional_usd": 3100
+      },
+      {
+        "seed": 20261115,
+        "trades": 2131,
+        "priced": 2131,
+        "censored": 0,
+        "gross_pnl_usd": -128.8502617254095,
+        "priced_subtotal_usd": -128.8502617254095,
+        "mean_return_pct": -0.06046469344223815,
+        "wins": 848,
+        "losses": 1277,
+        "median_holding_minutes": 40.0,
+        "notional_hours": 281325.0,
+        "folds": 4,
+        "by_side": {
+          "long": {
+            "trades": 2041,
+            "priced": 2041,
+            "censored": 0,
+            "gross_pnl_usd": -198.94555200465769,
+            "priced_subtotal_usd": -198.94555200465769,
+            "mean_return_pct": -0.0974745477729827,
+            "wins": 804,
+            "losses": 1231,
+            "median_holding_minutes": 40.0,
+            "notional_hours": 254025.0
+          },
+          "short": {
+            "trades": 90,
+            "priced": 90,
+            "censored": 0,
+            "gross_pnl_usd": 70.09529027924815,
+            "priced_subtotal_usd": 70.09529027924815,
+            "mean_return_pct": 0.7788365586583127,
+            "wins": 44,
+            "losses": 46,
+            "median_holding_minutes": 72.5,
+            "notional_hours": 27300.0
+          }
+        },
+        "peak_notional_usd": 5100
+      },
+      {
+        "seed": 20261116,
+        "trades": 3206,
+        "priced": 3206,
+        "censored": 0,
+        "gross_pnl_usd": -103.74858220196116,
+        "priced_subtotal_usd": -103.74858220196116,
+        "mean_return_pct": -0.03236075552151003,
+        "wins": 1256,
+        "losses": 1933,
+        "median_holding_minutes": 20.0,
+        "notional_hours": 411000.0,
+        "folds": 4,
+        "by_side": {
+          "long": {
+            "trades": 3034,
+            "priced": 3034,
+            "censored": 0,
+            "gross_pnl_usd": -281.4086778912126,
+            "priced_subtotal_usd": -281.4086778912126,
+            "mean_return_pct": -0.0927517066220213,
+            "wins": 1166,
+            "losses": 1851,
+            "median_holding_minutes": 15.0,
+            "notional_hours": 275941.6666666667
+          },
+          "short": {
+            "trades": 172,
+            "priced": 172,
+            "censored": 0,
+            "gross_pnl_usd": 177.66009568925145,
+            "priced_subtotal_usd": 177.66009568925145,
+            "mean_return_pct": 1.0329075330770434,
+            "wins": 90,
+            "losses": 82,
+            "median_holding_minutes": 412.5,
+            "notional_hours": 135058.33333333334
+          }
+        },
+        "peak_notional_usd": 4500
+      }
+    ],
+    "complete_total_pnl": {
+      "n": 3,
+      "median": -103.74858220196116,
+      "min": -128.8502617254095,
+      "max": 207.72700008913324,
+      "positive": 1,
+      "negative": 2,
+      "zero": 0
+    },
+    "priced_subtotals_not_complete_pnl": {
+      "n": 3,
+      "median": -103.74858220196116,
+      "min": -128.8502617254095,
+      "max": 207.72700008913324,
+      "positive": 1,
+      "negative": 2,
+      "zero": 0
+    },
+    "censored": 0
+  },
+  "groups": [
+    {
+      "group": "price_shape",
+      "add_core_paired_median": 144.98177617097497,
+      "full_minus_drop_paired_median": 5.990869506630844,
+      "status": "inconclusive_full_period_due_to_missing_exits",
+      "complete_pair_pattern": "mixed",
+      "omitted_pairs": 3
+    },
+    {
+      "group": "volume_detail",
+      "add_core_paired_median": 59.344288942871216,
+      "full_minus_drop_paired_median": -1.8717040561618319,
+      "status": "inconclusive_full_period_due_to_missing_exits",
+      "complete_pair_pattern": "mixed",
+      "omitted_pairs": 3
+    },
+    {
+      "group": "sma_detail",
+      "add_core_paired_median": 115.75690159615553,
+      "full_minus_drop_paired_median": -240.54265014218134,
+      "status": "inconclusive_full_period_due_to_missing_exits",
+      "complete_pair_pattern": "mixed",
+      "omitted_pairs": 3
+    },
+    {
+      "group": "market_context",
+      "add_core_paired_median": 258.56182415129587,
+      "full_minus_drop_paired_median": -10.85326865938143,
+      "status": "inconclusive_full_period_due_to_missing_exits",
+      "complete_pair_pattern": "mixed",
+      "omitted_pairs": 5
+    },
+    {
+      "group": "derivatives",
+      "add_core_paired_median": 98.93656942025314,
+      "full_minus_drop_paired_median": 97.48901339212259,
+      "status": "inconclusive_full_period_due_to_missing_exits",
+      "complete_pair_pattern": "mixed",
+      "omitted_pairs": 3
+    },
+    {
+      "group": "liquidity",
+      "add_core_paired_median": 0.0,
+      "full_minus_drop_paired_median": 0.0,
+      "status": "untestable_no_training_variation",
+      "complete_pair_pattern": "mixed",
+      "omitted_pairs": 3
+    },
+    {
+      "group": "spot",
+      "add_core_paired_median": 167.4992832610838,
+      "full_minus_drop_paired_median": -219.5099544926085,
+      "status": "inconclusive_full_period_due_to_missing_exits",
+      "complete_pair_pattern": "mixed",
+      "omitted_pairs": 3
+    },
+    {
+      "group": "clock",
+      "add_core_paired_median": 61.039011280912945,
+      "full_minus_drop_paired_median": -131.09173240210254,
+      "status": "inconclusive_full_period_due_to_missing_exits",
+      "complete_pair_pattern": "mixed",
+      "omitted_pairs": 3
+    },
+    {
+      "group": "position_history",
+      "add_core_paired_median": 171.495099330011,
+      "full_minus_drop_paired_median": -14.074528367972519,
+      "status": "inconclusive_full_period_due_to_missing_exits",
+      "complete_pair_pattern": "mixed",
+      "omitted_pairs": 3
+    }
+  ],
+  "runs": 240
+}

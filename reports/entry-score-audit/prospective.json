@@ -1,0 +1,41 @@
+{
+  "declared_utc": "2026-11-22T11:28:49.952926+00:00",
+  "window": {
+    "test_start": "2026-11-23T00:00:00+00:00",
+    "test_entry_end": "2026-11-30T00:00:00+00:00",
+    "test_market_end": "2026-12-01T01:00:00+00:00"
+  },
+  "primary": {
+    "arm": "ridge",
+    "hurdle_bps": 15,
+    "vintage": "original frozen"
+  },
+  "principal_learned_challenger": {
+    "arm": "frozen_mlp_calibrated",
+    "historical_hurdle_bps": 0,
+    "common_hurdle_bps": 15
+  },
+  "controls": [
+    "historical calibration means per side at 15 bps",
+    "ridge 15 bps with passing scores tied"
+  ],
+  "comparison": "Original exits, eligible opportunities, original ranking and shared capacity of ten $100 slots. Versioned funding accounting for supplementary output.",
+  "secondary": "Two mature calibration cohorts and aligned feature controls. Report previously selected policies and common 15 bps arms independently.",
+  "primary_results": "reports/capped-entry-value/shadow-forecasts.json",
+  "secondary_results": "reports/entry-score-audit/shadow-audit.json",
+  "inputs": {
+    "reports/entry-score-audit/accounting.py": "3cc1c6d79757d6c9c1c7c8c7a3cc810de2c854d896072ac92d0128474c2351df",
+    "reports/entry-score-audit/cohorts.py": "fe416ea7a10c34458e12a6a64bee31e5878f2d9eb9389dd723a38b29848acaa7",
+    "reports/entry-score-audit/diagnostics.py": "331ad3932a84ddd9db27f8d73767d7bed3fea4040488d88fce0a06c410e8f159",
+    "reports/entry-score-audit/execution.py": "0e8cf3f944d2f8702035cfaec21bfd262a3529b6f237a59c525eaa22a1728f81",
+    "reports/entry-score-audit/study.py": "ee85a53c368a23eacf3fe539fe9d5a043aec542a08d23a4820b3cd32e915fdf6",
+    "reports/entry-score-audit/mature-calibration.json": "870ad2897c8458adfd19cf6ec58b6e7e69480a70fc532db97526443f4eef6bfb",
+    "reports/entry-score-audit/original-calibration.json": "c50d0866f87a02636417a693a720749dd7161d30b4a54e4a3424e1c860634cc6",
+    "reports/entry-score-audit/apt-settlement.json": "5bf605f8ebe7b6e5def3519a49ae7d5d95c23108db985c608202e87aeacfca4b",
+    "reports/entry-score-audit/centrypto-entry-score-audit.service": "0db2ec9c3e2a5fea0b97c3b899590afe616ea6420ab112bd43ce23b8f65326df",
+    "reports/entry-score-audit/centrypto-entry-score-audit.path": "b48c95c5b65a2d8a777a45bcf3eb69544886ef4cf1266fd6fe49075c66799195",
+    "reports/capped-entry-value/research-lock.json": "91769670bd21592ca7f293be35a5ae7ff7cbc181adb94590ccf4ecd0dffdf5fb",
+    "reports/capped-entry-value/forward-runtime-lock.json": "c4096b804c06eec0b385515cb51f7835dbfd179786d770129005d3738f0a6147",
+    "reports/capped-entry-value/entry-models.joblib": "77fe19bf9b0d568c8f81e906afde325fe8d32b45136ed5e81eb5f8f001fd5f55"
+  }
+}

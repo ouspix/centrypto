@@ -1,0 +1,160 @@
+{
+  "iterations": 250,
+  "entries": [
+    "2026-08-22T00:00:00+00:00",
+    "2026-11-21T21:20:00+00:00"
+  ],
+  "valuation": "2026-11-22T21:25:00+00:00",
+  "modes": {
+    "base": {
+      "net": -286.0691367703913,
+      "max_drawdown": 381.643706403279,
+      "rejects": {
+        "busy_or_illiquid": 38363,
+        "slippage_limit": 897,
+        "sizing": 1725,
+        "positions_full": 203212,
+        "exposure_full": 23,
+        "daily_loss": 38959,
+        "risk_full": 123,
+        "missing_entry": 1
+      },
+      "fills": 6276,
+      "closed": 6275,
+      "wins": 6050,
+      "losses": 225,
+      "break_even": 0,
+      "win_rate": 0.9641434262948207,
+      "average_win": 0.14647874318801773,
+      "average_loss": -5.185420039488979,
+      "realized_net": -280.52311259751315,
+      "ending_open": 1,
+      "ending_inventory": [
+        {
+          "symbol": "ETH",
+          "sign": -1,
+          "entry": 877226,
+          "price": 1724.8,
+          "notional": 53.75174756410406,
+          "pnl": -5.546024172877645,
+          "age_minutes": 2459
+        }
+      ],
+      "open_marked_pnl": -5.546024172877645,
+      "missing_funding_hours": 10,
+      "by_side": {
+        "long": {
+          "fills": 62,
+          "closed": 62,
+          "wins": 40,
+          "losses": 22,
+          "break_even": 0,
+          "win_rate": 0.6451612903225806,
+          "average_win": 1.2346458191960754,
+          "average_loss": -2.5119024664638085,
+          "realized_net": -5.876021494360784
+        },
+        "short": {
+          "fills": 6214,
+          "closed": 6213,
+          "wins": 6010,
+          "losses": 203,
+          "break_even": 0,
+          "win_rate": 0.967326573314019,
+          "average_win": 0.13923636664220704,
+          "average_loss": -5.475160860210919,
+          "realized_net": -274.6470911031524
+        }
+      }
+    },
+    "stress": {
+      "net": -424.4430234447676,
+      "max_drawdown": 514.0842946207122,
+      "rejects": {
+        "busy_or_illiquid": 36458,
+        "slippage_limit": 1401,
+        "sizing": 1809,
+        "positions_full": 211414,
+        "daily_loss": 32795,
+        "missing_entry": 2,
+        "risk_full": 105,
+        "exposure_full": 35
+      },
+      "fills": 5560,
+      "closed": 5559,
+      "wins": 5349,
+      "losses": 210,
+      "break_even": 0,
+      "win_rate": 0.9622234214786832,
+      "average_win": 0.13341513152040618,
+      "average_loss": -5.393300789214934,
+      "realized_net": -418.9556272324835,
+      "ending_open": 1,
+      "ending_inventory": [
+        {
+          "symbol": "ETH",
+          "sign": -1,
+          "entry": 877227,
+          "price": 1724.8,
+          "notional": 53.69313017047705,
+          "pnl": -5.487396212282977,
+          "age_minutes": 2458
+        }
+      ],
+      "open_marked_pnl": -5.487396212282977,
+      "missing_funding_hours": 10,
+      "by_side": {
+        "long": {
+          "fills": 43,
+          "closed": 43,
+          "wins": 29,
+          "losses": 14,
+          "break_even": 0,
+          "win_rate": 0.6744186046511628,
+          "average_win": 0.9567033984690478,
+          "average_loss": -2.7754921525037966,
+          "realized_net": -11.112491579450754
+        },
+        "short": {
+          "fills": 5517,
+          "closed": 5516,
+          "wins": 5320,
+          "losses": 196,
+          "break_even": 0,
+          "win_rate": 0.9644670050761421,
+          "average_win": 0.12892728194493425,
+          "average_loss": -5.580287120408586,
+          "realized_net": -407.8431356530327
+        }
+      }
+    }
+  },
+  "target": {
+    "base": {
+      "win_rate": true,
+      "fills": true,
+      "profit": false
+    },
+    "stress": {
+      "win_rate": true,
+      "fills": true,
+      "profit": false
+    }
+  },
+  "target_met": false,
+  "ledger": "56bdb6c65bc9e15038ecb8c5cb2b1e57fdbb91221b260a8a230363597fbace87",
+  "verification": {
+    "iterations_250:base": {
+      "fills": 6276,
+      "closed": 6275,
+      "wins": 6050,
+      "cutoff": 0
+    },
+    "iterations_250:stress": {
+      "fills": 5560,
+      "closed": 5559,
+      "wins": 5349,
+      "cutoff": 0
+    }
+  }
+}

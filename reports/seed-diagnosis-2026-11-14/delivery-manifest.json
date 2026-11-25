@@ -1,0 +1,17 @@
+{
+  "files": {
+    "protocol.json": "296307310a0e8590e59bece10072156ac542894aad0cf516154ffa2f0daad1cb",
+    "REPORT.txt": "11a6d1ba1e88041b04e1cc0425a64fc259519fd221019976035b5d6cd8bd2202",
+    "results.json": "191f7fc213a6e55cbdc65b277ce79cbf46f6aa432435a9796f7f9c25a0755c35",
+    "analyze_seed.py": "a09ad5bd122180a9a96f89f4c60d914bf8635c21c38e7fe13a6212a31e8c8e91",
+    "audit_and_report.py": "89b7878dbb69190781fedd059e24c37112ac2ab6a2121d5102e7b07d69da263d",
+    "completion.json": "e2bf84d8fcb0896779a938a30f039cbba1c6dac77766b5efd6a5da1d8c4b0504",
+    "component-comparison.json": "1be336f94223bceb17cdf8e828388dd8b536609c25904ada9d53b1f7b2128226",
+    "threshold-surfaces.json": "261767a392748c340915d7299d34f960441c62daf6d2b5b6b98ecf1a5554ab75",
+    "check_training.py": "26201a6958393aae929a9a8c80bac5ce7a15de82333144c8328ce4a2c926f8f0",
+    "diagnose.py": "63c4f1d8cd578ae879c66067fe32b4ba165967eff801c71a9249fa3f38548c4e",
+    "validation.json": "e6559271f1a9e538f818d0f5c80a20cb2f30e7d6445797f66e6640a616d2ec54",
+    "training-checks.json": "b741d3cbd27eef2871f51e04e99bc738203dc6d351cfff41a36be50e3a9fe2a6"
+  },
+  "external_cache": "/mnt/c/Users/melli/.codex/research/centrypto/seed-diagnosis-2026-11-14"
+}

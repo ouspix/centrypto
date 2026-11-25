@@ -1,0 +1,41 @@
+Entry models retrained with best hindsight entries and normalized absolute price error
+
+Result: the change does not improve total profit on the frozen comparison. The old entry thresholds and exit models produce +$23.11 with current entries versus +$12.15 with the new entries. Longs lose less; shorts earn less. These settings were selected for the old model, so this is an entry-substitution diagnostic, not a newly validated strategy. Independently selecting new thresholds using earlier validation rejects trading in all four folds; the resulting new policy takes zero trades and earns $0.
+
+Same frozen policy settings, same fitted exits, $100 per trade
+long: current $-21.71 (15 trades); price-error $-4.04 (10 trades).
+short: current $+44.83 (18 trades); price-error $+16.19 (26 trades).
+total: current $+23.11 (33 trades); price-error $+12.15 (36 trades).
+All fees, funding payments and slippage are excluded, as in the current model. PnL is the sum across fixed-notional positions, not a portfolio return. Simultaneous symbols may need more capital. This substitution comparison is active only in the final fold because the old policy chose cash in the first three.
+
+What was implemented
+Two separate entry models, long and short, each a three-seed ensemble. Four chronological folds produce 24 fitted entry networks, each with 4,000 updates and the existing 32/16 hidden layers. The eight existing SMA pairs and causal mandatory-input checks remain. News is excluded. The exit networks, exit features, execution prices, one-position-per-symbol rule and 24-hour holding cap remain fixed; frozen exit bundle hashes are identical.
+
+For each SMA opportunity window, search every causally eligible candidate entry and every executable five-minute exit up to 24 hours after that entry. Choose the pair with maximum side-adjusted gross return; earliest entry breaks a tie. This produces exactly one best entry per SMA setup, not one global entry per multi-day wave. Overlapping SMA windows can have different targets. Incomplete candidate futures cause the entire setup to be omitted from supervision, because its best entry cannot be established. They remain eligible for causal replay, where unknown fills censor results.
+
+For a qualifying setup, the error for entering at t is abs(P[t]-P[best])/P[best]. This is direct supervision of the chosen entry price, not a regression predicting a future target price. The network outputs a causal entry hazard h[t]. Its first-entry probability is q[t] = h[t] * product(1-h[j], j<t). Training minimizes sum(q[t]*price_error[t]) plus the skip probability times the missed optimal return. For setups whose best gain is below the existing 10% rally cutoff, entry costs 0.10 and skipping costs zero. These participation costs make abstention well-defined; they are training choices, not trading stop-losses. L2 regularization is separate. There is no binary cross-entropy, +/-10% first-barrier target, or 95%-of-best label band.
+
+The model sees only current/past features, including the detected SMA pair and setup age. Future prices, target times, optimal exits and the future end of the window are labels only. At inference, hazards are mapped to training-reference percentiles and a deterministic entry threshold is applied to the earliest qualifying candidate. This deterministic execution rule is evaluated separately from the differentiable expected-cost training loss.
+
+Training target coverage: 25266 fully observed setups, including 2524 qualifying and 22742 failed setups. 18456 setups are unknown for supervision. 17034 complete setups contain more than one candidate. Training rows differ slightly from the current classifier because selecting a demonstrably best entry requires complete coverage of the whole eligible setup; the comparison is not a pure loss-only ablation.
+
+Entry accuracy on held-out setups at a fixed training-score percentile of 90
+long / current: mean normalized price error 0.954%; entered 92/281 qualifying setups; entered 862/3382 failed setups.
+long / price_error: mean normalized price error 0.778%; entered 103/281 qualifying setups; entered 938/3382 failed setups.
+short / current: mean normalized price error 0.601%; entered 45/742 qualifying setups; entered 100/3376 failed setups.
+short / price_error: mean normalized price error 0.971%; entered 58/742 qualifying setups; entered 161/3376 failed setups.
+These diagnostics evaluate each setup independently to measure entry timing, rather than simulating a portfolio. They do not override the one-position rule used for trading. Price error is conditional on entering a qualifying setup; it must be read alongside coverage and failed entries. Among setups both methods enter, long error changes from 1.026% to 0.941% (85 setups), while short error changes from 0.753% to 1.211% (28 setups). This is a more comparable subset, but remains selected by both policies.
+
+The held-out diagnostic covers 7781 setups on 140 symbols, including 1023 qualifying setups across 142 symbol-days. These overlapping setups are not 1023 independent rallies. Chronological folds are unseen by their fitted networks, but the dates were examined in previous research; no pristine new holdout was available in the existing cache. No test result was used to select the new checkpoint, training loss, or trading thresholds. Earlier validation selects thresholds from 0.8/0.9/0.95 with fixed 0.5 exits. The previous robust minimum-trade/day/symbol, seed agreement, and bootstrap rules remain. Their rejection is preserved.
+
+Learning and stability
+All 24 networks reduced full training expected cost. The synthetic test learns to wait for the minimum-error entry and to skip failed setups; the analytical gradient matches numerical differentiation. Training timing error improves, but much of the total loss improvement is also better abstention. Lower training loss did not establish superior held-out trading results. Reusing the old policy, new seed PnLs are +$19.63, -$25.84, and +$5.37; seed sensitivity remains. The fixed-90 trading diagnostic gives current -$305.79 on 362 trades. New entries have -$432.20 on 412 priced trades plus two unpriced attempts, so their total PnL is unknown. Missing outcomes are not replaced by zero.
+
+Verification
+Nine regression tests pass. Recomputed 5295 trade records; preserved unknown fills; independently reconstructed 23328 future execution opens across 20 sampled target setups from raw minute candles. Confirmed training/validation/test separation with a 24-hour purge after label completion, unchanged hashes for all 48 baseline networks, exact four-fold baseline replay parity, identical frozen exits, 100 ensemble inference parity checks, and runtime waiting/deadline behavior. Historical receipt times remain absent, so historical evaluation uses event-time data and cannot certify real-time publication latency.
+
+Artifacts and reproduction
+Source: reports/entry-price-error-2026-11-15.
+Large artifacts: /mnt/c/Users/melli/.codex/research/centrypto/entry-price-error-2026-11-15.
+Best-entry targets, entry decisions, trade records and comparison CSVs are alongside the model bundle in that cache. bundle/ contains two new entry ensembles and unchanged exit ensembles; its selected policy is cash. price_policy.load_policy() loads the checksummed offline bundle. Nothing was activated in production and no trading orders were submitted.
+Run with the existing research Python environment: python -m unittest -v test_price; python train_price.py; python replay_price.py; python diagnose_price.py; python validate_price.py; python deliver_price.py. Training and replay source locks reject changed sources rather than silently reusing stale artifacts.

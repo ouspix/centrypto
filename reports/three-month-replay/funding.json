@@ -1,0 +1,1080 @@
+{
+  "normalized_source_sha256": "4a96283c415c575b5570b5d2d416d307a05b23c963effad4428a0d77fbb12cc2",
+  "funding_sha256": "c18abedfb1e0f865471ffce1edace90b3428d627787ff5496ed6d8ca841374b1",
+  "assets": {
+    "0G": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 10235
+    },
+    "2Z": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 9992
+    },
+    "AAVE": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "ACE": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "ADA": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "AERO": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 9039
+    },
+    "AIXBT": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "ALGO": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "ALT": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "ANIME": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "APE": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "APEX": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 10119
+    },
+    "APT": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "AR": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "ARB": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "ASTER": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 10307
+    },
+    "ATOM": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "AVAX": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "AVNT": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 10262
+    },
+    "AXS": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 7410
+    },
+    "AZTEC": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 6805
+    },
+    "BABY": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14155
+    },
+    "BANANA": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "BCH": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "BERA": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "BIGTIME": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "BIO": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "BLUR": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "BNB": {
+      "status": "complete_request",
+      "new": 176,
+      "verified_overlap": 350,
+      "settlements": 14662
+    },
+    "BOME": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "BRETT": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "BSV": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "BTC": {
+      "status": "complete_request",
+      "new": 118,
+      "verified_overlap": 408,
+      "settlements": 14662
+    },
+    "CAKE": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "CASHCAT": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 3233
+    },
+    "CC": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 9297
+    },
+    "CELO": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "CFX": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "CHIP": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 5155
+    },
+    "COMP": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "CRV": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "DASH": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 7410
+    },
+    "DOGE": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "DOT": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "DYDX": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "DYM": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "EIGEN": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "ENA": {
+      "status": "complete_request",
+      "new": 166,
+      "verified_overlap": 360,
+      "settlements": 14662
+    },
+    "ENS": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "ETC": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "ETH": {
+      "status": "complete_request",
+      "new": 118,
+      "verified_overlap": 408,
+      "settlements": 14662
+    },
+    "ETHFI": {
+      "status": "complete_request",
+      "new": 134,
+      "verified_overlap": 392,
+      "settlements": 14662
+    },
+    "FARTCOIN": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "FET": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "FIL": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "FOGO": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 8323
+    },
+    "GALA": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "GAS": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "GMT": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "GMX": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "GOAT": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "GRAM": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 3444
+    },
+    "GRASS": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "GRIFFAIN": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "HBAR": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "HEMI": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 10190
+    },
+    "HMSTR": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "HYPE": {
+      "status": "complete_request",
+      "new": 118,
+      "verified_overlap": 408,
+      "settlements": 14662
+    },
+    "HYPER": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 13902
+    },
+    "ICP": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 9114
+    },
+    "IMX": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "INIT": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 13858
+    },
+    "INJ": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "IO": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "IOTA": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "JTO": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "JUP": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "KAITO": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "KAS": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "LAYER": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "LDO": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "LINEA": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 10740
+    },
+    "LINK": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "LIT": {
+      "status": "complete_request",
+      "new": 118,
+      "verified_overlap": 408,
+      "settlements": 8046
+    },
+    "LTC": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "MANTA": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "ME": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "MEGA": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 9510
+    },
+    "MELANIA": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "MEME": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "MERL": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "MET": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 9803
+    },
+    "MINA": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "MNT": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "MON": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 9857
+    },
+    "MOODENG": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "MORPHO": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "MOVE": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "NEAR": {
+      "status": "complete_request",
+      "new": 118,
+      "verified_overlap": 408,
+      "settlements": 14662
+    },
+    "NEO": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "NIL": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14600
+    },
+    "NOT": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "NXPC": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 13357
+    },
+    "ONDO": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "OP": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "ORDI": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "PAXG": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14286
+    },
+    "PENDLE": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "PENGU": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "PEOPLE": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "PNUT": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "POL": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "POLYX": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "PONS": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 2010
+    },
+    "POPCAT": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "PROVE": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 11370
+    },
+    "PUMP": {
+      "status": "complete_request",
+      "new": 123,
+      "verified_overlap": 403,
+      "settlements": 12018
+    },
+    "PURR": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "PYTH": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "RENDER": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "RESOLV": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 12727
+    },
+    "REZ": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "RSR": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "RUNE": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "S": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "SAGA": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "SAND": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "SEI": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "SKR": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 7315
+    },
+    "SKY": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 10360
+    },
+    "SNX": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "SOL": {
+      "status": "complete_request",
+      "new": 118,
+      "verified_overlap": 408,
+      "settlements": 14662
+    },
+    "SOPH": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 13039
+    },
+    "SPX": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "STABLE": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 8384
+    },
+    "STBL": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 10242
+    },
+    "STRK": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "STX": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "SUI": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "SUPER": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "SUSHI": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "SYRUP": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 12352
+    },
+    "TAO": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "TIA": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "TNSR": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "TRB": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "TRUMP": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "TRX": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "TURBO": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "UMA": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "UNI": {
+      "status": "complete_request",
+      "new": 131,
+      "verified_overlap": 395,
+      "settlements": 14662
+    },
+    "USELESS": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 1805
+    },
+    "USUAL": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "VIRTUAL": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "VVV": {
+      "status": "complete_request",
+      "new": 162,
+      "verified_overlap": 364,
+      "settlements": 14662
+    },
+    "W": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "WCT": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14071
+    },
+    "WIF": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "WLD": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "WLFI": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 10955
+    },
+    "XAI": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "XLM": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "XMR": {
+      "status": "complete_request",
+      "new": 118,
+      "verified_overlap": 408,
+      "settlements": 7477
+    },
+    "XPL": {
+      "status": "complete_request",
+      "new": 120,
+      "verified_overlap": 406,
+      "settlements": 10980
+    },
+    "XRP": {
+      "status": "complete_request",
+      "new": 147,
+      "verified_overlap": 379,
+      "settlements": 14662
+    },
+    "XTEN": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 639
+    },
+    "YGG": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "ZEC": {
+      "status": "complete_request",
+      "new": 118,
+      "verified_overlap": 408,
+      "settlements": 9992
+    },
+    "ZEN": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "ZETA": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "ZK": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "ZORA": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 13879
+    },
+    "ZRO": {
+      "status": "complete_request",
+      "new": 121,
+      "verified_overlap": 405,
+      "settlements": 14662
+    },
+    "kBONK": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "kFLOKI": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "kLUNC": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "kNEIRO": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "kPEPE": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    },
+    "kSHIB": {
+      "status": "complete_request",
+      "new": 214,
+      "verified_overlap": 312,
+      "settlements": 14662
+    }
+  }
+}

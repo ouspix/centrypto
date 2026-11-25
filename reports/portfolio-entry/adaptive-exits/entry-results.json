@@ -1,0 +1,82 @@
+{
+  "candidates": 89732,
+  "results": {
+    "ridge": {
+      "base": {
+        "trades": 0,
+        "closed": 0,
+        "long": 0,
+        "short": 0,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "avg_gross": 0.0,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": 0.0,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 0,
+        "rejects": {},
+        "exits": {},
+        "max_holding_minutes": null
+      },
+      "stress": {
+        "trades": 0,
+        "closed": 0,
+        "long": 0,
+        "short": 0,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "avg_gross": 0.0,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": 0.0,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 0,
+        "rejects": {},
+        "exits": {},
+        "max_holding_minutes": null
+      }
+    },
+    "neural": {
+      "base": {
+        "trades": 0,
+        "closed": 0,
+        "long": 0,
+        "short": 0,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "avg_gross": 0.0,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": 0.0,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 0,
+        "rejects": {},
+        "exits": {},
+        "max_holding_minutes": null
+      },
+      "stress": {
+        "trades": 0,
+        "closed": 0,
+        "long": 0,
+        "short": 0,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "avg_gross": 0.0,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": 0.0,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 0,
+        "rejects": {},
+        "exits": {},
+        "max_holding_minutes": null
+      }
+    }
+  },
+  "valuation": "2026-11-22T21:25:00+00:00"
+}

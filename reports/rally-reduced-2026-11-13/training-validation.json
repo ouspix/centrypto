@@ -1,0 +1,25 @@
+{
+  "experiments": [
+    "all_history",
+    "news_window"
+  ],
+  "evaluated_folds": 27,
+  "prediction_rows": 9255,
+  "event_overlap_violations": 0,
+  "outer_training_label_violations": 0,
+  "candidate_dimensions": 634,
+  "final_correlation_dimensions": 427,
+  "final_relevance_dimensions": 10,
+  "final_selected": [
+    "perp_range_pct_1m",
+    "perp_return_pct_30m",
+    "calendar_hour_sin",
+    "perp_range_pct_5m",
+    "perp_rv_pct_60m",
+    "eth_vwap_distance_pct_15m",
+    "spot_rv_pct_240m",
+    "perp_rv_pct_15m",
+    "btc_rebound_pct_60m",
+    "setup_continuation"
+  ]
+}

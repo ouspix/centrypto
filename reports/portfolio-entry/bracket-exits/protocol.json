@@ -1,0 +1,24 @@
+{
+  "objective": "Maximize mean across three early periods of the lower of base and stress marked net P&L per calendar day. Select a take-profit and stop-loss for each direction, first individually, then combine the top three per side and rerank the nine paired choices. Use only saved desk sizing controls and one position per symbol. All eligible SMA rows share one constant entry priority during exit selection.",
+  "grid": {
+    "takeProfitBps": [
+      50,
+      100,
+      200,
+      350,
+      500
+    ],
+    "stopLossBps": [
+      25,
+      50,
+      100,
+      200,
+      350
+    ],
+    "timeExit": null
+  },
+  "selection": "Three development books from November 13, 2025 through February 1, 2026 UTC, with flat initial accounts and open terminal positions marked. Reject incomplete funding trial results from selection. Unresolved holdings have terminal marked equity, and closing labels require a completed observed exit.",
+  "execution": "Saved mainnet directional desk mandate version 17. Use the desk candle research 1% closed-bar participation proxy, the minimum order size, two execution scenarios and 30 bps entry slippage limit. Maintain order/instrument, gross, position, daily loss, per-trade risk and aggregate open-risk limits. Candle stop and target fills follow desk candle research: stop first on ambiguous bars, adverse gap open for stop and conservative target fill with slippage. Record the exit when the trigger candle closes. Actual executable depth and size precision are outside the historical candle tape.",
+  "fit": "Refit ridge and shared neural entry heads on resolved outcomes from February 1, 2026. Use May–August expanding chronological calibration, with only completed exits included at each fold cutoff. Use same 15 bps hurdle, exposure controls and underlying market/pub-age input rows. In an additional overlap comparison, train a residual news adjustment on original News Intelligence outputs and new completed exit labels.",
+  "comparison": "Replay August 22–November 22 common historical tape under selected brackets, same protective stop plus learned exits, and cash. Compare entry refits as well as a constant-score exit-only diagnostic. Neither positions that are still open nor a missing trigger are closed merely because valuation is reached."
+}

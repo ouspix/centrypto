@@ -1,0 +1,103 @@
+{
+  "experiment": "feature-ablation-2026-11-14",
+  "pairs": [
+    [
+      3,
+      12
+    ],
+    [
+      5,
+      20
+    ],
+    [
+      8,
+      30
+    ],
+    [
+      10,
+      30
+    ],
+    [
+      10,
+      50
+    ],
+    [
+      20,
+      50
+    ],
+    [
+      20,
+      80
+    ],
+    [
+      30,
+      80
+    ]
+  ],
+  "bar_minutes": 5,
+  "entry_window_bars": 12,
+  "holding_limit_bars": 288,
+  "success_gain_pct": 10.0,
+  "near_optimal_fraction": 0.95,
+  "minimum_future_price_coverage": 0.9,
+  "conservative_label_maturity_minutes": 2912,
+  "purge_minutes": 1440,
+  "network": {
+    "hidden": [
+      32,
+      16
+    ],
+    "updates": 4000,
+    "checkpoints": [
+      200,
+      600,
+      1500,
+      4000
+    ],
+    "batch": 512,
+    "learning_rate": 0.001,
+    "l2": 0.001,
+    "seed": 20261114
+  },
+  "entry_thresholds": [
+    0.5,
+    0.75,
+    0.9
+  ],
+  "exit_thresholds": [
+    0.25,
+    0.5,
+    0.75
+  ],
+  "exit_training_max_entries_per_side": 6000,
+  "exit_validation_max_entries_per_side": 1500,
+  "exit_sample_steps": [
+    1,
+    2,
+    3,
+    6,
+    12,
+    24,
+    48,
+    72,
+    96,
+    144,
+    192,
+    240,
+    288
+  ],
+  "minimum_validation_trades": 5,
+  "notional_usd": 100,
+  "fees": 0,
+  "funding_payments": 0,
+  "slippage": 0,
+  "detector": "Closed 5m fast/slow SMA crossing. One-hour opportunity window ends at an opposite crossing of the same pair. No future-rally filter at detection or inference.",
+  "entry_target": "Positive only if a candidate has >=10% observed best 24h gross gain and retains >=95% of the best eligible candidate gain in its setup window. All other fully observed candidates are negative, including losing and insufficient-gain setups. Unknown outcomes remain unlabeled.",
+  "exit_target": "For entries sampled deterministically from all setups, successful or failed, close at or after that entry's observed best 5m..24h exit. Never restrict training to good entries. Uniform causal decision-step grid; no peak-based row sampling.",
+  "selection": "Each of four networks independently chooses its checkpoint by earlier validation AP. Each side independently selects entry/exit thresholds by complete earlier continuous-replay gross PnL, or cash. Test outcomes never select parameters.",
+  "conflict_policy": "If both sides qualify at the same symbol/time, wait. Within one side choose the highest scoring eligible pair; deterministic pair-index tie break. One position per symbol, and at most one entry per detector event.",
+  "comparison": "Core and optional group retraining with paired initialization/minibatches and fixed full input layout. Same detectors, candidate data, labels, costs and chronological windows as no-news baseline.",
+  "test_status": "Model-unseen chronological folds already examined in earlier research; not pristine research holdouts.",
+  "deployment": "Offline only; news features excluded from every entry and exit model. Four final artifacts; no production activation.",
+  "entry_news": false
+}

@@ -1,0 +1,254 @@
+{
+  "status": "passed",
+  "trade_records_recomputed": 8559,
+  "independent_raw_price_checks": [
+    {
+      "symbol": "LIT",
+      "entry_time": "2026-06-01T00:06:00Z",
+      "exit_time": "2026-06-01T07:01:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "HYPE",
+      "entry_time": "2026-06-01T00:11:00Z",
+      "exit_time": "2026-06-01T07:01:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "HYPE",
+      "entry_time": "2026-06-01T00:11:00Z",
+      "exit_time": "2026-06-01T01:26:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "XMR",
+      "entry_time": "2026-11-03T03:11:00Z",
+      "exit_time": "2026-11-03T03:36:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "PUMP",
+      "entry_time": "2026-11-03T14:41:00Z",
+      "exit_time": "2026-11-03T14:51:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "NEAR",
+      "entry_time": "2026-11-04T03:41:00Z",
+      "exit_time": "2026-11-04T04:51:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "LIT",
+      "entry_time": "2026-11-04T14:56:00Z",
+      "exit_time": "2026-11-04T15:11:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "ZEC",
+      "entry_time": "2026-11-05T05:56:00Z",
+      "exit_time": "2026-11-05T06:01:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "XMR",
+      "entry_time": "2026-11-05T13:46:00Z",
+      "exit_time": "2026-11-05T14:31:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "LIT",
+      "entry_time": "2026-11-05T17:01:00Z",
+      "exit_time": "2026-11-05T17:11:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "TRX",
+      "entry_time": "2026-11-05T23:46:00Z",
+      "exit_time": "2026-11-06T00:31:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "BTC",
+      "entry_time": "2026-11-03T11:46:00Z",
+      "exit_time": "2026-11-03T12:16:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "HYPE",
+      "entry_time": "2026-11-04T00:41:00Z",
+      "exit_time": "2026-11-04T00:46:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "PUMP",
+      "entry_time": "2026-11-04T14:36:00Z",
+      "exit_time": "2026-11-04T14:46:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "HYPE",
+      "entry_time": "2026-11-04T18:11:00Z",
+      "exit_time": "2026-11-04T18:16:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "NIL",
+      "entry_time": "2026-11-05T16:01:00Z",
+      "exit_time": "2026-11-05T19:11:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "LIT",
+      "entry_time": "2026-11-08T14:51:00Z",
+      "exit_time": "2026-11-08T15:16:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "BTC",
+      "entry_time": "2026-11-08T23:06:00Z",
+      "exit_time": "2026-11-09T02:06:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "ZEC",
+      "entry_time": "2026-11-09T13:11:00Z",
+      "exit_time": "2026-11-09T14:01:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "ZEC",
+      "entry_time": "2026-11-09T21:11:00Z",
+      "exit_time": "2026-11-09T22:01:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "BTC",
+      "entry_time": "2026-11-08T19:51:00Z",
+      "exit_time": "2026-11-08T21:56:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "ZEC",
+      "entry_time": "2026-11-09T20:46:00Z",
+      "exit_time": "2026-11-09T20:56:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "ZEC",
+      "entry_time": "2026-11-11T10:56:00Z",
+      "exit_time": "2026-11-11T12:11:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "ZEC",
+      "entry_time": "2026-11-11T17:36:00Z",
+      "exit_time": "2026-11-11T17:46:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "INIT",
+      "entry_time": "2026-11-12T04:41:00Z",
+      "exit_time": "2026-11-12T05:31:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "INIT",
+      "entry_time": "2026-11-11T10:31:00Z",
+      "exit_time": "2026-11-11T12:26:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "INIT",
+      "entry_time": "2026-11-11T19:21:00Z",
+      "exit_time": "2026-11-11T21:21:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "NEAR",
+      "entry_time": "2026-11-11T09:16:00Z",
+      "exit_time": "2026-11-11T11:01:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "INIT",
+      "entry_time": "2026-11-11T18:51:00Z",
+      "exit_time": "2026-11-11T19:01:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "LIT",
+      "entry_time": "2026-11-12T07:26:00Z",
+      "exit_time": "2026-11-12T10:26:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "DASH",
+      "entry_time": "2026-11-12T15:56:00Z",
+      "exit_time": "2026-11-13T03:16:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "NEAR",
+      "entry_time": "2026-11-11T14:46:00Z",
+      "exit_time": "2026-11-11T16:51:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "LIT",
+      "entry_time": "2026-11-12T07:26:00Z",
+      "exit_time": "2026-11-12T10:26:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "INIT",
+      "entry_time": "2026-11-11T08:01:00Z",
+      "exit_time": "2026-11-11T08:06:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "INIT",
+      "entry_time": "2026-11-11T21:21:00Z",
+      "exit_time": "2026-11-11T22:16:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "SPX",
+      "entry_time": "2026-11-12T11:46:00Z",
+      "exit_time": "2026-11-12T20:16:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "INIT",
+      "entry_time": "2026-11-11T10:51:00Z",
+      "exit_time": "2026-11-11T12:06:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "ZEC",
+      "entry_time": "2026-11-11T21:51:00Z",
+      "exit_time": "2026-11-11T22:41:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "SOPH",
+      "entry_time": "2026-11-13T05:41:00Z",
+      "exit_time": "2026-11-13T06:11:00Z",
+      "matched": true
+    },
+    {
+      "symbol": "INIT",
+      "entry_time": "2026-11-12T09:06:00Z",
+      "exit_time": "2026-11-12T09:16:00Z",
+      "matched": true
+    }
+  ],
+  "baseline_exit_parity_comparisons": 720,
+  "unchanged_training_and_validation_entry_matrices": 16,
+  "preserved_original_report_files": 71,
+  "old_unpriced_entry_paths_excluded": 39,
+  "new_unknown_entry_rows_do_not_enter_training": true,
+  "fees": 0,
+  "historical_publication_certified": false,
+  "research_periods_previously_examined": true
+}

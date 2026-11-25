@@ -1,0 +1,146 @@
+[
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "side": "long",
+    "kind": "entry",
+    "training_rows": 11097,
+    "training_positive": 1768,
+    "validation_rows": 5144,
+    "validation_positive": 373
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "side": "long",
+    "kind": "exit",
+    "training_rows": 49894,
+    "training_positive": 2724,
+    "validation_rows": 17917,
+    "validation_positive": 1072
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "side": "short",
+    "kind": "entry",
+    "training_rows": 11386,
+    "training_positive": 685,
+    "validation_rows": 4734,
+    "validation_positive": 211
+  },
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "side": "short",
+    "kind": "exit",
+    "training_rows": 51815,
+    "training_positive": 2809,
+    "validation_rows": 17927,
+    "validation_positive": 704
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "side": "long",
+    "kind": "entry",
+    "training_rows": 30769,
+    "training_positive": 3071,
+    "validation_rows": 4728,
+    "validation_positive": 96
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "side": "long",
+    "kind": "exit",
+    "training_rows": 71836,
+    "training_positive": 3904,
+    "validation_rows": 17572,
+    "validation_positive": 655
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "side": "short",
+    "kind": "entry",
+    "training_rows": 30886,
+    "training_positive": 2307,
+    "validation_rows": 4560,
+    "validation_positive": 0
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "side": "short",
+    "kind": "exit",
+    "training_rows": 71832,
+    "training_positive": 2826,
+    "validation_rows": 17395,
+    "validation_positive": 1088
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "side": "long",
+    "kind": "entry",
+    "training_rows": 38321,
+    "training_positive": 3321,
+    "validation_rows": 10376,
+    "validation_positive": 812
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "side": "long",
+    "kind": "exit",
+    "training_rows": 71692,
+    "training_positive": 4110,
+    "validation_rows": 17976,
+    "validation_positive": 667
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "side": "short",
+    "kind": "entry",
+    "training_rows": 38695,
+    "training_positive": 3325,
+    "validation_rows": 10328,
+    "validation_positive": 376
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "side": "short",
+    "kind": "exit",
+    "training_rows": 71658,
+    "training_positive": 2708,
+    "validation_rows": 17975,
+    "validation_positive": 741
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "side": "long",
+    "kind": "entry",
+    "training_rows": 44926,
+    "training_positive": 3464,
+    "validation_rows": 3121,
+    "validation_positive": 8
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "side": "long",
+    "kind": "exit",
+    "training_rows": 71606,
+    "training_positive": 4017,
+    "validation_rows": 14279,
+    "validation_positive": 1242
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "side": "short",
+    "kind": "entry",
+    "training_rows": 45730,
+    "training_positive": 3621,
+    "validation_rows": 3796,
+    "validation_positive": 32
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "side": "short",
+    "kind": "exit",
+    "training_rows": 71590,
+    "training_positive": 2694,
+    "validation_rows": 15743,
+    "validation_positive": 311
+  }
+]

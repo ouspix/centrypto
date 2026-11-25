@@ -1,0 +1,113 @@
+TWO SUPERVISED MODELS: ENTRY WITH NEWS, EXIT WITHOUT NEWS
+Completed November 14, 2026, Europe/Paris. Offline research artifacts.
+
+Request and implemented target
+Scan every recorded native token for rolling24h price gains >=10%. The market
+database stores historical prices, so the percentage is calculated from same-
+venue five-minute closing observations exactly24h apart. Repeated qualifying
+readings are grouped with one anchor per token per24h. No SMA crossover is
+required for target discovery or live entry; SMA measurements remain features.
+
+For each anchor, the teacher searches entries in the preceding24h through the
+anchor and exits5m to24h AFTER each entry. It chooses the maximum executable
+gross-return pair. An entry target can be one5m bar away if it preserves >=95%
+of that optimum. The exit model trains on exactly these same positive entry
+points, each with its own optimal exit. Non-target eligible periods are entry
+negatives; incomplete/censored teacher searches are excluded, not mislabeled.
+The >=10% screen is a future training label, never a live-entry gate.
+
+Execution
+Both decisions use five-minute completed bars. The decision arrives5 seconds
+after close; a hypothetical fill uses the following minute open55 seconds later.
+The maximum holding period is24h from the actual entry fill. The exit is chosen
+every5m; only its upper bound is fixed. A missing terminal open may retry for
+up to30m, recorded separately. Entry uses100 USD and requires at least10,000 USD
+approximate quote volume in the preceding minute. Fees, funding payments and
+slippage are zero. One position per symbol; no positions bridge archive gaps.
+Reported P&L sums per-symbol100 USD trades, not a shared-capital account ROI.
+
+Dataset
+235 native token symbols; 29,979 qualifying five-minute readings.
+355 usable target rallies across 122 tokens; 354 unique exact optimal entry points before the near-optimal tolerance.
+103,281 mature eligible classification states, including 430 positive entry targets.
+Excluded rally searches: {'no_liquid_executable_teacher_entry': 97, 'unfinished_rally_teacher_horizon': 16, 'unresolved_teacher_search_terminal': 14, 'no_positive_executable_teacher_gain': 1}.
+3,221,970 global five-minute states; 1,993,884 spot candles; 1,477,653 derivative snapshots; 10,614 usable book snapshots.
+11,787 account-scoped news documents. Earliest news availability: 2026-10-31T09:46:30.819Z.
+News unavailable before the feed existed is missing, not neutral sentiment.
+Book coverage is sparse; some inputs disappear under train-only preprocessing.
+Whale-source news is reporting, not a verified wallet or exchange-flow ledger.
+
+Independent models
+Entry: 137 market inputs plus 56 news inputs. Final fitting used 87,470 states and 400 positive targets; 71 positive targets had news-feed coverage.
+Exit: 137 market inputs plus 8 trade-state inputs. It trained on 400 of the same positive entry points. There are zero news inputs.
+The exit sees entry-relative return, elapsed/remaining holding time, running
+gain/drawdown/rebound since entry, and entry price. No entry-model score or
+news-trained hidden representation is passed into it.
+Both networks have hidden layers64/32 and run4,000 class-balanced BCE updates.
+Validation retained entry checkpoint 200 and exit checkpoint 1500.
+Scores are classifier scores, not calibrated probabilities of a profitable trade.
+
+Chronological replay:100 USD per trade, fees excluded
+Policy                               Trades      Gross USD
+Learned entry + learned exit            176          34.15
+Same entry model + fixed24h             155          -5.68
+Cash                                      0           0.00
+The fixed24h baseline uses the same entry model and threshold but enforces its
+own position occupancy; different holding times change which later entries fit.
+
+News-specific qualification
+The older fitted folds had no news-era observations in their training sets.
+Only 1 test fold(s) used a model trained with retained news features.
+That subset produced -43.68 USD over 3 trades. The overall result is not evidence that news improved the strategy.
+
+Per-fold results
+2026-06-01T00:00:00Z: entry update 4000, exit update 4000, news dimensions 0, cash True; test +0.00 USD / 0 trades.
+2026-11-03T00:00:00Z: entry update 200, exit update 200, news dimensions 0, cash False; test +114.23 USD / 36 trades.
+2026-11-07T00:00:00Z: entry update 200, exit update 4000, news dimensions 0, cash False; test -36.40 USD / 137 trades.
+2026-11-11T00:00:00Z: entry update 200, exit update 200, news dimensions 47, cash False; test -43.68 USD / 3 trades.
+
+Exit diagnosis with predefined good entries
+On 185 held-out target-entry examples, the learned exit averaged 9.76% versus a hindsight best 17.20%.
+Aggregate capture for these same entry points: 56.75%.
+Fixed hindsight-good entries supplied to the exit model. Overlapping teacher positions are independent diagnostics; this is not an executable portfolio or end-to-end performance.
+Nearby positive entry points can belong to the same rally, so these are not all
+independent rallies. This diagnostic does not imply the entry model can find them.
+
+Selection and limits
+Entry checkpoints use validation average precision. Exit checkpoints/thresholds
+use return at fixed teacher validation entries. End-to-end validation chooses
+the entry threshold with cash available. All source/label timestamps and model
+selection precede the outer test. Labels mature48h32m after a decision; an
+additional24h purge separates training labels from validation and test windows.
+Validation starts with the latest two eligible dates and expands by dates until
+at least five positive targets exist. Sparse positives make this selection noisy.
+
+An initial replay assertion found an archive-boundary mistake; it was repaired
+before delivery and all fits were rerun. A coverage check also found the initial
+20%-of-history validation split left no news in the outer training sets. The
+shorter coverage-based split above replaced it. Preliminary outcomes had been
+viewed. Those runs are preserved; changes are recorded in the experiment lock.
+These dates were already examined in earlier research and the SOPH example was
+previously inspected. They are unseen to each fitted model, not pristine research
+holdouts. The changed all-token universe prevents direct dollar comparisons with
+the older SMA-gated study. This is not a validated dependable trading edge.
+
+Saved final policy
+Latest validation chose cash: True. Entry threshold: None; exit threshold: 0.25.
+Both trained models are saved even when validation chooses to abstain. The final
+models have no later prospective test in this archive.
+
+Verification
+Passed: 331 trade-payoff checks, 24 original-minute source checks, 24 independent as-of news counts, 185 teacher exit bounds, and 152 saved-model action calls.
+Independent full oracle searches checked on 30 target rallies. Both models pass numerical gradient checks.
+No executed-position overlap; no news columns accepted by the exit API. Source
+timestamps are checked, but exact historical publication/network latency and
+later exchange corrections are not independently established.
+
+Artifacts
+entry_model.joblib and exit_model.joblib: separate trained networks/scalers.
+policy_two.py and policy-config.json: callable offline decisions and selection.
+README.txt: reproduction and input requirements. predictions.csv: all test trades.
+teacher-exit-diagnostic.csv: same-entry exit diagnostic. results.json and
+selection-audit.json: exact metrics and full chronology. Persistent raw cache: 
+C:/Users/melli/.codex/research/centrypto/two-stage-policy-2026-11-14

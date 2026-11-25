@@ -1,0 +1,3596 @@
+{
+  "entry_window": [
+    "2026-08-22T00:00:00+00:00",
+    "2026-11-21T21:20:00+00:00"
+  ],
+  "valuation_at": "2026-11-22T21:25:00+00:00",
+  "settings": {
+    "hurdle_bps": 15.0,
+    "slots_per_portfolio": 10,
+    "notional_usd": 100.0
+  },
+  "candidates": {
+    "long": 73613,
+    "short": 41632
+  },
+  "entry_sha256": "75515b29ce3920ae9375793cba03189238abfd05453343ed4f8dfa59aba9724e",
+  "exit_sha256": "5f998c93522c10cb645019bc90ba47e05191481b1d68905fde9ce969d50836ba",
+  "combined_results_sha256": "337e7216ce978ab6427784f83dfe026eef4f8b81bc93e1df396d9364207abae7",
+  "sides": {
+    "long": {
+      "base": {
+        "constant": {
+          "trades": 2521,
+          "net": -856.1785449879577,
+          "full_drawdown": 1032.213869114666,
+          "peak_marked_gross": 1104.4376107069652,
+          "average_marked_gross": 780.858249530444,
+          "long_notional_hours": 1740858.3958073307,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 780.858249530444,
+          "peak_entry_notional": 1000.0,
+          "turnover": 503586.5750620898,
+          "minutes_at_capacity": 60505,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2521,
+              "closed_net": -856.1785449879693
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5042
+          },
+          "funding_valuations": {
+            "candle_proxy": 17205,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 423.0916572566599,
+            "ETH": 532.6134111821797,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -613.4249379102265,
+          "priced_trade_fees": 226.61395877794038,
+          "priced_trade_funding_cost": 16.139648299802406,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59620,
+            "capacity_rejections": 11472
+          },
+          "outcome_status": {
+            "priced": 2521
+          },
+          "known_closed_net": -856.1785449879693,
+          "stale_mark_minutes": 171,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1033412,
+          "median_hold_minutes": 400.0,
+          "combined_side_trades": 2521,
+          "combined_side_net": -856.1785449879693,
+          "shared_trades_with_combined": 2521
+        },
+        "market": {
+          "trades": 2521,
+          "net": -856.1785449879577,
+          "full_drawdown": 1032.213869114666,
+          "peak_marked_gross": 1104.4376107069652,
+          "average_marked_gross": 780.858249530444,
+          "long_notional_hours": 1740858.3958073307,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 780.858249530444,
+          "peak_entry_notional": 1000.0,
+          "turnover": 503586.5750620898,
+          "minutes_at_capacity": 60505,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2521,
+              "closed_net": -856.1785449879693
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5042
+          },
+          "funding_valuations": {
+            "candle_proxy": 17205,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 423.0916572566599,
+            "ETH": 532.6134111821797,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -613.4249379102265,
+          "priced_trade_fees": 226.61395877794038,
+          "priced_trade_funding_cost": 16.139648299802406,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59620,
+            "capacity_rejections": 11472
+          },
+          "outcome_status": {
+            "priced": 2521
+          },
+          "known_closed_net": -856.1785449879693,
+          "stale_mark_minutes": 171,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1033412,
+          "median_hold_minutes": 400.0,
+          "combined_side_trades": 2475,
+          "combined_side_net": -806.3752424937553,
+          "shared_trades_with_combined": 2324
+        },
+        "availability": {
+          "trades": 2521,
+          "net": -856.1785449879577,
+          "full_drawdown": 1032.213869114666,
+          "peak_marked_gross": 1104.4376107069652,
+          "average_marked_gross": 780.858249530444,
+          "long_notional_hours": 1740858.3958073307,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 780.858249530444,
+          "peak_entry_notional": 1000.0,
+          "turnover": 503586.5750620898,
+          "minutes_at_capacity": 60505,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2521,
+              "closed_net": -856.1785449879693
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5042
+          },
+          "funding_valuations": {
+            "candle_proxy": 17205,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 423.0916572566599,
+            "ETH": 532.6134111821797,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -613.4249379102265,
+          "priced_trade_fees": 226.61395877794038,
+          "priced_trade_funding_cost": 16.139648299802406,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59620,
+            "capacity_rejections": 11472
+          },
+          "outcome_status": {
+            "priced": 2521
+          },
+          "known_closed_net": -856.1785449879693,
+          "stale_mark_minutes": 171,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1033412,
+          "median_hold_minutes": 400.0,
+          "combined_side_trades": 2473,
+          "combined_side_net": -797.6492859643498,
+          "shared_trades_with_combined": 2321
+        },
+        "news": {
+          "trades": 2521,
+          "net": -856.1785449879577,
+          "full_drawdown": 1032.213869114666,
+          "peak_marked_gross": 1104.4376107069652,
+          "average_marked_gross": 780.858249530444,
+          "long_notional_hours": 1740858.3958073307,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 780.858249530444,
+          "peak_entry_notional": 1000.0,
+          "turnover": 503586.5750620898,
+          "minutes_at_capacity": 60505,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2521,
+              "closed_net": -856.1785449879693
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5042
+          },
+          "funding_valuations": {
+            "candle_proxy": 17205,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 423.0916572566599,
+            "ETH": 532.6134111821797,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -613.4249379102265,
+          "priced_trade_fees": 226.61395877794038,
+          "priced_trade_funding_cost": 16.139648299802406,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59620,
+            "capacity_rejections": 11472
+          },
+          "outcome_status": {
+            "priced": 2521
+          },
+          "known_closed_net": -856.1785449879693,
+          "stale_mark_minutes": 171,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1033412,
+          "median_hold_minutes": 400.0,
+          "combined_side_trades": 2481,
+          "combined_side_net": -813.8675749703858,
+          "shared_trades_with_combined": 2333
+        },
+        "market_90d": {
+          "trades": 2521,
+          "net": -856.1785449879577,
+          "full_drawdown": 1032.213869114666,
+          "peak_marked_gross": 1104.4376107069652,
+          "average_marked_gross": 780.858249530444,
+          "long_notional_hours": 1740858.3958073307,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 780.858249530444,
+          "peak_entry_notional": 1000.0,
+          "turnover": 503586.5750620898,
+          "minutes_at_capacity": 60505,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2521,
+              "closed_net": -856.1785449879693
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5042
+          },
+          "funding_valuations": {
+            "candle_proxy": 17205,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 423.0916572566599,
+            "ETH": 532.6134111821797,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -613.4249379102265,
+          "priced_trade_fees": 226.61395877794038,
+          "priced_trade_funding_cost": 16.139648299802406,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59620,
+            "capacity_rejections": 11472
+          },
+          "outcome_status": {
+            "priced": 2521
+          },
+          "known_closed_net": -856.1785449879693,
+          "stale_mark_minutes": 171,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1033412,
+          "median_hold_minutes": 400.0,
+          "combined_side_trades": 2521,
+          "combined_side_net": -856.1785449879693,
+          "shared_trades_with_combined": 2521
+        },
+        "news_90d": {
+          "trades": 2504,
+          "net": -785.9717211054291,
+          "full_drawdown": 962.0070452321374,
+          "peak_marked_gross": 1104.4293641035947,
+          "average_marked_gross": 781.585986463627,
+          "long_notional_hours": 1742480.824655118,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 781.585986463627,
+          "peak_entry_notional": 1000.0,
+          "turnover": 500256.3102138529,
+          "minutes_at_capacity": 60690,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2504,
+              "closed_net": -785.9717211054373
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5008
+          },
+          "funding_valuations": {
+            "candle_proxy": 17215,
+            "recent_candle_proxy": 3
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 426.54133664743426,
+            "ETH": 528.0667146711503,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -543.6897861470716,
+          "priced_trade_fees": 225.1153395962338,
+          "priced_trade_funding_cost": 17.166595362131858,
+          "qualifying": {
+            "long": 73477
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59464,
+            "capacity_rejections": 11509,
+            "below_hurdle": 136
+          },
+          "outcome_status": {
+            "priced": 2504
+          },
+          "known_closed_net": -785.9717211054373,
+          "stale_mark_minutes": 168,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1034325,
+          "median_hold_minutes": 405.0,
+          "combined_side_trades": 2504,
+          "combined_side_net": -785.9717211054373,
+          "shared_trades_with_combined": 2504
+        },
+        "relative_news": {
+          "trades": 2502,
+          "net": -717.0831678278847,
+          "full_drawdown": 893.1184919545931,
+          "peak_marked_gross": 1102.3272144134185,
+          "average_marked_gross": 782.9167177222622,
+          "long_notional_hours": 1745447.5791019734,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 782.9167177222622,
+          "peak_entry_notional": 1000.0,
+          "turnover": 499924.9154287121,
+          "minutes_at_capacity": 60660,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2502,
+              "closed_net": -717.0831678278873
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5004
+          },
+          "funding_valuations": {
+            "candle_proxy": 17244,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 423.9358229383696,
+            "ETH": 530.7633051797397,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -475.0845712878893,
+          "priced_trade_fees": 224.96621194292044,
+          "priced_trade_funding_cost": 17.03238459707764,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 60004,
+            "capacity_rejections": 11107
+          },
+          "outcome_status": {
+            "priced": 2502
+          },
+          "known_closed_net": -717.0831678278873,
+          "stale_mark_minutes": 170,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1036000,
+          "median_hold_minutes": 405.0,
+          "combined_side_trades": 2466,
+          "combined_side_net": -752.1604089309662,
+          "shared_trades_with_combined": 2320
+        },
+        "news_90d_tied": {
+          "trades": 2521,
+          "net": -855.3439732336143,
+          "full_drawdown": 1031.3792973603227,
+          "peak_marked_gross": 1104.4376107069652,
+          "average_marked_gross": 780.7984716258579,
+          "long_notional_hours": 1740725.125950548,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 780.7984716258579,
+          "peak_entry_notional": 1000.0,
+          "turnover": 503587.45140190463,
+          "minutes_at_capacity": 60525,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2521,
+              "closed_net": -855.3439732336259
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5042
+          },
+          "funding_valuations": {
+            "candle_proxy": 17203,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 422.9158199900868,
+            "ETH": 532.6683902379625,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -612.5485980953875,
+          "priced_trade_fees": 226.61435313085707,
+          "priced_trade_funding_cost": 16.181022007381287,
+          "qualifying": {
+            "long": 73477
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59520,
+            "capacity_rejections": 11436,
+            "below_hurdle": 136
+          },
+          "outcome_status": {
+            "priced": 2521
+          },
+          "known_closed_net": -855.3439732336259,
+          "stale_mark_minutes": 171,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1033327,
+          "median_hold_minutes": 400.0,
+          "combined_side_trades": 2521,
+          "combined_side_net": -855.3439732336259,
+          "shared_trades_with_combined": 2521
+        },
+        "constant_tie_11": {
+          "trades": 2504,
+          "net": -773.9580935558124,
+          "full_drawdown": 949.9934176825208,
+          "peak_marked_gross": 1101.4641943300462,
+          "average_marked_gross": 780.9620670959238,
+          "long_notional_hours": 1741089.8484181042,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 780.9620670959238,
+          "peak_entry_notional": 1000.0,
+          "turnover": 500267.44122077717,
+          "minutes_at_capacity": 60935,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2504,
+              "closed_net": -773.9580935558182
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5008
+          },
+          "funding_valuations": {
+            "candle_proxy": 17216,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 421.8292164028329,
+            "ETH": 533.1085458692016,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -532.5587792228113,
+          "priced_trade_fees": 225.12034854934973,
+          "priced_trade_funding_cost": 16.27896578365729,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59572,
+            "capacity_rejections": 11537
+          },
+          "outcome_status": {
+            "priced": 2504
+          },
+          "known_closed_net": -773.9580935558182,
+          "stale_mark_minutes": 176,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1033590,
+          "median_hold_minutes": 405.0,
+          "combined_side_trades": 2504,
+          "combined_side_net": -773.9580935558182
+        },
+        "constant_tie_23": {
+          "trades": 2507,
+          "net": -775.1240975181648,
+          "full_drawdown": 951.1594216448732,
+          "peak_marked_gross": 1101.4641943300462,
+          "average_marked_gross": 782.0035910034629,
+          "long_notional_hours": 1743411.8391763037,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 782.0035910034629,
+          "peak_entry_notional": 1000.0,
+          "turnover": 500867.2893643636,
+          "minutes_at_capacity": 60830,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2507,
+              "closed_net": -775.1240975181701
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5014
+          },
+          "funding_valuations": {
+            "candle_proxy": 17226,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 423.3114809313911,
+            "ETH": 532.401976498923,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -532.7106356363975,
+          "priced_trade_fees": 225.39028021396362,
+          "priced_trade_funding_cost": 17.023181667809016,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59681,
+            "capacity_rejections": 11425
+          },
+          "outcome_status": {
+            "priced": 2507
+          },
+          "known_closed_net": -775.1240975181701,
+          "stale_mark_minutes": 165,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1034725,
+          "median_hold_minutes": 405.0,
+          "combined_side_trades": 2507,
+          "combined_side_net": -775.1240975181701
+        },
+        "constant_tie_37": {
+          "trades": 2517,
+          "net": -827.0201647196384,
+          "full_drawdown": 1003.0554888463467,
+          "peak_marked_gross": 1102.3272144134185,
+          "average_marked_gross": 781.8761571644004,
+          "long_notional_hours": 1743127.7360516004,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 781.8761571644004,
+          "peak_entry_notional": 1000.0,
+          "turnover": 502815.78100213135,
+          "minutes_at_capacity": 61090,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2517,
+              "closed_net": -827.0201647196463
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5034
+          },
+          "funding_valuations": {
+            "candle_proxy": 17227,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 421.7607452030801,
+            "ETH": 533.1769377729731,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -584.218997868635,
+          "priced_trade_fees": 226.2671014509591,
+          "priced_trade_funding_cost": 16.53406540005224,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59724,
+            "capacity_rejections": 11372
+          },
+          "outcome_status": {
+            "priced": 2517
+          },
+          "known_closed_net": -827.0201647196463,
+          "stale_mark_minutes": 163,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1034755,
+          "median_hold_minutes": 400.0,
+          "combined_side_trades": 2517,
+          "combined_side_net": -827.0201647196463
+        },
+        "constant_tie_53": {
+          "trades": 2510,
+          "net": -760.6925507739533,
+          "full_drawdown": 940.0048168068977,
+          "peak_marked_gross": 1102.665337175907,
+          "average_marked_gross": 781.4190520830086,
+          "long_notional_hours": 1742108.6583647276,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 781.4190520830086,
+          "peak_entry_notional": 1000.0,
+          "turnover": 501481.5970071273,
+          "minutes_at_capacity": 60635,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2510,
+              "closed_net": -760.6925507739575
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5020
+          },
+          "funding_valuations": {
+            "candle_proxy": 17209,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 425.6523632716995,
+            "ETH": 531.4731108966944,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -518.4029928727215,
+          "priced_trade_fees": 225.66671865320728,
+          "priced_trade_funding_cost": 16.62283924802866,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59778,
+            "capacity_rejections": 11325
+          },
+          "outcome_status": {
+            "priced": 2510
+          },
+          "known_closed_net": -760.6925507739575,
+          "stale_mark_minutes": 168,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1034035,
+          "median_hold_minutes": 405.0,
+          "combined_side_trades": 2510,
+          "combined_side_net": -760.6925507739575
+        },
+        "constant_tie_71": {
+          "trades": 2511,
+          "net": -774.7249261720564,
+          "full_drawdown": 950.7602502987647,
+          "peak_marked_gross": 1102.3272144134185,
+          "average_marked_gross": 782.9382472319425,
+          "long_notional_hours": 1745495.5773496798,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 782.9382472319425,
+          "peak_entry_notional": 1000.0,
+          "turnover": 501668.02989103884,
+          "minutes_at_capacity": 61435,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2511,
+              "closed_net": -774.7249261720624
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5022
+          },
+          "funding_valuations": {
+            "candle_proxy": 17253,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 425.24421168919696,
+            "ETH": 531.3695832914585,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -531.970108961146,
+          "priced_trade_fees": 225.75061345096748,
+          "priced_trade_funding_cost": 17.004203759948865,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59666,
+            "capacity_rejections": 11436
+          },
+          "outcome_status": {
+            "priced": 2511
+          },
+          "known_closed_net": -774.7249261720624,
+          "stale_mark_minutes": 171,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1036020,
+          "median_hold_minutes": 405.0,
+          "combined_side_trades": 2511,
+          "combined_side_net": -774.7249261720624
+        },
+        "constant_tie_89": {
+          "trades": 2509,
+          "net": -729.7351237658074,
+          "full_drawdown": 905.7704478925158,
+          "peak_marked_gross": 1102.3272144134185,
+          "average_marked_gross": 782.9156197239494,
+          "long_notional_hours": 1745445.1312062347,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 782.9156197239494,
+          "peak_entry_notional": 1000.0,
+          "turnover": 501313.04572069016,
+          "minutes_at_capacity": 60970,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2509,
+              "closed_net": -729.7351237658105
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5018
+          },
+          "funding_valuations": {
+            "candle_proxy": 17240,
+            "recent_candle_proxy": 3
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 426.3305414736843,
+            "ETH": 529.9729416801399,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -486.9542793098141,
+          "priced_trade_fees": 225.59087057431057,
+          "priced_trade_funding_cost": 17.18997388168579,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59558,
+            "capacity_rejections": 11546
+          },
+          "outcome_status": {
+            "priced": 2509
+          },
+          "known_closed_net": -729.7351237658105,
+          "stale_mark_minutes": 168,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1035730,
+          "median_hold_minutes": 405.0,
+          "combined_side_trades": 2509,
+          "combined_side_net": -729.7351237658105
+        },
+        "constant_tie_107": {
+          "trades": 2503,
+          "net": -700.3496185408311,
+          "full_drawdown": 915.9366118988546,
+          "peak_marked_gross": 1102.3272144134185,
+          "average_marked_gross": 782.9460325073715,
+          "long_notional_hours": 1745512.9339724756,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 782.9460325073715,
+          "peak_entry_notional": 1000.0,
+          "turnover": 500141.48600826366,
+          "minutes_at_capacity": 60905,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2503,
+              "closed_net": -700.3496185408329
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5006
+          },
+          "funding_valuations": {
+            "candle_proxy": 17245,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 420.3734133285151,
+            "ETH": 535.0473571328766,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -458.51399173634195,
+          "priced_trade_fees": 225.06366870371863,
+          "priced_trade_funding_cost": 16.77195810077237,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 4,
+            "symbol_busy": 59767,
+            "capacity_rejections": 11339
+          },
+          "outcome_status": {
+            "priced": 2503
+          },
+          "known_closed_net": -700.3496185408329,
+          "stale_mark_minutes": 172,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1035990,
+          "median_hold_minutes": 405.0,
+          "combined_side_trades": 2503,
+          "combined_side_net": -700.3496185408329
+        },
+        "constant_tie_131": {
+          "trades": 2505,
+          "net": -778.8155136324664,
+          "full_drawdown": 954.8508377591747,
+          "peak_marked_gross": 1101.4641943300462,
+          "average_marked_gross": 780.7634430919819,
+          "long_notional_hours": 1740647.032753316,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 780.7634430919819,
+          "peak_entry_notional": 1000.0,
+          "turnover": 500463.2868744377,
+          "minutes_at_capacity": 60620,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2505,
+              "closed_net": -778.8155136324735
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5010
+          },
+          "funding_valuations": {
+            "candle_proxy": 17205,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 420.54768456145996,
+            "ETH": 535.2145993332146,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -536.7131255622711,
+          "priced_trade_fees": 225.20847909349698,
+          "priced_trade_funding_cost": 16.893908976705433,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59600,
+            "capacity_rejections": 11508
+          },
+          "outcome_status": {
+            "priced": 2505
+          },
+          "known_closed_net": -778.8155136324735,
+          "stale_mark_minutes": 174,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1033135,
+          "median_hold_minutes": 400.0,
+          "combined_side_trades": 2505,
+          "combined_side_net": -778.8155136324735
+        }
+      },
+      "stress": {
+        "constant": {
+          "trades": 2520,
+          "net": -920.3201747373454,
+          "full_drawdown": 1096.3654622541794,
+          "peak_marked_gross": 1102.767462732654,
+          "average_marked_gross": 780.6509754315784,
+          "long_notional_hours": 1740396.2954767516,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 780.6509754315784,
+          "peak_entry_notional": 1000.0,
+          "turnover": 503322.3826165502,
+          "minutes_at_capacity": 60470,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2520,
+              "closed_net": -920.3201747373603
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5040
+          },
+          "funding_valuations": {
+            "candle_proxy": 17202,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 414.18731430352307,
+            "ETH": 543.0090946116387,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -677.6173834498189,
+          "priced_trade_fees": 226.49507217744758,
+          "priced_trade_funding_cost": 16.207719110093716,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59626,
+            "capacity_rejections": 11466,
+            "arrival_rejections": 1
+          },
+          "outcome_status": {
+            "priced": 2520
+          },
+          "known_closed_net": -920.3201747373603,
+          "stale_mark_minutes": 173,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1033261,
+          "median_hold_minutes": 400.0,
+          "combined_side_trades": 2520,
+          "combined_side_net": -920.3201747373603,
+          "shared_trades_with_combined": 2520
+        },
+        "market": {
+          "trades": 2520,
+          "net": -920.3201747373454,
+          "full_drawdown": 1096.3654622541794,
+          "peak_marked_gross": 1102.767462732654,
+          "average_marked_gross": 780.6509754315784,
+          "long_notional_hours": 1740396.2954767516,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 780.6509754315784,
+          "peak_entry_notional": 1000.0,
+          "turnover": 503322.3826165502,
+          "minutes_at_capacity": 60470,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2520,
+              "closed_net": -920.3201747373603
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5040
+          },
+          "funding_valuations": {
+            "candle_proxy": 17202,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 414.18731430352307,
+            "ETH": 543.0090946116387,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -677.6173834498189,
+          "priced_trade_fees": 226.49507217744758,
+          "priced_trade_funding_cost": 16.207719110093716,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59626,
+            "capacity_rejections": 11466,
+            "arrival_rejections": 1
+          },
+          "outcome_status": {
+            "priced": 2520
+          },
+          "known_closed_net": -920.3201747373603,
+          "stale_mark_minutes": 173,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1033261,
+          "median_hold_minutes": 400.0,
+          "combined_side_trades": 2474,
+          "combined_side_net": -867.0942475728527,
+          "shared_trades_with_combined": 2328
+        },
+        "availability": {
+          "trades": 2520,
+          "net": -920.3201747373454,
+          "full_drawdown": 1096.3654622541794,
+          "peak_marked_gross": 1102.767462732654,
+          "average_marked_gross": 780.6509754315784,
+          "long_notional_hours": 1740396.2954767516,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 780.6509754315784,
+          "peak_entry_notional": 1000.0,
+          "turnover": 503322.3826165502,
+          "minutes_at_capacity": 60470,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2520,
+              "closed_net": -920.3201747373603
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5040
+          },
+          "funding_valuations": {
+            "candle_proxy": 17202,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 414.18731430352307,
+            "ETH": 543.0090946116387,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -677.6173834498189,
+          "priced_trade_fees": 226.49507217744758,
+          "priced_trade_funding_cost": 16.207719110093716,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59626,
+            "capacity_rejections": 11466,
+            "arrival_rejections": 1
+          },
+          "outcome_status": {
+            "priced": 2520
+          },
+          "known_closed_net": -920.3201747373603,
+          "stale_mark_minutes": 173,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1033261,
+          "median_hold_minutes": 400.0,
+          "combined_side_trades": 2472,
+          "combined_side_net": -860.338445865162,
+          "shared_trades_with_combined": 2325
+        },
+        "news": {
+          "trades": 2520,
+          "net": -920.3201747373454,
+          "full_drawdown": 1096.3654622541794,
+          "peak_marked_gross": 1102.767462732654,
+          "average_marked_gross": 780.6509754315784,
+          "long_notional_hours": 1740396.2954767516,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 780.6509754315784,
+          "peak_entry_notional": 1000.0,
+          "turnover": 503322.3826165502,
+          "minutes_at_capacity": 60470,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2520,
+              "closed_net": -920.3201747373603
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5040
+          },
+          "funding_valuations": {
+            "candle_proxy": 17202,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 414.18731430352307,
+            "ETH": 543.0090946116387,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -677.6173834498189,
+          "priced_trade_fees": 226.49507217744758,
+          "priced_trade_funding_cost": 16.207719110093716,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59626,
+            "capacity_rejections": 11466,
+            "arrival_rejections": 1
+          },
+          "outcome_status": {
+            "priced": 2520
+          },
+          "known_closed_net": -920.3201747373603,
+          "stale_mark_minutes": 173,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1033261,
+          "median_hold_minutes": 400.0,
+          "combined_side_trades": 2480,
+          "combined_side_net": -876.7357059175198,
+          "shared_trades_with_combined": 2337
+        },
+        "market_90d": {
+          "trades": 2520,
+          "net": -920.3201747373454,
+          "full_drawdown": 1096.3654622541794,
+          "peak_marked_gross": 1102.767462732654,
+          "average_marked_gross": 780.6509754315784,
+          "long_notional_hours": 1740396.2954767516,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 780.6509754315784,
+          "peak_entry_notional": 1000.0,
+          "turnover": 503322.3826165502,
+          "minutes_at_capacity": 60470,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2520,
+              "closed_net": -920.3201747373603
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5040
+          },
+          "funding_valuations": {
+            "candle_proxy": 17202,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 414.18731430352307,
+            "ETH": 543.0090946116387,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -677.6173834498189,
+          "priced_trade_fees": 226.49507217744758,
+          "priced_trade_funding_cost": 16.207719110093716,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59626,
+            "capacity_rejections": 11466,
+            "arrival_rejections": 1
+          },
+          "outcome_status": {
+            "priced": 2520
+          },
+          "known_closed_net": -920.3201747373603,
+          "stale_mark_minutes": 173,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1033261,
+          "median_hold_minutes": 400.0,
+          "combined_side_trades": 2520,
+          "combined_side_net": -920.3201747373603,
+          "shared_trades_with_combined": 2520
+        },
+        "news_90d": {
+          "trades": 2503,
+          "net": -842.3944543855654,
+          "full_drawdown": 1018.4397419023993,
+          "peak_marked_gross": 1102.8251915449223,
+          "average_marked_gross": 781.4777284835021,
+          "long_notional_hours": 1742239.4725099278,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 781.4777284835021,
+          "peak_entry_notional": 1000.0,
+          "turnover": 499999.8410631083,
+          "minutes_at_capacity": 60660,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2503,
+              "closed_net": -842.3944543855755
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5006
+          },
+          "funding_valuations": {
+            "candle_proxy": 17215,
+            "recent_candle_proxy": 3
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 418.08976027188066,
+            "ETH": 538.2091216626629,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -600.1589368916767,
+          "priced_trade_fees": 224.99992847839874,
+          "priced_trade_funding_cost": 17.235589015500103,
+          "qualifying": {
+            "long": 73477
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59483,
+            "capacity_rejections": 11490,
+            "below_hurdle": 136,
+            "arrival_rejections": 1
+          },
+          "outcome_status": {
+            "priced": 2503
+          },
+          "known_closed_net": -842.3944543855755,
+          "stale_mark_minutes": 170,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1034300,
+          "median_hold_minutes": 405.0,
+          "combined_side_trades": 2503,
+          "combined_side_net": -842.3944543855755,
+          "shared_trades_with_combined": 2503
+        },
+        "relative_news": {
+          "trades": 2501,
+          "net": -769.8409739466587,
+          "full_drawdown": 945.8862614634926,
+          "peak_marked_gross": 1101.9317454351071,
+          "average_marked_gross": 782.8064838145667,
+          "long_notional_hours": 1745201.8217909252,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 782.8064838145667,
+          "peak_entry_notional": 1000.0,
+          "turnover": 499672.1220356154,
+          "minutes_at_capacity": 60640,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2501,
+              "closed_net": -769.8409739466646
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5002
+          },
+          "funding_valuations": {
+            "candle_proxy": 17243,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 415.7473564143529,
+            "ETH": 540.8250607261248,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -527.8779643846406,
+          "priced_trade_fees": 224.85245491602691,
+          "priced_trade_funding_cost": 17.110554645997112,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 60015,
+            "capacity_rejections": 11096,
+            "arrival_rejections": 1
+          },
+          "outcome_status": {
+            "priced": 2501
+          },
+          "known_closed_net": -769.8409739466646,
+          "stale_mark_minutes": 172,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1035940,
+          "median_hold_minutes": 405.0,
+          "combined_side_trades": 2465,
+          "combined_side_net": -806.0749119006331,
+          "shared_trades_with_combined": 2319
+        },
+        "news_90d_tied": {
+          "trades": 2520,
+          "net": -918.1987905575658,
+          "full_drawdown": 1094.2440780743996,
+          "peak_marked_gross": 1102.767462732654,
+          "average_marked_gross": 780.5917427393845,
+          "long_notional_hours": 1740264.2411255627,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 780.5917427393845,
+          "peak_entry_notional": 1000.0,
+          "turnover": 503324.54512480553,
+          "minutes_at_capacity": 60490,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2520,
+              "closed_net": -918.1987905575807
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5040
+          },
+          "funding_valuations": {
+            "candle_proxy": 17200,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 414.003993547715,
+            "ETH": 543.0748673016242,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -675.4548751944452,
+          "priced_trade_fees": 226.4960453061625,
+          "priced_trade_funding_cost": 16.247870056973007,
+          "qualifying": {
+            "long": 73477
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59526,
+            "capacity_rejections": 11430,
+            "below_hurdle": 136,
+            "arrival_rejections": 1
+          },
+          "outcome_status": {
+            "priced": 2520
+          },
+          "known_closed_net": -918.1987905575807,
+          "stale_mark_minutes": 173,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1033176,
+          "median_hold_minutes": 400.0,
+          "combined_side_trades": 2520,
+          "combined_side_net": -918.1987905575807,
+          "shared_trades_with_combined": 2520
+        },
+        "constant_tie_11": {
+          "trades": 2503,
+          "net": -836.4736631376162,
+          "full_drawdown": 1012.5189506544501,
+          "peak_marked_gross": 1101.2078039145433,
+          "average_marked_gross": 780.8763101597071,
+          "long_notional_hours": 1740898.6604752205,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 780.8763101597071,
+          "peak_entry_notional": 1000.0,
+          "turnover": 500004.8939878405,
+          "minutes_at_capacity": 60920,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2503,
+              "closed_net": -836.4736631376253
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5006
+          },
+          "funding_valuations": {
+            "candle_proxy": 17216,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 413.3454334425436,
+            "ETH": 543.2508681789432,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -595.1060121594908,
+          "priced_trade_fees": 225.00220229452822,
+          "priced_trade_funding_cost": 16.365448683606267,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59602,
+            "capacity_rejections": 11507,
+            "arrival_rejections": 1
+          },
+          "outcome_status": {
+            "priced": 2503
+          },
+          "known_closed_net": -836.4736631376253,
+          "stale_mark_minutes": 178,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1033588,
+          "median_hold_minutes": 405.0,
+          "combined_side_trades": 2503,
+          "combined_side_net": -836.4736631376253
+        },
+        "constant_tie_23": {
+          "trades": 2507,
+          "net": -844.3245779739301,
+          "full_drawdown": 1020.369865490764,
+          "peak_marked_gross": 1101.2078039145433,
+          "average_marked_gross": 781.9011546802809,
+          "long_notional_hours": 1743183.4659301296,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 781.9011546802809,
+          "peak_entry_notional": 1000.0,
+          "turnover": 500798.1149786957,
+          "minutes_at_capacity": 60815,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2507,
+              "closed_net": -844.3245779739395
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5014
+          },
+          "funding_valuations": {
+            "candle_proxy": 17226,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 414.93459669891615,
+            "ETH": 542.4248162014771,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -601.8850213043049,
+          "priced_trade_fees": 225.35915174041307,
+          "priced_trade_funding_cost": 17.080404929221668,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59693,
+            "capacity_rejections": 11412,
+            "arrival_rejections": 1
+          },
+          "outcome_status": {
+            "priced": 2507
+          },
+          "known_closed_net": -844.3245779739395,
+          "stale_mark_minutes": 167,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1034745,
+          "median_hold_minutes": 405.0,
+          "combined_side_trades": 2507,
+          "combined_side_net": -844.3245779739395
+        },
+        "constant_tie_37": {
+          "trades": 2516,
+          "net": -883.7671049739428,
+          "full_drawdown": 1059.8123924907768,
+          "peak_marked_gross": 1101.9317454351071,
+          "average_marked_gross": 781.7184310968603,
+          "long_notional_hours": 1742776.0989278588,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 781.7184310968603,
+          "peak_entry_notional": 1000.0,
+          "turnover": 502559.0143857733,
+          "minutes_at_capacity": 61075,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2516,
+              "closed_net": -883.7671049739555
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5032
+          },
+          "funding_valuations": {
+            "candle_proxy": 17225,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 413.1058890696038,
+            "ETH": 543.3127318978687,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -640.9856142267467,
+          "priced_trade_fees": 226.15155647359796,
+          "priced_trade_funding_cost": 16.62993427361075,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59736,
+            "capacity_rejections": 11360,
+            "arrival_rejections": 1
+          },
+          "outcome_status": {
+            "priced": 2516
+          },
+          "known_closed_net": -883.7671049739555,
+          "stale_mark_minutes": 165,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1034649,
+          "median_hold_minutes": 400.0,
+          "combined_side_trades": 2516,
+          "combined_side_net": -883.7671049739555
+        },
+        "constant_tie_53": {
+          "trades": 2509,
+          "net": -826.4640928060002,
+          "full_drawdown": 1002.5093803228341,
+          "peak_marked_gross": 1101.945145609489,
+          "average_marked_gross": 781.2972953370521,
+          "long_notional_hours": 1741837.2118460129,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 781.2972953370521,
+          "peak_entry_notional": 1000.0,
+          "turnover": 501215.783139469,
+          "minutes_at_capacity": 60615,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2509,
+              "closed_net": -826.4640928060086
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5018
+          },
+          "funding_valuations": {
+            "candle_proxy": 17207,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 418.1412530606309,
+            "ETH": 540.9691391367107,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -584.2168605310395,
+          "priced_trade_fees": 225.54710241276103,
+          "priced_trade_funding_cost": 16.700129862208016,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59797,
+            "capacity_rejections": 11306,
+            "arrival_rejections": 1
+          },
+          "outcome_status": {
+            "priced": 2509
+          },
+          "known_closed_net": -826.4640928060086,
+          "stale_mark_minutes": 170,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1033988,
+          "median_hold_minutes": 405.0,
+          "combined_side_trades": 2509,
+          "combined_side_net": -826.4640928060086
+        },
+        "constant_tie_71": {
+          "trades": 2511,
+          "net": -836.9687375477578,
+          "full_drawdown": 1013.0140250645917,
+          "peak_marked_gross": 1101.9317454351071,
+          "average_marked_gross": 782.8585375876968,
+          "long_notional_hours": 1745317.8713403044,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 782.8585375876968,
+          "peak_entry_notional": 1000.0,
+          "turnover": 501605.82282017375,
+          "minutes_at_capacity": 61420,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2511,
+              "closed_net": -836.9687375477686
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5022
+          },
+          "funding_valuations": {
+            "candle_proxy": 17253,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 416.81931579841864,
+            "ETH": 541.6441255703584,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -594.1771798262686,
+          "priced_trade_fees": 225.72262026907816,
+          "priced_trade_funding_cost": 17.06893745242187,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59678,
+            "capacity_rejections": 11423,
+            "arrival_rejections": 1
+          },
+          "outcome_status": {
+            "priced": 2511
+          },
+          "known_closed_net": -836.9687375477686,
+          "stale_mark_minutes": 173,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1036039,
+          "median_hold_minutes": 405.0,
+          "combined_side_trades": 2511,
+          "combined_side_net": -836.9687375477686
+        },
+        "constant_tie_89": {
+          "trades": 2508,
+          "net": -788.9134468384883,
+          "full_drawdown": 964.9587343553222,
+          "peak_marked_gross": 1101.9317454351071,
+          "average_marked_gross": 782.8100981156988,
+          "long_notional_hours": 1745209.8795741075,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 782.8100981156988,
+          "peak_entry_notional": 1000.0,
+          "turnover": 501053.8244519205,
+          "minutes_at_capacity": 60940,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2508,
+              "closed_net": -788.9134468384947
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5016
+          },
+          "funding_valuations": {
+            "candle_proxy": 17240,
+            "recent_candle_proxy": 3
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 418.07171357973607,
+            "ETH": 539.8227210965051,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -546.1755480794901,
+          "priced_trade_fees": 225.47422100336422,
+          "priced_trade_funding_cost": 17.263677755640362,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59579,
+            "capacity_rejections": 11525,
+            "arrival_rejections": 1
+          },
+          "outcome_status": {
+            "priced": 2508
+          },
+          "known_closed_net": -788.9134468384947,
+          "stale_mark_minutes": 170,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1035714,
+          "median_hold_minutes": 405.0,
+          "combined_side_trades": 2508,
+          "combined_side_net": -788.9134468384947
+        },
+        "constant_tie_107": {
+          "trades": 2502,
+          "net": -756.7164548340644,
+          "full_drawdown": 959.717168185343,
+          "peak_marked_gross": 1101.9317454351071,
+          "average_marked_gross": 782.8544756437682,
+          "long_notional_hours": 1745308.8155748108,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 782.8544756437682,
+          "peak_entry_notional": 1000.0,
+          "turnover": 499885.0875243893,
+          "minutes_at_capacity": 60875,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2502,
+              "closed_net": -756.7164548340685
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5004
+          },
+          "funding_valuations": {
+            "candle_proxy": 17245,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 411.678181143022,
+            "ETH": 545.1476319931068,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -514.9124756106527,
+          "priced_trade_fees": 224.9482893859752,
+          "priced_trade_funding_cost": 16.85568983744066,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 4,
+            "symbol_busy": 59788,
+            "capacity_rejections": 11318,
+            "arrival_rejections": 1
+          },
+          "outcome_status": {
+            "priced": 2502
+          },
+          "known_closed_net": -756.7164548340685,
+          "stale_mark_minutes": 174,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1035975,
+          "median_hold_minutes": 407.5,
+          "combined_side_trades": 2502,
+          "combined_side_net": -756.7164548340685
+        },
+        "constant_tie_131": {
+          "trades": 2504,
+          "net": -823.1228970394919,
+          "full_drawdown": 999.1681845563259,
+          "peak_marked_gross": 1101.2078039145433,
+          "average_marked_gross": 780.6547748075743,
+          "long_notional_hours": 1740404.7658689197,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 780.6547748075743,
+          "peak_entry_notional": 1000.0,
+          "turnover": 500218.96670183196,
+          "minutes_at_capacity": 60605,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 2504,
+              "closed_net": -823.1228970395018
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {
+            "candle_proxy": 5008
+          },
+          "funding_valuations": {
+            "candle_proxy": 17204,
+            "recent_candle_proxy": 2
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": 412.104913966122,
+            "ETH": 545.1595434119207,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": -581.0332981680663,
+          "priced_trade_fees": 225.09853501582435,
+          "priced_trade_funding_cost": 16.991063855611213,
+          "qualifying": {
+            "long": 73613
+          },
+          "allocation": {
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 59605,
+            "capacity_rejections": 11503,
+            "arrival_rejections": 1
+          },
+          "outcome_status": {
+            "priced": 2504
+          },
+          "known_closed_net": -823.1228970395018,
+          "stale_mark_minutes": 176,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 1033068,
+          "median_hold_minutes": 402.5,
+          "combined_side_trades": 2504,
+          "combined_side_net": -823.1228970395018
+        }
+      }
+    },
+    "short": {
+      "base": {
+        "constant": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0,
+          "shared_trades_with_combined": 0
+        },
+        "market": {
+          "trades": 108,
+          "net": 17.76682845224444,
+          "full_drawdown": 51.02515990869535,
+          "peak_marked_gross": 965.3097902953645,
+          "average_marked_gross": 35.072236892233285,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 78190.62946482642,
+          "average_signed_exposure": -35.072236892233285,
+          "peak_entry_notional": 1000.0,
+          "turnover": 21571.43997615561,
+          "minutes_at_capacity": 180,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 108,
+              "closed_net": 17.766828452244486
+            }
+          },
+          "sources": {
+            "candle_proxy": 216
+          },
+          "funding_valuations": {
+            "candle_proxy": 791
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": -28.881419225678826,
+            "ETH": -40.43814752999504,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 28.56002384439148,
+          "priced_trade_fees": 9.707147989270023,
+          "priced_trade_funding_cost": 1.0860474028769764,
+          "qualifying": {
+            "short": 139
+          },
+          "allocation": {
+            "below_hurdle": 41493,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 30,
+            "capacity_rejections": 1
+          },
+          "outcome_status": {
+            "priced": 108
+          },
+          "known_closed_net": 17.766828452244486,
+          "stale_mark_minutes": 5,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 47525,
+          "median_hold_minutes": 412.5,
+          "combined_side_trades": 48,
+          "combined_side_net": -8.616143326882963,
+          "shared_trades_with_combined": 40
+        },
+        "availability": {
+          "trades": 110,
+          "net": 25.802340478322208,
+          "full_drawdown": 49.08761193468744,
+          "peak_marked_gross": 960.0577181437573,
+          "average_marked_gross": 36.52448167642196,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 81428.28819077641,
+          "average_signed_exposure": -36.52448167642196,
+          "peak_entry_notional": 1000.0,
+          "turnover": 21963.273531084364,
+          "minutes_at_capacity": 170,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 110,
+              "closed_net": 25.80234047832229
+            }
+          },
+          "sources": {
+            "candle_proxy": 220
+          },
+          "funding_valuations": {
+            "candle_proxy": 825
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": -29.38034387470674,
+            "ETH": -40.96023540782727,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 36.72646891563674,
+          "priced_trade_fees": 9.883473088987964,
+          "priced_trade_funding_cost": 1.0406553483264862,
+          "qualifying": {
+            "short": 143
+          },
+          "allocation": {
+            "below_hurdle": 41489,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 33
+          },
+          "outcome_status": {
+            "priced": 110
+          },
+          "known_closed_net": 25.80234047832229,
+          "stale_mark_minutes": 7,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 49550,
+          "median_hold_minutes": 425.0,
+          "combined_side_trades": 49,
+          "combined_side_net": -14.145517885125338,
+          "shared_trades_with_combined": 41
+        },
+        "news": {
+          "trades": 98,
+          "net": 9.704180268114008,
+          "full_drawdown": 62.81896494415816,
+          "peak_marked_gross": 960.0577181437573,
+          "average_marked_gross": 30.817697621256936,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 68705.4887051239,
+          "average_signed_exposure": -30.817697621256936,
+          "peak_entry_notional": 1000.0,
+          "turnover": 19580.439091846023,
+          "minutes_at_capacity": 170,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 98,
+              "closed_net": 9.704180268114033
+            }
+          },
+          "sources": {
+            "candle_proxy": 196
+          },
+          "funding_valuations": {
+            "candle_proxy": 696
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": -27.825379391820803,
+            "ETH": -36.657167549637336,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 19.560908153977923,
+          "priced_trade_fees": 8.811197591330709,
+          "priced_trade_funding_cost": 1.0455302945331846,
+          "qualifying": {
+            "short": 138
+          },
+          "allocation": {
+            "below_hurdle": 41494,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 40
+          },
+          "outcome_status": {
+            "priced": 98
+          },
+          "known_closed_net": 9.704180268114033,
+          "stale_mark_minutes": 5,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 41830,
+          "median_hold_minutes": 405.0,
+          "combined_side_trades": 43,
+          "combined_side_net": -6.543958261590032,
+          "shared_trades_with_combined": 38
+        },
+        "market_90d": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0,
+          "shared_trades_with_combined": 0
+        },
+        "news_90d": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0,
+          "shared_trades_with_combined": 0
+        },
+        "relative_news": {
+          "trades": 98,
+          "net": 9.704180268114008,
+          "full_drawdown": 62.81896494415816,
+          "peak_marked_gross": 960.0577181437573,
+          "average_marked_gross": 30.817697621256936,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 68705.4887051239,
+          "average_signed_exposure": -30.817697621256936,
+          "peak_entry_notional": 1000.0,
+          "turnover": 19580.439091846023,
+          "minutes_at_capacity": 170,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 98,
+              "closed_net": 9.704180268114033
+            }
+          },
+          "sources": {
+            "candle_proxy": 196
+          },
+          "funding_valuations": {
+            "candle_proxy": 696
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": -27.825379391820803,
+            "ETH": -36.657167549637336,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 19.560908153977923,
+          "priced_trade_fees": 8.811197591330709,
+          "priced_trade_funding_cost": 1.0455302945331846,
+          "qualifying": {
+            "short": 138
+          },
+          "allocation": {
+            "below_hurdle": 41494,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 40
+          },
+          "outcome_status": {
+            "priced": 98
+          },
+          "known_closed_net": 9.704180268114033,
+          "stale_mark_minutes": 5,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 41830,
+          "median_hold_minutes": 405.0,
+          "combined_side_trades": 45,
+          "combined_side_net": -3.6133181059148693,
+          "shared_trades_with_combined": 41
+        },
+        "news_90d_tied": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0,
+          "shared_trades_with_combined": 0
+        },
+        "constant_tie_11": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0
+        },
+        "constant_tie_23": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0
+        },
+        "constant_tie_37": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0
+        },
+        "constant_tie_53": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0
+        },
+        "constant_tie_71": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0
+        },
+        "constant_tie_89": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0
+        },
+        "constant_tie_107": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0
+        },
+        "constant_tie_131": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0
+        }
+      },
+      "stress": {
+        "constant": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0,
+          "shared_trades_with_combined": 0
+        },
+        "market": {
+          "trades": 108,
+          "net": 14.369884234797867,
+          "full_drawdown": 55.28263695462893,
+          "peak_marked_gross": 964.3344515358773,
+          "average_marked_gross": 35.074297947935825,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 78195.22441676058,
+          "average_signed_exposure": -35.074297947935825,
+          "peak_entry_notional": 1000.0,
+          "turnover": 21574.845484174173,
+          "minutes_at_capacity": 180,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 108,
+              "closed_net": 14.369884234797938
+            }
+          },
+          "sources": {
+            "candle_proxy": 216
+          },
+          "funding_valuations": {
+            "candle_proxy": 791
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": -28.774912497579642,
+            "ETH": -40.22073619580791,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 25.154515825825584,
+          "priced_trade_fees": 9.708680467878379,
+          "priced_trade_funding_cost": 1.075951123149272,
+          "qualifying": {
+            "short": 139
+          },
+          "allocation": {
+            "below_hurdle": 41493,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 30,
+            "capacity_rejections": 1
+          },
+          "outcome_status": {
+            "priced": 108
+          },
+          "known_closed_net": 14.369884234797938,
+          "stale_mark_minutes": 5,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 47525,
+          "median_hold_minutes": 412.5,
+          "combined_side_trades": 48,
+          "combined_side_net": -7.6173042093925005,
+          "shared_trades_with_combined": 40
+        },
+        "availability": {
+          "trades": 110,
+          "net": 21.587121135885475,
+          "full_drawdown": 53.25709425480138,
+          "peak_marked_gross": 959.1012411917703,
+          "average_marked_gross": 36.52682265347697,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 81433.50720403911,
+          "average_signed_exposure": -36.52682265347697,
+          "peak_entry_notional": 1000.0,
+          "turnover": 21967.496877548587,
+          "minutes_at_capacity": 170,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 110,
+              "closed_net": 21.587121135885617
+            }
+          },
+          "sources": {
+            "candle_proxy": 220
+          },
+          "funding_valuations": {
+            "candle_proxy": 825
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": -29.31016020717866,
+            "ETH": -40.75240312267927,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 32.50312245141168,
+          "priced_trade_fees": 9.885373594896864,
+          "priced_trade_funding_cost": 1.0306277206291965,
+          "qualifying": {
+            "short": 143
+          },
+          "allocation": {
+            "below_hurdle": 41489,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 33
+          },
+          "outcome_status": {
+            "priced": 110
+          },
+          "known_closed_net": 21.587121135885617,
+          "stale_mark_minutes": 7,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 49550,
+          "median_hold_minutes": 425.0,
+          "combined_side_trades": 49,
+          "combined_side_net": -13.761869980045818,
+          "shared_trades_with_combined": 41
+        },
+        "news": {
+          "trades": 98,
+          "net": 8.211620453896114,
+          "full_drawdown": 65.19090057439853,
+          "peak_marked_gross": 959.1012411917703,
+          "average_marked_gross": 30.81949798168815,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 68709.50245867526,
+          "average_signed_exposure": -30.81949798168815,
+          "peak_entry_notional": 1000.0,
+          "turnover": 19581.941055292034,
+          "minutes_at_capacity": 170,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 98,
+              "closed_net": 8.211620453896204
+            }
+          },
+          "sources": {
+            "candle_proxy": 196
+          },
+          "funding_valuations": {
+            "candle_proxy": 696
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": -27.83570790476235,
+            "ETH": -36.33000137416761,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 18.058944707965765,
+          "priced_trade_fees": 8.811873474881414,
+          "priced_trade_funding_cost": 1.0354507791881489,
+          "qualifying": {
+            "short": 138
+          },
+          "allocation": {
+            "below_hurdle": 41494,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 40
+          },
+          "outcome_status": {
+            "priced": 98
+          },
+          "known_closed_net": 8.211620453896204,
+          "stale_mark_minutes": 5,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 41830,
+          "median_hold_minutes": 405.0,
+          "combined_side_trades": 43,
+          "combined_side_net": -6.405545804876222,
+          "shared_trades_with_combined": 38
+        },
+        "market_90d": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0,
+          "shared_trades_with_combined": 0
+        },
+        "news_90d": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0,
+          "shared_trades_with_combined": 0
+        },
+        "relative_news": {
+          "trades": 98,
+          "net": 8.211620453896114,
+          "full_drawdown": 65.19090057439853,
+          "peak_marked_gross": 959.1012411917703,
+          "average_marked_gross": 30.81949798168815,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 68709.50245867526,
+          "average_signed_exposure": -30.81949798168815,
+          "peak_entry_notional": 1000.0,
+          "turnover": 19581.941055292034,
+          "minutes_at_capacity": 170,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 98,
+              "closed_net": 8.211620453896204
+            }
+          },
+          "sources": {
+            "candle_proxy": 196
+          },
+          "funding_valuations": {
+            "candle_proxy": 696
+          },
+          "realized_btc_eth_beta_usd": {
+            "BTC": -27.83570790476235,
+            "ETH": -36.33000137416761,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 18.058944707965765,
+          "priced_trade_fees": 8.811873474881414,
+          "priced_trade_funding_cost": 1.0354507791881489,
+          "qualifying": {
+            "short": 138
+          },
+          "allocation": {
+            "below_hurdle": 41494,
+            "same_symbol_alternatives": 0,
+            "symbol_busy": 40
+          },
+          "outcome_status": {
+            "priced": 98
+          },
+          "known_closed_net": 8.211620453896204,
+          "stale_mark_minutes": 5,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 41830,
+          "median_hold_minutes": 405.0,
+          "combined_side_trades": 45,
+          "combined_side_net": -3.9654354256799196,
+          "shared_trades_with_combined": 41
+        },
+        "news_90d_tied": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0,
+          "shared_trades_with_combined": 0
+        },
+        "constant_tie_11": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0
+        },
+        "constant_tie_23": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0
+        },
+        "constant_tie_37": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0
+        },
+        "constant_tie_53": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0
+        },
+        "constant_tie_71": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0
+        },
+        "constant_tie_89": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0
+        },
+        "constant_tie_107": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0
+        },
+        "constant_tie_131": {
+          "trades": 0,
+          "net": 0.0,
+          "full_drawdown": 0.0,
+          "peak_marked_gross": 0.0,
+          "average_marked_gross": 0.0,
+          "long_notional_hours": 0.0,
+          "short_notional_hours": 0.0,
+          "average_signed_exposure": 0.0,
+          "peak_entry_notional": 0.0,
+          "turnover": 0.0,
+          "minutes_at_capacity": 0,
+          "missing_mark_minutes": 0,
+          "end_inventory": [],
+          "valuation_at": "2026-11-22T21:25:00+00:00",
+          "by_side": {
+            "long": {
+              "trades": 0,
+              "closed_net": 0
+            },
+            "short": {
+              "trades": 0,
+              "closed_net": 0
+            }
+          },
+          "sources": {},
+          "funding_valuations": {},
+          "realized_btc_eth_beta_usd": {
+            "BTC": 0.0,
+            "ETH": 0.0,
+            "minutes": 133765
+          },
+          "priced_trade_pnl_before_fees_and_funding": 0.0,
+          "priced_trade_fees": 0.0,
+          "priced_trade_funding_cost": 0.0,
+          "qualifying": {},
+          "allocation": {
+            "below_hurdle": 41632
+          },
+          "outcome_status": {},
+          "known_closed_net": 0.0,
+          "stale_mark_minutes": 0,
+          "over_15m_stale_marks": 0,
+          "position_mark_minutes": 0,
+          "median_hold_minutes": null,
+          "combined_side_trades": 0,
+          "combined_side_net": 0
+        }
+      }
+    }
+  },
+  "verification": {
+    "independently_repriced_ledger_rows": 41084,
+    "ledgers_sha256": "30de20151e8cb20e17555a2a54f1fa259ebd8f5fe1a268d7670935142d5ab056",
+    "daily_equity_sha256": "a8eaa82b52ba69f70e236178a182d4f87053d6f2429310990c468c3927f240b3"
+  }
+}

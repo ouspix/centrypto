@@ -1,0 +1,8 @@
+{
+  "documents": 11787,
+  "asset_document_links": 7639,
+  "first_available": "2026-10-31T09:46:30.819000Z",
+  "signal_revisions": 7652,
+  "invalid_signal_evidence": 0,
+  "deduplication": "Earliest available capture of each storyHash per asset; deterministic frozen aliases; no future learned aliases."
+}

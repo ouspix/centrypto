@@ -1,0 +1,45 @@
+{
+  "status": "passed",
+  "folds": 4,
+  "test": {
+    "trades": 157,
+    "priced": 157,
+    "censored": 0,
+    "gross_pnl_usd": 161.36347352980204,
+    "priced_subtotal_usd": 161.36347352980204,
+    "mean_return_pct": 1.027792825030586,
+    "wins": 84,
+    "losses": 73,
+    "median_holding_minutes": 310.0,
+    "notional_hours": 103108.33333333333
+  },
+  "by_side": {
+    "long": {
+      "trades": 57,
+      "priced": 57,
+      "censored": 0,
+      "gross_pnl_usd": 44.35730276498848,
+      "priced_subtotal_usd": 44.35730276498848,
+      "mean_return_pct": 0.778198294122605,
+      "wins": 32,
+      "losses": 25,
+      "median_holding_minutes": 450.0,
+      "notional_hours": 57425.0
+    },
+    "short": {
+      "trades": 100,
+      "priced": 100,
+      "censored": 0,
+      "gross_pnl_usd": 117.00617076481356,
+      "priced_subtotal_usd": 117.00617076481356,
+      "mean_return_pct": 1.1700617076481357,
+      "wins": 52,
+      "losses": 48,
+      "median_holding_minutes": 232.5,
+      "notional_hours": 45683.333333333336
+    }
+  },
+  "four_final_models": true,
+  "original_artifacts_verified": 43,
+  "lock_verified": true
+}

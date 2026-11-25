@@ -1,0 +1,26 @@
+{
+  "at": "2026-11-14T08:58:19.076488+00:00",
+  "note": "Locked after synthetic and source-label checks, before fitting. These historical periods were previously researched. The user replaced SMA-gated targets with all-token >=10% rolling24h rallies.",
+  "code": {
+    "spec.json": "b9bc32b7a30cd6dd085a67b560870bbf54889fa1c8eb0f5bb4d985d0b7113665",
+    "common_two.py": "4bf91d19a35e39843069022110742acf0bf854976f1de4383f55520379491a66",
+    "prepare_two.py": "ac4e58e1961fba90efd12f4ddc2c915f1c4c99254e2d4e0932f7d57e951e469d",
+    "news_two.py": "e2ac4c9336fe580e08ac0608a8a552f937b99e5858209570893f7f46d8fad872",
+    "features_two.py": "4f64096b6f08670a9d0dc2172642ef06ec7c690dfb26742c816bde39535bb865",
+    "dataset_two.py": "4259250d773a5ca89394561e3f731810e7ea9937b46f6d626cf669e85056cbf0",
+    "model_two.py": "3608e16efa2ac19b53add03d2bb4a54f09c8845ad5b4f2323edef4fe52a56eab",
+    "replay_two.py": "b752e2f200b6bf5ca15531bae17441970b43a6c2a566c55bf6c160675326bcf5",
+    "train_two.py": "237e34de741c54df123cc7a86a79e9cc1889b1a3aeaeaa23597909406979b4b4"
+  },
+  "data": {
+    "market.npy": "45bb89da21b6fe0d35c1ef1368b9f825f704ed4d90238bf96d4ce8361c4642e4",
+    "news.npy": "c81bb7e01535b48f279240ca2dd557f1d8991862ea4e84d018665c6b8dbb34b5",
+    "state.npy": "f7f5a039d18e441deb22deee0068e3c7489f24fc7d97881fdfabbce5977e8991",
+    "teachers.json": "ba6fea5dc524b8fd5a393b942d65483159f33d46cbca1ea438f26241b60ef387"
+  },
+  "metadata": {
+    "catalog.json": "64a9c92735998b4542977930bbd8761735937d68ade5ef299452f3e538c5f777",
+    "market-feature-names.json": "197957f71d1b41998b2265bc666462e2da97b11859b50d52134c1b9727d738d9",
+    "news-feature-names.json": "73a7e3b153ce58ade8deb178b81bf9d09f7ced8217d18c0e1897c40170a822a0"
+  }
+}

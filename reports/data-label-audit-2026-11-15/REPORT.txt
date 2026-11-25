@@ -1,0 +1,143 @@
+What this audit establishes
+
+The requested four investigations are complete on the frozen experiment. The most consequential findings are an archive-end mismatch, substantial missing mandatory inputs, an exit label that marks time after a past optimum, and a small effective sample of later bullish opportunities.
+All models and label definitions were kept fixed. Fees remain excluded. Counts below distinguish repeated candidate/trade records from distinct paths and decision times. Passing event-time checks is not proof of original live data availability.
+
+1. Liquidity: source absence, followed by removal during preprocessing
+
+The source database has zero bid/ask prices or sizes in both April and May–June: 760,942 and 16,346,884 tick records checked respectively. Recent data contains 215,832 complete quote records, first seen on 2026-11-06T12:32:14.464Z.
+The frozen five-minute joins retain 10,614 usable book observations across 169 symbols (full list in summary.json). Every matched exported tick was aligned and its liquidity values recomputed; all match the model feature matrix. Eight sampled latest-tick joins also match the source database exactly.
+The exporter joins each symbol to its latest tick at or before the decision (five-minute bar close plus five seconds), within a 120-second lookback. Feature preparation then applies the stricter 60-second liquidity age limit. No later tick is selected.
+The outer training windows end before these usable quotes. Thus every outer training matrix has zero observed liquidity values; preprocessing correctly removes all three columns. This is not a constant-value transformation or a failed numeric parser. The current collector subscribes to configured base symbols, top movers and a rotating group, capped at 28 simultaneous books; it stores only books observed within two seconds of the tick. A limited simultaneous subscription set can therefore cover many symbols over time.
+All three features require a tick no older than 60 seconds, bid > 0, ask > bid, and both sizes > 0. The spread field unnecessarily shares the size requirement, but there are no price-without-size cases in this frozen export, so it does not cause this experiment’s missingness.
+“Absent” means absent from our retained source database. Exchange book history may have existed elsewhere. Historical backfill paths omit book sizes, and row-level ingestion provenance is not retained; exact origins of every old row cannot be established.
+Field | Calculation | Observed cause in outer training
+liquidity_spread_bps | 10,000 × (ask−bid)/mid | No source quotes before training cutoffs
+liquidity_log_min_side_usd | log(1 + min(bid×bid size, ask×ask size)) | No source quotes/sizes before training cutoffs
+liquidity_imbalance | (bid value−ask value)/(bid value+ask value) | No source quotes/sizes before training cutoffs
+
+2. Every unpriced exit is an archive-tail case
+
+76 unpriced trade records reduce to 39 unique entry paths. Every one holds for exactly 1,440 minutes, then requests a price after the recorded archive ends. All 39 affected source series stop on June 9, 2026 at 06:50 UTC; the nominal catalog end is June 10 at 00:00 UTC.
+The replay protects the final 24h32m of the nominal catalog, rather than the actual available history. This admits June 8 entries whose deadlines land beyond the data. The prepared data did not lose existing source rows: all 39 exact timestamps are also absent from the database, with no rows within ±10 minutes.
+33 of these 39 exact entry paths have other policy variants that exit earlier at an observed price. This directly confirms the holding-time explanation for different censoring across policies. These gaps do not establish that the instruments delisted.
+Recommended correction before further comparisons: define the historical evaluation cutoff from actual source coverage, with the required complete holding horizon for every policy. Keep censored results missing; never substitute a later quote or infer a payoff. The existing source and results remain unchanged.
+missing-exits.csv lists every unique path, instrument, required timestamp and last/nearest source timestamp. missing-exits.json additionally maps every one of the 76 records to its variant/seed and includes matched earlier exits.
+
+3. What reaches the model
+
+feature-coverage.csv contains 8,952 feature/fold/direction/stage/population records for exact training and validation matrices plus a fixed labeled test population. The 32 training/validation matrices were reconstructed exactly. actual-replay-feature-coverage.csv adds all actual detector candidates and every model decision state on selected full-model positions for the three seeds.
+Worst core training gap: rolling24h_close_return_pct in 2026-06-01 long entry has 35.51% imputation. The feature is mandatory in the schema but is not guaranteed to be observed.
+In the actual replay, sma_gap_20_80 is imputed in 44.32% of 1514 June short-exit model states for seed 20261116. Long SMAs require uninterrupted close windows, so historical gaps can invalidate them even after later prices resume.
+The coverage files distinguish observed values, median-imputed values and columns dropped entirely. The two suspicious-instrument JSON files identify the instruments behind missing mandatory values. Training-only medians/scales are preserved; no future data is used for imputation.
+No retained value violated its coded 60/120-second tick limit in the measured populations. Some rolling price features intentionally permit incomplete windows; that percentage is reported separately. This is a record-time freshness result, not certification of exchange publication latency.
+
+4. Causality passes; historical publication timing remains unverified
+
+For 18 selected historical decisions, native candle, spot and tick records after the decision were physically removed and features rebuilt. All 3186 market/SMA values match both the full-history calculation and the frozen matrix, within the stated numerical tolerances. SMA candidate signals are unchanged.
+MarketCandle stores openTime and OHLCV but no publishedAt, collectedAt, availableAt or revision history. MarketTick stores ts but no separate publication/receipt timestamps. Spot klines retain event-close time, not original collection time. Therefore later backfills/corrections and the assumed bar-close-plus-five-second publication delay cannot be ruled out.
+This is a material provenance limitation. Before claiming a live-equivalent backtest, retain observation/arrival times and immutable revisions, then rerun the as-of checks against those fields. Causal tests here certify only the selected event-time calculations.
+
+5. Label meaning and the recovery counterexample
+
+The exit target is exactly EXIT when current step ≥ the hindsight-best exit step measured from the original entry. All later states remain EXIT, regardless of a subsequent rebound. It predicts that a past optimum has passed; it does not directly estimate whether continuing from the current state is worthwhile.
+For 100 → 115 → 102 → 112, the labels at 115, 102 and 112 are all EXIT. The mirrored short example behaves identically. The requested concern is therefore confirmed in both directions.
+Across the eight training fold/direction samples, 1.19%–5.66% of post-peak EXIT states with remaining observations are followed by an improvement exceeding five percentage points of return from the original entry. This is hindsight evidence about target semantics, not proof that a live model can foresee the recovery.
+18 deliberately selected paths cover long/short failures, strong moves, reversals, recoveries, large adverse excursions, unresolved history, and later November positives. Each plot shows price/return, entry labels, exit labels and conditional model decisions. They are diagnostic examples, not a representative performance sample.
+If the intended decision is “exit now versus continue from this state,” a continuation-value or stop-versus-hold advantage target is a better-aligned candidate to test. Changing the target requires a new controlled experiment; it was not changed in this audit.
+Entry situation | Current label treatment
+Best future gain is 8% | Negative, despite being profitable
+Gain ≥10%, but below 95% of setup best | Negative
+Large adverse move before reaching target | Not penalized by the label
+Incomplete future | Whole setup unresolved if any candidate fails quality; requires ≥90% grid-price coverage and an exact deadline, not perfect completeness
+
+6. Positive, negative and unresolved learning examples
+
+Counts below include the chronologically eligible unresolved rows omitted from fitting. A candidate row is not an independent rally: several SMA pairs can produce labels at the same decision time, and holding windows overlap. The CSV also reports setup IDs and symbol-days without claiming independence.
+In the latest test window, 26 positive long rows reduce to 16 distinct decision times on two symbols. The preceding test window has 10 positive long rows, nine decision times, and four symbols. This is weak support for general claims about long entries.
+Fold | Direction | Population | Positive rows | Negative rows | Unresolved rows | Positive decision times | Positive symbols
+2026-06-01 | long | train | 1149 | 13533 | 4026 | 551 | 28
+2026-06-01 | short | train | 1251 | 14295 | 3783 | 569 | 45
+2026-11-03 | long | train | 4693 | 62303 | 5313 | 2264 | 60
+2026-11-03 | short | train | 4298 | 64855 | 5196 | 2056 | 86
+2026-11-07 | long | train | 6164 | 83409 | 10642 | 3007 | 67
+2026-11-07 | short | train | 7939 | 85631 | 9877 | 3684 | 111
+2026-11-11 | long | train | 6452 | 98513 | 11050 | 3156 | 79
+2026-11-11 | short | train | 8044 | 99790 | 10253 | 3728 | 113
+2026-06-01 | long | validation | 382 | 8015 | 340 | 205 | 17
+2026-06-01 | short | validation | 607 | 8420 | 483 | 269 | 33
+2026-11-03 | long | validation | 849 | 11603 | 5185 | 438 | 30
+2026-11-03 | short | validation | 38 | 11017 | 4062 | 19 | 7
+2026-11-07 | long | validation | 541 | 8890 | 175 | 230 | 14
+2026-11-07 | short | validation | 233 | 8963 | 264 | 115 | 6
+2026-11-11 | long | validation | 87 | 11421 | 878 | 43 | 6
+2026-11-11 | short | validation | 527 | 11413 | 996 | 208 | 32
+2026-06-01 | long | test_labeled_window | 2774 | 33979 | 1190 | 1412 | 47
+2026-06-01 | short | test_labeled_window | 5396 | 33696 | 1472 | 2492 | 102
+2026-11-03 | long | test_labeled_window | 562 | 11104 | 95 | 255 | 20
+2026-11-03 | short | test_labeled_window | 449 | 9990 | 52 | 222 | 26
+2026-11-07 | long | test_labeled_window | 10 | 5320 | 121 | 9 | 4
+2026-11-07 | short | test_labeled_window | 53 | 5298 | 166 | 26 | 4
+2026-11-11 | long | test_labeled_window | 26 | 5611 | 183 | 16 | 2
+2026-11-11 | short | test_labeled_window | 347 | 5937 | 19 | 170 | 14
+
+7. Where seed decisions diverge
+
+On identical June long candidates, pairwise entry-score rank correlations are 0.566–0.675. The entry models differ in ranking, not only score scale. On identical sampled exit states, corresponding exit correlations are higher: 0.917–0.947.
+The full validation/test score distributions, entry pass rates, exit-score comparisons and all 216 threshold-grid results are saved. decision-flow.csv separates rejected scores, cash-disabled candidates, open-position blocking, reused events, direction conflicts and executed trades; all 12 trade-ID sequences match the original runs exactly.
+The earlier component-swap diagnosis remains valid: thresholds/cash selection account for 72–77% of the two observed profit declines under an interaction-averaged decomposition. Entry variation also matters. Fixed .5/.5 thresholds with both directions enabled lose for all seeds, so deleting selection is not a supported fix.
+In June, the long models pass roughly 49%–55% of the same candidate population at .5, but actual trade counts range from zero to 2,906 because one policy stays in cash and the others combine different cutoffs with shorter holding times. The table makes the different counting units explicit.
+Per-symbol/day profit concentration and validation threshold surfaces are included. These are reused diagnostic periods, not new blind tests.
+Seed | Entry / exit cutoffs | Candidates ≥.5 | Candidates ≥ selected cutoff | Cash | Blocked candidate rows: position open | Executed trades | Median holding minutes | Long PnL USD
+20261114 | cash | 20758 | 0 | True | 0 | 0 |  | 0.00
+20261115 | 0.9 / 0.25 | 21570 | 16987 | False | 13310 | 1755 | 45.0 | -157.48
+20261116 | 0.75 / 0.25 | 23288 | 20371 | False | 14138 | 2906 | 15.0 | -215.66
+
+8. Validation surface and outcome concentration
+
+The June long grid below shows every tested threshold combination for the fold responsible for most of the instability. Cash contributes zero validation profit. Each grid row replays one direction alone; its test profit can differ from the combined long/short policy above because of shared position blocking and direction conflicts. Test profits are shown only for diagnosis; they were not used to select the saved policy. The complete four-fold, two-direction surfaces are in threshold-grid.json.
+For seed 20261116, the selected June long threshold has just $0.35 of validation profit across 375 trades; every other long combination loses. That narrow margin enables a policy which loses on the later test period. Seed 20261114 has no profitable long validation combination and stays in cash. This is direct evidence of a fragile cash-versus-trade decision.
+For seed 20261114, trades entered on November 11 contribute $127.43, or 61.3% of the $207.73 total net gross-of-fees profit across all four test windows. This is concentration of net results, not a share of gross winning trades. Calendar-day and symbol breakdowns are in seed-concentration.json.
+The good result therefore has limited calendar breadth, while entry-label counts additionally show scarce recent bullish examples. Neither a single best threshold nor the profitable seed establishes stable generalization.
+Seed | Entry cutoff | Exit cutoff | Validation trades | Validation PnL USD | Test PnL USD
+20261114 | 0.5 | 0.25 | 336 | -7.57 | -375.62
+20261114 | 0.5 | 0.5 | 267 | -28.67 | -667.30
+20261114 | 0.5 | 0.75 | 226 | -25.81 | -832.43
+20261114 | 0.75 | 0.25 | 276 | -3.77 | -307.02
+20261114 | 0.75 | 0.5 | 227 | -54.20 | -573.93
+20261114 | 0.75 | 0.75 | 198 | -15.44 | -764.77
+20261114 | 0.9 | 0.25 | 219 | -13.61 | -305.11
+20261114 | 0.9 | 0.5 | 178 | -49.97 | -537.03
+20261114 | 0.9 | 0.75 | 160 | -30.36 | -731.91
+20261115 | 0.5 | 0.25 | 295 | -22.73 | -188.66
+20261115 | 0.5 | 0.5 | 230 | -11.07 | -332.21
+20261115 | 0.5 | 0.75 | 192 | -33.99 | censored
+20261115 | 0.75 | 0.25 | 243 | 0.15 | -185.75
+20261115 | 0.75 | 0.5 | 191 | 2.70 | -311.27
+20261115 | 0.75 | 0.75 | 157 | 7.80 | censored
+20261115 | 0.9 | 0.25 | 195 | 11.31 | -173.23
+20261115 | 0.9 | 0.5 | 159 | -28.12 | -295.75
+20261115 | 0.9 | 0.75 | 130 | -24.14 | censored
+20261116 | 0.5 | 0.25 | 456 | -1.13 | -240.62
+20261116 | 0.5 | 0.5 | 360 | -63.74 | -362.22
+20261116 | 0.5 | 0.75 | 296 | -118.85 | -493.00
+20261116 | 0.75 | 0.25 | 375 | 0.35 | -235.22
+20261116 | 0.75 | 0.5 | 302 | -50.09 | -360.90
+20261116 | 0.75 | 0.75 | 254 | -123.87 | -458.59
+20261116 | 0.9 | 0.25 | 312 | -19.98 | -216.77
+20261116 | 0.9 | 0.5 | 255 | -44.06 | -344.03
+20261116 | 0.9 | 0.75 | 215 | -104.37 | -422.31
+
+Recommended order of work
+
+First correct and freeze the actual archive boundary and record input/provenance limitations. Do not silently impute liquidity history or treat missing mandatory observations as fully observed data.
+Next decide whether exit supervision should estimate the value of continuing from the current state; the existing post-optimum label is demonstrably a different target. Keep a controlled comparison against the current definition.
+Then test selection across multiple earlier validation blocks and training seeds, with an uncertainty margin against cash and calibrated scores or stable threshold regions. Evaluate the frozen change on genuinely new periods.
+A damaged leading block was found in one derived replay JSON. Its original was preserved; reconstruction from unchanged saved models reproduces the retained four-fold trade counts, wins/losses, censoring and PnL. The storage damage is separate from the model behavior and did not alter the original seed comparison. See recovery-audit.json.
+
+Evidence and limits
+
+Inspection scripts, CSV/JSON exports and verification records are in this report directory. Source database checks were read-only. Existing model/source report files remain hash-identical. No new model was trained or selected.
+Coverage is exhaustive for the listed feature populations and all unresolved exit records; raw as-of database checks and future-truncation checks are selected samples. Live publication latency, historical revisions and the exact ingestion provenance of every old record remain unverified.
+The distinction between a learned score and an action threshold is also documented by scikit-learn: https://scikit-learn.org/stable/modules/classification_threshold.html . All quantitative findings here come from the local experiment and source checks.
+

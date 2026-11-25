@@ -1,0 +1,38 @@
+{
+  "fold": "2026-11-11",
+  "folds_complete": 4,
+  "ensemble": [
+    {
+      "variant": "current",
+      "stats": {
+        "trades": 33,
+        "priced": 33,
+        "censored": 0,
+        "gross_pnl_usd": 23.114690678166493,
+        "priced_subtotal_usd": 23.114690678166493,
+        "mean_return_pct": 0.7004451720656513,
+        "wins": 19,
+        "losses": 14,
+        "median_holding_minutes": 80.0,
+        "notional_hours": 9175.0,
+        "direction_conflicts_waited": 1
+      }
+    },
+    {
+      "variant": "price_error",
+      "stats": {
+        "trades": 0,
+        "priced": 0,
+        "censored": 0,
+        "gross_pnl_usd": 0.0,
+        "priced_subtotal_usd": 0.0,
+        "mean_return_pct": null,
+        "wins": 0,
+        "losses": 0,
+        "median_holding_minutes": null,
+        "notional_hours": 0,
+        "direction_conflicts_waited": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "completed": 240,
+  "total": 240,
+  "latest": {
+    "fold": "2026-11-03T00:00:00Z",
+    "variant": "drop_position_history",
+    "seed": 20261116,
+    "test": {
+      "trades": 255,
+      "priced": 255,
+      "censored": 0,
+      "gross_pnl_usd": -78.65707358625329,
+      "priced_subtotal_usd": -78.65707358625329,
+      "mean_return_pct": -0.30845911210295407,
+      "wins": 94,
+      "losses": 161,
+      "median_holding_minutes": 175.0,
+      "notional_hours": 130091.66666666667,
+      "direction_conflicts_waited": 0
+    },
+    "seconds": 38.58706998825073,
+    "final": false
+  }
+}

@@ -1,0 +1,244 @@
+{
+  "candidates": 89732,
+  "decision_window": [
+    "2026-08-22T00:00:00+00:00",
+    "2026-11-21T21:20:00+00:00"
+  ],
+  "valuation": "2026-11-22T21:25:00+00:00",
+  "news_covered": 13954,
+  "result": {
+    "joint": {
+      "base": {
+        "trades": 226,
+        "closed": 226,
+        "long": 2,
+        "short": 224,
+        "net": 86.97373564456484,
+        "max_drawdown": 228.92410409877675,
+        "avg_gross": 479.3896688662809,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": 86.97373564456471,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 1187,
+        "rejects": {
+          "busy": 879,
+          "sizing": 71,
+          "daily_loss": 6,
+          "slippage_limit": 3
+        },
+        "exits": {
+          "1": 126,
+          "2": 100
+        },
+        "max_holding_minutes": 18351
+      },
+      "stress": {
+        "trades": 224,
+        "closed": 224,
+        "long": 2,
+        "short": 222,
+        "net": 30.463658221181504,
+        "max_drawdown": 206.16520041721174,
+        "avg_gross": 485.7868907885025,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": 30.463658221181653,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 1187,
+        "rejects": {
+          "slippage_limit": 10,
+          "busy": 874,
+          "sizing": 71,
+          "daily_loss": 6
+        },
+        "exits": {
+          "1": 129,
+          "2": 95
+        },
+        "max_holding_minutes": 18350
+      }
+    },
+    "constant_with_joint_exits": {
+      "base": {
+        "trades": 3170,
+        "closed": 3170,
+        "long": 487,
+        "short": 2683,
+        "net": -501.81703178811426,
+        "max_drawdown": 624.9999575703439,
+        "avg_gross": 646.9009803656694,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": -501.81703178811705,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 89732,
+        "rejects": {
+          "slippage_limit": 267,
+          "busy": 45447,
+          "sizing": 22169,
+          "daily_loss": 3644,
+          "positions": 49
+        },
+        "exits": {
+          "2": 873,
+          "1": 2297
+        },
+        "max_holding_minutes": 23800
+      },
+      "stress": {
+        "trades": 3166,
+        "closed": 3166,
+        "long": 503,
+        "short": 2663,
+        "net": -610.6223363688894,
+        "max_drawdown": 693.5902055359782,
+        "avg_gross": 608.6342318177406,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": -610.6223363688949,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 89732,
+        "rejects": {
+          "busy": 44909,
+          "slippage_limit": 581,
+          "sizing": 24823,
+          "daily_loss": 3040,
+          "positions": 156,
+          "missing_entry": 2
+        },
+        "exits": {
+          "2": 842,
+          "1": 2324
+        },
+        "max_holding_minutes": 19481
+      }
+    },
+    "cash": {
+      "base": {
+        "trades": 0,
+        "closed": 0,
+        "long": 0,
+        "short": 0,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "avg_gross": 0.0,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": 0.0,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 0,
+        "rejects": {},
+        "exits": {},
+        "max_holding_minutes": null
+      },
+      "stress": {
+        "trades": 0,
+        "closed": 0,
+        "long": 0,
+        "short": 0,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "avg_gross": 0.0,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": 0.0,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 0,
+        "rejects": {},
+        "exits": {},
+        "max_holding_minutes": null
+      }
+    }
+  },
+  "fixed_constant": {
+    "base": {
+      "trades": 1196,
+      "closed": 1196,
+      "long": 228,
+      "short": 968,
+      "net": 72.9505186839383,
+      "max_drawdown": 367.35490409759825,
+      "avg_gross": 804.867792938634,
+      "ending_open": 0,
+      "ending_inventory": [],
+      "realized_net": 72.95051868393766,
+      "open_marked_pnl": 0.0,
+      "missing_funding_hours": 0,
+      "passed": 89732,
+      "rejects": {
+        "slippage_limit": 155,
+        "busy": 23484,
+        "sizing": 5061,
+        "positions": 7667,
+        "daily_loss": 5034
+      },
+      "exits": {
+        "1": 575,
+        "2": 621
+      },
+      "max_holding_minutes": 30825
+    },
+    "stress": {
+      "trades": 1145,
+      "closed": 1145,
+      "long": 236,
+      "short": 909,
+      "net": 8.26642607804979,
+      "max_drawdown": 420.3575967109846,
+      "avg_gross": 780.064573741416,
+      "ending_open": 0,
+      "ending_inventory": [],
+      "realized_net": 8.26642607804888,
+      "open_marked_pnl": 0.0,
+      "missing_funding_hours": 0,
+      "passed": 89732,
+      "rejects": {
+        "busy": 31539,
+        "slippage_limit": 240,
+        "sizing": 9167,
+        "daily_loss": 4795,
+        "positions": 5246
+      },
+      "exits": {
+        "2": 605,
+        "1": 540
+      },
+      "max_holding_minutes": 30889
+    }
+  },
+  "quantiles_05_50_95": {
+    "-1": [
+      [
+        55.525190211799455,
+        362.4719300718216,
+        498.72801041535826
+      ],
+      [
+        25.13046634488564,
+        27.936134453145268,
+        346.047180506639
+      ]
+    ],
+    "1": [
+      [
+        51.36382391607494,
+        128.81230217776837,
+        489.7785912737493
+      ],
+      [
+        25.19492412277235,
+        275.10062480284853,
+        346.4803217534686
+      ]
+    ]
+  },
+  "prediction_sha": "90704461474cd3b9af8f7ed6641bfd5e3269a63aa3101eaf89ab5ee0127710a6",
+  "ledger_sha": "fd2ebe93ff0a92b18d440659e6a5558f3bbb1f6ffa86f583e6dc67a31d24036e"
+}

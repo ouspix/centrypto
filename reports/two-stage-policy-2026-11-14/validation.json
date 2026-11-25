@@ -1,0 +1,55 @@
+{
+  "status": "passed",
+  "chronological_folds": 4,
+  "same_positive_targets_used_for_exit_training": true,
+  "final_entry_news_dimensions": 56,
+  "final_exit_news_dimensions": 0,
+  "news_trained_test_folds": 1,
+  "recomputed_trade_payoffs": 331,
+  "trades_checked_against_original_minute_records": 24,
+  "independent_asof_news_story_count_checks": 24,
+  "position_overlap_violations": 0,
+  "teacher_exit_upper_bounds_checked": 185,
+  "saved_model_action_calls": 152,
+  "future_trade_observations_preserve_current_features": true,
+  "serialization_roundtrips": 2,
+  "code_data_hashes_verified": true,
+  "unit_checks": {
+    "status": "passed",
+    "gradient_coordinates": 18,
+    "maximum_gradient_error": 5.2568502724170685e-05,
+    "future_best_matches_independent_scan": true,
+    "future_market_mutation_preserves_past_features": true,
+    "future_news_does_not_change_past_counts": true,
+    "news_availability_uses_latest_of_publication_collection_availability": true,
+    "independent_full_teacher_searches": 30,
+    "exit_has_no_news_columns": true,
+    "exit_training_entries_are_same_positive_entry_targets": true,
+    "preflight_folds": [
+      {
+        "start": "2026-06-01T00:00:00Z",
+        "usable": true,
+        "inner_teacher_entries": 51,
+        "validation_teacher_entries": 19
+      },
+      {
+        "start": "2026-11-03T00:00:00Z",
+        "usable": true,
+        "inner_teacher_entries": 214,
+        "validation_teacher_entries": 60
+      },
+      {
+        "start": "2026-11-07T00:00:00Z",
+        "usable": true,
+        "inner_teacher_entries": 278,
+        "validation_teacher_entries": 20
+      },
+      {
+        "start": "2026-11-11T00:00:00Z",
+        "usable": true,
+        "inner_teacher_entries": 336,
+        "validation_teacher_entries": 14
+      }
+    ]
+  }
+}

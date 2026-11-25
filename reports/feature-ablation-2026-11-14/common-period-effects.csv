@@ -1,0 +1,10 @@
+group,add_core_median_usd,full_minus_drop_median_usd,pattern
+price_shape,144.98177617097497,107.86022866421655,mixed_or_context_dependent
+volume_detail,59.344288942871174,20.46370784785908,mixed_or_context_dependent
+sma_detail,115.75690159615559,-69.79804941481106,mixed_or_context_dependent
+market_context,258.5618241512958,-10.853268659381417,mixed_or_context_dependent
+derivatives,98.93656942025311,-54.51479561492417,mixed_or_context_dependent
+liquidity,0.0,0.0,no_effect
+spot,167.49928326108378,-39.42369177522308,mixed_or_context_dependent
+clock,61.03901128091297,-9.625018628761634,mixed_or_context_dependent
+position_history,171.49509933001096,40.70945068455845,mixed_or_context_dependent

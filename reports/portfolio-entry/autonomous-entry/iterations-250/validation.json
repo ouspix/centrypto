@@ -1,0 +1,277 @@
+{
+  "iterations": 250,
+  "entries": [
+    "2026-05-01T00:00:00+00:00",
+    "2026-08-22T00:00:00+00:00"
+  ],
+  "valuation": "2026-08-22T00:00:00+00:00",
+  "modes": {
+    "base": {
+      "net": -461.10531468703016,
+      "max_drawdown": 473.2420577392668,
+      "rejects": {
+        "busy_or_illiquid": 108843,
+        "slippage_limit": 1129,
+        "positions_full": 90334,
+        "sizing": 969,
+        "risk_full": 230,
+        "missing_entry": 4,
+        "daily_loss": 15223,
+        "exposure_full": 11
+      },
+      "fills": 6185,
+      "closed": 6175,
+      "wins": 5838,
+      "losses": 337,
+      "break_even": 0,
+      "win_rate": 0.9454251012145749,
+      "average_win": 0.14025877137194548,
+      "average_loss": -3.715352064821218,
+      "realized_net": -433.2429385753327,
+      "ending_open": 10,
+      "ending_inventory": [
+        {
+          "symbol": "HYPE",
+          "sign": -1,
+          "entry": 743131,
+          "price": 75.563,
+          "notional": 43.16213856677558,
+          "pnl": -3.6190001998477177,
+          "age_minutes": 2789
+        },
+        {
+          "symbol": "LIT",
+          "sign": -1,
+          "entry": 745456,
+          "price": 3.1334,
+          "notional": 42.59861365831441,
+          "pnl": -4.542082897547216,
+          "age_minutes": 464
+        },
+        {
+          "symbol": "ZEC",
+          "sign": -1,
+          "entry": 745611,
+          "price": 735.3,
+          "notional": 41.95000410344896,
+          "pnl": -3.9098662720109556,
+          "age_minutes": 309
+        },
+        {
+          "symbol": "AAVE",
+          "sign": -1,
+          "entry": 745611,
+          "price": 123.03,
+          "notional": 42.97021683298035,
+          "pnl": -4.892131529330756,
+          "age_minutes": 309
+        },
+        {
+          "symbol": "SUI",
+          "sign": -1,
+          "entry": 745626,
+          "price": 0.84517,
+          "notional": 40.61001789924984,
+          "pnl": -2.5399895283053553,
+          "age_minutes": 294
+        },
+        {
+          "symbol": "ENA",
+          "sign": -1,
+          "entry": 745661,
+          "price": 0.14244,
+          "notional": 40.11069774565515,
+          "pnl": -1.9600177479741456,
+          "age_minutes": 259
+        },
+        {
+          "symbol": "PUMP",
+          "sign": -1,
+          "entry": 745661,
+          "price": 0.004076,
+          "notional": 40.43097602896704,
+          "pnl": -2.236173467078366,
+          "age_minutes": 259
+        },
+        {
+          "symbol": "TAO",
+          "sign": -1,
+          "entry": 745671,
+          "price": 230.34,
+          "notional": 40.90836879034809,
+          "pnl": -1.099715286289214,
+          "age_minutes": 249
+        },
+        {
+          "symbol": "ASTER",
+          "sign": -1,
+          "entry": 745681,
+          "price": 0.71043,
+          "notional": 43.729211973977336,
+          "pnl": -1.6886188836501106,
+          "age_minutes": 239
+        },
+        {
+          "symbol": "FARTCOIN",
+          "sign": -1,
+          "entry": 745721,
+          "price": 0.19646,
+          "notional": 39.56985256856579,
+          "pnl": -1.3747802996623886,
+          "age_minutes": 199
+        }
+      ],
+      "open_marked_pnl": -27.862376111696225,
+      "missing_funding_hours": 0,
+      "by_side": {
+        "long": {
+          "fills": 352,
+          "closed": 352,
+          "wins": 199,
+          "losses": 153,
+          "break_even": 0,
+          "win_rate": 0.5653409090909091,
+          "average_win": 1.287779601655629,
+          "average_loss": -2.2618867938237934,
+          "realized_net": -89.8005387255703
+        },
+        "short": {
+          "fills": 5833,
+          "closed": 5823,
+          "wins": 5639,
+          "losses": 184,
+          "break_even": 0,
+          "win_rate": 0.9684011677829297,
+          "average_win": 0.09976282435537286,
+          "average_loss": -4.923940034726684,
+          "realized_net": -343.4423998497624
+        }
+      }
+    },
+    "stress": {
+      "net": -505.3871931273684,
+      "max_drawdown": 516.7073435472516,
+      "rejects": {
+        "busy_or_illiquid": 103764,
+        "slippage_limit": 1613,
+        "positions_full": 100606,
+        "sizing": 812,
+        "risk_full": 305,
+        "daily_loss": 9942,
+        "missing_entry": 3,
+        "exposure_full": 115
+      },
+      "fills": 5768,
+      "closed": 5763,
+      "wins": 5440,
+      "losses": 323,
+      "break_even": 0,
+      "win_rate": 0.943952802359882,
+      "average_win": 0.1337208767459227,
+      "average_loss": -3.7636506796377733,
+      "realized_net": -488.21760002518135,
+      "ending_open": 5,
+      "ending_inventory": [
+        {
+          "symbol": "HYPE",
+          "sign": -1,
+          "entry": 743252,
+          "price": 75.563,
+          "notional": 45.67380833284647,
+          "pnl": -3.7702229244172707,
+          "age_minutes": 2668
+        },
+        {
+          "symbol": "WLD",
+          "sign": -1,
+          "entry": 744297,
+          "price": 0.40172,
+          "notional": 43.18462409294592,
+          "pnl": -3.905756859967334,
+          "age_minutes": 1623
+        },
+        {
+          "symbol": "BTC",
+          "sign": -1,
+          "entry": 744297,
+          "price": 78382.0,
+          "notional": 45.095047375747754,
+          "pnl": -3.3571018818172087,
+          "age_minutes": 1623
+        },
+        {
+          "symbol": "PUMP",
+          "sign": -1,
+          "entry": 744577,
+          "price": 0.004076,
+          "notional": 41.64579363932665,
+          "pnl": -3.1056162331164385,
+          "age_minutes": 1343
+        },
+        {
+          "symbol": "SUI",
+          "sign": -1,
+          "entry": 745057,
+          "price": 0.84517,
+          "notional": 41.76784494317463,
+          "pnl": -3.0308952028671614,
+          "age_minutes": 863
+        }
+      ],
+      "open_marked_pnl": -17.169593102185413,
+      "missing_funding_hours": 0,
+      "by_side": {
+        "long": {
+          "fills": 335,
+          "closed": 335,
+          "wins": 191,
+          "losses": 144,
+          "break_even": 0,
+          "win_rate": 0.5701492537313433,
+          "average_win": 1.2625932034363303,
+          "average_loss": -2.1831403801440055,
+          "realized_net": -73.2169128843977
+        },
+        "short": {
+          "fills": 5433,
+          "closed": 5428,
+          "wins": 5249,
+          "losses": 179,
+          "break_even": 0,
+          "win_rate": 0.9670228445099485,
+          "average_win": 0.09264360214164227,
+          "average_loss": -5.035122652414883,
+          "realized_net": -415.0006871407836
+        }
+      }
+    }
+  },
+  "target": {
+    "base": {
+      "win_rate": false,
+      "fills": true,
+      "profit": false
+    },
+    "stress": {
+      "win_rate": false,
+      "fills": true,
+      "profit": false
+    }
+  },
+  "target_met": false,
+  "ledger": "b6cc9accf2b1d964ce43d8ffd9b551285843093923813969a133910e92354335",
+  "verification": {
+    "iterations_250:base": {
+      "fills": 6185,
+      "closed": 6175,
+      "wins": 5838,
+      "cutoff": 0
+    },
+    "iterations_250:stress": {
+      "fills": 5768,
+      "closed": 5763,
+      "wins": 5440,
+      "cutoff": 0
+    }
+  }
+}

@@ -1,0 +1,2075 @@
+{
+  "source": "Read-only mainnet PostgreSQL MarketCandle. Older SQLite source reported corruption; these files replace its partial exports.",
+  "exportedAt": "2026-11-13T20:17:35.655Z",
+  "periods": {
+    "apr": [
+      {
+        "symbol": "0G",
+        "rows": 4233,
+        "sha256": "8b8939797754bf84adee694db4ef16144092fcd693276f698402a48cd4a2aaa7"
+      },
+      {
+        "symbol": "2Z",
+        "rows": 4333,
+        "sha256": "d576760b66742dbf297e113a89620f84771a3974b01d2c34b1d501ea3f1d9e82"
+      },
+      {
+        "symbol": "AAVE",
+        "rows": 4492,
+        "sha256": "db69ebfb4715c4aab31ab98328bbdf70862802b0116c9e534caeff826e884e1d"
+      },
+      {
+        "symbol": "ACE",
+        "rows": 4217,
+        "sha256": "04a0b2782423edfdcb578c3402fe95bfabd23559e3da98843337d7338c6783da"
+      },
+      {
+        "symbol": "ADA",
+        "rows": 4488,
+        "sha256": "7cc5f91ebc2e7cc95cedafce11e57a103c1dedc296397b6e484f350c6dbee8cb"
+      },
+      {
+        "symbol": "AERO",
+        "rows": 4489,
+        "sha256": "070f262b64f0a1706cb829a2f925ed0b78b1e0c7deecedb02e863fc379cc7505"
+      },
+      {
+        "symbol": "AI",
+        "rows": 300,
+        "sha256": "a9994597e1d23f5fa17618b432fe6e1176047203e2ea8650153c6723189663b6"
+      },
+      {
+        "symbol": "AI16Z",
+        "rows": 300,
+        "sha256": "2946cfc66872f5d92219aaeb254a0b8dddff3d2731c203b4d540dd3afafb617a"
+      },
+      {
+        "symbol": "AIXBT",
+        "rows": 4419,
+        "sha256": "d1d771388ae2832955fd2c288e13b8225e3e24a1c1d54dc5f6a726d3b45b7ec5"
+      },
+      {
+        "symbol": "ALGO",
+        "rows": 4444,
+        "sha256": "adbea703fecff44d2ae4bdcf9eea6c0d1275b6a7ae8931c7b979613c430f6b43"
+      },
+      {
+        "symbol": "ALT",
+        "rows": 4435,
+        "sha256": "021219089a6dfdce6cbeb2e99b20bc50e2e05beb76223f5a4fcefb895e93b858"
+      },
+      {
+        "symbol": "ANIME",
+        "rows": 4419,
+        "sha256": "73f249724b26e2f4317aabc504d522af3b55067ddc024d9fd8d6b337404e3154"
+      },
+      {
+        "symbol": "APE",
+        "rows": 4481,
+        "sha256": "3ef60630338b92d7cee68a2c99a0586575b3cc770107e6a6bbfc66292b59841d"
+      },
+      {
+        "symbol": "APEX",
+        "rows": 4271,
+        "sha256": "820b53fc0f992f3e5c947965e9fb48d4c8f4febca7b1efd07c341fa4844bcc17"
+      },
+      {
+        "symbol": "APT",
+        "rows": 4470,
+        "sha256": "4d1c404863f27a9695f668c77ee12693ea504992544fc141ea055e5f51ef24a1"
+      },
+      {
+        "symbol": "AR",
+        "rows": 4423,
+        "sha256": "1e0e276b1edaf2ed0921860b50c483e987143e7ce00663f2afd5c747c1b4a245"
+      },
+      {
+        "symbol": "ARB",
+        "rows": 4464,
+        "sha256": "d9d8c13e21e9b3b38952ba087d083d937743768474c18c9cf20e04395aaf6a3b"
+      },
+      {
+        "symbol": "ARK",
+        "rows": 4430,
+        "sha256": "8b7171cd29e7f0070cf96bb5ce9192794bf9dd315356185b96df262ea8eef542"
+      },
+      {
+        "symbol": "ASTER",
+        "rows": 4437,
+        "sha256": "92ccddd4d37a4cb7f4b04398ad8243c9b29f425278df18f43a1cf093c3293167"
+      },
+      {
+        "symbol": "ATOM",
+        "rows": 4440,
+        "sha256": "7efccb746d7564fcf73a458b4b606e033d5d0c4e47eab3f06c1772066baf5325"
+      },
+      {
+        "symbol": "AVAX",
+        "rows": 4473,
+        "sha256": "a3a3d03f51c581df73775db959fd6f66dce286230913ba8b495378d3688e5a60"
+      },
+      {
+        "symbol": "AVNT",
+        "rows": 4436,
+        "sha256": "7f8952533502e43ccc4320864fca18ac18c8e58cd6647e76e17e1e591ead2d51"
+      },
+      {
+        "symbol": "AXS",
+        "rows": 4464,
+        "sha256": "a2f1737c421035d8b724dfb06d9a7cfbf189cca65c0bf081d09e53d373f01365"
+      },
+      {
+        "symbol": "AZTEC",
+        "rows": 4142,
+        "sha256": "fa42ae125a8175edde0d90e4223c653e4bc12db20195ccc3d2f3052fb06b887b"
+      },
+      {
+        "symbol": "BABY",
+        "rows": 4430,
+        "sha256": "996836176913d79b76d630d9337173a0a9511acc80b9716452a3836e8f68808b"
+      },
+      {
+        "symbol": "BADGER",
+        "rows": 300,
+        "sha256": "c6040c4a56866fb86467772089f2333296ce57f203511c8ff622c2fb64778c7a"
+      },
+      {
+        "symbol": "BANANA",
+        "rows": 4306,
+        "sha256": "a6343c44ec947e5959855cf4df431e7bc0a9d041efadcec92862472a7168eb0b"
+      },
+      {
+        "symbol": "BCH",
+        "rows": 4422,
+        "sha256": "b13ee1b443337c657dcde1ec34d7d1feafaceee4c911a1ef2403f59ca5dfeca1"
+      },
+      {
+        "symbol": "BERA",
+        "rows": 4482,
+        "sha256": "69b05355094dc7b4b8bdf6e50fb21bbae9ccaf89a356be15223058257eacc5e5"
+      },
+      {
+        "symbol": "BIGTIME",
+        "rows": 4428,
+        "sha256": "c90611c28977846e41460888e5ff480ff4302ad39ce71500d8f9711c898095e5"
+      },
+      {
+        "symbol": "BIO",
+        "rows": 4501,
+        "sha256": "5282146d0634211eae34395074bc56ddef7a12f41fef3d0429faabd74d4976e1"
+      },
+      {
+        "symbol": "BLAST",
+        "rows": 4094,
+        "sha256": "01d2db181bfd2b86cbb773a4cab616d5d4ee30c6439deb6eae6943005d8281ed"
+      },
+      {
+        "symbol": "BLUR",
+        "rows": 4450,
+        "sha256": "25a0d0bd281764cfe8c5a2ca49c3620435c01eeaf025b72acacc221bbce1528a"
+      },
+      {
+        "symbol": "BLZ",
+        "rows": 300,
+        "sha256": "c66866326f2b7fc6ad214bdbad7e0707752e371cca3d8d2a097783cb976583c5"
+      },
+      {
+        "symbol": "BNB",
+        "rows": 4481,
+        "sha256": "8e6060dd85cae99e7b1be732375614bbaa063a323438b4aa83a2d4f67f876866"
+      },
+      {
+        "symbol": "BNT",
+        "rows": 300,
+        "sha256": "dabc7d212957903329900b57d8b06f6d4351a874547da0a5f2b49901d96635b8"
+      },
+      {
+        "symbol": "BOME",
+        "rows": 4158,
+        "sha256": "dcff217fce08c61322b7facabf561dfaec5d203fd71bcf3dff6992f957aa3884"
+      },
+      {
+        "symbol": "BRETT",
+        "rows": 4392,
+        "sha256": "f774625b0f4198854de767600a2271d913be19d0029509401248d1d796e09421"
+      },
+      {
+        "symbol": "BSV",
+        "rows": 4413,
+        "sha256": "34c9438eef404fda546d4d0c09cc86c6d9d681272bd26e8e6997832285c3e56d"
+      },
+      {
+        "symbol": "BTC",
+        "rows": 4553,
+        "sha256": "00bf29b7b4a8f176788d2e00dd0dea2426a1280c5f05002e7fdd232d8eba60e9"
+      },
+      {
+        "symbol": "CAKE",
+        "rows": 4420,
+        "sha256": "9c103179735742cf9e4aef6a28f35b9b9b84e21ecbacf68192ef6d84e4197c13"
+      },
+      {
+        "symbol": "CANTO",
+        "rows": 300,
+        "sha256": "595355b693a559624080c7025c2219d7a697007b59cd6a013007ddd57798242c"
+      },
+      {
+        "symbol": "CATI",
+        "rows": 300,
+        "sha256": "bef56445ad4adec2c4861c8f60d2ba8e38ae00e4ce60c3e73f7affb08e0c0927"
+      },
+      {
+        "symbol": "CC",
+        "rows": 4394,
+        "sha256": "6c3fe34fd4bcc3a5f0dc520a71ca17c895fb81ae54982a16e5e4bf9f72485e16"
+      },
+      {
+        "symbol": "CELO",
+        "rows": 4218,
+        "sha256": "e6bcf6bfcaac7c21b6c330b1c52bbf9684e8e984eeeeeab4a78d1fc04849cb82"
+      },
+      {
+        "symbol": "CFX",
+        "rows": 4251,
+        "sha256": "2b673bb77228313e187f01c7dedc75bef84ed35d7a744797c47135067f96193e"
+      },
+      {
+        "symbol": "CHILLGUY",
+        "rows": 4349,
+        "sha256": "677f06901c18648860bb7cffc84a9a94800842153698f9907715c4daf520d4a3"
+      },
+      {
+        "symbol": "CHIP",
+        "rows": 4195,
+        "sha256": "1e7609e22d9a957782c8c79db466813c02904616e80f17c7c7d27c5a78b4d9a4"
+      },
+      {
+        "symbol": "COMP",
+        "rows": 4472,
+        "sha256": "e57c1f3f0647b5f413811daef249f27f903ac703b1a4c97aa488eabf47c3016d"
+      },
+      {
+        "symbol": "CRV",
+        "rows": 4462,
+        "sha256": "29b76559b3f9837db1c9d2e46081b77b5facbe05984ecf973d11b282d3ff2b0a"
+      },
+      {
+        "symbol": "CYBER",
+        "rows": 300,
+        "sha256": "d102765e24879d85db4519897eb9467455337f3f73bc20ebc11f54d19b49d1c5"
+      },
+      {
+        "symbol": "DASH",
+        "rows": 4354,
+        "sha256": "952bc6a80f428ff0f927476f5a8979068194a7f17c191fe643602011c68a8c79"
+      },
+      {
+        "symbol": "DOGE",
+        "rows": 4552,
+        "sha256": "7e0db0b779044e8306398a1a3e610fda38b846e4471f4673bb084368bf272fd5"
+      },
+      {
+        "symbol": "DOOD",
+        "rows": 4249,
+        "sha256": "1c524e7154dd9ec567e0529cfd58d9612f4ec17a008cec4fb33aaf658777ada4"
+      },
+      {
+        "symbol": "DOT",
+        "rows": 4446,
+        "sha256": "d2f8d46f845994421e148a7b8c759b7f8f6bd028c078493fc6630c4833bbbe23"
+      },
+      {
+        "symbol": "DYDX",
+        "rows": 4388,
+        "sha256": "95ea037d6c35fc0e0e098efe607afc6cdf663ac64f32075926023722d1ffe3ed"
+      },
+      {
+        "symbol": "DYM",
+        "rows": 4260,
+        "sha256": "2641d6ac19f1c2a85ceb926f7ecba65620d29e3b98df602380af4db4723f0b30"
+      },
+      {
+        "symbol": "EIGEN",
+        "rows": 4431,
+        "sha256": "a41ce9fdb43abadd55a8010608ddd7ba838cdbf8a879d83e841490202b2241d5"
+      },
+      {
+        "symbol": "ENA",
+        "rows": 4469,
+        "sha256": "48baa1280461798fa9e4bfd30dbef091ddc06a4efa722d026dbb4a9fd41281b7"
+      },
+      {
+        "symbol": "ENS",
+        "rows": 4273,
+        "sha256": "30e4c51a8b2da0f35efe27c455ac745fff65f4cbcb43bcd46dc3aa7be1e2034e"
+      },
+      {
+        "symbol": "ETC",
+        "rows": 4348,
+        "sha256": "9bc66a6e00689fecfd095ee720a4d63131c5dd7f3a4f3c72da20a2c51676a320"
+      },
+      {
+        "symbol": "ETH",
+        "rows": 4507,
+        "sha256": "16666c1067ab1f1e6080852bb6cd68c76029e95f9b1d4b4cd9a643804b4a2b05"
+      },
+      {
+        "symbol": "ETHFI",
+        "rows": 4396,
+        "sha256": "e8a22043a34a9bcb34e6e32186ef8a07e3f09d0a7a4ded74c20b5c36b02f2b35"
+      },
+      {
+        "symbol": "FARTCOIN",
+        "rows": 4494,
+        "sha256": "c6690f468e446601ff9f04b548d1ef1abe57a6e74174c50f4125f4eb5f0c5c64"
+      },
+      {
+        "symbol": "FET",
+        "rows": 4477,
+        "sha256": "0e270a9ad282a4b3a2f2a8ed2b5ddc864d63ea8c6e33378c4223aed0615d9af1"
+      },
+      {
+        "symbol": "FIL",
+        "rows": 4430,
+        "sha256": "a5dd17651641c7850d654c1cdf61a841f6c46fb600f9014e5208dc70d8159ba8"
+      },
+      {
+        "symbol": "FOGO",
+        "rows": 4393,
+        "sha256": "7e751c01f2c466be3c11513a7f8d5f80c36f3ac6a5472c207dd1e6165e9e9984"
+      },
+      {
+        "symbol": "FRIEND",
+        "rows": 300,
+        "sha256": "d3c8d96be181e01727db97a6851b6b7ab2046cdc8f8ee668f2f2bbfb44b3835a"
+      },
+      {
+        "symbol": "FTM",
+        "rows": 300,
+        "sha256": "683806cb0aabf8a25e1684c03476b5515440c3a18bba40a7cf4ff8cff84fd683"
+      },
+      {
+        "symbol": "FTT",
+        "rows": 4064,
+        "sha256": "9256ffb0065f96c30ec89f73881276115757059705351f551a51d62d493d43cc"
+      },
+      {
+        "symbol": "FXS",
+        "rows": 300,
+        "sha256": "61f5be975d252271e7e3e8502a537ef306627198258085ee7130a379fddaffa7"
+      },
+      {
+        "symbol": "GALA",
+        "rows": 4413,
+        "sha256": "5c4daad0eb96a017a36f251ad894e05b78ea687d0eab1dcfd2607c837b324cfc"
+      },
+      {
+        "symbol": "GAS",
+        "rows": 4420,
+        "sha256": "3aea3353e6ee1d9c2bfe4d064be389798a92bed0aa8870ef3fd5d1ae7d1f0e2d"
+      },
+      {
+        "symbol": "GMT",
+        "rows": 4368,
+        "sha256": "c2e29cb94a6fab6a6a054dd3651bfb8f9540c6754fbc1504cc9997af1efa769f"
+      },
+      {
+        "symbol": "GMX",
+        "rows": 4281,
+        "sha256": "5014fda4e5f8dca3ccb13c8782628df2970c3ae43cdc85d7114f39e64a386c03"
+      },
+      {
+        "symbol": "GOAT",
+        "rows": 4235,
+        "sha256": "e7662ab9e3ec30427cf5bf9ea817bd54366a12ebefa3d7a4cf1443b2acaf5595"
+      },
+      {
+        "symbol": "GRASS",
+        "rows": 4314,
+        "sha256": "9a8fd38152c5bebf9d49963644345a48189b2a593777aece39393dab5aa70e38"
+      },
+      {
+        "symbol": "GRIFFAIN",
+        "rows": 4479,
+        "sha256": "5674d1d768aa5f7a06b124462353c2830e2f4d23dfd28e907fe22fae926cd50b"
+      },
+      {
+        "symbol": "HBAR",
+        "rows": 4425,
+        "sha256": "7371679167b70322e76ce6428545132931cb256cfa57a8ee5885d432df9085dd"
+      },
+      {
+        "symbol": "HEMI",
+        "rows": 4423,
+        "sha256": "f3046e20cf47429a4d0b5da9acb1d134ec8d659ead80bd146861ed25f20307fd"
+      },
+      {
+        "symbol": "HMSTR",
+        "rows": 4067,
+        "sha256": "0786c0d99a3067baaadbb1b8c1f5a9f63063eed322752aa735f25f461fdeb180"
+      },
+      {
+        "symbol": "HPOS",
+        "rows": 300,
+        "sha256": "0e0b2be8d027f80a21bdf91ce379961e9c72b276d660460b7c36f68ef5b02f4c"
+      },
+      {
+        "symbol": "HYPE",
+        "rows": 4506,
+        "sha256": "14fe2d0775579fcc1f0f4f80257fb363a9368e0e93eac30e127f80eaabaa2393"
+      },
+      {
+        "symbol": "HYPER",
+        "rows": 4282,
+        "sha256": "888b08770b02f555bc92dee1e7d8199d76ad38d3592e8b9b2436245dc936c13b"
+      },
+      {
+        "symbol": "ICP",
+        "rows": 4427,
+        "sha256": "e1ad46e4f8258d1c23639305c9bf165d9cfb0bb2a58abefcb4930f76f850477c"
+      },
+      {
+        "symbol": "ILV",
+        "rows": 300,
+        "sha256": "15ad3bb327968660d55feaaae3939a2bde704e9ded2da5a7cab2fad9f52ef940"
+      },
+      {
+        "symbol": "IMX",
+        "rows": 4377,
+        "sha256": "b4944bb021509e5094e733dc1c2ec262f48b8de86d5f3675115ed515f36b7840"
+      },
+      {
+        "symbol": "INIT",
+        "rows": 4296,
+        "sha256": "0e4e9994f8804b07eced108d5de5192b7cb7e952ef4c6bd5a354f6d5ef92708e"
+      },
+      {
+        "symbol": "INJ",
+        "rows": 4479,
+        "sha256": "7006f1a7d798c41dc5ea0e7066b5a8e67cb0bf377bb943ab4020f4de512c734b"
+      },
+      {
+        "symbol": "IO",
+        "rows": 4371,
+        "sha256": "17931ddce2c53ca958ea88ebaf97489a85d22dd4dd5a6183dd82a22e90904a65"
+      },
+      {
+        "symbol": "IOTA",
+        "rows": 4204,
+        "sha256": "113b872c80e960cdc981086a672db3b41184fd9e072443d79a85097ea586ba59"
+      },
+      {
+        "symbol": "IP",
+        "rows": 4374,
+        "sha256": "d3cc943174e675091ff9572fc5a911e1d92fda67e25e25e32086606b474685e1"
+      },
+      {
+        "symbol": "JELLY",
+        "rows": 300,
+        "sha256": "0a901639d3bb7f834cc85b850008c3997eec224833d2e06ede535165e33e9da7"
+      },
+      {
+        "symbol": "JTO",
+        "rows": 4373,
+        "sha256": "d2f118da0afaa878ccec33889745902ce6265a44a54ae13c6cde72644d0c66a0"
+      },
+      {
+        "symbol": "JUP",
+        "rows": 4484,
+        "sha256": "4716e77009c2317a4e7f7b0d9a8f9e49d35373834c35a9f89fe6926f94affe59"
+      },
+      {
+        "symbol": "KAITO",
+        "rows": 4339,
+        "sha256": "8865265be370e71e9c75c3e2349f18e052985b8a0fac11ba32a90889cac5ed9c"
+      },
+      {
+        "symbol": "KAS",
+        "rows": 4375,
+        "sha256": "b87ad8f156912a3bb9cd785b340bf4c8d2f094bc54751a01eed22918b489c802"
+      },
+      {
+        "symbol": "kBONK",
+        "rows": 4439,
+        "sha256": "f0099ad5d389c2e02091d68aef9919bda925d2bae383549bdd3a7a7c962fb6ef"
+      },
+      {
+        "symbol": "kDOGS",
+        "rows": 300,
+        "sha256": "0bcaa38369a651758e2eebcd6dfd1cc354e4d24a6f7fe8cc37e2c0a870f3c8ca"
+      },
+      {
+        "symbol": "kFLOKI",
+        "rows": 4317,
+        "sha256": "0afbc6ef896e5bcd321353efb1de6f2976167c68040f29fd94ee8a51cbd0235f"
+      },
+      {
+        "symbol": "kLUNC",
+        "rows": 4475,
+        "sha256": "2c469ba991bcc3cac96dfda009a378c7fa7dfa044cd907996d65466526652824"
+      },
+      {
+        "symbol": "kNEIRO",
+        "rows": 4299,
+        "sha256": "56eb3c7abc0e36575e83b844857ed04e4b1c58f264b02f18742c146966782a64"
+      },
+      {
+        "symbol": "kPEPE",
+        "rows": 4493,
+        "sha256": "8c922c39ab70c496fb68f7597ff34cc88b1f6e3ade127514745dd70588271c38"
+      },
+      {
+        "symbol": "kSHIB",
+        "rows": 4444,
+        "sha256": "24cb1e344451ea687a3d4bba8902cd3d54265263f913e9e38944c9ce6a573d68"
+      },
+      {
+        "symbol": "LAUNCHCOIN",
+        "rows": 300,
+        "sha256": "bb98b9da6469165849a6214d4f8b2b1b1515c18d05cf331a93d3cad165bd3b69"
+      },
+      {
+        "symbol": "LAYER",
+        "rows": 4192,
+        "sha256": "53c27a190704a77d9189caa9b9679d4a0668e7f1f09df295f2fb6424ed74a6ab"
+      },
+      {
+        "symbol": "LDO",
+        "rows": 4473,
+        "sha256": "ce8b186a6cfacf19e5387f3f74012b6ae93af980461fafa0471f3ab0f5ee7878"
+      },
+      {
+        "symbol": "LINEA",
+        "rows": 4425,
+        "sha256": "d9751c1323f7f094947e06fe014453262638e5f93041989dde56dbc1422a612a"
+      },
+      {
+        "symbol": "LINK",
+        "rows": 4471,
+        "sha256": "cbec1aeb5108cca53e7c0c1eeb4ed80b86794a29ef4506e3147f816e6677bdf9"
+      },
+      {
+        "symbol": "LISTA",
+        "rows": 300,
+        "sha256": "53cdce85f451da065f45a2cafdf72ce89a19e4a8bc80b94d158a61cb7ac90501"
+      },
+      {
+        "symbol": "LIT",
+        "rows": 4466,
+        "sha256": "f8b874d811bbba75bb24ecb64dda8857ce12c24603cdd101d09c06554206788b"
+      },
+      {
+        "symbol": "LOOM",
+        "rows": 300,
+        "sha256": "b486754ab99a415f21f3cc2893e398ae46bc9d5d85b3cf067e735edd0dc25c2e"
+      },
+      {
+        "symbol": "LTC",
+        "rows": 4431,
+        "sha256": "6163ddc4a614dcc03a6bd30e5c79606fcfbe7666c0f306ed02dc0a2ea67b5b00"
+      },
+      {
+        "symbol": "MANTA",
+        "rows": 4256,
+        "sha256": "306cdc237bb37c56657e0bbbfdebe2edcc9021de8ab8d680ee28e9138f9be2ee"
+      },
+      {
+        "symbol": "MATIC",
+        "rows": 300,
+        "sha256": "feef1fa69316b11e2bee9652122a9ccc303a454ac7114e48374746429ab6e6a4"
+      },
+      {
+        "symbol": "MAV",
+        "rows": 4237,
+        "sha256": "0a3b1f8967e1318f3bad8a60820032cd83e2d2469d93f1f04afa88e060f568d7"
+      },
+      {
+        "symbol": "MAVIA",
+        "rows": 4132,
+        "sha256": "153c28ab60dbc970801d26e0eeda2bf7346b369f4a688ab991741e938ae05206"
+      },
+      {
+        "symbol": "ME",
+        "rows": 4423,
+        "sha256": "eaf032c96743bfc8261f9a8b0ff65ae611bd1a7bed9c9689a6898c337bc139b4"
+      },
+      {
+        "symbol": "MEGA",
+        "rows": 4505,
+        "sha256": "1dd08d9c52f66441ac1f1daa4d5c09a2e5fe3ded20ac1599efa7b9a36b65a5a9"
+      },
+      {
+        "symbol": "MELANIA",
+        "rows": 4432,
+        "sha256": "852290d5984037a03fbe3ec1ba9f72768de2c8c0a0d48bf631eb6de7b588c5d4"
+      },
+      {
+        "symbol": "MEME",
+        "rows": 4056,
+        "sha256": "66eaa9fc890b328a542252bff40dfb35ab75b447be7fe1c610dec1a16134956a"
+      },
+      {
+        "symbol": "MERL",
+        "rows": 4394,
+        "sha256": "6b509c6c37db38a3ebf680e22722efabc6bca6e432a35d4e2b245867177cff29"
+      },
+      {
+        "symbol": "MET",
+        "rows": 4417,
+        "sha256": "d5e616ace24be04e25c37513a01f3a1c93f33c70ddb706f24f148bb425d14900"
+      },
+      {
+        "symbol": "MEW",
+        "rows": 3997,
+        "sha256": "a76a07e6505731d522df7811b9a5fd9c2e957045dfa53afe1a11c5a6fe850bc3"
+      },
+      {
+        "symbol": "MINA",
+        "rows": 4326,
+        "sha256": "465c6c17cc070f88eff8ef47bebe3d6357726e3cca88012223d95c34efdd2d1a"
+      },
+      {
+        "symbol": "MKR",
+        "rows": 300,
+        "sha256": "fc00bdabe20abf429dc116118c3538af4581d0faa003a685c57e437f9c56de81"
+      },
+      {
+        "symbol": "MNT",
+        "rows": 4425,
+        "sha256": "23c2b4dc3c8bacd957dba2bb82f73e248b4d6be5ccf51cf8ff45a0e3668ceead"
+      },
+      {
+        "symbol": "MON",
+        "rows": 4490,
+        "sha256": "294d86dc921a4425def5359c2b90ed724283c969e2fa59e93c70708afe42c4fc"
+      },
+      {
+        "symbol": "MOODENG",
+        "rows": 4396,
+        "sha256": "484ff743a6fc6b46b6be9908a97101836bb0151d9fdc614a3090db4826c4c654"
+      },
+      {
+        "symbol": "MORPHO",
+        "rows": 4459,
+        "sha256": "aca10e23b592467d2715bcc4987b859638efc9f04b64a07ebc61f003bf5ba622"
+      },
+      {
+        "symbol": "MOVE",
+        "rows": 4381,
+        "sha256": "2320bb125c37112c62dba588b461078603fa89fb9c525688765f82fa125e6d32"
+      },
+      {
+        "symbol": "MYRO",
+        "rows": 300,
+        "sha256": "3507c548d51a1339a72d9518460ca3918a5a55643178150c79e6e897cef76605"
+      },
+      {
+        "symbol": "NEAR",
+        "rows": 4485,
+        "sha256": "1f0bf30c49fa4868a0aaaf4a5184fa13bf942062d3902bbe753c0c2911ba53e9"
+      },
+      {
+        "symbol": "NEIROETH",
+        "rows": 300,
+        "sha256": "35459fa4fd5ccfdd3c49af51f6b7336b9f4cf35352ab94d996c28053179107ae"
+      },
+      {
+        "symbol": "NEO",
+        "rows": 4349,
+        "sha256": "b0d729761ec984a8e5eb32e63fb932bfd56be2b840d5130c10c63726f205484f"
+      },
+      {
+        "symbol": "NFTI",
+        "rows": 300,
+        "sha256": "8155d377b6b00228d7873a203e4d789ad8cc06af857db44a6be5d470a1a4f30a"
+      },
+      {
+        "symbol": "NIL",
+        "rows": 4244,
+        "sha256": "43934c53432aaaaa6a9fb1125490d0f550f48906761c9a08e7c658066cbebae0"
+      },
+      {
+        "symbol": "NOT",
+        "rows": 4088,
+        "sha256": "c45b7a23ce886bb9e285331ee834866034b1284fe5566703bc64fa9128cddcfe"
+      },
+      {
+        "symbol": "NTRN",
+        "rows": 300,
+        "sha256": "4c851c3571b833b6c79f0754ac28cb7d8b9ea5cff67dbb75f8955657dda7838f"
+      },
+      {
+        "symbol": "NXPC",
+        "rows": 4406,
+        "sha256": "9513cfdcd125a6d4f79c004ca71796ee1c640a2f1a319e7a1d62be92e814c76a"
+      },
+      {
+        "symbol": "OGN",
+        "rows": 300,
+        "sha256": "27d8db547341882a77ffad7106aeed869a04b23ae3ddb814c5e9a406bbc7c7bd"
+      },
+      {
+        "symbol": "OM",
+        "rows": 300,
+        "sha256": "f6202665796650d69f324c8926a7332ed1628ed80041987cd25efb6813b3390a"
+      },
+      {
+        "symbol": "OMNI",
+        "rows": 300,
+        "sha256": "4b66e9f34cfbe7daa6319d8018e0dce1ac5befb6a3d2bd0643181fd9d950bdb4"
+      },
+      {
+        "symbol": "ONDO",
+        "rows": 4437,
+        "sha256": "2b828b7d41065b7ca3df1ca9be706a3c8b7144242fd729d70ec51a2bdda9581d"
+      },
+      {
+        "symbol": "OP",
+        "rows": 4471,
+        "sha256": "a596a67e5839f26ecbc1dc78e936809ee3bd97888900e513d4e875e0d31f89a8"
+      },
+      {
+        "symbol": "ORBS",
+        "rows": 300,
+        "sha256": "1e8db43b61393eefad19362d4cfa89a49beaedfd1defec41257de08632a8d4fd"
+      },
+      {
+        "symbol": "ORDI",
+        "rows": 4366,
+        "sha256": "f4ddf66fdc58416ef7c185a650b8ee106267db7a1d1dcec604e6759788d221d9"
+      },
+      {
+        "symbol": "OX",
+        "rows": 300,
+        "sha256": "ebf46e617f5047ffa8b5cc39fb2433477092f78013c778c5c039d84ea7c4a69a"
+      },
+      {
+        "symbol": "PANDORA",
+        "rows": 300,
+        "sha256": "cda4a70c147235c710d609a33440b10173e84c7f3e77901b57f7c415f1acaf09"
+      },
+      {
+        "symbol": "PAXG",
+        "rows": 4551,
+        "sha256": "e3ffcece5a875a883bc1b901970bbf66fdcee3e24b0c0e3f56ceedabd0576b91"
+      },
+      {
+        "symbol": "PENDLE",
+        "rows": 4397,
+        "sha256": "4af1940f690a4edbced60d498dbe29bd897444d6375bdd89dd43557abe2bb524"
+      },
+      {
+        "symbol": "PENGU",
+        "rows": 4530,
+        "sha256": "7a0a791ed8a239bfa7f198e8c2244bfafc6cb50d7a912b417e45cb12d6f17053"
+      },
+      {
+        "symbol": "PEOPLE",
+        "rows": 4373,
+        "sha256": "3ecbf52b50314e4bc3e1566efbafdca9342528865864e1abd2e26ada17b70e35"
+      },
+      {
+        "symbol": "PIXEL",
+        "rows": 300,
+        "sha256": "8acd82a568312a5b9610bc6a42765e20380309fdfc5133797ed736ba7fe8f031"
+      },
+      {
+        "symbol": "PNUT",
+        "rows": 4375,
+        "sha256": "aa8c2793246bc39561ff1b0b00e1231ee7a9346d6ac79176a6a7c119b46497ff"
+      },
+      {
+        "symbol": "POL",
+        "rows": 4414,
+        "sha256": "ecd7bfcc5c74cd8f8f5b98f3904a20903b2f340fc4fc1e9138d2a7f75b2b62ca"
+      },
+      {
+        "symbol": "POLYX",
+        "rows": 4282,
+        "sha256": "87b4f9c2efee75aa512af17d0ee4eb340382234a74645a2af72773003426de62"
+      },
+      {
+        "symbol": "POPCAT",
+        "rows": 4359,
+        "sha256": "a9407f7519623f2aa6a6a9b0dbb154b7ea2cdd0c49ffc1e399d9f8418bbe84a1"
+      },
+      {
+        "symbol": "PROMPT",
+        "rows": 4255,
+        "sha256": "c90a3a533474626224b4f91f781f14378733215f66b2177d962e1f342042ebcc"
+      },
+      {
+        "symbol": "PROVE",
+        "rows": 4369,
+        "sha256": "eadc4fbe2f7f96eb293e3fcde2369a0301c71d4919b89f1fb18081f8339ce6bd"
+      },
+      {
+        "symbol": "PUMP",
+        "rows": 4534,
+        "sha256": "b2b808cb7c1130517ec47e92d3b2daac30335aee07aefd0e70031004bdd7ff2d"
+      },
+      {
+        "symbol": "PURR",
+        "rows": 4167,
+        "sha256": "f561d317c70af07f01a1a0d45be5d7f8f6d40826b17f65846d700055f794c108"
+      },
+      {
+        "symbol": "PYTH",
+        "rows": 4417,
+        "sha256": "a20c09e39ed3d47179e1f78ede96ef32e41299afce8b4567859b8f05ac92c85f"
+      },
+      {
+        "symbol": "RDNT",
+        "rows": 300,
+        "sha256": "e5bc19dad0f6e7888c395ade8cf37912bae9a3412f87459e427a34a69c4cf428"
+      },
+      {
+        "symbol": "RENDER",
+        "rows": 4431,
+        "sha256": "4bd01cc154e48dee2994a0ff2b057ba1f3637a99ec8e67094b957b6acd1b2b93"
+      },
+      {
+        "symbol": "REQ",
+        "rows": 300,
+        "sha256": "6303d0fe192f0ec5cfee01100f1fceb31322ae2073b149d2b8d0b309861e5c21"
+      },
+      {
+        "symbol": "RESOLV",
+        "rows": 4410,
+        "sha256": "a0db2d48fe9943023918c94d46c5c2ede8fc277b38afcb5d7a43681b4a585dd7"
+      },
+      {
+        "symbol": "REZ",
+        "rows": 4438,
+        "sha256": "e2b1c990a7ec3a6107b57a1355a26eb0d746d3c6886be4bd576add1e4a6b23ce"
+      },
+      {
+        "symbol": "RLB",
+        "rows": 300,
+        "sha256": "de926e0bce18a540e9e10e929fe9135a37d0a4957c45aca8c4c353346a1746c9"
+      },
+      {
+        "symbol": "RNDR",
+        "rows": 300,
+        "sha256": "0f63cbfd48f592443111860d6363072f2f4a57a264f4b7c0755263ef7ae2ebcd"
+      },
+      {
+        "symbol": "RSR",
+        "rows": 4095,
+        "sha256": "2854bdc23db2f65355f88835559f2386003e2b266888d62a832a6f45cc4e71cf"
+      },
+      {
+        "symbol": "RUNE",
+        "rows": 4354,
+        "sha256": "12212245f1e1160ab3169fbdb7e4d68e4298379eb2323e8e88961d35a3b457f6"
+      },
+      {
+        "symbol": "S",
+        "rows": 4365,
+        "sha256": "67f65f3c519816de5400900bc30c8240e44dc0d883442c1d6920333d7656a9eb"
+      },
+      {
+        "symbol": "SAGA",
+        "rows": 4382,
+        "sha256": "19b329154b1731c3e8c3c4657954f5b7daf73fd8879358233e0db1bd449330b7"
+      },
+      {
+        "symbol": "SAND",
+        "rows": 4308,
+        "sha256": "d056b5fd989bda51e0b593e702e75b24e587dfeef8cf53cac2377183d7b3fb51"
+      },
+      {
+        "symbol": "SCR",
+        "rows": 4185,
+        "sha256": "6274e29259f49d550c57b3f5955122e8b4a1211e3d2ffd06072840be986d08bb"
+      },
+      {
+        "symbol": "SEI",
+        "rows": 4428,
+        "sha256": "93eaca703df8187b76d9aa31c49e9ecdac88c2a0eb529906ae90ec33b8b9ba68"
+      },
+      {
+        "symbol": "SHIA",
+        "rows": 300,
+        "sha256": "aa9b2c941fa50ecda58a316edeacd8531bf0ea968ee15609b8f82e1c87155896"
+      },
+      {
+        "symbol": "SKR",
+        "rows": 4227,
+        "sha256": "c1aef92fbe4662e226f87b9acebc98c6a66ee5655b10300f07bf446217cb6701"
+      },
+      {
+        "symbol": "SKY",
+        "rows": 4332,
+        "sha256": "0f9545cfce2c816948448009f70a27b2fc0ab487b69099231bcdcd6904777ab4"
+      },
+      {
+        "symbol": "SNX",
+        "rows": 4403,
+        "sha256": "ca441d293763573fc0bc06f9c646b8654ca9d856f217cefc5c4a1c1ed16cbb08"
+      },
+      {
+        "symbol": "SOL",
+        "rows": 4506,
+        "sha256": "8ea9bbb2a5956d736dc1dceaf050d1af9133538a02f67617db67f35d6e9c8bb3"
+      },
+      {
+        "symbol": "SOPH",
+        "rows": 4240,
+        "sha256": "bc054a034406072d716316527c67d032f8a2b87f213a91a68847121bd39a1e2d"
+      },
+      {
+        "symbol": "SPX",
+        "rows": 4418,
+        "sha256": "8253ea0b4d7e65b153b189b4af84958d71ddc91e41338b1c6f26eb19c0a41328"
+      },
+      {
+        "symbol": "STABLE",
+        "rows": 4428,
+        "sha256": "aa3ab2cbfdeb6f6c541d312b2d11920a10ba618609bed7f336ada06a0652a708"
+      },
+      {
+        "symbol": "STBL",
+        "rows": 4420,
+        "sha256": "a645653c27a8a7a792059a4b4c5e65157f2338baf7401c8cb5224735e592cd96"
+      },
+      {
+        "symbol": "STG",
+        "rows": 300,
+        "sha256": "cfc8179a129798b6a8b39953d22f8d51b2cec1e6695c65617af64185f48229c3"
+      },
+      {
+        "symbol": "STRAX",
+        "rows": 300,
+        "sha256": "4c30258e8b204e5be5e2f97c76f3f6f6eb7ab1f443e362602dd74f630e4dc89e"
+      },
+      {
+        "symbol": "STRK",
+        "rows": 4376,
+        "sha256": "f97bb6db5d8ce2b08cf6723e8326fdf204ea4defa8ea501326d3b2039eff63b9"
+      },
+      {
+        "symbol": "STX",
+        "rows": 4424,
+        "sha256": "c6f0021812837c74ef43253027249498121881e5501551e3a37dac7b16773ad3"
+      },
+      {
+        "symbol": "SUI",
+        "rows": 4473,
+        "sha256": "a03a1c3bc3959c81d30010c3a8076b860b2a9803f5da130c114f101ef95a2324"
+      },
+      {
+        "symbol": "SUPER",
+        "rows": 4387,
+        "sha256": "b40a23e3947952558f2c2002a741268a7ed52ba4d7ede8cc1f8d7bc7346159c2"
+      },
+      {
+        "symbol": "SUSHI",
+        "rows": 4357,
+        "sha256": "e908ece52cb385c24f5b5a3f99dcb1dcb7baac41d5926de1beff1fc8d1357628"
+      },
+      {
+        "symbol": "SYRUP",
+        "rows": 4254,
+        "sha256": "1d11fd1dd9eaf51d4b031950c89d68144577e60730ffff51af1df52126604464"
+      },
+      {
+        "symbol": "TAO",
+        "rows": 4486,
+        "sha256": "a331d1476810fd3f6e32b1dab5c73ca1cac874fe58271c955d34e4f777f3b42e"
+      },
+      {
+        "symbol": "TIA",
+        "rows": 4471,
+        "sha256": "e4227c36b0c7e9c06b3e84bcf9f7b4465f7b992aad448105ea3b27fa43baf5f2"
+      },
+      {
+        "symbol": "TNSR",
+        "rows": 4065,
+        "sha256": "93dfa9352b798a07830afaf8c4702a0f622045e8c106bbea7e47d89f66144af1"
+      },
+      {
+        "symbol": "TON",
+        "rows": 4416,
+        "sha256": "a5c1ac6c943fada024ac704869da7ab51e3b07898adf6140ee79a3f3df0e506b"
+      },
+      {
+        "symbol": "TRB",
+        "rows": 4327,
+        "sha256": "3b79f7992f95401cbe5c876c9a8d58fb433b22d93bff25a3f528af57db12df6e"
+      },
+      {
+        "symbol": "TRUMP",
+        "rows": 4464,
+        "sha256": "8e1db4675a170e757e4165d1e3997516bba01512d293e9026917b71d70cc1bcb"
+      },
+      {
+        "symbol": "TRX",
+        "rows": 4449,
+        "sha256": "06e690bdee9792d7596c243a76d093f812f7d1b0f083c3e9d572c7039acfc85f"
+      },
+      {
+        "symbol": "TST",
+        "rows": 4326,
+        "sha256": "1731a9fe99a7c966755356c3d047a9486b7aafa0081193e6a7f40197cb7e4e19"
+      },
+      {
+        "symbol": "TURBO",
+        "rows": 4431,
+        "sha256": "994025055f6d0e04fbf7e394e77893d4ad75e307ad905cc3fd2a7802b2e1b4e2"
+      },
+      {
+        "symbol": "UMA",
+        "rows": 4143,
+        "sha256": "be0323cab08c7957c8fc398bbc746e3d7f0f014a3b296f4c568189954854b3c0"
+      },
+      {
+        "symbol": "UNI",
+        "rows": 4440,
+        "sha256": "414cdfd0eff829357584a1a029374929ac91b84ec317e1dfc82de4ee4bcbd0d0"
+      },
+      {
+        "symbol": "UNIBOT",
+        "rows": 300,
+        "sha256": "1ffcffbb5eb60124fcd5a600b1de2d07c2064c5b63315d9865f6c2427b860d39"
+      },
+      {
+        "symbol": "USTC",
+        "rows": 4315,
+        "sha256": "8d815365518fbc8065a4cf0ab6bfcac1661fd869bfc23fd37ff43f4ce5f8f0d8"
+      },
+      {
+        "symbol": "USUAL",
+        "rows": 4344,
+        "sha256": "e1f0442e2aeee8f5a65399d675f006769212451d263e6a3acedd61a0f3139384"
+      },
+      {
+        "symbol": "VINE",
+        "rows": 4139,
+        "sha256": "d4151bb8061ca5ffccf0890ed063eb629ef9315b728d165f2e6fb19dfc6994eb"
+      },
+      {
+        "symbol": "VIRTUAL",
+        "rows": 4465,
+        "sha256": "225fc80a4184be56523d664b530db5e768f1c5f1e05f932e7e5907df22b774a0"
+      },
+      {
+        "symbol": "VVV",
+        "rows": 4485,
+        "sha256": "30c03787c6e802d5902b3c01c1f8e879e09ec1da91e48d28dcf4e4f8e7348128"
+      },
+      {
+        "symbol": "W",
+        "rows": 4433,
+        "sha256": "41255ad1bc1fc64b5638f0287b2321e7bfd0ff14030a7ba7dfaeed8c3770539b"
+      },
+      {
+        "symbol": "WCT",
+        "rows": 4234,
+        "sha256": "37f12f4df6e4a3a57e40b4bc91669b211bb8417bd407a777d8f0ce82ac1ac099"
+      },
+      {
+        "symbol": "WIF",
+        "rows": 4492,
+        "sha256": "e672c1d48cb8d97fe2199b716a192b4e213c5e05f2a6bedca91944c2a453d6cd"
+      },
+      {
+        "symbol": "WLD",
+        "rows": 4461,
+        "sha256": "9a8d373dfa8fbcef4db8fc5a33f1a73efa7a2d670be8ec4733a0053745f47c9d"
+      },
+      {
+        "symbol": "WLFI",
+        "rows": 4504,
+        "sha256": "5c93dab89e1dfd3f2696fc0fa7197f5ff8a598f5e1ca0aae6d16ee2d40790ee9"
+      },
+      {
+        "symbol": "XAI",
+        "rows": 4170,
+        "sha256": "c0d824fe464d056a6a286ebbc7810bb24f9a8fc3a9603bd5922fc053a83cf9fd"
+      },
+      {
+        "symbol": "XLM",
+        "rows": 4398,
+        "sha256": "e5dc652ce37f0d6212603aa953565e8fc5ed51713a458479c15cd20c5c014626"
+      },
+      {
+        "symbol": "XMR",
+        "rows": 4453,
+        "sha256": "c223052a37fe44474b66dfac2cb3e83803245475c5ffaf8ae9aa4937e47d0bad"
+      },
+      {
+        "symbol": "XPL",
+        "rows": 4479,
+        "sha256": "9ec63613a99479df339c8276435b03f93bef6e61939d8c6e830ee34d53a6afa3"
+      },
+      {
+        "symbol": "XRP",
+        "rows": 4491,
+        "sha256": "38c2ccf9e637a53e17ddf43e9c5b09e7e54eaa5ef3d60851947d4039fba2689f"
+      },
+      {
+        "symbol": "YGG",
+        "rows": 4318,
+        "sha256": "32e0bd805fe413549f7a78b91af7f949bb9eefa28db8135f3eca771160b5c29b"
+      },
+      {
+        "symbol": "YZY",
+        "rows": 4176,
+        "sha256": "a2bf7451f7045c6ca08ac5abf863ce8a7cce65e299f973c6ddf4520de7482e7e"
+      },
+      {
+        "symbol": "ZEC",
+        "rows": 4506,
+        "sha256": "9b855a7bb438a03174e98b680995e8418ef9c9e794b8f9933c6b98f0429f291e"
+      },
+      {
+        "symbol": "ZEN",
+        "rows": 4310,
+        "sha256": "3873317b48d030ce94a99ac5cb3b778ea90389051d7ca35f6dda9de5d98199f3"
+      },
+      {
+        "symbol": "ZEREBRO",
+        "rows": 4399,
+        "sha256": "46584229330657cfb101d18111219daefc681f14fc793b5d46fc890dd4d23d9e"
+      },
+      {
+        "symbol": "ZETA",
+        "rows": 4350,
+        "sha256": "48be84f00bcd1635e15622c637808cef049da6dae2d4f70155c68bd6176d4dee"
+      },
+      {
+        "symbol": "ZK",
+        "rows": 4462,
+        "sha256": "331217aa5d55af06db9d92909304c1cc1612a2dcf18ae5e17d3c4537140133fe"
+      },
+      {
+        "symbol": "ZORA",
+        "rows": 4423,
+        "sha256": "fd02a28ffffb04ecc647070a8e2a79c3e814bee21c3273324d7e5ae53cd63ec6"
+      },
+      {
+        "symbol": "ZRO",
+        "rows": 4450,
+        "sha256": "2bdd40f42a2e76247b564be36d550defff7161ccdc5f37842b464566ff1bc9fb"
+      }
+    ],
+    "mayjun": [
+      {
+        "symbol": "0G",
+        "rows": 24684,
+        "sha256": "4f045c16b2380721f20ed2a4ac5ba3d8b27adbffac8ffe346b01eff4bd49316f"
+      },
+      {
+        "symbol": "2Z",
+        "rows": 25927,
+        "sha256": "beca00d795ad07a101e998d1c6184bacc22ed46e2eb28150b35e516f686febe2"
+      },
+      {
+        "symbol": "AAVE",
+        "rows": 26664,
+        "sha256": "bcb26dccee1674833a937d17a2b43ac367e6a8ca6d966ae5b2a1ecd2746037d4"
+      },
+      {
+        "symbol": "ACE",
+        "rows": 23212,
+        "sha256": "a5ff19bfb3f174abefb0a9e01f53b3a0f4f228f5a1f4b0090fffe50da4e664ea"
+      },
+      {
+        "symbol": "ADA",
+        "rows": 26697,
+        "sha256": "3688aa34c0f3246e90afefb8fd6714ecdf9d6eff65db8106d7bda63e5cfab564"
+      },
+      {
+        "symbol": "AERO",
+        "rows": 26097,
+        "sha256": "9b52f5e8060027b0cf998bf0fe059eff48e83bb7e85e40578c5eae329b858d0b"
+      },
+      {
+        "symbol": "AIXBT",
+        "rows": 25931,
+        "sha256": "302b7ac0b1b4438e5089374ea95c5e8e0c9bd5b59d0f0ac3167cdc5d36eea135"
+      },
+      {
+        "symbol": "ALGO",
+        "rows": 26330,
+        "sha256": "041889d5baadceab046460cdda78fd43abc23a57e0578e86ed3e7634d86d923f"
+      },
+      {
+        "symbol": "ALT",
+        "rows": 25493,
+        "sha256": "43d27b4a6c5ecba83594647157c26fd4c8236df26a0ad667652c421331ac933d"
+      },
+      {
+        "symbol": "ANIME",
+        "rows": 25905,
+        "sha256": "026aa9df8361d67c9fd756ba05a7b777a6ac5de7daff7087fe4ac1bbfe306425"
+      },
+      {
+        "symbol": "APE",
+        "rows": 26264,
+        "sha256": "ad4e3801bd0e614cc1ef48cd9f5aa635076c27275c3d4f64eeef214a37a1911f"
+      },
+      {
+        "symbol": "APEX",
+        "rows": 23924,
+        "sha256": "3724d79fa6044c4e73b844660781138da772ed8dcc6d5c8e635ab2ff776f6ac7"
+      },
+      {
+        "symbol": "APT",
+        "rows": 26348,
+        "sha256": "c15234e049529dc4bc10ffaf5860faf1356558a258b3348feacd076c8a869800"
+      },
+      {
+        "symbol": "AR",
+        "rows": 25784,
+        "sha256": "bf365a077c08438e71a6d668dd4a6911a295ac9fc007f1fd6362d48a4b0b0549"
+      },
+      {
+        "symbol": "ARB",
+        "rows": 26471,
+        "sha256": "ac474827db734b7fae40f82c9a3e6f2ed8ab7f72a574702dd2f6242b77b856cf"
+      },
+      {
+        "symbol": "ARK",
+        "rows": 24820,
+        "sha256": "10dc5c79d324180160f9573705a38c6cf07fdf21b17b2a3bf859e13c75f70f73"
+      },
+      {
+        "symbol": "ASTER",
+        "rows": 26551,
+        "sha256": "5c8e88548e429b49368991cc11eac5d3d33df364b2d6f815302e5b01b7948b10"
+      },
+      {
+        "symbol": "ATOM",
+        "rows": 26105,
+        "sha256": "a460f1b1033324427f26e7a7db48931456c4df849712612d994143640a2d79eb"
+      },
+      {
+        "symbol": "AVAX",
+        "rows": 26702,
+        "sha256": "535129a1693f95af5ade5b1efe96929c19c0b7ff55ead4b35926a5c9bada1d58"
+      },
+      {
+        "symbol": "AVNT",
+        "rows": 26174,
+        "sha256": "1bd00eba2671bd7657159f3d1309b9b4ed519aa8604e849a7f33c818590a3334"
+      },
+      {
+        "symbol": "AXS",
+        "rows": 26010,
+        "sha256": "a7c6718f799690389fc21976eef53f766354ccdd21b53ac5cd313c1f2e1308ab"
+      },
+      {
+        "symbol": "AZTEC",
+        "rows": 25629,
+        "sha256": "8c77aae39f2dbd67bdc7a4e2b66b2ab43a5364f0180119e0e1b6531a5e0f7def"
+      },
+      {
+        "symbol": "BABY",
+        "rows": 25469,
+        "sha256": "86141f205aa86c71567f86a158b7e32e30694587aceee9c39c962b386b7a6281"
+      },
+      {
+        "symbol": "BANANA",
+        "rows": 23951,
+        "sha256": "ecf9ae137a3784571aeb2bdc1d799347817415f4e62fbda81734bfe32b768211"
+      },
+      {
+        "symbol": "BCH",
+        "rows": 26553,
+        "sha256": "3dfffc7ff1001c259c3d261a69e5333e235824f3017afb789b950103c358b344"
+      },
+      {
+        "symbol": "BERA",
+        "rows": 26162,
+        "sha256": "cfd3b0d3f176d692602f6b5a739a6684df36e6d79f0a16cdd5f75302d73d9527"
+      },
+      {
+        "symbol": "BIGTIME",
+        "rows": 26077,
+        "sha256": "a150613103df13f1b88ed412713fbd3dec3b066978cf41708ac86601dc04a037"
+      },
+      {
+        "symbol": "BIO",
+        "rows": 25799,
+        "sha256": "50c0c47006e895d4abb93ab7009f16ab46863cbd90dcd7c3779458d7d04b5f99"
+      },
+      {
+        "symbol": "BLAST",
+        "rows": 3135,
+        "sha256": "b0bce19edfea2b4c78372c986cba35d03bc754fafbaacc02c4b79fbc2acffb3c"
+      },
+      {
+        "symbol": "BLUR",
+        "rows": 26055,
+        "sha256": "5b66d0458f107821ad2f7a56f250b927019da1d448a90ad2f0847e2ce6a3cf65"
+      },
+      {
+        "symbol": "BNB",
+        "rows": 26760,
+        "sha256": "9f1edb9cc98361e5eab3bac2b2f9d83f5a186750df01a6ed7a6f4cc8bc2cb1bc"
+      },
+      {
+        "symbol": "BOME",
+        "rows": 22132,
+        "sha256": "dcdb1eedb313e08a6f1f648d054f39dc6967d1ba30add66e08136e09c80f635c"
+      },
+      {
+        "symbol": "BRETT",
+        "rows": 25347,
+        "sha256": "85e8eccc80755fa2e67e633865470bef2aa30f82d297a12fd9bd84a27146e72a"
+      },
+      {
+        "symbol": "BSV",
+        "rows": 25343,
+        "sha256": "6a552cb3a208ed466337c083e00eb68e885cb8936c0ef19e3709ee4a3a92c849"
+      },
+      {
+        "symbol": "BTC",
+        "rows": 26969,
+        "sha256": "6417f71e82bd1f0cc1677244b3caec0ebe8e66c27c35428ea789ab22ce5a7dd8"
+      },
+      {
+        "symbol": "CAKE",
+        "rows": 26045,
+        "sha256": "0fb6a28d0bd24faa35e04f935971ab2ca0e1763a28c8b56983310be082bda867"
+      },
+      {
+        "symbol": "CC",
+        "rows": 25711,
+        "sha256": "c45c6e48027fa5417319e8a97f271d53d43037ac94f5d4dce2242d3b176f7fab"
+      },
+      {
+        "symbol": "CELO",
+        "rows": 24702,
+        "sha256": "9368f0ba1b90b3ce4a521d49d64ac0a1b76c24de955b288a1ba63d92f6fb9b18"
+      },
+      {
+        "symbol": "CFX",
+        "rows": 25033,
+        "sha256": "23249baf38ea3b39ad4f75da4dbbe1698d467b4b1838754fa550173404e3a45a"
+      },
+      {
+        "symbol": "CHILLGUY",
+        "rows": 3856,
+        "sha256": "77431d960bee869a8a22ebd2c8ac71de0e407778708f155fcc43c20a9fd7656d"
+      },
+      {
+        "symbol": "CHIP",
+        "rows": 26323,
+        "sha256": "64d54d76375046665bec65c345d4585129c22a1d40b5518bf926f71cd262ecb3"
+      },
+      {
+        "symbol": "COMP",
+        "rows": 26113,
+        "sha256": "8494dbd4747dd40a634a85a0653097ef856b6f53aaee7de58099084734c18f16"
+      },
+      {
+        "symbol": "CRV",
+        "rows": 26523,
+        "sha256": "2229fa636c06448d093bdaf9f1a7cdf5ef0d8e261cee693066090e435e842a8c"
+      },
+      {
+        "symbol": "DASH",
+        "rows": 26113,
+        "sha256": "fd2322fe8891653843b69ccf1c7cd95a9a5543c7c129b428dbbf7307a5fe5c44"
+      },
+      {
+        "symbol": "DOGE",
+        "rows": 26770,
+        "sha256": "e6e6efda8385350c687be1ba6d0c4ac2873438b79a73c5fb165c3da1c2ce3ba5"
+      },
+      {
+        "symbol": "DOOD",
+        "rows": 24873,
+        "sha256": "7555490dc1957c33d368859e2d8813479c573a053d4d39e87add2d3a1634611d"
+      },
+      {
+        "symbol": "DOT",
+        "rows": 26367,
+        "sha256": "8dcd734b46bb26a392a4f36d0e7585c3fc39bb962cbb3582d05c59ef39e44786"
+      },
+      {
+        "symbol": "DYDX",
+        "rows": 26451,
+        "sha256": "e25d5ff00cc055e9b8a5b4a6cfc4d72768242eba4d22f4cb23e7ab9f08228115"
+      },
+      {
+        "symbol": "DYM",
+        "rows": 25831,
+        "sha256": "978a191e29ca3b7ae1a3645ddcbfb8f545781a220df744f045676996130b3861"
+      },
+      {
+        "symbol": "EIGEN",
+        "rows": 26228,
+        "sha256": "4f618d3a96a6c9e2ba6be239f934b1ffb551a0de49c0081acb60fc7e19a3ff5f"
+      },
+      {
+        "symbol": "ENA",
+        "rows": 26656,
+        "sha256": "a25144c66ae644fa87809c215ff1c5b5bb3d2835f0580660b7fbbcd55e488dfa"
+      },
+      {
+        "symbol": "ENS",
+        "rows": 24969,
+        "sha256": "9636f2ebec2a9e50d00c8c8e8af82263562c9f8928a20d12c1b198a488127829"
+      },
+      {
+        "symbol": "ETC",
+        "rows": 24870,
+        "sha256": "b54703d9be4a6821f5a907245cd9abf6d6d4124880da95dddfabcf0b26b86948"
+      },
+      {
+        "symbol": "ETH",
+        "rows": 26969,
+        "sha256": "017a6d069d7ee98111935ec42d5194159831787f2fc6f25e28b6f6c6c4fe95bf"
+      },
+      {
+        "symbol": "ETHFI",
+        "rows": 25951,
+        "sha256": "ccda0ca87d49d831eeaba442d9261e7523a03a4c6260c3b8047b125b4ffdea10"
+      },
+      {
+        "symbol": "FARTCOIN",
+        "rows": 26817,
+        "sha256": "da57cf5d82789a599a2bfcc9687c37bedae9020c25944d4af459e820529978a5"
+      },
+      {
+        "symbol": "FET",
+        "rows": 26620,
+        "sha256": "60ba633b91726c7813146d90bec1e544761678ac19a364b4a43ea3470c8ee2ad"
+      },
+      {
+        "symbol": "FIL",
+        "rows": 26300,
+        "sha256": "8c01741568d999a30243f47c7eb37686d99007e87aaa1f2adbe618eca22e138b"
+      },
+      {
+        "symbol": "FOGO",
+        "rows": 24396,
+        "sha256": "025c6b5c510409c1b08ae80eedbe64d1d5b5fb37b3ca77538781585436ca599f"
+      },
+      {
+        "symbol": "FTT",
+        "rows": 3116,
+        "sha256": "e95185c23a4b9cbeec33a1d3b21f830c6fcb4b0e6f3fd2e24e6103b93483c8ad"
+      },
+      {
+        "symbol": "GALA",
+        "rows": 25453,
+        "sha256": "94ae7a526e86452953c9f547787fd8897bc9b6c26c9cee1724c1d9c098934adf"
+      },
+      {
+        "symbol": "GAS",
+        "rows": 25428,
+        "sha256": "7ece29b6da74452ab0d53d03a14e24c56305b8fa5d7f9b63d8bcaf976553fbce"
+      },
+      {
+        "symbol": "GMT",
+        "rows": 26057,
+        "sha256": "71834047ec06ac03c24a00a763e59b4c934ce176844ffcad7f2956ee87d46353"
+      },
+      {
+        "symbol": "GMX",
+        "rows": 25188,
+        "sha256": "b3913299182f96417997a273a36e796357b53a8172f5aee62290f30cd50c8dae"
+      },
+      {
+        "symbol": "GOAT",
+        "rows": 24149,
+        "sha256": "0c3c8cfd325856410e7a198c88a640f7d75642ea3fcb5f98ea6e68df9b983766"
+      },
+      {
+        "symbol": "GRASS",
+        "rows": 26523,
+        "sha256": "37a0e4afceed1a56f49b139b7536d1099cebed030331dd6c0ec57218738dd4c5"
+      },
+      {
+        "symbol": "GRIFFAIN",
+        "rows": 26086,
+        "sha256": "639d3c404fbd97bc80931f8d75805366761235ad9350a85b97eb410ef0cd6cc4"
+      },
+      {
+        "symbol": "HBAR",
+        "rows": 25837,
+        "sha256": "89ff072205c6c038f590d6f4fb5263849de47d6cfdfde643de2afb783ba5fd0b"
+      },
+      {
+        "symbol": "HEMI",
+        "rows": 25387,
+        "sha256": "fdbdfa5ec6d5f78e7b65b3ccc54b959474735670454911f75904d1fa41729de1"
+      },
+      {
+        "symbol": "HMSTR",
+        "rows": 22519,
+        "sha256": "928f7a8e0c8160abe4edf73ae8ced1b95a9b34f6099a78a3b9bedf1341dc7d46"
+      },
+      {
+        "symbol": "HYPE",
+        "rows": 26968,
+        "sha256": "889d119bf3395cd77ed35adf4aa11344e3f55c8fdd1773adbd22921865c8844a"
+      },
+      {
+        "symbol": "HYPER",
+        "rows": 24854,
+        "sha256": "4f8da1b033d236a9818b353e21714ae245d18c44dbd5ff37fad75e90255da498"
+      },
+      {
+        "symbol": "ICP",
+        "rows": 26140,
+        "sha256": "dc1ec7cbac60e97551da734e2651ccdd41ea5c81469b675f7d8774eb6ff3c0c7"
+      },
+      {
+        "symbol": "IMX",
+        "rows": 26076,
+        "sha256": "01343e9fcde1c41bfbf03a7845db30bafe6c97a0b33392d16d21c1b775e69445"
+      },
+      {
+        "symbol": "INIT",
+        "rows": 25192,
+        "sha256": "1b3f31b24177b643956c93280562d140c9b347a45e1a71aff1af272885aee51e"
+      },
+      {
+        "symbol": "INJ",
+        "rows": 26517,
+        "sha256": "8e2c5255d4376a95486f5cb9890e6d131c1d738d679047035a3b25d92a6ca99b"
+      },
+      {
+        "symbol": "IO",
+        "rows": 26191,
+        "sha256": "92c2919a0752b9eab4d53bc432192bb2114b0ea479c2381cf7269d36ee420ee3"
+      },
+      {
+        "symbol": "IOTA",
+        "rows": 24390,
+        "sha256": "463e258704e156ffcb7a460f754cfb873b6ba8b80f930c735105a947faf00acb"
+      },
+      {
+        "symbol": "IP",
+        "rows": 25864,
+        "sha256": "e87858b0f07b8244b4aaf646463a4adcabaa52c6e4684d6b896d78389c0d9710"
+      },
+      {
+        "symbol": "JTO",
+        "rows": 26328,
+        "sha256": "7ce3c9a5e78a84eb587cb28d3e6192266df4d24bd98507f5682190507ae1c834"
+      },
+      {
+        "symbol": "JUP",
+        "rows": 26468,
+        "sha256": "db37b44aad250667987a94fd93bc2902e2e056df4fa26f9d7f44ea61c2345e8a"
+      },
+      {
+        "symbol": "KAITO",
+        "rows": 25098,
+        "sha256": "6bcd0a405a5ffe217a936bd645160880c509eb9cc3675a31fc994c83cb005421"
+      },
+      {
+        "symbol": "KAS",
+        "rows": 24788,
+        "sha256": "12027e71435ed25ea8395d26b78b90ffc227d192fdfaf8a791be03b034dbaa75"
+      },
+      {
+        "symbol": "kBONK",
+        "rows": 26458,
+        "sha256": "3ead1ea4db2526757d3a0d150d327ff41bb6fcf8df297c277759532f68cecc46"
+      },
+      {
+        "symbol": "kFLOKI",
+        "rows": 25543,
+        "sha256": "ed6af9d591729deb3fcc1470339bf3a13d43886681c691f89209f3f1b9af81c5"
+      },
+      {
+        "symbol": "kLUNC",
+        "rows": 25983,
+        "sha256": "7355dca4edf7b51918a356339f932972e514a5e0483e2146f8d87a8fcb80aaa0"
+      },
+      {
+        "symbol": "kNEIRO",
+        "rows": 24468,
+        "sha256": "b2ea0b8133bf19b11310c9f91612c620631065b9d1805b6e1688d0598ad40f13"
+      },
+      {
+        "symbol": "kPEPE",
+        "rows": 26496,
+        "sha256": "88a94d3cfae80b07e90d0c297b2e506bef8d1d2a35ed375a21a0ddc582afc75d"
+      },
+      {
+        "symbol": "kSHIB",
+        "rows": 26297,
+        "sha256": "aeeacf59681ec32d27ce543658a4a04cc642949e212554dc17dde2dbefa9fe60"
+      },
+      {
+        "symbol": "LAYER",
+        "rows": 25597,
+        "sha256": "24cc2cc93d6348a9da1ccd51ca97f257855b9c1d7a6af3b27cac2be2431a781a"
+      },
+      {
+        "symbol": "LDO",
+        "rows": 26380,
+        "sha256": "e1511241d869f4b6ad9ac658f910ae5bb278390e8af9181623e00ff9d1c18bfb"
+      },
+      {
+        "symbol": "LINEA",
+        "rows": 25683,
+        "sha256": "31c229de79e6f1fe0097f9942a97cdee3d738f3956f51075b36b40b2a5bba3c2"
+      },
+      {
+        "symbol": "LINK",
+        "rows": 26773,
+        "sha256": "2914d20601de87fcd73068f924f979acce531a2af70cc033465572deb1d610b9"
+      },
+      {
+        "symbol": "LIT",
+        "rows": 26961,
+        "sha256": "f8e0273a6ed597afd6f09a8af43f410590a2ad0113b3be4358625a646c88ce55"
+      },
+      {
+        "symbol": "LTC",
+        "rows": 26320,
+        "sha256": "433e255eabdeeff680dd586f0e0d397cc838b6eac1ff6bbbbaddc8f331ec052c"
+      },
+      {
+        "symbol": "MANTA",
+        "rows": 24940,
+        "sha256": "b6f212cf8b7f1cf5eb790eac0c27196082b6cbd7d939e372329ac49922a7906b"
+      },
+      {
+        "symbol": "ME",
+        "rows": 25874,
+        "sha256": "6839d231a8a1346c5df75618d3094c6a6d9b77b98c6e47b092e8debf14e97dc9"
+      },
+      {
+        "symbol": "MEGA",
+        "rows": 26081,
+        "sha256": "b886e4d064727f4b8a5af71a374fe7485a81dc247f482e7aab7ffcc57de46a20"
+      },
+      {
+        "symbol": "MELANIA",
+        "rows": 26137,
+        "sha256": "70fd918605dac19b51e6e71fe6eda0269ad4df4f6f6ee1f6fa5c90ab89a4f5b1"
+      },
+      {
+        "symbol": "MEME",
+        "rows": 22591,
+        "sha256": "ae9ccbf703337d9c30ca7bbf37038e35ce4e8219f22c1e623d4bd8f476ab5f43"
+      },
+      {
+        "symbol": "MERL",
+        "rows": 24804,
+        "sha256": "3bf229dae89de8d4ddc1f80bc5fa984d4950c8ce2a5f99997c9901898ac79a7e"
+      },
+      {
+        "symbol": "MET",
+        "rows": 25549,
+        "sha256": "dbe8055b32aa77bf83dccc5ad30f90a86a17c75513f81bc4d5040b5fbf6416ed"
+      },
+      {
+        "symbol": "MINA",
+        "rows": 23946,
+        "sha256": "a5c72af30f94d9ed35cdc2d4547c5676ddf3bb9bd594cb3511edecea29cf1994"
+      },
+      {
+        "symbol": "MNT",
+        "rows": 25639,
+        "sha256": "6eb478edf43599aaee8de32ff40d3eb20657911833a9f165b51c31664d5fffd9"
+      },
+      {
+        "symbol": "MON",
+        "rows": 26742,
+        "sha256": "4a06c838a5a95903683fe2f388ced77a5e5e2eea6c3831bb71ab1a7767eb78ea"
+      },
+      {
+        "symbol": "MOODENG",
+        "rows": 25486,
+        "sha256": "3505cdeb6d2f64d759befe2267c036cc727d6df0c07427e7621bf22e2f10ff4c"
+      },
+      {
+        "symbol": "MORPHO",
+        "rows": 26763,
+        "sha256": "f259c6ad47755a4a49e77076fc0fbc060b6cab49f666ccc9f4fcbd975da6375b"
+      },
+      {
+        "symbol": "MOVE",
+        "rows": 26052,
+        "sha256": "a34ccc681d782a3678bcfbbfa4d029e1ef0637fc2fb2172875c275b63ba8cb18"
+      },
+      {
+        "symbol": "NEAR",
+        "rows": 26966,
+        "sha256": "815e5f7771fbfbd667b4f750710f0763baeba3b447a856269e90387fa373f7c8"
+      },
+      {
+        "symbol": "NEO",
+        "rows": 25797,
+        "sha256": "320e477810458b4eed81172cf29e8519fa836c661f7a65ae2ff1d4f422a37317"
+      },
+      {
+        "symbol": "NIL",
+        "rows": 26567,
+        "sha256": "367cfd8ab0607e9732f54ef39dc4717be46dd564dfc8ab4cffd2236b7a61e7da"
+      },
+      {
+        "symbol": "NOT",
+        "rows": 22579,
+        "sha256": "01529111cad8b05a617ba6578a8c4d1d019c953d3cbddf53cc555ebaacbde3ac"
+      },
+      {
+        "symbol": "NXPC",
+        "rows": 25811,
+        "sha256": "a2cf3b48afe5cad3ef8736e476211620f8ddc6fcc7db85594562c0304adfeb7b"
+      },
+      {
+        "symbol": "ONDO",
+        "rows": 26832,
+        "sha256": "201cad6579f2a1c5b9913b824c31d43ba657ba51c3c8c8bebc632dd19dea0be2"
+      },
+      {
+        "symbol": "OP",
+        "rows": 26342,
+        "sha256": "f6c119c6b6780e1f436fed48cce8fe569f068effcc44c9f47529d2c02a163217"
+      },
+      {
+        "symbol": "ORDI",
+        "rows": 25119,
+        "sha256": "99a7fa7999af83853aa4c140998250b7dc6c5a850c5eb025fee1c1d6f213e2d0"
+      },
+      {
+        "symbol": "PAXG",
+        "rows": 26537,
+        "sha256": "be0b3a81555bbe56a24d448bcb04e9c82939741b117ac5235843f01941260e60"
+      },
+      {
+        "symbol": "PENDLE",
+        "rows": 26611,
+        "sha256": "bdf94f727e593553d270f73befdaf958681da0781ed73720ec82468c32e4364d"
+      },
+      {
+        "symbol": "PENGU",
+        "rows": 26598,
+        "sha256": "580f8c5a2238d7e978949cdfce9a2d53e308adf717434af4c4ad93a59061759f"
+      },
+      {
+        "symbol": "PEOPLE",
+        "rows": 25045,
+        "sha256": "0f66d9242bc06168896d7786c5eb876aa9dbe3b1f067971af7c160cc45bcc6af"
+      },
+      {
+        "symbol": "PNUT",
+        "rows": 24848,
+        "sha256": "5c9673f19bc4f2ea3c2ebb67cf6bf0a1c7f22d65019343ad31fb14733e786616"
+      },
+      {
+        "symbol": "POL",
+        "rows": 25618,
+        "sha256": "e3bfb9fe77f38cabeb7c40af1a0c0cbd27eda4f70b7989c1cd8af5d913f24907"
+      },
+      {
+        "symbol": "POLYX",
+        "rows": 24597,
+        "sha256": "3a9a3d76108101310a96ad37ce8e3179081df4bdef448aec383db66f3ef05673"
+      },
+      {
+        "symbol": "POPCAT",
+        "rows": 25692,
+        "sha256": "7259fe1e985ba1cda26740461b4cbdb5c573d0d814c611249a7974e50b9074e3"
+      },
+      {
+        "symbol": "PROVE",
+        "rows": 26072,
+        "sha256": "14828a1a61359a6b266f0c705ad1b6c021740912f894f0809478d46dec2cca8a"
+      },
+      {
+        "symbol": "PUMP",
+        "rows": 26748,
+        "sha256": "c5d97e857b83525f4a6e6dd68ffb3db58d88bf4525cb09eb24e6f9a5386314ef"
+      },
+      {
+        "symbol": "PURR",
+        "rows": 25570,
+        "sha256": "e805fd6a1341e9a3e757e53161bf75be6503257eee75c65310c9c2081e8fb5a7"
+      },
+      {
+        "symbol": "PYTH",
+        "rows": 25778,
+        "sha256": "256807856ce7bf37bbf329f8f3fc34182ad067305eca98070adb781544927db9"
+      },
+      {
+        "symbol": "RENDER",
+        "rows": 26254,
+        "sha256": "450615dd6e1ce55a57433b726d27ea354460ba9608ccd243c4511a2605bb6bd0"
+      },
+      {
+        "symbol": "RESOLV",
+        "rows": 23734,
+        "sha256": "84125f520cc4a7e7d573bd284d70d7b09938a01663bb59b70d337957f7e7b10c"
+      },
+      {
+        "symbol": "REZ",
+        "rows": 25347,
+        "sha256": "18c231dd809551a0b7f3ffb793807081a00542c7e453bfaca44d1a65d81a9066"
+      },
+      {
+        "symbol": "RSR",
+        "rows": 21457,
+        "sha256": "58e37e0c7db4bde85be96444808c8b291054d039311927c660a94acf562c9ef0"
+      },
+      {
+        "symbol": "RUNE",
+        "rows": 24958,
+        "sha256": "edc4dcb2fee4b9a29dead54a52ffd39ab709fba60045f3773a9c43a6d390312e"
+      },
+      {
+        "symbol": "S",
+        "rows": 25033,
+        "sha256": "a456d68b79bc3f7c31ac95cd3dca59f7cbc75dff4316b07ed64fcc9fc61227f9"
+      },
+      {
+        "symbol": "SAGA",
+        "rows": 25695,
+        "sha256": "c384efa35a901c522bfb84292c78ab0447963cf497a4ae73f453ab1d4842e137"
+      },
+      {
+        "symbol": "SAND",
+        "rows": 24343,
+        "sha256": "c5c00f9cabe8914b66fe261eef55fe8b49f8531c5ae230a91db5c577ebc11a93"
+      },
+      {
+        "symbol": "SEI",
+        "rows": 26284,
+        "sha256": "0532a2caf6b02bc59bdd70412db608a4d0324428831b6752ff99220935b7a692"
+      },
+      {
+        "symbol": "SKR",
+        "rows": 23446,
+        "sha256": "21104d4c78ebedcea5ecdef1d5007ce68ce6cc00373c330993e168c25ed65c01"
+      },
+      {
+        "symbol": "SKY",
+        "rows": 24863,
+        "sha256": "325de31ba09aa74620ef76f33787b31efe814efd521e0561d592ecbe63dbf162"
+      },
+      {
+        "symbol": "SNX",
+        "rows": 25471,
+        "sha256": "dcc62d93b403232d3591013c3a20ad03dde921a6c45c8da7382128fc1365caf0"
+      },
+      {
+        "symbol": "SOL",
+        "rows": 26969,
+        "sha256": "cc14483668d7d35c20b926c4ca4a282a82f67acbb411c9179145db899e980dfb"
+      },
+      {
+        "symbol": "SOPH",
+        "rows": 23918,
+        "sha256": "14f8cb7695a732d71346ca6f942db12955b7b3800fc75e315f7a33b5aae819db"
+      },
+      {
+        "symbol": "SPX",
+        "rows": 26108,
+        "sha256": "f59b8bef137d80bdb1aee55a6596da2c4eca7fcfdf7a8bdd4d1d142e8af71949"
+      },
+      {
+        "symbol": "STABLE",
+        "rows": 25920,
+        "sha256": "4c205cd208aa91a925f66c787d8ae03b501779414ae1a5b28c07cb54113beaf1"
+      },
+      {
+        "symbol": "STBL",
+        "rows": 25760,
+        "sha256": "74ff7b16c42b9bce270a6b90128db0b9fe9fc6e6847bfb379568ace8e0c7674e"
+      },
+      {
+        "symbol": "STRK",
+        "rows": 26418,
+        "sha256": "cac62fcd18a400c79b1dc67a9efe0823e03b1d01909e5cd58598afb50fefcc8d"
+      },
+      {
+        "symbol": "STX",
+        "rows": 26001,
+        "sha256": "2b9b973e4161d0eaedf7ca3a52880a55cce14d171dcab00f319a82309cba4675"
+      },
+      {
+        "symbol": "SUI",
+        "rows": 26896,
+        "sha256": "914f25360aee9c0315a99a97f99602a5ac40b12b6ef6bfac42f28efe028ca421"
+      },
+      {
+        "symbol": "SUPER",
+        "rows": 26312,
+        "sha256": "bace34197cd34e7e6b3af9a0d01c6348ceb2d28f8ac49eb58ad95277e229680d"
+      },
+      {
+        "symbol": "SUSHI",
+        "rows": 24991,
+        "sha256": "ad9fb74eabb974aebfe8a76077e1bd089d989d494db2cd27864f534bbf039482"
+      },
+      {
+        "symbol": "SYRUP",
+        "rows": 25144,
+        "sha256": "54f327c3efebf80adfc7a6fe04e6458a92a8a0b3c4a1fe332fdffdb86cb0161f"
+      },
+      {
+        "symbol": "TAO",
+        "rows": 26748,
+        "sha256": "af0f7cf923ac480b1417da652a8d77717ef6cd7c111a79807b843427060b21b5"
+      },
+      {
+        "symbol": "TIA",
+        "rows": 26263,
+        "sha256": "66883da46e9f88cfdfe00f742dc4dad3f2c32b2beebd2783f3873ed5edca5e3d"
+      },
+      {
+        "symbol": "TNSR",
+        "rows": 21005,
+        "sha256": "e2fae1d8fa8bb4d547b2a57a4b4d68f54b2d877866629d8c6354cdcd2df6e296"
+      },
+      {
+        "symbol": "TON",
+        "rows": 26906,
+        "sha256": "2915700e9debe44f445b6e59715c9a2b6fcd720116f6c62af84aac777cbb8aa6"
+      },
+      {
+        "symbol": "TRB",
+        "rows": 23862,
+        "sha256": "88c17f4ba0043746fdd95eda5b491bf8c48ee41df5034466b8e3484c309a78da"
+      },
+      {
+        "symbol": "TRUMP",
+        "rows": 26527,
+        "sha256": "ca4968121b1b7583ffedaf42979c324d43b1842d29c84536bed2f5af79d2e2d6"
+      },
+      {
+        "symbol": "TRX",
+        "rows": 26401,
+        "sha256": "acb7cbc388086fd1c92621d20e7b1d051c4ca0d1975f369772238bcb083d6fbd"
+      },
+      {
+        "symbol": "TST",
+        "rows": 3222,
+        "sha256": "3d3095146c54da3b4fbf48a74d1da46d724e12bae48fc21bdf27b87e2e933e47"
+      },
+      {
+        "symbol": "TURBO",
+        "rows": 24725,
+        "sha256": "2847d89780710818c6d3dcdda652521792d13711857e3e9a6805a5a24cd6d524"
+      },
+      {
+        "symbol": "UMA",
+        "rows": 22834,
+        "sha256": "459b1869283000d80940f2de30ce89441d9f2bdee6aa56b23791a57075ff7e4d"
+      },
+      {
+        "symbol": "UNI",
+        "rows": 26433,
+        "sha256": "653943fa00ec92000d4889a2287041a23ebbb8782de176a32c261f2fc62472c5"
+      },
+      {
+        "symbol": "USUAL",
+        "rows": 23019,
+        "sha256": "9e2d37ea0eafc8db9d2309c418db3413a42d75baac4d92cf88f9fec2a73737ac"
+      },
+      {
+        "symbol": "VINE",
+        "rows": 22852,
+        "sha256": "321008de51d617b852c3db574389f279d83e69cc2ff34f53c073564b8c0d626f"
+      },
+      {
+        "symbol": "VIRTUAL",
+        "rows": 26390,
+        "sha256": "7d06af9811e058c1cb00ea151de7f2473a5e7f7975a993a56d69bc5bfaf308e7"
+      },
+      {
+        "symbol": "VVV",
+        "rows": 26921,
+        "sha256": "67dbbe49e76dc4a7859b61cd4cadc5f7c9ab7a862f225df69dbcb97bc7a34251"
+      },
+      {
+        "symbol": "W",
+        "rows": 25474,
+        "sha256": "5ecd10f7d1b826c0c1914425072933aa9b26783018b33910e0b019574cf59eee"
+      },
+      {
+        "symbol": "WCT",
+        "rows": 23050,
+        "sha256": "3be97704a9d64f5c5b12a2219ddf63b92b599f0abebf775a5f52b17df2ecbf5d"
+      },
+      {
+        "symbol": "WIF",
+        "rows": 26510,
+        "sha256": "4eb5067c71ec7939c12e51432e7b12358ef7f16c85e0211a1604fb0f765d0492"
+      },
+      {
+        "symbol": "WLD",
+        "rows": 26917,
+        "sha256": "58157cf1c0075196e0c6f471c48d9b955016d48b5b066a98a4be7928a7fd43fa"
+      },
+      {
+        "symbol": "WLFI",
+        "rows": 26557,
+        "sha256": "2cad31257c5ba547333d1ff07be0b0115b739bfae4b549cbb8780ed0fea84a20"
+      },
+      {
+        "symbol": "XAI",
+        "rows": 21817,
+        "sha256": "7fbd73a9f070c477fe18ce0ace2fa6851bdd1c7ce039bdcf22beb163d81863e9"
+      },
+      {
+        "symbol": "XLM",
+        "rows": 26400,
+        "sha256": "3f8bcd61de7c5406c2401541f5c59e3973f823abb49c4971418b3cb8598abf58"
+      },
+      {
+        "symbol": "XMR",
+        "rows": 26818,
+        "sha256": "49e0907d2a8857f56266fad078d044fc90efabb43272ecc33768c11c5cfcc1ae"
+      },
+      {
+        "symbol": "XPL",
+        "rows": 26770,
+        "sha256": "75ec87c1744bd7263cc0e25a7ca3bd7aab3f4f606faafa51544a8931509619c8"
+      },
+      {
+        "symbol": "XRP",
+        "rows": 26921,
+        "sha256": "8ed09ecb668ddf9df587048acf982153b72ab26d8d83b08944a06d9318c1bab1"
+      },
+      {
+        "symbol": "YGG",
+        "rows": 25444,
+        "sha256": "93a117523dfba8f089d091b854c046f5d44ab99eb91ce5b79ed1bfce15f06b2c"
+      },
+      {
+        "symbol": "ZEC",
+        "rows": 26969,
+        "sha256": "9af2ec9b3b2b7d724abcf9b17105fd8b5a69d9938b57396637e6609e803706bd"
+      },
+      {
+        "symbol": "ZEN",
+        "rows": 23967,
+        "sha256": "43e566afda088bb52489e47284ba2ca176c921a2569d90fc08eff721d3ae11eb"
+      },
+      {
+        "symbol": "ZETA",
+        "rows": 23368,
+        "sha256": "2d0ac4ae08903c854011f37b41600050a1ff18ed997b229c038ae2453f7ca330"
+      },
+      {
+        "symbol": "ZK",
+        "rows": 26131,
+        "sha256": "33472aac82ff42339fb3f4710a6737a8342fcbd68678c59bd333b904ad58e580"
+      },
+      {
+        "symbol": "ZORA",
+        "rows": 25936,
+        "sha256": "07ca97dabbc3d258f866ab3cd3b000d8edea2cbc3c4ea7ed17b268d616cbec94"
+      },
+      {
+        "symbol": "ZRO",
+        "rows": 26452,
+        "sha256": "87721c145360c6e1d45e12b35dd2232b1a7380eefaed16aa1619ba6059dbb7e6"
+      }
+    ]
+  }
+}

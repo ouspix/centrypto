@@ -1,0 +1,62 @@
+{
+  "original": {
+    "exits": "original exit feature inputs",
+    "constants": {
+      "long": {
+        "slope": 0.0,
+        "intercept": -33.08268988291043
+      },
+      "short": {
+        "slope": 0.0,
+        "intercept": 44.72273630405195
+      }
+    },
+    "net": 91.94086034959012,
+    "trades": 136
+  },
+  "corrected": {
+    "exits": "stable one-return variance inputs, same exit weights",
+    "constants": {
+      "long": -26.709530214263925,
+      "short": 53.28136467670467
+    },
+    "net": 104.23038246884518,
+    "trades": 118
+  },
+  "shared_ids": 70,
+  "first_trade_term_divergence": [
+    {
+      "side": "short",
+      "symbol": "LIT",
+      "id": 14452,
+      "decision": "2026-11-17T01:10:05+00:00",
+      "entry": "2026-11-17T01:11:00+00:00",
+      "end": "2026-11-17T03:01:00+00:00",
+      "net": 0.9466076814538137,
+      "score": 44.72273630405195
+    },
+    {
+      "side": "short",
+      "symbol": "LIT",
+      "id": 14452,
+      "decision": "2026-11-17T01:10:05+00:00",
+      "entry": "2026-11-17T01:11:00+00:00",
+      "end": "2026-11-17T04:41:00+00:00",
+      "net": -3.1410554120915264,
+      "score": 53.28136467670467
+    }
+  ],
+  "first_exclusive_decision": {
+    "ledger": "original",
+    "trade": {
+      "side": "short",
+      "symbol": "LIT",
+      "id": 14468,
+      "decision": "2026-11-17T03:05:05+00:00",
+      "entry": "2026-11-17T03:06:00+00:00",
+      "end": "2026-11-17T04:26:00+00:00",
+      "net": -3.2196852478603604,
+      "score": 44.72273630405195
+    }
+  }
+}

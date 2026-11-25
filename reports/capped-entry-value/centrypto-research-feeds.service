@@ -1,0 +1,14 @@
+[Unit]
+Description=Centrypto public market research archive
+After=network-online.target
+
+[Service]
+WorkingDirectory=/srv/centrypto-checkpoint
+ExecStart=/srv/centrypto-checkpoint/data/research/python -u reports/capped-entry-value/collect_universe.py
+Restart=on-failure
+RestartSec=30
+Nice=10
+UMask=0077
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,79 @@
+{
+  "registered_utc": "2026-11-22T19:54:49.903455+00:00",
+  "window": {
+    "test_start": "2026-11-23T00:00:00+00:00",
+    "test_entry_end": "2026-11-30T00:00:00+00:00",
+    "test_market_end": "2026-12-01T01:00:00+00:00"
+  },
+  "benchmark": "constant",
+  "arms": [
+    "constant",
+    "market218",
+    "content218",
+    "market357",
+    "availability357",
+    "content357",
+    "market_decay",
+    "content_decay",
+    "relative_content"
+  ],
+  "seeds": [
+    11,
+    23,
+    37,
+    53,
+    71,
+    89,
+    107,
+    131
+  ],
+  "primary_contrast": [
+    "content357",
+    "availability357"
+  ],
+  "secondary_contrasts": [
+    [
+      "content_decay",
+      "content357"
+    ],
+    [
+      "relative_content",
+      "content357"
+    ],
+    [
+      "content357",
+      "content218"
+    ]
+  ],
+  "execution": [
+    "observed",
+    "stress"
+  ],
+  "scope": "Secondary research on the shared upcoming opportunities with corrected exits. Compare within this protocol.",
+  "inputs": {
+    "reports/ridge-news-selection/research-lock.json": "2b52d883656a91b5e8e7a214e27b968b87d3dd9dce8d365c6bf63a12ec3c2aaa",
+    "reports/ridge-news-selection/models.joblib": "af76a99cecaa3bec12d1ee1dc27853aa5b42dd14a4258558aef16e531d85e442",
+    "reports/ridge-news-selection/protocol.json": "d20106c1f4ba489dadf2b52e7369e18e45dbf3cdd194d074ec39c3ba750000ff",
+    "reports/capped-entry-value/forward-runtime-lock.json": "c4096b804c06eec0b385515cb51f7835dbfd179786d770129005d3738f0a6147",
+    "reports/ridge-news-selection/forward_challengers.py": "23223238c792c1b40745922179d1af54d950aa8d547d42e7d122e7e527809ac5",
+    "reports/ridge-news-selection/allocation.py": "f631cec533e1d2d4db6750b5b33e2dd3d64cdfa50670582785d79a3d11179f75",
+    "reports/ridge-news-selection/report.py": "b25a8803a5e03576941151641bd4b121240292e0f5945e7ad2ae6b9b002b72d2",
+    "reports/ridge-news-selection/challenger_replay.py": "e26b5e8d2785d87c1cc6d50822fce7f4500d0a0c424b62405c0f85f021662f26",
+    "reports/ridge-news-selection/inputs.py": "284a2099c21a658d5130f7e5ae655f86ed7877f1a91cdeddcdf6dd4597c837ed",
+    "reports/ridge-news-selection/verify.py": "120f120d92de0ff9678b8144dc165d8d21dcc1aecd468394969b50784263d4e9",
+    "reports/ridge-news-selection/features.py": "287c966be230d8c2226f9f3769df44f486bb39fa59562fdabbe74af5a9629736",
+    "reports/ridge-news-selection/event_coverage.py": "f7bb04a762aa3c3d911a7f210a81fd286cbe4b61ed423ac153af120ff16ac61e",
+    "reports/ridge-news-selection/fit.py": "e935a082997c40aa018e8436c817873106acc0f409086c3d4f67c7982a926849",
+    "reports/ridge-news-selection/matrices.py": "95e3769e138471bc25ad33b045c739b807a2a8da4b103a2dd25a96ea8c843101",
+    "reports/gdelt-news-backfill/ingest.py": "c8dba16a944b978252d8fb0b9d21bb95e8c0c2490ffae0de887e15f6761310eb",
+    "reports/gdelt-news-backfill/story_archive.py": "8416bab03422b9ed448a49fd717211c916d27c2cda3b122b1860aecfac9461ed",
+    "reports/gdelt-news-backfill/assets.py": "c4f43baa839d85eaec3c95a2034f8dc66e6327e44bd02fa05b5b3166ed730dc4",
+    "reports/entry-score-audit/accounting.py": "3cc1c6d79757d6c9c1c7c8c7a3cc810de2c854d896072ac92d0128474c2351df",
+    "reports/entry-score-audit/diagnostics.py": "331ad3932a84ddd9db27f8d73767d7bed3fea4040488d88fce0a06c410e8f159",
+    "reports/continuous-entry-value/stable_exits.py": "03ea625d8210c2a2be6ee62745b3fcde6fe90cba70aac2d33de64f93ab5a6c25",
+    "reports/capped-entry-value/benchmark.py": "8ae1f9f4bba0b70a944d545e95e6f3f2e83a1f46f04c857f5f52e2b4e1b43116",
+    "reports/capped-entry-value/portfolio.py": "5985ea1fade881eb2ca2207983f131107746c1d63c8254d7cca7d419cb8690e2",
+    "reports/capped-entry-value/decisions.py": "e8676b36098204e5c8b25513d3ebacb344c905869e259daab9e4443c971ac14d",
+    "reports/capped-entry-value/forecast.py": "a31061f3768e8a8ab74aed3b0dc3471675766afc7e090e5e9517c0f0211673f8"
+  }
+}

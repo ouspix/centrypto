@@ -1,0 +1,155 @@
+{
+  "archive_fixed_no_deadline": {
+    "entries": 3,
+    "closed": 3,
+    "openAtCutoff": 0,
+    "unknown": 0,
+    "winners": 0,
+    "closedNetUsd": -6.786697369320136,
+    "markedNetUsd": -6.786697369320136,
+    "avgNetPct": -0.6609130694683187,
+    "medianHoldingMinutes": 61.19205000003179,
+    "exitTypes": {
+      "initial stop": 3
+    }
+  },
+  "archive_trail_0.5": {
+    "entries": 3,
+    "closed": 3,
+    "openAtCutoff": 0,
+    "unknown": 0,
+    "winners": 0,
+    "closedNetUsd": -6.786697369320136,
+    "markedNetUsd": -6.786697369320136,
+    "avgNetPct": -0.6609130694683187,
+    "medianHoldingMinutes": 61.19205000003179,
+    "exitTypes": {
+      "initial stop": 3
+    }
+  },
+  "archive_trail_0.5_from_entry": {
+    "entries": 3,
+    "closed": 3,
+    "openAtCutoff": 0,
+    "unknown": 0,
+    "winners": 0,
+    "closedNetUsd": -3.9546931346502676,
+    "markedNetUsd": -3.9546931346502676,
+    "avgNetPct": -0.4000966577010569,
+    "medianHoldingMinutes": 24.948750003178915,
+    "exitTypes": {
+      "trailing stop": 3
+    }
+  },
+  "archive_trail_1": {
+    "entries": 3,
+    "closed": 3,
+    "openAtCutoff": 0,
+    "unknown": 0,
+    "winners": 2,
+    "closedNetUsd": 0.330524331459265,
+    "markedNetUsd": 0.330524331459265,
+    "avgNetPct": 0.3208156073048815,
+    "medianHoldingMinutes": 569.5359000007312,
+    "exitTypes": {
+      "trailing stop": 2,
+      "initial stop": 1
+    }
+  },
+  "archive_trail_1.5": {
+    "entries": 3,
+    "closed": 2,
+    "openAtCutoff": 1,
+    "unknown": 0,
+    "winners": 1,
+    "closedNetUsd": -2.165228205335876,
+    "markedNetUsd": -5.500109009380449,
+    "avgNetPct": 1.2340195634341433,
+    "medianHoldingMinutes": 1417.8869666655858,
+    "exitTypes": {
+      "trailing stop": 1,
+      "initial stop": 1,
+      "open at cutoff": 1
+    }
+  },
+  "modeled_fixed_no_deadline": {
+    "entries": 35,
+    "closed": 33,
+    "openAtCutoff": 0,
+    "unknown": 2,
+    "winners": 8,
+    "closedNetUsd": -41.12032068272189,
+    "markedNetUsd": -41.12032068272189,
+    "avgNetPct": -0.460653109767115,
+    "medianHoldingMinutes": 39.25338333447774,
+    "exitTypes": {
+      "initial stop": 25,
+      "profit floor": 8,
+      "unresolved price gap": 2
+    }
+  },
+  "modeled_trail_0.5": {
+    "entries": 38,
+    "closed": 36,
+    "openAtCutoff": 0,
+    "unknown": 2,
+    "winners": 9,
+    "closedNetUsd": -28.26775365427478,
+    "markedNetUsd": -28.26775365427478,
+    "avgNetPct": -0.2847959323273653,
+    "medianHoldingMinutes": 44.87737499872843,
+    "exitTypes": {
+      "initial stop": 27,
+      "trailing stop": 9,
+      "unresolved price gap": 2
+    }
+  },
+  "modeled_trail_0.5_from_entry": {
+    "entries": 42,
+    "closed": 40,
+    "openAtCutoff": 0,
+    "unknown": 2,
+    "winners": 7,
+    "closedNetUsd": -42.85177317864092,
+    "markedNetUsd": -42.85177317864092,
+    "avgNetPct": -0.2560894851575242,
+    "medianHoldingMinutes": 26.87518333395322,
+    "exitTypes": {
+      "trailing stop": 40,
+      "unresolved price gap": 2
+    }
+  },
+  "modeled_trail_1": {
+    "entries": 25,
+    "closed": 23,
+    "openAtCutoff": 0,
+    "unknown": 2,
+    "winners": 8,
+    "closedNetUsd": -16.27584844050365,
+    "markedNetUsd": -16.27584844050365,
+    "avgNetPct": -0.224627905566758,
+    "medianHoldingMinutes": 96.25400000015894,
+    "exitTypes": {
+      "initial stop": 15,
+      "trailing stop": 8,
+      "unresolved price gap": 2
+    }
+  },
+  "modeled_trail_1.5": {
+    "entries": 18,
+    "closed": 15,
+    "openAtCutoff": 1,
+    "unknown": 2,
+    "winners": 6,
+    "closedNetUsd": -0.12147897806539798,
+    "markedNetUsd": -3.4563597821099714,
+    "avgNetPct": 0.2052458468792529,
+    "medianHoldingMinutes": 341.02004999717076,
+    "exitTypes": {
+      "initial stop": 9,
+      "trailing stop": 6,
+      "unresolved price gap": 2,
+      "open at cutoff": 1
+    }
+  }
+}

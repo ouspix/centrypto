@@ -1,0 +1,10 @@
+group,add_core_paired_median,full_minus_drop_paired_median,status,complete_pair_pattern,omitted_pairs
+price_shape,144.98177617097497,5.990869506630844,inconclusive_full_period_due_to_missing_exits,mixed,3
+volume_detail,59.344288942871216,-1.8717040561618319,inconclusive_full_period_due_to_missing_exits,mixed,3
+sma_detail,115.75690159615553,-240.54265014218134,inconclusive_full_period_due_to_missing_exits,mixed,3
+market_context,258.56182415129587,-10.85326865938143,inconclusive_full_period_due_to_missing_exits,mixed,5
+derivatives,98.93656942025314,97.48901339212259,inconclusive_full_period_due_to_missing_exits,mixed,3
+liquidity,0.0,0.0,untestable_no_training_variation,mixed,3
+spot,167.4992832610838,-219.5099544926085,inconclusive_full_period_due_to_missing_exits,mixed,3
+clock,61.039011280912945,-131.09173240210254,inconclusive_full_period_due_to_missing_exits,mixed,3
+position_history,171.495099330011,-14.074528367972519,inconclusive_full_period_due_to_missing_exits,mixed,3

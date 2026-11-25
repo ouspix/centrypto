@@ -1,0 +1,27 @@
+{
+  "top_three_winners_total_usd": 72.86905671457842,
+  "total_without_top_three_winners_usd": 88.49441681522362,
+  "trades": [
+    {
+      "symbol": "INIT",
+      "side": "short",
+      "entry_time": "2026-11-11T05:31:00Z",
+      "exit_time": "2026-11-11T18:06:00Z",
+      "return_pct": 43.53516914591991
+    },
+    {
+      "symbol": "kPEPE",
+      "side": "short",
+      "entry_time": "2026-11-11T01:01:00Z",
+      "exit_time": "2026-11-11T23:21:00Z",
+      "return_pct": 15.851851851851851
+    },
+    {
+      "symbol": "INIT",
+      "side": "short",
+      "entry_time": "2026-11-11T21:56:00Z",
+      "exit_time": "2026-11-12T02:06:00Z",
+      "return_pct": 13.482035716806662
+    }
+  ]
+}

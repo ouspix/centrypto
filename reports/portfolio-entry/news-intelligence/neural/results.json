@@ -1,0 +1,268 @@
+{
+  "candidates": 3113,
+  "coverage": {
+    "feed": 3113,
+    "analysis": 2646,
+    "both": 2646
+  },
+  "decisions": [
+    "2026-11-14T00:00:00+00:00",
+    "2026-11-19T11:50:00+00:00"
+  ],
+  "actual_last": "2026-11-19T11:30:05+00:00",
+  "valuation": "2026-11-20T12:00:00+00:00",
+  "forecasts": {
+    "timing_flags": {
+      "long": {
+        "eligible": 596,
+        "passed": 0,
+        "mean_passed_realized_bps": null,
+        "max_calibrated_bps": -28.24334742674492,
+        "raw_mae_bps": 229.03343668307076
+      },
+      "short": {
+        "eligible": 2517,
+        "passed": 2517,
+        "mean_passed_realized_bps": -5.135864648091726,
+        "max_calibrated_bps": 128.82503780349077,
+        "raw_mae_bps": 235.83547491280234
+      }
+    },
+    "gdelt_keywords": {
+      "long": {
+        "eligible": 596,
+        "passed": 23,
+        "mean_passed_realized_bps": 163.1689958832125,
+        "max_calibrated_bps": 230.13620282863351,
+        "raw_mae_bps": 232.40781104508739
+      },
+      "short": {
+        "eligible": 2517,
+        "passed": 2517,
+        "mean_passed_realized_bps": -5.135864648091726,
+        "max_calibrated_bps": 98.40316772907391,
+        "raw_mae_bps": 242.12862418534917
+      }
+    },
+    "news_intelligence": {
+      "long": {
+        "eligible": 596,
+        "passed": 62,
+        "mean_passed_realized_bps": -212.6876271119015,
+        "max_calibrated_bps": 77.67901231400496,
+        "raw_mae_bps": 261.68758765310594
+      },
+      "short": {
+        "eligible": 2517,
+        "passed": 2482,
+        "mean_passed_realized_bps": -5.842457103655126,
+        "max_calibrated_bps": 180.01038768462385,
+        "raw_mae_bps": 231.7926229295962
+      }
+    }
+  },
+  "modes": {
+    "base": {
+      "timing_flags": {
+        "gate_passed": 2517,
+        "trades": 91,
+        "allocation": {
+          "busy_or_used": 2230
+        },
+        "long": 0,
+        "short": 91,
+        "complete": true,
+        "net": -10.693306211857475,
+        "max_drawdown": 69.7021063493496,
+        "ending_equity": 989.3066937881425,
+        "long_net": 0,
+        "short_net": -10.693306211857495,
+        "fees": 8.191270136141513,
+        "funding": 0.3204886832027848,
+        "mean_gross": 451.57126433700034,
+        "peak_gross": 1007.4057490129553,
+        "max_gross_to_equity": 0.9994483538622231
+      },
+      "gdelt_keywords": {
+        "gate_passed": 2540,
+        "trades": 93,
+        "allocation": {
+          "busy_or_used": 2295
+        },
+        "long": 2,
+        "short": 91,
+        "complete": true,
+        "net": -8.498308542343352,
+        "max_drawdown": 78.86276741006827,
+        "ending_equity": 991.5016914576566,
+        "long_net": 6.208776632206227,
+        "short_net": -14.707085174549555,
+        "fees": 8.375950759774938,
+        "funding": 0.4681226022542157,
+        "mean_gross": 455.90022764683323,
+        "peak_gross": 1010.7266914948024,
+        "max_gross_to_equity": 0.9934892869744368
+      },
+      "news_intelligence": {
+        "gate_passed": 2544,
+        "trades": 94,
+        "allocation": {
+          "busy_or_used": 2273
+        },
+        "long": 1,
+        "short": 93,
+        "complete": true,
+        "net": -25.87009435195057,
+        "max_drawdown": 80.4127055932081,
+        "ending_equity": 974.1299056480494,
+        "long_net": -0.9593650663996355,
+        "short_net": -24.910729285550882,
+        "fees": 8.467207542521681,
+        "funding": 0.3429335699986973,
+        "mean_gross": 455.8183986402897,
+        "peak_gross": 1011.6813903363766,
+        "max_gross_to_equity": 1.0172505390836817
+      },
+      "intelligence_entry_only": {
+        "gate_passed": 2544,
+        "trades": 99,
+        "allocation": {
+          "busy_or_used": 2406
+        },
+        "long": 4,
+        "short": 95,
+        "complete": true,
+        "net": -11.129161050128005,
+        "max_drawdown": 66.11134826068985,
+        "ending_equity": 988.870838949872,
+        "long_net": -1.4819126967651977,
+        "short_net": -9.647248353362823,
+        "fees": 8.910153185222926,
+        "funding": 0.3316458519050747,
+        "mean_gross": 481.90013964298106,
+        "peak_gross": 1002.6439811211482,
+        "max_gross_to_equity": 1.0053186041546192
+      },
+      "cash": {
+        "gate_passed": 2517,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      }
+    },
+    "stress": {
+      "timing_flags": {
+        "gate_passed": 2517,
+        "trades": 91,
+        "allocation": {
+          "busy_or_used": 2229
+        },
+        "long": 0,
+        "short": 91,
+        "complete": true,
+        "net": -23.585669496996502,
+        "max_drawdown": 75.62300546943209,
+        "ending_equity": 976.4143305030035,
+        "long_net": 0,
+        "short_net": -23.585669496996513,
+        "fees": 8.197083998526772,
+        "funding": 0.3536334499106352,
+        "mean_gross": 445.67592579231285,
+        "peak_gross": 1010.786915180893,
+        "max_gross_to_equity": 1.0041622472120635
+      },
+      "gdelt_keywords": {
+        "gate_passed": 2540,
+        "trades": 93,
+        "allocation": {
+          "busy_or_used": 2296
+        },
+        "long": 2,
+        "short": 91,
+        "complete": true,
+        "net": -21.571050848610412,
+        "max_drawdown": 84.92346156738324,
+        "ending_equity": 978.4289491513896,
+        "long_net": 5.058891438220705,
+        "short_net": -26.629942286831064,
+        "fees": 8.380801140786694,
+        "funding": 0.4796808245160119,
+        "mean_gross": 454.85951741054004,
+        "peak_gross": 1011.9897090238809,
+        "max_gross_to_equity": 1.0043638148892848
+      },
+      "news_intelligence": {
+        "gate_passed": 2544,
+        "trades": 93,
+        "allocation": {
+          "busy_or_used": 2278
+        },
+        "long": 1,
+        "short": 92,
+        "complete": true,
+        "net": -32.284200112291614,
+        "max_drawdown": 77.64499775320007,
+        "ending_equity": 967.7157998877084,
+        "long_net": -0.9260213101542754,
+        "short_net": -31.358178802137257,
+        "fees": 8.3801648993435,
+        "funding": 0.3469809340774962,
+        "mean_gross": 450.9505127485306,
+        "peak_gross": 1013.7078932269843,
+        "max_gross_to_equity": 1.028271342240634
+      },
+      "intelligence_entry_only": {
+        "gate_passed": 2544,
+        "trades": 99,
+        "allocation": {
+          "busy_or_used": 2387
+        },
+        "long": 4,
+        "short": 95,
+        "complete": true,
+        "net": -22.753968183776237,
+        "max_drawdown": 71.13174191737073,
+        "ending_equity": 977.2460318162238,
+        "long_net": -0.7521196304038216,
+        "short_net": -22.001848553372394,
+        "fees": 8.91604215404726,
+        "funding": 0.3391094664547493,
+        "mean_gross": 478.1870121242475,
+        "peak_gross": 1004.4475444712976,
+        "max_gross_to_equity": 1.0105430751643767
+      },
+      "cash": {
+        "gate_passed": 2517,
+        "trades": 0,
+        "allocation": {},
+        "long": 0,
+        "short": 0,
+        "complete": true,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "ending_equity": 1000.0,
+        "long_net": 0,
+        "short_net": 0,
+        "fees": 0,
+        "funding": 0,
+        "mean_gross": 0.0,
+        "peak_gross": 0.0,
+        "max_gross_to_equity": 0.0
+      }
+    }
+  },
+  "fit": "ef7f8fd297163b5cdef150d3ff2c0a1889442398f5cf680983a269692bb63c53",
+  "ledger": "57757892b7316134180b8f5a9e50283b049af0c7c3e696d4eefa2aff0b4b65dc"
+}

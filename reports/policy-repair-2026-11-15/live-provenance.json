@@ -1,0 +1,44 @@
+[
+  {
+    "label": "mainnet",
+    "observations": {
+      "observations": 1306,
+      "symbols": 169,
+      "first_receipt": "2026-11-15T08:34:15.121Z",
+      "latest_receipt": "2026-11-15T08:35:59.231Z",
+      "clock_violations": 0
+    },
+    "ticks": {
+      "received_ticks": 1432,
+      "received_books": 22,
+      "latest_receipt": "2026-11-15T08:35:59.200Z"
+    },
+    "access": {
+      "collector_insert": true,
+      "collector_update": false,
+      "collector_delete": false,
+      "app_read": true
+    }
+  },
+  {
+    "label": "testnet",
+    "observations": {
+      "observations": 33,
+      "symbols": 11,
+      "first_receipt": "2026-11-15T08:34:22.394Z",
+      "latest_receipt": "2026-11-15T08:35:49.620Z",
+      "clock_violations": 0
+    },
+    "ticks": {
+      "received_ticks": 1272,
+      "received_books": 38,
+      "latest_receipt": "2026-11-15T08:35:58.853Z"
+    },
+    "access": {
+      "collector_insert": true,
+      "collector_update": false,
+      "collector_delete": false,
+      "app_read": true
+    }
+  }
+]

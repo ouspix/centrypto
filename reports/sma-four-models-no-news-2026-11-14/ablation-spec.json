@@ -1,0 +1,19 @@
+{
+  "baseline": "/home/mellinien/projects/centrypto/reports/sma-four-models-2026-11-14",
+  "baseline_verified_files": 46,
+  "baseline_manifest_sha256": "aaac04717154af322b5d17506db4653dafc3f277c674e3b95eaa3a5e21b8a221",
+  "identical_dataset_hashes": {
+    "setups.npy": "fc0742db0a89453a60225ef6cff91a58624d21ea8df0fa7bf5d8f823785a723f",
+    "candidates.npy": "a4a1f153c55c64e05969245a5f9e1dd1ba17b7c45852edf19b4673d6da604745"
+  },
+  "removed_entry_columns": 161,
+  "new_raw_entry_dimensions": 188,
+  "unchanged_raw_exit_dimensions": 185,
+  "changed_config_keys": [
+    "experiment",
+    "comparison",
+    "deployment",
+    "entry_news"
+  ],
+  "all_other_hyperparameters_unchanged": true
+}

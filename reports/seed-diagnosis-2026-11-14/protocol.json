@@ -1,0 +1,41 @@
+{
+  "seeds": [
+    20261114,
+    20261115,
+    20261116
+  ],
+  "folds": [
+    {
+      "start": "2026-06-01T00:00:00Z",
+      "end": "2026-06-10T00:00:00Z",
+      "validation_start": "2026-05-27T00:00:00Z"
+    },
+    {
+      "start": "2026-11-03T00:00:00Z",
+      "end": "2026-11-07T00:00:00Z",
+      "validation_start": "2026-06-07T00:00:00Z"
+    },
+    {
+      "start": "2026-11-07T00:00:00Z",
+      "end": "2026-11-11T00:00:00Z",
+      "validation_start": "2026-11-02T00:00:00Z"
+    },
+    {
+      "start": "2026-11-11T00:00:00Z",
+      "end": "2026-11-14T08:30:00Z",
+      "validation_start": "2026-11-05T00:00:00Z"
+    }
+  ],
+  "crossed_factors": [
+    "entry model seed",
+    "exit model seed",
+    "threshold/cash policy seed"
+  ],
+  "comparisons": "27 crossed + 9 freshly validation-reselected + 9 fixed(.5/.5, both sides active) per fold; 54 single-side threshold diagnostics per fold.",
+  "test_role": "Retrospective diagnosis only; no test-based model or threshold selection. Original unseen-by-model windows reused.",
+  "fees": 0,
+  "notional_usd": 100,
+  "censoring": "Preserve missing exit prices; no total PnL or decomposition for incomplete combinations.",
+  "baseline_manifest_hash": "b9d73d97da4860da1a4154aa5b49657cbbec607675ca70a4a5b4a47f86237372",
+  "script_hash": "63c4f1d8cd578ae879c66067fe32b4ba165967eff801c71a9249fa3f38548c4e"
+}

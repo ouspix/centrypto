@@ -1,0 +1,22 @@
+{
+  "long": {
+    "decisions": 6239,
+    "matched_priced": 6236,
+    "old_mean_bps": 0.3846184954839738,
+    "new_mean_bps": 82.15689244731483,
+    "full_new_mean_bps": 82.15689244731483,
+    "old_median_hold": 45.0,
+    "new_median_hold": 520.0,
+    "changed_exit": 6235
+  },
+  "short": {
+    "decisions": 3420,
+    "matched_priced": 3418,
+    "old_mean_bps": -62.130315342970164,
+    "new_mean_bps": -70.57172030202139,
+    "full_new_mean_bps": -70.5717203020214,
+    "old_median_hold": 170.0,
+    "new_median_hold": 470.0,
+    "changed_exit": 3399
+  }
+}

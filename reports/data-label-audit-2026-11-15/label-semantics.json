@@ -1,0 +1,45 @@
+{
+  "hypothetical": [
+    {
+      "side": "long",
+      "prices": [
+        100,
+        115,
+        102,
+        112
+      ],
+      "best_step": 1,
+      "labels_at_future_steps": [
+        1,
+        1,
+        1
+      ],
+      "label_at_trough_before_recovery": 1,
+      "future_improvement_return_points": 10.000000000000009
+    },
+    {
+      "side": "short",
+      "prices": [
+        100,
+        85,
+        98,
+        88
+      ],
+      "best_step": 1,
+      "labels_at_future_steps": [
+        1,
+        1,
+        1
+      ],
+      "label_at_trough_before_recovery": 1,
+      "future_improvement_return_points": 9.999999999999998
+    }
+  ],
+  "entry_rules": {
+    "8_percent_gain": "negative even if profitable",
+    "at_least_10_but_less_than_95_percent_best": "negative",
+    "large_adverse_excursion": "not penalized or excluded by entry label",
+    "partial_future": "entire setup unresolved when any eligible candidate fails 90% future-price coverage or lacks exact deadline; the 90% criterion still permits some internal holes"
+  },
+  "exit_rule": "EXIT iff current step >= the best observed exit step from the original entry. This is a past-optimum indicator, not continuation value at the current state."
+}

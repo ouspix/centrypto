@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "checks": {
+    "trade_constraints": 83339,
+    "independent_validation_policy_selections": 72,
+    "independent_native_payoffs": 83339,
+    "same_preprocessing_across_seeds": 16
+  },
+  "original_runs_reproduced": 12,
+  "exact_training_reproductions": 4,
+  "gradient_max_error": 1.657503301277785e-11,
+  "scope": "No implementation defect found explaining the seed reversal in the tested training, selection and replay paths. Fragile statistical selection is demonstrated; no claim of exhaustive software verification."
+}

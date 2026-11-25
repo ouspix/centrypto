@@ -1,0 +1,59 @@
+{
+  "status": "targets_generated_models_not_retrained",
+  "source_cutoff": "2026-11-14T08:30:00Z",
+  "scanned_symbols": 235,
+  "series": 592,
+  "global_states": 3221970,
+  "directions": {
+    "long": {
+      "qualifying_5m_observations": 29979,
+      "mature_executable_labeled_states": 102982,
+      "mature_executable_good_entry_states": 430,
+      "deduplicated_anchors": 483,
+      "teacher_rallies": 355,
+      "unique_teacher_entries": 354,
+      "teacher_symbols": 122,
+      "all_positive_entry_points": 437
+    },
+    "short": {
+      "qualifying_5m_observations": 63692,
+      "mature_executable_labeled_states": 101978,
+      "mature_executable_good_entry_states": 686,
+      "deduplicated_anchors": 888,
+      "teacher_rallies": 573,
+      "unique_teacher_entries": 573,
+      "teacher_symbols": 153,
+      "all_positive_entry_points": 690
+    }
+  },
+  "exclusions": {
+    "long": {
+      "no_liquid_executable_teacher_entry": 97,
+      "unfinished_rally_teacher_horizon": 16,
+      "unresolved_teacher_search_terminal": 14,
+      "no_positive_executable_teacher_gain": 1
+    },
+    "short": {
+      "unfinished_rally_teacher_horizon": 22,
+      "no_liquid_executable_teacher_entry": 280,
+      "unresolved_teacher_search_terminal": 13
+    }
+  },
+  "original_bullish_teachers_reproduced": 355,
+  "source_bars_sha256": "bd090d2b62835eb4d9c03b606a2ba0ac4c8452c2afd0d978cdf1bfcb52e6fcd6",
+  "labels_sha256": "0c03ec130ddd702982500c5ecce67dd58a20d0b0d8d33bb49151eca1c996fcd5",
+  "generator_sha256": "f5330e07f5b9bc1b515cb574b1f3123ae35aac11674b87d6d8466d5444e78cda",
+  "target_rule": "24h return >=+10% for long, <=-10% for short; separate 24h cooldown per token and side. Best entry in prior24h through anchor; best direction-adjusted exit5m..24h after entry. Neighbors within5m must retain95% of best return.",
+  "gross_return_pct": "100 * side_sign * (exit_price / entry_price - 1), side_sign long=+1 short=-1",
+  "fees": 0,
+  "funding_payments": 0,
+  "slippage": 0,
+  "label_contract": "Columns [long,short]. Each cell is a separate enter/not-enter target. Query side is an explicit candidate input; future rally direction is never supplied as a feature. Exit targets are CLOSE at/after the side-specific optimum, HOLD before it, on the same positive entry points. The old training/runtime must not load these labels without side-aware changes.",
+  "limitations": [
+    "Hindsight labels are not realized performance.",
+    "No short borrowing, margin, liquidation or historical instrument-availability checks.",
+    "Retains original5m execution and terminal retry up to30m after24h.",
+    "Original model artifacts and scores remain long-only."
+  ],
+  "external_output": "/mnt/c/Users/melli/.codex/research/centrypto/two-stage-directions-2026-11-14"
+}

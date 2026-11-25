@@ -1,0 +1,42 @@
+{
+  "revision_time": "2026-11-22T19:52:24.125107+00:00",
+  "reason": "A hand check found investor-alert lists and generic lists classified as exchange listings. Require trading, token, pair or named exchange listing language. No outcome thresholds or other event types changed.",
+  "initial_observed_nov17": {
+    "constant": 104.23038246884511,
+    "market218": 96.7984810979267,
+    "content218": 90.93502253856089,
+    "market357": 82.4816054194721,
+    "availability357": 88.96512276071813,
+    "content357": 91.11572844167723,
+    "market_decay": 85.87192971859491,
+    "content_decay": 100.93210734974195,
+    "relative_content": 101.34158165116649,
+    "tie_11": 100.69799629420675,
+    "tie_23": 80.90383337314066,
+    "tie_37": 89.68389244800451,
+    "tie_53": 91.47098308423126,
+    "tie_71": 98.74166401638085,
+    "tie_89": 87.38727981392243,
+    "tie_107": 84.604783523103,
+    "tie_131": 103.56963875786002
+  },
+  "initial_stress_nov17": {
+    "constant": 98.288649214852,
+    "market218": 90.39348337794958,
+    "content218": 82.78727065320562,
+    "market357": 75.6017561099601,
+    "availability357": 82.19221992967107,
+    "content357": 84.36701012818972,
+    "market_decay": 79.03440223257044,
+    "content_decay": 93.35509288661159,
+    "relative_content": 94.722035608641,
+    "tie_11": 82.68739542884144,
+    "tie_23": 72.81945193762253,
+    "tie_37": 84.10765426250042,
+    "tie_53": 85.84916524198246,
+    "tie_71": 93.11871772293566,
+    "tie_89": 81.35747920628361,
+    "tie_107": 78.25484944856007,
+    "tie_131": 97.36270974778729
+  }
+}

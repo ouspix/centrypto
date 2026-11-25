@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "partial": false,
+  "runs_checked": 240,
+  "checks": {
+    "preserved_baseline_files": 92,
+    "unchanged_candidate_arrays": 2,
+    "purged_fold_checks": 4,
+    "model_mask_and_checkpoint_checks": 816,
+    "trade_constraints_verified": 113100,
+    "censored_deadlines_verified": 76,
+    "entry_scores_reproduced": 113100,
+    "sampled_full_exit_paths_reproduced": 602,
+    "first_trade_runtime_reproductions": 222,
+    "exact_baseline_network_reproductions": 16,
+    "exact_baseline_trade_reproductions": 236,
+    "independent_native_payoffs": 113024,
+    "no_news_or_target_input_mutation": 1,
+    "serialized_final_policies_loaded": 2,
+    "exact_final_baseline_network_reproductions": 4
+  },
+  "experiment_lock_verified": true
+}

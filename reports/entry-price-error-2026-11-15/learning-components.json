@@ -1,0 +1,698 @@
+[
+  {
+    "fold": "2026-06-01",
+    "side": "long",
+    "seed": 20261114,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.8784394657392572,
+        "failed_entry_probability": 0.8115559825060942,
+        "qualifying_expected_price_error_pct": 0.6324015885899265
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.9394940539189578,
+        "failed_entry_probability": 0.18243794431562643,
+        "qualifying_expected_price_error_pct": 0.5211376894406424
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.7096731907697847,
+        "failed_entry_probability": 0.6728214249593503,
+        "qualifying_expected_price_error_pct": 0.6415120047320896
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.3831149752714627,
+        "failed_entry_probability": 0.2307192301207703,
+        "qualifying_expected_price_error_pct": 0.5067990962346901
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01",
+    "side": "long",
+    "seed": 20261115,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.8597893185852601,
+        "failed_entry_probability": 0.772351930414088,
+        "qualifying_expected_price_error_pct": 0.6550429704222507
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.9367519760279084,
+        "failed_entry_probability": 0.18615561913308223,
+        "qualifying_expected_price_error_pct": 0.5059095002224925
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.7506830740645531,
+        "failed_entry_probability": 0.6435280282307757,
+        "qualifying_expected_price_error_pct": 0.4878204701348037
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.2969042936195153,
+        "failed_entry_probability": 0.22774633981043602,
+        "qualifying_expected_price_error_pct": 0.5383942326785556
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01",
+    "side": "long",
+    "seed": 20261116,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.8435682091739668,
+        "failed_entry_probability": 0.7969352690522845,
+        "qualifying_expected_price_error_pct": 0.6293191508993594
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.9154369185862643,
+        "failed_entry_probability": 0.17693503153551146,
+        "qualifying_expected_price_error_pct": 0.5361648142503297
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.7483192124422724,
+        "failed_entry_probability": 0.6775465614166986,
+        "qualifying_expected_price_error_pct": 0.49809646685526265
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.4118563485005777,
+        "failed_entry_probability": 0.28279270651496347,
+        "qualifying_expected_price_error_pct": 0.5296421495754224
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01",
+    "side": "short",
+    "seed": 20261114,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.8034941617779588,
+        "failed_entry_probability": 0.8243209796685567,
+        "qualifying_expected_price_error_pct": 0.5250660454692672
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.8637750152841838,
+        "failed_entry_probability": 0.1255081333341278,
+        "qualifying_expected_price_error_pct": 0.3199278345003153
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.5684538328115416,
+        "failed_entry_probability": 0.6802313282303499,
+        "qualifying_expected_price_error_pct": 0.208670760903127
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.14744143604787543,
+        "failed_entry_probability": 0.03703511110608208,
+        "qualifying_expected_price_error_pct": 0.08373501167381214
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01",
+    "side": "short",
+    "seed": 20261115,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.8093371570983403,
+        "failed_entry_probability": 0.7891528130028539,
+        "qualifying_expected_price_error_pct": 0.45601505528100855
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.8800519105156479,
+        "failed_entry_probability": 0.13826167311703738,
+        "qualifying_expected_price_error_pct": 0.30080391208948704
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.5634001935420896,
+        "failed_entry_probability": 0.6233204116678904,
+        "qualifying_expected_price_error_pct": 0.22900974537072186
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.1541383800984455,
+        "failed_entry_probability": 0.04018119352797899,
+        "qualifying_expected_price_error_pct": 0.07682611278983104
+      }
+    }
+  },
+  {
+    "fold": "2026-06-01",
+    "side": "short",
+    "seed": 20261116,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.8110949347388188,
+        "failed_entry_probability": 0.8063377770422687,
+        "qualifying_expected_price_error_pct": 0.45189738534224283
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.8727939395839738,
+        "failed_entry_probability": 0.12596228361463885,
+        "qualifying_expected_price_error_pct": 0.3212195068423143
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.6300603963965072,
+        "failed_entry_probability": 0.6730685844483951,
+        "qualifying_expected_price_error_pct": 0.22580381818809778
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.15569506369742114,
+        "failed_entry_probability": 0.03910966842451732,
+        "qualifying_expected_price_error_pct": 0.07621564272552445
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03",
+    "side": "long",
+    "seed": 20261114,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.810549086335957,
+        "failed_entry_probability": 0.7714026332224526,
+        "qualifying_expected_price_error_pct": 0.523080506770163
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.8527376208007305,
+        "failed_entry_probability": 0.398806027622248,
+        "qualifying_expected_price_error_pct": 0.5021888032286068
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.8290340561000652,
+        "failed_entry_probability": 0.8982588982228653,
+        "qualifying_expected_price_error_pct": 0.24350260763404924
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.5273562981574414,
+        "failed_entry_probability": 0.6389254622967759,
+        "qualifying_expected_price_error_pct": 0.39029431406502046
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03",
+    "side": "long",
+    "seed": 20261115,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.7806715758038808,
+        "failed_entry_probability": 0.7074730411276285,
+        "qualifying_expected_price_error_pct": 0.5213724185727089
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.7957920221031202,
+        "failed_entry_probability": 0.34985955091478127,
+        "qualifying_expected_price_error_pct": 0.4904533193301049
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.6746311784919781,
+        "failed_entry_probability": 0.830620625912095,
+        "qualifying_expected_price_error_pct": 0.25920523758983693
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.4453006464670872,
+        "failed_entry_probability": 0.5835572831000363,
+        "qualifying_expected_price_error_pct": 0.2960676714810946
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03",
+    "side": "long",
+    "seed": 20261116,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.7878929773768965,
+        "failed_entry_probability": 0.7481748120077735,
+        "qualifying_expected_price_error_pct": 0.5252609987180891
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.8653462831949895,
+        "failed_entry_probability": 0.415937495097107,
+        "qualifying_expected_price_error_pct": 0.4694043607056668
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.7030529968103096,
+        "failed_entry_probability": 0.8391649635227811,
+        "qualifying_expected_price_error_pct": 0.28292118398831806
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.544095417397008,
+        "failed_entry_probability": 0.6479791031539766,
+        "qualifying_expected_price_error_pct": 0.3428212663926341
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03",
+    "side": "short",
+    "seed": 20261114,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.7010677480237508,
+        "failed_entry_probability": 0.7554419708292994,
+        "qualifying_expected_price_error_pct": 0.4979713775163497
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.8218732456733393,
+        "failed_entry_probability": 0.32739343068541393,
+        "qualifying_expected_price_error_pct": 0.4184049595072097
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": null,
+        "failed_entry_probability": 0.8871117860124661,
+        "qualifying_expected_price_error_pct": null
+      },
+      "trained": {
+        "qualifying_entry_probability": null,
+        "failed_entry_probability": 0.7020856621496336,
+        "qualifying_expected_price_error_pct": null
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03",
+    "side": "short",
+    "seed": 20261115,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.697014211393451,
+        "failed_entry_probability": 0.7118793323455717,
+        "qualifying_expected_price_error_pct": 0.47826595538001965
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.833820167526093,
+        "failed_entry_probability": 0.3355096323491048,
+        "qualifying_expected_price_error_pct": 0.39531128677182237
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": null,
+        "failed_entry_probability": 0.8156476208960781,
+        "qualifying_expected_price_error_pct": null
+      },
+      "trained": {
+        "qualifying_entry_probability": null,
+        "failed_entry_probability": 0.6884073338043268,
+        "qualifying_expected_price_error_pct": null
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03",
+    "side": "short",
+    "seed": 20261116,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.7512517747920469,
+        "failed_entry_probability": 0.753478552017905,
+        "qualifying_expected_price_error_pct": 0.4381627633265034
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.8183530154640937,
+        "failed_entry_probability": 0.3221543411837089,
+        "qualifying_expected_price_error_pct": 0.4098748379633797
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": null,
+        "failed_entry_probability": 0.8450450564693937,
+        "qualifying_expected_price_error_pct": null
+      },
+      "trained": {
+        "qualifying_entry_probability": null,
+        "failed_entry_probability": 0.6926869344436734,
+        "qualifying_expected_price_error_pct": null
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07",
+    "side": "long",
+    "seed": 20261114,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.8100900172596647,
+        "failed_entry_probability": 0.7771501779717125,
+        "qualifying_expected_price_error_pct": 0.5654307760365459
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.794838023632427,
+        "failed_entry_probability": 0.371461259477729,
+        "qualifying_expected_price_error_pct": 0.535886157258834
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.9079997527201249,
+        "failed_entry_probability": 0.9137458845851794,
+        "qualifying_expected_price_error_pct": 0.5570944606693227
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.5149754504186371,
+        "failed_entry_probability": 0.2645967613569308,
+        "qualifying_expected_price_error_pct": 0.7218663132538706
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07",
+    "side": "long",
+    "seed": 20261115,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.7817147246351547,
+        "failed_entry_probability": 0.7162016294485338,
+        "qualifying_expected_price_error_pct": 0.5689823100784647
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.7972680109430411,
+        "failed_entry_probability": 0.3645229536333164,
+        "qualifying_expected_price_error_pct": 0.5290604900702937
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.8577699563378628,
+        "failed_entry_probability": 0.9022497035348902,
+        "qualifying_expected_price_error_pct": 0.5538531870549336
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.5063185975082369,
+        "failed_entry_probability": 0.2709599984046561,
+        "qualifying_expected_price_error_pct": 0.7211238270225824
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07",
+    "side": "long",
+    "seed": 20261116,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.7878568822044542,
+        "failed_entry_probability": 0.7523352576424557,
+        "qualifying_expected_price_error_pct": 0.5664587169625545
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.8184800225620772,
+        "failed_entry_probability": 0.38163933470942657,
+        "qualifying_expected_price_error_pct": 0.5377124247390324
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.874865004603816,
+        "failed_entry_probability": 0.8917769813679662,
+        "qualifying_expected_price_error_pct": 0.5334677961684869
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.5630944016982856,
+        "failed_entry_probability": 0.27434294721103336,
+        "qualifying_expected_price_error_pct": 0.6729317755642692
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07",
+    "side": "short",
+    "seed": 20261114,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.7081989593726634,
+        "failed_entry_probability": 0.7608078776310667,
+        "qualifying_expected_price_error_pct": 0.5685236379188198
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.794192121742986,
+        "failed_entry_probability": 0.35902713802905056,
+        "qualifying_expected_price_error_pct": 0.4426355095572857
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.8377795034483164,
+        "failed_entry_probability": 0.8905099001014904,
+        "qualifying_expected_price_error_pct": 0.38875201117818003
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.45056302004117427,
+        "failed_entry_probability": 0.39035119066666113,
+        "qualifying_expected_price_error_pct": 0.36944513060238826
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07",
+    "side": "short",
+    "seed": 20261115,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.7035136795844906,
+        "failed_entry_probability": 0.7182537861551668,
+        "qualifying_expected_price_error_pct": 0.5532524167411662
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.8442081335986015,
+        "failed_entry_probability": 0.395873190916748,
+        "qualifying_expected_price_error_pct": 0.4203192067606301
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.8653069593233722,
+        "failed_entry_probability": 0.9120603446530358,
+        "qualifying_expected_price_error_pct": 0.374008024485219
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.4704534985948579,
+        "failed_entry_probability": 0.4099658906618529,
+        "qualifying_expected_price_error_pct": 0.37705361864792786
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07",
+    "side": "short",
+    "seed": 20261116,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.7552914421936515,
+        "failed_entry_probability": 0.760393255995664,
+        "qualifying_expected_price_error_pct": 0.502472266764206
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.8173829020267621,
+        "failed_entry_probability": 0.3666223285280049,
+        "qualifying_expected_price_error_pct": 0.45577610669188856
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.9069163710696386,
+        "failed_entry_probability": 0.9049220224458638,
+        "qualifying_expected_price_error_pct": 0.3681799504075728
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.43109705052609115,
+        "failed_entry_probability": 0.3823447134834091,
+        "qualifying_expected_price_error_pct": 0.4294560285096825
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11",
+    "side": "long",
+    "seed": 20261114,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.8104102647115822,
+        "failed_entry_probability": 0.7883844203797801,
+        "qualifying_expected_price_error_pct": 0.5550441924972948
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.866143875338551,
+        "failed_entry_probability": 0.39041996012089836,
+        "qualifying_expected_price_error_pct": 0.4707839677311003
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.7539668570654776,
+        "failed_entry_probability": 0.8860683547411528,
+        "qualifying_expected_price_error_pct": 0.3507303389160571
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.5353401801586666,
+        "failed_entry_probability": 0.3694455379653174,
+        "qualifying_expected_price_error_pct": 0.5827382046288688
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11",
+    "side": "long",
+    "seed": 20261115,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.7809570299070084,
+        "failed_entry_probability": 0.7329571828164371,
+        "qualifying_expected_price_error_pct": 0.5584091948680514
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.8401148937034402,
+        "failed_entry_probability": 0.3794909621611999,
+        "qualifying_expected_price_error_pct": 0.4863478301551035
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.5901832644892941,
+        "failed_entry_probability": 0.8422097632145176,
+        "qualifying_expected_price_error_pct": 0.343772307807878
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.5977014260528836,
+        "failed_entry_probability": 0.3240040836780019,
+        "qualifying_expected_price_error_pct": 0.5503083579499708
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11",
+    "side": "long",
+    "seed": 20261116,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.7880685142086646,
+        "failed_entry_probability": 0.7638978689735185,
+        "qualifying_expected_price_error_pct": 0.5591336940002477
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.7920068397733889,
+        "failed_entry_probability": 0.3666573849917255,
+        "qualifying_expected_price_error_pct": 0.522150940739378
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.6381380048364007,
+        "failed_entry_probability": 0.8413375848027307,
+        "qualifying_expected_price_error_pct": 0.3331883947629433
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.7722245030556136,
+        "failed_entry_probability": 0.3148107992507822,
+        "qualifying_expected_price_error_pct": 0.3416751755005507
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11",
+    "side": "short",
+    "seed": 20261114,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.7764197938629367,
+        "failed_entry_probability": 0.789757819628942,
+        "qualifying_expected_price_error_pct": 0.508689961873815
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.7988382526776697,
+        "failed_entry_probability": 0.33767373097209724,
+        "qualifying_expected_price_error_pct": 0.464656833389584
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.7607678224848318,
+        "failed_entry_probability": 0.9045681050733531,
+        "qualifying_expected_price_error_pct": 0.24586493006941776
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.39712884032258267,
+        "failed_entry_probability": 0.34586250195914486,
+        "qualifying_expected_price_error_pct": 0.21214937179071347
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11",
+    "side": "short",
+    "seed": 20261115,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.701343863952476,
+        "failed_entry_probability": 0.7516011130203204,
+        "qualifying_expected_price_error_pct": 0.5611436780985418
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.7761439581196791,
+        "failed_entry_probability": 0.32508829032314634,
+        "qualifying_expected_price_error_pct": 0.4766373364487463
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.6640133430132664,
+        "failed_entry_probability": 0.8870339237471377,
+        "qualifying_expected_price_error_pct": 0.28054661332708253
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.43942787109172804,
+        "failed_entry_probability": 0.31598077239906036,
+        "qualifying_expected_price_error_pct": 0.19884660498102164
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11",
+    "side": "short",
+    "seed": 20261116,
+    "train": {
+      "initial": {
+        "qualifying_entry_probability": 0.7115188802027688,
+        "failed_entry_probability": 0.7508766061730562,
+        "qualifying_expected_price_error_pct": 0.5647341313091174
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.8045451536239963,
+        "failed_entry_probability": 0.345167616921922,
+        "qualifying_expected_price_error_pct": 0.44993334325061407
+      }
+    },
+    "validation": {
+      "initial": {
+        "qualifying_entry_probability": 0.662809993075846,
+        "failed_entry_probability": 0.8793680429400402,
+        "qualifying_expected_price_error_pct": 0.3105960515328729
+      },
+      "trained": {
+        "qualifying_entry_probability": 0.39023869452874155,
+        "failed_entry_probability": 0.3531821846003727,
+        "qualifying_expected_price_error_pct": 0.21607233865046882
+      }
+    }
+  }
+]

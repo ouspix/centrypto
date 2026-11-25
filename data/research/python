@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+
+research_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+export PYTHONPATH="$research_dir/python-packages${PYTHONPATH:+:$PYTHONPATH}"
+export PYTHONDONTWRITEBYTECODE=1
+export MPLCONFIGDIR="$research_dir/matplotlib"
+exec /usr/bin/python3 "$@"

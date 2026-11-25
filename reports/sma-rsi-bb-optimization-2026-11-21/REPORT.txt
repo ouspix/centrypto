@@ -1,0 +1,41 @@
+SMA, RSI and Bollinger Band entry optimization
+November 2026 | Five-minute Hyperliquid perpetuals
+
+The validation-selected model earned $33.75 after costs on 38 forward trades. The independently tuned entry model with no RSI or Bollinger inputs earned $53.97 on 33 trades. At identical SMA and threshold settings, adding indicators increased net P&L by $3.91 and required 10 extra trades. The four forward dates provide limited evidence for a model change.
+
+Frozen configuration
+
+Long entries used a 3/12 SMA crossover, Wilder RSI(3), its three-bar change, and a 90th-percentile entry score cutoff. Short entries used the same crossover, Wilder RSI(7.5), 12-bar Bollinger Bands at two population standard deviations, and a 95th-percentile cutoff. The band features were %B, width divided by the middle band, and the three-bar change in normalized width. The three-member price-error entry ensembles average seed-specific training percentile scores. The original three-member long and short exit ensembles use a 0.50 score threshold and a 24-hour deadline.
+
+Method
+
+The search considered 24 feature configurations per side, including the saved original price-error entries as the control. The 23 new configurations on each side received three independent fits of 4,000 Adam updates each. The historical entry opportunities and labels came from the original eight integer SMA pairs. Pair optimization selected one of these eight pairs or all eight at inference. Each configuration faced nine SMA choices and three entry thresholds on the same opportunities. The search evaluated 1,296 single-side policies and 49 joint finalist combinations, including cash. The shortlist retained up to six distinct feature configurations per side. The selection score was a lower bootstrap bound on daily validation net P&L, subject to trade, symbol, day and seed profitability checks. The drawdown tie-break used realized P&L at trade closes. The lower bound served as a ranking heuristic in this search.
+
+The last training label completed on November 3 at 23:56 UTC. Validation used November 5–14, with time reserved for outcomes. The selected ensemble made $79.07 on 39 validation trades. The independently tuned no-indicator strategy made $53.21 on 42 validation trades. Training and selection preceded the forward evaluation in event time. The run used recovered historical records and event-time assumptions for simulated fills.
+
+Forward entry decisions ran from November 17 at 00:00 UTC to November 20 at 12:00 UTC. Exit data extend through November 21 at 13:00 UTC. The source universe had 179 symbols. All 38 selected trades had priced entries, exits, and funding. The portfolio simulation permits concurrent positions in different symbols. Dollar P&L is the sum across $100 fixed-notional entries.
+
+Forward results                       Trades     Net P&L   Closed-trade drawdown
+Selected RSI and Bollinger entries        38     +$33.75                 $12.16
+Matched SMA/thresholds, no indicators     28     +$29.84                 $14.45
+Independently tuned, no indicators        33     +$53.97                  $8.10
+Original price-error, old thresholds      79    +$163.54                 $16.03
+Original repaired classifier, old cuts    67    +$164.42                 $13.25
+Original archived price-error cash         0       $0.00                  $0.00
+
+The matched control applies the original price-error ensembles to the selected 3/12 SMA and 90th/95th-percentile entry settings. The independently tuned control chose 3/12 for longs and 8/30 for shorts, both at the 90th percentile. The two older active benchmarks used all eight SMA pairs. The archived price-error policy had selected cash.
+
+The selected ensemble traded 19 symbols and won 21 of 38 trades. Longs earned $1.39 on 23 trades. Shorts earned $32.36 on 15 trades. Gross P&L of $38.36 included neither fees nor execution costs. Subtracting $3.41 in fees, $0.75 of modeled slippage and $0.45 in funding yielded the reported net result. Fees were 4.5 basis points per fill and modeled slippage was 1 basis point per fill. Historical hourly funding rates were applied to the position quantity using the settlement-minute open as a proxy for mark price. Closed-trade drawdown excludes intratrade fluctuations. The selected entry seeds individually earned $17.24, $46.61 and $29.28 with the same ensemble exits.
+
+Reproduction
+
+From /srv/centrypto-checkpoint in Centrypto-Recovery, use the bundled data/research/python launcher. Set OPENBLAS_NUM_THREADS=1 and OMP_NUM_THREADS=1. The experiment directory contains the following entry points in run order.
+
+  capture.py               Cache market, spot and funding snapshots.
+  train.py                 Fit or resume the entry networks.
+  optimize.py search       Evaluate validation candidates and save selection.json.
+  optimize.py backtest     Apply the locked settings to the forward period.
+  bundle.py                Export selected-models.joblib and its SHA-256.
+  verify.py                Reconcile results against raw minute prices and funding.
+
+The capture cache and all 138 trained checkpoints are under data/research/centrypto/sma-rsi-bb-optimization-2026-11-21. Each captured symbol file is recorded in snapshot-hashes.json. The selected-models.joblib bundle contains all twelve networks for the four selected ensembles. The original price-error module imports must be available to load the serialized model classes. result.json contains the per-side results and seed sensitivity. trades.json contains all comparison ledgers. validation-long.json, validation-short.json, joint-validation.json and selection.json record the search.

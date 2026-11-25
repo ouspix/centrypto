@@ -1,0 +1,118 @@
+[
+  {
+    "fold": "2026-06-01T00:00:00Z",
+    "sides": {
+      "long": {
+        "entry": {
+          "rows": 36753,
+          "positives": 2774,
+          "prevalence": 0.07547683268785477
+        },
+        "exit": {
+          "rows": 19360,
+          "positives": 8677,
+          "prevalence": 0.44819214940071106
+        }
+      },
+      "short": {
+        "entry": {
+          "rows": 39092,
+          "positives": 5396,
+          "prevalence": 0.13803336024284363
+        },
+        "exit": {
+          "rows": 19348,
+          "positives": 5661,
+          "prevalence": 0.29258838295936584
+        }
+      }
+    }
+  },
+  {
+    "fold": "2026-11-03T00:00:00Z",
+    "sides": {
+      "long": {
+        "entry": {
+          "rows": 11666,
+          "positives": 562,
+          "prevalence": 0.0481741800904274
+        },
+        "exit": {
+          "rows": 19407,
+          "positives": 6790,
+          "prevalence": 0.34987375140190125
+        }
+      },
+      "short": {
+        "entry": {
+          "rows": 10439,
+          "positives": 449,
+          "prevalence": 0.04301178455352783
+        },
+        "exit": {
+          "rows": 19401,
+          "positives": 6658,
+          "prevalence": 0.3431781828403473
+        }
+      }
+    }
+  },
+  {
+    "fold": "2026-11-07T00:00:00Z",
+    "sides": {
+      "long": {
+        "entry": {
+          "rows": 5330,
+          "positives": 10,
+          "prevalence": 0.0018761726096272469
+        },
+        "exit": {
+          "rows": 19314,
+          "positives": 9004,
+          "prevalence": 0.4661903381347656
+        }
+      },
+      "short": {
+        "entry": {
+          "rows": 5351,
+          "positives": 53,
+          "prevalence": 0.009904691018164158
+        },
+        "exit": {
+          "rows": 19321,
+          "positives": 4491,
+          "prevalence": 0.23244138062000275
+        }
+      }
+    }
+  },
+  {
+    "fold": "2026-11-11T00:00:00Z",
+    "sides": {
+      "long": {
+        "entry": {
+          "rows": 5637,
+          "positives": 26,
+          "prevalence": 0.004612382501363754
+        },
+        "exit": {
+          "rows": 19385,
+          "positives": 10248,
+          "prevalence": 0.5286561846733093
+        }
+      },
+      "short": {
+        "entry": {
+          "rows": 6284,
+          "positives": 347,
+          "prevalence": 0.055219605565071106
+        },
+        "exit": {
+          "rows": 19376,
+          "positives": 3145,
+          "prevalence": 0.16231420636177063
+        }
+      }
+    }
+  }
+]

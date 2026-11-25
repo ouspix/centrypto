@@ -1,0 +1,21 @@
+{
+  "status": "passed",
+  "teachers_checked": {
+    "long": 355,
+    "short": 573
+  },
+  "exhaustive_entry_exit_searches": {
+    "long": 30,
+    "short": 30
+  },
+  "synthetic_long_short_oracle_checks": 800,
+  "short_return_100_to_90_pct": 10,
+  "original_model_and_protocol_hashes_unchanged": true,
+  "original_bullish_labels_match_on_teacher_series": true,
+  "same_entry_exit_target_pairs": 1127,
+  "long_entry_exit_pairs": 437,
+  "short_entry_exit_pairs": 690,
+  "entries_positive_for_both_sides": 3,
+  "models_retrained": false,
+  "note": "Checks validate labels and arithmetic, not short tradability or future predictive returns."
+}

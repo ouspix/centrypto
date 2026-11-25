@@ -1,0 +1,165 @@
+{
+  "selected": {
+    "long": [
+      30,
+      80
+    ],
+    "short": [
+      3,
+      12
+    ]
+  },
+  "catalog": {
+    "long": [
+      {
+        "pair": [
+          3,
+          12
+        ],
+        "trades": 4465,
+        "dates": 62,
+        "median_daily_mean_bps": -11.892350204408366
+      },
+      {
+        "pair": [
+          5,
+          20
+        ],
+        "trades": 2665,
+        "dates": 62,
+        "median_daily_mean_bps": -4.865984314786147
+      },
+      {
+        "pair": [
+          8,
+          30
+        ],
+        "trades": 1731,
+        "dates": 61,
+        "median_daily_mean_bps": -5.232324698960134
+      },
+      {
+        "pair": [
+          10,
+          30
+        ],
+        "trades": 1658,
+        "dates": 62,
+        "median_daily_mean_bps": -10.074487371100698
+      },
+      {
+        "pair": [
+          10,
+          50
+        ],
+        "trades": 1143,
+        "dates": 62,
+        "median_daily_mean_bps": -19.067887646324124
+      },
+      {
+        "pair": [
+          20,
+          50
+        ],
+        "trades": 940,
+        "dates": 62,
+        "median_daily_mean_bps": -9.707991060037571
+      },
+      {
+        "pair": [
+          20,
+          80
+        ],
+        "trades": 653,
+        "dates": 61,
+        "median_daily_mean_bps": -6.2191215780185924
+      },
+      {
+        "pair": [
+          30,
+          80
+        ],
+        "trades": 557,
+        "dates": 60,
+        "median_daily_mean_bps": -3.843774918009944
+      }
+    ],
+    "short": [
+      {
+        "pair": [
+          3,
+          12
+        ],
+        "trades": 4450,
+        "dates": 62,
+        "median_daily_mean_bps": -6.356434762372233
+      },
+      {
+        "pair": [
+          5,
+          20
+        ],
+        "trades": 2645,
+        "dates": 62,
+        "median_daily_mean_bps": -8.522661445379166
+      },
+      {
+        "pair": [
+          8,
+          30
+        ],
+        "trades": 1712,
+        "dates": 62,
+        "median_daily_mean_bps": -10.543700592300816
+      },
+      {
+        "pair": [
+          10,
+          30
+        ],
+        "trades": 1642,
+        "dates": 62,
+        "median_daily_mean_bps": -8.802228759233756
+      },
+      {
+        "pair": [
+          10,
+          50
+        ],
+        "trades": 1147,
+        "dates": 62,
+        "median_daily_mean_bps": -12.577616630445569
+      },
+      {
+        "pair": [
+          20,
+          50
+        ],
+        "trades": 961,
+        "dates": 61,
+        "median_daily_mean_bps": -12.06964078482322
+      },
+      {
+        "pair": [
+          20,
+          80
+        ],
+        "trades": 663,
+        "dates": 60,
+        "median_daily_mean_bps": -26.763050085785657
+      },
+      {
+        "pair": [
+          30,
+          80
+        ],
+        "trades": 594,
+        "dates": 60,
+        "median_daily_mean_bps": -13.514456770767165
+      }
+    ]
+  },
+  "first": "2025-03-23T00:00:00+00:00",
+  "last": "2025-05-23T00:00:00+00:00",
+  "end_exclusive": "2025-07-01T00:00:00+00:00"
+}

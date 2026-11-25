@@ -1,0 +1,10 @@
+{
+  "sealed_utc": "2026-11-22T23:25:37.390083+00:00",
+  "previous_training_lock": "4bf9a252e5f9fb7c1b9bd87079358e5bac140df8262ba241681ed238e614b923",
+  "artifacts": {
+    "portfolio_risk.py": "c2c4d014c637584d14d73fa0ecf296cb88345b64d76faaa84642c05eb84d2981",
+    "risk_protocol.json": "ba4fb42218287bc227dec15ebed2d09015457a8cac4a0f0c1171f57e9963f22f",
+    "risk-training.json": "8fb9c6b052137632b26b04a86fc4c55aef8be0bc2eef7aad35eba99f9688fb60",
+    "portfolio-risk-examples.csv.gz": "3a51e79db42be96549925ba1197ed8f3dbf4afc2ce2b0f1d6240099389fdcd9c"
+  }
+}

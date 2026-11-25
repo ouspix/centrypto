@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "causal_sma_and_mirrored_directions": true,
+  "gradient_coordinates": 18,
+  "maximum_gradient_error": 5.355570465326309e-05,
+  "independent_target_and_direction_checks": 80,
+  "news_excluded_from_exit": true,
+  "holding_deadline_checks": 4,
+  "original_files_verified": 43
+}

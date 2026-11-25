@@ -1,0 +1,10 @@
+[Unit]
+Description=Run the Centrypto forward evaluation after all exits mature
+
+[Timer]
+OnCalendar=2026-12-01 01:10:00 UTC
+Persistent=true
+Unit=centrypto-frozen-entry-evaluation.service
+
+[Install]
+WantedBy=timers.target

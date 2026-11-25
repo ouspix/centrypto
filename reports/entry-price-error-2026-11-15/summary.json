@@ -1,0 +1,392 @@
+{
+  "status": "implemented_and_retrained",
+  "selected_policy": [
+    {
+      "variant": "current",
+      "stats": {
+        "trades": 33,
+        "priced": 33,
+        "censored": 0,
+        "gross_pnl_usd": 23.114690678166493,
+        "priced_subtotal_usd": 23.114690678166493,
+        "mean_return_pct": 0.7004451720656513,
+        "wins": 19,
+        "losses": 14,
+        "median_holding_minutes": 80.0,
+        "notional_hours": 9175.0
+      },
+      "by_side": {
+        "long": {
+          "trades": 15,
+          "priced": 15,
+          "censored": 0,
+          "gross_pnl_usd": -21.710407921286663,
+          "priced_subtotal_usd": -21.710407921286663,
+          "mean_return_pct": -1.4473605280857775,
+          "wins": 7,
+          "losses": 8,
+          "median_holding_minutes": 40.0,
+          "notional_hours": 3533.3333333333335
+        },
+        "short": {
+          "trades": 18,
+          "priced": 18,
+          "censored": 0,
+          "gross_pnl_usd": 44.82509859945315,
+          "priced_subtotal_usd": 44.82509859945315,
+          "mean_return_pct": 2.490283255525175,
+          "wins": 12,
+          "losses": 6,
+          "median_holding_minutes": 122.5,
+          "notional_hours": 5641.666666666666
+        }
+      }
+    },
+    {
+      "variant": "price_error",
+      "stats": {
+        "trades": 0,
+        "priced": 0,
+        "censored": 0,
+        "gross_pnl_usd": 0.0,
+        "priced_subtotal_usd": 0.0,
+        "mean_return_pct": null,
+        "wins": 0,
+        "losses": 0,
+        "median_holding_minutes": null,
+        "notional_hours": 0
+      },
+      "by_side": {
+        "long": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        },
+        "short": {
+          "trades": 0,
+          "priced": 0,
+          "censored": 0,
+          "gross_pnl_usd": 0.0,
+          "priced_subtotal_usd": 0.0,
+          "mean_return_pct": null,
+          "wins": 0,
+          "losses": 0,
+          "median_holding_minutes": null,
+          "notional_hours": 0
+        }
+      }
+    }
+  ],
+  "diagnostic_replays": [
+    {
+      "mode": "fixed_percentile_90",
+      "variant": "current",
+      "stats": {
+        "trades": 362,
+        "priced": 362,
+        "censored": 0,
+        "gross_pnl_usd": -305.793011397762,
+        "priced_subtotal_usd": -305.793011397762,
+        "mean_return_pct": -0.8447320756844253,
+        "wins": 174,
+        "losses": 187,
+        "median_holding_minutes": 280.0,
+        "notional_hours": 282325.0
+      },
+      "by_side": {
+        "long": {
+          "trades": 304,
+          "priced": 304,
+          "censored": 0,
+          "gross_pnl_usd": -339.8193334359606,
+          "priced_subtotal_usd": -339.8193334359606,
+          "mean_return_pct": -1.1178267547235545,
+          "wins": 140,
+          "losses": 163,
+          "median_holding_minutes": 325.0,
+          "notional_hours": 263783.3333333333
+        },
+        "short": {
+          "trades": 58,
+          "priced": 58,
+          "censored": 0,
+          "gross_pnl_usd": 34.02632203819858,
+          "priced_subtotal_usd": 34.02632203819858,
+          "mean_return_pct": 0.5866607247965272,
+          "wins": 34,
+          "losses": 24,
+          "median_holding_minutes": 100.0,
+          "notional_hours": 18541.666666666668
+        }
+      }
+    },
+    {
+      "mode": "fixed_percentile_90",
+      "variant": "price_error",
+      "stats": {
+        "trades": 414,
+        "priced": 412,
+        "censored": 2,
+        "gross_pnl_usd": null,
+        "priced_subtotal_usd": -432.19926936607646,
+        "mean_return_pct": -1.0490273528302827,
+        "wins": 178,
+        "losses": 234,
+        "median_holding_minutes": 252.5,
+        "notional_hours": 329041.6666666667
+      },
+      "by_side": {
+        "long": {
+          "trades": 323,
+          "priced": 321,
+          "censored": 2,
+          "gross_pnl_usd": null,
+          "priced_subtotal_usd": -455.4817017558587,
+          "mean_return_pct": -1.4189461113889679,
+          "wins": 130,
+          "losses": 191,
+          "median_holding_minutes": 415.0,
+          "notional_hours": 305225.0
+        },
+        "short": {
+          "trades": 91,
+          "priced": 91,
+          "censored": 0,
+          "gross_pnl_usd": 23.282432389782265,
+          "priced_subtotal_usd": 23.282432389782265,
+          "mean_return_pct": 0.2558509053822227,
+          "wins": 48,
+          "losses": 43,
+          "median_holding_minutes": 75.0,
+          "notional_hours": 23816.666666666668
+        }
+      }
+    },
+    {
+      "mode": "frozen_current_policy",
+      "variant": "current",
+      "stats": {
+        "trades": 33,
+        "priced": 33,
+        "censored": 0,
+        "gross_pnl_usd": 23.114690678166493,
+        "priced_subtotal_usd": 23.114690678166493,
+        "mean_return_pct": 0.7004451720656513,
+        "wins": 19,
+        "losses": 14,
+        "median_holding_minutes": 80.0,
+        "notional_hours": 9175.0
+      },
+      "by_side": {
+        "long": {
+          "trades": 15,
+          "priced": 15,
+          "censored": 0,
+          "gross_pnl_usd": -21.710407921286663,
+          "priced_subtotal_usd": -21.710407921286663,
+          "mean_return_pct": -1.4473605280857775,
+          "wins": 7,
+          "losses": 8,
+          "median_holding_minutes": 40.0,
+          "notional_hours": 3533.3333333333335
+        },
+        "short": {
+          "trades": 18,
+          "priced": 18,
+          "censored": 0,
+          "gross_pnl_usd": 44.82509859945315,
+          "priced_subtotal_usd": 44.82509859945315,
+          "mean_return_pct": 2.490283255525175,
+          "wins": 12,
+          "losses": 6,
+          "median_holding_minutes": 122.5,
+          "notional_hours": 5641.666666666666
+        }
+      }
+    },
+    {
+      "mode": "frozen_current_policy",
+      "variant": "price_error",
+      "stats": {
+        "trades": 36,
+        "priced": 36,
+        "censored": 0,
+        "gross_pnl_usd": 12.146221384988737,
+        "priced_subtotal_usd": 12.146221384988737,
+        "mean_return_pct": 0.3373950384719093,
+        "wins": 17,
+        "losses": 19,
+        "median_holding_minutes": 77.5,
+        "notional_hours": 9191.666666666666
+      },
+      "by_side": {
+        "long": {
+          "trades": 10,
+          "priced": 10,
+          "censored": 0,
+          "gross_pnl_usd": -4.043491837542513,
+          "priced_subtotal_usd": -4.043491837542513,
+          "mean_return_pct": -0.40434918375425133,
+          "wins": 4,
+          "losses": 6,
+          "median_holding_minutes": 70.0,
+          "notional_hours": 1125.0
+        },
+        "short": {
+          "trades": 26,
+          "priced": 26,
+          "censored": 0,
+          "gross_pnl_usd": 16.189713222531253,
+          "priced_subtotal_usd": 16.189713222531253,
+          "mean_return_pct": 0.6226812777896635,
+          "wins": 13,
+          "losses": 13,
+          "median_holding_minutes": 90.0,
+          "notional_hours": 8066.666666666666
+        }
+      }
+    }
+  ],
+  "entry_accuracy_fixed_percentile_90": [
+    {
+      "side": "long",
+      "variant": "current",
+      "setups": 3663,
+      "qualifying_setups": 281,
+      "failed_setups": 3382,
+      "entered_qualifying": 92,
+      "qualifying_coverage_pct": 32.74021352313167,
+      "entered_failed": 862,
+      "failed_entry_rate_pct": 25.487876995860436,
+      "mean_price_error_pct": 0.954264900605921,
+      "all_setup_mean_cost": 0.030367856519938518
+    },
+    {
+      "side": "long",
+      "variant": "price_error",
+      "setups": 3663,
+      "qualifying_setups": 281,
+      "failed_setups": 3382,
+      "entered_qualifying": 103,
+      "qualifying_coverage_pct": 36.654804270462634,
+      "entered_failed": 938,
+      "failed_entry_rate_pct": 27.73506800709639,
+      "mean_price_error_pct": 0.7779283764045557,
+      "all_setup_mean_cost": 0.03179819678342207
+    },
+    {
+      "side": "short",
+      "variant": "current",
+      "setups": 4118,
+      "qualifying_setups": 742,
+      "failed_setups": 3376,
+      "entered_qualifying": 45,
+      "qualifying_coverage_pct": 6.064690026954178,
+      "entered_failed": 100,
+      "failed_entry_rate_pct": 2.962085308056872,
+      "mean_price_error_pct": 0.6010509822646893,
+      "all_setup_mean_cost": 0.027407952415098327
+    },
+    {
+      "side": "short",
+      "variant": "price_error",
+      "setups": 4118,
+      "qualifying_setups": 742,
+      "failed_setups": 3376,
+      "entered_qualifying": 58,
+      "qualifying_coverage_pct": 7.816711590296496,
+      "entered_failed": 161,
+      "failed_entry_rate_pct": 4.768957345971564,
+      "mean_price_error_pct": 0.9711491857853906,
+      "all_setup_mean_cost": 0.0276446223414599
+    }
+  ],
+  "paired_entry_accuracy": [
+    {
+      "side": "long",
+      "both_entered_qualifying": 85,
+      "current_price_error_pct": 1.0264642200022835,
+      "new_price_error_pct": 0.9405551609081374,
+      "symbol_day_groups": 296,
+      "paired_mean_cost_difference_new_minus_current": 0.011330939095537791,
+      "symbol_day_bootstrap_95pct_interval": [
+        0.006873780405026107,
+        0.016047505686290993
+      ],
+      "interpretation": "Descriptive clustered uncertainty on reused test periods; not a pristine-holdout significance test."
+    },
+    {
+      "side": "short",
+      "both_entered_qualifying": 28,
+      "current_price_error_pct": 0.7534427701305932,
+      "new_price_error_pct": 1.2108664640205133,
+      "symbol_day_groups": 347,
+      "paired_mean_cost_difference_new_minus_current": -0.0006452705200274766,
+      "symbol_day_bootstrap_95pct_interval": [
+        -0.002201917364748068,
+        0.0005387360107385671
+      ],
+      "interpretation": "Descriptive clustered uncertainty on reused test periods; not a pristine-holdout significance test."
+    }
+  ],
+  "test_coverage": {
+    "setups": 7781,
+    "qualifying_setups": 1023,
+    "qualifying_symbol_days": 142,
+    "symbols": 140,
+    "description": "SMA setups overlap across pairs and are not independent rallies. Symbol-days are grouping units, not a claim of unique waves."
+  },
+  "folds": [
+    {
+      "start": "2026-06-01T00:00:00Z",
+      "end": "2026-06-10T00:00:00Z",
+      "validation_start": "2026-05-27T00:00:00Z"
+    },
+    {
+      "start": "2026-11-03T00:00:00Z",
+      "end": "2026-11-07T00:00:00Z",
+      "validation_start": "2026-06-07T00:00:00Z"
+    },
+    {
+      "start": "2026-11-07T00:00:00Z",
+      "end": "2026-11-11T00:00:00Z",
+      "validation_start": "2026-11-02T00:00:00Z"
+    },
+    {
+      "start": "2026-11-11T00:00:00Z",
+      "end": "2026-11-14T08:30:00Z",
+      "validation_start": "2026-11-05T00:00:00Z"
+    }
+  ],
+  "seeds": [
+    20261114,
+    20261115,
+    20261116
+  ],
+  "network_count": 24,
+  "holdout_status": "Chronological folds are unseen by each fitted network but already examined in prior research; not pristine research holdouts.",
+  "conclusion": "No improvement in total profit. Long entry error improves modestly; short entry error worsens. New validation-selected policy stays in cash in every fold. Old-threshold entry substitution earns less than the current entry model.",
+  "quality": {
+    "status": "passed",
+    "baseline_models_hash_unchanged": 48,
+    "source_lock_passed": true,
+    "raw_future_opens_checked": 23328,
+    "trade_records_recomputed": 5295,
+    "unknown_trade_records_preserved": 4,
+    "training_loss_reduced": 24,
+    "networks": 24,
+    "runtime_ensemble_prediction_parity": 100,
+    "frozen_exit_bundle_hash_identical": true,
+    "frozen_current_replay_parity_all_four_folds": true,
+    "runtime_wait_and_deadline_checks": true,
+    "news_excluded": true,
+    "receipt_time_limitation": "Original historical receipt times remain unavailable; event-time research only."
+  }
+}

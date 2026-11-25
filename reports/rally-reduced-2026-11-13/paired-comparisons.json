@@ -1,0 +1,137 @@
+[
+  {
+    "experiment": "all_history",
+    "subset": "all",
+    "model_a": "relevance_reduced",
+    "model_b": "historical_mean",
+    "matched_rows": 1547,
+    "matched_episodes": 1014,
+    "calendar_days": 31,
+    "MAE_difference_a_minus_b_pp": 0.023896199002837765,
+    "day_block_bootstrap_95pct": [
+      0.001640405862324672,
+      0.04677930875355648
+    ],
+    "interpretation": "Negative favors model a. Descriptive uncertainty; few days, repeated research and multiple model comparisons limit inference."
+  },
+  {
+    "experiment": "all_history",
+    "subset": "recent",
+    "model_a": "relevance_reduced",
+    "model_b": "historical_mean",
+    "matched_rows": 561,
+    "matched_episodes": 363,
+    "calendar_days": 15,
+    "MAE_difference_a_minus_b_pp": 0.020619152677779327,
+    "day_block_bootstrap_95pct": [
+      -0.006143330168894507,
+      0.047457935249113355
+    ],
+    "interpretation": "Negative favors model a. Descriptive uncertainty; few days, repeated research and multiple model comparisons limit inference."
+  },
+  {
+    "experiment": "all_history",
+    "subset": "all",
+    "model_a": "relevance_reduced",
+    "model_b": "wide_nonlinear",
+    "matched_rows": 1547,
+    "matched_episodes": 1014,
+    "calendar_days": 31,
+    "MAE_difference_a_minus_b_pp": 0.028430720126908705,
+    "day_block_bootstrap_95pct": [
+      0.003503538743663519,
+      0.052934904345058625
+    ],
+    "interpretation": "Negative favors model a. Descriptive uncertainty; few days, repeated research and multiple model comparisons limit inference."
+  },
+  {
+    "experiment": "all_history",
+    "subset": "recent",
+    "model_a": "relevance_reduced",
+    "model_b": "wide_nonlinear",
+    "matched_rows": 561,
+    "matched_episodes": 363,
+    "calendar_days": 15,
+    "MAE_difference_a_minus_b_pp": 0.005736294326095073,
+    "day_block_bootstrap_95pct": [
+      -0.036143010760599475,
+      0.046048627616377256
+    ],
+    "interpretation": "Negative favors model a. Descriptive uncertainty; few days, repeated research and multiple model comparisons limit inference."
+  },
+  {
+    "experiment": "all_history",
+    "subset": "all",
+    "model_a": "relevance_reduced",
+    "model_b": "relevance_no_news",
+    "matched_rows": 1547,
+    "matched_episodes": 1014,
+    "calendar_days": 31,
+    "MAE_difference_a_minus_b_pp": 0.0,
+    "day_block_bootstrap_95pct": [
+      0.0,
+      0.0
+    ],
+    "interpretation": "Negative favors model a. Descriptive uncertainty; few days, repeated research and multiple model comparisons limit inference."
+  },
+  {
+    "experiment": "all_history",
+    "subset": "recent",
+    "model_a": "relevance_reduced",
+    "model_b": "relevance_no_news",
+    "matched_rows": 561,
+    "matched_episodes": 363,
+    "calendar_days": 15,
+    "MAE_difference_a_minus_b_pp": 0.0,
+    "day_block_bootstrap_95pct": [
+      0.0,
+      0.0
+    ],
+    "interpretation": "Negative favors model a. Descriptive uncertainty; few days, repeated research and multiple model comparisons limit inference."
+  },
+  {
+    "experiment": "news_window",
+    "subset": "all",
+    "model_a": "relevance_reduced",
+    "model_b": "historical_mean",
+    "matched_rows": 304,
+    "matched_episodes": 197,
+    "calendar_days": 9,
+    "MAE_difference_a_minus_b_pp": 0.16677135416269645,
+    "day_block_bootstrap_95pct": [
+      0.00233582184353731,
+      0.43347359627911664
+    ],
+    "interpretation": "Negative favors model a. Descriptive uncertainty; few days, repeated research and multiple model comparisons limit inference."
+  },
+  {
+    "experiment": "news_window",
+    "subset": "all",
+    "model_a": "relevance_reduced",
+    "model_b": "wide_nonlinear",
+    "matched_rows": 304,
+    "matched_episodes": 197,
+    "calendar_days": 9,
+    "MAE_difference_a_minus_b_pp": 0.13292563524929923,
+    "day_block_bootstrap_95pct": [
+      -0.10974851741613942,
+      0.48493282476704364
+    ],
+    "interpretation": "Negative favors model a. Descriptive uncertainty; few days, repeated research and multiple model comparisons limit inference."
+  },
+  {
+    "experiment": "news_window",
+    "subset": "all",
+    "model_a": "relevance_reduced",
+    "model_b": "relevance_no_news",
+    "matched_rows": 304,
+    "matched_episodes": 197,
+    "calendar_days": 9,
+    "MAE_difference_a_minus_b_pp": 0.09243110474416208,
+    "day_block_bootstrap_95pct": [
+      -0.16670885357885204,
+      0.40728940021193266
+    ],
+    "interpretation": "Negative favors model a. Descriptive uncertainty; few days, repeated research and multiple model comparisons limit inference."
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "documents": 11477,
+  "asset_document_links": 7404,
+  "mapped_documents": 5123,
+  "linked_symbols": 143,
+  "methods": {
+    "fixed_project_name": 2672,
+    "direct_ticker": 4527,
+    "direct_cashtag": 204,
+    "earlier_structured_subject": 1
+  },
+  "market_context_documents": 442,
+  "learned_aliases": 1,
+  "first_available": "2026-10-31T09:46:30.819000Z",
+  "last_available": "2026-11-13T19:59:01.085000Z"
+}

@@ -1,0 +1,16 @@
+{
+  "trained_networks": 138,
+  "updates_per_network": 4000,
+  "forward_trade_rows_reconciled": 283,
+  "snapshots": 179,
+  "last_training_label_completed_utc": "2026-11-03T23:56:00+00:00",
+  "checks": [
+    "RSI fractional and integer reference recurrence",
+    "Bollinger rolling-window reference",
+    "chronological label purge",
+    "model checkpoint counts",
+    "independent raw-minute and hourly funding replay",
+    "nonoverlapping positions per symbol",
+    "forward input coverage for retained feature types"
+  ]
+}

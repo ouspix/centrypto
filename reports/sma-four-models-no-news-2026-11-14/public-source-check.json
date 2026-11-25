@@ -1,0 +1,81 @@
+{
+  "checked_at": "2026-11-14T14:55:18.979Z",
+  "endpoint": "https://api.hyperliquid.xyz/info",
+  "checks": [
+    {
+      "symbol": "INIT",
+      "side": "short",
+      "entry": "2026-11-11T05:51:00Z",
+      "exit": "2026-11-11T12:46:00Z",
+      "recorded_return_pct": 26.10645933014354,
+      "exchange_return_pct": 26.10645933014354,
+      "difference": 0,
+      "prices": [
+        {
+          "time": 1794376260000,
+          "available": true,
+          "open": 0.23408,
+          "close": 0.23664,
+          "volume": 62640
+        },
+        {
+          "time": 1794401160000,
+          "available": true,
+          "open": 0.17297,
+          "close": 0.17292,
+          "volume": 65112
+        }
+      ]
+    },
+    {
+      "symbol": "kPEPE",
+      "side": "short",
+      "entry": "2026-11-11T01:01:00Z",
+      "exit": "2026-11-11T23:21:00Z",
+      "recorded_return_pct": 15.851851851851851,
+      "exchange_return_pct": 15.851851851851851,
+      "difference": 0,
+      "prices": [
+        {
+          "time": 1794358860000,
+          "available": true,
+          "open": 0.0054,
+          "close": 0.005373,
+          "volume": 6649051
+        },
+        {
+          "time": 1794439260000,
+          "available": true,
+          "open": 0.004544,
+          "close": 0.004555,
+          "volume": 4109882
+        }
+      ]
+    },
+    {
+      "symbol": "INIT",
+      "side": "long",
+      "entry": "2026-11-11T00:26:00Z",
+      "exit": "2026-11-11T05:46:00Z",
+      "recorded_return_pct": 14.956487536260399,
+      "exchange_return_pct": 14.956487536260399,
+      "difference": 0,
+      "prices": [
+        {
+          "time": 1794356760000,
+          "available": true,
+          "open": 0.20339,
+          "close": 0.20231,
+          "volume": 1277
+        },
+        {
+          "time": 1794375960000,
+          "available": true,
+          "open": 0.23381,
+          "close": 0.23573,
+          "volume": 127127
+        }
+      ]
+    }
+  ]
+}

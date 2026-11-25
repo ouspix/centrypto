@@ -1,0 +1,11 @@
+{
+  "prediction_rows_checked": 9255,
+  "outer_folds_checked": 27,
+  "inner_time_windows_checked": 162,
+  "headline_metric_comparisons": 10,
+  "selected_threshold": "prediction_pct > 0",
+  "episode_overlap_violations": 0,
+  "future_training_label_violations": 0,
+  "loaded_model_predictions_checked": 10,
+  "status": "passed"
+}

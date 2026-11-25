@@ -1,0 +1,349 @@
+{
+  "candidates": 3113,
+  "decision_window": [
+    "2026-11-14T00:00:00+00:00",
+    "2026-11-19T11:50:00+00:00"
+  ],
+  "valuation": "2026-11-20T12:00:00+00:00",
+  "news_covered": 2646,
+  "result": {
+    "joint": {
+      "base": {
+        "trades": 50,
+        "closed": 48,
+        "long": 0,
+        "short": 50,
+        "net": 67.73481137885324,
+        "max_drawdown": 69.68049138359152,
+        "avg_gross": 675.0588291442637,
+        "ending_open": 2,
+        "ending_inventory": [
+          {
+            "symbol": "SOL",
+            "sign": -1,
+            "entry": 873396,
+            "price": 71.75,
+            "notional": 150.1290033746712,
+            "pnl": 5.516055302414406
+          },
+          {
+            "symbol": "XRP",
+            "sign": -1,
+            "entry": 874401,
+            "price": 0.95181,
+            "notional": 152.44055783955696,
+            "pnl": 3.223878454862678
+          }
+        ],
+        "realized_net": 58.99487762157613,
+        "open_marked_pnl": 8.739933757277084,
+        "missing_funding_hours": 0,
+        "passed": 2465,
+        "rejects": {
+          "busy": 1619,
+          "sizing": 209,
+          "slippage_limit": 2,
+          "daily_loss": 185
+        },
+        "exits": {
+          "2": 17,
+          "1": 31,
+          "0": 2
+        },
+        "max_holding_minutes": 5520
+      },
+      "stress": {
+        "trades": 62,
+        "closed": 60,
+        "long": 0,
+        "short": 62,
+        "net": 63.48174343597998,
+        "max_drawdown": 57.510361869463395,
+        "avg_gross": 744.4366185048774,
+        "ending_open": 2,
+        "ending_inventory": [
+          {
+            "symbol": "SOL",
+            "sign": -1,
+            "entry": 872647,
+            "price": 71.75,
+            "notional": 148.9279219763963,
+            "pnl": 6.735116851018531
+          },
+          {
+            "symbol": "XRP",
+            "sign": -1,
+            "entry": 874402,
+            "price": 0.95181,
+            "notional": 152.3942687482068,
+            "pnl": 3.2701678327896526
+          }
+        ],
+        "realized_net": 53.47645875217161,
+        "open_marked_pnl": 10.005284683808183,
+        "missing_funding_hours": 0,
+        "passed": 2465,
+        "rejects": {
+          "busy": 1864,
+          "sizing": 212,
+          "slippage_limit": 14,
+          "daily_loss": 104
+        },
+        "exits": {
+          "2": 19,
+          "1": 41,
+          "0": 2
+        },
+        "max_holding_minutes": 5519
+      }
+    },
+    "constant_with_joint_exits": {
+      "base": {
+        "trades": 75,
+        "closed": 73,
+        "long": 14,
+        "short": 61,
+        "net": 59.048644463318624,
+        "max_drawdown": 73.63614924531294,
+        "avg_gross": 675.6811312911987,
+        "ending_open": 2,
+        "ending_inventory": [
+          {
+            "symbol": "SOL",
+            "sign": -1,
+            "entry": 872521,
+            "price": 71.75,
+            "notional": 152.29720034454934,
+            "pnl": 3.355892715501344
+          },
+          {
+            "symbol": "XRP",
+            "sign": -1,
+            "entry": 874526,
+            "price": 0.95181,
+            "notional": 151.24353657193296,
+            "pnl": 4.381012655195084
+          }
+        ],
+        "realized_net": 51.31173909262211,
+        "open_marked_pnl": 7.736905370696428,
+        "missing_funding_hours": 0,
+        "passed": 3113,
+        "rejects": {
+          "busy": 2068,
+          "sizing": 276,
+          "slippage_limit": 3,
+          "daily_loss": 191
+        },
+        "exits": {
+          "1": 45,
+          "2": 28,
+          "0": 2
+        },
+        "max_holding_minutes": 5520
+      },
+      "stress": {
+        "trades": 72,
+        "closed": 70,
+        "long": 15,
+        "short": 57,
+        "net": 74.72741010679283,
+        "max_drawdown": 66.88451306006345,
+        "avg_gross": 681.8889791751071,
+        "ending_open": 2,
+        "ending_inventory": [
+          {
+            "symbol": "SOL",
+            "sign": -1,
+            "entry": 872522,
+            "price": 71.75,
+            "notional": 152.2778547263342,
+            "pnl": 3.3752368856906134
+          },
+          {
+            "symbol": "XRP",
+            "sign": -1,
+            "entry": 874527,
+            "price": 0.95181,
+            "notional": 151.31702999962565,
+            "pnl": 4.307516883134433
+          }
+        ],
+        "realized_net": 67.04465633796794,
+        "open_marked_pnl": 7.682753768825046,
+        "missing_funding_hours": 0,
+        "passed": 3113,
+        "rejects": {
+          "slippage_limit": 13,
+          "busy": 2083,
+          "sizing": 272,
+          "daily_loss": 186
+        },
+        "exits": {
+          "1": 41,
+          "2": 29,
+          "0": 2
+        },
+        "max_holding_minutes": 5519
+      }
+    },
+    "cash": {
+      "base": {
+        "trades": 0,
+        "closed": 0,
+        "long": 0,
+        "short": 0,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "avg_gross": 0.0,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": 0.0,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 0,
+        "rejects": {},
+        "exits": {},
+        "max_holding_minutes": null
+      },
+      "stress": {
+        "trades": 0,
+        "closed": 0,
+        "long": 0,
+        "short": 0,
+        "net": 0.0,
+        "max_drawdown": 0.0,
+        "avg_gross": 0.0,
+        "ending_open": 0,
+        "ending_inventory": [],
+        "realized_net": 0.0,
+        "open_marked_pnl": 0.0,
+        "missing_funding_hours": 0,
+        "passed": 0,
+        "rejects": {},
+        "exits": {},
+        "max_holding_minutes": null
+      }
+    }
+  },
+  "fixed_constant": {
+    "base": {
+      "trades": 49,
+      "closed": 47,
+      "long": 11,
+      "short": 38,
+      "net": 112.61784641558825,
+      "max_drawdown": 56.557607520950796,
+      "avg_gross": 718.2776934537777,
+      "ending_open": 2,
+      "ending_inventory": [
+        {
+          "symbol": "SOL",
+          "sign": -1,
+          "entry": 872026,
+          "price": 71.75,
+          "notional": 152.18744679668436,
+          "pnl": 3.370140490354048
+        },
+        {
+          "symbol": "XRP",
+          "sign": -1,
+          "entry": 874701,
+          "price": 0.95181,
+          "notional": 33.27327665790334,
+          "pnl": 1.089002031990538
+        }
+      ],
+      "realized_net": 108.15870389324374,
+      "open_marked_pnl": 4.459142522344586,
+      "missing_funding_hours": 0,
+      "passed": 3113,
+      "rejects": {
+        "busy": 2083,
+        "sizing": 236,
+        "slippage_limit": 1,
+        "positions": 198,
+        "daily_loss": 3
+      },
+      "exits": {
+        "2": 35,
+        "1": 12,
+        "0": 2
+      },
+      "max_holding_minutes": 5522
+    },
+    "stress": {
+      "trades": 50,
+      "closed": 48,
+      "long": 11,
+      "short": 39,
+      "net": 97.76715446180106,
+      "max_drawdown": 58.75477922366122,
+      "avg_gross": 693.0313550423584,
+      "ending_open": 2,
+      "ending_inventory": [
+        {
+          "symbol": "SOL",
+          "sign": -1,
+          "entry": 872647,
+          "price": 71.75,
+          "notional": 148.8326593118314,
+          "pnl": 6.730808691951585
+        },
+        {
+          "symbol": "XRP",
+          "sign": -1,
+          "entry": 874527,
+          "price": 0.95181,
+          "notional": 89.88457063426561,
+          "pnl": 2.5587292160132042
+        }
+      ],
+      "realized_net": 88.47761655383613,
+      "open_marked_pnl": 9.289537907964789,
+      "missing_funding_hours": 0,
+      "passed": 3113,
+      "rejects": {
+        "slippage_limit": 5,
+        "busy": 2270,
+        "sizing": 225,
+        "positions": 111,
+        "daily_loss": 34
+      },
+      "exits": {
+        "2": 33,
+        "1": 15,
+        "0": 2
+      },
+      "max_holding_minutes": 5521
+    }
+  },
+  "quantiles_05_50_95": {
+    "-1": [
+      [
+        105.96464052769963,
+        495.11327147878313,
+        499.59442781742024
+      ],
+      [
+        25.477894469002532,
+        345.52649975182516,
+        349.8961878101006
+      ]
+    ],
+    "1": [
+      [
+        50.69901538959403,
+        54.002384774047286,
+        137.33553292307585
+      ],
+      [
+        25.160447145878233,
+        192.82631434387673,
+        334.2730119637918
+      ]
+    ]
+  },
+  "prediction_sha": "dff2f95e279e16e2a63bfe4728f5bc481b8daec969efcc63d227c295bb4c1a8d",
+  "ledger_sha": "dc773b8682552f798db8320aeff867b490486f3993e45759ebe2c3055426c1cd"
+}

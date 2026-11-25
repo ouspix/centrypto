@@ -1,0 +1,57 @@
+{
+  "rows": 1742,
+  "dimensions": 634,
+  "nonconstant_observed_dimensions": 616,
+  "families": {
+    "breadth": 20,
+    "btc": 74,
+    "calendar": 5,
+    "crossvenue": 9,
+    "derivative": 33,
+    "eth": 74,
+    "interaction": 6,
+    "liquidity": 18,
+    "mappednews": 55,
+    "news": 28,
+    "perp": 113,
+    "relative": 18,
+    "setup": 9,
+    "spot": 163,
+    "whale": 9
+  },
+  "coverage": [
+    {
+      "period": "apr",
+      "entries": 58,
+      "spot": 38,
+      "derivatives": 19,
+      "fresh_quotes": 0,
+      "news_feed": 0,
+      "direct_or_project_news": 0,
+      "whale_reports": 0
+    },
+    {
+      "period": "mayjun",
+      "entries": 1123,
+      "spot": 805,
+      "derivatives": 1015,
+      "fresh_quotes": 0,
+      "news_feed": 0,
+      "direct_or_project_news": 0,
+      "whale_reports": 0
+    },
+    {
+      "period": "recent",
+      "entries": 561,
+      "spot": 415,
+      "derivatives": 535,
+      "fresh_quotes": 56,
+      "news_feed": 535,
+      "direct_or_project_news": 317,
+      "whale_reports": 81
+    }
+  ],
+  "default_zero_funding_values_marked_unknown": 0,
+  "mapped_entry_document_links": 3254,
+  "entry_news_audit_sha256": "a2a708d59203343923a7da83ab786f647f48133c6464c2081c864d886f21abcc"
+}

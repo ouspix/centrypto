@@ -1,0 +1,8 @@
+{
+  "direct_day_asset_checks": 30,
+  "daily_inputs_verified": 364,
+  "story_records_verified": 143363,
+  "source_receipts_and_story_checks": true,
+  "coverage_csvs_reconciled": true,
+  "causal_interval_and_alias_examples": true
+}
