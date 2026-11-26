@@ -1,0 +1,16 @@
+{
+  "protocol_sha256": "a2dbefb051a858cbf1f268a73aaa2d9e397732be51d5186e3bcbd7a50576aea9",
+  "implementation_sha256": "b2b9d0d86966f6e74543152bb0bfd144df06b09ebb696660af25b366da99caaf",
+  "parent_sha256": "df73213193755f2438189ebed21631dbfaa9625aaeab898035007130eab0c428",
+  "parent_checkpoint": "../payoff-gated-v1/checkpoint.json",
+  "pair": [
+    100,
+    1000
+  ],
+  "gate": {
+    "edge_quantile": 0.97,
+    "probability_quantile": 0.98,
+    "edge_min": -0.005618161754727931,
+    "probability_min": 0.8674315414301852
+  }
+}

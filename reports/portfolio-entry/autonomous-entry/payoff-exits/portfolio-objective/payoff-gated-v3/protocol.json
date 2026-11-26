@@ -1,0 +1,15 @@
+{
+  "fit_utc": ["2025-11-13T00:00:00Z", "2026-03-01T00:00:00Z"],
+  "selection_utc": ["2026-03-01T00:00:00Z", "2026-05-01T00:00:00Z"],
+  "validation_utc": ["2026-05-01T00:00:00Z", "2026-08-22T00:00:00Z"],
+  "brackets_bps": [100, 1000],
+  "training": "Train fresh long and short trees on every eligible five-minute decision and each executable scenario before March. Estimate the mean signed after-cost return, the mean signed return under the existing adverse missing-data assumption, and the probability of a positive return under that assumption. Keep losses in both regression targets. Pool scenarios with an explicit scenario feature.",
+  "features": "Original as-of snapshot and lagged funding, plus trailing 24, 72 and 168 completed hourly bars of each asset. Include prior return, distances to extremes, candle coverage and relative market movement. Use the recorded decision reference and hours ending by the decision minute.",
+  "rounds": [100, 250, 500],
+  "edge_floors_bps": [0, 5, 15],
+  "win_floors": [0, 0.92, 0.95],
+  "admission": "Require all four signed estimates (two return targets by two scenarios) to be strictly greater than the chosen nonnegative floor, and both win estimates to meet the win floor. Rank by the lowest signed edge times feasible dollars. A zero or missing return forecast always disqualifies the action.",
+  "selection": "On one continuous March-April portfolio per scenario, prefer gates meeting the duration-scaled close floor (135), at least 95% wins and positive net in both books. Then maximize worst buffered monthly natural-close attainment (103 in March, 100 in April, capped at one), then prefer positive net in both books, then worst win rate capped at 95%, then worst sensitivity net, then worst recorded net. Break ties in listed order. Freeze exactly one model and gate before running validation.",
+  "qualification": {"minimum_closes": 250, "minimum_win_percent": 95, "net_strictly_above_usd": 0, "required_scenarios": ["base", "stress"]},
+  "replay": "Use the established desk mandate, costs, adverse slippage, funding proxy and cutoff liquidation. Include every fill in qualification, with natural exits and uncertain outcomes reported separately. Validate only the frozen candidate on the previously used chronological validation window."
+}

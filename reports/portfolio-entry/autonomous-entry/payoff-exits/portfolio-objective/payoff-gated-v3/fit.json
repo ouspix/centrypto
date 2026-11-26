@@ -1,0 +1,2315 @@
+{
+  "checkpoint_sha256": "992cd9ca0177dd409914a512d454b9b257bee6983aa03a97ce761cb983bf5441",
+  "fit_rows": 184866,
+  "fit_labels": {
+    "1": {
+      "filled_labels": 341592,
+      "uncertain_labels": 59713,
+      "recorded_nonwinners": 45255
+    },
+    "-1": {
+      "filled_labels": 341307,
+      "uncertain_labels": 55928,
+      "recorded_nonwinners": 31425
+    }
+  },
+  "calibration_rows": 89396,
+  "selection_index": 15,
+  "records": [
+    {
+      "rounds": 100,
+      "gate": {
+        "edge_bps": 0,
+        "min_probability": 0
+      },
+      "economics": {
+        "base": {
+          "closed": 266,
+          "wins": 246,
+          "net": 31.808974323036676,
+          "fees": 14.19415617912522,
+          "funding": -0.07293086697347195,
+          "executed_price_pnl_before_costs": 46.07606136913537,
+          "expectancy_usd": 0.11958261023697998,
+          "average_win": 0.5331337980219043,
+          "average_loss_magnitude": 4.967096999517588,
+          "break_even_win_rate": 0.9030706496424842,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 17,
+          "natural_closes": 262,
+          "natural_wins": 246,
+          "natural_net": 35.38162880503672,
+          "cutoff_closes": 4,
+          "sensitivity_net": -66.98539476033295,
+          "sensitivity_wins": 233
+        },
+        "stress": {
+          "closed": 250,
+          "wins": 230,
+          "net": 20.203087550173045,
+          "fees": 13.3447729085173,
+          "funding": -0.10121006497240834,
+          "executed_price_pnl_before_costs": 33.64907052366275,
+          "expectancy_usd": 0.08081235020069218,
+          "average_win": 0.5215667566472694,
+          "average_loss_magnitude": 4.987863323934946,
+          "break_even_win_rate": 0.905331994594956,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 18,
+          "natural_closes": 246,
+          "natural_wins": 230,
+          "natural_net": 23.947133816957777,
+          "cutoff_closes": 4,
+          "sensitivity_net": -78.5565737128686,
+          "sensitivity_wins": 217
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 266,
+          "lowest_admitted_bps": 0.07773613496061094,
+          "predicted_net_usd": 77.66979073581517,
+          "realized_net_usd": 31.808974323036676
+        },
+        "stress": {
+          "fills_checked": 250,
+          "lowest_admitted_bps": 0.056082275120545755,
+          "predicted_net_usd": 72.69104709513984,
+          "realized_net_usd": 20.203087550173045
+        }
+      },
+      "admitted_by_side": [
+        2693,
+        10546
+      ],
+      "monthly_natural": {
+        "base": [
+          167,
+          95
+        ],
+        "stress": [
+          159,
+          87
+        ]
+      },
+      "priority": [
+        false,
+        0.87,
+        true,
+        0.92,
+        -78.5565737128686,
+        20.203087550173045
+      ]
+    },
+    {
+      "rounds": 100,
+      "gate": {
+        "edge_bps": 0,
+        "min_probability": 0.92
+      },
+      "economics": {
+        "base": {
+          "closed": 208,
+          "wins": 193,
+          "net": 33.751450085378906,
+          "fees": 11.098179493068125,
+          "funding": -0.19788148034229242,
+          "executed_price_pnl_before_costs": 45.04751105878932,
+          "expectancy_usd": 0.16226658694893706,
+          "average_win": 0.5328697583720823,
+          "average_loss_magnitude": 4.606160885362199,
+          "break_even_win_rate": 0.8963092856778779,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 9,
+          "natural_closes": 204,
+          "natural_wins": 193,
+          "natural_net": 36.97202960443618,
+          "cutoff_closes": 4,
+          "sensitivity_net": -23.909546394144435,
+          "sensitivity_wins": 186
+        },
+        "stress": {
+          "closed": 213,
+          "wins": 198,
+          "net": 33.82413759243596,
+          "fees": 11.364270195036681,
+          "funding": -0.21199166814731019,
+          "executed_price_pnl_before_costs": 45.400399455619954,
+          "expectancy_usd": 0.15879876803960544,
+          "average_win": 0.5210385987038226,
+          "average_loss_magnitude": 4.62276699672806,
+          "break_even_win_rate": 0.89870561998561,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 9,
+          "natural_closes": 209,
+          "natural_wins": 198,
+          "natural_net": 37.149491934392785,
+          "cutoff_closes": 4,
+          "sensitivity_net": -23.742048787343148,
+          "sensitivity_wins": 191
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 208,
+          "lowest_admitted_bps": 0.07773613496061094,
+          "predicted_net_usd": 68.32045626042496,
+          "realized_net_usd": 33.751450085378906
+        },
+        "stress": {
+          "fills_checked": 213,
+          "lowest_admitted_bps": 0.07773613496061094,
+          "predicted_net_usd": 68.79697444128746,
+          "realized_net_usd": 33.82413759243596
+        }
+      },
+      "admitted_by_side": [
+        2131,
+        9052
+      ],
+      "monthly_natural": {
+        "base": [
+          133,
+          71
+        ],
+        "stress": [
+          135,
+          74
+        ]
+      },
+      "priority": [
+        false,
+        0.71,
+        true,
+        0.9278846153846154,
+        -23.909546394144435,
+        33.751450085378906
+      ]
+    },
+    {
+      "rounds": 100,
+      "gate": {
+        "edge_bps": 0,
+        "min_probability": 0.95
+      },
+      "economics": {
+        "base": {
+          "closed": 119,
+          "wins": 113,
+          "net": 35.08568518663273,
+          "fees": 6.33930972410772,
+          "funding": 0.023102449137616544,
+          "executed_price_pnl_before_costs": 41.401892461602834,
+          "expectancy_usd": 0.2948376906439725,
+          "average_win": 0.5338000951620203,
+          "average_loss_magnitude": 4.205620927779264,
+          "break_even_win_rate": 0.8873701887681748,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 2,
+          "natural_closes": 117,
+          "natural_wins": 113,
+          "natural_net": 36.38118456564979,
+          "cutoff_closes": 2,
+          "sensitivity_net": 28.136161899678726,
+          "sensitivity_wins": 112
+        },
+        "stress": {
+          "closed": 123,
+          "wins": 117,
+          "net": 35.57261679898419,
+          "fees": 6.552051470135593,
+          "funding": -0.018268381405839047,
+          "executed_price_pnl_before_costs": 42.14293665052563,
+          "expectancy_usd": 0.2892082666584081,
+          "average_win": 0.5217401552393401,
+          "average_loss_magnitude": 4.2451635606697655,
+          "break_even_win_rate": 0.8905494664181951,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 3,
+          "natural_closes": 121,
+          "natural_wins": 117,
+          "natural_net": 37.045076043121604,
+          "cutoff_closes": 2,
+          "sensitivity_net": 21.90230695534731,
+          "sensitivity_wins": 115
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 119,
+          "lowest_admitted_bps": 0.47328571758384114,
+          "predicted_net_usd": 46.36005509673245,
+          "realized_net_usd": 35.08568518663273
+        },
+        "stress": {
+          "fills_checked": 123,
+          "lowest_admitted_bps": 0.47328571758384114,
+          "predicted_net_usd": 48.050763234731335,
+          "realized_net_usd": 35.57261679898419
+        }
+      },
+      "admitted_by_side": [
+        753,
+        5782
+      ],
+      "monthly_natural": {
+        "base": [
+          68,
+          49
+        ],
+        "stress": [
+          69,
+          52
+        ]
+      },
+      "priority": [
+        false,
+        0.49,
+        true,
+        0.9495798319327731,
+        21.90230695534731,
+        35.08568518663273
+      ]
+    },
+    {
+      "rounds": 100,
+      "gate": {
+        "edge_bps": 5,
+        "min_probability": 0
+      },
+      "economics": {
+        "base": {
+          "closed": 231,
+          "wins": 214,
+          "net": 26.821028249143165,
+          "fees": 12.32448409465159,
+          "funding": -0.01660035377645423,
+          "executed_price_pnl_before_costs": 39.16211269757121,
+          "expectancy_usd": 0.11610834739888816,
+          "average_win": 0.5331052526747194,
+          "average_loss_magnitude": 5.133146813132164,
+          "break_even_win_rate": 0.9059157188061304,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 14,
+          "natural_closes": 228,
+          "natural_wins": 214,
+          "natural_net": 30.333651376082905,
+          "cutoff_closes": 3,
+          "sensitivity_net": -52.258063181710284,
+          "sensitivity_wins": 203
+        },
+        "stress": {
+          "closed": 222,
+          "wins": 205,
+          "net": 19.394183757088495,
+          "fees": 11.846211688389586,
+          "funding": 0.04180679292845288,
+          "executed_price_pnl_before_costs": 31.198588652549628,
+          "expectancy_usd": 0.08736118809499321,
+          "average_win": 0.5218416255599949,
+          "average_loss_magnitude": 5.151961734277087,
+          "break_even_win_rate": 0.9080261347698558,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 14,
+          "natural_closes": 219,
+          "natural_wins": 205,
+          "natural_net": 23.045941421825013,
+          "cutoff_closes": 3,
+          "sensitivity_net": -59.54780066160366,
+          "sensitivity_wins": 194
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 231,
+          "lowest_admitted_bps": 5.168350304446058,
+          "predicted_net_usd": 71.62679987920059,
+          "realized_net_usd": 26.821028249143165
+        },
+        "stress": {
+          "fills_checked": 222,
+          "lowest_admitted_bps": 5.168350304446058,
+          "predicted_net_usd": 67.56395590779742,
+          "realized_net_usd": 19.394183757088495
+        }
+      },
+      "admitted_by_side": [
+        2422,
+        9644
+      ],
+      "monthly_natural": {
+        "base": [
+          141,
+          87
+        ],
+        "stress": [
+          135,
+          84
+        ]
+      },
+      "priority": [
+        false,
+        0.84,
+        true,
+        0.9234234234234234,
+        -59.54780066160366,
+        19.394183757088495
+      ]
+    },
+    {
+      "rounds": 100,
+      "gate": {
+        "edge_bps": 5,
+        "min_probability": 0.92
+      },
+      "economics": {
+        "base": {
+          "closed": 186,
+          "wins": 173,
+          "net": 29.112484112581594,
+          "fees": 9.92432416848898,
+          "funding": -0.13455195967620628,
+          "executed_price_pnl_before_costs": 39.171360240746786,
+          "expectancy_usd": 0.15651873178807307,
+          "average_win": 0.5326445798764659,
+          "average_loss_magnitude": 4.848848323542075,
+          "break_even_win_rate": 0.901022896538968,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 9,
+          "natural_closes": 183,
+          "natural_wins": 173,
+          "natural_net": 32.28844842857638,
+          "cutoff_closes": 3,
+          "sensitivity_net": -22.613201291625067,
+          "sensitivity_wins": 166
+        },
+        "stress": {
+          "closed": 193,
+          "wins": 180,
+          "net": 30.534661071210092,
+          "fees": 10.29710510186075,
+          "funding": -0.08003009001159099,
+          "executed_price_pnl_before_costs": 40.91179626308243,
+          "expectancy_usd": 0.1582106791254409,
+          "average_win": 0.5212076867333258,
+          "average_loss_magnitude": 4.867901733906813,
+          "break_even_win_rate": 0.9032850057307957,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 8,
+          "natural_closes": 190,
+          "natural_wins": 180,
+          "natural_net": 33.82703728105696,
+          "cutoff_closes": 3,
+          "sensitivity_net": -14.325761294941408,
+          "sensitivity_wins": 174
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 186,
+          "lowest_admitted_bps": 5.109308080501244,
+          "predicted_net_usd": 62.632955239363056,
+          "realized_net_usd": 29.112484112581594
+        },
+        "stress": {
+          "fills_checked": 193,
+          "lowest_admitted_bps": 5.109308080501244,
+          "predicted_net_usd": 63.48159655901427,
+          "realized_net_usd": 30.534661071210092
+        }
+      },
+      "admitted_by_side": [
+        1971,
+        8468
+      ],
+      "monthly_natural": {
+        "base": [
+          117,
+          66
+        ],
+        "stress": [
+          119,
+          71
+        ]
+      },
+      "priority": [
+        false,
+        0.66,
+        true,
+        0.9301075268817204,
+        -22.613201291625067,
+        29.112484112581594
+      ]
+    },
+    {
+      "rounds": 100,
+      "gate": {
+        "edge_bps": 5,
+        "min_probability": 0.95
+      },
+      "economics": {
+        "base": {
+          "closed": 117,
+          "wins": 111,
+          "net": 34.01778247452121,
+          "fees": 6.233651963179149,
+          "funding": 0.023636261811839063,
+          "executed_price_pnl_before_costs": 40.22779817588852,
+          "expectancy_usd": 0.2907502775600104,
+          "average_win": 0.5337973697405117,
+          "average_loss_magnitude": 4.205620927779264,
+          "break_even_win_rate": 0.8873706990539624,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 2,
+          "natural_closes": 115,
+          "natural_wins": 111,
+          "natural_net": 35.31328185353828,
+          "cutoff_closes": 2,
+          "sensitivity_net": 27.068259187567218,
+          "sensitivity_wins": 110
+        },
+        "stress": {
+          "closed": 121,
+          "wins": 115,
+          "net": 34.53219814055398,
+          "fees": 6.446372473064164,
+          "funding": -0.013511751193198134,
+          "executed_price_pnl_before_costs": 40.992082364811345,
+          "expectancy_usd": 0.28539006727730565,
+          "average_win": 0.521766778300631,
+          "average_loss_magnitude": 4.2451635606697655,
+          "break_even_win_rate": 0.8905444927451306,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 2,
+          "natural_closes": 119,
+          "natural_wins": 115,
+          "natural_net": 36.004657384691384,
+          "cutoff_closes": 2,
+          "sensitivity_net": 27.60765358175923,
+          "sensitivity_wins": 114
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 117,
+          "lowest_admitted_bps": 5.174861958668316,
+          "predicted_net_usd": 45.928956834326016,
+          "realized_net_usd": 34.01778247452121
+        },
+        "stress": {
+          "fills_checked": 121,
+          "lowest_admitted_bps": 5.3638167185753,
+          "predicted_net_usd": 47.597349263502004,
+          "realized_net_usd": 34.53219814055398
+        }
+      },
+      "admitted_by_side": [
+        706,
+        5652
+      ],
+      "monthly_natural": {
+        "base": [
+          67,
+          48
+        ],
+        "stress": [
+          68,
+          51
+        ]
+      },
+      "priority": [
+        false,
+        0.48,
+        true,
+        0.9487179487179487,
+        27.068259187567218,
+        34.01778247452121
+      ]
+    },
+    {
+      "rounds": 100,
+      "gate": {
+        "edge_bps": 15,
+        "min_probability": 0
+      },
+      "economics": {
+        "base": {
+          "closed": 191,
+          "wins": 178,
+          "net": 25.597913084076932,
+          "fees": 10.186071793839362,
+          "funding": -0.014574387482029844,
+          "executed_price_pnl_before_costs": 35.798559265398325,
+          "expectancy_usd": 0.13402048735118813,
+          "average_win": 0.5304474495386381,
+          "average_loss_magnitude": 5.293979456446204,
+          "break_even_win_rate": 0.908927099936033,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 12,
+          "natural_closes": 188,
+          "natural_wins": 177,
+          "natural_net": 28.56127743435652,
+          "cutoff_closes": 3,
+          "sensitivity_net": -40.30893393498445,
+          "sensitivity_wins": 169
+        },
+        "stress": {
+          "closed": 194,
+          "wins": 181,
+          "net": 24.435324272329666,
+          "fees": 10.352445252421113,
+          "funding": -0.013418880399054737,
+          "executed_price_pnl_before_costs": 34.80118840514984,
+          "expectancy_usd": 0.12595527975427662,
+          "average_win": 0.5183869844033216,
+          "average_loss_magnitude": 5.337901531128581,
+          "break_even_win_rate": 0.9114819935820325,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 10,
+          "natural_closes": 191,
+          "natural_wins": 180,
+          "natural_net": 27.946675222859287,
+          "cutoff_closes": 3,
+          "sensitivity_net": -34.0336424611585,
+          "sensitivity_wins": 173
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 191,
+          "lowest_admitted_bps": 15.088818050113531,
+          "predicted_net_usd": 61.5406500539565,
+          "realized_net_usd": 25.597913084076932
+        },
+        "stress": {
+          "fills_checked": 194,
+          "lowest_admitted_bps": 15.088818050113531,
+          "predicted_net_usd": 60.28995114512898,
+          "realized_net_usd": 24.435324272329666
+        }
+      },
+      "admitted_by_side": [
+        1923,
+        8102
+      ],
+      "monthly_natural": {
+        "base": [
+          116,
+          72
+        ],
+        "stress": [
+          123,
+          68
+        ]
+      },
+      "priority": [
+        false,
+        0.68,
+        true,
+        0.9319371727748691,
+        -40.30893393498445,
+        24.435324272329666
+      ]
+    },
+    {
+      "rounds": 100,
+      "gate": {
+        "edge_bps": 15,
+        "min_probability": 0.92
+      },
+      "economics": {
+        "base": {
+          "closed": 169,
+          "wins": 160,
+          "net": 40.00165649341325,
+          "fees": 9.010402761532,
+          "funding": -0.12264394578422015,
+          "executed_price_pnl_before_costs": 49.13470320072947,
+          "expectancy_usd": 0.23669619226871746,
+          "average_win": 0.5311132852024836,
+          "average_loss_magnitude": 4.9973854598871235,
+          "break_even_win_rate": 0.9039317345103467,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 7,
+          "natural_closes": 166,
+          "natural_wins": 159,
+          "natural_net": 42.856215344456274,
+          "cutoff_closes": 3,
+          "sensitivity_net": -4.7339909642139,
+          "sensitivity_wins": 154
+        },
+        "stress": {
+          "closed": 176,
+          "wins": 167,
+          "net": 41.6046874949755,
+          "fees": 9.383644631538568,
+          "funding": -0.13790336504137668,
+          "executed_price_pnl_before_costs": 51.12623549155544,
+          "expectancy_usd": 0.23639026985781533,
+          "average_win": 0.519311867241877,
+          "average_loss_magnitude": 5.01337714826866,
+          "break_even_win_rate": 0.9061375281014314,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 6,
+          "natural_closes": 173,
+          "natural_wins": 166,
+          "natural_net": 44.528837983683246,
+          "cutoff_closes": 3,
+          "sensitivity_net": 3.6656153375287683,
+          "sensitivity_wins": 162
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 169,
+          "lowest_admitted_bps": 15.088818050113531,
+          "predicted_net_usd": 57.76939829269981,
+          "realized_net_usd": 40.00165649341325
+        },
+        "stress": {
+          "fills_checked": 176,
+          "lowest_admitted_bps": 15.088818050113531,
+          "predicted_net_usd": 59.275151860698095,
+          "realized_net_usd": 41.6046874949755
+        }
+      },
+      "admitted_by_side": [
+        1682,
+        7406
+      ],
+      "monthly_natural": {
+        "base": [
+          108,
+          58
+        ],
+        "stress": [
+          114,
+          59
+        ]
+      },
+      "priority": [
+        false,
+        0.58,
+        true,
+        0.9467455621301775,
+        -4.7339909642139,
+        40.00165649341325
+      ]
+    },
+    {
+      "rounds": 100,
+      "gate": {
+        "edge_bps": 15,
+        "min_probability": 0.95
+      },
+      "economics": {
+        "base": {
+          "closed": 119,
+          "wins": 115,
+          "net": 48.13932268168107,
+          "fees": 6.333968087179149,
+          "funding": 0.027355450114556975,
+          "executed_price_pnl_before_costs": 54.44593531874567,
+          "expectancy_usd": 0.4045321233754712,
+          "average_win": 0.5337005380898834,
+          "average_loss_magnitude": 3.3090597996638778,
+          "break_even_win_rate": 0.8611153204516908,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 1,
+          "natural_closes": 117,
+          "natural_wins": 115,
+          "natural_net": 49.43482206069814,
+          "cutoff_closes": 2,
+          "sensitivity_net": 41.43488415583537,
+          "sensitivity_wins": 114
+        },
+        "stress": {
+          "closed": 124,
+          "wins": 120,
+          "net": 49.14930796097596,
+          "fees": 6.599796268599879,
+          "funding": -0.01549599237835983,
+          "executed_price_pnl_before_costs": 55.764600221954204,
+          "expectancy_usd": 0.3963653867820642,
+          "average_win": 0.5216324452967491,
+          "average_loss_magnitude": 3.3616463686584823,
+          "break_even_win_rate": 0.8656721625492939,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 1,
+          "natural_closes": 122,
+          "natural_wins": 120,
+          "natural_net": 50.62176720511337,
+          "cutoff_closes": 2,
+          "sensitivity_net": 42.45678654128577,
+          "sensitivity_wins": 119
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 119,
+          "lowest_admitted_bps": 15.4493106100788,
+          "predicted_net_usd": 46.78108424757781,
+          "realized_net_usd": 48.13932268168107
+        },
+        "stress": {
+          "fills_checked": 124,
+          "lowest_admitted_bps": 15.42289532053856,
+          "predicted_net_usd": 48.66973758108356,
+          "realized_net_usd": 49.14930796097596
+        }
+      },
+      "admitted_by_side": [
+        655,
+        5238
+      ],
+      "monthly_natural": {
+        "base": [
+          67,
+          50
+        ],
+        "stress": [
+          69,
+          53
+        ]
+      },
+      "priority": [
+        false,
+        0.5,
+        true,
+        0.95,
+        41.43488415583537,
+        48.13932268168107
+      ]
+    },
+    {
+      "rounds": 250,
+      "gate": {
+        "edge_bps": 0,
+        "min_probability": 0
+      },
+      "economics": {
+        "base": {
+          "closed": 356,
+          "wins": 330,
+          "net": 39.426051629851145,
+          "fees": 18.91421752581919,
+          "funding": 0.46819769799964917,
+          "executed_price_pnl_before_costs": 57.872071457670685,
+          "expectancy_usd": 0.11074733603890771,
+          "average_win": 0.532946099136597,
+          "average_loss_magnitude": 5.247929272508685,
+          "break_even_win_rate": 0.9078087547518057,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 25,
+          "natural_closes": 352,
+          "natural_wins": 330,
+          "natural_net": 44.047829389799304,
+          "cutoff_closes": 4,
+          "sensitivity_net": -101.51243164771805,
+          "sensitivity_wins": 310
+        },
+        "stress": {
+          "closed": 325,
+          "wins": 297,
+          "net": 6.619500400925986,
+          "fees": 17.261070789058394,
+          "funding": 0.4299090622845803,
+          "executed_price_pnl_before_costs": 23.4506621276998,
+          "expectancy_usd": 0.020367693541310728,
+          "average_win": 0.520693507555532,
+          "average_loss_magnitude": 5.286659690823823,
+          "break_even_win_rate": 0.9103389289804448,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 26,
+          "natural_closes": 321,
+          "natural_wins": 297,
+          "natural_net": 10.56903355435847,
+          "cutoff_closes": 4,
+          "sensitivity_net": -134.33836221004782,
+          "sensitivity_wins": 277
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 356,
+          "lowest_admitted_bps": 0.062236388365088866,
+          "predicted_net_usd": 124.57058066437723,
+          "realized_net_usd": 39.426051629851145
+        },
+        "stress": {
+          "fills_checked": 325,
+          "lowest_admitted_bps": 0.062236388365088866,
+          "predicted_net_usd": 110.96991890174505,
+          "realized_net_usd": 6.619500400925986
+        }
+      },
+      "admitted_by_side": [
+        4686,
+        11899
+      ],
+      "monthly_natural": {
+        "base": [
+          214,
+          138
+        ],
+        "stress": [
+          193,
+          128
+        ]
+      },
+      "priority": [
+        false,
+        1.0,
+        true,
+        0.9138461538461539,
+        -134.33836221004782,
+        6.619500400925986
+      ]
+    },
+    {
+      "rounds": 250,
+      "gate": {
+        "edge_bps": 0,
+        "min_probability": 0.92
+      },
+      "economics": {
+        "base": {
+          "closed": 292,
+          "wins": 270,
+          "net": 31.021560031164537,
+          "fees": 15.535013978598661,
+          "funding": 0.16725719218076318,
+          "executed_price_pnl_before_costs": 46.38931681758243,
+          "expectancy_usd": 0.10623821928481006,
+          "average_win": 0.5325641753600092,
+          "average_loss_magnitude": 5.125943968910819,
+          "break_even_win_rate": 0.9058825821609493,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 22,
+          "natural_closes": 288,
+          "natural_wins": 270,
+          "natural_net": 36.0661509635672,
+          "cutoff_closes": 4,
+          "sensitivity_net": -89.01410135289481,
+          "sensitivity_wins": 253
+        },
+        "stress": {
+          "closed": 280,
+          "wins": 258,
+          "net": 22.055190419089087,
+          "fees": 14.923845500969739,
+          "funding": 0.05586066201061571,
+          "executed_price_pnl_before_costs": 36.92317525804821,
+          "expectancy_usd": 0.07876853721103245,
+          "average_win": 0.5214443216832619,
+          "average_loss_magnitude": 5.112611117054204,
+          "break_even_win_rate": 0.9074477829774227,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 21,
+          "natural_closes": 276,
+          "natural_wins": 258,
+          "natural_net": 26.488351922292292,
+          "cutoff_closes": 4,
+          "sensitivity_net": -90.862406818408,
+          "sensitivity_wins": 242
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 292,
+          "lowest_admitted_bps": 0.03379220080476991,
+          "predicted_net_usd": 104.52696606423099,
+          "realized_net_usd": 31.021560031164537
+        },
+        "stress": {
+          "fills_checked": 280,
+          "lowest_admitted_bps": 0.03379220080476991,
+          "predicted_net_usd": 98.04295119985058,
+          "realized_net_usd": 22.055190419089087
+        }
+      },
+      "admitted_by_side": [
+        4204,
+        10894
+      ],
+      "monthly_natural": {
+        "base": [
+          181,
+          107
+        ],
+        "stress": [
+          167,
+          109
+        ]
+      },
+      "priority": [
+        false,
+        1.0,
+        true,
+        0.9214285714285714,
+        -90.862406818408,
+        22.055190419089087
+      ]
+    },
+    {
+      "rounds": 250,
+      "gate": {
+        "edge_bps": 0,
+        "min_probability": 0.95
+      },
+      "economics": {
+        "base": {
+          "closed": 236,
+          "wins": 223,
+          "net": 49.86931836169839,
+          "fees": 12.592533352389228,
+          "funding": 0.19232660840326665,
+          "executed_price_pnl_before_costs": 62.26952510568435,
+          "expectancy_usd": 0.21131067102414572,
+          "average_win": 0.5341348946853363,
+          "average_loss_magnitude": 5.3263663963947385,
+          "break_even_win_rate": 0.9088584972247491,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 14,
+          "natural_closes": 233,
+          "natural_wins": 222,
+          "natural_net": 52.82670189976267,
+          "cutoff_closes": 3,
+          "sensitivity_net": -35.66925155335432,
+          "sensitivity_wins": 211
+        },
+        "stress": {
+          "closed": 228,
+          "wins": 216,
+          "net": 49.31990660021498,
+          "fees": 12.165406350040165,
+          "funding": 0.15650682022558957,
+          "executed_price_pnl_before_costs": 61.328806130029555,
+          "expectancy_usd": 0.21631537982550428,
+          "average_win": 0.5224372913083204,
+          "average_loss_magnitude": 5.293879026865183,
+          "break_even_win_rate": 0.9101772904482641,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 14,
+          "natural_closes": 225,
+          "natural_wins": 215,
+          "natural_net": 52.37684159970667,
+          "cutoff_closes": 3,
+          "sensitivity_net": -29.547339958129523,
+          "sensitivity_wins": 205
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 236,
+          "lowest_admitted_bps": 0.43913626706992187,
+          "predicted_net_usd": 90.34315202345695,
+          "realized_net_usd": 49.86931836169839
+        },
+        "stress": {
+          "fills_checked": 228,
+          "lowest_admitted_bps": 0.43913626706992187,
+          "predicted_net_usd": 88.80053605461485,
+          "realized_net_usd": 49.31990660021498
+        }
+      },
+      "admitted_by_side": [
+        3272,
+        8703
+      ],
+      "monthly_natural": {
+        "base": [
+          157,
+          76
+        ],
+        "stress": [
+          151,
+          74
+        ]
+      },
+      "priority": [
+        false,
+        0.74,
+        true,
+        0.9449152542372882,
+        -35.66925155335432,
+        49.31990660021498
+      ]
+    },
+    {
+      "rounds": 250,
+      "gate": {
+        "edge_bps": 5,
+        "min_probability": 0
+      },
+      "economics": {
+        "base": {
+          "closed": 336,
+          "wins": 309,
+          "net": 22.628912584292703,
+          "fees": 17.84617399457117,
+          "funding": 0.4705687236869771,
+          "executed_price_pnl_before_costs": 40.0045178551769,
+          "expectancy_usd": 0.06734795411991876,
+          "average_win": 0.5326472537158358,
+          "average_loss_magnitude": 5.257744030144465,
+          "break_even_win_rate": 0.9080118721509379,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 25,
+          "natural_closes": 332,
+          "natural_wins": 309,
+          "natural_net": 26.773715101009003,
+          "cutoff_closes": 4,
+          "sensitivity_net": -118.3437660115554,
+          "sensitivity_wins": 289
+        },
+        "stress": {
+          "closed": 315,
+          "wins": 287,
+          "net": 1.3909515974800608,
+          "fees": 16.72273279284729,
+          "funding": 0.3612751708626294,
+          "executed_price_pnl_before_costs": 17.75240921946472,
+          "expectancy_usd": 0.004415719357079558,
+          "average_win": 0.520599764919893,
+          "average_loss_magnitude": 5.286470747661759,
+          "break_even_win_rate": 0.9103507071608729,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 24,
+          "natural_closes": 311,
+          "natural_wins": 287,
+          "natural_net": 5.259593245889588,
+          "cutoff_closes": 4,
+          "sensitivity_net": -125.57948710409673,
+          "sensitivity_wins": 269
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 336,
+          "lowest_admitted_bps": 5.094464003270506,
+          "predicted_net_usd": 118.96456680268112,
+          "realized_net_usd": 22.628912584292703
+        },
+        "stress": {
+          "fills_checked": 315,
+          "lowest_admitted_bps": 5.018273512700004,
+          "predicted_net_usd": 110.01278012388006,
+          "realized_net_usd": 1.3909515974800608
+        }
+      },
+      "admitted_by_side": [
+        4343,
+        11120
+      ],
+      "monthly_natural": {
+        "base": [
+          205,
+          127
+        ],
+        "stress": [
+          196,
+          115
+        ]
+      },
+      "priority": [
+        false,
+        1.0,
+        true,
+        0.9111111111111111,
+        -125.57948710409673,
+        1.3909515974800608
+      ]
+    },
+    {
+      "rounds": 250,
+      "gate": {
+        "edge_bps": 5,
+        "min_probability": 0.92
+      },
+      "economics": {
+        "base": {
+          "closed": 285,
+          "wins": 263,
+          "net": 28.009794766587866,
+          "fees": 15.161062877383996,
+          "funding": 0.13193939866072815,
+          "executed_price_pnl_before_costs": 43.03891824531114,
+          "expectancy_usd": 0.0982799816371504,
+          "average_win": 0.5323488338908171,
+          "average_loss_magnitude": 5.090815843031682,
+          "break_even_win_rate": 0.9053293181905947,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 22,
+          "natural_closes": 281,
+          "natural_wins": 263,
+          "natural_net": 32.288931022387935,
+          "cutoff_closes": 4,
+          "sensitivity_net": -92.05273404482242,
+          "sensitivity_wins": 246
+        },
+        "stress": {
+          "closed": 277,
+          "wins": 256,
+          "net": 27.842950459088062,
+          "fees": 14.764474282434461,
+          "funding": 0.03373758275645911,
+          "executed_price_pnl_before_costs": 42.57368715876606,
+          "expectancy_usd": 0.10051606663930708,
+          "average_win": 0.5213018296713363,
+          "average_loss_magnitude": 5.029062758894002,
+          "break_even_win_rate": 0.906077912296914,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 20,
+          "natural_closes": 273,
+          "natural_wins": 256,
+          "natural_net": 31.468836306685628,
+          "cutoff_closes": 4,
+          "sensitivity_net": -78.44824282292052,
+          "sensitivity_wins": 241
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 285,
+          "lowest_admitted_bps": 5.299171861995805,
+          "predicted_net_usd": 105.48308631823073,
+          "realized_net_usd": 28.009794766587866
+        },
+        "stress": {
+          "fills_checked": 277,
+          "lowest_admitted_bps": 5.018273512700004,
+          "predicted_net_usd": 101.52612655776964,
+          "realized_net_usd": 27.842950459088062
+        }
+      },
+      "admitted_by_side": [
+        3947,
+        10283
+      ],
+      "monthly_natural": {
+        "base": [
+          175,
+          106
+        ],
+        "stress": [
+          170,
+          103
+        ]
+      },
+      "priority": [
+        false,
+        1.0,
+        true,
+        0.9228070175438596,
+        -92.05273404482242,
+        27.842950459088062
+      ]
+    },
+    {
+      "rounds": 250,
+      "gate": {
+        "edge_bps": 5,
+        "min_probability": 0.95
+      },
+      "economics": {
+        "base": {
+          "closed": 229,
+          "wins": 216,
+          "net": 46.10845695829864,
+          "fees": 12.219297656996371,
+          "funding": 0.166788795324925,
+          "executed_price_pnl_before_costs": 58.16096581997008,
+          "expectancy_usd": 0.20134697361702464,
+          "average_win": 0.5340334264418067,
+          "average_loss_magnitude": 5.3263663963947385,
+          "break_even_win_rate": 0.9088742333994332,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 14,
+          "natural_closes": 226,
+          "natural_wins": 215,
+          "natural_net": 49.06584049636292,
+          "cutoff_closes": 3,
+          "sensitivity_net": -39.4553666852805,
+          "sensitivity_wins": 204
+        },
+        "stress": {
+          "closed": 221,
+          "wins": 209,
+          "net": 45.64580771922879,
+          "fees": 11.79320082100445,
+          "funding": 0.13659169591795606,
+          "executed_price_pnl_before_costs": 57.30241684431529,
+          "expectancy_usd": 0.20654211637660086,
+          "average_win": 0.5223557705340239,
+          "average_loss_magnitude": 5.293879026865183,
+          "break_even_win_rate": 0.9101900475600467,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 13,
+          "natural_closes": 218,
+          "natural_wins": 208,
+          "natural_net": 48.702742718720486,
+          "cutoff_closes": 3,
+          "sensitivity_net": -26.472715078462198,
+          "sensitivity_wins": 199
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 229,
+          "lowest_admitted_bps": 5.1002350084466865,
+          "predicted_net_usd": 90.94606222346455,
+          "realized_net_usd": 46.10845695829864
+        },
+        "stress": {
+          "fills_checked": 221,
+          "lowest_admitted_bps": 5.018273512700004,
+          "predicted_net_usd": 88.39154952109043,
+          "realized_net_usd": 45.64580771922879
+        }
+      },
+      "admitted_by_side": [
+        3123,
+        8369
+      ],
+      "monthly_natural": {
+        "base": [
+          151,
+          75
+        ],
+        "stress": [
+          146,
+          72
+        ]
+      },
+      "priority": [
+        false,
+        0.72,
+        true,
+        0.9432314410480349,
+        -39.4553666852805,
+        45.64580771922879
+      ]
+    },
+    {
+      "rounds": 250,
+      "gate": {
+        "edge_bps": 15,
+        "min_probability": 0
+      },
+      "economics": {
+        "base": {
+          "closed": 285,
+          "wins": 264,
+          "net": 35.45970182171517,
+          "fees": 15.164915901074712,
+          "funding": 0.3448900915090395,
+          "executed_price_pnl_before_costs": 50.27972763128085,
+          "expectancy_usd": 0.12442000639198306,
+          "average_win": 0.5338803427977602,
+          "average_loss_magnitude": 5.02308136556636,
+          "break_even_win_rate": 0.9039258553834941,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 22,
+          "natural_closes": 281,
+          "natural_wins": 264,
+          "natural_net": 38.94208687873782,
+          "cutoff_closes": 4,
+          "sensitivity_net": -91.16430158405473,
+          "sensitivity_wins": 246
+        },
+        "stress": {
+          "closed": 275,
+          "wins": 254,
+          "net": 28.076110011293153,
+          "fees": 14.65782388690544,
+          "funding": 0.04278243237507627,
+          "executed_price_pnl_before_costs": 42.691151465823516,
+          "expectancy_usd": 0.10209494549561146,
+          "average_win": 0.522093491239891,
+          "average_loss_magnitude": 4.9778874649352,
+          "break_even_win_rate": 0.9050735819996409,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 20,
+          "natural_closes": 271,
+          "natural_wins": 254,
+          "natural_net": 30.356887187914367,
+          "cutoff_closes": 4,
+          "sensitivity_net": -78.05550608428851,
+          "sensitivity_wins": 239
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 285,
+          "lowest_admitted_bps": 15.043121350213355,
+          "predicted_net_usd": 109.91537851175387,
+          "realized_net_usd": 35.45970182171517
+        },
+        "stress": {
+          "fills_checked": 275,
+          "lowest_admitted_bps": 15.043121350213355,
+          "predicted_net_usd": 104.15659415653275,
+          "realized_net_usd": 28.076110011293153
+        }
+      },
+      "admitted_by_side": [
+        3730,
+        9659
+      ],
+      "monthly_natural": {
+        "base": [
+          173,
+          108
+        ],
+        "stress": [
+          167,
+          104
+        ]
+      },
+      "priority": [
+        false,
+        1.0,
+        true,
+        0.9236363636363636,
+        -91.16430158405473,
+        28.076110011293153
+      ]
+    },
+    {
+      "rounds": 250,
+      "gate": {
+        "edge_bps": 15,
+        "min_probability": 0.92
+      },
+      "economics": {
+        "base": {
+          "closed": 266,
+          "wins": 248,
+          "net": 38.24103530959259,
+          "fees": 14.152387228073993,
+          "funding": 0.035735011947902295,
+          "executed_price_pnl_before_costs": 52.35768752571868,
+          "expectancy_usd": 0.14376329063756613,
+          "average_win": 0.5301728744193023,
+          "average_loss_magnitude": 5.180102085910799,
+          "break_even_win_rate": 0.9071545804532232,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 20,
+          "natural_closes": 262,
+          "natural_wins": 247,
+          "natural_net": 41.55781218234394,
+          "cutoff_closes": 4,
+          "sensitivity_net": -81.23629689175823,
+          "sensitivity_wins": 231
+        },
+        "stress": {
+          "closed": 257,
+          "wins": 239,
+          "net": 31.759638071293253,
+          "fees": 13.700053503868721,
+          "funding": -0.012712284420904729,
+          "executed_price_pnl_before_costs": 45.47240385958288,
+          "expectancy_usd": 0.12357835825405936,
+          "average_win": 0.519384727530009,
+          "average_loss_magnitude": 5.13185065602105,
+          "break_even_win_rate": 0.9080935950674126,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 18,
+          "natural_closes": 253,
+          "natural_wins": 238,
+          "natural_net": 33.97093281486397,
+          "cutoff_closes": 4,
+          "sensitivity_net": -67.37160576821053,
+          "sensitivity_wins": 225
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 266,
+          "lowest_admitted_bps": 15.043121350213355,
+          "predicted_net_usd": 107.2476091133603,
+          "realized_net_usd": 38.24103530959259
+        },
+        "stress": {
+          "fills_checked": 257,
+          "lowest_admitted_bps": 15.043121350213355,
+          "predicted_net_usd": 102.37866926522972,
+          "realized_net_usd": 31.759638071293253
+        }
+      },
+      "admitted_by_side": [
+        3498,
+        9086
+      ],
+      "monthly_natural": {
+        "base": [
+          167,
+          95
+        ],
+        "stress": [
+          158,
+          95
+        ]
+      },
+      "priority": [
+        false,
+        0.95,
+        true,
+        0.9299610894941635,
+        -81.23629689175823,
+        31.759638071293253
+      ]
+    },
+    {
+      "rounds": 250,
+      "gate": {
+        "edge_bps": 15,
+        "min_probability": 0.95
+      },
+      "economics": {
+        "base": {
+          "closed": 222,
+          "wins": 209,
+          "net": 42.35808646326143,
+          "fees": 11.846080207705091,
+          "funding": 0.19230702910484224,
+          "executed_price_pnl_before_costs": 54.01185964186168,
+          "expectancy_usd": 0.19080219127595238,
+          "average_win": 0.5341228380577332,
+          "average_loss_magnitude": 5.328737437754215,
+          "break_even_win_rate": 0.9088972254274365,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 14,
+          "natural_closes": 219,
+          "natural_wins": 208,
+          "natural_net": 45.301060468212874,
+          "cutoff_closes": 3,
+          "sensitivity_net": -43.17572540533382,
+          "sensitivity_wins": 197
+        },
+        "stress": {
+          "closed": 211,
+          "wins": 199,
+          "net": 40.365286264605786,
+          "fees": 11.26072195569975,
+          "funding": 0.20087117506891233,
+          "executed_price_pnl_before_costs": 51.425137045236625,
+          "expectancy_usd": 0.19130467423983785,
+          "average_win": 0.5226533528603373,
+          "average_loss_magnitude": 5.303560912883444,
+          "break_even_win_rate": 0.9102928026637526,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 12,
+          "natural_closes": 208,
+          "natural_wins": 198,
+          "natural_net": 43.49314593672254,
+          "cutoff_closes": 3,
+          "sensitivity_net": -24.89210652355125,
+          "sensitivity_wins": 190
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 222,
+          "lowest_admitted_bps": 15.218553182269721,
+          "predicted_net_usd": 91.47554950187443,
+          "realized_net_usd": 42.35808646326143
+        },
+        "stress": {
+          "fills_checked": 211,
+          "lowest_admitted_bps": 15.218553182269721,
+          "predicted_net_usd": 88.91301044144359,
+          "realized_net_usd": 40.365286264605786
+        }
+      },
+      "admitted_by_side": [
+        2843,
+        7666
+      ],
+      "monthly_natural": {
+        "base": [
+          143,
+          76
+        ],
+        "stress": [
+          138,
+          70
+        ]
+      },
+      "priority": [
+        false,
+        0.7,
+        true,
+        0.9414414414414415,
+        -43.17572540533382,
+        40.365286264605786
+      ]
+    },
+    {
+      "rounds": 500,
+      "gate": {
+        "edge_bps": 0,
+        "min_probability": 0
+      },
+      "economics": {
+        "base": {
+          "closed": 395,
+          "wins": 364,
+          "net": 26.161200973322735,
+          "fees": 20.958271834636296,
+          "funding": 0.5731624178387911,
+          "executed_price_pnl_before_costs": 46.54631039012024,
+          "expectancy_usd": 0.06623088854005756,
+          "average_win": 0.5316065725094821,
+          "average_loss_magnitude": 5.39818036839125,
+          "break_even_win_rate": 0.9103498021416717,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 40,
+          "natural_closes": 391,
+          "natural_wins": 364,
+          "natural_net": 31.874276485750794,
+          "cutoff_closes": 4,
+          "sensitivity_net": -191.34941525586243,
+          "sensitivity_wins": 332
+        },
+        "stress": {
+          "closed": 396,
+          "wins": 360,
+          "net": -10.532867253956084,
+          "fees": 21.003989597845067,
+          "funding": 0.3929881816514342,
+          "executed_price_pnl_before_costs": 10.078134162237548,
+          "expectancy_usd": -0.026598149631202234,
+          "average_win": 0.5187808565007532,
+          "average_loss_magnitude": 5.480388210950758,
+          "break_even_win_rate": 0.9135245480385944,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 41,
+          "natural_closes": 392,
+          "natural_wins": 360,
+          "natural_net": -5.057509902219539,
+          "cutoff_closes": 4,
+          "sensitivity_net": -221.74245176506452,
+          "sensitivity_wins": 329
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 395,
+          "lowest_admitted_bps": 0.0231460415057603,
+          "predicted_net_usd": 153.38356899822526,
+          "realized_net_usd": 26.161200973322735
+        },
+        "stress": {
+          "fills_checked": 396,
+          "lowest_admitted_bps": 0.0231460415057603,
+          "predicted_net_usd": 150.27171596262718,
+          "realized_net_usd": -10.532867253956084
+        }
+      },
+      "admitted_by_side": [
+        6051,
+        13228
+      ],
+      "monthly_natural": {
+        "base": [
+          227,
+          164
+        ],
+        "stress": [
+          219,
+          173
+        ]
+      },
+      "priority": [
+        false,
+        1.0,
+        false,
+        0.9090909090909091,
+        -221.74245176506452,
+        -10.532867253956084
+      ]
+    },
+    {
+      "rounds": 500,
+      "gate": {
+        "edge_bps": 0,
+        "min_probability": 0.92
+      },
+      "economics": {
+        "base": {
+          "closed": 365,
+          "wins": 334,
+          "net": 10.35901958078763,
+          "fees": 19.38647898921498,
+          "funding": 0.412660177695692,
+          "executed_price_pnl_before_costs": 29.33283839230692,
+          "expectancy_usd": 0.028380875563801724,
+          "average_win": 0.5321645342433838,
+          "average_loss_magnitude": 5.399481769564599,
+          "break_even_win_rate": 0.9102838390917297,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 35,
+          "natural_closes": 361,
+          "natural_wins": 334,
+          "natural_net": 16.054713712076197,
+          "cutoff_closes": 4,
+          "sensitivity_net": -165.1431582873035,
+          "sensitivity_wins": 309
+        },
+        "stress": {
+          "closed": 368,
+          "wins": 335,
+          "net": -5.018264111229822,
+          "fees": 19.563977838085744,
+          "funding": 0.45868455451143453,
+          "executed_price_pnl_before_costs": 14.087029172344488,
+          "expectancy_usd": -0.01363658725877669,
+          "average_win": 0.5206432898146969,
+          "average_loss_magnitude": 5.437386854519795,
+          "break_even_win_rate": 0.9126148614219789,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 35,
+          "natural_closes": 364,
+          "natural_wins": 335,
+          "natural_net": 0.5042856095249372,
+          "cutoff_closes": 4,
+          "sensitivity_net": -180.3326946974078,
+          "sensitivity_wins": 310
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 365,
+          "lowest_admitted_bps": 0.0231460415057603,
+          "predicted_net_usd": 140.88108400622878,
+          "realized_net_usd": 10.35901958078763
+        },
+        "stress": {
+          "fills_checked": 368,
+          "lowest_admitted_bps": 0.0231460415057603,
+          "predicted_net_usd": 141.26730786528336,
+          "realized_net_usd": -5.018264111229822
+        }
+      },
+      "admitted_by_side": [
+        5718,
+        12701
+      ],
+      "monthly_natural": {
+        "base": [
+          216,
+          145
+        ],
+        "stress": [
+          209,
+          155
+        ]
+      },
+      "priority": [
+        false,
+        1.0,
+        false,
+        0.9103260869565217,
+        -180.3326946974078,
+        -5.018264111229822
+      ]
+    },
+    {
+      "rounds": 500,
+      "gate": {
+        "edge_bps": 0,
+        "min_probability": 0.95
+      },
+      "economics": {
+        "base": {
+          "closed": 332,
+          "wins": 307,
+          "net": 28.69600487032005,
+          "fees": 17.717365363595444,
+          "funding": 0.28502146216250623,
+          "executed_price_pnl_before_costs": 46.12834877175299,
+          "expectancy_usd": 0.08643374960939774,
+          "average_win": 0.5335807841782465,
+          "average_loss_magnitude": 5.404531834896066,
+          "break_even_win_rate": 0.9101430339222119,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 27,
+          "natural_closes": 328,
+          "natural_wins": 306,
+          "natural_net": 31.808060337661907,
+          "cutoff_closes": 4,
+          "sensitivity_net": -105.66264118621346,
+          "sensitivity_wins": 288
+        },
+        "stress": {
+          "closed": 318,
+          "wins": 291,
+          "net": 10.930708999748283,
+          "fees": 16.97122524044153,
+          "funding": 0.08149629772204162,
+          "executed_price_pnl_before_costs": 27.820437942467773,
+          "expectancy_usd": 0.0343732987413468,
+          "average_win": 0.5223902640290813,
+          "average_loss_magnitude": 5.225365104915346,
+          "break_even_win_rate": 0.9091140400909202,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 25,
+          "natural_closes": 314,
+          "natural_wins": 291,
+          "natural_net": 13.936950554543829,
+          "cutoff_closes": 4,
+          "sensitivity_net": -109.4920975367489,
+          "sensitivity_wins": 274
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 332,
+          "lowest_admitted_bps": 0.0231460415057603,
+          "predicted_net_usd": 142.31571893782714,
+          "realized_net_usd": 28.69600487032005
+        },
+        "stress": {
+          "fills_checked": 318,
+          "lowest_admitted_bps": 0.0231460415057603,
+          "predicted_net_usd": 136.35859656749705,
+          "realized_net_usd": 10.930708999748283
+        }
+      },
+      "admitted_by_side": [
+        5010,
+        11458
+      ],
+      "monthly_natural": {
+        "base": [
+          195,
+          133
+        ],
+        "stress": [
+          179,
+          135
+        ]
+      },
+      "priority": [
+        false,
+        1.0,
+        true,
+        0.9150943396226415,
+        -109.4920975367489,
+        10.930708999748283
+      ]
+    },
+    {
+      "rounds": 500,
+      "gate": {
+        "edge_bps": 5,
+        "min_probability": 0
+      },
+      "economics": {
+        "base": {
+          "closed": 364,
+          "wins": 334,
+          "net": 16.432276248206037,
+          "fees": 19.33436237083775,
+          "funding": 0.4996478765365407,
+          "executed_price_pnl_before_costs": 35.26699074250725,
+          "expectancy_usd": 0.0451436160665001,
+          "average_win": 0.5323211957064401,
+          "average_loss_magnitude": 5.378766770591498,
+          "break_even_win_rate": 0.9099453097735191,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 39,
+          "natural_closes": 360,
+          "natural_wins": 334,
+          "natural_net": 22.1453517606341,
+          "cutoff_closes": 4,
+          "sensitivity_net": -192.29459569206483,
+          "sensitivity_wins": 304
+        },
+        "stress": {
+          "closed": 368,
+          "wins": 335,
+          "net": -5.3266214112829005,
+          "fees": 19.540343613319816,
+          "funding": 0.28492679863836506,
+          "executed_price_pnl_before_costs": 13.928795403398551,
+          "expectancy_usd": -0.014474514704573099,
+          "average_win": 0.5193519826072297,
+          "average_loss_magnitude": 5.433622290445601,
+          "break_even_win_rate": 0.9127575630625238,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 38,
+          "natural_closes": 364,
+          "natural_wins": 335,
+          "natural_net": 0.1487359404536443,
+          "cutoff_closes": 4,
+          "sensitivity_net": -207.24460602550926,
+          "sensitivity_wins": 306
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 364,
+          "lowest_admitted_bps": 5.012253425035186,
+          "predicted_net_usd": 141.35257333276624,
+          "realized_net_usd": 16.432276248206037
+        },
+        "stress": {
+          "fills_checked": 368,
+          "lowest_admitted_bps": 5.012253425035186,
+          "predicted_net_usd": 142.19207731560923,
+          "realized_net_usd": -5.3266214112829005
+        }
+      },
+      "admitted_by_side": [
+        5699,
+        12483
+      ],
+      "monthly_natural": {
+        "base": [
+          214,
+          146
+        ],
+        "stress": [
+          209,
+          155
+        ]
+      },
+      "priority": [
+        false,
+        1.0,
+        false,
+        0.9103260869565217,
+        -207.24460602550926,
+        -5.3266214112829005
+      ]
+    },
+    {
+      "rounds": 500,
+      "gate": {
+        "edge_bps": 5,
+        "min_probability": 0.92
+      },
+      "economics": {
+        "base": {
+          "closed": 342,
+          "wins": 313,
+          "net": 11.416788583221287,
+          "fees": 18.182310194685563,
+          "funding": 0.4551419925583359,
+          "executed_price_pnl_before_costs": 29.143956785348514,
+          "expectancy_usd": 0.03338242275795698,
+          "average_win": 0.5328728728701058,
+          "average_loss_magnitude": 5.357669676728338,
+          "break_even_win_rate": 0.9095375564503084,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 34,
+          "natural_closes": 338,
+          "natural_wins": 313,
+          "natural_net": 17.112482714509845,
+          "cutoff_closes": 4,
+          "sensitivity_net": -163.86651417643768,
+          "sensitivity_wins": 288
+        },
+        "stress": {
+          "closed": 348,
+          "wins": 317,
+          "net": -2.181735940644762,
+          "fees": 18.51797564848527,
+          "funding": 0.4437807130569428,
+          "executed_price_pnl_before_costs": 15.892458994783562,
+          "expectancy_usd": -0.006269356151278051,
+          "average_win": 0.5213278724644238,
+          "average_loss_magnitude": 5.40137650038281,
+          "break_even_win_rate": 0.9119780695361965,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 34,
+          "natural_closes": 344,
+          "natural_wins": 317,
+          "natural_net": 3.3408137801100035,
+          "cutoff_closes": 4,
+          "sensitivity_net": -183.78584371834177,
+          "sensitivity_wins": 291
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 342,
+          "lowest_admitted_bps": 5.012253425035186,
+          "predicted_net_usd": 136.904404070427,
+          "realized_net_usd": 11.416788583221287
+        },
+        "stress": {
+          "fills_checked": 348,
+          "lowest_admitted_bps": 5.012253425035186,
+          "predicted_net_usd": 137.71456762970266,
+          "realized_net_usd": -2.181735940644762
+        }
+      },
+      "admitted_by_side": [
+        5425,
+        12041
+      ],
+      "monthly_natural": {
+        "base": [
+          209,
+          129
+        ],
+        "stress": [
+          201,
+          143
+        ]
+      },
+      "priority": [
+        false,
+        1.0,
+        false,
+        0.9109195402298851,
+        -183.78584371834177,
+        -2.181735940644762
+      ]
+    },
+    {
+      "rounds": 500,
+      "gate": {
+        "edge_bps": 5,
+        "min_probability": 0.95
+      },
+      "economics": {
+        "base": {
+          "closed": 320,
+          "wins": 297,
+          "net": 35.34375788562755,
+          "fees": 17.07385127538116,
+          "funding": 0.28883467496999815,
+          "executed_price_pnl_before_costs": 52.12877448603871,
+          "expectancy_usd": 0.11044924339258608,
+          "average_win": 0.5336421696848969,
+          "average_loss_magnitude": 5.3542594135124695,
+          "break_even_win_rate": 0.90936632310435,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 26,
+          "natural_closes": 316,
+          "natural_wins": 296,
+          "natural_net": 38.4558133529694,
+          "cutoff_closes": 4,
+          "sensitivity_net": -105.29145019046133,
+          "sensitivity_wins": 277
+        },
+        "stress": {
+          "closed": 307,
+          "wins": 282,
+          "net": 18.22809176968462,
+          "fees": 16.38075554219153,
+          "funding": 0.0690257979797846,
+          "executed_price_pnl_before_costs": 34.539821513896364,
+          "expectancy_usd": 0.05937489175793036,
+          "average_win": 0.52241686690925,
+          "average_loss_magnitude": 5.163738587948957,
+          "break_even_win_rate": 0.9081247653081835,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 24,
+          "natural_closes": 303,
+          "natural_wins": 282,
+          "natural_net": 21.234333324480165,
+          "cutoff_closes": 4,
+          "sensitivity_net": -108.48472505053114,
+          "sensitivity_wins": 264
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 320,
+          "lowest_admitted_bps": 5.132765798919246,
+          "predicted_net_usd": 141.59812477571396,
+          "realized_net_usd": 35.34375788562755
+        },
+        "stress": {
+          "fills_checked": 307,
+          "lowest_admitted_bps": 5.132765798919246,
+          "predicted_net_usd": 135.82421643517793,
+          "realized_net_usd": 18.22809176968462
+        }
+      },
+      "admitted_by_side": [
+        4808,
+        10965
+      ],
+      "monthly_natural": {
+        "base": [
+          191,
+          125
+        ],
+        "stress": [
+          173,
+          130
+        ]
+      },
+      "priority": [
+        false,
+        1.0,
+        true,
+        0.9185667752442996,
+        -108.48472505053114,
+        18.22809176968462
+      ]
+    },
+    {
+      "rounds": 500,
+      "gate": {
+        "edge_bps": 15,
+        "min_probability": 0
+      },
+      "economics": {
+        "base": {
+          "closed": 345,
+          "wins": 316,
+          "net": 12.827113064207449,
+          "fees": 18.320670356761024,
+          "funding": 0.48016277752763775,
+          "executed_price_pnl_before_costs": 30.667620643440834,
+          "expectancy_usd": 0.037180037867267965,
+          "average_win": 0.5324855216264103,
+          "average_loss_magnitude": 5.359941785163386,
+          "break_even_win_rate": 0.9096322289775504,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 36,
+          "natural_closes": 341,
+          "natural_wins": 316,
+          "natural_net": 18.540188576635515,
+          "cutoff_closes": 4,
+          "sensitivity_net": -175.94802002345267,
+          "sensitivity_wins": 289
+        },
+        "stress": {
+          "closed": 334,
+          "wins": 306,
+          "net": 9.775735976657556,
+          "fees": 17.76236054617267,
+          "funding": 0.1770860346076649,
+          "executed_price_pnl_before_costs": 27.361010488222558,
+          "expectancy_usd": 0.02926867058879508,
+          "average_win": 0.5204301720502534,
+          "average_loss_magnitude": 5.338424881097142,
+          "break_even_win_rate": 0.9111720349233291,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 33,
+          "natural_closes": 330,
+          "natural_wins": 306,
+          "natural_net": 15.2510933283941,
+          "cutoff_closes": 4,
+          "sensitivity_net": -171.3309564035527,
+          "sensitivity_wins": 280
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 345,
+          "lowest_admitted_bps": 15.11282559006755,
+          "predicted_net_usd": 147.63407686910972,
+          "realized_net_usd": 12.827113064207449
+        },
+        "stress": {
+          "fills_checked": 334,
+          "lowest_admitted_bps": 15.11282559006755,
+          "predicted_net_usd": 141.43308486240417,
+          "realized_net_usd": 9.775735976657556
+        }
+      },
+      "admitted_by_side": [
+        4987,
+        10994
+      ],
+      "monthly_natural": {
+        "base": [
+          207,
+          134
+        ],
+        "stress": [
+          191,
+          139
+        ]
+      },
+      "priority": [
+        false,
+        1.0,
+        true,
+        0.9159420289855073,
+        -175.94802002345267,
+        9.775735976657556
+      ]
+    },
+    {
+      "rounds": 500,
+      "gate": {
+        "edge_bps": 15,
+        "min_probability": 0.92
+      },
+      "economics": {
+        "base": {
+          "closed": 321,
+          "wins": 292,
+          "net": 0.41372885678092874,
+          "fees": 17.077269925897333,
+          "funding": 0.44075374895047237,
+          "executed_price_pnl_before_costs": 17.050245033727787,
+          "expectancy_usd": 0.0012888749432427686,
+          "average_win": 0.5337146004513391,
+          "average_loss_magnitude": 5.3596873956900035,
+          "break_even_win_rate": 0.9094386229208894,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 28,
+          "natural_closes": 317,
+          "natural_wins": 292,
+          "natural_net": 6.1094229880694915,
+          "cutoff_closes": 4,
+          "sensitivity_net": -134.3420974321198,
+          "sensitivity_wins": 273
+        },
+        "stress": {
+          "closed": 315,
+          "wins": 287,
+          "net": 0.4588144744530638,
+          "fees": 16.784459603097968,
+          "funding": 0.41192901574425156,
+          "executed_price_pnl_before_costs": 16.83134506180678,
+          "expectancy_usd": 0.0014565538871525834,
+          "average_win": 0.5226057543244871,
+          "average_loss_magnitude": 5.340322750595526,
+          "break_even_win_rate": 0.9108626765811778,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 26,
+          "natural_closes": 311,
+          "natural_wins": 287,
+          "natural_net": 5.981364195207822,
+          "cutoff_closes": 4,
+          "sensitivity_net": -133.67110151547314,
+          "sensitivity_wins": 268
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 321,
+          "lowest_admitted_bps": 15.11282559006755,
+          "predicted_net_usd": 139.9892104601464,
+          "realized_net_usd": 0.41372885678092874
+        },
+        "stress": {
+          "fills_checked": 315,
+          "lowest_admitted_bps": 15.11282559006755,
+          "predicted_net_usd": 135.0014915026608,
+          "realized_net_usd": 0.4588144744530638
+        }
+      },
+      "admitted_by_side": [
+        4818,
+        10707
+      ],
+      "monthly_natural": {
+        "base": [
+          195,
+          122
+        ],
+        "stress": [
+          182,
+          129
+        ]
+      },
+      "priority": [
+        false,
+        1.0,
+        true,
+        0.9096573208722741,
+        -134.3420974321198,
+        0.41372885678092874
+      ]
+    },
+    {
+      "rounds": 500,
+      "gate": {
+        "edge_bps": 15,
+        "min_probability": 0.95
+      },
+      "economics": {
+        "base": {
+          "closed": 305,
+          "wins": 282,
+          "net": 27.32614636249805,
+          "fees": 16.274286886274016,
+          "funding": 0.27576519130476157,
+          "executed_price_pnl_before_costs": 43.3246680574673,
+          "expectancy_usd": 0.08959392249999361,
+          "average_win": 0.5335928331293064,
+          "average_loss_magnitude": 5.3542188078246244,
+          "break_even_win_rate": 0.9093733180223043,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 26,
+          "natural_closes": 301,
+          "natural_wins": 281,
+          "natural_net": 30.4382018298399,
+          "cutoff_closes": 4,
+          "sensitivity_net": -113.29518037231446,
+          "sensitivity_wins": 262
+        },
+        "stress": {
+          "closed": 291,
+          "wins": 266,
+          "net": 9.862122321781044,
+          "fees": 15.528077665620101,
+          "funding": 0.05223275921912807,
+          "executed_price_pnl_before_costs": 25.33796722818202,
+          "expectancy_usd": 0.03389045471402421,
+          "average_win": 0.5223859560275794,
+          "average_loss_magnitude": 5.1637016792622035,
+          "break_even_win_rate": 0.9081291057166485,
+          "missing_funding_hours": 0,
+          "uncertain_positions": 23,
+          "natural_closes": 287,
+          "natural_wins": 266,
+          "natural_net": 12.868363876576597,
+          "cutoff_closes": 4,
+          "sensitivity_net": -110.11294927979213,
+          "sensitivity_wins": 249
+        }
+      },
+      "forecasts_on_fills": {
+        "base": {
+          "fills_checked": 305,
+          "lowest_admitted_bps": 15.11282559006755,
+          "predicted_net_usd": 142.29488548787296,
+          "realized_net_usd": 27.32614636249805
+        },
+        "stress": {
+          "fills_checked": 291,
+          "lowest_admitted_bps": 15.11282559006755,
+          "predicted_net_usd": 136.47928657583867,
+          "realized_net_usd": 9.862122321781044
+        }
+      },
+      "admitted_by_side": [
+        4346,
+        9927
+      ],
+      "monthly_natural": {
+        "base": [
+          184,
+          117
+        ],
+        "stress": [
+          170,
+          117
+        ]
+      },
+      "priority": [
+        false,
+        1.0,
+        true,
+        0.9140893470790378,
+        -113.29518037231446,
+        9.862122321781044
+      ]
+    }
+  ]
+}

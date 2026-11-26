@@ -1,0 +1,16 @@
+{
+  "fit_start_utc": "2025-11-13T00:00:00Z",
+  "fit_cutoff_utc": "2026-03-01T00:00:00Z",
+  "calibration_months_utc": ["2026-03-01T00:00:00Z", "2026-04-01T00:00:00Z", "2026-05-01T00:00:00Z"],
+  "validation_utc": ["2026-05-01T00:00:00Z", "2026-08-22T00:00:00Z"],
+  "take_profit_stop_loss_bps": [[60, 600], [100, 1000], [140, 1200]],
+  "minimum_predicted_win": [0.85, 0.90, 0.94, 0.97],
+  "minimum_predicted_net_fraction_of_target": 0.1,
+  "fit_sample_minutes": 15,
+  "fit_description": "Use every eligible decision on the sampling grid before the cutoff. Fit per-bracket boosted trees on realized filled returns and after-cost win indicators, with side and execution scenario as inputs. Keep the fitted trees fixed during calibration and validation.",
+  "uncertainty": "Keep all executable trades. On an incomplete path, missing funding input or stale cutoff quote, also compute a sensitivity that charges at least the planned price stop plus the desk cost allowance. Use the more adverse return for training labels and calibration selection. This sensitivity is an assumption, not a bound.",
+  "portfolio": "Use the shared desk replay, fees, adverse slippage, hourly funding convention, position limits and cutoff liquidation. For each side require both scenarios to clear the probability and net gates. Rank by the smaller forecast net per dollar times feasible size.",
+  "selection": "Replay all 12 prespecified bracket and probability-gate combinations separately in March and April. Select on the worst of the four month/scenario books, prioritizing positive sensitivity net in every book, then the least satisfied of win and volume requirements, then worst sensitivity net per day. Scale the 250-close requirement by calendar duration for these monthly books. Break exact ties by protocol order.",
+  "qualification": {"net_strictly_above_usd": 0, "minimum_win_percent": 95, "minimum_closes": 250, "both_scenarios_must_pass": true},
+  "validation_policy": "Freeze and hash one checkpoint before validation. Evaluate the official common-cutoff portfolio plus a paired exit-matched constant-entry control. Report complete fees, carry, natural and cutoff exits and path uncertainty. No post-validation retuning."
+}

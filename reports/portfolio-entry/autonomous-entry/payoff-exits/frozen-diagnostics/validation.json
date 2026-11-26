@@ -1,0 +1,1793 @@
+{
+  "window": [
+    "2026-05-01T00:00:00+00:00",
+    "2026-08-22T00:00:00+00:00",
+    "2026-08-22T00:00:00+00:00"
+  ],
+  "rows": 228199,
+  "archived_close": true,
+  "archive_reproduction": {
+    "base": {
+      "matched_fills": 608,
+      "net_absolute_error": 0.0,
+      "max_drawdown_absolute_error": 0.0
+    },
+    "stress": {
+      "matched_fills": 562,
+      "net_absolute_error": 0.0,
+      "max_drawdown_absolute_error": 0.0
+    }
+  },
+  "admission": {
+    "base": {
+      "2026-05": {
+        "long": {
+          "eligible": 61665,
+          "positive": 29025,
+          "standalone_sized": 28498,
+          "before_cutoff": 29025,
+          "passes_daily_gate": 29025,
+          "initial_feasible": 18702,
+          "initial_gross_blocked": 0,
+          "initial_risk_blocked": 9796,
+          "initial_rank": 18702,
+          "ranked": 18702,
+          "slots_full": 14973,
+          "slots_reserved": 21,
+          "removed_after_rerank": 21,
+          "busy": 3498,
+          "sizing": 0,
+          "missing_entry": 1,
+          "slippage_limit": 8,
+          "invalid_exit_prices": 0,
+          "fill": 180,
+          "initial_size_reject": 10323,
+          "initial_other_side_ranked": 0,
+          "daily_gate_reject": 0
+        },
+        "short": {
+          "eligible": 61665,
+          "positive": 550,
+          "standalone_sized": 532,
+          "before_cutoff": 550,
+          "passes_daily_gate": 550,
+          "initial_feasible": 288,
+          "initial_gross_blocked": 0,
+          "initial_risk_blocked": 244,
+          "initial_rank": 288,
+          "ranked": 288,
+          "slots_full": 126,
+          "slots_reserved": 1,
+          "removed_after_rerank": 0,
+          "busy": 135,
+          "sizing": 0,
+          "missing_entry": 0,
+          "slippage_limit": 10,
+          "invalid_exit_prices": 0,
+          "fill": 16,
+          "initial_size_reject": 262,
+          "initial_other_side_ranked": 0,
+          "daily_gate_reject": 0
+        }
+      },
+      "2026-06": {
+        "long": {
+          "eligible": 66120,
+          "positive": 25023,
+          "standalone_sized": 24630,
+          "before_cutoff": 25023,
+          "passes_daily_gate": 25023,
+          "initial_feasible": 14507,
+          "initial_gross_blocked": 0,
+          "initial_risk_blocked": 10123,
+          "initial_rank": 14507,
+          "ranked": 14507,
+          "slots_full": 13570,
+          "slots_reserved": 12,
+          "removed_after_rerank": 17,
+          "busy": 765,
+          "sizing": 0,
+          "missing_entry": 0,
+          "slippage_limit": 9,
+          "invalid_exit_prices": 0,
+          "fill": 134,
+          "initial_size_reject": 10516,
+          "initial_other_side_ranked": 0,
+          "daily_gate_reject": 0
+        },
+        "short": {
+          "eligible": 66120,
+          "positive": 708,
+          "standalone_sized": 660,
+          "before_cutoff": 708,
+          "passes_daily_gate": 686,
+          "initial_feasible": 369,
+          "initial_gross_blocked": 0,
+          "initial_risk_blocked": 273,
+          "initial_rank": 369,
+          "ranked": 369,
+          "slots_full": 250,
+          "slots_reserved": 1,
+          "removed_after_rerank": 1,
+          "busy": 96,
+          "sizing": 0,
+          "missing_entry": 0,
+          "slippage_limit": 5,
+          "invalid_exit_prices": 0,
+          "fill": 16,
+          "initial_size_reject": 317,
+          "initial_other_side_ranked": 0,
+          "daily_gate_reject": 22
+        }
+      },
+      "2026-07": {
+        "long": {
+          "eligible": 56050,
+          "positive": 28373,
+          "standalone_sized": 27780,
+          "before_cutoff": 28373,
+          "passes_daily_gate": 28373,
+          "initial_feasible": 22687,
+          "initial_gross_blocked": 0,
+          "initial_risk_blocked": 5093,
+          "initial_rank": 22687,
+          "ranked": 22687,
+          "slots_full": 20669,
+          "slots_reserved": 2,
+          "removed_after_rerank": 27,
+          "busy": 1858,
+          "sizing": 0,
+          "missing_entry": 0,
+          "slippage_limit": 2,
+          "invalid_exit_prices": 0,
+          "fill": 129,
+          "initial_size_reject": 5686,
+          "initial_other_side_ranked": 0,
+          "daily_gate_reject": 0
+        },
+        "short": {
+          "eligible": 56050,
+          "positive": 639,
+          "standalone_sized": 537,
+          "before_cutoff": 639,
+          "passes_daily_gate": 639,
+          "initial_feasible": 369,
+          "initial_gross_blocked": 0,
+          "initial_risk_blocked": 168,
+          "initial_rank": 369,
+          "ranked": 369,
+          "slots_full": 331,
+          "slots_reserved": 0,
+          "removed_after_rerank": 0,
+          "busy": 25,
+          "sizing": 0,
+          "missing_entry": 0,
+          "slippage_limit": 4,
+          "invalid_exit_prices": 0,
+          "fill": 9,
+          "initial_size_reject": 270,
+          "initial_other_side_ranked": 0,
+          "daily_gate_reject": 0
+        }
+      },
+      "2026-08": {
+        "long": {
+          "eligible": 44364,
+          "positive": 24998,
+          "standalone_sized": 24723,
+          "before_cutoff": 24998,
+          "passes_daily_gate": 24998,
+          "initial_feasible": 18460,
+          "initial_gross_blocked": 0,
+          "initial_risk_blocked": 6263,
+          "initial_rank": 18449,
+          "ranked": 18449,
+          "slots_full": 17834,
+          "slots_reserved": 0,
+          "removed_after_rerank": 48,
+          "busy": 443,
+          "sizing": 0,
+          "missing_entry": 0,
+          "slippage_limit": 6,
+          "invalid_exit_prices": 0,
+          "fill": 118,
+          "initial_size_reject": 6538,
+          "initial_other_side_ranked": 11,
+          "daily_gate_reject": 0
+        },
+        "short": {
+          "eligible": 44364,
+          "positive": 483,
+          "standalone_sized": 375,
+          "before_cutoff": 483,
+          "passes_daily_gate": 483,
+          "initial_feasible": 137,
+          "initial_gross_blocked": 0,
+          "initial_risk_blocked": 238,
+          "initial_rank": 123,
+          "ranked": 123,
+          "slots_full": 104,
+          "slots_reserved": 0,
+          "removed_after_rerank": 0,
+          "busy": 13,
+          "sizing": 0,
+          "missing_entry": 0,
+          "slippage_limit": 0,
+          "invalid_exit_prices": 0,
+          "fill": 6,
+          "initial_size_reject": 346,
+          "initial_other_side_ranked": 14,
+          "daily_gate_reject": 0
+        }
+      }
+    },
+    "stress": {
+      "2026-05": {
+        "long": {
+          "eligible": 61665,
+          "positive": 29025,
+          "standalone_sized": 28498,
+          "before_cutoff": 29025,
+          "passes_daily_gate": 29025,
+          "initial_feasible": 20521,
+          "initial_gross_blocked": 0,
+          "initial_risk_blocked": 7977,
+          "initial_rank": 20520,
+          "ranked": 20520,
+          "slots_full": 16961,
+          "slots_reserved": 34,
+          "removed_after_rerank": 12,
+          "busy": 3368,
+          "sizing": 0,
+          "missing_entry": 1,
+          "slippage_limit": 11,
+          "invalid_exit_prices": 0,
+          "fill": 133,
+          "initial_size_reject": 8504,
+          "initial_other_side_ranked": 1,
+          "daily_gate_reject": 0
+        },
+        "short": {
+          "eligible": 61665,
+          "positive": 550,
+          "standalone_sized": 532,
+          "before_cutoff": 550,
+          "passes_daily_gate": 550,
+          "initial_feasible": 318,
+          "initial_gross_blocked": 0,
+          "initial_risk_blocked": 214,
+          "initial_rank": 318,
+          "ranked": 318,
+          "slots_full": 188,
+          "slots_reserved": 0,
+          "removed_after_rerank": 1,
+          "busy": 102,
+          "sizing": 0,
+          "missing_entry": 0,
+          "slippage_limit": 12,
+          "invalid_exit_prices": 0,
+          "fill": 15,
+          "initial_size_reject": 232,
+          "initial_other_side_ranked": 0,
+          "daily_gate_reject": 0
+        }
+      },
+      "2026-06": {
+        "long": {
+          "eligible": 66120,
+          "positive": 25023,
+          "standalone_sized": 24630,
+          "before_cutoff": 25023,
+          "passes_daily_gate": 24557,
+          "initial_feasible": 13420,
+          "initial_gross_blocked": 0,
+          "initial_risk_blocked": 10778,
+          "initial_rank": 13420,
+          "ranked": 13420,
+          "slots_full": 12415,
+          "slots_reserved": 7,
+          "removed_after_rerank": 75,
+          "busy": 754,
+          "sizing": 0,
+          "missing_entry": 0,
+          "slippage_limit": 20,
+          "invalid_exit_prices": 0,
+          "fill": 149,
+          "initial_size_reject": 11137,
+          "initial_other_side_ranked": 0,
+          "daily_gate_reject": 466
+        },
+        "short": {
+          "eligible": 66120,
+          "positive": 708,
+          "standalone_sized": 660,
+          "before_cutoff": 708,
+          "passes_daily_gate": 625,
+          "initial_feasible": 278,
+          "initial_gross_blocked": 0,
+          "initial_risk_blocked": 305,
+          "initial_rank": 278,
+          "ranked": 278,
+          "slots_full": 172,
+          "slots_reserved": 0,
+          "removed_after_rerank": 3,
+          "busy": 81,
+          "sizing": 0,
+          "missing_entry": 0,
+          "slippage_limit": 5,
+          "invalid_exit_prices": 0,
+          "fill": 17,
+          "initial_size_reject": 347,
+          "initial_other_side_ranked": 0,
+          "daily_gate_reject": 83
+        }
+      },
+      "2026-07": {
+        "long": {
+          "eligible": 56050,
+          "positive": 28373,
+          "standalone_sized": 27780,
+          "before_cutoff": 28373,
+          "passes_daily_gate": 28373,
+          "initial_feasible": 18377,
+          "initial_gross_blocked": 0,
+          "initial_risk_blocked": 9403,
+          "initial_rank": 18377,
+          "ranked": 18377,
+          "slots_full": 17235,
+          "slots_reserved": 13,
+          "removed_after_rerank": 52,
+          "busy": 950,
+          "sizing": 0,
+          "missing_entry": 0,
+          "slippage_limit": 8,
+          "invalid_exit_prices": 0,
+          "fill": 119,
+          "initial_size_reject": 9996,
+          "initial_other_side_ranked": 0,
+          "daily_gate_reject": 0
+        },
+        "short": {
+          "eligible": 56050,
+          "positive": 639,
+          "standalone_sized": 537,
+          "before_cutoff": 639,
+          "passes_daily_gate": 639,
+          "initial_feasible": 130,
+          "initial_gross_blocked": 0,
+          "initial_risk_blocked": 407,
+          "initial_rank": 130,
+          "ranked": 130,
+          "slots_full": 95,
+          "slots_reserved": 0,
+          "removed_after_rerank": 0,
+          "busy": 18,
+          "sizing": 0,
+          "missing_entry": 0,
+          "slippage_limit": 6,
+          "invalid_exit_prices": 0,
+          "fill": 11,
+          "initial_size_reject": 509,
+          "initial_other_side_ranked": 0,
+          "daily_gate_reject": 0
+        }
+      },
+      "2026-08": {
+        "long": {
+          "eligible": 44364,
+          "positive": 24998,
+          "standalone_sized": 24723,
+          "before_cutoff": 24998,
+          "passes_daily_gate": 24998,
+          "initial_feasible": 19878,
+          "initial_gross_blocked": 0,
+          "initial_risk_blocked": 4845,
+          "initial_rank": 19877,
+          "ranked": 19877,
+          "slots_full": 18985,
+          "slots_reserved": 31,
+          "removed_after_rerank": 32,
+          "busy": 707,
+          "sizing": 0,
+          "missing_entry": 0,
+          "slippage_limit": 10,
+          "invalid_exit_prices": 0,
+          "fill": 112,
+          "initial_size_reject": 5120,
+          "initial_other_side_ranked": 1,
+          "daily_gate_reject": 0
+        },
+        "short": {
+          "eligible": 44364,
+          "positive": 483,
+          "standalone_sized": 375,
+          "before_cutoff": 483,
+          "passes_daily_gate": 483,
+          "initial_feasible": 187,
+          "initial_gross_blocked": 0,
+          "initial_risk_blocked": 188,
+          "initial_rank": 182,
+          "ranked": 182,
+          "slots_full": 164,
+          "slots_reserved": 2,
+          "removed_after_rerank": 3,
+          "busy": 4,
+          "sizing": 0,
+          "missing_entry": 0,
+          "slippage_limit": 3,
+          "invalid_exit_prices": 0,
+          "fill": 6,
+          "initial_size_reject": 296,
+          "initial_other_side_ranked": 5,
+          "daily_gate_reject": 0
+        }
+      }
+    }
+  },
+  "representation": {
+    "all": {
+      "rows": 228199,
+      "saturation_abs_ge_0995": 1.0,
+      "saturation_abs_ge_0999": 0.2274023987835179,
+      "hidden_sd": [
+        3.4399043985351037e-06,
+        1.4131959920741952e-06,
+        1.0489113895419227e-06,
+        1.5402593787649283e-06,
+        2.6137694435405282e-06,
+        6.743298302840852e-07,
+        4.006963024668576e-07,
+        3.2851703276210445e-06,
+        4.6998494016033105e-06,
+        1.4275938547347029e-06,
+        1.9043869007134102e-06,
+        1.975129094816657e-06,
+        2.4044902875450022e-06,
+        1.917939631368049e-06,
+        2.831909559077791e-06,
+        1.3816023052819578e-06,
+        2.3182248303267613e-06,
+        2.8403105391171497e-06,
+        2.289152684537088e-06,
+        2.298755344604321e-06,
+        7.599072265174928e-07,
+        2.871720394096776e-06,
+        1.5800651245468644e-06,
+        1.1131755442284528e-06,
+        8.874389705047133e-07,
+        3.460292523271451e-06,
+        3.402581113003021e-06,
+        2.8599023955672794e-06,
+        3.3577106467782504e-06,
+        9.80471566055722e-07,
+        3.663107062807076e-07,
+        2.836222290677258e-06
+      ],
+      "total_centered_variance": 1.7604358637948995e-10,
+      "effective_rank": 1.5516640887159037,
+      "entropy_rank_spectrum": [
+        0.8595784035872116,
+        0.1337229045450039,
+        0.004707085261604773,
+        0.0012970035652730553,
+        0.00024156633016263074,
+        0.0001996401124175415,
+        8.387683644983295e-05,
+        5.9546178705647254e-05,
+        3.199981029170047e-05,
+        1.507759772448471e-05,
+        9.046285919996524e-06,
+        8.225352255732389e-06,
+        5.945296552644818e-06,
+        4.36525492960177e-06,
+        3.237190561609862e-06,
+        2.711951878543761e-06,
+        2.37232051345823e-06,
+        2.090216365281846e-06,
+        2.0210928779436416e-06,
+        1.927658897023373e-06,
+        1.88316997299508e-06,
+        1.858234854085611e-06,
+        1.7854305852242365e-06,
+        1.755526786395857e-06,
+        1.7414076881064048e-06,
+        1.7346049387830032e-06,
+        1.7227726439355816e-06,
+        1.7115997361375062e-06,
+        1.7008060167080665e-06,
+        1.6932084786231691e-06,
+        1.684578790106062e-06,
+        1.68221391201218e-06
+      ],
+      "preference_sign_changes_by_side": [
+        13,
+        0
+      ],
+      "changed_preferred_side": 13,
+      "sides": [
+        {
+          "side": "long",
+          "absolute_preference_change": {
+            "p50": 3.910064697265625e-05,
+            "p90": 0.0005773305892944336,
+            "p99": 0.0014495873451232898,
+            "max": 0.0053223371505737305
+          },
+          "abs_snapshot_contribution": {
+            "p50": 1.3080291748046875,
+            "p90": 2.6959102153778076,
+            "p99": 5.428504409790039,
+            "max": 15.304510116577148
+          },
+          "abs_hidden_contribution": {
+            "p50": 0.0074856276623904705,
+            "p90": 0.01046021692454815,
+            "p99": 0.01257312266156077,
+            "max": 0.03391200304031372
+          },
+          "intercept": -0.22047245502471924,
+          "target_change_bps": {
+            "p50": 0.0006590756967961298,
+            "p90": 0.0030853004996875266,
+            "p99": 0.010511394001755367,
+            "max": 2.4268458741794063
+          },
+          "stop_change_bps": {
+            "p50": 0.002190400550938776,
+            "p90": 0.009480884572893313,
+            "p99": 0.021491024753794705,
+            "max": 0.32473932693566354
+          }
+        },
+        {
+          "side": "short",
+          "absolute_preference_change": {
+            "p50": 8.630752563476562e-05,
+            "p90": 0.0011668205261230469,
+            "p99": 0.002998838424682612,
+            "max": 0.012460708618164062
+          },
+          "abs_snapshot_contribution": {
+            "p50": 0.8096171021461487,
+            "p90": 2.2979789733886733,
+            "p99": 6.570790538787832,
+            "max": 17.679433822631836
+          },
+          "abs_hidden_contribution": {
+            "p50": 0.022368598729372025,
+            "p90": 0.030523473769426348,
+            "p99": 0.034820033609867095,
+            "max": 0.09982338547706604
+          },
+          "intercept": -6.4768853187561035,
+          "target_change_bps": {
+            "p50": 0.007269301339181758,
+            "p90": 0.03814210250868699,
+            "p99": 0.08515645075905649,
+            "max": 0.799050381586619
+          },
+          "stop_change_bps": {
+            "p50": 0.0027341302716310523,
+            "p90": 0.009618387191434602,
+            "p99": 0.02526476303086048,
+            "max": 9.455394953334917
+          }
+        }
+      ]
+    },
+    "admitted": {
+      "rows": 991,
+      "saturation_abs_ge_0995": 1.0,
+      "saturation_abs_ge_0999": 0.23218340060544904,
+      "hidden_sd": [
+        4.080710172056968e-06,
+        1.7861897719358564e-06,
+        1.359461177301262e-06,
+        1.4883114501723202e-06,
+        2.6923748185675305e-06,
+        7.909701255095948e-07,
+        4.4940012058461356e-07,
+        3.944639072389858e-06,
+        5.204904184130928e-06,
+        1.332882184950811e-06,
+        2.072156858300467e-06,
+        1.95688130648137e-06,
+        2.2274533635065123e-06,
+        2.323274196633605e-06,
+        3.434774324819022e-06,
+        1.6914538508244812e-06,
+        2.4817291075437123e-06,
+        3.444673677463985e-06,
+        2.468358393269309e-06,
+        2.818902502726355e-06,
+        7.182154336262105e-07,
+        2.963526842826463e-06,
+        1.627880259045505e-06,
+        1.348810439305366e-06,
+        1.106652808781001e-06,
+        3.733691194899896e-06,
+        3.7368911284855343e-06,
+        3.060620917009615e-06,
+        3.539922002759625e-06,
+        1.2721488709042177e-06,
+        4.1683264207706344e-07,
+        3.0759541150891057e-06
+      ],
+      "total_centered_variance": 2.1788396370342547e-10,
+      "effective_rank": 1.4669791675609316,
+      "entropy_rank_spectrum": [
+        0.8863770416501096,
+        0.10770148960355663,
+        0.004201747330878753,
+        0.001015849777547278,
+        0.00032630713126033465,
+        0.00016057470496536944,
+        8.350690141925965e-05,
+        4.8448174712794905e-05,
+        2.6976607671775865e-05,
+        1.245633827693591e-05,
+        7.578988996100708e-06,
+        3.850762558411066e-06,
+        3.6726070046202464e-06,
+        3.1547505261993405e-06,
+        2.4107737565115054e-06,
+        2.1396715413739934e-06,
+        1.8352144772029856e-06,
+        1.7546028936330048e-06,
+        1.6638466145624205e-06,
+        1.5589682830720195e-06,
+        1.5367810885271027e-06,
+        1.4854224859882333e-06,
+        1.4647426182491485e-06,
+        1.438860627709406e-06,
+        1.3941314584603932e-06,
+        1.3759883165000268e-06,
+        1.3025965387741525e-06,
+        1.2789502186557657e-06,
+        1.2090888160831234e-06,
+        1.1936000613885145e-06,
+        1.1770205984586608e-06,
+        1.1244101207422904e-06
+      ],
+      "preference_sign_changes_by_side": [
+        0,
+        0
+      ],
+      "changed_preferred_side": 0,
+      "sides": [
+        {
+          "side": "long",
+          "absolute_preference_change": {
+            "p50": 2.8789043426513672e-05,
+            "p90": 0.00035572052001953125,
+            "p99": 0.001123529672622681,
+            "max": 0.0025403499603271484
+          },
+          "abs_snapshot_contribution": {
+            "p50": 1.2337779998779297,
+            "p90": 3.365939140319824,
+            "p99": 8.33963098526002,
+            "max": 12.120940208435059
+          },
+          "abs_hidden_contribution": {
+            "p50": 0.006151582580059767,
+            "p90": 0.009709171950817108,
+            "p99": 0.012325809150934222,
+            "max": 0.013888457790017128
+          },
+          "intercept": -0.22047245502471924,
+          "target_change_bps": {
+            "p50": 0.0005458707316502096,
+            "p90": 0.002845830295219315,
+            "p99": 0.00696706703137707,
+            "max": 0.012016993960611844
+          },
+          "stop_change_bps": {
+            "p50": 0.0016209290545216026,
+            "p90": 0.007759662664919009,
+            "p99": 0.021034635300763035,
+            "max": 0.047373477745915604
+          }
+        },
+        {
+          "side": "short",
+          "absolute_preference_change": {
+            "p50": 6.67572021484375e-05,
+            "p90": 0.0007543563842773438,
+            "p99": 0.0022686004638671885,
+            "max": 0.005239009857177734
+          },
+          "abs_snapshot_contribution": {
+            "p50": 0.9641068577766418,
+            "p90": 3.319074869155884,
+            "p99": 10.763353157043463,
+            "max": 14.088537216186523
+          },
+          "abs_hidden_contribution": {
+            "p50": 0.02494608610868454,
+            "p90": 0.031821999698877335,
+            "p99": 0.035021889582276346,
+            "max": 0.03734545037150383
+          },
+          "intercept": -6.4768853187561035,
+          "target_change_bps": {
+            "p50": 0.0056443561986807556,
+            "p90": 0.03472312542912581,
+            "p99": 0.0814577534345995,
+            "max": 0.1807483355530104
+          },
+          "stop_change_bps": {
+            "p50": 0.0018938014927777358,
+            "p90": 0.008748581767255292,
+            "p99": 0.027490579492056615,
+            "max": 0.11745947580465987
+          }
+        }
+      ]
+    }
+  },
+  "archived": {
+    "base": {
+      "net": 131.16588263724316,
+      "max_drawdown": 74.67860910855666,
+      "fills": 608,
+      "long_fills": 561,
+      "closed": {
+        "closed": 608,
+        "wins": 503,
+        "realized_net": 131.16588263724327
+      },
+      "natural": {
+        "closed": 600,
+        "wins": 499,
+        "realized_net": 132.52942687558303
+      },
+      "cutoff": {
+        "closed": 8,
+        "wins": 4,
+        "realized_net": -1.3635442383397565
+      },
+      "open": 0,
+      "time_closes": 0,
+      "missing_funding_hours": 1622,
+      "trades_with_missing_path_minutes": 167,
+      "oldest_cutoff_quote_minutes": 97357,
+      "median_holding_minutes": 421.0
+    },
+    "stress": {
+      "net": 130.81114079322538,
+      "max_drawdown": 51.15161470443354,
+      "fills": 562,
+      "long_fills": 513,
+      "closed": {
+        "closed": 562,
+        "wins": 461,
+        "realized_net": 130.81114079322526
+      },
+      "natural": {
+        "closed": 554,
+        "wins": 456,
+        "realized_net": 130.0270635861387
+      },
+      "cutoff": {
+        "closed": 8,
+        "wins": 5,
+        "realized_net": 0.7840772070865416
+      },
+      "open": 0,
+      "time_closes": 0,
+      "missing_funding_hours": 0,
+      "trades_with_missing_path_minutes": 150,
+      "oldest_cutoff_quote_minutes": 0,
+      "median_holding_minutes": 475.0
+    }
+  },
+  "neutral": {
+    "base": {
+      "net": 131.24652789795664,
+      "max_drawdown": 74.67680907365025,
+      "fills": 608,
+      "long_fills": 561,
+      "closed": {
+        "closed": 608,
+        "wins": 503,
+        "realized_net": 131.24652789795675
+      },
+      "natural": {
+        "closed": 600,
+        "wins": 499,
+        "realized_net": 132.61005790932464
+      },
+      "cutoff": {
+        "closed": 8,
+        "wins": 4,
+        "realized_net": -1.3635300113678968
+      },
+      "open": 0,
+      "time_closes": 0,
+      "missing_funding_hours": 1622,
+      "trades_with_missing_path_minutes": 167,
+      "oldest_cutoff_quote_minutes": 97357,
+      "median_holding_minutes": 421.0
+    },
+    "stress": {
+      "net": 130.81426770903386,
+      "max_drawdown": 51.15070251911811,
+      "fills": 562,
+      "long_fills": 513,
+      "closed": {
+        "closed": 562,
+        "wins": 461,
+        "realized_net": 130.81426770903377
+      },
+      "natural": {
+        "closed": 554,
+        "wins": 456,
+        "realized_net": 130.03018379318056
+      },
+      "cutoff": {
+        "closed": 8,
+        "wins": 5,
+        "realized_net": 0.7840839158532178
+      },
+      "open": 0,
+      "time_closes": 0,
+      "missing_funding_hours": 0,
+      "trades_with_missing_path_minutes": 150,
+      "oldest_cutoff_quote_minutes": 0,
+      "median_holding_minutes": 475.0
+    }
+  },
+  "history_admission_overlap": {
+    "base": {
+      "common": 607,
+      "original": 608,
+      "changed": 608
+    },
+    "stress": {
+      "common": 562,
+      "original": 562,
+      "changed": 562
+    }
+  },
+  "controls": {
+    "cash": {
+      "marked": {
+        "base": {
+          "net": 0.0,
+          "max_drawdown": 0.0,
+          "fills": 0,
+          "long_fills": 0,
+          "closed": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "natural": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "cutoff": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "open": 0,
+          "time_closes": 0,
+          "missing_funding_hours": 0,
+          "trades_with_missing_path_minutes": 0,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": null
+        },
+        "stress": {
+          "net": 0.0,
+          "max_drawdown": 0.0,
+          "fills": 0,
+          "long_fills": 0,
+          "closed": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "natural": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "cutoff": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "open": 0,
+          "time_closes": 0,
+          "missing_funding_hours": 0,
+          "trades_with_missing_path_minutes": 0,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": null
+        }
+      },
+      "liquidated": {
+        "base": {
+          "net": 0.0,
+          "max_drawdown": 0.0,
+          "fills": 0,
+          "long_fills": 0,
+          "closed": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "natural": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "cutoff": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "open": 0,
+          "time_closes": 0,
+          "missing_funding_hours": 0,
+          "trades_with_missing_path_minutes": 0,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": null
+        },
+        "stress": {
+          "net": 0.0,
+          "max_drawdown": 0.0,
+          "fills": 0,
+          "long_fills": 0,
+          "closed": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "natural": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "cutoff": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "open": 0,
+          "time_closes": 0,
+          "missing_funding_hours": 0,
+          "trades_with_missing_path_minutes": 0,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": null
+        }
+      }
+    },
+    "constant_fixed": {
+      "marked": {
+        "base": {
+          "net": -828.5133283721487,
+          "max_drawdown": 958.3183736799036,
+          "fills": 5186,
+          "long_fills": 5186,
+          "closed": {
+            "closed": 5183,
+            "wins": 4497,
+            "realized_net": -827.6319423736902
+          },
+          "natural": {
+            "closed": 5183,
+            "wins": 4497,
+            "realized_net": -827.6319423736902
+          },
+          "cutoff": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "open": 3,
+          "time_closes": 0,
+          "missing_funding_hours": 0,
+          "trades_with_missing_path_minutes": 166,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": 13.0
+        },
+        "stress": {
+          "net": -855.7580707534833,
+          "max_drawdown": 933.1034304067523,
+          "fills": 4448,
+          "long_fills": 4448,
+          "closed": {
+            "closed": 4445,
+            "wins": 3867,
+            "realized_net": -855.3103878667796
+          },
+          "natural": {
+            "closed": 4445,
+            "wins": 3867,
+            "realized_net": -855.3103878667796
+          },
+          "cutoff": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "open": 3,
+          "time_closes": 0,
+          "missing_funding_hours": 0,
+          "trades_with_missing_path_minutes": 135,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": 15.0
+        }
+      },
+      "liquidated": {
+        "base": {
+          "net": -828.7713220274812,
+          "max_drawdown": 958.3183736799036,
+          "fills": 5186,
+          "long_fills": 5186,
+          "closed": {
+            "closed": 5186,
+            "wins": 4498,
+            "realized_net": -828.771322027468
+          },
+          "natural": {
+            "closed": 5183,
+            "wins": 4497,
+            "realized_net": -827.6319423736902
+          },
+          "cutoff": {
+            "closed": 3,
+            "wins": 1,
+            "realized_net": -1.1393796537778642
+          },
+          "open": 0,
+          "time_closes": 0,
+          "missing_funding_hours": 0,
+          "trades_with_missing_path_minutes": 166,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": 13.0
+        },
+        "stress": {
+          "net": -856.0809345940169,
+          "max_drawdown": 933.1034304067523,
+          "fills": 4448,
+          "long_fills": 4448,
+          "closed": {
+            "closed": 4448,
+            "wins": 3868,
+            "realized_net": -856.080934593979
+          },
+          "natural": {
+            "closed": 4445,
+            "wins": 3867,
+            "realized_net": -855.3103878667796
+          },
+          "cutoff": {
+            "closed": 3,
+            "wins": 1,
+            "realized_net": -0.7705467271995075
+          },
+          "open": 0,
+          "time_closes": 0,
+          "missing_funding_hours": 0,
+          "trades_with_missing_path_minutes": 135,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": 15.0
+        }
+      }
+    },
+    "constant_learned": {
+      "marked": {
+        "base": {
+          "net": -95.27464793931631,
+          "max_drawdown": 138.5623532708903,
+          "fills": 273,
+          "long_fills": 39,
+          "closed": {
+            "closed": 271,
+            "wins": 127,
+            "realized_net": -92.25678585443217
+          },
+          "natural": {
+            "closed": 271,
+            "wins": 127,
+            "realized_net": -92.25678585443217
+          },
+          "cutoff": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "open": 2,
+          "time_closes": 0,
+          "missing_funding_hours": 0,
+          "trades_with_missing_path_minutes": 140,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": 1948.0
+        },
+        "stress": {
+          "net": -119.89894762544282,
+          "max_drawdown": 153.67640234649525,
+          "fills": 285,
+          "long_fills": 29,
+          "closed": {
+            "closed": 284,
+            "wins": 121,
+            "realized_net": -117.357521373004
+          },
+          "natural": {
+            "closed": 284,
+            "wins": 121,
+            "realized_net": -117.357521373004
+          },
+          "cutoff": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "open": 1,
+          "time_closes": 0,
+          "missing_funding_hours": 0,
+          "trades_with_missing_path_minutes": 138,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": 1766.0
+        }
+      },
+      "liquidated": {
+        "base": {
+          "net": -95.32351214743016,
+          "max_drawdown": 138.5623532708903,
+          "fills": 273,
+          "long_fills": 39,
+          "closed": {
+            "closed": 273,
+            "wins": 127,
+            "realized_net": -95.3235121474301
+          },
+          "natural": {
+            "closed": 271,
+            "wins": 127,
+            "realized_net": -92.25678585443217
+          },
+          "cutoff": {
+            "closed": 2,
+            "wins": 0,
+            "realized_net": -3.066726292997929
+          },
+          "open": 0,
+          "time_closes": 0,
+          "missing_funding_hours": 0,
+          "trades_with_missing_path_minutes": 140,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": 1949.0
+        },
+        "stress": {
+          "net": -119.95517943907771,
+          "max_drawdown": 153.67640234649525,
+          "fills": 285,
+          "long_fills": 29,
+          "closed": {
+            "closed": 285,
+            "wins": 121,
+            "realized_net": -119.95517943907764
+          },
+          "natural": {
+            "closed": 284,
+            "wins": 121,
+            "realized_net": -117.357521373004
+          },
+          "cutoff": {
+            "closed": 1,
+            "wins": 0,
+            "realized_net": -2.597658066073637
+          },
+          "open": 0,
+          "time_closes": 0,
+          "missing_funding_hours": 0,
+          "trades_with_missing_path_minutes": 138,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": 1767.0
+        }
+      }
+    },
+    "random_fixed": {
+      "marked": {
+        "base": {
+          "net": -106.55551853744737,
+          "max_drawdown": 254.19648424388947,
+          "fills": 2379,
+          "long_fills": 1219,
+          "closed": {
+            "closed": 2379,
+            "wins": 1548,
+            "realized_net": -106.55551853744798
+          },
+          "natural": {
+            "closed": 2379,
+            "wins": 1548,
+            "realized_net": -106.55551853744798
+          },
+          "cutoff": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "open": 0,
+          "time_closes": 0,
+          "missing_funding_hours": 0,
+          "trades_with_missing_path_minutes": 282,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": 56.0
+        },
+        "stress": {
+          "net": -444.79686696179465,
+          "max_drawdown": 463.7429615799406,
+          "fills": 2166,
+          "long_fills": 1071,
+          "closed": {
+            "closed": 2166,
+            "wins": 1361,
+            "realized_net": -444.7968669617955
+          },
+          "natural": {
+            "closed": 2166,
+            "wins": 1361,
+            "realized_net": -444.7968669617955
+          },
+          "cutoff": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "open": 0,
+          "time_closes": 0,
+          "missing_funding_hours": 0,
+          "trades_with_missing_path_minutes": 289,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": 75.5
+        }
+      },
+      "liquidated": {
+        "base": {
+          "net": -106.55551853744737,
+          "max_drawdown": 254.19648424388947,
+          "fills": 2379,
+          "long_fills": 1219,
+          "closed": {
+            "closed": 2379,
+            "wins": 1548,
+            "realized_net": -106.55551853744798
+          },
+          "natural": {
+            "closed": 2379,
+            "wins": 1548,
+            "realized_net": -106.55551853744798
+          },
+          "cutoff": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "open": 0,
+          "time_closes": 0,
+          "missing_funding_hours": 0,
+          "trades_with_missing_path_minutes": 282,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": 56.0
+        },
+        "stress": {
+          "net": -444.79686696179465,
+          "max_drawdown": 463.7429615799406,
+          "fills": 2166,
+          "long_fills": 1071,
+          "closed": {
+            "closed": 2166,
+            "wins": 1361,
+            "realized_net": -444.7968669617955
+          },
+          "natural": {
+            "closed": 2166,
+            "wins": 1361,
+            "realized_net": -444.7968669617955
+          },
+          "cutoff": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "open": 0,
+          "time_closes": 0,
+          "missing_funding_hours": 0,
+          "trades_with_missing_path_minutes": 289,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": 75.5
+        }
+      }
+    },
+    "random_size_weighted_fixed": {
+      "marked": {
+        "base": {
+          "net": -234.17019988849063,
+          "max_drawdown": 359.2524016176054,
+          "fills": 2349,
+          "long_fills": 1208,
+          "closed": {
+            "closed": 2349,
+            "wins": 1519,
+            "realized_net": -234.17019988849069
+          },
+          "natural": {
+            "closed": 2349,
+            "wins": 1519,
+            "realized_net": -234.17019988849069
+          },
+          "cutoff": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "open": 0,
+          "time_closes": 0,
+          "missing_funding_hours": 0,
+          "trades_with_missing_path_minutes": 269,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": 52.0
+        },
+        "stress": {
+          "net": -441.28083972087063,
+          "max_drawdown": 460.22693433901657,
+          "fills": 2013,
+          "long_fills": 1032,
+          "closed": {
+            "closed": 2012,
+            "wins": 1273,
+            "realized_net": -440.1103206687662
+          },
+          "natural": {
+            "closed": 2012,
+            "wins": 1273,
+            "realized_net": -440.1103206687662
+          },
+          "cutoff": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "open": 1,
+          "time_closes": 0,
+          "missing_funding_hours": 1623,
+          "trades_with_missing_path_minutes": 266,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": 80.0
+        }
+      },
+      "liquidated": {
+        "base": {
+          "net": -234.17019988849063,
+          "max_drawdown": 359.2524016176054,
+          "fills": 2349,
+          "long_fills": 1208,
+          "closed": {
+            "closed": 2349,
+            "wins": 1519,
+            "realized_net": -234.17019988849069
+          },
+          "natural": {
+            "closed": 2349,
+            "wins": 1519,
+            "realized_net": -234.17019988849069
+          },
+          "cutoff": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "open": 0,
+          "time_closes": 0,
+          "missing_funding_hours": 0,
+          "trades_with_missing_path_minutes": 269,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": 52.0
+        },
+        "stress": {
+          "net": -441.2429980740545,
+          "max_drawdown": 460.22693433901657,
+          "fills": 2013,
+          "long_fills": 1032,
+          "closed": {
+            "closed": 2013,
+            "wins": 1273,
+            "realized_net": -441.24299807405566
+          },
+          "natural": {
+            "closed": 2012,
+            "wins": 1273,
+            "realized_net": -440.1103206687662
+          },
+          "cutoff": {
+            "closed": 1,
+            "wins": 0,
+            "realized_net": -1.1326774052894812
+          },
+          "open": 0,
+          "time_closes": 0,
+          "missing_funding_hours": 1622,
+          "trades_with_missing_path_minutes": 266,
+          "oldest_cutoff_quote_minutes": 97357,
+          "median_holding_minutes": 80.0
+        }
+      }
+    },
+    "wide_fixed": {
+      "marked": {
+        "base": {
+          "net": -532.0803833654184,
+          "max_drawdown": 629.8449503384387,
+          "fills": 3469,
+          "long_fills": 3182,
+          "closed": {
+            "closed": 3465,
+            "wins": 2894,
+            "realized_net": -533.4560464862453
+          },
+          "natural": {
+            "closed": 3465,
+            "wins": 2894,
+            "realized_net": -533.4560464862453
+          },
+          "cutoff": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "open": 4,
+          "time_closes": 0,
+          "missing_funding_hours": 1623,
+          "trades_with_missing_path_minutes": 203,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": 39.0
+        },
+        "stress": {
+          "net": -489.8704903929356,
+          "max_drawdown": 622.8188230629642,
+          "fills": 3211,
+          "long_fills": 2923,
+          "closed": {
+            "closed": 3207,
+            "wins": 2671,
+            "realized_net": -491.65815566692123
+          },
+          "natural": {
+            "closed": 3207,
+            "wins": 2671,
+            "realized_net": -491.65815566692123
+          },
+          "cutoff": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "open": 4,
+          "time_closes": 0,
+          "missing_funding_hours": 1623,
+          "trades_with_missing_path_minutes": 197,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": 45.0
+        }
+      },
+      "liquidated": {
+        "base": {
+          "net": -532.2914989743639,
+          "max_drawdown": 629.8449503384387,
+          "fills": 3469,
+          "long_fills": 3182,
+          "closed": {
+            "closed": 3469,
+            "wins": 2897,
+            "realized_net": -532.2914989743628
+          },
+          "natural": {
+            "closed": 3465,
+            "wins": 2894,
+            "realized_net": -533.4560464862453
+          },
+          "cutoff": {
+            "closed": 4,
+            "wins": 3,
+            "realized_net": 1.1645475118825852
+          },
+          "open": 0,
+          "time_closes": 0,
+          "missing_funding_hours": 1622,
+          "trades_with_missing_path_minutes": 203,
+          "oldest_cutoff_quote_minutes": 97357,
+          "median_holding_minutes": 39.0
+        },
+        "stress": {
+          "net": -490.17570819462355,
+          "max_drawdown": 622.8188230629642,
+          "fills": 3211,
+          "long_fills": 2923,
+          "closed": {
+            "closed": 3211,
+            "wins": 2674,
+            "realized_net": -490.17570819461696
+          },
+          "natural": {
+            "closed": 3207,
+            "wins": 2671,
+            "realized_net": -491.65815566692123
+          },
+          "cutoff": {
+            "closed": 4,
+            "wins": 3,
+            "realized_net": 1.4824474723042793
+          },
+          "open": 0,
+          "time_closes": 0,
+          "missing_funding_hours": 1622,
+          "trades_with_missing_path_minutes": 197,
+          "oldest_cutoff_quote_minutes": 97357,
+          "median_holding_minutes": 45.0
+        }
+      }
+    },
+    "wide_learned": {
+      "marked": {
+        "base": {
+          "net": 131.3549264517028,
+          "max_drawdown": 74.67860910855666,
+          "fills": 608,
+          "long_fills": 561,
+          "closed": {
+            "closed": 600,
+            "wins": 499,
+            "realized_net": 132.52942687558303
+          },
+          "natural": {
+            "closed": 600,
+            "wins": 499,
+            "realized_net": 132.52942687558303
+          },
+          "cutoff": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "open": 8,
+          "time_closes": 0,
+          "missing_funding_hours": 1623,
+          "trades_with_missing_path_minutes": 167,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": 421.0
+        },
+        "stress": {
+          "net": 131.10661244189214,
+          "max_drawdown": 51.15161470443354,
+          "fills": 562,
+          "long_fills": 513,
+          "closed": {
+            "closed": 554,
+            "wins": 456,
+            "realized_net": 130.0270635861387
+          },
+          "natural": {
+            "closed": 554,
+            "wins": 456,
+            "realized_net": 130.0270635861387
+          },
+          "cutoff": {
+            "closed": 0,
+            "wins": 0,
+            "realized_net": 0
+          },
+          "open": 8,
+          "time_closes": 0,
+          "missing_funding_hours": 0,
+          "trades_with_missing_path_minutes": 150,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": 475.0
+        }
+      },
+      "liquidated": {
+        "base": {
+          "net": 131.16588263724316,
+          "max_drawdown": 74.67860910855666,
+          "fills": 608,
+          "long_fills": 561,
+          "closed": {
+            "closed": 608,
+            "wins": 503,
+            "realized_net": 131.16588263724327
+          },
+          "natural": {
+            "closed": 600,
+            "wins": 499,
+            "realized_net": 132.52942687558303
+          },
+          "cutoff": {
+            "closed": 8,
+            "wins": 4,
+            "realized_net": -1.3635442383397565
+          },
+          "open": 0,
+          "time_closes": 0,
+          "missing_funding_hours": 1622,
+          "trades_with_missing_path_minutes": 167,
+          "oldest_cutoff_quote_minutes": 97357,
+          "median_holding_minutes": 421.0
+        },
+        "stress": {
+          "net": 130.81114079322538,
+          "max_drawdown": 51.15161470443354,
+          "fills": 562,
+          "long_fills": 513,
+          "closed": {
+            "closed": 562,
+            "wins": 461,
+            "realized_net": 130.81114079322526
+          },
+          "natural": {
+            "closed": 554,
+            "wins": 456,
+            "realized_net": 130.0270635861387
+          },
+          "cutoff": {
+            "closed": 8,
+            "wins": 5,
+            "realized_net": 0.7840772070865416
+          },
+          "open": 0,
+          "time_closes": 0,
+          "missing_funding_hours": 0,
+          "trades_with_missing_path_minutes": 150,
+          "oldest_cutoff_quote_minutes": 0,
+          "median_holding_minutes": 475.0
+        }
+      },
+      "fixed_entry_attribution": {
+        "base": {
+          "entries": 608,
+          "fixed_exit_net": -10.29339387253392,
+          "original_exit_net": 131.16588263724327,
+          "fixed_exit_wins": 517,
+          "original_exit_wins": 503,
+          "fixed_exit_carry_missing_hours": 1622
+        },
+        "stress": {
+          "entries": 562,
+          "fixed_exit_net": -36.232250173035865,
+          "original_exit_net": 130.81114079322526,
+          "fixed_exit_wins": 468,
+          "original_exit_wins": 461,
+          "fixed_exit_carry_missing_hours": 0
+        }
+      }
+    }
+  },
+  "holding_horizons": {
+    "24": {
+      "base": {
+        "net": 16.758401876780226,
+        "max_drawdown": 141.90510411624814,
+        "fills": 1604,
+        "long_fills": 1516,
+        "closed": {
+          "closed": 1604,
+          "wins": 1124,
+          "realized_net": 16.758401876780063
+        },
+        "natural": {
+          "closed": 1595,
+          "wins": 1119,
+          "realized_net": 17.274552805194578
+        },
+        "cutoff": {
+          "closed": 9,
+          "wins": 5,
+          "realized_net": -0.5161509284145139
+        },
+        "open": 0,
+        "time_closes": 502,
+        "missing_funding_hours": 1622,
+        "trades_with_missing_path_minutes": 323,
+        "oldest_cutoff_quote_minutes": 97357,
+        "median_holding_minutes": 484.0
+      },
+      "stress": {
+        "net": -22.58093344623012,
+        "max_drawdown": 160.36441873469926,
+        "fills": 1559,
+        "long_fills": 1459,
+        "closed": {
+          "closed": 1559,
+          "wins": 1070,
+          "realized_net": -22.580933446230016
+        },
+        "natural": {
+          "closed": 1550,
+          "wins": 1065,
+          "realized_net": -21.647082138358307
+        },
+        "cutoff": {
+          "closed": 9,
+          "wins": 5,
+          "realized_net": -0.9338513078717101
+        },
+        "open": 0,
+        "time_closes": 503,
+        "missing_funding_hours": 1622,
+        "trades_with_missing_path_minutes": 328,
+        "oldest_cutoff_quote_minutes": 97357,
+        "median_holding_minutes": 535.0
+      }
+    },
+    "168": {
+      "base": {
+        "net": 69.32880667473773,
+        "max_drawdown": 102.20151650092566,
+        "fills": 781,
+        "long_fills": 710,
+        "closed": {
+          "closed": 781,
+          "wins": 634,
+          "realized_net": 69.32880667473785
+        },
+        "natural": {
+          "closed": 772,
+          "wins": 630,
+          "realized_net": 72.61098842023162
+        },
+        "cutoff": {
+          "closed": 9,
+          "wins": 4,
+          "realized_net": -3.2821817454937734
+        },
+        "open": 0,
+        "time_closes": 42,
+        "missing_funding_hours": 1638,
+        "trades_with_missing_path_minutes": 237,
+        "oldest_cutoff_quote_minutes": 97357,
+        "median_holding_minutes": 454.0
+      },
+      "stress": {
+        "net": 116.35185876631112,
+        "max_drawdown": 55.49193402003675,
+        "fills": 676,
+        "long_fills": 616,
+        "closed": {
+          "closed": 676,
+          "wins": 542,
+          "realized_net": 116.351858766311
+        },
+        "natural": {
+          "closed": 667,
+          "wins": 537,
+          "realized_net": 117.65990661150559
+        },
+        "cutoff": {
+          "closed": 9,
+          "wins": 5,
+          "realized_net": -1.308047845194584
+        },
+        "open": 0,
+        "time_closes": 46,
+        "missing_funding_hours": 1622,
+        "trades_with_missing_path_minutes": 213,
+        "oldest_cutoff_quote_minutes": 97357,
+        "median_holding_minutes": 572.5
+      }
+    }
+  },
+  "checkpoint": {
+    "file": "development.pt",
+    "sha256": "8c345a55fbcce3e00665d57750168fdf369dbe796e66711034a665375871bf8b",
+    "step": 450
+  },
+  "fixed_bracket_source_sha256": "66399ace58d0c002c1e3fbd6665a409c7ffef5eccc81f61beb35d34a794c1986",
+  "random_seed": 20261125,
+  "device": "cuda"
+}

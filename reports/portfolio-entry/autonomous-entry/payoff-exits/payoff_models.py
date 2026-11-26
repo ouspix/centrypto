@@ -228,15 +228,24 @@ def fit_exits(inputs, rows, targets, ordered, named, scale, news=False, parent=N
 
 
 @torch.no_grad()
-def predict(inputs, span, value, exits, scale, news):
+def predict(inputs, span, value, exits, scale, news, *, fixed_distances=None):
     rows = np.arange(span.start, span.stop)
     dist, estimate = (np.empty((len(rows), 2, 2), dtype="f8") for _ in range(2))
+    if fixed_distances is not None:
+        fixed_distances = np.broadcast_to(fixed_distances, dist.shape)
+        if not np.isfinite(fixed_distances).all() or (fixed_distances <= 0).any():
+            raise ValueError("Fixed TP/SL distances must be finite and positive")
     for offset in range(0, len(rows), PREDICT_BATCH):
         ids = rows[offset:offset + PREDICT_BATCH]
         block = slice(offset, offset + len(ids))
         x, bars = inputs.batch(ids, scale, exits.ordered, news)
-        brackets = exits(x, bars)
-        dist[block] = volatility(inputs.data, ids)[:, None, None] * np.exp(brackets.numpy().astype("f8"))
+        vol = volatility(inputs.data, ids)[:, None, None]
+        if fixed_distances is None:
+            brackets = exits(x, bars)
+            dist[block] = vol * np.exp(brackets.numpy().astype("f8"))
+        else:
+            dist[block] = fixed_distances[block]
+            brackets = tensor(np.log(dist[block] / vol))
         estimate[block] = value(x, bars, brackets[:, :, None, :]).squeeze(2).numpy() / 100
     assert np.isfinite(dist).all() and (dist > 0).all() and np.isfinite(estimate).all()
     return dist, estimate

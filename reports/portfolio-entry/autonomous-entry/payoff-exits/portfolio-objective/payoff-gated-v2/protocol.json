@@ -1,0 +1,16 @@
+{
+  "parent_sha256": "df73213193755f2438189ebed21631dbfaa9625aaeab898035007130eab0c428",
+  "calibration_utc": ["2026-03-01T00:00:00Z", "2026-04-01T00:00:00Z", "2026-05-01T00:00:00Z"],
+  "validation_utc": ["2026-05-01T00:00:00Z", "2026-08-22T00:00:00Z"],
+  "minimum_closes": 250,
+  "minimum_win_percent": 95,
+  "net_strictly_above_usd": 0,
+  "calibration_count_multiplier": 1.5,
+  "edge_quantiles": [null, 0.75, 0.90, 0.97, 0.99],
+  "probability_quantiles": [null, 0.80, 0.95, 0.98],
+  "cutoffs": "Fit fixed, pooled long and short cutoffs on March and April decision scores for standalone-size-eligible proposals. Null disables a cutoff. Use the smaller prediction across execution scenarios in each case. Raw expected returns may be negative under the original conservative training labels.",
+  "ranking": "For eligible proposals rank by feasible dollars times target_fraction * softplus(raw_net / target_fraction). This keeps utility positive and monotone across negative and positive forecasts. Log raw expected return separately.",
+  "replay": "Each gate gets one continuous pre-validation portfolio per scenario. Carry positions across the April boundary and liquidate survivors at the May boundary. Assign natural closes to calendar months. Use the parent models, fixed brackets and desk execution convention throughout.",
+  "selection": "First maximize the smaller fraction of the buffered natural-close floor attained across both months and scenarios, capped at one. Next prefer gates meeting all three official requirements in both 61-day calibration books, using the duration-scaled count. Next prefer positive net in both books, then the smaller win rate capped at 95%, then worst uncertainty-sensitivity net, then worst recorded net. Exact ties follow grid order.",
+  "validation": "Freeze the selected numeric cutoffs before the May to August test. Evaluate only that candidate on validation. Include all after-cost closes, including cutoff liquidations, in the official test. Report natural exits and the parent incomplete-data sensitivity separately."
+}

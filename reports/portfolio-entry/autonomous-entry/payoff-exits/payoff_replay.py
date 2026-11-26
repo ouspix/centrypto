@@ -9,11 +9,17 @@ from extended_fit import experiment
 from settings import DAY, FEE
 
 
-def choose(rows, standalone, risk_fraction, value, equity, gross, risk):
+def remaining_capacity(equity, gross, risk):
     room = max(0., LIMITS["maxOpenRiskUsd"] - risk)
     budget = max(0., min(equity, CAPITAL) * LIMITS["maxGrossLeverage"] - gross)
-    feasible = np.minimum(np.minimum(standalone[rows], budget / (1 + FEE)), room / risk_fraction[rows])
-    score = np.where(feasible >= MIN_NOTIONAL, value[rows] * feasible, -np.inf)
+    return budget / (1 + FEE), room
+
+
+def choose(rows, standalone, risk_fraction, value, equity, gross, risk, *, scale_by_size=True):
+    budget, room = remaining_capacity(equity, gross, risk)
+    feasible = np.minimum(np.minimum(standalone[rows], budget), room / risk_fraction[rows])
+    priorities = value[rows] * feasible if scale_by_size else value[rows]
+    score = np.where(feasible >= MIN_NOTIONAL, priorities, -np.inf)
     side = score.argmax(axis=1)
     dollars = score[np.arange(len(rows)), side]
     chosen = dollars > 0
@@ -26,7 +32,9 @@ def price_levels(fill, sign, distances):
 
 
 def replay(market, schedule, distances, forecast, vol, mode, begin, mark, fixed_plan=None,
-           *, close_book=False, record_plan=True, training_score_only=False, policy_scores=False):
+           *, close_book=False, record_plan=True, training_score_only=False, policy_scores=False,
+           admission=None, scale_by_size=True):
+    """Optionally record per-row, per-side admission stages for the adaptive policy."""
     through = minute(mark)
     delay, slip = dict(MODES)[mode]
     standalone = initial_size(schedule.turnover[:, None], distances[:, :, 1], np.array(SIGNS))
@@ -38,6 +46,15 @@ def replay(market, schedule, distances, forecast, vol, mode, begin, mark, fixed_
     cash = day_equity = float(CAPITAL)
     rolling = 0.
     day = -1
+    if admission is not None:
+        if fixed_plan is not None:
+            raise ValueError("Admission tracing requires adaptive ranking")
+        admission.update({stage: np.zeros(value.shape, dtype=bool) for stage in (
+            "before_cutoff", "passes_daily_gate", "initial_feasible", "initial_gross_blocked",
+            "initial_risk_blocked", "initial_rank", "ranked",
+            "slots_full", "slots_reserved", "removed_after_rerank", "busy", "sizing", "missing_entry",
+            "slippage_limit", "invalid_exit_prices", "fill",
+        )})
 
     def settle(now):
         nonlocal cash, rolling
@@ -50,17 +67,33 @@ def replay(market, schedule, distances, forecast, vol, mode, begin, mark, fixed_
         while history and history[0][0] < now - 1440:
             rolling -= history.popleft()[1]
 
-    def ranked(rows):
-        rows, sides, scores = choose(rows, standalone, risk_fraction, value, equity, gross, risk)
+    def ranked(rows, initial=False):
+        if admission is not None and initial:
+            budget, room = remaining_capacity(equity, gross, risk)
+            sized = (standalone[rows] >= MIN_NOTIONAL) & (value[rows] > 0)
+            risk_fits = room / risk_fraction[rows] >= MIN_NOTIONAL
+            admission["initial_feasible"][rows] = sized & risk_fits & (budget >= MIN_NOTIONAL)
+            admission["initial_gross_blocked"][rows] = sized & (budget < MIN_NOTIONAL)
+            admission["initial_risk_blocked"][rows] = sized & ~risk_fits
+        rows, sides, scores = choose(rows, standalone, risk_fraction, value, equity, gross, risk,
+                                     scale_by_size=scale_by_size)
+        if admission is not None:
+            admission["ranked"][rows, sides] = True
+            if initial:
+                admission["initial_rank"][rows, sides] = True
         order = np.lexsort((schedule.names[rows], -scores))
         return list(zip(rows[order].tolist(), sides[order].tolist(), scores[order].tolist(), strict=True))
 
     def adaptive(lo, hi):
-        pending = ranked(np.arange(lo, hi))
+        pending = ranked(np.arange(lo, hi), initial=True)
         while pending:
             if slots >= LIMITS["maxConcurrentPositions"]:
                 if record_plan:
                     plan.setdefault(lo, []).extend(pending)
+                if admission is not None:
+                    reason = "slots_full" if len(held) >= LIMITS["maxConcurrentPositions"] else "slots_reserved"
+                    for row, side, _ in pending:
+                        admission[reason][row, side] = True
                 break
             proposal = pending.pop(0)
             if record_plan:
@@ -70,10 +103,13 @@ def replay(market, schedule, distances, forecast, vol, mode, begin, mark, fixed_
             if slots == previous or not pending:
                 continue
             if slots >= LIMITS["maxConcurrentPositions"]:
-                if record_plan:
-                    plan[lo].extend(pending)
-                break
+                continue  # Record the remaining proposals against the updated slot count above.
             updated = ranked(np.array([row for row, _, _ in pending]))
+            if admission is not None:
+                still_ranked = {(row, side) for row, side, _ in updated}
+                for row, side, _ in pending:
+                    if (row, side) not in still_ranked:
+                        admission["removed_after_rerank"][row, side] = True
             if record_plan:
                 still_eligible = {row for row, _, _ in updated}
                 # Keep initially proposed but now infeasible orders at the end of the control list.
@@ -98,12 +134,16 @@ def replay(market, schedule, distances, forecast, vol, mode, begin, mark, fixed_
         settle(now)
         if now + 1 + delay >= through:
             continue
+        if admission is not None:
+            admission["before_cutoff"][lo:hi] = value[lo:hi] > 0
         marks = [market.open_value(t, stamp) for t in held.values()]
         equity = cash + sum(m[0] for m in marks)
         gross, risk = sum(m[1] for m in marks), sum(m[2] for m in marks)
         if min(rolling, equity - day_equity) <= -LIMITS["maxDailyLossUsd"]:
             counts["daily_loss"] += 1
             continue
+        if admission is not None:
+            admission["passes_daily_gate"][lo:hi] = value[lo:hi] > 0
         slots = len(held)
         postponed = []
         proposals = adaptive(lo, hi) if fixed_plan is None else fixed_plan.get(lo, ())
@@ -114,6 +154,8 @@ def replay(market, schedule, distances, forecast, vol, mode, begin, mark, fixed_
             asset = int(schedule.asset[row])
             if asset in held:
                 counts["busy"] += 1
+                if admission is not None:
+                    admission["busy"][row, side] = True
                 continue
             sign = SIGNS[side]
             budget = min(equity, CAPITAL) * LIMITS["maxGrossLeverage"] - gross
@@ -122,6 +164,8 @@ def replay(market, schedule, distances, forecast, vol, mode, begin, mark, fixed_
             size = min(standalone[row, side], budget / (1 + FEE), room / fraction)
             if size < MIN_NOTIONAL:
                 counts["sizing"] += 1
+                if admission is not None:
+                    admission["sizing"][row, side] = True
                 continue
             paid = float(market.raw[asset, now + 1 + delay, 0] * (1 + sign * slip))
             gross_before, risk_before = gross, risk
@@ -130,27 +174,35 @@ def replay(market, schedule, distances, forecast, vol, mode, begin, mark, fixed_
             risk += size * fraction
             if not np.isfinite(paid) or paid <= 0:
                 counts["missing_entry"] += 1
+                if admission is not None:
+                    admission["missing_entry"][row, side] = True
                 continue
             if sign * (paid / schedule.reference[row] - 1) * 10000 > LIMITS["maxSlippageBps"]:
                 counts["slippage_limit"] += 1
+                if admission is not None:
+                    admission["slippage_limit"][row, side] = True
                 continue
             target, stop = price_levels(paid, sign, distances[row, side])
             if not (0 < target < np.inf and 0 < stop < np.inf and
                     sign * (target - paid) > 0 and sign * (paid - stop) > 0):
                 counts["invalid_exit_prices"] += 1
+                if admission is not None:
+                    admission["invalid_exit_prices"][row, side] = True
                 continue
             trade = market.execute(asset, sign, stamp, through, mode, paid, float(size),
                                    target, stop, None, close_book)
             trade.update(planned_risk=float(size * fraction), gross_before=float(gross_before),
                          open_risk_before=float(risk_before), equity_before=float(equity),
                          occupied_before=slots - 1, entry_volatility=float(vol[row]))
-            if policy_scores:
+            if policy_scores or not scale_by_size:
                 trade["ranking_utility"] = score
             else:
                 trade.update(expected_dollars=score, forecast_after_sizing=float(size * value[row, side]))
             equity -= FEE * size
             held[asset] = trade
             ledger.append(trade)
+            if admission is not None:
+                admission["fill"][row, side] = True
         if postponed:
             plan[lo].extend(postponed)
     cutoff_stats = {}

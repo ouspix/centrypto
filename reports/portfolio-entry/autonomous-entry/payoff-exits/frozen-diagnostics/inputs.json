@@ -1,0 +1,10 @@
+{
+  "cache_sha256": {
+    "data/research/centrypto/portfolio-entry/autonomous-entry/decisions.npy": "feaf4a4888d17bfe9e5c26ec09dfb1f10e8c85747061a1b1761c1cd26286478e",
+    "data/research/centrypto/portfolio-entry/autonomous-entry/market.npy": "8e5c7038dc1ff90a3be462891fe0f1fb64d7ec47f8a599a05955a00fc7156388",
+    "data/research/centrypto/portfolio-entry/payoff-exits/ordered-history.npy": "f44530a76f30b0295168390853a14d365dc3050dbc83f18f979d384e7f2aa3df",
+    "data/research/centrypto/three-month-replay/minutes.npy": "79cd402e7ddbb007782f7ae0fec59a99b97f3370d7b7da09c1f85538d1476772",
+    "data/research/centrypto/three-month-replay/funding.joblib": "c18abedfb1e0f865471ffce1edace90b3428d627787ff5496ed6d8ca841374b1"
+  },
+  "frozen_sha256": "9331087e3a90cb4bf05b7dc67f6d5fabfe613678df9bbb6478187054d1f9fead"
+}

@@ -1,0 +1,97 @@
+input,observed_rows,total_rows,source_or_gap
+perp_return_pct_5m,184866,184866,frozen training design
+perp_return_pct_15m,184866,184866,frozen training design
+perp_return_pct_60m,184866,184866,frozen training design
+perp_return_pct_240m,184866,184866,frozen training design
+perp_return_pct_1440m,184480,184866,frozen training design
+volatility_pct_15m,184866,184866,frozen training design
+volatility_pct_60m,184866,184866,frozen training design
+volatility_pct_240m,184866,184866,frozen training design
+volatility_pct_1440m,184480,184866,frozen training design
+vol_ratio_15m,184866,184866,frozen training design
+perp_volume_ratio_60m,184866,184866,frozen training design
+vol_ratio_240m,184866,184866,frozen training design
+vol_ratio_1440m,184866,184866,frozen training design
+level_vs_sma_3,184866,184866,frozen training design
+level_vs_sma_8,184866,184866,frozen training design
+level_vs_sma_12,184866,184866,frozen training design
+level_vs_sma_30,184866,184866,frozen training design
+sma_gap_3_12,184866,184866,frozen training design
+sma_gap_8_30,184866,184866,frozen training design
+bar_close_location,184695,184866,frozen training design
+log_quote_volume,184866,184866,frozen training design
+rsi_9,184862,184866,frozen training design
+bb_12_width,184866,184866,frozen training design
+bb_12_pct_b,184865,184866,frozen training design
+clock_sin,184866,184866,frozen training design
+clock_cos,184866,184866,frozen training design
+btc_return_60m,184866,184866,frozen training design
+btc_return_240m,184866,184866,frozen training design
+btc_return_1440m,184784,184866,frozen training design
+eth_return_60m,184866,184866,frozen training design
+eth_return_240m,184866,184866,frozen training design
+eth_return_1440m,184776,184866,frozen training design
+relative_btc_return_60m,184866,184866,frozen training design
+relative_eth_return_60m,184866,184866,frozen training design
+btc_log_return_24h,184866,184866,frozen training design
+btc_log_return_72h,182662,184866,frozen training design
+btc_log_return_168h,182058,184866,frozen training design
+asset_minus_btc_log_return_24h,184758,184866,frozen training design
+asset_minus_btc_log_return_72h,180884,184866,frozen training design
+asset_minus_btc_log_return_168h,178740,184866,frozen training design
+asset_log_return_24h,184758,184866,frozen training design
+asset_log_high_vs_reference_24h,184866,184866,frozen training design
+asset_log_low_vs_reference_24h,184866,184866,frozen training design
+asset_valid_candle_fraction_24h,184866,184866,frozen training design
+asset_mean_hourly_return_sign_24h,184866,184866,frozen training design
+asset_rms_hourly_return_24h,184866,184866,frozen training design
+asset_log_return_72h,180884,184866,frozen training design
+asset_log_high_vs_reference_72h,184866,184866,frozen training design
+asset_log_low_vs_reference_72h,184866,184866,frozen training design
+asset_valid_candle_fraction_72h,184866,184866,frozen training design
+asset_mean_hourly_return_sign_72h,184866,184866,frozen training design
+asset_rms_hourly_return_72h,184866,184866,frozen training design
+asset_log_return_168h,178740,184866,frozen training design
+asset_log_high_vs_reference_168h,184866,184866,frozen training design
+asset_log_low_vs_reference_168h,184866,184866,frozen training design
+asset_valid_candle_fraction_168h,184866,184866,frozen training design
+asset_mean_hourly_return_sign_168h,184866,184866,frozen training design
+asset_rms_hourly_return_168h,184866,184866,frozen training design
+funding_lag_1h_bps,184866,184866,frozen training design
+funding_mean_8h_bps,184866,184866,frozen training design
+ndx_return_5m,0,184866,missing historical NDX intraday bars
+ndx_return_15m,0,184866,missing historical NDX intraday bars
+ndx_return_1h,0,184866,missing historical NDX intraday bars
+ndx_return_4h,0,184866,missing historical NDX intraday bars
+ndx_return_since_previous_close,0,184866,missing historical NDX intraday bars
+ndx_previous_session_return,184866,184866,FRED and Nasdaq calendar
+ndx_volatility_1h,0,184866,missing historical NDX intraday bars
+ndx_market_open,184866,184866,FRED and Nasdaq calendar
+ndx_minutes_since_bar,0,184866,missing historical NDX intraday bars
+news_asset_bullish_5m,0,184866,missing point-in-time directional news archive during training
+news_asset_bullish_30m,0,184866,missing point-in-time directional news archive during training
+news_asset_bullish_2h,0,184866,missing point-in-time directional news archive during training
+news_asset_bullish_8h,0,184866,missing point-in-time directional news archive during training
+news_asset_bearish_5m,0,184866,missing point-in-time directional news archive during training
+news_asset_bearish_30m,0,184866,missing point-in-time directional news archive during training
+news_asset_bearish_2h,0,184866,missing point-in-time directional news archive during training
+news_asset_bearish_8h,0,184866,missing point-in-time directional news archive during training
+news_market_bullish_5m,0,184866,missing point-in-time directional news archive during training
+news_market_bullish_30m,0,184866,missing point-in-time directional news archive during training
+news_market_bullish_2h,0,184866,missing point-in-time directional news archive during training
+news_market_bullish_8h,0,184866,missing point-in-time directional news archive during training
+news_market_bearish_5m,0,184866,missing point-in-time directional news archive during training
+news_market_bearish_30m,0,184866,missing point-in-time directional news archive during training
+news_market_bearish_2h,0,184866,missing point-in-time directional news archive during training
+news_market_bearish_8h,0,184866,missing point-in-time directional news archive during training
+bid_ask_spread,0,184866,no matched historical venue series found for the training tape
+bid_depth,0,184866,no matched historical venue series found for the training tape
+ask_depth,0,184866,no matched historical venue series found for the training tape
+book_imbalance,0,184866,no matched historical venue series found for the training tape
+open_interest,0,184866,no matched historical venue series found for the training tape
+open_interest_change_5m,0,184866,no matched historical venue series found for the training tape
+open_interest_change_1h,0,184866,no matched historical venue series found for the training tape
+liquidated_long_usd_5m,0,184866,no matched historical venue series found for the training tape
+liquidated_short_usd_5m,0,184866,no matched historical venue series found for the training tape
+spot_perp_basis,0,184866,no matched historical venue series found for the training tape
+execution_scenario,184866,184866,balanced base and stress coding

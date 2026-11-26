@@ -1,0 +1,1219 @@
+{
+  "fit_decisions": 61628,
+  "candidate_labels": [
+    {
+      "pair": [
+        60,
+        600
+      ],
+      "filled_labels": 226842,
+      "uncertain_labels": 20862
+    },
+    {
+      "pair": [
+        100,
+        1000
+      ],
+      "filled_labels": 226842,
+      "uncertain_labels": 38425
+    },
+    {
+      "pair": [
+        140,
+        1200
+      ],
+      "filled_labels": 226842,
+      "uncertain_labels": 51857
+    }
+  ],
+  "scalar_labels_checked": 384,
+  "calibration": [
+    {
+      "pair": [
+        60,
+        600
+      ],
+      "threshold": 0.85,
+      "months": [
+        {
+          "base": {
+            "closed": 4,
+            "wins": 3,
+            "net": -4.366586491743694,
+            "fees": 0.3465966886961538,
+            "funding": 0.04102781233707586,
+            "executed_price_pnl_before_costs": -4.061017615384616,
+            "expectancy_usd": -1.0916466229359234,
+            "average_win": 0.48936862967219436,
+            "average_loss_magnitude": 5.834692380760277,
+            "break_even_win_rate": 0.9226179777733156,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 4,
+            "natural_wins": 3,
+            "natural_net": -4.366586491743694,
+            "cutoff_closes": 0,
+            "sensitivity_net": -4.366586491743694,
+            "sensitivity_wins": 3
+          },
+          "stress": {
+            "closed": 4,
+            "wins": 3,
+            "net": -4.444053784598426,
+            "fees": 0.346631527626923,
+            "funding": 0.04101520456692638,
+            "executed_price_pnl_before_costs": -4.138437461538429,
+            "expectancy_usd": -1.1110134461496064,
+            "average_win": 0.4703159033054774,
+            "average_loss_magnitude": 5.855001494514858,
+            "break_even_win_rate": 0.9256454856372036,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 4,
+            "natural_wins": 3,
+            "natural_net": -4.444053784598426,
+            "cutoff_closes": 0,
+            "sensitivity_net": -4.444053784598426,
+            "sensitivity_wins": 3
+          }
+        },
+        {
+          "base": {
+            "closed": 13,
+            "wins": 13,
+            "net": 6.2556890769295475,
+            "fees": 1.1171941888499997,
+            "funding": 0.026636265779521207,
+            "executed_price_pnl_before_costs": 7.346247000000027,
+            "expectancy_usd": 0.48120685207150365,
+            "average_win": 0.48120685207150365,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 13,
+            "natural_wins": 13,
+            "natural_net": 6.255689076929547,
+            "cutoff_closes": 0,
+            "sensitivity_net": 6.2556890769295475,
+            "sensitivity_wins": 13
+          },
+          "stress": {
+            "closed": 13,
+            "wins": 13,
+            "net": 6.0078495408790005,
+            "fees": 1.1173055665499998,
+            "funding": 0.026414107428964235,
+            "executed_price_pnl_before_costs": 7.098741000000036,
+            "expectancy_usd": 0.46214227237530775,
+            "average_win": 0.46214227237530775,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 13,
+            "natural_wins": 13,
+            "natural_net": 6.007849540879,
+            "cutoff_closes": 0,
+            "sensitivity_net": 6.0078495408790005,
+            "sensitivity_wins": 13
+          }
+        }
+      ],
+      "priority": [
+        false,
+        0.057971014492753624,
+        -0.14335657369672342
+      ]
+    },
+    {
+      "pair": [
+        60,
+        600
+      ],
+      "threshold": 0.9,
+      "months": [
+        {
+          "base": {
+            "closed": 4,
+            "wins": 3,
+            "net": -4.366586491743694,
+            "fees": 0.3465966886961538,
+            "funding": 0.04102781233707586,
+            "executed_price_pnl_before_costs": -4.061017615384616,
+            "expectancy_usd": -1.0916466229359234,
+            "average_win": 0.48936862967219436,
+            "average_loss_magnitude": 5.834692380760277,
+            "break_even_win_rate": 0.9226179777733156,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 4,
+            "natural_wins": 3,
+            "natural_net": -4.366586491743694,
+            "cutoff_closes": 0,
+            "sensitivity_net": -4.366586491743694,
+            "sensitivity_wins": 3
+          },
+          "stress": {
+            "closed": 4,
+            "wins": 3,
+            "net": -4.444053784598426,
+            "fees": 0.346631527626923,
+            "funding": 0.04101520456692638,
+            "executed_price_pnl_before_costs": -4.138437461538429,
+            "expectancy_usd": -1.1110134461496064,
+            "average_win": 0.4703159033054774,
+            "average_loss_magnitude": 5.855001494514858,
+            "break_even_win_rate": 0.9256454856372036,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 4,
+            "natural_wins": 3,
+            "natural_net": -4.444053784598426,
+            "cutoff_closes": 0,
+            "sensitivity_net": -4.444053784598426,
+            "sensitivity_wins": 3
+          }
+        },
+        {
+          "base": {
+            "closed": 13,
+            "wins": 13,
+            "net": 6.254493344218928,
+            "fees": 1.1171941888499997,
+            "funding": 0.025440533068894374,
+            "executed_price_pnl_before_costs": 7.346247000000033,
+            "expectancy_usd": 0.48111487263222524,
+            "average_win": 0.48111487263222524,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 13,
+            "natural_wins": 13,
+            "natural_net": 6.254493344218928,
+            "cutoff_closes": 0,
+            "sensitivity_net": 6.254493344218928,
+            "sensitivity_wins": 13
+          },
+          "stress": {
+            "closed": 13,
+            "wins": 13,
+            "net": 6.006663452266534,
+            "fees": 1.1173055665499998,
+            "funding": 0.02522801881651595,
+            "executed_price_pnl_before_costs": 7.098741000000018,
+            "expectancy_usd": 0.4620510347897334,
+            "average_win": 0.4620510347897334,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 13,
+            "natural_wins": 13,
+            "natural_net": 6.006663452266533,
+            "cutoff_closes": 0,
+            "sensitivity_net": 6.006663452266534,
+            "sensitivity_wins": 13
+          }
+        }
+      ],
+      "priority": [
+        false,
+        0.057971014492753624,
+        -0.14335657369672342
+      ]
+    },
+    {
+      "pair": [
+        60,
+        600
+      ],
+      "threshold": 0.94,
+      "months": [
+        {
+          "base": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          },
+          "stress": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          }
+        },
+        {
+          "base": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          },
+          "stress": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          }
+        }
+      ],
+      "priority": [
+        false,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "pair": [
+        60,
+        600
+      ],
+      "threshold": 0.97,
+      "months": [
+        {
+          "base": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          },
+          "stress": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          }
+        },
+        {
+          "base": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          },
+          "stress": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          }
+        }
+      ],
+      "priority": [
+        false,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "pair": [
+        100,
+        1000
+      ],
+      "threshold": 0.85,
+      "months": [
+        {
+          "base": {
+            "closed": 3,
+            "wins": 3,
+            "net": 1.6069051344721093,
+            "fees": 0.1592789949642857,
+            "funding": 0.005220558007824722,
+            "executed_price_pnl_before_costs": 1.7609635714285703,
+            "expectancy_usd": 0.5356350448240365,
+            "average_win": 0.5356350448240365,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 3,
+            "natural_wins": 3,
+            "natural_net": 1.6069051344721093,
+            "cutoff_closes": 0,
+            "sensitivity_net": 1.6069051344721093,
+            "sensitivity_wins": 3
+          },
+          "stress": {
+            "closed": 2,
+            "wins": 2,
+            "net": 1.0495260769500225,
+            "fees": 0.10619656135714284,
+            "funding": 0.005224066878588435,
+            "executed_price_pnl_before_costs": 1.150498571428577,
+            "expectancy_usd": 0.5247630384750113,
+            "average_win": 0.5247630384750113,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 2,
+            "natural_wins": 2,
+            "natural_net": 1.0495260769500225,
+            "cutoff_closes": 0,
+            "sensitivity_net": 1.0495260769500225,
+            "sensitivity_wins": 2
+          }
+        },
+        {
+          "base": {
+            "closed": 3,
+            "wins": 3,
+            "net": 1.5641651685887248,
+            "fees": 0.1592789949642857,
+            "funding": -0.037519407875567984,
+            "executed_price_pnl_before_costs": 1.7609635714285785,
+            "expectancy_usd": 0.5213883895295749,
+            "average_win": 0.5213883895295749,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 3,
+            "natural_wins": 3,
+            "natural_net": 1.5641651685887248,
+            "cutoff_closes": 0,
+            "sensitivity_net": 1.5641651685887248,
+            "sensitivity_wins": 3
+          },
+          "stress": {
+            "closed": 3,
+            "wins": 3,
+            "net": 1.543421226418626,
+            "fees": 0.15929484203571426,
+            "funding": -0.02303178868851961,
+            "executed_price_pnl_before_costs": 1.72574785714286,
+            "expectancy_usd": 0.514473742139542,
+            "average_win": 0.514473742139542,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 3,
+            "natural_wins": 3,
+            "natural_net": 1.543421226418626,
+            "cutoff_closes": 0,
+            "sensitivity_net": 1.543421226418626,
+            "sensitivity_wins": 3
+          }
+        }
+      ],
+      "priority": [
+        true,
+        0.028985507246376812,
+        0.03385567990161363
+      ]
+    },
+    {
+      "pair": [
+        100,
+        1000
+      ],
+      "threshold": 0.9,
+      "months": [
+        {
+          "base": {
+            "closed": 2,
+            "wins": 2,
+            "net": 1.0700170065489085,
+            "fees": 0.10618599664285713,
+            "funding": 0.00222728890605118,
+            "executed_price_pnl_before_costs": 1.1739757142857143,
+            "expectancy_usd": 0.5350085032744543,
+            "average_win": 0.5350085032744543,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 2,
+            "natural_wins": 2,
+            "natural_net": 1.0700170065489085,
+            "cutoff_closes": 0,
+            "sensitivity_net": 1.0700170065489085,
+            "sensitivity_wins": 2
+          },
+          "stress": {
+            "closed": 1,
+            "wins": 1,
+            "net": 0.5243802053317086,
+            "fees": 0.053098280678571426,
+            "funding": 0.0022292002959948412,
+            "executed_price_pnl_before_costs": 0.5752492857142852,
+            "expectancy_usd": 0.5243802053317086,
+            "average_win": 0.5243802053317086,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 1,
+            "natural_wins": 1,
+            "natural_net": 0.5243802053317086,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.5243802053317086,
+            "sensitivity_wins": 1
+          }
+        },
+        {
+          "base": {
+            "closed": 3,
+            "wins": 3,
+            "net": 1.5641651685887248,
+            "fees": 0.1592789949642857,
+            "funding": -0.037519407875567984,
+            "executed_price_pnl_before_costs": 1.7609635714285785,
+            "expectancy_usd": 0.5213883895295749,
+            "average_win": 0.5213883895295749,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 3,
+            "natural_wins": 3,
+            "natural_net": 1.5641651685887248,
+            "cutoff_closes": 0,
+            "sensitivity_net": 1.5641651685887248,
+            "sensitivity_wins": 3
+          },
+          "stress": {
+            "closed": 3,
+            "wins": 3,
+            "net": 1.543421226418626,
+            "fees": 0.15929484203571426,
+            "funding": -0.02303178868851961,
+            "executed_price_pnl_before_costs": 1.72574785714286,
+            "expectancy_usd": 0.514473742139542,
+            "average_win": 0.514473742139542,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 3,
+            "natural_wins": 3,
+            "natural_net": 1.543421226418626,
+            "cutoff_closes": 0,
+            "sensitivity_net": 1.543421226418626,
+            "sensitivity_wins": 3
+          }
+        }
+      ],
+      "priority": [
+        true,
+        0.014492753623188406,
+        0.016915490494571243
+      ]
+    },
+    {
+      "pair": [
+        100,
+        1000
+      ],
+      "threshold": 0.94,
+      "months": [
+        {
+          "base": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          },
+          "stress": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          }
+        },
+        {
+          "base": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          },
+          "stress": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          }
+        }
+      ],
+      "priority": [
+        false,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "pair": [
+        100,
+        1000
+      ],
+      "threshold": 0.97,
+      "months": [
+        {
+          "base": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          },
+          "stress": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          }
+        },
+        {
+          "base": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          },
+          "stress": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          }
+        }
+      ],
+      "priority": [
+        false,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "pair": [
+        140,
+        1200
+      ],
+      "threshold": 0.85,
+      "months": [
+        {
+          "base": {
+            "closed": 5,
+            "wins": 4,
+            "net": -3.447102789828908,
+            "fees": 0.225545588424,
+            "funding": -0.009138481404914349,
+            "executed_price_pnl_before_costs": -3.212418719999994,
+            "expectancy_usd": -0.6894205579657816,
+            "average_win": 0.6367144010954602,
+            "average_loss_magnitude": 5.993960394210749,
+            "break_even_win_rate": 0.9039744187806972,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 5,
+            "natural_wins": 4,
+            "natural_net": -3.447102789828908,
+            "cutoff_closes": 0,
+            "sensitivity_net": -3.447102789828908,
+            "sensitivity_wins": 4
+          },
+          "stress": {
+            "closed": 4,
+            "wins": 3,
+            "net": -4.135303801398032,
+            "fees": 0.18105539639399998,
+            "funding": -0.008923085004038534,
+            "executed_price_pnl_before_costs": -3.945325319999993,
+            "expectancy_usd": -1.033825950349508,
+            "average_win": 0.6232553456204024,
+            "average_loss_magnitude": 6.00506983825924,
+            "break_even_win_rate": 0.9059709159809803,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 4,
+            "natural_wins": 3,
+            "natural_net": -4.135303801398033,
+            "cutoff_closes": 0,
+            "sensitivity_net": -4.135303801398032,
+            "sensitivity_wins": 3
+          }
+        },
+        {
+          "base": {
+            "closed": 5,
+            "wins": 5,
+            "net": 3.182021535928871,
+            "fees": 0.22254234813,
+            "funding": -0.05688471594112747,
+            "executed_price_pnl_before_costs": 3.4614485999999984,
+            "expectancy_usd": 0.6364043071857741,
+            "average_win": 0.6364043071857741,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 1,
+            "natural_closes": 5,
+            "natural_wins": 5,
+            "natural_net": 3.182021535928871,
+            "cutoff_closes": 0,
+            "sensitivity_net": -3.674040909472022,
+            "sensitivity_wins": 4
+          },
+          "stress": {
+            "closed": 6,
+            "wins": 6,
+            "net": 3.778752410729754,
+            "fees": 0.267077333268,
+            "funding": -0.048985216002243114,
+            "executed_price_pnl_before_costs": 4.094814959999997,
+            "expectancy_usd": 0.629792068454959,
+            "average_win": 0.629792068454959,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 6,
+            "natural_wins": 6,
+            "natural_net": 3.778752410729754,
+            "cutoff_closes": 0,
+            "sensitivity_net": 3.778752410729754,
+            "sensitivity_wins": 6
+          }
+        }
+      ],
+      "priority": [
+        false,
+        0.057971014492753624,
+        -0.13339689681929134
+      ]
+    },
+    {
+      "pair": [
+        140,
+        1200
+      ],
+      "threshold": 0.9,
+      "months": [
+        {
+          "base": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          },
+          "stress": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          }
+        },
+        {
+          "base": {
+            "closed": 1,
+            "wins": 1,
+            "net": 0.6120242578397446,
+            "fees": 0.044508469626000004,
+            "funding": -0.03575699253425501,
+            "executed_price_pnl_before_costs": 0.6922897199999996,
+            "expectancy_usd": 0.6120242578397446,
+            "average_win": 0.6120242578397446,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 1,
+            "natural_wins": 1,
+            "natural_net": 0.6120242578397446,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.6120242578397446,
+            "sensitivity_wins": 1
+          },
+          "stress": {
+            "closed": 1,
+            "wins": 1,
+            "net": 0.6022105747149454,
+            "fees": 0.04451288887799999,
+            "funding": -0.035745696407060344,
+            "executed_price_pnl_before_costs": 0.6824691600000058,
+            "expectancy_usd": 0.6022105747149454,
+            "average_win": 0.6022105747149454,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 1,
+            "natural_wins": 1,
+            "natural_net": 0.6022105747149454,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.6022105747149454,
+            "sensitivity_wins": 1
+          }
+        }
+      ],
+      "priority": [
+        false,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "pair": [
+        140,
+        1200
+      ],
+      "threshold": 0.94,
+      "months": [
+        {
+          "base": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          },
+          "stress": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          }
+        },
+        {
+          "base": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          },
+          "stress": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          }
+        }
+      ],
+      "priority": [
+        false,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "pair": [
+        140,
+        1200
+      ],
+      "threshold": 0.97,
+      "months": [
+        {
+          "base": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          },
+          "stress": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          }
+        },
+        {
+          "base": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          },
+          "stress": {
+            "closed": 0,
+            "wins": 0,
+            "net": 0.0,
+            "fees": 0,
+            "funding": 0,
+            "executed_price_pnl_before_costs": 0.0,
+            "expectancy_usd": null,
+            "average_win": null,
+            "average_loss_magnitude": null,
+            "break_even_win_rate": null,
+            "missing_funding_hours": 0,
+            "uncertain_positions": 0,
+            "natural_closes": 0,
+            "natural_wins": 0,
+            "natural_net": 0,
+            "cutoff_closes": 0,
+            "sensitivity_net": 0.0,
+            "sensitivity_wins": 0
+          }
+        }
+      ],
+      "priority": [
+        false,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "selected_pair": [
+    100,
+    1000
+  ],
+  "selected_threshold": 0.85,
+  "selected_priority": [
+    true,
+    0.028985507246376812,
+    0.03385567990161363
+  ],
+  "checkpoint_sha256": "df73213193755f2438189ebed21631dbfaa9625aaeab898035007130eab0c428"
+}
